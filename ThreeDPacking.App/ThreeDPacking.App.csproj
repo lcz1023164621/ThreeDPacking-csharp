@@ -1,0 +1,21 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>net48</TargetFramework>
+    <OutputType>WinExe</OutputType>
+    <RootNamespace>ThreeDPacking.App</RootNamespace>
+    <AssemblyName>ThreeDPacking.App</AssemblyName>
+    <LangVersion>7.3</LangVersion>
+    <UseWindowsForms>false</UseWindowsForms>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Drawing" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="OpenTK" Version="3.3.3" />
+    <PackageReference Include="OpenTK.GLControl" Version="3.3.3" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\ThreeDPacking.Core\ThreeDPacking.Core.csproj" />
+  </ItemGroup>
+</Project>

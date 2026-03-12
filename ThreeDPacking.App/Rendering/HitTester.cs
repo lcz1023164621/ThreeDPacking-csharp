@@ -1,0 +1,84 @@
+using System;
+using OpenTK;
+using ThreeDPacking.Core.Models;
+
+namespace ThreeDPacking.App.Rendering
+{
+    /// <summary>
+    /// Performs ray-based hit testing to identify which box the user clicked on.
+    /// </summary>
+    public static class HitTester
+    {
+        /// <summary>
+        /// Test if a ray intersects an axis-aligned bounding box (AABB).
+        /// Returns the distance along the ray, or -1 if no intersection.
+        /// </summary>
+        public static float RayIntersectsAABB(Vector3 rayOrigin, Vector3 rayDir,
+            Vector3 boxMin, Vector3 boxMax)
+        {
+            float tmin = float.NegativeInfinity;
+            float tmax = float.PositiveInfinity;
+
+            for (int i = 0; i < 3; i++)
+            {
+                float origin = i == 0 ? rayOrigin.X : i == 1 ? rayOrigin.Y : rayOrigin.Z;
+                float dir = i == 0 ? rayDir.X : i == 1 ? rayDir.Y : rayDir.Z;
+                float min = i == 0 ? boxMin.X : i == 1 ? boxMin.Y : boxMin.Z;
+                float max = i == 0 ? boxMax.X : i == 1 ? boxMax.Y : boxMax.Z;
+
+                if (Math.Abs(dir) < 1e-8f)
+                {
+                    if (origin < min || origin > max)
+                        return -1;
+                }
+                else
+                {
+                    float t1 = (min - origin) / dir;
+                    float t2 = (max - origin) / dir;
+                    if (t1 > t2)
+                    {
+                        float tmp = t1;
+                        t1 = t2;
+                        t2 = tmp;
+                    }
+                    tmin = Math.Max(tmin, t1);
+                    tmax = Math.Min(tmax, t2);
+                    if (tmin > tmax)
+                        return -1;
+                }
+            }
+
+            return tmin >= 0 ? tmin : tmax >= 0 ? tmax : -1;
+        }
+
+        /// <summary>
+        /// Find the closest placement hit by a ray.
+        /// </summary>
+        public static Placement FindHit(Vector3 rayOrigin, Vector3 rayDir, Container container, int maxStep)
+        {
+            if (container?.Stack == null) return null;
+
+            Placement closest = null;
+            float closestDist = float.MaxValue;
+            int step = 0;
+
+            foreach (var p in container.Stack.Placements)
+            {
+                step++;
+                if (step > maxStep) break;
+
+                var boxMin = new Vector3(p.X, p.Z, p.Y);
+                var boxMax = new Vector3(p.AbsoluteEndX + 1, p.AbsoluteEndZ + 1, p.AbsoluteEndY + 1);
+
+                float dist = RayIntersectsAABB(rayOrigin, rayDir, boxMin, boxMax);
+                if (dist >= 0 && dist < closestDist)
+                {
+                    closestDist = dist;
+                    closest = p;
+                }
+            }
+
+            return closest;
+        }
+    }
+}
