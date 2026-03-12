@@ -13,7 +13,6 @@ namespace ThreeDPacking.Core.IO
     public class PackingOrchestrator
     {
         private const int RandomTrialCount = 60;
-        private const double VolumeGateRatio = 0.82;
 
         private readonly IPackager _plainPackager;
         private readonly IPackager _laffPackager;
@@ -26,9 +25,11 @@ namespace ThreeDPacking.Core.IO
 
         /// <summary>
         /// Run the full multi-round packing process.
+        /// Tries containers from smallest to largest. If all items fit in a container, uses it.
+        /// Otherwise moves to next larger container. If max container can't fit all, packs as many as possible.
         /// </summary>
         /// <param name="selectedItems">Items to pack (will be modified as items are packed).</param>
-        /// <param name="containerCandidates">Available container types.</param>
+        /// <param name="containerCandidates">Available container types (will be sorted by volume ascending).</param>
         /// <param name="randomSeed">Random seed for shuffle strategies.</param>
         /// <param name="log">Optional action to log messages.</param>
         /// <returns>List of packed containers.</returns>
@@ -38,6 +39,9 @@ namespace ThreeDPacking.Core.IO
             long randomSeed,
             Action<string> log = null)
         {
+            // Sort containers by volume (smallest first)
+            var sortedContainers = containerCandidates.OrderBy(c => c.Volume).ToList();
+            
             var remainingItems = new List<ItemCandidate>(selectedItems);
             var packedResults = new List<PackingAttemptResult>();
             int round = 1;
@@ -47,42 +51,45 @@ namespace ThreeDPacking.Core.IO
                 log?.Invoke($"\n========== Round {round} ==========");
                 log?.Invoke($"Remaining items: {remainingItems.Count}");
 
-                var attempts = new List<PackingAttemptResult>();
-
-                foreach (var candidate in containerCandidates)
+                PackingAttemptResult chosen = null;
+                
+                // Try containers from smallest to largest
+                foreach (var candidate in sortedContainers)
                 {
-                    // Plain packager strategies
-                    attempts.Add(PackWithStrategy(remainingItems, candidate, _plainPackager, true, "Plain-MaxArea", randomSeed));
-                    attempts.Add(PackWithStrategy(remainingItems, candidate, _plainPackager, true, "Plain-MaxVolume", randomSeed));
-                    attempts.Add(PackWithStrategy(remainingItems, candidate, _plainPackager, true, "Plain-MaxDim", randomSeed));
-                    attempts.Add(PackWithStrategy(remainingItems, candidate, _plainPackager, false, "Plain-MaxArea_Raw", randomSeed));
-                    attempts.Add(PackWithStrategy(remainingItems, candidate, _plainPackager, false, "Plain-MaxDim_Raw", randomSeed));
-
-                    // LAFF packager strategies
-                    attempts.Add(PackWithStrategy(remainingItems, candidate, _laffPackager, true, "Laff-MaxArea", randomSeed));
-                    attempts.Add(PackWithStrategy(remainingItems, candidate, _laffPackager, true, "Laff-MaxVolume", randomSeed));
-                    attempts.Add(PackWithStrategy(remainingItems, candidate, _laffPackager, true, "Laff-MaxDim", randomSeed));
-                    attempts.Add(PackWithStrategy(remainingItems, candidate, _laffPackager, false, "Laff-MaxArea_Raw", randomSeed));
-                    attempts.Add(PackWithStrategy(remainingItems, candidate, _laffPackager, false, "Laff-MaxDim_Raw", randomSeed));
-
-                    // Random shuffle strategies
-                    for (int k = 0; k < RandomTrialCount; k++)
+                    log?.Invoke($"Trying container: {candidate.Name} (Volume: {candidate.Volume})");
+                    
+                    var attempt = TryPackInContainer(remainingItems, candidate, randomSeed);
+                    
+                    if (attempt != null && attempt.PackedCount > 0)
                     {
-                        attempts.Add(PackWithStrategy(remainingItems, candidate, _plainPackager, true, "Plain-Shuffle_" + k, randomSeed));
-                        attempts.Add(PackWithStrategy(remainingItems, candidate, _laffPackager, true, "Laff-Shuffle_" + k, randomSeed));
+                        // If all remaining items fit in this container, use it
+                        if (attempt.PackedCount == remainingItems.Count)
+                        {
+                            chosen = attempt;
+                            log?.Invoke($">> All items fit in {candidate.Name}!");
+                            break;
+                        }
+                        
+                        // If this is the largest container, use it (pack as many as possible)
+                        if (candidate == sortedContainers.Last())
+                        {
+                            chosen = attempt;
+                            log?.Invoke($">> Largest container {candidate.Name} used, packed {attempt.PackedCount}/{remainingItems.Count} items");
+                            break;
+                        }
+                        
+                        // Otherwise, try next larger container
+                        log?.Invoke($"  Only packed {attempt.PackedCount}/{remainingItems.Count}, trying larger container...");
                     }
                 }
 
-                long remainingVolume = CalcItemsVolume(remainingItems);
-                var chosen = SelectBestAttempt(attempts, remainingItems.Count, remainingVolume);
-
                 if (chosen == null)
                 {
-                    log?.Invoke("Error: Cannot pack remaining items into any container.");
+                    log?.Invoke("Error: Cannot pack any remaining items into any container.");
                     break;
                 }
 
-                log?.Invoke($">> Container: {chosen.ContainerCandidate.Name} | Strategy: {chosen.Strategy} | Packed: {chosen.PackedCount} | Utilization: {chosen.Utilization:F4}");
+                log?.Invoke($">> Selected: {chosen.ContainerCandidate.Name} | Strategy: {chosen.Strategy} | Packed: {chosen.PackedCount} | Utilization: {chosen.Utilization:F4}");
 
                 packedResults.Add(chosen);
                 RemovePackedItems(remainingItems, chosen.PackedItems);
@@ -98,6 +105,50 @@ namespace ThreeDPacking.Core.IO
             }
 
             return allContainers;
+        }
+
+        /// <summary>
+        /// Try to pack items into a specific container using all strategies.
+        /// Returns the best attempt for this container.
+        /// </summary>
+        private PackingAttemptResult TryPackInContainer(
+            List<ItemCandidate> items,
+            ContainerCandidate candidate,
+            long randomSeed)
+        {
+            var attempts = new List<PackingAttemptResult>();
+
+            // Plain packager strategies
+            attempts.Add(PackWithStrategy(items, candidate, _plainPackager, true, "Plain-MaxArea", randomSeed));
+            attempts.Add(PackWithStrategy(items, candidate, _plainPackager, true, "Plain-MaxVolume", randomSeed));
+            attempts.Add(PackWithStrategy(items, candidate, _plainPackager, true, "Plain-MaxDim", randomSeed));
+            attempts.Add(PackWithStrategy(items, candidate, _plainPackager, false, "Plain-MaxArea_Raw", randomSeed));
+            attempts.Add(PackWithStrategy(items, candidate, _plainPackager, false, "Plain-MaxDim_Raw", randomSeed));
+
+            // LAFF packager strategies
+            attempts.Add(PackWithStrategy(items, candidate, _laffPackager, true, "Laff-MaxArea", randomSeed));
+            attempts.Add(PackWithStrategy(items, candidate, _laffPackager, true, "Laff-MaxVolume", randomSeed));
+            attempts.Add(PackWithStrategy(items, candidate, _laffPackager, true, "Laff-MaxDim", randomSeed));
+            attempts.Add(PackWithStrategy(items, candidate, _laffPackager, false, "Laff-MaxArea_Raw", randomSeed));
+            attempts.Add(PackWithStrategy(items, candidate, _laffPackager, false, "Laff-MaxDim_Raw", randomSeed));
+
+            // Random shuffle strategies
+            for (int k = 0; k < RandomTrialCount; k++)
+            {
+                attempts.Add(PackWithStrategy(items, candidate, _plainPackager, true, "Plain-Shuffle_" + k, randomSeed));
+                attempts.Add(PackWithStrategy(items, candidate, _laffPackager, true, "Laff-Shuffle_" + k, randomSeed));
+            }
+
+            // Return the best attempt for this container (most items packed)
+            PackingAttemptResult best = null;
+            foreach (var attempt in attempts)
+            {
+                if (attempt == null || attempt.PackedCount == 0) continue;
+                if (best == null || attempt.PackedCount > best.PackedCount)
+                    best = attempt;
+            }
+            
+            return best;
         }
 
         private PackingAttemptResult PackWithStrategy(
@@ -186,92 +237,7 @@ namespace ThreeDPacking.Core.IO
             return products;
         }
 
-        private PackingAttemptResult SelectBestAttempt(List<PackingAttemptResult> attempts, int remainingCount, long remainingVolume)
-        {
-            int bestCount = 0;
-            long bestVolume = 0;
 
-            foreach (var a in attempts)
-            {
-                if (a == null || a.PackedCount == 0) continue;
-                if (a.PackedCount > bestCount) bestCount = a.PackedCount;
-                if (a.PackedVolume > bestVolume) bestVolume = a.PackedVolume;
-            }
-
-            if (bestCount == 0) return null;
-
-            int dynamicMinCount = GetDynamicMinPackedCount(remainingCount);
-            int countThreshold = Math.Min(bestCount, dynamicMinCount);
-
-            long volumeTarget = GetDynamicVolumeTarget(remainingCount, remainingVolume);
-            long volumeThreshold = Math.Min(bestVolume,
-                Math.Max((long)Math.Ceiling(bestVolume * VolumeGateRatio), volumeTarget));
-
-            // First pass: both thresholds
-            PackingAttemptResult chosen = null;
-            foreach (var a in attempts)
-            {
-                if (a == null || a.PackedCount < countThreshold || a.PackedVolume < volumeThreshold) continue;
-                if (IsBetterAttempt(a, chosen, remainingCount))
-                    chosen = a;
-            }
-
-            if (chosen != null) return chosen;
-
-            // Second pass: count threshold only
-            foreach (var a in attempts)
-            {
-                if (a == null || a.PackedCount < countThreshold) continue;
-                if (IsBetterAttempt(a, chosen, remainingCount))
-                    chosen = a;
-            }
-
-            return chosen;
-        }
-
-        private bool IsBetterAttempt(PackingAttemptResult candidate, PackingAttemptResult current, int remainingCount)
-        {
-            if (current == null) return true;
-
-            int candidateBoxes = EstimateTotalBoxCount(remainingCount, candidate.PackedCount);
-            int currentBoxes = EstimateTotalBoxCount(remainingCount, current.PackedCount);
-            if (candidateBoxes != currentBoxes)
-                return candidateBoxes < currentBoxes;
-
-            if (candidate.PackedCount != current.PackedCount)
-                return candidate.PackedCount > current.PackedCount;
-
-            if (candidate.PackedVolume != current.PackedVolume)
-                return candidate.PackedVolume > current.PackedVolume;
-
-            int utilCmp = candidate.Utilization.CompareTo(current.Utilization);
-            if (utilCmp != 0)
-                return utilCmp > 0;
-
-            return candidate.ContainerCandidate.Volume < current.ContainerCandidate.Volume;
-        }
-
-        private int EstimateTotalBoxCount(int remainingCount, int packedCount)
-        {
-            if (packedCount <= 0) return int.MaxValue;
-            return (remainingCount + packedCount - 1) / packedCount;
-        }
-
-        private int GetDynamicMinPackedCount(int remaining)
-        {
-            if (remaining >= 24) return 4;
-            if (remaining >= 12) return 3;
-            if (remaining >= 5) return 2;
-            return 1;
-        }
-
-        private long GetDynamicVolumeTarget(int remaining, long remainingVolume)
-        {
-            if (remaining >= 24) return remainingVolume / 6;
-            if (remaining >= 12) return remainingVolume / 5;
-            if (remaining >= 5) return remainingVolume / 4;
-            return remainingVolume / 2;
-        }
 
         private long CalcMaxArea(ItemCandidate item)
         {

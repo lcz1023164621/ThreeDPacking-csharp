@@ -43,6 +43,13 @@ namespace ThreeDPacking.App.Forms
             this.colItemDx = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.colItemDy = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.colItemDz = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.grpRandomSelect = new System.Windows.Forms.GroupBox();
+            this.lblRandomMin = new System.Windows.Forms.Label();
+            this.numRandomMin = new System.Windows.Forms.NumericUpDown();
+            this.lblRandomMax = new System.Windows.Forms.Label();
+            this.numRandomMax = new System.Windows.Forms.NumericUpDown();
+            this.btnRandomSelect = new System.Windows.Forms.Button();
+            this.lblRandomInfo = new System.Windows.Forms.Label();
             this.lblResults = new System.Windows.Forms.Label();
             this.lstResults = new System.Windows.Forms.ListBox();
             this.lblStep = new System.Windows.Forms.Label();
@@ -184,6 +191,7 @@ namespace ThreeDPacking.App.Forms
             this.panelLeft.Controls.Add(this.dgvContainers);
             this.panelLeft.Controls.Add(this.lblItems);
             this.panelLeft.Controls.Add(this.dgvItems);
+            this.panelLeft.Controls.Add(this.grpRandomSelect);
             this.panelLeft.Controls.Add(this.lblResults);
             this.panelLeft.Controls.Add(this.lstResults);
             this.panelLeft.Controls.Add(this.lblStep);
@@ -314,57 +322,128 @@ namespace ThreeDPacking.App.Forms
             this.colItemDz.Name = "colItemDz";
             this.colItemDz.ReadOnly = true;
             // 
+            // grpRandomSelect
+            // 
+            this.grpRandomSelect.Controls.Add(this.lblRandomInfo);
+            this.grpRandomSelect.Controls.Add(this.btnRandomSelect);
+            this.grpRandomSelect.Controls.Add(this.numRandomMax);
+            this.grpRandomSelect.Controls.Add(this.lblRandomMax);
+            this.grpRandomSelect.Controls.Add(this.numRandomMin);
+            this.grpRandomSelect.Controls.Add(this.lblRandomMin);
+            this.grpRandomSelect.Location = new System.Drawing.Point(6, 306);
+            this.grpRandomSelect.Name = "grpRandomSelect";
+            this.grpRandomSelect.Size = new System.Drawing.Size(320, 75);
+            this.grpRandomSelect.TabIndex = 4;
+            this.grpRandomSelect.TabStop = false;
+            this.grpRandomSelect.Text = "随机选择物品";
+            // 
+            // lblRandomMin
+            // 
+            this.lblRandomMin.AutoSize = true;
+            this.lblRandomMin.Location = new System.Drawing.Point(8, 20);
+            this.lblRandomMin.Name = "lblRandomMin";
+            this.lblRandomMin.Size = new System.Drawing.Size(41, 12);
+            this.lblRandomMin.TabIndex = 0;
+            this.lblRandomMin.Text = "最小：";
+            // 
+            // numRandomMin
+            // 
+            this.numRandomMin.Location = new System.Drawing.Point(48, 16);
+            this.numRandomMin.Maximum = new decimal(new int[] { 10000, 0, 0, 0 });
+            this.numRandomMin.Minimum = new decimal(new int[] { 1, 0, 0, 0 });
+            this.numRandomMin.Name = "numRandomMin";
+            this.numRandomMin.Size = new System.Drawing.Size(60, 21);
+            this.numRandomMin.TabIndex = 1;
+            this.numRandomMin.Value = new decimal(new int[] { 10, 0, 0, 0 });
+            // 
+            // lblRandomMax
+            // 
+            this.lblRandomMax.AutoSize = true;
+            this.lblRandomMax.Location = new System.Drawing.Point(115, 20);
+            this.lblRandomMax.Name = "lblRandomMax";
+            this.lblRandomMax.Size = new System.Drawing.Size(41, 12);
+            this.lblRandomMax.TabIndex = 2;
+            this.lblRandomMax.Text = "最大：";
+            // 
+            // numRandomMax
+            // 
+            this.numRandomMax.Location = new System.Drawing.Point(155, 16);
+            this.numRandomMax.Maximum = new decimal(new int[] { 10000, 0, 0, 0 });
+            this.numRandomMax.Minimum = new decimal(new int[] { 1, 0, 0, 0 });
+            this.numRandomMax.Name = "numRandomMax";
+            this.numRandomMax.Size = new System.Drawing.Size(60, 21);
+            this.numRandomMax.TabIndex = 3;
+            this.numRandomMax.Value = new decimal(new int[] { 50, 0, 0, 0 });
+            // 
+            // btnRandomSelect
+            // 
+            this.btnRandomSelect.Location = new System.Drawing.Point(225, 15);
+            this.btnRandomSelect.Name = "btnRandomSelect";
+            this.btnRandomSelect.Size = new System.Drawing.Size(85, 23);
+            this.btnRandomSelect.TabIndex = 4;
+            this.btnRandomSelect.Text = "随机选择";
+            this.btnRandomSelect.UseVisualStyleBackColor = true;
+            // 
+            // lblRandomInfo
+            // 
+            this.lblRandomInfo.AutoSize = true;
+            this.lblRandomInfo.Location = new System.Drawing.Point(8, 48);
+            this.lblRandomInfo.Name = "lblRandomInfo";
+            this.lblRandomInfo.Size = new System.Drawing.Size(119, 12);
+            this.lblRandomInfo.TabIndex = 5;
+            this.lblRandomInfo.Text = "已加载 0 个物品";
+            // 
             // lblResults
             // 
             this.lblResults.Font = new System.Drawing.Font("Microsoft YaHei UI", 9F, System.Drawing.FontStyle.Bold);
-            this.lblResults.Location = new System.Drawing.Point(6, 306);
+            this.lblResults.Location = new System.Drawing.Point(6, 387);
             this.lblResults.Name = "lblResults";
             this.lblResults.Size = new System.Drawing.Size(320, 18);
-            this.lblResults.TabIndex = 4;
+            this.lblResults.TabIndex = 5;
             this.lblResults.Text = "装箱结果：";
             // 
             // lstResults
             // 
             this.lstResults.IntegralHeight = false;
             this.lstResults.ItemHeight = 12;
-            this.lstResults.Location = new System.Drawing.Point(6, 327);
+            this.lstResults.Location = new System.Drawing.Point(6, 408);
             this.lstResults.Name = "lstResults";
             this.lstResults.Size = new System.Drawing.Size(320, 74);
-            this.lstResults.TabIndex = 5;
+            this.lstResults.TabIndex = 6;
             // 
             // lblStep
             // 
             this.lblStep.Font = new System.Drawing.Font("Microsoft YaHei UI", 9F, System.Drawing.FontStyle.Bold);
-            this.lblStep.Location = new System.Drawing.Point(6, 406);
+            this.lblStep.Location = new System.Drawing.Point(6, 487);
             this.lblStep.Name = "lblStep";
             this.lblStep.Size = new System.Drawing.Size(320, 18);
-            this.lblStep.TabIndex = 6;
+            this.lblStep.TabIndex = 7;
             this.lblStep.Text = "步骤控制：";
             // 
             // trackStep
             // 
-            this.trackStep.Location = new System.Drawing.Point(6, 426);
+            this.trackStep.Location = new System.Drawing.Point(6, 507);
             this.trackStep.Maximum = 0;
             this.trackStep.Name = "trackStep";
             this.trackStep.Size = new System.Drawing.Size(235, 45);
-            this.trackStep.TabIndex = 7;
+            this.trackStep.TabIndex = 8;
             // 
             // lblStepInfo
             // 
-            this.lblStepInfo.Location = new System.Drawing.Point(272, 426);
+            this.lblStepInfo.Location = new System.Drawing.Point(272, 507);
             this.lblStepInfo.Name = "lblStepInfo";
             this.lblStepInfo.Size = new System.Drawing.Size(60, 28);
-            this.lblStepInfo.TabIndex = 8;
+            this.lblStepInfo.TabIndex = 9;
             this.lblStepInfo.Text = "0 / 0";
             this.lblStepInfo.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // grpSelected
             // 
             this.grpSelected.Controls.Add(this.lblSelectedInfo);
-            this.grpSelected.Location = new System.Drawing.Point(6, 498);
+            this.grpSelected.Location = new System.Drawing.Point(6, 579);
             this.grpSelected.Name = "grpSelected";
-            this.grpSelected.Size = new System.Drawing.Size(297, 52);
-            this.grpSelected.TabIndex = 9;
+            this.grpSelected.Size = new System.Drawing.Size(320, 52);
+            this.grpSelected.TabIndex = 10;
             this.grpSelected.TabStop = false;
             this.grpSelected.Text = "选中物品";
             // 
@@ -372,7 +451,7 @@ namespace ThreeDPacking.App.Forms
             // 
             this.lblSelectedInfo.Location = new System.Drawing.Point(6, 16);
             this.lblSelectedInfo.Name = "lblSelectedInfo";
-            this.lblSelectedInfo.Size = new System.Drawing.Size(277, 33);
+            this.lblSelectedInfo.Size = new System.Drawing.Size(300, 33);
             this.lblSelectedInfo.TabIndex = 0;
             this.lblSelectedInfo.Text = "无";
             // 
@@ -381,13 +460,13 @@ namespace ThreeDPacking.App.Forms
             this.txtLog.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(30)))), ((int)(((byte)(30)))), ((int)(((byte)(30)))));
             this.txtLog.Font = new System.Drawing.Font("Consolas", 8F);
             this.txtLog.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(200)))), ((int)(((byte)(200)))), ((int)(((byte)(200)))));
-            this.txtLog.Location = new System.Drawing.Point(0, 566);
+            this.txtLog.Location = new System.Drawing.Point(6, 640);
             this.txtLog.Multiline = true;
             this.txtLog.Name = "txtLog";
             this.txtLog.ReadOnly = true;
             this.txtLog.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
             this.txtLog.Size = new System.Drawing.Size(320, 90);
-            this.txtLog.TabIndex = 10;
+            this.txtLog.TabIndex = 11;
             // 
             // glControl
             // 
@@ -465,6 +544,13 @@ namespace ThreeDPacking.App.Forms
         private System.Windows.Forms.DataGridViewTextBoxColumn colItemDx;
         private System.Windows.Forms.DataGridViewTextBoxColumn colItemDy;
         private System.Windows.Forms.DataGridViewTextBoxColumn colItemDz;
+        private System.Windows.Forms.GroupBox grpRandomSelect;
+        private System.Windows.Forms.Label lblRandomMin;
+        private System.Windows.Forms.NumericUpDown numRandomMin;
+        private System.Windows.Forms.Label lblRandomMax;
+        private System.Windows.Forms.NumericUpDown numRandomMax;
+        private System.Windows.Forms.Button btnRandomSelect;
+        private System.Windows.Forms.Label lblRandomInfo;
 
         private System.Windows.Forms.Label lblResults;
         private System.Windows.Forms.ListBox lstResults;

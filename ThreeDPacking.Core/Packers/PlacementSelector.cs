@@ -63,6 +63,26 @@ namespace ThreeDPacking.Core.Packers
                     foreach (var sv in rotations)
                     {
                         var placement = new Placement(sv, point.MinX, point.MinY, point.MinZ, boxItem);
+                        
+                        // Verify placement doesn't exceed container boundaries
+                        if (placement.AbsoluteEndX >= container.LoadDx ||
+                            placement.AbsoluteEndY >= container.LoadDy ||
+                            placement.AbsoluteEndZ >= container.LoadDz)
+                            continue;
+                        
+                        // Verify placement doesn't intersect with existing placements
+                        bool intersects = false;
+                        foreach (var existing in stack.Placements)
+                        {
+                            if (placement.Intersects3D(existing))
+                            {
+                                intersects = true;
+                                break;
+                            }
+                        }
+                        if (intersects)
+                            continue;
+                        
                         var candidate = new PlacementCandidate(placement, point);
 
                         if (best == null || _placementComparer.Compare(candidate, best) < 0)
@@ -113,6 +133,15 @@ namespace ThreeDPacking.Core.Packers
                     {
                         long area = sv.Area;
                         long volume = sv.Volume;
+                        
+                        // Create placement to check boundaries
+                        var placement = new Placement(sv, point.MinX, point.MinY, point.MinZ, boxItem);
+                        
+                        // Verify placement doesn't exceed container boundaries
+                        if (placement.AbsoluteEndX >= container.LoadDx ||
+                            placement.AbsoluteEndY >= container.LoadDy ||
+                            placement.AbsoluteEndZ >= container.LoadDz)
+                            continue;
 
                         bool isBetter = false;
                         if (bestPlacement == null)
@@ -130,7 +159,7 @@ namespace ThreeDPacking.Core.Packers
 
                         if (isBetter)
                         {
-                            bestPlacement = new Placement(sv, point.MinX, point.MinY, point.MinZ, boxItem);
+                            bestPlacement = placement;
                             bestArea = area;
                             bestVolume = volume;
                         }

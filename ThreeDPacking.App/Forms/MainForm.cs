@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.Drawing;
+using System.Linq;
 using System.Windows.Forms;
 using OpenTK;
 using OpenTK.Graphics.OpenGL;
@@ -23,6 +24,7 @@ namespace ThreeDPacking.App.Forms
         private bool _mousePanning;
         private Point _lastMouse;
 
+        private List<ItemCandidate> _allLoadedItems = new List<ItemCandidate>();
         private List<ItemCandidate> _loadedItems = new List<ItemCandidate>();
         private List<Core.Models.Container> _packedContainers = new List<Core.Models.Container>();
 
@@ -31,6 +33,7 @@ namespace ThreeDPacking.App.Forms
             InitializeComponent();
             WireEvents();
             AddDefaultContainer();
+            btnRandomSelect.Enabled = false;
         }
 
         private void WireEvents()
@@ -41,6 +44,7 @@ namespace ThreeDPacking.App.Forms
             menuExportJson.Click += MenuExportJson_Click;
             menuExit.Click += (s, e) => Close();
             menuStartPacking.Click += MenuStartPacking_Click;
+            btnRandomSelect.Click += BtnRandomSelect_Click;
 
             glControl.Load += GlControl_Load;
             glControl.Paint += GlControl_Paint;
@@ -80,16 +84,28 @@ namespace ThreeDPacking.App.Forms
             y += 22;
 
             dgvItems.Location = new Point(6, y);
-            dgvItems.Size = new Size(w, 150);
-            y += 156;
+            dgvItems.Size = new Size(w, 120);
+            y += 126;
+
+            // 随机选择区域
+            grpRandomSelect.Location = new Point(6, y);
+            grpRandomSelect.Size = new Size(w, 75);
+            lblRandomMin.Location = new Point(8, 20);
+            numRandomMin.Location = new Point(48, 16);
+            lblRandomMax.Location = new Point(115, 20);
+            numRandomMax.Location = new Point(155, 16);
+            btnRandomSelect.Location = new Point(w - 90, 15);
+            btnRandomSelect.Size = new Size(85, 23);
+            lblRandomInfo.Location = new Point(8, 48);
+            y += 81;
 
             lblResults.Location = new Point(6, y);
             lblResults.Width = w;
             y += 22;
 
             lstResults.Location = new Point(6, y);
-            lstResults.Size = new Size(w, 80);
-            y += 86;
+            lstResults.Size = new Size(w, 70);
+            y += 76;
 
             lblStep.Location = new Point(6, y);
             lblStep.Width = w;
@@ -117,7 +133,11 @@ namespace ThreeDPacking.App.Forms
 
         private void AddDefaultContainer()
         {
-            dgvContainers.Rows.Add("默认容器", "5900", "2330", "2390", "0", "28000");
+            dgvContainers.Rows.Add("最大容器", "450", "450", "210", "0", "28000");
+            dgvContainers.Rows.Add("常用容器", "260", "260", "260", "0", "28000");
+            dgvContainers.Rows.Add("中间容器", "310", "220", "160", "0", "28000");
+            dgvContainers.Rows.Add("中间容器", "310", "265", "220", "0", "28000");
+            dgvContainers.Rows.Add("最小容器", "160", "120", "185", "0", "28000");
         }
 
         #region Menu Handlers
@@ -132,18 +152,23 @@ namespace ThreeDPacking.App.Forms
 
                 try
                 {
-                    _loadedItems = ExcelReader.ReadItems(dlg.FileName);
+                    _allLoadedItems = ExcelReader.ReadItems(dlg.FileName);
                     // Assign unique instance IDs
-                    for (int i = 0; i < _loadedItems.Count; i++)
+                    for (int i = 0; i < _allLoadedItems.Count; i++)
                     {
-                        var old = _loadedItems[i];
-                        _loadedItems[i] = new ItemCandidate(old.Name, old.Dx, old.Dy, old.Dz, i + 1);
+                        var old = _allLoadedItems[i];
+                        _allLoadedItems[i] = new ItemCandidate(old.Name, old.Dx, old.Dy, old.Dz, i + 1);
                     }
+
+                    // 默认加载所有物品
+                    _loadedItems = new List<ItemCandidate>(_allLoadedItems);
 
                     RefreshItemsGrid();
                     menuStartPacking.Enabled = _loadedItems.Count > 0;
-                    statusLabel.Text = $"已加载 {_loadedItems.Count} 个物品: {dlg.FileName}";
-                    AppendLog($"加载 {_loadedItems.Count} 个物品自 {dlg.FileName}");
+                    btnRandomSelect.Enabled = _allLoadedItems.Count > 0;
+                    lblRandomInfo.Text = $"已加载 {_allLoadedItems.Count} 个物品";
+                    statusLabel.Text = $"已加载 {_allLoadedItems.Count} 个物品: {dlg.FileName}";
+                    AppendLog($"加载 {_allLoadedItems.Count} 个物品自 {dlg.FileName}");
                 }
                 catch (Exception ex)
                 {
@@ -180,6 +205,59 @@ namespace ThreeDPacking.App.Forms
                     MessageBox.Show("导出失败:\n" + ex.Message, "错误",
                         MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
+            }
+        }
+
+        private void BtnRandomSelect_Click(object sender, EventArgs e)
+        {
+            if (_allLoadedItems.Count == 0)
+            {
+                MessageBox.Show("请先加载物品Excel文件。", "提示",
+                    MessageBoxButtons.OK, MessageBoxIcon.Information);
+                return;
+            }
+
+            int minCount = (int)numRandomMin.Value;
+            int maxCount = (int)numRandomMax.Value;
+
+            if (minCount > maxCount)
+            {
+                MessageBox.Show("最小数量不能大于最大数量。", "提示",
+                    MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            // 生成随机数量
+            var random = new Random();
+            int targetCount = random.Next(minCount, maxCount + 1);
+            targetCount = Math.Min(targetCount, _allLoadedItems.Count);
+
+            // 随机选择物品
+            var shuffled = new List<ItemCandidate>(_allLoadedItems);
+            ShuffleList(shuffled, random);
+            _loadedItems = shuffled.Take(targetCount).ToList();
+
+            // 重新分配InstanceId
+            for (int i = 0; i < _loadedItems.Count; i++)
+            {
+                var old = _loadedItems[i];
+                _loadedItems[i] = new ItemCandidate(old.Name, old.Dx, old.Dy, old.Dz, i + 1);
+            }
+
+            RefreshItemsGrid();
+            menuStartPacking.Enabled = _loadedItems.Count > 0;
+            statusLabel.Text = $"已随机选择 {_loadedItems.Count} 个物品 (范围: {minCount}-{maxCount})";
+            AppendLog($"随机选择了 {_loadedItems.Count} 个物品进行装箱");
+        }
+
+        private void ShuffleList<T>(List<T> list, Random random)
+        {
+            for (int i = list.Count - 1; i > 0; i--)
+            {
+                int j = random.Next(i + 1);
+                var temp = list[i];
+                list[i] = list[j];
+                list[j] = temp;
             }
         }
 
@@ -332,6 +410,7 @@ namespace ThreeDPacking.App.Forms
             if (idx < 0 || idx >= _packedContainers.Count)
             {
                 _renderer.Container = null;
+                _renderer.Containers = new List<Container>();
                 trackStep.Maximum = 0;
                 trackStep.Value = 0;
                 lblStepInfo.Text = "0 / 0";
@@ -339,6 +418,9 @@ namespace ThreeDPacking.App.Forms
                 return;
             }
 
+            // Set all containers for side-by-side rendering
+            _renderer.Containers = _packedContainers;
+            
             var container = _packedContainers[idx];
             _renderer.Container = container;
             _renderer.SelectedPlacement = null;
@@ -356,8 +438,19 @@ namespace ThreeDPacking.App.Forms
             double util = cv > 0 ? (double)pv / cv * 100 : 0;
             statusUtilization.Text = $"体积利用率: {util:F1}% ({pv}/{cv})";
 
-            // Fit camera to scene
-            float sceneSize = Math.Max(container.LoadDx, Math.Max(container.LoadDy, container.LoadDz));
+            // Fit camera to scene - calculate total width of all containers
+            float totalWidth = 0;
+            float maxHeight = 0;
+            float maxDepth = 0;
+            foreach (var c in _packedContainers)
+            {
+                totalWidth += c.LoadDx + 150; // Include spacing
+                maxHeight = Math.Max(maxHeight, c.LoadDz);
+                maxDepth = Math.Max(maxDepth, c.LoadDy);
+            }
+            totalWidth -= 150; // Remove last spacing
+            
+            float sceneSize = Math.Max(totalWidth, Math.Max(maxHeight, maxDepth));
             _camera.FitToScene(sceneSize);
 
             glControl.Invalidate();

@@ -119,14 +119,14 @@ namespace ThreeDPacking.Core.Points
                     AddPointIfNotEclipsed(point);
             }
 
-            // Point along Z (top face)
+            // Point along Z (top face) - always add to allow stacking
             if (endZ + 1 <= _containerMaxZ)
             {
-                var point = new ExtremePoint(
+                var topPoint = new ExtremePoint(
                     px, py, endZ + 1,
                     _containerMaxX, _containerMaxY, _containerMaxZ);
-                if (IsValidPoint(point))
-                    AddPointIfNotEclipsed(point);
+                if (IsValidPoint(topPoint))
+                    AddPointIfNotEclipsed(topPoint);
             }
 
             // Constrain existing points that overlap with the placement

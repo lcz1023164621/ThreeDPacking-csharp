@@ -10,10 +10,12 @@ namespace ThreeDPacking.App.Rendering
     /// <summary>
     /// Renders packed containers using OpenGL immediate mode.
     /// Draws container wireframes, colored semi-transparent boxes, grid, and axes.
+    /// Supports rendering multiple containers side by side along the X axis.
     /// </summary>
     public class PackingRenderer
     {
         private Container _container;
+        private List<Container> _containers = new List<Container>();
         private int _currentStep;
         private Placement _selectedPlacement;
 
@@ -21,6 +23,12 @@ namespace ThreeDPacking.App.Rendering
         {
             get => _container;
             set => _container = value;
+        }
+
+        public List<Container> Containers
+        {
+            get => _containers;
+            set => _containers = value ?? new List<Container>();
         }
 
         public int CurrentStep
@@ -47,8 +55,25 @@ namespace ThreeDPacking.App.Rendering
             DrawGrid();
             DrawAxes();
 
-            if (_container != null)
+            // Render multiple containers side by side
+            if (_containers.Count > 0)
             {
+                float offsetX = 0;
+                foreach (var container in _containers)
+                {
+                    GL.PushMatrix();
+                    GL.Translate(offsetX, 0, 0);
+                    DrawContainerWireframe(container);
+                    DrawPlacements(container);
+                    GL.PopMatrix();
+                    
+                    // Move next container to the right with some spacing
+                    offsetX += container.LoadDx + 150; // 150 units spacing between containers
+                }
+            }
+            else if (_container != null)
+            {
+                // Single container mode (backward compatibility)
                 DrawContainerWireframe(_container);
                 DrawPlacements(_container);
             }
@@ -95,9 +120,10 @@ namespace ThreeDPacking.App.Rendering
             float x1 = 0, y1 = 0, z1 = 0;
             float x2 = c.LoadDx, y2 = c.LoadDz, z2 = c.LoadDy;
 
-            GL.LineWidth(2f);
+            // Draw white border lines for better visibility
+            GL.LineWidth(3f);
             GL.Begin(PrimitiveType.Lines);
-            GL.Color4(1f, 1f, 1f, 0.8f);
+            GL.Color4(1.0f, 1.0f, 1.0f, 1.0f); // White border
 
             // Bottom face
             GL.Vertex3(x1, y1, z1); GL.Vertex3(x2, y1, z1);
@@ -146,6 +172,7 @@ namespace ThreeDPacking.App.Rendering
             float a = isSelected ? 0.9f : 0.6f;
 
             // Map: X->X, Z->Y(height), Y->Z(depth) for OpenGL
+            // Note: AbsoluteEndX = X + Dx - 1, so we need to add 1 to get the actual end coordinate
             float x1 = p.X;
             float y1 = p.Z;          // Z maps to vertical
             float z1 = p.Y;

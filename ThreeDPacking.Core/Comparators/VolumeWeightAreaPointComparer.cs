@@ -5,18 +5,21 @@ using ThreeDPacking.Core.Points;
 namespace ThreeDPacking.Core.Comparators
 {
     /// <summary>
-    /// Compares candidate placements by Volume > Weight > Area(inverse) > Point volume(inverse).
-    /// Used as the default comparator for non-first placements.
+    /// Compares candidate placements by Volume > Weight > Z position (lower preferred) > Area(inverse).
+    /// Prioritizes volume efficiency while preferring lower placements for stability.
     /// </summary>
     public class VolumeWeightAreaPointComparer : IComparer<PlacementCandidate>
     {
         public int Compare(PlacementCandidate a, PlacementCandidate b)
         {
-            // Largest volume first
+            // Largest volume first (maximize space utilization)
             int c = b.Placement.StackValue.Volume.CompareTo(a.Placement.StackValue.Volume);
             if (c != 0) return c;
             // Heaviest first
             c = b.Placement.StackValue.Box.Weight.CompareTo(a.Placement.StackValue.Box.Weight);
+            if (c != 0) return c;
+            // Prefer lower Z (bottom-up for stability, but not mandatory)
+            c = a.Placement.Z.CompareTo(b.Placement.Z);
             if (c != 0) return c;
             // Smallest area first (prefer tight fits)
             c = a.Placement.StackValue.Area.CompareTo(b.Placement.StackValue.Area);
