@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using OpenTK;
 using ThreeDPacking.Core.Models;
 
@@ -56,6 +57,14 @@ namespace ThreeDPacking.App.Rendering
         /// </summary>
         public static Placement FindHit(Vector3 rayOrigin, Vector3 rayDir, Container container, int maxStep)
         {
+            return FindHit(rayOrigin, rayDir, container, maxStep, Vector3.Zero);
+        }
+
+        /// <summary>
+        /// Find the closest placement hit by a ray with container offset.
+        /// </summary>
+        public static Placement FindHit(Vector3 rayOrigin, Vector3 rayDir, Container container, int maxStep, Vector3 containerOffset)
+        {
             if (container?.Stack == null) return null;
 
             Placement closest = null;
@@ -67,8 +76,8 @@ namespace ThreeDPacking.App.Rendering
                 step++;
                 if (step > maxStep) break;
 
-                var boxMin = new Vector3(p.X, p.Z, p.Y);
-                var boxMax = new Vector3(p.AbsoluteEndX + 1, p.AbsoluteEndZ + 1, p.AbsoluteEndY + 1);
+                var boxMin = new Vector3(p.X + containerOffset.X, p.Z + containerOffset.Y, p.Y + containerOffset.Z);
+                var boxMax = new Vector3(p.AbsoluteEndX + 1 + containerOffset.X, p.AbsoluteEndZ + 1 + containerOffset.Y, p.AbsoluteEndY + 1 + containerOffset.Z);
 
                 float dist = RayIntersectsAABB(rayOrigin, rayDir, boxMin, boxMax);
                 if (dist >= 0 && dist < closestDist)
@@ -76,6 +85,47 @@ namespace ThreeDPacking.App.Rendering
                     closestDist = dist;
                     closest = p;
                 }
+            }
+
+            return closest;
+        }
+
+        /// <summary>
+        /// Find the closest placement hit by a ray across multiple containers.
+        /// </summary>
+        public static Placement FindHit(Vector3 rayOrigin, Vector3 rayDir, List<Container> containers, int maxStep, out Container hitContainer)
+        {
+            hitContainer = null;
+            if (containers == null || containers.Count == 0) return null;
+
+            Placement closest = null;
+            float closestDist = float.MaxValue;
+            float offsetX = 0;
+
+            foreach (var container in containers)
+            {
+                if (container?.Stack == null) continue;
+
+                var containerOffset = new Vector3(offsetX, 0, 0);
+                var hit = FindHit(rayOrigin, rayDir, container, maxStep, containerOffset);
+
+                if (hit != null)
+                {
+                    // Calculate actual distance for comparison
+                    var boxMin = new Vector3(hit.X + offsetX, hit.Z, hit.Y);
+                    var boxMax = new Vector3(hit.AbsoluteEndX + 1 + offsetX, hit.AbsoluteEndZ + 1, hit.AbsoluteEndY + 1);
+                    float dist = RayIntersectsAABB(rayOrigin, rayDir, boxMin, boxMax);
+
+                    if (dist >= 0 && dist < closestDist)
+                    {
+                        closestDist = dist;
+                        closest = hit;
+                        hitContainer = container;
+                    }
+                }
+
+                // Move next container to the right with spacing (must match PackingRenderer spacing)
+                offsetX += container.LoadDx + 150;
             }
 
             return closest;

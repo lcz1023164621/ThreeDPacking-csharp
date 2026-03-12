@@ -71,17 +71,20 @@ namespace ThreeDPacking.Core.Packers
                             continue;
                         
                         // Verify placement doesn't intersect with existing placements
-                        bool intersects = false;
-                        foreach (var existing in stack.Placements)
+                        if (stack?.Placements != null && stack.Placements.Count > 0)
                         {
-                            if (placement.Intersects3D(existing))
+                            bool intersects = false;
+                            foreach (var existing in stack.Placements)
                             {
-                                intersects = true;
-                                break;
+                                if (existing != null && placement.Intersects3D(existing))
+                                {
+                                    intersects = true;
+                                    break;
+                                }
                             }
+                            if (intersects)
+                                continue;
                         }
-                        if (intersects)
-                            continue;
                         
                         var candidate = new PlacementCandidate(placement, point);
 

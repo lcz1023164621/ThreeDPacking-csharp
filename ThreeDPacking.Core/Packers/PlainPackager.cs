@@ -59,6 +59,8 @@ namespace ThreeDPacking.Core.Packers
                 if (placement == null)
                     break;
 
+
+
                 // Find the point index used
                 int pointIndex = -1;
                 for (int i = 0; i < pointCalc.PointCount; i++)

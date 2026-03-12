@@ -579,7 +579,18 @@ namespace ThreeDPacking.App.Forms
             Unproject(e.X, e.Y, w, h, projection, view, out rayOrigin, out rayDir);
 
             int maxStep = _renderer.CurrentStep > 0 ? _renderer.CurrentStep : int.MaxValue;
-            var hit = HitTester.FindHit(rayOrigin, rayDir, _renderer.Container, maxStep);
+            
+            // Use multi-container hit testing if multiple containers are displayed
+            Placement hit;
+            if (_renderer.Containers.Count > 0)
+            {
+                Container hitContainer;
+                hit = HitTester.FindHit(rayOrigin, rayDir, _renderer.Containers, maxStep, out hitContainer);
+            }
+            else
+            {
+                hit = HitTester.FindHit(rayOrigin, rayDir, _renderer.Container, maxStep);
+            }
 
             _renderer.SelectedPlacement = hit;
             if (hit != null)
