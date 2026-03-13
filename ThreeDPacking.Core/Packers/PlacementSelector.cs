@@ -201,7 +201,9 @@ namespace ThreeDPacking.Core.Packers
         }
 
         /// <summary>
-        /// 检查放置位置是否有足够的支撑（至少50%的底面积必须被支撑）
+        /// 检查放置位置是否有足够的支撑
+        /// 1. 悬空不能超过60%（即支撑面积至少40%）
+        /// 2. 底面中心点必须被支撑（不能悬空）
         /// </summary>
         private bool HasSufficientSupport(Placement placement, List<Placement> existingPlacements)
         {
@@ -215,7 +217,6 @@ namespace ThreeDPacking.Core.Packers
 
             // 检查与所有已放置物品的重叠（在Z维度上，placement的底部应该与existing的顶部接触或重叠）
             int placementBottomZ = placement.Z;
-            int placementTopZ = placement.AbsoluteEndZ;
 
             foreach (var existing in existingPlacements)
             {
@@ -224,7 +225,6 @@ namespace ThreeDPacking.Core.Packers
                 int existingTopZ = existing.AbsoluteEndZ;
 
                 // 只考虑在placement下方的物品（existing的顶部应该接近placement的底部）
-                // 允许一定的容差，因为物品可能堆叠
                 if (existingTopZ < placementBottomZ)
                 {
                     // 计算2D重叠面积（X-Y平面）
@@ -233,8 +233,39 @@ namespace ThreeDPacking.Core.Packers
                 }
             }
 
-            // 检查支撑面积是否至少为50%
-            return supportedArea * 2 >= bottomArea;
+            // 条件1：支撑面积至少40%（悬空不超过60%）
+            bool hasEnoughSupport = supportedArea * 10 >= bottomArea * 4; // 40% = 4/10
+
+            if (!hasEnoughSupport)
+                return false;
+
+            // 条件2：底面中心点必须被支撑
+            // 计算底面中心点坐标
+            int centerX = placement.X + placement.StackValue.Dx / 2;
+            int centerY = placement.Y + placement.StackValue.Dy / 2;
+
+            // 检查中心点是否被任何下方物品支撑
+            bool centerSupported = false;
+            foreach (var existing in existingPlacements)
+            {
+                if (existing == null) continue;
+
+                int existingTopZ = existing.AbsoluteEndZ;
+
+                // 只考虑在placement下方的物品
+                if (existingTopZ < placementBottomZ)
+                {
+                    // 检查中心点是否在existing的X-Y范围内
+                    if (centerX >= existing.X && centerX <= existing.AbsoluteEndX &&
+                        centerY >= existing.Y && centerY <= existing.AbsoluteEndY)
+                    {
+                        centerSupported = true;
+                        break;
+                    }
+                }
+            }
+
+            return centerSupported;
         }
 
         /// <summary>
