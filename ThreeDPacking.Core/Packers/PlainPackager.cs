@@ -53,8 +53,9 @@ namespace ThreeDPacking.Core.Packers
 
             while (remainingWeight > 0 && remainingVolume > 0 && !source.IsEmpty && !pointCalc.IsEmpty)
             {
+                // 使用 result 而不是 container，以便支撑检查能访问已放置的物品
                 var placement = _selector.GetBestPlacement(
-                    source, pointCalc, container, stack, remainingWeight, remainingVolume);
+                    source, pointCalc, result, stack, remainingWeight, remainingVolume);
 
                 if (placement == null)
                     break;

@@ -40,9 +40,13 @@ namespace ThreeDPacking.Core.Models
             }
             else if (!rotate3D)
             {
-                // 2D rotation only: keep the original orientation, no rotation
-                // The dx, dy, dz should already be set to have maximum bottom area
+                // 2D rotation only: keep height fixed, rotate base (dx, dy) if different
+                // This maximizes volume utilization by allowing width/length swap
                 list.Add(new BoxStackValue(dx, dy, dz, list.Count));
+                if (dx != dy)
+                {
+                    list.Add(new BoxStackValue(dy, dx, dz, list.Count)); // Base rotation: swap length and width
+                }
             }
             else if (dx == dy)
             {

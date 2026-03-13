@@ -88,7 +88,7 @@ namespace ThreeDPacking.Core.IO
                     }
                 }
 
-                if (chosen == null)
+                if (chosen == null || chosen.PackedCount == 0)
                 {
                     log?.Invoke("Error: Cannot pack any remaining items into any container.");
                     break;
@@ -97,7 +97,18 @@ namespace ThreeDPacking.Core.IO
                 log?.Invoke($">> Selected: {chosen.ContainerCandidate.Name} | Strategy: {chosen.Strategy} | Packed: {chosen.PackedCount}/{remainingItems.Count} | Utilization: {chosen.Utilization:F4}");
 
                 packedResults.Add(chosen);
+                
+                // 安全检查：确保确实装箱了物品
+                int itemsBeforeRemoval = remainingItems.Count;
                 RemovePackedItems(remainingItems, chosen.PackedItems);
+                int itemsAfterRemoval = remainingItems.Count;
+                
+                if (itemsBeforeRemoval == itemsAfterRemoval)
+                {
+                    log?.Invoke("Warning: No items were removed, breaking to avoid infinite loop.");
+                    break;
+                }
+                
                 round++;
             }
 
@@ -198,16 +209,22 @@ namespace ThreeDPacking.Core.IO
 
             // Match packed items back to ItemCandidates
             var packedItems = new List<ItemCandidate>();
+            var matchedIds = new HashSet<string>();
+            
             foreach (var p in packedContainer.Stack.Placements)
             {
                 string id = p.StackValue.Box?.Id;
                 if (id == null) continue;
 
+                // 每个Placement对应一个实际装箱的物品实例
+                // 需要在items中找到匹配的ItemCandidate
                 foreach (var item in items)
                 {
-                    if ((item.Name + "#" + item.InstanceId) == id)
+                    string itemId = item.Name + "#" + item.InstanceId;
+                    if (itemId == id && !matchedIds.Contains(itemId + "_" + packedItems.Count))
                     {
                         packedItems.Add(item);
+                        matchedIds.Add(itemId + "_" + (packedItems.Count - 1));
                         break;
                     }
                 }

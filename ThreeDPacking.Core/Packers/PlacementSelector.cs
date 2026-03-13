@@ -202,8 +202,10 @@ namespace ThreeDPacking.Core.Packers
 
         /// <summary>
         /// 检查放置位置是否有足够的支撑
-        /// 1. 悬空不能超过60%（即支撑面积至少40%）
-        /// 2. 底面中心点必须被支撑（不能悬空）
+        /// 最严格的方案：要求100%底面被支撑，不允许任何悬空
+        /// 1. 底面必须100%被下层物体直接支撑
+        /// 2. 底面中心点必须被支撑
+        /// 3. 底面四个角点必须全部被支撑
         /// </summary>
         private bool HasSufficientSupport(Placement placement, List<Placement> existingPlacements)
         {
@@ -215,17 +217,15 @@ namespace ThreeDPacking.Core.Packers
             long bottomArea = (long)placement.StackValue.Dx * placement.StackValue.Dy;
             long supportedArea = 0;
 
-            // 检查与所有已放置物品的重叠（在Z维度上，placement的底部应该与existing的顶部接触或重叠）
+            // 检查与所有已放置物品的重叠
             int placementBottomZ = placement.Z;
 
             foreach (var existing in existingPlacements)
             {
                 if (existing == null) continue;
 
-                int existingTopZ = existing.AbsoluteEndZ;
-
-                // 只考虑在placement下方的物品（existing的顶部应该接近placement的底部）
-                if (existingTopZ < placementBottomZ)
+                // ★★★ 关键修复：必须紧贴上一层（existing的顶部必须正好在placement底部下方）
+                if (existing.AbsoluteEndZ == placementBottomZ - 1)
                 {
                     // 计算2D重叠面积（X-Y平面）
                     long overlapArea = CalculateOverlapArea2D(placement, existing);
@@ -233,39 +233,60 @@ namespace ThreeDPacking.Core.Packers
                 }
             }
 
-            // 条件1：支撑面积至少40%（悬空不超过60%）
-            bool hasEnoughSupport = supportedArea * 10 >= bottomArea * 4; // 40% = 4/10
-
-            if (!hasEnoughSupport)
+            // 条件1：支撑面积必须100%（不允许任何悬空）
+            if (supportedArea < bottomArea)
                 return false;
 
             // 条件2：底面中心点必须被支撑
-            // 计算底面中心点坐标
             int centerX = placement.X + placement.StackValue.Dx / 2;
             int centerY = placement.Y + placement.StackValue.Dy / 2;
 
-            // 检查中心点是否被任何下方物品支撑
-            bool centerSupported = false;
+            if (!IsPointSupported(centerX, centerY, placementBottomZ, existingPlacements))
+                return false;
+
+            // 条件3：底面四个角点必须全部被支撑
+            int dx = placement.StackValue.Dx;
+            int dy = placement.StackValue.Dy;
+            
+            var corners = new (int x, int y)[]
+            {
+                (placement.X, placement.Y),
+                (placement.X + dx - 1, placement.Y),
+                (placement.X, placement.Y + dy - 1),
+                (placement.X + dx - 1, placement.Y + dy - 1)
+            };
+
+            foreach (var corner in corners)
+            {
+                if (!IsPointSupported(corner.x, corner.y, placementBottomZ, existingPlacements))
+                    return false;
+            }
+
+            return true;
+        }
+
+        /// <summary>
+        /// 检查一个点是否被下方任何物体支撑
+        /// ★★★ 关键修复：必须紧贴上一层
+        /// </summary>
+        private bool IsPointSupported(int x, int y, int placementBottomZ, List<Placement> existingPlacements)
+        {
             foreach (var existing in existingPlacements)
             {
                 if (existing == null) continue;
 
-                int existingTopZ = existing.AbsoluteEndZ;
-
-                // 只考虑在placement下方的物品
-                if (existingTopZ < placementBottomZ)
+                // 必须紧贴上一层（existing的顶部必须正好在placement底部下方）
+                if (existing.AbsoluteEndZ == placementBottomZ - 1)
                 {
-                    // 检查中心点是否在existing的X-Y范围内
-                    if (centerX >= existing.X && centerX <= existing.AbsoluteEndX &&
-                        centerY >= existing.Y && centerY <= existing.AbsoluteEndY)
+                    // 检查点是否在existing的X-Y范围内
+                    if (x >= existing.X && x <= existing.AbsoluteEndX &&
+                        y >= existing.Y && y <= existing.AbsoluteEndY)
                     {
-                        centerSupported = true;
-                        break;
+                        return true;
                     }
                 }
             }
-
-            return centerSupported;
+            return false;
         }
 
         /// <summary>

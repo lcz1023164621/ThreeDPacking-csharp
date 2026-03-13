@@ -119,13 +119,13 @@ namespace ThreeDPacking.Core.Points
                     AddPointIfNotEclipsed(point);
             }
 
-            // Point along Z (top face) - always add to allow stacking
+            // Point along Z (top face) - only add if there's sufficient support below
             if (endZ + 1 <= _containerMaxZ)
             {
                 var topPoint = new ExtremePoint(
                     px, py, endZ + 1,
                     _containerMaxX, _containerMaxY, _containerMaxZ);
-                if (IsValidPoint(topPoint))
+                if (IsValidPoint(topPoint) && HasSufficientSupportForTopPoint(topPoint, placement))
                     AddPointIfNotEclipsed(topPoint);
             }
 
@@ -267,6 +267,60 @@ namespace ThreeDPacking.Core.Points
                     }
                 }
             }
+        }
+
+        /// <summary>
+        /// 检查顶部点位置是否有足够的支撑
+        /// 要求：新放置点的投影区域必须被下方物品完全支撑
+        /// ★★★ 关键修复：必须紧贴上一层
+        /// </summary>
+        private bool HasSufficientSupportForTopPoint(ExtremePoint topPoint, Placement basePlacement)
+        {
+            // 顶部点的Z坐标
+            int topPointZ = topPoint.MinZ;
+
+            // 计算basePlacement在X-Y平面的投影面积
+            long baseArea = (long)basePlacement.StackValue.Dx * basePlacement.StackValue.Dy;
+
+            // 计算所有下方物品（包括basePlacement）提供的总支撑面积
+            long totalSupportedArea = 0;
+
+            foreach (var existing in _placements)
+            {
+                if (existing == null) continue;
+
+                // ★★★ 关键修复：必须紧贴上一层（existing的顶部必须正好在topPoint下方）
+                if (existing.AbsoluteEndZ == topPointZ - 1)
+                {
+                    // 计算2D重叠面积（X-Y平面）
+                    long overlapArea = CalculateOverlapArea2D(topPoint, existing);
+                    totalSupportedArea += overlapArea;
+                }
+            }
+
+            // 要求：支撑面积必须100%覆盖顶部点的底面积
+            return totalSupportedArea >= baseArea;
+        }
+
+        /// <summary>
+        /// 计算ExtremePoint和Placement在X-Y平面上的重叠面积
+        /// </summary>
+        private long CalculateOverlapArea2D(ExtremePoint point, Placement placement)
+        {
+            // 计算X方向重叠
+            int overlapXStart = Math.Max(point.MinX, placement.X);
+            int overlapXEnd = Math.Min(point.MaxX, placement.AbsoluteEndX);
+            int overlapX = overlapXEnd - overlapXStart + 1;
+
+            // 计算Y方向重叠
+            int overlapYStart = Math.Max(point.MinY, placement.Y);
+            int overlapYEnd = Math.Min(point.MaxY, placement.AbsoluteEndY);
+            int overlapY = overlapYEnd - overlapYStart + 1;
+
+            if (overlapX <= 0 || overlapY <= 0)
+                return 0;
+
+            return (long)overlapX * overlapY;
         }
     }
 }

@@ -59,11 +59,31 @@ namespace ThreeDPacking.Core.Packers
                 if (newLevel)
                 {
                     // Get first box for new level - prefer largest area
+                    // 使用 result 而不是 container，以便支撑检查能访问已放置的物品
                     placement = _firstSelector.GetFirstPlacement(
-                        source, pointCalc, container, remainingWeight, remainingVolume);
+                        source, pointCalc, result, remainingWeight, remainingVolume);
 
                     if (placement == null)
                         break;
+
+                    // 对新层级的第一个物品也进行支撑检查（如果不是地面层）
+                    if (levelOffset > 0)
+                    {
+                        if (!HasSufficientSupport(placement, stack.Placements))
+                        {
+                            // 支撑不足，从候选源中临时移除此物品，尝试其他物品
+                            // 找到并移除该物品，避免重复尝试
+                            for (int i = 0; i < source.Size; i++)
+                            {
+                                if (source.Get(i).Box.Id == placement.BoxItem.Box.Id)
+                                {
+                                    source.Remove(i);
+                                    break;
+                                }
+                            }
+                            continue;
+                        }
+                    }
 
                     // Create the level floor
                     int layerHeight = placement.StackValue.Dz;
@@ -81,8 +101,9 @@ namespace ThreeDPacking.Core.Packers
                 else
                 {
                     // Continue filling current level
+                    // 使用 result 而不是 container，以便支撑检查能访问已放置的物品
                     placement = _selector.GetBestPlacement(
-                        source, pointCalc, container, stack, remainingWeight, remainingVolume);
+                        source, pointCalc, result, stack, remainingWeight, remainingVolume);
 
                     if (placement == null)
                     {
@@ -111,6 +132,16 @@ namespace ThreeDPacking.Core.Packers
                                 source.Remove(i);
                         }
 
+                        continue;
+                    }
+                }
+
+                // 对非地面层级的放置进行额外的支撑检查
+                if (placement.Z > 0)
+                {
+                    if (!HasSufficientSupport(placement, stack.Placements))
+                    {
+                        // 支撑不足，跳过此放置并继续尝试其他位置
                         continue;
                     }
                 }
@@ -162,6 +193,113 @@ namespace ThreeDPacking.Core.Packers
             }
 
             return result;
+        }
+
+        /// <summary>
+        /// 检查放置位置是否有足够的支撑
+        /// 最严格的方案：要求100%底面被支撑，不允许任何悬空
+        /// 1. 底面必须100%被下层物体直接支撑
+        /// 2. 底面中心点必须被支撑
+        /// 3. 底面四个角点必须全部被支撑
+        /// </summary>
+        private bool HasSufficientSupport(Placement placement, List<Placement> existingPlacements)
+        {
+            // 如果放置在地面(Z=0)，则完全支撑
+            if (placement.Z == 0)
+                return true;
+
+            // 计算放置物品的底面积
+            long bottomArea = (long)placement.StackValue.Dx * placement.StackValue.Dy;
+            long supportedArea = 0;
+
+            // 检查与所有已放置物品的重叠
+            int placementBottomZ = placement.Z;
+
+            foreach (var existing in existingPlacements)
+            {
+                if (existing == null) continue;
+
+                // ★★★ 关键修复：必须紧贴上一层（existing的顶部必须正好在placement底部下方）
+                if (existing.AbsoluteEndZ == placementBottomZ - 1)
+                {
+                    // 计算2D重叠面积（X-Y平面）
+                    long overlapArea = CalculateOverlapArea2D(placement, existing);
+                    supportedArea += overlapArea;
+                }
+            }
+
+            // 条件1：支撑面积必须100%（不允许任何悬空）
+            if (supportedArea < bottomArea)
+                return false;
+
+            // 条件2：底面中心点必须被支撑
+            int centerX = placement.X + placement.StackValue.Dx / 2;
+            int centerY = placement.Y + placement.StackValue.Dy / 2;
+
+            if (!IsPointSupported(centerX, centerY, placementBottomZ, existingPlacements))
+                return false;
+
+            // 条件3：底面四个角点必须全部被支撑
+            int dx = placement.StackValue.Dx;
+            int dy = placement.StackValue.Dy;
+            
+            var corners = new (int x, int y)[]
+            {
+                (placement.X, placement.Y),
+                (placement.X + dx - 1, placement.Y),
+                (placement.X, placement.Y + dy - 1),
+                (placement.X + dx - 1, placement.Y + dy - 1)
+            };
+
+            foreach (var corner in corners)
+            {
+                if (!IsPointSupported(corner.x, corner.y, placementBottomZ, existingPlacements))
+                    return false;
+            }
+
+            return true;
+        }
+
+        /// <summary>
+        /// 检查一个点是否被下方任何物体支撑
+        /// ★★★ 关键修复：必须紧贴上一层
+        /// </summary>
+        private bool IsPointSupported(int x, int y, int placementBottomZ, List<Placement> existingPlacements)
+        {
+            foreach (var existing in existingPlacements)
+            {
+                if (existing == null) continue;
+
+                // 必须紧贴上一层（existing的顶部必须正好在placement底部下方）
+                if (existing.AbsoluteEndZ == placementBottomZ - 1)
+                {
+                    if (x >= existing.X && x <= existing.AbsoluteEndX &&
+                        y >= existing.Y && y <= existing.AbsoluteEndY)
+                    {
+                        return true;
+                    }
+                }
+            }
+            return false;
+        }
+
+        /// <summary>
+        /// 计算两个放置在X-Y平面上的重叠面积
+        /// </summary>
+        private long CalculateOverlapArea2D(Placement a, Placement b)
+        {
+            int overlapXStart = Math.Max(a.X, b.X);
+            int overlapXEnd = Math.Min(a.AbsoluteEndX, b.AbsoluteEndX);
+            int overlapX = overlapXEnd - overlapXStart + 1;
+
+            int overlapYStart = Math.Max(a.Y, b.Y);
+            int overlapYEnd = Math.Min(a.AbsoluteEndY, b.AbsoluteEndY);
+            int overlapY = overlapYEnd - overlapYStart + 1;
+
+            if (overlapX <= 0 || overlapY <= 0)
+                return 0;
+
+            return (long)overlapX * overlapY;
         }
     }
 }

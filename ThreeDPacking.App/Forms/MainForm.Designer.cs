@@ -44,12 +44,12 @@ namespace ThreeDPacking.App.Forms
             this.colItemDy = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.colItemDz = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.grpRandomSelect = new System.Windows.Forms.GroupBox();
-            this.lblRandomMin = new System.Windows.Forms.Label();
-            this.numRandomMin = new System.Windows.Forms.NumericUpDown();
-            this.lblRandomMax = new System.Windows.Forms.Label();
-            this.numRandomMax = new System.Windows.Forms.NumericUpDown();
-            this.btnRandomSelect = new System.Windows.Forms.Button();
             this.lblRandomInfo = new System.Windows.Forms.Label();
+            this.btnRandomSelect = new System.Windows.Forms.Button();
+            this.numRandomMax = new System.Windows.Forms.NumericUpDown();
+            this.lblRandomMax = new System.Windows.Forms.Label();
+            this.numRandomMin = new System.Windows.Forms.NumericUpDown();
+            this.lblRandomMin = new System.Windows.Forms.Label();
             this.lblResults = new System.Windows.Forms.Label();
             this.lstResults = new System.Windows.Forms.ListBox();
             this.lblStep = new System.Windows.Forms.Label();
@@ -68,6 +68,9 @@ namespace ThreeDPacking.App.Forms
             this.panelLeft.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvContainers)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dgvItems)).BeginInit();
+            this.grpRandomSelect.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.numRandomMax)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numRandomMin)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.trackStep)).BeginInit();
             this.grpSelected.SuspendLayout();
             this.SuspendLayout();
@@ -149,7 +152,7 @@ namespace ThreeDPacking.App.Forms
             // statusLabel
             // 
             this.statusLabel.Name = "statusLabel";
-            this.statusLabel.Size = new System.Drawing.Size(965, 17);
+            this.statusLabel.Size = new System.Drawing.Size(942, 17);
             this.statusLabel.Spring = true;
             this.statusLabel.Text = "就绪";
             this.statusLabel.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -337,43 +340,14 @@ namespace ThreeDPacking.App.Forms
             this.grpRandomSelect.TabStop = false;
             this.grpRandomSelect.Text = "随机选择物品";
             // 
-            // lblRandomMin
+            // lblRandomInfo
             // 
-            this.lblRandomMin.AutoSize = true;
-            this.lblRandomMin.Location = new System.Drawing.Point(8, 20);
-            this.lblRandomMin.Name = "lblRandomMin";
-            this.lblRandomMin.Size = new System.Drawing.Size(41, 12);
-            this.lblRandomMin.TabIndex = 0;
-            this.lblRandomMin.Text = "最小：";
-            // 
-            // numRandomMin
-            // 
-            this.numRandomMin.Location = new System.Drawing.Point(48, 16);
-            this.numRandomMin.Maximum = new decimal(new int[] { 10000, 0, 0, 0 });
-            this.numRandomMin.Minimum = new decimal(new int[] { 1, 0, 0, 0 });
-            this.numRandomMin.Name = "numRandomMin";
-            this.numRandomMin.Size = new System.Drawing.Size(60, 21);
-            this.numRandomMin.TabIndex = 1;
-            this.numRandomMin.Value = new decimal(new int[] { 10, 0, 0, 0 });
-            // 
-            // lblRandomMax
-            // 
-            this.lblRandomMax.AutoSize = true;
-            this.lblRandomMax.Location = new System.Drawing.Point(115, 20);
-            this.lblRandomMax.Name = "lblRandomMax";
-            this.lblRandomMax.Size = new System.Drawing.Size(41, 12);
-            this.lblRandomMax.TabIndex = 2;
-            this.lblRandomMax.Text = "最大：";
-            // 
-            // numRandomMax
-            // 
-            this.numRandomMax.Location = new System.Drawing.Point(155, 16);
-            this.numRandomMax.Maximum = new decimal(new int[] { 10000, 0, 0, 0 });
-            this.numRandomMax.Minimum = new decimal(new int[] { 1, 0, 0, 0 });
-            this.numRandomMax.Name = "numRandomMax";
-            this.numRandomMax.Size = new System.Drawing.Size(60, 21);
-            this.numRandomMax.TabIndex = 3;
-            this.numRandomMax.Value = new decimal(new int[] { 50, 0, 0, 0 });
+            this.lblRandomInfo.AutoSize = true;
+            this.lblRandomInfo.Location = new System.Drawing.Point(8, 48);
+            this.lblRandomInfo.Name = "lblRandomInfo";
+            this.lblRandomInfo.Size = new System.Drawing.Size(95, 12);
+            this.lblRandomInfo.TabIndex = 5;
+            this.lblRandomInfo.Text = "已加载 0 个物品";
             // 
             // btnRandomSelect
             // 
@@ -384,14 +358,67 @@ namespace ThreeDPacking.App.Forms
             this.btnRandomSelect.Text = "随机选择";
             this.btnRandomSelect.UseVisualStyleBackColor = true;
             // 
-            // lblRandomInfo
+            // numRandomMax
             // 
-            this.lblRandomInfo.AutoSize = true;
-            this.lblRandomInfo.Location = new System.Drawing.Point(8, 48);
-            this.lblRandomInfo.Name = "lblRandomInfo";
-            this.lblRandomInfo.Size = new System.Drawing.Size(119, 12);
-            this.lblRandomInfo.TabIndex = 5;
-            this.lblRandomInfo.Text = "已加载 0 个物品";
+            this.numRandomMax.Location = new System.Drawing.Point(155, 16);
+            this.numRandomMax.Maximum = new decimal(new int[] {
+            10000,
+            0,
+            0,
+            0});
+            this.numRandomMax.Minimum = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            this.numRandomMax.Name = "numRandomMax";
+            this.numRandomMax.Size = new System.Drawing.Size(60, 21);
+            this.numRandomMax.TabIndex = 3;
+            this.numRandomMax.Value = new decimal(new int[] {
+            50,
+            0,
+            0,
+            0});
+            // 
+            // lblRandomMax
+            // 
+            this.lblRandomMax.AutoSize = true;
+            this.lblRandomMax.Location = new System.Drawing.Point(115, 20);
+            this.lblRandomMax.Name = "lblRandomMax";
+            this.lblRandomMax.Size = new System.Drawing.Size(41, 12);
+            this.lblRandomMax.TabIndex = 2;
+            this.lblRandomMax.Text = "最大：";
+            // 
+            // numRandomMin
+            // 
+            this.numRandomMin.Location = new System.Drawing.Point(48, 16);
+            this.numRandomMin.Maximum = new decimal(new int[] {
+            10000,
+            0,
+            0,
+            0});
+            this.numRandomMin.Minimum = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            this.numRandomMin.Name = "numRandomMin";
+            this.numRandomMin.Size = new System.Drawing.Size(60, 21);
+            this.numRandomMin.TabIndex = 1;
+            this.numRandomMin.Value = new decimal(new int[] {
+            10,
+            0,
+            0,
+            0});
+            // 
+            // lblRandomMin
+            // 
+            this.lblRandomMin.AutoSize = true;
+            this.lblRandomMin.Location = new System.Drawing.Point(8, 20);
+            this.lblRandomMin.Name = "lblRandomMin";
+            this.lblRandomMin.Size = new System.Drawing.Size(41, 12);
+            this.lblRandomMin.TabIndex = 0;
+            this.lblRandomMin.Text = "最小：";
             // 
             // lblResults
             // 
@@ -503,6 +530,10 @@ namespace ThreeDPacking.App.Forms
             this.panelLeft.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvContainers)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.dgvItems)).EndInit();
+            this.grpRandomSelect.ResumeLayout(false);
+            this.grpRandomSelect.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.numRandomMax)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numRandomMin)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.trackStep)).EndInit();
             this.grpSelected.ResumeLayout(false);
             this.ResumeLayout(false);
