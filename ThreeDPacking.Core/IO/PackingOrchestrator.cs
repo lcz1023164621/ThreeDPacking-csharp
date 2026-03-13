@@ -53,7 +53,9 @@ namespace ThreeDPacking.Core.IO
 
                 PackingAttemptResult chosen = null;
                 
-                // Try containers from smallest to largest
+                // 尝试所有容器，策略：
+                // 1. 优先选装入物品数量最多的方案
+                // 2. 同等数量时，选利用率最高的（即最小且刚好装得下的容器）
                 foreach (var candidate in sortedContainers)
                 {
                     log?.Invoke($"Trying container: {candidate.Name} (Volume: {candidate.Volume})");
@@ -62,24 +64,27 @@ namespace ThreeDPacking.Core.IO
                     
                     if (attempt != null && attempt.PackedCount > 0)
                     {
-                        // If all remaining items fit in this container, use it
-                        if (attempt.PackedCount == remainingItems.Count)
+                        bool isBetter = false;
+                        if (chosen == null)
                         {
-                            chosen = attempt;
-                            log?.Invoke($">> All items fit in {candidate.Name}!");
-                            break;
+                            isBetter = true;
+                        }
+                        else if (attempt.PackedCount > chosen.PackedCount)
+                        {
+                            // 装入更多物品，优先选这个
+                            isBetter = true;
+                        }
+                        else if (attempt.PackedCount == chosen.PackedCount && attempt.Utilization > chosen.Utilization)
+                        {
+                            // 装入数量相同，选利用率更高的（容器体积更小）
+                            isBetter = true;
                         }
                         
-                        // If this is the largest container, use it (pack as many as possible)
-                        if (candidate == sortedContainers.Last())
+                        if (isBetter)
                         {
                             chosen = attempt;
-                            log?.Invoke($">> Largest container {candidate.Name} used, packed {attempt.PackedCount}/{remainingItems.Count} items");
-                            break;
+                            log?.Invoke($"  Better: {candidate.Name} packed={attempt.PackedCount} util={attempt.Utilization:F4}");
                         }
-                        
-                        // Otherwise, try next larger container
-                        log?.Invoke($"  Only packed {attempt.PackedCount}/{remainingItems.Count}, trying larger container...");
                     }
                 }
 
@@ -89,7 +94,7 @@ namespace ThreeDPacking.Core.IO
                     break;
                 }
 
-                log?.Invoke($">> Selected: {chosen.ContainerCandidate.Name} | Strategy: {chosen.Strategy} | Packed: {chosen.PackedCount} | Utilization: {chosen.Utilization:F4}");
+                log?.Invoke($">> Selected: {chosen.ContainerCandidate.Name} | Strategy: {chosen.Strategy} | Packed: {chosen.PackedCount}/{remainingItems.Count} | Utilization: {chosen.Utilization:F4}");
 
                 packedResults.Add(chosen);
                 RemovePackedItems(remainingItems, chosen.PackedItems);
