@@ -3,12 +3,19 @@ using System.Collections.Generic;
 
 namespace ThreeDPacking.Core.Models
 {
+    /// <summary>
+    /// 装箱堆栈，记录装箱过程中的层级信息
+    /// </summary>
     public class PackStack
     {
+        //所有成功放置的物品位置信息
         private readonly List<Placement> _entries = new List<Placement>();
 
         public List<Placement> Placements => _entries;
-
+        /// <summary>
+        /// 加入放置记录
+        /// </summary>
+        /// <param name="e"></param>
         public void Add(Placement e)
         {
             _entries.Add(e);
@@ -18,7 +25,10 @@ namespace ThreeDPacking.Core.Models
         {
             _entries.Clear();
         }
-
+        /// <summary>
+        /// 计算已放置物品总重量
+        /// </summary>
+        /// <returns></returns>
         public int GetWeight()
         {
             int weight = 0;
@@ -26,7 +36,10 @@ namespace ThreeDPacking.Core.Models
                 weight += p.StackValue.Box.Weight;
             return weight;
         }
-
+        /// <summary>
+        /// 计算已放入物体的总体积
+        /// </summary>
+        /// <returns></returns>
         public long GetVolume()
         {
             long volume = 0;

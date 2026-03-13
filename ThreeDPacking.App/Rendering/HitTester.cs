@@ -6,7 +6,7 @@ using ThreeDPacking.Core.Models;
 namespace ThreeDPacking.App.Rendering
 {
     /// <summary>
-    /// Performs ray-based hit testing to identify which box the user clicked on.
+    /// 鼠标拾取检测，用于选中特定物品高亮显示
     /// </summary>
     public static class HitTester
     {

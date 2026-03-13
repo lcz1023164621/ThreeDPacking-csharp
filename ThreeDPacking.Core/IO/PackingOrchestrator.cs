@@ -7,8 +7,7 @@ using ThreeDPacking.Core.Packers;
 namespace ThreeDPacking.Core.IO
 {
     /// <summary>
-    /// Multi-round packing orchestrator. Translates the core logic of RandomExcelPackingTest.
-    /// Tries multiple strategies and container types per round, selects the best, removes packed items, repeats.
+    /// 装箱流程编排器，协调整个装箱流程
     /// </summary>
     public class PackingOrchestrator
     {
@@ -19,6 +18,8 @@ namespace ThreeDPacking.Core.IO
 
         public PackingOrchestrator()
         {
+            //创建两个Packager实例：_plainPackager（3D极端点算法，处理全空间放置）
+            //和_laffPackager（LAFF层级算法，先填层再堆高，强调底面覆盖）
             _plainPackager = new PlainPackager();
             _laffPackager = new LaffPackager();
         }
@@ -34,9 +35,9 @@ namespace ThreeDPacking.Core.IO
         /// <param name="log">Optional action to log messages.</param>
         /// <returns>List of packed containers.</returns>
         public List<Container> Run(
-            List<ItemCandidate> selectedItems,
-            List<ContainerCandidate> containerCandidates,
-            long randomSeed,
+            List<ItemCandidate> selectedItems,// 待装物品列表（会修改）
+            List<ContainerCandidate> containerCandidates,// 容器候选列表
+            long randomSeed,// 随机种子（用于Shuffle策略的可复现）
             Action<string> log = null)
         {
             // Sort containers by volume (smallest first)
@@ -124,8 +125,10 @@ namespace ThreeDPacking.Core.IO
         }
 
         /// <summary>
-        /// Try to pack items into a specific container using all strategies.
-        /// Returns the best attempt for this container.
+        /// 多策略尝试
+        /// 1、固定策略
+        /// 2、Raw变体：无预排序，直接用原序
+        /// 3、Shuffle：随机打乱物品序
         /// </summary>
         private PackingAttemptResult TryPackInContainer(
             List<ItemCandidate> items,

@@ -5,8 +5,7 @@ using ThreeDPacking.Core.Points;
 namespace ThreeDPacking.Core.Comparators
 {
     /// <summary>
-    /// Compares candidate placements by Volume > Weight > Z position (lower preferred) > Area(inverse).
-    /// Prioritizes volume efficiency while preferring lower placements for stability.
+    /// 综合体积、重量、面积的排序
     /// </summary>
     public class VolumeWeightAreaPointComparer : IComparer<PlacementCandidate>
     {

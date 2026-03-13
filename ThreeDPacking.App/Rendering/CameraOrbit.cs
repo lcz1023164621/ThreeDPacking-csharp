@@ -4,8 +4,7 @@ using OpenTK;
 namespace ThreeDPacking.App.Rendering
 {
     /// <summary>
-    /// Orbit camera for 3D scene navigation.
-    /// Supports rotation via mouse drag, zoom via scroll wheel, and panning.
+    /// 轨道相机控制，支持鼠标旋转、缩放查看 3D 场景
     /// </summary>
     public class CameraOrbit
     {

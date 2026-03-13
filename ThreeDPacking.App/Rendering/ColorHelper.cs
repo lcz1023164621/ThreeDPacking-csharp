@@ -4,7 +4,7 @@ using System.Drawing;
 namespace ThreeDPacking.App.Rendering
 {
     /// <summary>
-    /// Generates distinct colors for boxes based on their ID hash.
+    /// 颜色辅助工具，为不同物品分配区分颜色
     /// </summary>
     public static class ColorHelper
     {

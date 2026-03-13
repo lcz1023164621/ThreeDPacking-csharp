@@ -3,15 +3,20 @@ using System.Collections.Generic;
 
 namespace ThreeDPacking.Core.Models
 {
+    /// <summary>
+    /// 物品放置信息，记录物品在容器中的具体位置和旋转方式（哪个物体在哪怎么放）
+    /// </summary>
     public class Placement
     {
+        //本次使用的旋转姿态
         public BoxStackValue StackValue { get; set; }
+        //左下角坐标
         public int X { get; set; }
         public int Y { get; set; }
         public int Z { get; set; }
 
         /// <summary>
-        /// Reference to the BoxItem that was placed (for tracking which item was packed).
+        /// 指向被消耗的BoxItem实例（用于数量扣减）
         /// </summary>
         public BoxItem BoxItem { get; set; }
 

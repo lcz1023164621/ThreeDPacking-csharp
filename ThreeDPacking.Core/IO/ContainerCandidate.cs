@@ -1,5 +1,8 @@
 namespace ThreeDPacking.Core.IO
 {
+    /// <summary>
+    /// 容器候选数据
+    /// </summary>
     public class ContainerCandidate
     {
         public string Name { get; }

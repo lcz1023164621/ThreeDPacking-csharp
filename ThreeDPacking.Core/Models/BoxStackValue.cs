@@ -3,11 +3,16 @@ using System.Collections.Generic;
 
 namespace ThreeDPacking.Core.Models
 {
+    /// <summary>
+    /// 旋转姿态的几何参数
+    /// 堆叠值计算模型，用于评估堆叠方案的优劣
+    /// </summary>
     public class BoxStackValue
     {
         public int Dx { get; }
         public int Dy { get; }
         public int Dz { get; }
+        //底面积
         public long Area { get; }
         public long Volume { get; }
         public int Index { get; }

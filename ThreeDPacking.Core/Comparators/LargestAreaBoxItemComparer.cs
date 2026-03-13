@@ -4,8 +4,7 @@ using ThreeDPacking.Core.Models;
 namespace ThreeDPacking.Core.Comparators
 {
     /// <summary>
-    /// Compares BoxItems by largest area (descending), then volume, then weight.
-    /// Used to select which box to try placing first.
+    /// 按底面积从大到小排序物品
     /// </summary>
     public class LargestAreaBoxItemComparer : IComparer<BoxItem>
     {

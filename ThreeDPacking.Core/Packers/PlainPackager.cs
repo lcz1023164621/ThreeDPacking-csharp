@@ -7,8 +7,13 @@ using ThreeDPacking.Core.Points;
 namespace ThreeDPacking.Core.Packers
 {
     /// <summary>
-    /// 3D free-form stacking packager. Places items at any valid 3D extreme point.
-    /// Corresponds to Java PlainPackager + AbstractControlPackager.pack().
+    /// 基础装箱算法实现：不刻意分层，全空间极端点搜索 + 贪心放置
+    /// 初始化一个覆盖整个容器的大点 (0,0,0) ~ (maxX,maxY,maxZ)
+    /// 每次选一个箱子 → 尝试所有极端点 → 选“最好”的点放置
+    /// 放置后：删除被占用的点
+    /// 在箱子右侧、前方、上方生成最多3个新极端点
+    /// 执行约束切割（ConstrainPoints)
+    /// 删除被完全包含的点（RemoveEclipsedPoints）
     /// </summary>
     public class PlainPackager : IPackager
     {

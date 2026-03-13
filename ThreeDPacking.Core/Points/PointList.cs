@@ -4,8 +4,7 @@ using System.Collections.Generic;
 namespace ThreeDPacking.Core.Points
 {
     /// <summary>
-    /// A sorted list of ExtremePoints with flag-based removal.
-    /// Corresponds to Java Point2DFlagList / Point3DFlagList.
+    /// 极端点列表管理
     /// </summary>
     public class PointList
     {

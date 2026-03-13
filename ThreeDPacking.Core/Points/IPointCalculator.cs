@@ -4,19 +4,17 @@ using ThreeDPacking.Core.Models;
 namespace ThreeDPacking.Core.Points
 {
     /// <summary>
-    /// Interface for point calculators that manage extreme points for box placement.
+    /// 极端点管理器的抽象接口
     /// </summary>
     public interface IPointCalculator
     {
         /// <summary>
-        /// Initialize the point calculator to the given container dimensions.
-        /// Creates a single initial point spanning the entire container.
+        /// 初始化为空容器大小的空间（通常只有一个点：整个容器）
         /// </summary>
         void ClearToSize(int dx, int dy, int dz);
 
         /// <summary>
-        /// Add a placement to the calculator, updating extreme points.
-        /// Returns the index of the point that was used for this placement.
+        /// 放置一个箱子后，更新所有剩余空间
         /// </summary>
         int Add(int pointIndex, Placement placement);
 

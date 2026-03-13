@@ -5,9 +5,10 @@ using ThreeDPacking.Core.Models;
 namespace ThreeDPacking.Core.Points
 {
     /// <summary>
-    /// 2D extreme point calculator for the LAFF (Largest Area Fit First) algorithm.
-    /// Places boxes only on the floor of each level, tracking 2D extreme points.
-    /// Simplified from the Java DefaultPointCalculator2D.
+    /// 二维极端点计算，只在当前层地板上放置箱子，箱子之间不允许浮空，必须有完整支撑
+    /// 实现方法：Z 方向不自由切割，只允许抬高一层（new level）
+    /// 每个“层”都视为一个独立的 2D 装箱问题
+    /// 放置时强制要求箱子底面四个角 + 中心点都被支撑
     /// </summary>
     public class PointCalculator2D : IPointCalculator
     {

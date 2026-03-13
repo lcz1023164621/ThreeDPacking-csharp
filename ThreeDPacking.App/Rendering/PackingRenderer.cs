@@ -8,9 +8,7 @@ using ThreeDPacking.Core.Models;
 namespace ThreeDPacking.App.Rendering
 {
     /// <summary>
-    /// Renders packed containers using OpenGL immediate mode.
-    /// Draws container wireframes, colored semi-transparent boxes, grid, and axes.
-    /// Supports rendering multiple containers side by side along the X axis.
+    /// 装箱结果 3D 渲染器核心，使用 OpenGL 绘制箱子和物品
     /// </summary>
     public class PackingRenderer
     {

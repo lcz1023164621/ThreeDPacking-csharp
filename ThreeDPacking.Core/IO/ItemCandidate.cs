@@ -1,5 +1,8 @@
 namespace ThreeDPacking.Core.IO
 {
+    /// <summary>
+    /// 物品候选数据
+    /// </summary>
     public class ItemCandidate
     {
         public string Name { get; }

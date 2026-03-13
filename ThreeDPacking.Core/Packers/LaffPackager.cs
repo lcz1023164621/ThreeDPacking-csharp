@@ -7,9 +7,12 @@ using ThreeDPacking.Core.Points;
 namespace ThreeDPacking.Core.Packers
 {
     /// <summary>
-    /// Largest Area Fit First packager with layer-based approach.
-    /// Uses 2D point calculator - only places boxes along the floor of each level.
-    /// Corresponds to Java FastLargestAreaFitFirstPackager + AbstractLargestAreaFitFirstPackager.pack().
+    /// 核心算法
+    /// 每次新起一层时，先选底面积最大的箱子（_firstSelector 使用 LargestAreaBoxItemComparer）
+    /// 把它放在当前层能放的最左下位置（或排序靠前的点）
+    /// 用这个箱子定义当前层的地板高度
+    /// 后续所有箱子都必须放在这一层（Z坐标相同），直到这一层放不下任何剩余箱子
+    /// 再起新层，重复以上步骤
     /// </summary>
     public class LaffPackager : IPackager
     {

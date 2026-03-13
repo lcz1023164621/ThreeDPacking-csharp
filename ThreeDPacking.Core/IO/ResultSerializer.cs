@@ -6,7 +6,7 @@ using ThreeDPacking.Core.Models;
 namespace ThreeDPacking.Core.IO
 {
     /// <summary>
-    /// Serializes packing results to JSON format compatible with the visualizer.
+    /// 装箱结果序列化
     /// </summary>
     public static class ResultSerializer
     {

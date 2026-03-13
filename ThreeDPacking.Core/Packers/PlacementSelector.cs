@@ -7,12 +7,11 @@ using ThreeDPacking.Core.Points;
 namespace ThreeDPacking.Core.Packers
 {
     /// <summary>
-    /// Selects the best placement for the next box item by iterating over
-    /// all available points × all items × all rotations and choosing the best
-    /// combination according to comparators.
+    /// 放置位置选择器，决定物品的最佳放置点
     /// </summary>
     public class PlacementSelector
     {
+        //比较器注入：（体积 > 重量 > Z低 > 面积小）
         private readonly IComparer<PlacementCandidate> _placementComparer;
         private readonly IComparer<BoxItem> _boxItemComparer;
 

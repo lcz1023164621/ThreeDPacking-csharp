@@ -5,8 +5,7 @@ using ThreeDPacking.Core.Models;
 namespace ThreeDPacking.Core.Packers
 {
     /// <summary>
-    /// Manages a mutable list of BoxItems for the packing process.
-    /// Corresponds to Java DefaultBoxItemSource.
+    /// 物品源管理，控制待装箱物品的队列，优化数据层，优化开销
     /// </summary>
     public class BoxItemSource
     {

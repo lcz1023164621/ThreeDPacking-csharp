@@ -4,8 +4,7 @@ using ThreeDPacking.Core.Models;
 namespace ThreeDPacking.Core.Comparators
 {
     /// <summary>
-    /// Compares Placements by largest area (descending), then volume, then weight.
-    /// Used to select the best placement point for new-level first placement.
+    /// 按放置区域面积排序.
     /// </summary>
     public class LargestAreaPlacementComparer : IComparer<Placement>
     {

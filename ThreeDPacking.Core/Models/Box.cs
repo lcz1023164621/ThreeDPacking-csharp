@@ -3,14 +3,20 @@ using System.Collections.Generic;
 
 namespace ThreeDPacking.Core.Models
 {
+    /// <summary>
+    /// 箱子（容器）模型
+    /// </summary>
     public class Box
     {
         public string Id { get; }
         public string Description { get; }
         public int Weight { get; }
         public long Volume { get; }
+        //核心旋转集合。根据rotate3D参数自动生成所有合法旋转姿态（最多6种)
         public BoxStackValue[] StackValues { get; }
+        //最小底面积的旋转姿态
         public BoxStackValue MinimumArea { get; }
+        //最大底面积的旋转姿态
         public BoxStackValue MaximumArea { get; }
         public BoxItem BoxItem { get; set; }
 
@@ -85,7 +91,13 @@ namespace ThreeDPacking.Core.Models
 
             return list.ToArray();
         }
-
+        /// <summary>
+        /// 判断这个物体（考虑旋转）是否能完整放入一个给定的的内部空间尺寸中
+        /// </summary>
+        /// <param name="dx"></param>
+        /// <param name="dy"></param>
+        /// <param name="dz"></param>
+        /// <returns></returns>
         public bool FitsInside(int dx, int dy, int dz)
         {
             foreach (var sv in StackValues)
@@ -95,7 +107,13 @@ namespace ThreeDPacking.Core.Models
             }
             return false;
         }
-
+        /// <summary>
+        /// 获取这个容器内部能够容纳的所有哈法旋转方案
+        /// </summary>
+        /// <param name="dx"></param>
+        /// <param name="dy"></param>
+        /// <param name="dz"></param>
+        /// <returns></returns>
         public List<BoxStackValue> GetRotations(int dx, int dy, int dz)
         {
             var result = new List<BoxStackValue>();
@@ -106,12 +124,18 @@ namespace ThreeDPacking.Core.Models
             }
             return result.Count > 0 ? result : null;
         }
-
+        /// <summary>
+        /// 或许可能旋转中底面积最小的方案
+        /// </summary>
+        /// <returns></returns>
         public long GetMinimumAreaValue()
         {
             return MinimumArea.Area;
         }
-
+        /// <summary>
+        /// 或许可能旋转中底面积最小的方案
+        /// </summary>
+        /// <returns></returns>
         public long GetMaximumAreaValue()
         {
             return MaximumArea.Area;

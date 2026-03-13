@@ -6,7 +6,7 @@ using OfficeOpenXml;
 namespace ThreeDPacking.Core.IO
 {
     /// <summary>
-    /// Reads item candidates from an Excel file using EPPlus.
+    /// Excel 文件读取，导入物品/容器数据
     /// </summary>
     public static class ExcelReader
     {

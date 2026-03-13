@@ -3,14 +3,15 @@ using System;
 namespace ThreeDPacking.Core.Points
 {
     /// <summary>
-    /// Represents an extreme point in 3D space where a box can potentially be placed.
-    /// Combines the Java Point2D/Point3D class hierarchies into a single class.
+    /// 极端点数据结构，表示可放置物品的候选位置
     /// </summary>
     public class ExtremePoint : IComparable<ExtremePoint>
     {
+        //左下前坐标
         public int MinX { get; set; }
         public int MinY { get; set; }
         public int MinZ { get; set; }
+        //右上后坐标
         public int MaxX { get; set; }
         public int MaxY { get; set; }
         public int MaxZ { get; set; }
@@ -34,13 +35,18 @@ namespace ThreeDPacking.Core.Points
             MaxZ = maxZ;
         }
 
+        /// <summary>
+        /// 判断这个剩余空间能否放下某个朝向的箱子
+        /// </summary>
+        /// <param name="sv"></param>
+        /// <returns></returns>
         public bool FitsBox(BoxStackValueRef sv)
         {
             return Dx >= sv.Dx && Dy >= sv.Dy && Dz >= sv.Dz;
         }
 
         /// <summary>
-        /// Check if this point completely contains/eclipses another point.
+        /// 判断当前点是否完全包含另一个点（用于去重/消除被覆盖的点）
         /// </summary>
         public bool Eclipses(ExtremePoint other)
         {

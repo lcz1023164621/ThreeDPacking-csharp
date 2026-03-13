@@ -5,9 +5,9 @@ using ThreeDPacking.Core.Models;
 namespace ThreeDPacking.Core.Points
 {
     /// <summary>
-    /// 3D extreme point calculator for the PlainPackager algorithm.
-    /// Manages extreme points in all three dimensions.
-    /// Simplified from the Java DefaultPointCalculator3D.
+    /// 三维极端点计算，允许在任意高度、任意位置放置箱子，只要满足支撑条件
+    /// 每次放置后，会在 X、Y、Z 三个方向 都进行空间切割
+    /// 产生更多的极端点且需要更复杂的支撑检查
     /// </summary>
     public class PointCalculator3D : IPointCalculator
     {
