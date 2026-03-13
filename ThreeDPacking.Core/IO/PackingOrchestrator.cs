@@ -1,6 +1,8 @@
 using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using ThreeDPacking.Core.Models;
 using ThreeDPacking.Core.Packers;
 
@@ -125,7 +127,7 @@ namespace ThreeDPacking.Core.IO
         }
 
         /// <summary>
-        /// 多策略尝试
+        /// 多策略尝试（并行执行）
         /// 1、固定策略
         /// 2、Raw变体：无预排序，直接用原序
         /// 3、Shuffle：随机打乱物品序
@@ -135,38 +137,50 @@ namespace ThreeDPacking.Core.IO
             ContainerCandidate candidate,
             long randomSeed)
         {
-            var attempts = new List<PackingAttemptResult>();
+            var attempts = new ConcurrentBag<PackingAttemptResult>();
+
+            // 定义所有策略
+            var strategies = new List<(IPackager packager, bool forceFlat, string strategyName)>();
 
             // Plain packager strategies
-            attempts.Add(PackWithStrategy(items, candidate, _plainPackager, true, "Plain-MaxArea", randomSeed));
-            attempts.Add(PackWithStrategy(items, candidate, _plainPackager, true, "Plain-MaxVolume", randomSeed));
-            attempts.Add(PackWithStrategy(items, candidate, _plainPackager, true, "Plain-MaxDim", randomSeed));
-            attempts.Add(PackWithStrategy(items, candidate, _plainPackager, false, "Plain-MaxArea_Raw", randomSeed));
-            attempts.Add(PackWithStrategy(items, candidate, _plainPackager, false, "Plain-MaxDim_Raw", randomSeed));
+            strategies.Add((_plainPackager, true, "Plain-MaxArea"));
+            strategies.Add((_plainPackager, true, "Plain-MaxVolume"));
+            strategies.Add((_plainPackager, true, "Plain-MaxDim"));
+            strategies.Add((_plainPackager, false, "Plain-MaxArea_Raw"));
+            strategies.Add((_plainPackager, false, "Plain-MaxDim_Raw"));
 
             // LAFF packager strategies
-            attempts.Add(PackWithStrategy(items, candidate, _laffPackager, true, "Laff-MaxArea", randomSeed));
-            attempts.Add(PackWithStrategy(items, candidate, _laffPackager, true, "Laff-MaxVolume", randomSeed));
-            attempts.Add(PackWithStrategy(items, candidate, _laffPackager, true, "Laff-MaxDim", randomSeed));
-            attempts.Add(PackWithStrategy(items, candidate, _laffPackager, false, "Laff-MaxArea_Raw", randomSeed));
-            attempts.Add(PackWithStrategy(items, candidate, _laffPackager, false, "Laff-MaxDim_Raw", randomSeed));
+            strategies.Add((_laffPackager, true, "Laff-MaxArea"));
+            strategies.Add((_laffPackager, true, "Laff-MaxVolume"));
+            strategies.Add((_laffPackager, true, "Laff-MaxDim"));
+            strategies.Add((_laffPackager, false, "Laff-MaxArea_Raw"));
+            strategies.Add((_laffPackager, false, "Laff-MaxDim_Raw"));
 
             // Random shuffle strategies
             for (int k = 0; k < RandomTrialCount; k++)
             {
-                attempts.Add(PackWithStrategy(items, candidate, _plainPackager, true, "Plain-Shuffle_" + k, randomSeed));
-                attempts.Add(PackWithStrategy(items, candidate, _laffPackager, true, "Laff-Shuffle_" + k, randomSeed));
+                strategies.Add((_plainPackager, true, "Plain-Shuffle_" + k));
+                strategies.Add((_laffPackager, true, "Laff-Shuffle_" + k));
             }
+
+            // 并行执行所有策略
+            Parallel.ForEach(strategies, strategy =>
+            {
+                var result = PackWithStrategy(items, candidate, strategy.packager, strategy.forceFlat, strategy.strategyName, randomSeed);
+                if (result != null && result.PackedCount > 0)
+                {
+                    attempts.Add(result);
+                }
+            });
 
             // Return the best attempt for this container (most items packed)
             PackingAttemptResult best = null;
             foreach (var attempt in attempts)
             {
-                if (attempt == null || attempt.PackedCount == 0) continue;
                 if (best == null || attempt.PackedCount > best.PackedCount)
                     best = attempt;
             }
-            
+
             return best;
         }
 
@@ -317,8 +331,12 @@ namespace ThreeDPacking.Core.IO
             }
         }
 
+        /// <summary>
+        /// 线程安全的随机打乱方法
+        /// </summary>
         private void Shuffle<T>(List<T> list, long seed)
         {
+            // 使用线程本地存储确保每个线程有自己的Random实例
             var rng = new Random((int)(seed & 0x7FFFFFFF));
             for (int i = list.Count - 1; i > 0; i--)
             {
