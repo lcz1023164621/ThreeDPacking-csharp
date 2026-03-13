@@ -24,6 +24,7 @@ namespace ThreeDPacking.Core.Packers
 
         /// <summary>
         /// Find the best placement for any box item at any available point.
+        /// Strategy: Prioritize filling the first level (Z=0) completely before moving up.
         /// </summary>
         /// <param name="source">Available box items.</param>
         /// <param name="calculator">Point calculator with available points.</param>
@@ -33,6 +34,110 @@ namespace ThreeDPacking.Core.Packers
         /// <param name="remainingVolume">Remaining volume capacity.</param>
         /// <returns>The best placement, or null if nothing fits.</returns>
         public Placement GetBestPlacement(
+            BoxItemSource source,
+            IPointCalculator calculator,
+            Container container,
+            PackStack stack,
+            int remainingWeight,
+            long remainingVolume)
+        {
+            // First, try to find placements on the first level (Z=0) to maximize base coverage
+            var firstLevelPlacement = GetBestFirstLevelPlacement(
+                source, calculator, container, stack, remainingWeight, remainingVolume);
+            
+            // If we found a valid first-level placement, use it
+            if (firstLevelPlacement != null)
+                return firstLevelPlacement;
+            
+            // Otherwise, fall back to normal placement strategy for higher levels
+            return GetBestHigherLevelPlacement(
+                source, calculator, container, stack, remainingWeight, remainingVolume);
+        }
+
+        /// <summary>
+        /// Find the best placement specifically for the first level (Z=0).
+        /// Prioritizes largest area to maximize base coverage.
+        /// </summary>
+        private Placement GetBestFirstLevelPlacement(
+            BoxItemSource source,
+            IPointCalculator calculator,
+            Container container,
+            PackStack stack,
+            int remainingWeight,
+            long remainingVolume)
+        {
+            PlacementCandidate best = null;
+            long bestArea = -1;
+
+            int pointCount = calculator.PointCount;
+
+            for (int pi = 0; pi < pointCount; pi++)
+            {
+                var point = calculator.GetPoint(pi);
+                
+                // Only consider first level points (Z=0)
+                if (point.MinZ != 0)
+                    continue;
+
+                for (int bi = 0; bi < source.Size; bi++)
+                {
+                    var boxItem = source.Get(bi);
+                    var box = boxItem.Box;
+
+                    if (box.Volume > remainingVolume || box.Weight > remainingWeight)
+                        continue;
+
+                    var rotations = box.GetRotations(point.Dx, point.Dy, point.Dz);
+                    if (rotations == null)
+                        continue;
+
+                    foreach (var sv in rotations)
+                    {
+                        var placement = new Placement(sv, point.MinX, point.MinY, point.MinZ, boxItem);
+                        
+                        // Verify placement doesn't exceed container boundaries
+                        if (placement.AbsoluteEndX >= container.LoadDx ||
+                            placement.AbsoluteEndY >= container.LoadDy ||
+                            placement.AbsoluteEndZ >= container.LoadDz)
+                            continue;
+                        
+                        // Verify placement doesn't intersect with existing placements
+                        if (stack?.Placements != null && stack.Placements.Count > 0)
+                        {
+                            bool intersects = false;
+                            foreach (var existing in stack.Placements)
+                            {
+                                if (existing != null && placement.Intersects3D(existing))
+                                {
+                                    intersects = true;
+                                    break;
+                                }
+                            }
+                            if (intersects)
+                                continue;
+
+                            // First level is always on ground, no support check needed
+                        }
+                        
+                        // Prioritize by largest area for first level coverage
+                        long area = sv.Area;
+                        if (area > bestArea)
+                        {
+                            bestArea = area;
+                            best = new PlacementCandidate(placement, point);
+                        }
+                    }
+                }
+            }
+
+            return best?.Placement;
+        }
+
+        /// <summary>
+        /// Find the best placement for higher levels (Z>0).
+        /// Uses the standard placement comparer.
+        /// </summary>
+        private Placement GetBestHigherLevelPlacement(
             BoxItemSource source,
             IPointCalculator calculator,
             Container container,
@@ -85,7 +190,7 @@ namespace ThreeDPacking.Core.Packers
                             if (intersects)
                                 continue;
 
-                            // Verify placement has sufficient support (at least 50% of bottom area must be supported)
+                            // Verify placement has sufficient support
                             if (!HasSufficientSupport(placement, stack.Placements))
                                 continue;
                         }
