@@ -40,10 +40,9 @@ namespace ThreeDPacking.Core.Models
             }
             else if (!rotate3D)
             {
-                // 2D rotation only: bottom face rotations
+                // 2D rotation only: keep the original orientation, no rotation
+                // The dx, dy, dz should already be set to have maximum bottom area
                 list.Add(new BoxStackValue(dx, dy, dz, list.Count));
-                if (dx != dy)
-                    list.Add(new BoxStackValue(dy, dx, dz, list.Count));
             }
             else if (dx == dy)
             {

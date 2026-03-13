@@ -221,17 +221,37 @@ namespace ThreeDPacking.Core.IO
             {
                 int dx = item.Dx, dy = item.Dy, dz = item.Dz;
 
-                if (forceFlat)
+                // 总是计算三个面的面积，选择底面积最大的摆放方式
+                // 三个面的面积: dx*dy, dx*dz, dy*dz
+                long areaXY = 1L * item.Dx * item.Dy;
+                long areaXZ = 1L * item.Dx * item.Dz;
+                long areaYZ = 1L * item.Dy * item.Dz;
+
+                if (areaXY >= areaXZ && areaXY >= areaYZ)
                 {
-                    var dims = new[] { item.Dx, item.Dy, item.Dz };
-                    Array.Sort(dims);
-                    dx = dims[2];
-                    dy = dims[1];
-                    dz = dims[0];
+                    // XY面作为底面，Z作为高
+                    dx = item.Dx;
+                    dy = item.Dy;
+                    dz = item.Dz;
+                }
+                else if (areaXZ >= areaXY && areaXZ >= areaYZ)
+                {
+                    // XZ面作为底面，Y作为高
+                    dx = item.Dx;
+                    dy = item.Dz;
+                    dz = item.Dy;
+                }
+                else
+                {
+                    // YZ面作为底面，X作为高
+                    dx = item.Dy;
+                    dy = item.Dz;
+                    dz = item.Dx;
                 }
 
                 string id = item.Name + "#" + item.InstanceId;
-                var box = new Box(id, id, dx, dy, dz, 1, true);
+                // rotate3D=false 确保只使用底面旋转，保持底面积最大的面朝下
+                var box = new Box(id, id, dx, dy, dz, 1, false);
                 products.Add(new BoxItem(box, 1));
             }
             return products;
