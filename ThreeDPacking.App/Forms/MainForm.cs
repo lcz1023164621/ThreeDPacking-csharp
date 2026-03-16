@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Windows.Forms;
 using OpenTK;
@@ -137,6 +138,7 @@ namespace ThreeDPacking.App.Forms
             dgvContainers.Rows.Add("常用容器", "260", "260", "260", "0", "28000");
             dgvContainers.Rows.Add("中间容器", "310", "220", "160", "0", "28000");
             dgvContainers.Rows.Add("中间容器", "310", "265", "220", "0", "28000");
+            dgvContainers.Rows.Add("中间容器", "360", "360", "360", "0", "28000");
             dgvContainers.Rows.Add("最小容器", "160", "120", "185", "0", "28000");
         }
 
@@ -310,6 +312,30 @@ namespace ThreeDPacking.App.Forms
 
                 _packedContainers = (List<Container>)we.Result;
                 menuExportJson.Enabled = _packedContainers.Count > 0;
+
+                // 自动导出到unity文件夹（根目录下）
+                if (_packedContainers.Count > 0)
+                {
+                    try
+                    {
+                        // 获取解决方案根目录（.sln文件所在目录）
+                        string solutionDir = GetSolutionDirectory();
+                        string unityFolder = Path.Combine(solutionDir, "unity");
+                        
+                        if (!Directory.Exists(unityFolder))
+                        {
+                            Directory.CreateDirectory(unityFolder);
+                        }
+                        
+                        string jsonPath = Path.Combine(unityFolder, "packing_result.json");
+                        ResultSerializer.SerializeToFile(_packedContainers, jsonPath);
+                        AppendLog($"[Unity导出] 已自动生成: {jsonPath}");
+                    }
+                    catch (Exception ex)
+                    {
+                        AppendLog($"[Unity导出] 失败: {ex.Message}");
+                    }
+                }
 
                 // Populate results list
                 lstResults.Items.Clear();
@@ -634,6 +660,48 @@ namespace ThreeDPacking.App.Forms
 
             rayOrigin = nearWorld.Xyz;
             rayDir = Vector3.Normalize((farWorld - nearWorld).Xyz);
+        }
+
+        /// <summary>
+        /// 获取解决方案根目录（.sln文件所在目录）
+        /// </summary>
+        private string GetSolutionDirectory()
+        {
+            // 从当前执行文件路径向上查找，直到找到.sln文件或到达根目录
+            string currentDir = Path.GetDirectoryName(Application.ExecutablePath);
+            
+            // 尝试向上查找3层目录（通常在bin/Debug/net48下）
+            for (int i = 0; i < 5; i++)
+            {
+                // 检查当前目录是否有.sln文件
+                string[] slnFiles = Directory.GetFiles(currentDir, "*.sln");
+                if (slnFiles.Length > 0)
+                {
+                    return currentDir;
+                }
+                
+                // 检查是否有unity文件夹（作为备选判断）
+                string unityFolder = Path.Combine(currentDir, "unity");
+                if (Directory.Exists(unityFolder))
+                {
+                    // 检查unity文件夹中是否有PackingLoader.cs
+                    string loaderFile = Path.Combine(unityFolder, "PackingLoader.cs");
+                    if (File.Exists(loaderFile))
+                    {
+                        return currentDir;
+                    }
+                }
+                
+                // 向上移动一级
+                string parentDir = Directory.GetParent(currentDir)?.FullName;
+                if (parentDir == null)
+                    break;
+                currentDir = parentDir;
+            }
+            
+            // 如果找不到，返回执行文件的上3级目录（默认情况）
+            return Path.GetFullPath(Path.Combine(
+                Path.GetDirectoryName(Application.ExecutablePath), "..", "..", ".."));
         }
 
         #endregion

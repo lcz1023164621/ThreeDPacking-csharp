@@ -93,8 +93,60 @@ namespace ThreeDPacking.Core.IO
 
                 if (chosen == null || chosen.PackedCount == 0)
                 {
-                    log?.Invoke("Error: Cannot pack any remaining items into any container.");
-                    break;
+                    // 现有容器无法装入剩余物品，尝试使用最大容器
+                    var largestContainer = sortedContainers.LastOrDefault();
+                    if (largestContainer != null && remainingItems.Count > 0)
+                    {
+                        log?.Invoke($"No suitable container found. Trying largest container: {largestContainer.Name} for remaining {remainingItems.Count} items");
+                        
+                        var attempt = TryPackInContainer(remainingItems, largestContainer, randomSeed);
+                        if (attempt != null && attempt.PackedCount > 0)
+                        {
+                            chosen = attempt;
+                            log?.Invoke($"  Success: Packed {attempt.PackedCount} items into largest container");
+                        }
+                        else
+                        {
+                            // 即使最大容器也无法装入任何物品，强制为每个剩余物品创建单独容器
+                            log?.Invoke($"  Warning: Cannot pack items together. Creating individual containers for {remainingItems.Count} remaining items.");
+                            bool anyPacked = false;
+                            
+                            // 按体积从大到小排序，优先装入大物品
+                            var sortedRemaining = remainingItems.OrderByDescending(i => i.Volume).ToList();
+                            
+                            foreach (var item in sortedRemaining.ToList())
+                            {
+                                var singleItemResult = ForcePackSingleItem(item, largestContainer);
+                                if (singleItemResult != null)
+                                {
+                                    packedResults.Add(singleItemResult);
+                                    RemovePackedItems(remainingItems, singleItemResult.PackedItems);
+                                    log?.Invoke($"    Packed single item: {item.Name}#{item.InstanceId}");
+                                    anyPacked = true;
+                                }
+                                else
+                                {
+                                    log?.Invoke($"    ERROR: Cannot pack item {item.Name}#{item.InstanceId} even in largest container!");
+                                }
+                            }
+                            
+                            if (anyPacked)
+                            {
+                                round++;
+                                continue;
+                            }
+                            else
+                            {
+                                log?.Invoke("Error: Cannot pack any remaining items even individually.");
+                                break;
+                            }
+                        }
+                    }
+                    else
+                    {
+                        log?.Invoke("Error: No container available or no remaining items.");
+                        break;
+                    }
                 }
 
                 log?.Invoke($">> Selected: {chosen.ContainerCandidate.Name} | Strategy: {chosen.Strategy} | Packed: {chosen.PackedCount}/{remainingItems.Count} | Utilization: {chosen.Utilization:F4}");
@@ -226,25 +278,43 @@ namespace ThreeDPacking.Core.IO
 
             // Match packed items back to ItemCandidates
             var packedItems = new List<ItemCandidate>();
-            var matchedIds = new HashSet<string>();
+            var matchedInstanceIds = new HashSet<int>();
+            int unmatchedPlacements = 0;
             
             foreach (var p in packedContainer.Stack.Placements)
             {
                 string id = p.StackValue.Box?.Id;
-                if (id == null) continue;
+                if (id == null) 
+                {
+                    unmatchedPlacements++;
+                    continue;
+                }
 
                 // 每个Placement对应一个实际装箱的物品实例
                 // 需要在items中找到匹配的ItemCandidate
+                bool matched = false;
                 foreach (var item in items)
                 {
                     string itemId = item.Name + "#" + item.InstanceId;
-                    if (itemId == id && !matchedIds.Contains(itemId + "_" + packedItems.Count))
+                    if (itemId == id && !matchedInstanceIds.Contains(item.InstanceId))
                     {
                         packedItems.Add(item);
-                        matchedIds.Add(itemId + "_" + (packedItems.Count - 1));
+                        matchedInstanceIds.Add(item.InstanceId);
+                        matched = true;
                         break;
                     }
                 }
+                
+                if (!matched)
+                {
+                    unmatchedPlacements++;
+                }
+            }
+
+            // 验证：确保所有Placement都被正确匹配
+            if (unmatchedPlacements > 0)
+            {
+                Console.WriteLine($"Warning: {unmatchedPlacements} placements could not be matched to items in strategy {strategyName}");
             }
 
             long packedVolume = CalcItemsVolume(packedItems);
@@ -345,6 +415,157 @@ namespace ThreeDPacking.Core.IO
                 list[i] = list[j];
                 list[j] = temp;
             }
+        }
+
+        /// <summary>
+        /// 强制将剩余物品装入容器（当正常装箱失败时使用）
+        /// 尝试装入尽可能多的物品，不考虑最优利用率
+        /// </summary>
+        private PackingAttemptResult ForcePackIntoContainer(
+            List<ItemCandidate> items,
+            ContainerCandidate candidate)
+        {
+            if (items.Count == 0) return null;
+
+            // 尝试使用PlainPackager装入物品
+            var products = BuildProducts(items, false);
+            var container = new Container(
+                candidate.Name, candidate.Name,
+                candidate.Dx, candidate.Dy, candidate.Dz,
+                candidate.EmptyWeight, candidate.MaxLoadWeight);
+
+            Container packedContainer = _plainPackager.Pack(products, container);
+
+            if (packedContainer == null || packedContainer.Stack.IsEmpty)
+            {
+                // 如果PlainPackager也失败，尝试LAFF
+                packedContainer = _laffPackager.Pack(products, container);
+            }
+
+            if (packedContainer == null || packedContainer.Stack.IsEmpty)
+            {
+                // 如果都失败，至少尝试装入第一个能装下的物品
+                foreach (var item in items)
+                {
+                    if (item.Dx <= candidate.Dx && item.Dy <= candidate.Dy && item.Dz <= candidate.Dz)
+                    {
+                        var singleProduct = BuildProducts(new List<ItemCandidate> { item }, false);
+                        packedContainer = _plainPackager.Pack(singleProduct, container);
+                        if (packedContainer != null && !packedContainer.Stack.IsEmpty)
+                        {
+                            break;
+                        }
+                    }
+                }
+            }
+
+            if (packedContainer == null || packedContainer.Stack.IsEmpty)
+                return null;
+
+            // 匹配已装箱的物品
+            var packedItems = new List<ItemCandidate>();
+            var matchedInstanceIds = new HashSet<int>();
+            int unmatchedPlacements = 0;
+
+            foreach (var p in packedContainer.Stack.Placements)
+            {
+                string id = p.StackValue.Box?.Id;
+                if (id == null) 
+                {
+                    unmatchedPlacements++;
+                    continue;
+                }
+
+                bool matched = false;
+                foreach (var item in items)
+                {
+                    string itemId = item.Name + "#" + item.InstanceId;
+                    if (itemId == id && !matchedInstanceIds.Contains(item.InstanceId))
+                    {
+                        packedItems.Add(item);
+                        matchedInstanceIds.Add(item.InstanceId);
+                        matched = true;
+                        break;
+                    }
+                }
+                
+                if (!matched)
+                {
+                    unmatchedPlacements++;
+                }
+            }
+
+            // 验证：确保所有Placement都被正确匹配
+            if (unmatchedPlacements > 0)
+            {
+                Console.WriteLine($"Warning: {unmatchedPlacements} placements could not be matched to items in ForcePack");
+            }
+
+            if (packedItems.Count == 0)
+                return null;
+
+            long packedVolume = CalcItemsVolume(packedItems);
+            double utilization = candidate.Volume > 0 ? (double)packedVolume / candidate.Volume : 0;
+
+            return new PackingAttemptResult(packedContainer, candidate, packedVolume, utilization, packedItems, "ForcePack");
+        }
+
+        /// <summary>
+        /// 强制将单个物品装入容器（创建单独容器）
+        /// </summary>
+        private PackingAttemptResult ForcePackSingleItem(
+            ItemCandidate item,
+            ContainerCandidate candidate)
+        {
+            // 检查物品是否能放入容器（尝试所有旋转方式）
+            bool canFit = false;
+            int bestDx = item.Dx, bestDy = item.Dy, bestDz = item.Dz;
+            
+            // 尝试6种旋转方式
+            var rotations = new (int dx, int dy, int dz)[]
+            {
+                (item.Dx, item.Dy, item.Dz),
+                (item.Dx, item.Dz, item.Dy),
+                (item.Dy, item.Dx, item.Dz),
+                (item.Dy, item.Dz, item.Dx),
+                (item.Dz, item.Dx, item.Dy),
+                (item.Dz, item.Dy, item.Dx)
+            };
+            
+            foreach (var rot in rotations)
+            {
+                if (rot.dx <= candidate.Dx && rot.dy <= candidate.Dy && rot.dz <= candidate.Dz)
+                {
+                    canFit = true;
+                    bestDx = rot.dx;
+                    bestDy = rot.dy;
+                    bestDz = rot.dz;
+                    break;
+                }
+            }
+            
+            if (!canFit)
+                return null;
+            
+            // 使用能放入的旋转尺寸创建Box和Placement
+            string id = item.Name + "#" + item.InstanceId;
+            var box = new Box(id, id, bestDx, bestDy, bestDz, 1, false);
+            var stackValue = new BoxStackValue(bestDx, bestDy, bestDz, 0);
+            stackValue.Box = box;
+            var boxItem = new BoxItem(box, 1);
+            var placement = new Placement(stackValue, 0, 0, 0, boxItem);
+            
+            var container = new Container(
+                candidate.Name, candidate.Name,
+                candidate.Dx, candidate.Dy, candidate.Dz,
+                candidate.EmptyWeight, candidate.MaxLoadWeight);
+            container.Stack.Add(placement);
+            
+            var packedItems = new List<ItemCandidate> { item };
+            long packedVolume = item.Volume;
+            double utilization = candidate.Volume > 0 ? (double)packedVolume / candidate.Volume : 0;
+            
+            return new PackingAttemptResult(container, candidate, packedVolume, utilization, packedItems, "ForcePackSingle");
         }
     }
 

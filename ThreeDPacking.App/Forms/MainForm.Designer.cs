@@ -375,7 +375,7 @@ namespace ThreeDPacking.App.Forms
             this.numRandomMax.Size = new System.Drawing.Size(60, 21);
             this.numRandomMax.TabIndex = 3;
             this.numRandomMax.Value = new decimal(new int[] {
-            50,
+            10,
             0,
             0,
             0});
@@ -406,7 +406,7 @@ namespace ThreeDPacking.App.Forms
             this.numRandomMin.Size = new System.Drawing.Size(60, 21);
             this.numRandomMin.TabIndex = 1;
             this.numRandomMin.Value = new decimal(new int[] {
-            10,
+            2,
             0,
             0,
             0});
