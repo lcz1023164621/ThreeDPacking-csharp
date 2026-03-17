@@ -306,10 +306,9 @@ namespace ThreeDPacking.Core.Packers
 
         /// <summary>
         /// 检查放置位置是否有足够的支撑
-        /// 最严格的方案：要求100%底面被支撑，不允许任何悬空
-        /// 1. 底面必须100%被下层物体直接支撑
+        /// 允许最多50%悬空：要求至少50%底面被支撑
+        /// 1. 底面至少50%被下层物体直接支撑
         /// 2. 底面中心点必须被支撑
-        /// 3. 底面四个角点必须全部被支撑
         /// </summary>
         private bool HasSufficientSupport(Placement placement, List<Placement> existingPlacements)
         {
@@ -328,7 +327,7 @@ namespace ThreeDPacking.Core.Packers
             {
                 if (existing == null) continue;
 
-                // ★★★ 关键修复：必须紧贴上一层（existing的顶部必须正好在placement底部下方）
+                // 必须紧贴上一层（existing的顶部必须正好在placement底部下方）
                 if (existing.AbsoluteEndZ == placementBottomZ - 1)
                 {
                     // 计算2D重叠面积（X-Y平面）
@@ -337,8 +336,8 @@ namespace ThreeDPacking.Core.Packers
                 }
             }
 
-            // 条件1：支撑面积必须100%（不允许任何悬空）
-            if (supportedArea < bottomArea)
+            // 条件1：支撑面积必须至少50%（允许最多50%悬空）
+            if (supportedArea * 100 < bottomArea * 50)
                 return false;
 
             // 条件2：底面中心点必须被支撑
@@ -347,24 +346,6 @@ namespace ThreeDPacking.Core.Packers
 
             if (!IsPointSupported(centerX, centerY, placementBottomZ, existingPlacements))
                 return false;
-
-            // 条件3：底面四个角点必须全部被支撑
-            int dx = placement.StackValue.Dx;
-            int dy = placement.StackValue.Dy;
-            
-            var corners = new (int x, int y)[]
-            {
-                (placement.X, placement.Y),
-                (placement.X + dx - 1, placement.Y),
-                (placement.X, placement.Y + dy - 1),
-                (placement.X + dx - 1, placement.Y + dy - 1)
-            };
-
-            foreach (var corner in corners)
-            {
-                if (!IsPointSupported(corner.x, corner.y, placementBottomZ, existingPlacements))
-                    return false;
-            }
 
             return true;
         }

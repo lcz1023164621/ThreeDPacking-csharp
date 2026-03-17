@@ -1,14 +1,14 @@
 {
   "containers": [
     {
-      "name": "最大容器",
-      "id": "最大容器",
-      "dx": 450,
-      "dy": 450,
-      "dz": 210,
-      "loadDx": 450,
-      "loadDy": 450,
-      "loadDz": 210,
+      "name": "中间容器",
+      "id": "中间容器",
+      "dx": 360,
+      "dy": 360,
+      "dz": 360,
+      "loadDx": 360,
+      "loadDy": 360,
+      "loadDz": 360,
       "step": 0,
       "stack": {
         "placements": [
@@ -18,11 +18,11 @@
             "z": 0,
             "step": 1,
             "stackable": {
-              "id": "NX8193GN#10",
-              "name": "NX8193GN#10",
-              "dx": 410,
-              "dy": 420,
-              "dz": 50,
+              "id": "NX3305ZW#7",
+              "name": "NX3305ZW#7",
+              "dx": 350,
+              "dy": 340,
+              "dz": 60,
               "step": 2,
               "type": "box"
             }
@@ -30,134 +30,135 @@
           {
             "x": 0,
             "y": 0,
-            "z": 50,
+            "z": 60,
             "step": 2,
             "stackable": {
-              "id": "NX3221#5",
-              "name": "NX3221#5",
-              "dx": 330,
-              "dy": 360,
-              "dz": 80,
+              "id": "PREMIUMPAKET#5",
+              "name": "PREMIUMPAKET#5",
+              "dx": 140,
+              "dy": 320,
+              "dz": 90,
               "step": 3,
               "type": "box"
             }
           },
           {
-            "x": 0,
+            "x": 140,
             "y": 0,
-            "z": 130,
+            "z": 60,
             "step": 3,
             "stackable": {
-              "id": "WD4008WEISS#6",
-              "name": "WD4008WEISS#6",
-              "dx": 170,
-              "dy": 180,
-              "dz": 70,
+              "id": "WT493#4",
+              "name": "WT493#4",
+              "dx": 120,
+              "dy": 280,
+              "dz": 120,
               "step": 4,
               "type": "box"
             }
           },
           {
-            "x": 0,
-            "y": 180,
-            "z": 130,
+            "x": 260,
+            "y": 0,
+            "z": 60,
             "step": 4,
             "stackable": {
-              "id": "MA10260#3",
-              "name": "MA10260#3",
-              "dx": 110,
-              "dy": 170,
-              "dz": 60,
+              "id": "MA10430#3",
+              "name": "MA10430#3",
+              "dx": 100,
+              "dy": 200,
+              "dz": 80,
               "step": 5,
               "type": "box"
             }
           },
           {
-            "x": 110,
-            "y": 180,
-            "z": 130,
+            "x": 260,
+            "y": 200,
+            "z": 60,
             "step": 5,
             "stackable": {
-              "id": "TM3280RF#1",
-              "name": "TM3280RF#1",
+              "id": "WS9422#6",
+              "name": "WS9422#6",
               "dx": 100,
-              "dy": 140,
-              "dz": 60,
+              "dy": 160,
+              "dz": 30,
               "step": 6,
               "type": "box"
             }
           },
           {
-            "x": 330,
+            "x": 0,
             "y": 0,
-            "z": 50,
+            "z": 150,
             "step": 6,
             "stackable": {
-              "id": "WT947#8",
-              "name": "WT947#8",
-              "dx": 70,
-              "dy": 110,
-              "dz": 70,
+              "id": "WD1070#2",
+              "name": "WD1070#2",
+              "dx": 120,
+              "dy": 200,
+              "dz": 60,
               "step": 7,
               "type": "box"
             }
           },
           {
-            "x": 170,
-            "y": 0,
-            "z": 130,
+            "x": 0,
+            "y": 200,
+            "z": 150,
             "step": 7,
             "stackable": {
-              "id": "TLDESIGNO#4",
-              "name": "TLDESIGNO#4",
+              "id": "WS9250#1",
+              "name": "WS9250#1",
               "dx": 120,
-              "dy": 170,
-              "dz": 20,
+              "dy": 160,
+              "dz": 70,
               "step": 8,
               "type": "box"
             }
           },
           {
-            "x": 170,
+            "x": 0,
             "y": 0,
-            "z": 150,
+            "z": 210,
             "step": 8,
             "stackable": {
-              "id": "WS9525#9",
-              "name": "WS9525#9",
-              "dx": 90,
-              "dy": 140,
-              "dz": 30,
+              "id": "WS585#8",
+              "name": "WS585#8",
+              "dx": 180,
+              "dy": 170,
+              "dz": 90,
               "step": 9,
               "type": "box"
             }
-          },
-          {
-            "x": 330,
-            "y": 110,
-            "z": 50,
-            "step": 9,
-            "stackable": {
-              "id": "WT171#7",
-              "name": "WT171#7",
-              "dx": 80,
-              "dy": 130,
-              "dz": 30,
-              "step": 10,
-              "type": "box"
-            }
-          },
+          }
+        ]
+      },
+      "type": "container"
+    },
+    {
+      "name": "最大容器",
+      "id": "最大容器",
+      "dx": 450,
+      "dy": 450,
+      "dz": 210,
+      "loadDx": 450,
+      "loadDy": 450,
+      "loadDz": 210,
+      "step": 9,
+      "stack": {
+        "placements": [
           {
             "x": 0,
-            "y": 360,
-            "z": 50,
+            "y": 0,
+            "z": 0,
             "step": 10,
             "stackable": {
-              "id": "WA1050#2",
-              "name": "WA1050#2",
-              "dx": 190,
-              "dy": 50,
-              "dz": 20,
+              "id": "NX3157ZW#9",
+              "name": "NX3157ZW#9",
+              "dx": 390,
+              "dy": 380,
+              "dz": 80,
               "step": 11,
               "type": "box"
             }
