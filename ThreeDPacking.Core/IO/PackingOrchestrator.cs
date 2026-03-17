@@ -17,13 +17,17 @@ namespace ThreeDPacking.Core.IO
 
         private readonly IPackager _plainPackager;
         private readonly IPackager _laffPackager;
+        private readonly IPackager _hybridPackager;
 
         public PackingOrchestrator()
         {
-            //创建两个Packager实例：_plainPackager（3D极端点算法，处理全空间放置）
-            //和_laffPackager（LAFF层级算法，先填层再堆高，强调底面覆盖）
+            //创建三个Packager实例：
+            //_plainPackager（3D极端点算法，处理全空间放置）
+            //_laffPackager（LAFF层级算法，先填层再堆高，强调底面覆盖）
+            //_hybridPackager（混合算法，高度分组+空隙回填，兼顾稳定性和空间利用率）
             _plainPackager = new PlainPackager();
             _laffPackager = new LaffPackager();
+            _hybridPackager = new HybridPackager();
         }
 
         /// <summary>
@@ -208,11 +212,19 @@ namespace ThreeDPacking.Core.IO
             strategies.Add((_laffPackager, false, "Laff-MaxArea_Raw"));
             strategies.Add((_laffPackager, false, "Laff-MaxDim_Raw"));
 
+            // Hybrid packager strategies (高度分组+空隙回填)
+            strategies.Add((_hybridPackager, true, "Hybrid-MaxArea"));
+            strategies.Add((_hybridPackager, true, "Hybrid-MaxVolume"));
+            strategies.Add((_hybridPackager, true, "Hybrid-MaxDim"));
+            strategies.Add((_hybridPackager, false, "Hybrid-MaxArea_Raw"));
+            strategies.Add((_hybridPackager, false, "Hybrid-MaxDim_Raw"));
+
             // Random shuffle strategies
             for (int k = 0; k < RandomTrialCount; k++)
             {
                 strategies.Add((_plainPackager, true, "Plain-Shuffle_" + k));
                 strategies.Add((_laffPackager, true, "Laff-Shuffle_" + k));
+                strategies.Add((_hybridPackager, true, "Hybrid-Shuffle_" + k));
             }
 
             // 并行执行所有策略
