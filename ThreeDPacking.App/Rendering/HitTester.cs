@@ -107,21 +107,33 @@ namespace ThreeDPacking.App.Rendering
                 if (container?.Stack == null) continue;
 
                 var containerOffset = new Vector3(offsetX, 0, 0);
-                var hit = FindHit(rayOrigin, rayDir, container, maxStep, containerOffset);
+                
+                // Find hit within this container with offset
+                Placement hit = null;
+                float hitDist = float.MaxValue;
+                int step = 0;
 
-                if (hit != null)
+                foreach (var p in container.Stack.Placements)
                 {
-                    // Calculate actual distance for comparison
-                    var boxMin = new Vector3(hit.X + offsetX, hit.Z, hit.Y);
-                    var boxMax = new Vector3(hit.AbsoluteEndX + 1 + offsetX, hit.AbsoluteEndZ + 1, hit.AbsoluteEndY + 1);
-                    float dist = RayIntersectsAABB(rayOrigin, rayDir, boxMin, boxMax);
+                    step++;
+                    if (step > maxStep) break;
 
-                    if (dist >= 0 && dist < closestDist)
+                    var boxMin = new Vector3(p.X + containerOffset.X, p.Z + containerOffset.Y, p.Y + containerOffset.Z);
+                    var boxMax = new Vector3(p.AbsoluteEndX + 1 + containerOffset.X, p.AbsoluteEndZ + 1 + containerOffset.Y, p.AbsoluteEndY + 1 + containerOffset.Z);
+
+                    float dist = RayIntersectsAABB(rayOrigin, rayDir, boxMin, boxMax);
+                    if (dist >= 0 && dist < hitDist)
                     {
-                        closestDist = dist;
-                        closest = hit;
-                        hitContainer = container;
+                        hitDist = dist;
+                        hit = p;
                     }
+                }
+
+                if (hit != null && hitDist < closestDist)
+                {
+                    closestDist = hitDist;
+                    closest = hit;
+                    hitContainer = container;
                 }
 
                 // Move next container to the right with spacing (must match PackingRenderer spacing)

@@ -18,70 +18,70 @@
             "z": 0,
             "step": 1,
             "stackable": {
-              "id": "WT8000TI#2",
-              "name": "WT8000TI#2",
-              "dx": 320,
-              "dy": 340,
-              "dz": 60,
+              "id": "WS8130#4",
+              "name": "WS8130#4",
+              "dx": 420,
+              "dy": 180,
+              "dz": 50,
               "step": 2,
               "type": "box"
             }
           },
           {
-            "x": 320,
-            "y": 0,
+            "x": 0,
+            "y": 180,
             "z": 0,
             "step": 2,
             "stackable": {
-              "id": "WS9140#6",
-              "name": "WS9140#6",
-              "dx": 90,
-              "dy": 220,
-              "dz": 60,
+              "id": "WS6810#2",
+              "name": "WS6810#2",
+              "dx": 300,
+              "dy": 170,
+              "dz": 70,
               "step": 3,
               "type": "box"
             }
           },
           {
-            "x": 320,
-            "y": 220,
+            "x": 0,
+            "y": 360,
             "z": 0,
             "step": 3,
             "stackable": {
-              "id": "WS9250#9",
-              "name": "WS9250#9",
-              "dx": 120,
-              "dy": 160,
+              "id": null,
+              "name": null,
+              "dx": 160,
+              "dy": 90,
               "dz": 70,
               "step": 4,
               "type": "box"
             }
           },
           {
-            "x": 0,
-            "y": 340,
+            "x": 240,
+            "y": 360,
             "z": 0,
             "step": 4,
             "stackable": {
-              "id": "BC450#8",
-              "name": "BC450#8",
+              "id": null,
+              "name": null,
               "dx": 160,
               "dy": 90,
-              "dz": 80,
+              "dz": 70,
               "step": 5,
               "type": "box"
             }
           },
           {
-            "x": 160,
-            "y": 340,
+            "x": 300,
+            "y": 180,
             "z": 0,
             "step": 5,
             "stackable": {
-              "id": "WT245SCHWARZ#5",
-              "name": "WT245SCHWARZ#5",
-              "dx": 120,
-              "dy": 90,
+              "id": "MA10200#1",
+              "name": "MA10200#1",
+              "dx": 60,
+              "dy": 140,
               "dz": 40,
               "step": 6,
               "type": "box"
@@ -90,28 +90,28 @@
           {
             "x": 0,
             "y": 0,
-            "z": 60,
+            "z": 50,
             "step": 6,
             "stackable": {
-              "id": "WT489#1",
-              "name": "WT489#1",
-              "dx": 250,
-              "dy": 220,
-              "dz": 80,
+              "id": "GENEVAXXL#3",
+              "name": "GENEVAXXL#3",
+              "dx": 160,
+              "dy": 170,
+              "dz": 100,
               "step": 7,
               "type": "box"
             }
           },
           {
-            "x": 250,
+            "x": 180,
             "y": 0,
-            "z": 60,
+            "z": 50,
             "step": 7,
             "stackable": {
-              "id": "WD4003SILBER#3",
-              "name": "WD4003SILBER#3",
-              "dx": 170,
-              "dy": 200,
+              "id": null,
+              "name": null,
+              "dx": 270,
+              "dy": 160,
               "dz": 70,
               "step": 8,
               "type": "box"
@@ -119,46 +119,106 @@
           },
           {
             "x": 0,
-            "y": 220,
-            "z": 60,
+            "y": 180,
+            "z": 70,
             "step": 8,
             "stackable": {
-              "id": "WT221SILBER-SCHWAR#10",
-              "name": "WT221SILBER-SCHWAR#10",
-              "dx": 80,
-              "dy": 120,
-              "dz": 50,
+              "id": null,
+              "name": null,
+              "dx": 450,
+              "dy": 160,
+              "dz": 70,
               "step": 9,
               "type": "box"
             }
           },
           {
-            "x": 80,
-            "y": 220,
-            "z": 60,
+            "x": 30,
+            "y": 360,
+            "z": 70,
             "step": 9,
             "stackable": {
-              "id": "WT222SCHWARZ#7",
-              "name": "WT222SCHWARZ#7",
-              "dx": 80,
-              "dy": 120,
-              "dz": 50,
+              "id": null,
+              "name": null,
+              "dx": 160,
+              "dy": 90,
+              "dz": 70,
               "step": 10,
               "type": "box"
             }
           },
           {
-            "x": 0,
-            "y": 0,
-            "z": 140,
+            "x": 270,
+            "y": 360,
+            "z": 70,
             "step": 10,
             "stackable": {
-              "id": "WA3010#4",
-              "name": "WA3010#4",
-              "dx": 50,
-              "dy": 270,
-              "dz": 30,
+              "id": null,
+              "name": null,
+              "dx": 160,
+              "dy": 90,
+              "dz": 70,
               "step": 11,
+              "type": "box"
+            }
+          },
+          {
+            "x": 210,
+            "y": 0,
+            "z": 120,
+            "step": 11,
+            "stackable": {
+              "id": null,
+              "name": null,
+              "dx": 240,
+              "dy": 160,
+              "dz": 70,
+              "step": 12,
+              "type": "box"
+            }
+          },
+          {
+            "x": 30,
+            "y": 180,
+            "z": 140,
+            "step": 12,
+            "stackable": {
+              "id": null,
+              "name": null,
+              "dx": 420,
+              "dy": 160,
+              "dz": 70,
+              "step": 13,
+              "type": "box"
+            }
+          },
+          {
+            "x": 60,
+            "y": 360,
+            "z": 140,
+            "step": 13,
+            "stackable": {
+              "id": null,
+              "name": null,
+              "dx": 160,
+              "dy": 90,
+              "dz": 70,
+              "step": 14,
+              "type": "box"
+            }
+          },
+          {
+            "x": 240,
+            "y": 390,
+            "z": 140,
+            "step": 14,
+            "stackable": {
+              "id": null,
+              "name": null,
+              "dx": 160,
+              "dy": 60,
+              "dz": 70,
+              "step": 15,
               "type": "box"
             }
           }

@@ -33,7 +33,12 @@ namespace ThreeDPacking.Core.Models
         {
             int weight = 0;
             foreach (var p in _entries)
+            {
+                // 跳过填充纸（牛皮纸）
+                if (p.IsPadding || p.StackValue?.Box == null)
+                    continue;
                 weight += p.StackValue.Box.Weight;
+            }
             return weight;
         }
         /// <summary>
@@ -44,7 +49,12 @@ namespace ThreeDPacking.Core.Models
         {
             long volume = 0;
             foreach (var p in _entries)
+            {
+                // 跳过填充纸（牛皮纸）
+                if (p.IsPadding || p.StackValue?.Box == null)
+                    continue;
                 volume += p.StackValue.Box.Volume;
+            }
             return volume;
         }
 

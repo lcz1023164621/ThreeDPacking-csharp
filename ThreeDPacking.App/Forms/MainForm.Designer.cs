@@ -37,6 +37,8 @@ namespace ThreeDPacking.App.Forms
             this.colContDz = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.colContWeight = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.colContMaxLoad = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.btnAddContainer = new System.Windows.Forms.Button();
+            this.btnRemoveContainer = new System.Windows.Forms.Button();
             this.lblItems = new System.Windows.Forms.Label();
             this.dgvItems = new System.Windows.Forms.DataGridView();
             this.colItemName = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -192,6 +194,8 @@ namespace ThreeDPacking.App.Forms
             this.panelLeft.AutoScroll = true;
             this.panelLeft.Controls.Add(this.lblContainers);
             this.panelLeft.Controls.Add(this.dgvContainers);
+            this.panelLeft.Controls.Add(this.btnAddContainer);
+            this.panelLeft.Controls.Add(this.btnRemoveContainer);
             this.panelLeft.Controls.Add(this.lblItems);
             this.panelLeft.Controls.Add(this.dgvItems);
             this.panelLeft.Controls.Add(this.grpRandomSelect);
@@ -231,8 +235,28 @@ namespace ThreeDPacking.App.Forms
             this.dgvContainers.Location = new System.Drawing.Point(6, 26);
             this.dgvContainers.Name = "dgvContainers";
             this.dgvContainers.RowHeadersVisible = false;
-            this.dgvContainers.Size = new System.Drawing.Size(356, 111);
+            this.dgvContainers.Size = new System.Drawing.Size(356, 95);
             this.dgvContainers.TabIndex = 1;
+            this.dgvContainers.AllowUserToAddRows = true;
+            this.dgvContainers.AllowUserToDeleteRows = true;
+            // 
+            // btnAddContainer
+            // 
+            this.btnAddContainer.Location = new System.Drawing.Point(6, 125);
+            this.btnAddContainer.Name = "btnAddContainer";
+            this.btnAddContainer.Size = new System.Drawing.Size(75, 23);
+            this.btnAddContainer.TabIndex = 12;
+            this.btnAddContainer.Text = "添加";
+            this.btnAddContainer.UseVisualStyleBackColor = true;
+            // 
+            // btnRemoveContainer
+            // 
+            this.btnRemoveContainer.Location = new System.Drawing.Point(87, 125);
+            this.btnRemoveContainer.Name = "btnRemoveContainer";
+            this.btnRemoveContainer.Size = new System.Drawing.Size(75, 23);
+            this.btnRemoveContainer.TabIndex = 13;
+            this.btnRemoveContainer.Text = "删除";
+            this.btnRemoveContainer.UseVisualStyleBackColor = true;
             // 
             // colContName
             // 
@@ -568,6 +592,8 @@ namespace ThreeDPacking.App.Forms
         private System.Windows.Forms.DataGridViewTextBoxColumn colContDz;
         private System.Windows.Forms.DataGridViewTextBoxColumn colContWeight;
         private System.Windows.Forms.DataGridViewTextBoxColumn colContMaxLoad;
+        private System.Windows.Forms.Button btnAddContainer;
+        private System.Windows.Forms.Button btnRemoveContainer;
 
         private System.Windows.Forms.Label lblItems;
         private System.Windows.Forms.DataGridView dgvItems;

@@ -46,6 +46,8 @@ namespace ThreeDPacking.App.Forms
             menuExit.Click += (s, e) => Close();
             menuStartPacking.Click += MenuStartPacking_Click;
             btnRandomSelect.Click += BtnRandomSelect_Click;
+            btnAddContainer.Click += BtnAddContainer_Click;
+            btnRemoveContainer.Click += BtnRemoveContainer_Click;
 
             glControl.Load += GlControl_Load;
             glControl.Paint += GlControl_Paint;
@@ -77,8 +79,12 @@ namespace ThreeDPacking.App.Forms
             y += 22;
 
             dgvContainers.Location = new Point(6, y);
-            dgvContainers.Size = new Size(w, 120);
-            y += 126;
+            dgvContainers.Size = new Size(w, 95);
+            y += 101;
+
+            btnAddContainer.Location = new Point(6, y);
+            btnRemoveContainer.Location = new Point(87, y);
+            y += 29;
 
             lblItems.Location = new Point(6, y);
             lblItems.Width = w;
@@ -140,6 +146,27 @@ namespace ThreeDPacking.App.Forms
             dgvContainers.Rows.Add("中间容器", "310", "265", "220", "0", "28000");
             dgvContainers.Rows.Add("中间容器", "360", "360", "360", "0", "28000");
             dgvContainers.Rows.Add("最小容器", "160", "120", "185", "0", "28000");
+        }
+
+        private void BtnAddContainer_Click(object sender, EventArgs e)
+        {
+            dgvContainers.Rows.Add("新容器", "300", "200", "150", "0", "28000");
+        }
+
+        private void BtnRemoveContainer_Click(object sender, EventArgs e)
+        {
+            if (dgvContainers.SelectedRows.Count > 0)
+            {
+                foreach (DataGridViewRow row in dgvContainers.SelectedRows)
+                {
+                    if (!row.IsNewRow)
+                        dgvContainers.Rows.Remove(row);
+                }
+            }
+            else if (dgvContainers.CurrentRow != null && !dgvContainers.CurrentRow.IsNewRow)
+            {
+                dgvContainers.Rows.Remove(dgvContainers.CurrentRow);
+            }
         }
 
         #region Menu Handlers
@@ -452,11 +479,18 @@ namespace ThreeDPacking.App.Forms
             _renderer.SelectedPlacement = null;
             lblSelectedInfo.Text = "无";
 
-            int total = container.Stack?.Size ?? 0;
-            trackStep.Maximum = total;
-            trackStep.Value = total;
-            _renderer.CurrentStep = total;
-            lblStepInfo.Text = $"{total} / {total}";
+            // 步骤控制：取所有容器中物品数量的最大值作为滑动条最大值
+            int maxItemCount = 0;
+            foreach (var c in _packedContainers)
+            {
+                int count = c.Stack?.Placements.Count(p => !p.IsPadding) ?? 0;
+                maxItemCount = Math.Max(maxItemCount, count);
+            }
+            
+            trackStep.Maximum = maxItemCount;
+            trackStep.Value = maxItemCount;
+            _renderer.CurrentStep = maxItemCount;
+            lblStepInfo.Text = $"{maxItemCount} / {maxItemCount}";
 
             // Compute utilization for this container
             long cv = container.MaxLoadVolume;
@@ -488,6 +522,8 @@ namespace ThreeDPacking.App.Forms
             int val = trackStep.Value;
             _renderer.CurrentStep = val;
             lblStepInfo.Text = val == 0 ? $"全部 / {total}" : $"{val} / {total}";
+            
+            // 无论单容器还是多容器模式，都需要重绘
             glControl.Invalidate();
         }
 
@@ -621,8 +657,12 @@ namespace ThreeDPacking.App.Forms
             _renderer.SelectedPlacement = hit;
             if (hit != null)
             {
-                string boxId = hit.StackValue.Box?.Id ?? "?";
-                lblSelectedInfo.Text = $"{boxId}\n位置: ({hit.X},{hit.Y},{hit.Z}) 尺寸: {hit.StackValue.Dx}x{hit.StackValue.Dy}x{hit.StackValue.Dz}";
+                string itemName;
+                if (hit.IsPadding)
+                    itemName = "牛皮纸";
+                else
+                    itemName = hit.StackValue.Box?.Id ?? "?";
+                lblSelectedInfo.Text = $"{itemName}\n位置: ({hit.X},{hit.Y},{hit.Z}) 尺寸: {hit.StackValue.Dx}x{hit.StackValue.Dy}x{hit.StackValue.Dz}";
             }
             else
             {

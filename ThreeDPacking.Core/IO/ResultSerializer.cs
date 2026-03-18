@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using Newtonsoft.Json;
 using ThreeDPacking.Core.Models;
 
@@ -33,7 +34,14 @@ namespace ThreeDPacking.Core.IO
 
                 if (container.Stack != null)
                 {
-                    foreach (var p in container.Stack.Placements)
+                    // 按Z坐标排序（从低到高），确保放置顺序从底部开始
+                    var sortedPlacements = container.Stack.Placements
+                        .OrderBy(p => p.Z)
+                        .ThenBy(p => p.X)
+                        .ThenBy(p => p.Y)
+                        .ToList();
+                    
+                    foreach (var p in sortedPlacements)
                     {
                         cd.Stack.Placements.Add(new PlacementData
                         {

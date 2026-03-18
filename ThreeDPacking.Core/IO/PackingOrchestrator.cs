@@ -179,6 +179,16 @@ namespace ThreeDPacking.Core.IO
                     allContainers.Add(r.PackedContainer);
             }
 
+            // 对每个容器填充牛皮纸
+            var hybridPackager = _hybridPackager as HybridPackager;
+            if (hybridPackager != null)
+            {
+                foreach (var container in allContainers)
+                {
+                    hybridPackager.FillWithPaddingPaper(container);
+                }
+            }
+
             return allContainers;
         }
 

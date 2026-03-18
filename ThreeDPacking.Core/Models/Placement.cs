@@ -20,6 +20,11 @@ namespace ThreeDPacking.Core.Models
         /// </summary>
         public BoxItem BoxItem { get; set; }
 
+        /// <summary>
+        /// 标识是否为填充物（如牛皮纸）
+        /// </summary>
+        public bool IsPadding { get; set; }
+
         public Placement() { }
 
         public Placement(BoxStackValue stackValue, int x, int y, int z, BoxItem boxItem)

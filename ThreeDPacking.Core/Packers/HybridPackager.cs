@@ -116,6 +116,8 @@ namespace ThreeDPacking.Core.Packers
                 currentLayer++;
             }
 
+            // 注意：牛皮纸填充由 PackingOrchestrator 统一调用，不在这里处理
+
             return result;
         }
 
@@ -807,6 +809,370 @@ namespace ThreeDPacking.Core.Packers
                 return 0;
 
             return (long)overlapX * overlapY;
+        }
+
+        #endregion
+
+        #region 牛皮纸填充
+
+        /// <summary>
+        /// 用牛皮纸填充空余空间
+        /// 填充策略：
+        /// 1. 最小支撑面积为20%，不需要完全平整的支撑面
+        /// 2. 在不平整表面可以倒斜放置（取区域内最高支撑Z为放置高度）
+        /// 3. 扫描整个容器，以最大效率填充剩余体积
+        /// 4. 先展开底面再堆叠
+        /// 5. **重点**：专门遍历物品顶部空间，确保物品上方也能填充牛皮纸
+        /// </summary>
+        public void FillWithPaddingPaper(Container container)
+        {
+            var stack = container.Stack;
+            if (stack.IsEmpty)
+            {
+                Console.WriteLine($"\n[牛皮纸] 容器 {container.Id} Stack为空，跳过");
+                return;
+            }
+        
+            var itemPlacements = stack.Placements.Where(p => !p.IsPadding).ToList();
+            var paddingPapers = new List<PaddingPaper>();
+            
+            Console.WriteLine($"\n[牛皮纸] 容器: {container.Id} 尺寸: {container.LoadDx}x{container.LoadDy}x{container.LoadDz} 物品: {itemPlacements.Count}个");
+            
+            const float MinSupportRatio = 0.20f; // 最小支撑比例20%
+            int gridStep = Math.Min(PaddingPaper.MinLength, 30);
+            
+            // 多轮扫描，每轮尝试在所有可放位置填充牛皮纸
+            bool addedNew = true;
+            int maxIterations = 30;
+            int iteration = 0;
+            
+            while (addedNew && iteration < maxIterations)
+            {
+                addedNew = false;
+                iteration++;
+                
+                // ==== 策略1：扫描整个XY平面 ====
+                for (int y = 0; y < container.LoadDy; y += gridStep)
+                {
+                    for (int x = 0; x < container.LoadDx; x += gridStep)
+                    {
+                        if (TryPlacePaddingAt(x, y, container, itemPlacements, paddingPapers, MinSupportRatio))
+                            addedNew = true;
+                    }
+                }
+                
+                // ==== 策略2：专门遍历每个物品的顶部，确保物品上方也能填充 ====
+                foreach (var item in itemPlacements)
+                {
+                    // 在物品正上方尝试放置牛皮纸
+                    int topZ = item.AbsoluteEndZ + 1;
+                    if (topZ + PaddingPaper.DefaultHeight > container.LoadDz) continue;
+                    
+                    // 尝试在物品顶部的不同位置放置
+                    int itemEndX = item.AbsoluteEndX;
+                    int itemEndY = item.AbsoluteEndY;
+                    
+                    // 从物品起点开始尝试
+                    if (TryPlacePaddingAtZ(item.X, item.Y, topZ, container, itemPlacements, paddingPapers, MinSupportRatio))
+                        addedNew = true;
+                    
+                    // 也尝试物品中点
+                    int midX = item.X + item.StackValue.Dx / 2;
+                    int midY = item.Y + item.StackValue.Dy / 2;
+                    if (TryPlacePaddingAtZ(midX, midY, topZ, container, itemPlacements, paddingPapers, MinSupportRatio))
+                        addedNew = true;
+                }
+                
+                // ==== 策略3：遍历已放置牛皮纸的顶部，继续堆叠 ====
+                var currentPapers = paddingPapers.ToList();
+                foreach (var paper in currentPapers)
+                {
+                    int topZ = paper.AbsoluteEndZ + 1;
+                    if (topZ + PaddingPaper.DefaultHeight > container.LoadDz) continue;
+                    
+                    if (TryPlacePaddingAtZ(paper.X, paper.Y, topZ, container, itemPlacements, paddingPapers, MinSupportRatio))
+                        addedNew = true;
+                }
+            }
+        
+            PrintPaddingInfo(container, paddingPapers, stack);
+        }
+        
+        /// <summary>
+        /// 尝试在指定XY位置放置牛皮纸（自动计算Z）
+        /// </summary>
+        private bool TryPlacePaddingAt(int x, int y, Container container,
+            List<Placement> itemPlacements, List<PaddingPaper> paddingPapers, float minSupportRatio)
+        {
+            // 计算该区域内的最高支撑Z
+            int placementZ = GetHighestSupportZInArea(
+                x, y, PaddingPaper.DefaultWidth, PaddingPaper.DefaultWidth,
+                itemPlacements, paddingPapers);
+            
+            return TryPlacePaddingAtZ(x, y, placementZ, container, itemPlacements, paddingPapers, minSupportRatio);
+        }
+        
+        /// <summary>
+        /// 尝试在指定XYZ位置放置牛皮纸
+        /// </summary>
+        private bool TryPlacePaddingAtZ(int x, int y, int z, Container container,
+            List<Placement> itemPlacements, List<PaddingPaper> paddingPapers, float minSupportRatio)
+        {
+            if (z >= container.LoadDz) return false;
+            if (z + PaddingPaper.DefaultHeight > container.LoadDz) return false;
+            
+            // 检查该位置是否已被占用
+            if (IsPointOccupiedByItems(x, y, z, itemPlacements) ||
+                IsPointOccupiedByPadding(x, y, z, paddingPapers))
+                return false;
+            
+            // 计算可用空间
+            var (maxDx, maxDy, maxDz) = FindAvailableSpaceAt(
+                x, y, z, container, itemPlacements, paddingPapers);
+            
+            if (maxDx <= 0 || maxDy <= 0 || maxDz < PaddingPaper.DefaultHeight)
+                return false;
+            
+            // 创建候选牛皮纸
+            var paper = PaddingPaper.CreateForSpace(x, y, z, maxDx, maxDy, maxDz);
+            if (paper == null) return false;
+            
+            // 检查支撑比例
+            float supportRatio = GetSupportRatio(paper, itemPlacements, paddingPapers);
+            
+            if (supportRatio >= minSupportRatio &&
+                !HasCollisionWithItems(paper, itemPlacements) &&
+                !HasCollisionWithPaddingOnly(paper, paddingPapers))
+            {
+                paddingPapers.Add(paper);
+                Console.WriteLine($"[牛皮纸] 放置: ({paper.X},{paper.Y},{paper.Z}) 尺寸({paper.Dx}x{paper.Dy}x{paper.Dz}) 支撑比例={supportRatio:P0}");
+                return true;
+            }
+            
+            return false;
+        }
+        
+        /// <summary>
+        /// 获取指定区域内最高的支撑Z坐标（倒斜放置：取区域内最高点为放置基准）
+        /// </summary>
+        private int GetHighestSupportZInArea(int x, int y, int dx, int dy,
+            List<Placement> items, List<PaddingPaper> paddingPapers)
+        {
+            int highestZ = 0; // 地面默认支撑
+            int sampleStep = Math.Max(10, Math.Min(dx, dy) / 3);
+            
+            for (int sy = y; sy < y + dy; sy += sampleStep)
+            {
+                for (int sx = x; sx < x + dx; sx += sampleStep)
+                {
+                    // 找该点的最高支撑面
+                    foreach (var item in items)
+                    {
+                        if (sx >= item.X && sx <= item.AbsoluteEndX &&
+                            sy >= item.Y && sy <= item.AbsoluteEndY)
+                        {
+                            highestZ = Math.Max(highestZ, item.AbsoluteEndZ + 1);
+                        }
+                    }
+                    foreach (var paper in paddingPapers)
+                    {
+                        if (sx >= paper.X && sx <= paper.AbsoluteEndX &&
+                            sy >= paper.Y && sy <= paper.AbsoluteEndY)
+                        {
+                            highestZ = Math.Max(highestZ, paper.AbsoluteEndZ + 1);
+                        }
+                    }
+                }
+            }
+            
+            return highestZ;
+        }
+        
+        /// <summary>
+        /// 计算牛皮纸底面的支撑比例
+        /// 支撑定义：底面某点正下方（z-1）有物品/牛皮纸或在地面（z==0）
+        /// </summary>
+        private float GetSupportRatio(PaddingPaper paper,
+            List<Placement> items, List<PaddingPaper> paddingPapers)
+        {
+            if (paper.Z == 0) return 1.0f; // 地面完全支撑
+            
+            int sampleCount = 0;
+            int supportedCount = 0;
+            int sampleStep = Math.Max(10, Math.Min(paper.Dx, paper.Dy) / 4);
+            
+            for (int sy = paper.Y; sy <= paper.AbsoluteEndY; sy += sampleStep)
+            {
+                for (int sx = paper.X; sx <= paper.AbsoluteEndX; sx += sampleStep)
+                {
+                    sampleCount++;
+                    int checkZ = paper.Z - 1;
+                    
+                    if (IsPointOccupiedByItems(sx, sy, checkZ, items) ||
+                        IsPointOccupiedByPadding(sx, sy, checkZ, paddingPapers))
+                    {
+                        supportedCount++;
+                    }
+                }
+            }
+            
+            return sampleCount > 0 ? (float)supportedCount / sampleCount : 0f;
+        }
+        
+        /// <summary>
+        /// 打印填充信息
+        /// </summary>
+        private void PrintPaddingInfo(Container container, List<PaddingPaper> paddingPapers, PackStack stack)
+        {
+            Console.WriteLine($"\n===== 牛皮纸填充信息 =====");
+            Console.WriteLine($"容器: {container.Id} ({container.LoadDx}x{container.LoadDy}x{container.LoadDz})");
+            Console.WriteLine($"填充纸数量: {paddingPapers.Count}");
+            
+            if (paddingPapers.Count > 0)
+            {
+                Console.WriteLine();
+                long totalPaddingVolume = 0;
+                foreach (var paper in paddingPapers)
+                {
+                    Console.WriteLine($"  填充纸: 位置({paper.X}, {paper.Y}, {paper.Z}) 尺寸({paper.Dx} x {paper.Dy} x {paper.Dz})");
+                    totalPaddingVolume += paper.Volume;
+                }
+                Console.WriteLine($"\n填充纸总体积: {totalPaddingVolume}");
+                Console.WriteLine($"========================\n");
+        
+                // 添加到Stack中用于渲染
+                foreach (var paper in paddingPapers)
+                {
+                    stack.Placements.Add(paper.ToPlacement());
+                }
+            }
+            else
+            {
+                Console.WriteLine($"没有生成任何填充纸\n========================\n");
+            }
+        }
+        
+        /// <summary>
+        /// 检查指定点是否被物品占用
+        /// </summary>
+        private bool IsPointOccupiedByItems(int x, int y, int z, List<Placement> items)
+        {
+            foreach (var item in items)
+            {
+                if (x >= item.X && x <= item.AbsoluteEndX &&
+                    y >= item.Y && y <= item.AbsoluteEndY &&
+                    z >= item.Z && z <= item.AbsoluteEndZ)
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
+        
+        /// <summary>
+        /// 检查填充纸是否与物品碰撞
+        /// </summary>
+        private bool HasCollisionWithItems(PaddingPaper paper, List<Placement> items)
+        {
+            foreach (var item in items)
+            {
+                if (paper.Intersects3D(item))
+                    return true;
+            }
+            return false;
+        }
+        
+        /// <summary>
+        /// 查找从指定点开始的可用空间（考虑物品和填充纸）
+        /// </summary>
+        private (int maxDx, int maxDy, int maxDz) FindAvailableSpaceAt(
+            int startX, int startY, int startZ,
+            Container container, List<Placement> items, List<PaddingPaper> paddingPapers)
+        {
+            int maxX = container.LoadDx;
+            int maxY = container.LoadDy;
+            int maxZ = container.LoadDz;
+        
+            // 检查物品的限制
+            foreach (var item in items)
+            {
+                // X方向限制
+                if (startY <= item.AbsoluteEndY && item.Y <= maxY &&
+                    startZ <= item.AbsoluteEndZ && item.Z <= maxZ)
+                {
+                    if (item.X > startX && item.X < maxX)
+                        maxX = item.X;
+                }
+                // Y方向限制
+                if (startX <= item.AbsoluteEndX && item.X <= maxX &&
+                    startZ <= item.AbsoluteEndZ && item.Z <= maxZ)
+                {
+                    if (item.Y > startY && item.Y < maxY)
+                        maxY = item.Y;
+                }
+                // Z方向限制
+                if (startX <= item.AbsoluteEndX && item.X <= maxX &&
+                    startY <= item.AbsoluteEndY && item.Y <= maxY)
+                {
+                    if (item.Z > startZ && item.Z < maxZ)
+                        maxZ = item.Z;
+                }
+            }
+        
+            // 检查已有填充纸的限制
+            foreach (var paper in paddingPapers)
+            {
+                if (startY <= paper.AbsoluteEndY && paper.Y <= maxY &&
+                    startZ <= paper.AbsoluteEndZ && paper.Z <= maxZ)
+                {
+                    if (paper.X > startX && paper.X < maxX)
+                        maxX = paper.X;
+                }
+                if (startX <= paper.AbsoluteEndX && paper.X <= maxX &&
+                    startZ <= paper.AbsoluteEndZ && paper.Z <= maxZ)
+                {
+                    if (paper.Y > startY && paper.Y < maxY)
+                        maxY = paper.Y;
+                }
+                if (startX <= paper.AbsoluteEndX && paper.X <= maxX &&
+                    startY <= paper.AbsoluteEndY && paper.Y <= maxY)
+                {
+                    if (paper.Z > startZ && paper.Z < maxZ)
+                        maxZ = paper.Z;
+                }
+            }
+        
+            return (maxX - startX, maxY - startY, maxZ - startZ);
+        }
+        
+        /// <summary>
+        /// 检查指定点是否被填充纸占用
+        /// </summary>
+        private bool IsPointOccupiedByPadding(int x, int y, int z, List<PaddingPaper> paddingPapers)
+        {
+            foreach (var paper in paddingPapers)
+            {
+                if (x >= paper.X && x <= paper.AbsoluteEndX &&
+                    y >= paper.Y && y <= paper.AbsoluteEndY &&
+                    z >= paper.Z && z <= paper.AbsoluteEndZ)
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
+        
+        /// <summary>
+        /// 检查填充纸是否与其他填充纸碰撞
+        /// </summary>
+        private bool HasCollisionWithPaddingOnly(PaddingPaper paper, List<PaddingPaper> existingPapers)
+        {
+            foreach (var existing in existingPapers)
+            {
+                if (paper.Intersects3D(existing))
+                    return true;
+            }
+            return false;
         }
 
         #endregion
