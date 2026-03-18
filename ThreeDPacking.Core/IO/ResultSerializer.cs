@@ -34,14 +34,23 @@ namespace ThreeDPacking.Core.IO
 
                 if (container.Stack != null)
                 {
+                    // 分离物品和牛皮纸
+                    var itemPlacements = container.Stack.Placements
+                        .Where(p => !p.IsPadding)
+                        .ToList();
+                    var paddingPlacements = container.Stack.Placements
+                        .Where(p => p.IsPadding)
+                        .ToList();
+                    
                     // 按Z坐标排序（从低到高），确保放置顺序从底部开始
-                    var sortedPlacements = container.Stack.Placements
+                    var sortedItemPlacements = itemPlacements
                         .OrderBy(p => p.Z)
                         .ThenBy(p => p.X)
                         .ThenBy(p => p.Y)
                         .ToList();
                     
-                    foreach (var p in sortedPlacements)
+                    // 先序列化所有物品，分配递增的step
+                    foreach (var p in sortedItemPlacements)
                     {
                         cd.Stack.Placements.Add(new PlacementData
                         {
@@ -56,10 +65,38 @@ namespace ThreeDPacking.Core.IO
                                 Dx = p.StackValue.Dx,
                                 Dy = p.StackValue.Dy,
                                 Dz = p.StackValue.Dz,
-                                Step = step,
+                                Step = step - 1,
                                 Type = "box"
                             }
                         });
+                    }
+                    
+                    // 牛皮纸显示时序规范：所有物品显示完毕后，在下一个步骤统一显示牛皮纸
+                    // 所有牛皮纸使用同一个step（在所有物品之后的下一步）
+                    if (paddingPlacements.Count > 0)
+                    {
+                        int paddingStep = step + 1; // 牛皮纸在下一步显示，不是当前步
+                        step = paddingStep + 1; // 更新step为牛皮纸之后的值
+                        foreach (var p in paddingPlacements)
+                        {
+                            cd.Stack.Placements.Add(new PlacementData
+                            {
+                                X = p.X,
+                                Y = p.Y,
+                                Z = p.Z,
+                                Step = paddingStep,
+                                Stackable = new StackableData
+                                {
+                                    Id = "padding_paper",
+                                    Name = "PaddingPaper",
+                                    Dx = p.StackValue.Dx,
+                                    Dy = p.StackValue.Dy,
+                                    Dz = p.StackValue.Dz,
+                                    Step = paddingStep,
+                                    Type = "padding"
+                                }
+                            });
+                        }
                     }
                 }
 

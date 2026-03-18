@@ -176,9 +176,10 @@ namespace ThreeDPacking.App.Rendering
                 DrawBox(p, isSelected);
             }
 
-            // 当全局步骤值达到或超过该容器的物品总数时，才显示该容器的填充纸
+            // 牛皮纸显示时序规范：所有物品显示完毕后的下一步才显示牛皮纸
             // _currentStep == 0 表示显示全部，此时也应该显示填充纸
-            if (_currentStep == 0 || _currentStep >= itemCount)
+            // _currentStep > itemCount 表示已超过物品步骤，进入牛皮纸显示步骤
+            if (_currentStep == 0 || _currentStep > itemCount)
             {
                 System.Diagnostics.Debug.WriteLine($"[Renderer] Drawing {paddings.Count} padding papers (CurrentStep: {_currentStep}, ItemCount: {itemCount})");
                 foreach (var p in paddings)
