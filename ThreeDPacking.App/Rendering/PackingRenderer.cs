@@ -147,47 +147,36 @@ namespace ThreeDPacking.App.Rendering
         {
             if (container.Stack == null) return;
 
-            // 分离物品和填充纸
-            var items = new List<Placement>();
-            var paddings = new List<Placement>();
-            
-            foreach (var p in container.Stack.Placements)
+            // 按装箱步骤顺序显示：每个 placement（物体或牛皮纸）算一个步骤。
+            // 目标排序：
+            //  - Z 从小到大
+            //  - 同 Z 时：牛皮纸先于物品
+            //  - 再按 X、Y（保证稳定确定的顺序）
+            var orderedPlacements = new List<Placement>(container.Stack.Placements);
+            orderedPlacements.Sort((a, b) =>
             {
-                if (p.IsPadding)
-                    paddings.Add(p);
-                else
-                    items.Add(p);
-            }
-            
-            // 调试输出
-            System.Diagnostics.Debug.WriteLine($"[Renderer] Container: {container.Id}, Total Placements: {container.Stack.Placements.Count}, Items: {items.Count}, Paddings: {paddings.Count}");
+                int c = a.Z.CompareTo(b.Z);
+                if (c != 0) return c;
 
-            // 按步骤显示物品（_currentStep 控制物品显示数量，但不超过当前容器的物品数）
-            int itemCount = items.Count;
-            // _currentStep 是全局步骤值，每个容器显示 min(_currentStep, 该容器物品数)
-            int displayCount = (_currentStep == 0) ? itemCount : Math.Min(_currentStep, itemCount);
-            
-            System.Diagnostics.Debug.WriteLine($"[Renderer] CurrentStep: {_currentStep}, ItemCount: {itemCount}, DisplayCount: {displayCount}");
-            
-            for (int i = 0; i < displayCount; i++)
+                bool aPad = a.IsPadding;
+                bool bPad = b.IsPadding;
+                // 同 Z：物体优先于牛皮纸
+                if (aPad != bPad) return aPad ? 1 : -1; // padding 在后
+
+                c = a.X.CompareTo(b.X);
+                if (c != 0) return c;
+                return a.Y.CompareTo(b.Y);
+            });
+
+            int visibleCount = (_currentStep == 0)
+                ? orderedPlacements.Count
+                : Math.Min(_currentStep, orderedPlacements.Count);
+
+            for (int i = 0; i < visibleCount; i++)
             {
-                var p = items[i];
+                var p = orderedPlacements[i];
                 bool isSelected = p == _selectedPlacement;
                 DrawBox(p, isSelected);
-            }
-
-            // 牛皮纸显示时序规范：所有物品显示完毕后的下一步才显示牛皮纸
-            // _currentStep == 0 表示显示全部，此时也应该显示填充纸
-            // _currentStep > itemCount 表示已超过物品步骤，进入牛皮纸显示步骤
-            if (_currentStep == 0 || _currentStep > itemCount)
-            {
-                System.Diagnostics.Debug.WriteLine($"[Renderer] Drawing {paddings.Count} padding papers (CurrentStep: {_currentStep}, ItemCount: {itemCount})");
-                foreach (var p in paddings)
-                {
-                    bool isSelected = p == _selectedPlacement;
-                    System.Diagnostics.Debug.WriteLine($"[Renderer] Drawing padding at ({p.X},{p.Y},{p.Z}) size {p.StackValue.Dx}x{p.StackValue.Dy}x{p.StackValue.Dz}");
-                    DrawBox(p, isSelected);
-                }
             }
         }
 

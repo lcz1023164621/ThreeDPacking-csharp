@@ -54,6 +54,10 @@ namespace ThreeDPacking.Unity
         public float placementSpeed = 2f;
         [Tooltip("顺序放置间隔（秒）")]
         public float placementInterval = 0.5f;
+
+        [Header("填充纸时序")]
+        [Tooltip("在所有物品落位后，再创建牛皮纸的额外等待时间（秒）")]
+        public float paddingPlacementDelay = 1.0f;
         
         [Header("容器物理设置")]
         [Tooltip("创建带碰撞器的实体容器（而非仅可视化）")]
@@ -219,11 +223,48 @@ namespace ThreeDPacking.Unity
         /// </summary>
         System.Collections.IEnumerator PlaceBoxesSequentially(ContainerData container, float offsetX)
         {
-            foreach (var placement in container.stack.placements)
+            if (container == null || container.stack == null || container.stack.placements == null)
+                yield break;
+
+            // 按装箱步骤时序放置：每个 placement（物体或牛皮纸）都有一步展示/放置
+            // 规则：Z 从小到大；同 Z 时牛皮纸先于物品；再按 X、Y 做稳定排序。
+            var orderedPlacements = new List<PlacementData>(container.stack.placements);
+            orderedPlacements.Sort((a, b) =>
             {
-                CreateBoxWithRobotArm(placement, container, offsetX);
-                
-                // 等待放置间隔
+                if (a == null || a.stackable == null) return 1;
+                if (b == null || b.stackable == null) return -1;
+
+                int c = a.z.CompareTo(b.z);
+                if (c != 0) return c;
+
+                bool aPad = a.stackable.type == "padding";
+                bool bPad = b.stackable.type == "padding";
+                // 同 z：物体优先于牛皮纸
+                if (aPad != bPad) return aPad ? 1 : -1; // padding 在后
+
+                c = a.x.CompareTo(b.x);
+                if (c != 0) return c;
+                return a.y.CompareTo(b.y);
+            });
+
+            foreach (var placement in orderedPlacements)
+            {
+                if (placement == null || placement.stackable == null) continue;
+
+                // padding：不走机械臂动画，直接放最终位置
+                if (placement.stackable.type == "padding")
+                {
+                    CreateBox(placement, container, offsetX);
+                    yield return new WaitForSeconds(placementInterval);
+                    continue;
+                }
+
+                // 非 padding：机械臂放置并等待控制器完成
+                var controller = CreateBoxWithRobotArm(placement, container, offsetX);
+                if (controller != null)
+                    yield return new WaitUntil(() => controller == null);
+
+                // 给物理一点时间继续结算（尤其是 enableGravity 打开时）
                 yield return new WaitForSeconds(placementInterval);
             }
             
@@ -467,17 +508,17 @@ namespace ThreeDPacking.Unity
         /// <summary>
         /// 使用机械臂方式创建箱子（从高处平稳下落到JSON指定位置）
         /// </summary>
-        void CreateBoxWithRobotArm(PlacementData placement, ContainerData container, float offsetX)
+        RobotArmPlacementController CreateBoxWithRobotArm(PlacementData placement, ContainerData container, float offsetX)
         {
             // 从stackable获取物品信息
             var stackable = placement.stackable;
-            if (stackable == null) return;
+            if (stackable == null) return null;
 
             // 牛皮纸：不走机械臂动画，直接放到最终位置
             if (stackable.type == "padding")
             {
                 CreateBox(placement, container, offsetX);
-                return;
+                return null;
             }
 
             GameObject box = GameObject.CreatePrimitive(PrimitiveType.Cube);
@@ -541,6 +582,8 @@ namespace ThreeDPacking.Unity
             Debug.Log($"[PackingLoader] 机械臂放置箱子 {box.name} 从 {startPosition.y:F2}m 到目标 {targetPosition.y:F2}m");
 
             _placedBoxes.Add(box);
+
+            return controller;
         }
 
         /// <summary>

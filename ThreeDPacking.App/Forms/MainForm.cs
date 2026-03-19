@@ -479,18 +479,16 @@ namespace ThreeDPacking.App.Forms
             _renderer.SelectedPlacement = null;
             lblSelectedInfo.Text = "无";
 
-            // 步骤控制：取所有容器中物品数量的最大值作为滑动条最大值
-            int maxItemCount = 0;
+            // 步骤控制语义：每个 placement（物体或牛皮纸）都算一个步骤
+            // 因此滑动条最大值取所有容器 placements 总数的最大值。
+            int maxPlacementCount = 0;
             foreach (var c in _packedContainers)
             {
-                int count = c.Stack?.Placements.Count(p => !p.IsPadding) ?? 0;
-                maxItemCount = Math.Max(maxItemCount, count);
+                int count = c.Stack?.Placements?.Count ?? 0;
+                maxPlacementCount = Math.Max(maxPlacementCount, count);
             }
 
-            // 牛皮纸显示规则：所有物品显示完毕后的“下一步”才显示牛皮纸
-            // PackingRenderer 中判断条件是 CurrentStep > itemCount 才绘制 padding
-            // 因此这里把总步数定义为：物品步数 + 1（牛皮纸步）
-            int totalSteps = maxItemCount + 1;
+            int totalSteps = maxPlacementCount;
             trackStep.Maximum = totalSteps;
             trackStep.Value = totalSteps;           // 默认直接显示到最后一步（包含牛皮纸）
             _renderer.CurrentStep = totalSteps;
@@ -645,26 +643,10 @@ namespace ThreeDPacking.App.Forms
             Vector3 rayOrigin, rayDir;
             Unproject(e.X, e.Y, w, h, projection, view, out rayOrigin, out rayDir);
 
-            // 点击检测：需要与渲染可见范围一致。渲染在 CurrentStep > 物品数 时显示全部牛皮纸，
-            // 但 HitTester 按“前 maxStep 个 placement”截断，牛皮纸在列表末尾，若 maxStep 只取物品数+1 则只能点到第一张牛皮纸。
-            int maxStepForHit = _renderer.CurrentStep > 0 ? _renderer.CurrentStep : int.MaxValue;
-            var containersForHit = _renderer.Containers?.Count > 0 ? _renderer.Containers : (_renderer.Container != null ? new List<Container> { _renderer.Container } : null);
-            if (containersForHit != null && maxStepForHit != int.MaxValue)
-            {
-                int maxItemCount = 0;
-                int maxPlacementCount = 0;
-                foreach (var c in containersForHit)
-                {
-                    if (c?.Stack?.Placements == null) continue;
-                    int items = c.Stack.Placements.Count(p => !p.IsPadding);
-                    maxItemCount = Math.Max(maxItemCount, items);
-                    maxPlacementCount = Math.Max(maxPlacementCount, c.Stack.Placements.Count);
-                }
-                // 当前为“显示牛皮纸”步时，应能点到所有已显示的 placement（含所有牛皮纸）
-                if (maxStepForHit > maxItemCount)
-                    maxStepForHit = maxPlacementCount;
-            }
-            int maxStep = maxStepForHit;
+            // 点击检测：maxStep 直接复用渲染当前的 step 语义
+            // - CurrentStep=0 表示显示全部
+            // - CurrentStep>0 表示按“Z升序（同Z padding优先）”显示前 maxStep 个 placement
+            int maxStep = _renderer.CurrentStep;
 
             // Use multi-container hit testing if multiple containers are displayed
             Placement hit;

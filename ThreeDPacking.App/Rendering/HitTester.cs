@@ -69,13 +69,31 @@ namespace ThreeDPacking.App.Rendering
 
             Placement closest = null;
             float closestDist = float.MaxValue;
-            int step = 0;
 
-            foreach (var p in container.Stack.Placements)
+            // 与 PackingRenderer 的可见顺序一致：
+            //  - Z 从小到大
+            //  - 同 Z 时牛皮纸先于物品
+            //  - 再按 X、Y 进入稳定次序
+            var orderedPlacements = new List<Placement>(container.Stack.Placements);
+            orderedPlacements.Sort((a, b) =>
             {
-                step++;
-                if (step > maxStep) break;
+                int c = a.Z.CompareTo(b.Z);
+                if (c != 0) return c;
 
+                bool aPad = a.IsPadding;
+                bool bPad = b.IsPadding;
+                // 同 Z：物体优先于牛皮纸
+                if (aPad != bPad) return aPad ? 1 : -1; // padding 在后
+
+                c = a.X.CompareTo(b.X);
+                if (c != 0) return c;
+                return a.Y.CompareTo(b.Y);
+            });
+
+            int stepLimit = maxStep == 0 ? orderedPlacements.Count : Math.Min(maxStep, orderedPlacements.Count);
+            for (int i = 0; i < stepLimit; i++)
+            {
+                var p = orderedPlacements[i];
                 var boxMin = new Vector3(p.X + containerOffset.X, p.Z + containerOffset.Y, p.Y + containerOffset.Z);
                 var boxMax = new Vector3(p.AbsoluteEndX + 1 + containerOffset.X, p.AbsoluteEndZ + 1 + containerOffset.Y, p.AbsoluteEndY + 1 + containerOffset.Z);
 
@@ -111,13 +129,30 @@ namespace ThreeDPacking.App.Rendering
                 // Find hit within this container with offset
                 Placement hit = null;
                 float hitDist = float.MaxValue;
-                int step = 0;
 
-                foreach (var p in container.Stack.Placements)
+                // 与 PackingRenderer 的可见顺序一致：
+                //  - Z 从小到大
+                //  - 同 Z 时牛皮纸先于物品
+                //  - 再按 X、Y 进入稳定次序
+                var orderedPlacements = new List<Placement>(container.Stack.Placements);
+                orderedPlacements.Sort((a, b) =>
                 {
-                    step++;
-                    if (step > maxStep) break;
+                    int c = a.Z.CompareTo(b.Z);
+                    if (c != 0) return c;
 
+                    bool aPad = a.IsPadding;
+                    bool bPad = b.IsPadding;
+                    if (aPad != bPad) return aPad ? -1 : 1;
+
+                    c = a.X.CompareTo(b.X);
+                    if (c != 0) return c;
+                    return a.Y.CompareTo(b.Y);
+                });
+
+                int stepLimit = maxStep == 0 ? orderedPlacements.Count : Math.Min(maxStep, orderedPlacements.Count);
+                for (int i = 0; i < stepLimit; i++)
+                {
+                    var p = orderedPlacements[i];
                     var boxMin = new Vector3(p.X + containerOffset.X, p.Z + containerOffset.Y, p.Y + containerOffset.Z);
                     var boxMax = new Vector3(p.AbsoluteEndX + 1 + containerOffset.X, p.AbsoluteEndZ + 1 + containerOffset.Y, p.AbsoluteEndY + 1 + containerOffset.Z);
 
@@ -141,6 +176,24 @@ namespace ThreeDPacking.App.Rendering
             }
 
             return closest;
+        }
+
+        private static void TryHit(
+            Placement p,
+            ref Placement hit,
+            ref float hitDist,
+            Vector3 rayOrigin,
+            Vector3 rayDir,
+            Vector3 containerOffset)
+        {
+            var boxMin = new Vector3(p.X + containerOffset.X, p.Z + containerOffset.Y, p.Y + containerOffset.Z);
+            var boxMax = new Vector3(p.AbsoluteEndX + 1 + containerOffset.X, p.AbsoluteEndZ + 1 + containerOffset.Y, p.AbsoluteEndY + 1 + containerOffset.Z);
+            float dist = RayIntersectsAABB(rayOrigin, rayDir, boxMin, boxMax);
+            if (dist >= 0 && dist < hitDist)
+            {
+                hitDist = dist;
+                hit = p;
+            }
         }
     }
 }
