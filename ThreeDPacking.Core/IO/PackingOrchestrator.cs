@@ -203,41 +203,41 @@ namespace ThreeDPacking.Core.IO
             var attempts = new ConcurrentBag<PackingAttemptResult>();
 
             // 定义所有策略
-            var strategies = new List<(IPackager packager, bool forceFlat, string strategyName)>();
+            var strategies = new List<(IPackager packager, string strategyName)>();
 
             // Plain packager strategies
-            strategies.Add((_plainPackager, true, "Plain-MaxArea"));
-            strategies.Add((_plainPackager, true, "Plain-MaxVolume"));
-            strategies.Add((_plainPackager, true, "Plain-MaxDim"));
-            strategies.Add((_plainPackager, false, "Plain-MaxArea_Raw"));
-            strategies.Add((_plainPackager, false, "Plain-MaxDim_Raw"));
+            strategies.Add((_plainPackager, "Plain-MaxArea"));
+            strategies.Add((_plainPackager, "Plain-MaxVolume"));
+            strategies.Add((_plainPackager, "Plain-MaxDim"));
+            strategies.Add((_plainPackager, "Plain-MaxArea_Raw"));
+            strategies.Add((_plainPackager, "Plain-MaxDim_Raw"));
 
             // LAFF packager strategies
-            strategies.Add((_laffPackager, true, "Laff-MaxArea"));
-            strategies.Add((_laffPackager, true, "Laff-MaxVolume"));
-            strategies.Add((_laffPackager, true, "Laff-MaxDim"));
-            strategies.Add((_laffPackager, false, "Laff-MaxArea_Raw"));
-            strategies.Add((_laffPackager, false, "Laff-MaxDim_Raw"));
+            strategies.Add((_laffPackager, "Laff-MaxArea"));
+            strategies.Add((_laffPackager, "Laff-MaxVolume"));
+            strategies.Add((_laffPackager, "Laff-MaxDim"));
+            strategies.Add((_laffPackager, "Laff-MaxArea_Raw"));
+            strategies.Add((_laffPackager, "Laff-MaxDim_Raw"));
 
             // Hybrid packager strategies (高度分组+空隙回填)
-            strategies.Add((_hybridPackager, true, "Hybrid-MaxArea"));
-            strategies.Add((_hybridPackager, true, "Hybrid-MaxVolume"));
-            strategies.Add((_hybridPackager, true, "Hybrid-MaxDim"));
-            strategies.Add((_hybridPackager, false, "Hybrid-MaxArea_Raw"));
-            strategies.Add((_hybridPackager, false, "Hybrid-MaxDim_Raw"));
+            strategies.Add((_hybridPackager, "Hybrid-MaxArea"));
+            strategies.Add((_hybridPackager, "Hybrid-MaxVolume"));
+            strategies.Add((_hybridPackager, "Hybrid-MaxDim"));
+            strategies.Add((_hybridPackager, "Hybrid-MaxArea_Raw"));
+            strategies.Add((_hybridPackager, "Hybrid-MaxDim_Raw"));
 
             // Random shuffle strategies
             for (int k = 0; k < RandomTrialCount; k++)
             {
-                strategies.Add((_plainPackager, true, "Plain-Shuffle_" + k));
-                strategies.Add((_laffPackager, true, "Laff-Shuffle_" + k));
-                strategies.Add((_hybridPackager, true, "Hybrid-Shuffle_" + k));
+                strategies.Add((_plainPackager, "Plain-Shuffle_" + k));
+                strategies.Add((_laffPackager, "Laff-Shuffle_" + k));
+                strategies.Add((_hybridPackager, "Hybrid-Shuffle_" + k));
             }
 
             // 并行执行所有策略
             Parallel.ForEach(strategies, strategy =>
             {
-                var result = PackWithStrategy(items, candidate, strategy.packager, strategy.forceFlat, strategy.strategyName, randomSeed);
+                var result = PackWithStrategy(items, candidate, strategy.packager, strategy.strategyName, randomSeed);
                 if (result != null && result.PackedCount > 0)
                 {
                     attempts.Add(result);
@@ -259,7 +259,6 @@ namespace ThreeDPacking.Core.IO
             List<ItemCandidate> items,
             ContainerCandidate candidate,
             IPackager packager,
-            bool forceFlat,
             string strategyName,
             long randomSeed)
         {
@@ -274,17 +273,16 @@ namespace ThreeDPacking.Core.IO
             else if (strategyName.Contains("Shuffle"))
                 Shuffle(sortedItems, randomSeed + strategyName.GetHashCode() + candidate.Volume);
 
-            return PackIntoContainer(sortedItems, candidate, packager, forceFlat, strategyName);
+            return PackIntoContainer(sortedItems, candidate, packager, strategyName);
         }
 
         private PackingAttemptResult PackIntoContainer(
             List<ItemCandidate> items,
             ContainerCandidate candidate,
             IPackager packager,
-            bool forceFlat,
             string strategyName)
         {
-            var products = BuildProducts(items, forceFlat);
+            var products = BuildProducts(items);
             var container = new Container(
                 candidate.Name, candidate.Name,
                 candidate.Dx, candidate.Dy, candidate.Dz,
@@ -342,7 +340,7 @@ namespace ThreeDPacking.Core.IO
             return new PackingAttemptResult(packedContainer, candidate, packedVolume, utilization, packedItems, strategyName);
         }
 
-        private List<BoxItem> BuildProducts(List<ItemCandidate> items, bool forceFlat)
+        private List<BoxItem> BuildProducts(List<ItemCandidate> items)
         {
             var products = new List<BoxItem>();
             foreach (var item in items)
@@ -434,99 +432,6 @@ namespace ThreeDPacking.Core.IO
                 list[i] = list[j];
                 list[j] = temp;
             }
-        }
-
-        /// <summary>
-        /// 强制将剩余物品装入容器（当正常装箱失败时使用）
-        /// 尝试装入尽可能多的物品，不考虑最优利用率
-        /// </summary>
-        private PackingAttemptResult ForcePackIntoContainer(
-            List<ItemCandidate> items,
-            ContainerCandidate candidate)
-        {
-            if (items.Count == 0) return null;
-
-            // 尝试使用PlainPackager装入物品
-            var products = BuildProducts(items, false);
-            var container = new Container(
-                candidate.Name, candidate.Name,
-                candidate.Dx, candidate.Dy, candidate.Dz,
-                candidate.EmptyWeight, candidate.MaxLoadWeight);
-
-            Container packedContainer = _plainPackager.Pack(products, container);
-
-            if (packedContainer == null || packedContainer.Stack.IsEmpty)
-            {
-                // 如果PlainPackager也失败，尝试LAFF
-                packedContainer = _laffPackager.Pack(products, container);
-            }
-
-            if (packedContainer == null || packedContainer.Stack.IsEmpty)
-            {
-                // 如果都失败，至少尝试装入第一个能装下的物品
-                foreach (var item in items)
-                {
-                    if (item.Dx <= candidate.Dx && item.Dy <= candidate.Dy && item.Dz <= candidate.Dz)
-                    {
-                        var singleProduct = BuildProducts(new List<ItemCandidate> { item }, false);
-                        packedContainer = _plainPackager.Pack(singleProduct, container);
-                        if (packedContainer != null && !packedContainer.Stack.IsEmpty)
-                        {
-                            break;
-                        }
-                    }
-                }
-            }
-
-            if (packedContainer == null || packedContainer.Stack.IsEmpty)
-                return null;
-
-            // 匹配已装箱的物品
-            var packedItems = new List<ItemCandidate>();
-            var matchedInstanceIds = new HashSet<int>();
-            int unmatchedPlacements = 0;
-
-            foreach (var p in packedContainer.Stack.Placements)
-            {
-                string id = p.StackValue.Box?.Id;
-                if (id == null) 
-                {
-                    unmatchedPlacements++;
-                    continue;
-                }
-
-                bool matched = false;
-                foreach (var item in items)
-                {
-                    string itemId = item.Name + "#" + item.InstanceId;
-                    if (itemId == id && !matchedInstanceIds.Contains(item.InstanceId))
-                    {
-                        packedItems.Add(item);
-                        matchedInstanceIds.Add(item.InstanceId);
-                        matched = true;
-                        break;
-                    }
-                }
-                
-                if (!matched)
-                {
-                    unmatchedPlacements++;
-                }
-            }
-
-            // 验证：确保所有Placement都被正确匹配
-            if (unmatchedPlacements > 0)
-            {
-                Console.WriteLine($"Warning: {unmatchedPlacements} placements could not be matched to items in ForcePack");
-            }
-
-            if (packedItems.Count == 0)
-                return null;
-
-            long packedVolume = CalcItemsVolume(packedItems);
-            double utilization = candidate.Volume > 0 ? (double)packedVolume / candidate.Volume : 0;
-
-            return new PackingAttemptResult(packedContainer, candidate, packedVolume, utilization, packedItems, "ForcePack");
         }
 
         /// <summary>

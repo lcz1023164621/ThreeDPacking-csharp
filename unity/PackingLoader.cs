@@ -54,10 +54,6 @@ namespace ThreeDPacking.Unity
         public float placementSpeed = 2f;
         [Tooltip("顺序放置间隔（秒）")]
         public float placementInterval = 0.5f;
-
-        [Header("填充纸时序")]
-        [Tooltip("在所有物品落位后，再创建牛皮纸的额外等待时间（秒）")]
-        public float paddingPlacementDelay = 1.0f;
         
         [Header("容器物理设置")]
         [Tooltip("创建带碰撞器的实体容器（而非仅可视化）")]
@@ -732,35 +728,6 @@ namespace ThreeDPacking.Unity
             {
                 Debug.Log("[PackingLoader] 稳定性检查通过：所有箱子保持稳定");
             }
-        }
-
-        /// <summary>
-        /// 获取放置统计信息
-        /// </summary>
-        public void PrintStatistics()
-        {
-            if (_packingData == null) return;
-
-            int totalBoxes = 0;
-            float totalVolume = 0f;
-
-            foreach (var container in _packingData.containers)
-            {
-                if (container.stack != null && container.stack.placements != null)
-                {
-                    totalBoxes += container.stack.placements.Count;
-                    
-                    foreach (var p in container.stack.placements)
-                    {
-                        if (p.stackable != null)
-                        {
-                            totalVolume += p.stackable.dx * p.stackable.dy * p.stackable.dz * Mathf.Pow(scaleFactor, 3);
-                        }
-                    }
-                }
-            }
-
-            Debug.Log($"[PackingLoader] 统计: {_packingData.containers.Count} 个容器, {totalBoxes} 个箱子, 总体积: {totalVolume:F3} m³");
         }
     }
 }

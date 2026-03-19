@@ -15,7 +15,7 @@ namespace ThreeDPacking.Core.Packers
     /// 4. 执行约束切割，删除被包含的极值点
     /// 5. 重复直到无法再放置
     /// 约束：
-    /// 1. 牛皮纸宽度固定160，高度固定70，长度可变（底面可旋转：160xN 或 Nx160）
+    /// 1. 牛皮纸宽度固定110，高度固定70，长度可变（底面可旋转：110xN 或 Nx110）
     /// 2. 最小支撑比例10%
     /// 3. 底面中心点必须有支撑
     /// </summary>
@@ -207,14 +207,14 @@ namespace ThreeDPacking.Core.Packers
             var candidates = new List<PaddingPaper>();
             int dz = PaddingPaper.DefaultHeight;
 
-            // 朝向A：宽度160放在Y方向，X方向尽可能长
-            if (maxDy >= PaddingPaper.DefaultWidth && maxDx >= PaddingPaper.MinSize)
+            // 朝向A：宽度110放在Y方向，X方向（长度）尽可能长，且长度>=200
+            if (maxDy >= PaddingPaper.DefaultWidth && maxDx >= PaddingPaper.MinLength)
             {
                 candidates.Add(new PaddingPaper(x, y, z, maxDx, PaddingPaper.DefaultWidth, dz));
             }
 
-            // 朝向B：宽度160放在X方向，Y方向尽可能长
-            if (maxDx >= PaddingPaper.DefaultWidth && maxDy >= PaddingPaper.MinSize)
+            // 朝向B：宽度110放在X方向，Y方向（长度）尽可能长，且长度>=200
+            if (maxDx >= PaddingPaper.DefaultWidth && maxDy >= PaddingPaper.MinLength)
             {
                 candidates.Add(new PaddingPaper(x, y, z, PaddingPaper.DefaultWidth, maxDy, dz));
             }
@@ -276,39 +276,6 @@ namespace ThreeDPacking.Core.Packers
 
             supportRatio = bottomArea > 0 ? (float)supportedArea / bottomArea : 0f;
 
-            if (supportRatio < MinSupportRatio)
-                return false;
-
-            int centerX = paper.X + paper.Dx / 2;
-            int centerY = paper.Y + paper.Dy / 2;
-            if (!IsPointSupported(centerX, centerY, paperBottomZ, itemPlacements, paddingPapers))
-                return false;
-
-            return true;
-        }
-
-        private bool HasSufficientSupport(PaddingPaper paper, List<Placement> itemPlacements, List<PaddingPaper> paddingPapers)
-        {
-            if (paper.Z == 0) return true;
-
-            long bottomArea = (long)paper.Dx * paper.Dy;
-            long supportedArea = 0;
-            int paperBottomZ = paper.Z;
-
-            foreach (var item in itemPlacements)
-            {
-                // 必须紧贴上一层：下方物品的顶部 == 牛皮纸底部-1
-                if (item != null && item.AbsoluteEndZ == paperBottomZ - 1)
-                    supportedArea += CalculateOverlapArea2D(paper, item);
-            }
-
-            foreach (var existingPaper in paddingPapers)
-            {
-                if (existingPaper != null && existingPaper.AbsoluteEndZ == paperBottomZ - 1)
-                    supportedArea += CalculateOverlapArea2D(paper, existingPaper);
-            }
-
-            float supportRatio = (float)supportedArea / bottomArea;
             if (supportRatio < MinSupportRatio)
                 return false;
 

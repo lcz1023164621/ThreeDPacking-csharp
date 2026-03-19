@@ -15,14 +15,19 @@ namespace ThreeDPacking.Core.Models
         public const int DefaultHeight = 70;
 
         /// <summary>
-        /// 默认宽度（160mm）
+        /// 默认宽度（110mm）
         /// </summary>
-        public const int DefaultWidth = 160;
+        public const int DefaultWidth = 110;
 
         /// <summary>
         /// 最小尺寸（任何方向）
         /// </summary>
         public const int MinSize = 30;
+
+        /// <summary>
+        /// 牛皮纸长度的最小值（可变方向，>=200mm）
+        /// </summary>
+        public const int MinLength = 200;
 
         /// <summary>
         /// 填充纸的实际尺寸
@@ -55,12 +60,12 @@ namespace ThreeDPacking.Core.Models
 
         /// <summary>
         /// 创建一个适合指定空间的填充纸
-        /// 牛皮纸规格：高度固定70，宽度固定160，长度可变
+        /// 牛皮纸规格：高度固定70，宽度固定110，长度可变
         /// 旋转策略：只有底面（长x宽）可以旋转，高度始终固定为70
         /// </summary>
         public static PaddingPaper CreateForSpace(int x, int y, int z, int maxDx, int maxDy, int maxDz)
         {
-            // 最小空间要求：至少能容纳宽度160和高度70
+            // 最小空间要求：至少能容纳高度70和一个足够小的候选底面（后续还会按长度最小值筛选）
             if (maxDx < MinSize || maxDy < MinSize || maxDz < DefaultHeight)
                 return null;
             
@@ -71,25 +76,25 @@ namespace ThreeDPacking.Core.Models
             int dz = DefaultHeight;
             
             // 情况1: 宽度160放在Y方向，长度(X方向)自适应
-            // 底面尺寸: 长=maxDx, 宽=160
+            // 底面尺寸: 长=maxDx, 宽=110
             if (maxDy >= DefaultWidth)
             {
                 int dy = DefaultWidth;
                 int dx = maxDx;
-                if (dx >= MinSize)
+                if (dx >= MinLength)
                 {
                     var paper = new PaddingPaper(x, y, z, dx, dy, dz);
                     if (paper.Volume > bestVolume) { best = paper; bestVolume = paper.Volume; }
                 }
             }
             
-            // 情况2: 宽度160放在X方向，长度(Y方向)自适应
-            // 底面尺寸: 长=160, 宽=maxDy
+            // 情况2: 宽度110放在X方向，长度(Y方向)自适应
+            // 底面尺寸: 长=110, 宽=maxDy
             if (maxDx >= DefaultWidth)
             {
                 int dx = DefaultWidth;
                 int dy = maxDy;
-                if (dy >= MinSize)
+                if (dy >= MinLength)
                 {
                     var paper = new PaddingPaper(x, y, z, dx, dy, dz);
                     if (paper.Volume > bestVolume) { best = paper; bestVolume = paper.Volume; }

@@ -1,14 +1,14 @@
 {
   "containers": [
     {
-      "name": "中间容器3",
-      "id": "中间容器3",
-      "dx": 360,
-      "dy": 360,
-      "dz": 360,
-      "loadDx": 360,
-      "loadDy": 360,
-      "loadDz": 360,
+      "name": "最大容器",
+      "id": "最大容器",
+      "dx": 450,
+      "dy": 450,
+      "dz": 210,
+      "loadDx": 450,
+      "loadDy": 450,
+      "loadDz": 210,
       "step": 0,
       "stack": {
         "placements": [
@@ -18,10 +18,10 @@
             "z": 0,
             "step": 1,
             "stackable": {
-              "id": "WD9550#6",
-              "name": "WD9550#6",
-              "dx": 300,
-              "dy": 280,
+              "id": "PREMIUMPAKET#4",
+              "name": "PREMIUMPAKET#4",
+              "dx": 140,
+              "dy": 320,
               "dz": 90,
               "step": 1,
               "type": "box"
@@ -29,74 +29,74 @@
           },
           {
             "x": 0,
-            "y": 0,
-            "z": 90,
+            "y": 320,
+            "z": 0,
             "step": 2,
             "stackable": {
-              "id": "WD1800#2",
-              "name": "WD1800#2",
-              "dx": 330,
-              "dy": 250,
-              "dz": 90,
+              "id": "QUPRINCESS3#5",
+              "name": "QUPRINCESS3#5",
+              "dx": 100,
+              "dy": 120,
+              "dz": 40,
               "step": 2,
               "type": "box"
             }
           },
           {
-            "x": 0,
+            "x": 140,
             "y": 0,
-            "z": 180,
+            "z": 0,
             "step": 3,
             "stackable": {
-              "id": "WS6830AMBER#4",
-              "name": "WS6830AMBER#4",
-              "dx": 180,
-              "dy": 280,
-              "dz": 70,
+              "id": "GENEVAN#6",
+              "name": "GENEVAN#6",
+              "dx": 160,
+              "dy": 170,
+              "dz": 60,
               "step": 3,
               "type": "box"
             }
           },
           {
-            "x": 180,
-            "y": 0,
-            "z": 180,
+            "x": 140,
+            "y": 170,
+            "z": 0,
             "step": 4,
             "stackable": {
-              "id": "WD4017#7",
-              "name": "WD4017#7",
-              "dx": 170,
-              "dy": 200,
-              "dz": 70,
+              "id": "WD2900#3",
+              "name": "WD2900#3",
+              "dx": 160,
+              "dy": 160,
+              "dz": 100,
               "step": 4,
               "type": "box"
             }
           },
           {
-            "x": 0,
+            "x": 300,
             "y": 0,
-            "z": 250,
+            "z": 0,
             "step": 5,
             "stackable": {
-              "id": "WT3000#5",
-              "name": "WT3000#5",
-              "dx": 200,
-              "dy": 190,
-              "dz": 80,
+              "id": "WT538#1",
+              "name": "WT538#1",
+              "dx": 140,
+              "dy": 170,
+              "dz": 100,
               "step": 5,
               "type": "box"
             }
           },
           {
-            "x": 0,
-            "y": 190,
-            "z": 250,
+            "x": 300,
+            "y": 170,
+            "z": 0,
             "step": 6,
             "stackable": {
-              "id": "GENEVAR#8",
-              "name": "GENEVAR#8",
-              "dx": 140,
-              "dy": 140,
+              "id": "MA10101#2",
+              "name": "MA10101#2",
+              "dx": 60,
+              "dy": 170,
               "dz": 60,
               "step": 6,
               "type": "box"
@@ -104,377 +104,31 @@
           },
           {
             "x": 0,
-            "y": 190,
-            "z": 310,
-            "step": 7,
-            "stackable": {
-              "id": "TL9019#3",
-              "name": "TL9019#3",
-              "dx": 180,
-              "dy": 140,
-              "dz": 40,
-              "step": 7,
-              "type": "box"
-            }
-          },
-          {
-            "x": 200,
             "y": 0,
-            "z": 250,
-            "step": 9,
+            "z": 90,
+            "step": 8,
             "stackable": {
               "id": "padding_paper",
               "name": "PaddingPaper",
-              "dx": 160,
-              "dy": 360,
+              "dx": 110,
+              "dy": 450,
               "dz": 70,
-              "step": 9,
-              "type": "padding"
-            }
-          },
-          {
-            "x": 0,
-            "y": 280,
-            "z": 0,
-            "step": 9,
-            "stackable": {
-              "id": "padding_paper",
-              "name": "PaddingPaper",
-              "dx": 160,
-              "dy": 80,
-              "dz": 70,
-              "step": 9,
-              "type": "padding"
-            }
-          },
-          {
-            "x": 160,
-            "y": 280,
-            "z": 0,
-            "step": 9,
-            "stackable": {
-              "id": "padding_paper",
-              "name": "PaddingPaper",
-              "dx": 160,
-              "dy": 80,
-              "dz": 70,
-              "step": 9,
-              "type": "padding"
-            }
-          },
-          {
-            "x": 0,
-            "y": 280,
-            "z": 70,
-            "step": 9,
-            "stackable": {
-              "id": "padding_paper",
-              "name": "PaddingPaper",
-              "dx": 160,
-              "dy": 80,
-              "dz": 70,
-              "step": 9,
-              "type": "padding"
-            }
-          },
-          {
-            "x": 160,
-            "y": 280,
-            "z": 70,
-            "step": 9,
-            "stackable": {
-              "id": "padding_paper",
-              "name": "PaddingPaper",
-              "dx": 160,
-              "dy": 80,
-              "dz": 70,
-              "step": 9,
-              "type": "padding"
-            }
-          },
-          {
-            "x": 0,
-            "y": 280,
-            "z": 140,
-            "step": 9,
-            "stackable": {
-              "id": "padding_paper",
-              "name": "PaddingPaper",
-              "dx": 160,
-              "dy": 80,
-              "dz": 70,
-              "step": 9,
-              "type": "padding"
-            }
-          },
-          {
-            "x": 160,
-            "y": 280,
-            "z": 140,
-            "step": 9,
-            "stackable": {
-              "id": "padding_paper",
-              "name": "PaddingPaper",
-              "dx": 160,
-              "dy": 80,
-              "dz": 70,
-              "step": 9,
-              "type": "padding"
-            }
-          },
-          {
-            "x": 180,
-            "y": 200,
-            "z": 180,
-            "step": 9,
-            "stackable": {
-              "id": "padding_paper",
-              "name": "PaddingPaper",
-              "dx": 160,
-              "dy": 80,
-              "dz": 70,
-              "step": 9,
+              "step": 8,
               "type": "padding"
             }
           },
           {
             "x": 300,
-            "y": 0,
-            "z": 0,
-            "step": 9,
+            "y": 170,
+            "z": 60,
+            "step": 8,
             "stackable": {
               "id": "padding_paper",
               "name": "PaddingPaper",
-              "dx": 60,
-              "dy": 160,
+              "dx": 110,
+              "dy": 280,
               "dz": 70,
-              "step": 9,
-              "type": "padding"
-            }
-          },
-          {
-            "x": 0,
-            "y": 250,
-            "z": 90,
-            "step": 9,
-            "stackable": {
-              "id": "padding_paper",
-              "name": "PaddingPaper",
-              "dx": 160,
-              "dy": 30,
-              "dz": 70,
-              "step": 9,
-              "type": "padding"
-            }
-          },
-          {
-            "x": 160,
-            "y": 250,
-            "z": 90,
-            "step": 9,
-            "stackable": {
-              "id": "padding_paper",
-              "name": "PaddingPaper",
-              "dx": 160,
-              "dy": 30,
-              "dz": 70,
-              "step": 9,
-              "type": "padding"
-            }
-          }
-        ]
-      },
-      "type": "container"
-    },
-    {
-      "name": "最大容器",
-      "id": "最大容器",
-      "dx": 450,
-      "dy": 450,
-      "dz": 210,
-      "loadDx": 450,
-      "loadDy": 450,
-      "loadDz": 210,
-      "step": 10,
-      "stack": {
-        "placements": [
-          {
-            "x": 0,
-            "y": 0,
-            "z": 0,
-            "step": 11,
-            "stackable": {
-              "id": "853500-2MK#9",
-              "name": "853500-2MK#9",
-              "dx": 160,
-              "dy": 390,
-              "dz": 50,
-              "step": 11,
-              "type": "box"
-            }
-          },
-          {
-            "x": 160,
-            "y": 0,
-            "z": 0,
-            "step": 12,
-            "stackable": {
-              "id": "WS8014#1",
-              "name": "WS8014#1",
-              "dx": 220,
-              "dy": 230,
-              "dz": 50,
-              "step": 12,
-              "type": "box"
-            }
-          },
-          {
-            "x": 0,
-            "y": 0,
-            "z": 50,
-            "step": 14,
-            "stackable": {
-              "id": "padding_paper",
-              "name": "PaddingPaper",
-              "dx": 160,
-              "dy": 450,
-              "dz": 70,
-              "step": 14,
-              "type": "padding"
-            }
-          },
-          {
-            "x": 160,
-            "y": 0,
-            "z": 50,
-            "step": 14,
-            "stackable": {
-              "id": "padding_paper",
-              "name": "PaddingPaper",
-              "dx": 160,
-              "dy": 450,
-              "dz": 70,
-              "step": 14,
-              "type": "padding"
-            }
-          },
-          {
-            "x": 0,
-            "y": 0,
-            "z": 120,
-            "step": 14,
-            "stackable": {
-              "id": "padding_paper",
-              "name": "PaddingPaper",
-              "dx": 160,
-              "dy": 450,
-              "dz": 70,
-              "step": 14,
-              "type": "padding"
-            }
-          },
-          {
-            "x": 160,
-            "y": 0,
-            "z": 120,
-            "step": 14,
-            "stackable": {
-              "id": "padding_paper",
-              "name": "PaddingPaper",
-              "dx": 160,
-              "dy": 450,
-              "dz": 70,
-              "step": 14,
-              "type": "padding"
-            }
-          },
-          {
-            "x": 380,
-            "y": 0,
-            "z": 0,
-            "step": 14,
-            "stackable": {
-              "id": "padding_paper",
-              "name": "PaddingPaper",
-              "dx": 70,
-              "dy": 160,
-              "dz": 70,
-              "step": 14,
-              "type": "padding"
-            }
-          },
-          {
-            "x": 380,
-            "y": 160,
-            "z": 0,
-            "step": 14,
-            "stackable": {
-              "id": "padding_paper",
-              "name": "PaddingPaper",
-              "dx": 70,
-              "dy": 160,
-              "dz": 70,
-              "step": 14,
-              "type": "padding"
-            }
-          },
-          {
-            "x": 380,
-            "y": 160,
-            "z": 70,
-            "step": 14,
-            "stackable": {
-              "id": "padding_paper",
-              "name": "PaddingPaper",
-              "dx": 70,
-              "dy": 160,
-              "dz": 70,
-              "step": 14,
-              "type": "padding"
-            }
-          },
-          {
-            "x": 380,
-            "y": 160,
-            "z": 140,
-            "step": 14,
-            "stackable": {
-              "id": "padding_paper",
-              "name": "PaddingPaper",
-              "dx": 70,
-              "dy": 160,
-              "dz": 70,
-              "step": 14,
-              "type": "padding"
-            }
-          },
-          {
-            "x": 320,
-            "y": 0,
-            "z": 50,
-            "step": 14,
-            "stackable": {
-              "id": "padding_paper",
-              "name": "PaddingPaper",
-              "dx": 60,
-              "dy": 160,
-              "dz": 70,
-              "step": 14,
-              "type": "padding"
-            }
-          },
-          {
-            "x": 320,
-            "y": 0,
-            "z": 120,
-            "step": 14,
-            "stackable": {
-              "id": "padding_paper",
-              "name": "PaddingPaper",
-              "dx": 60,
-              "dy": 160,
-              "dz": 70,
-              "step": 14,
+              "step": 8,
               "type": "padding"
             }
           }
