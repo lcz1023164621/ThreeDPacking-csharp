@@ -142,9 +142,9 @@ namespace ThreeDPacking.App.Forms
         {
             dgvContainers.Rows.Add("最大容器", "450", "450", "210", "0", "28000");
             dgvContainers.Rows.Add("常用容器", "260", "260", "260", "0", "28000");
-            dgvContainers.Rows.Add("中间容器", "310", "220", "160", "0", "28000");
-            dgvContainers.Rows.Add("中间容器", "310", "265", "220", "0", "28000");
-            dgvContainers.Rows.Add("中间容器", "360", "360", "360", "0", "28000");
+            dgvContainers.Rows.Add("中间容器1", "310", "220", "160", "0", "28000");
+            dgvContainers.Rows.Add("中间容器2", "310", "265", "220", "0", "28000");
+            dgvContainers.Rows.Add("中间容器3", "360", "360", "360", "0", "28000");
             dgvContainers.Rows.Add("最小容器", "160", "120", "185", "0", "28000");
         }
 
@@ -486,11 +486,15 @@ namespace ThreeDPacking.App.Forms
                 int count = c.Stack?.Placements.Count(p => !p.IsPadding) ?? 0;
                 maxItemCount = Math.Max(maxItemCount, count);
             }
-            
-            trackStep.Maximum = maxItemCount;
-            trackStep.Value = maxItemCount;
-            _renderer.CurrentStep = maxItemCount;
-            lblStepInfo.Text = $"{maxItemCount} / {maxItemCount}";
+
+            // 牛皮纸显示规则：所有物品显示完毕后的“下一步”才显示牛皮纸
+            // PackingRenderer 中判断条件是 CurrentStep > itemCount 才绘制 padding
+            // 因此这里把总步数定义为：物品步数 + 1（牛皮纸步）
+            int totalSteps = maxItemCount + 1;
+            trackStep.Maximum = totalSteps;
+            trackStep.Value = totalSteps;           // 默认直接显示到最后一步（包含牛皮纸）
+            _renderer.CurrentStep = totalSteps;
+            lblStepInfo.Text = $"{totalSteps} / {totalSteps}";
 
             // Compute utilization for this container
             long cv = container.MaxLoadVolume;
@@ -521,6 +525,7 @@ namespace ThreeDPacking.App.Forms
             int total = trackStep.Maximum;
             int val = trackStep.Value;
             _renderer.CurrentStep = val;
+            // 0 表示显示全部（含牛皮纸）
             lblStepInfo.Text = val == 0 ? $"全部 / {total}" : $"{val} / {total}";
             
             // 无论单容器还是多容器模式，都需要重绘
@@ -640,8 +645,27 @@ namespace ThreeDPacking.App.Forms
             Vector3 rayOrigin, rayDir;
             Unproject(e.X, e.Y, w, h, projection, view, out rayOrigin, out rayDir);
 
-            int maxStep = _renderer.CurrentStep > 0 ? _renderer.CurrentStep : int.MaxValue;
-            
+            // 点击检测：需要与渲染可见范围一致。渲染在 CurrentStep > 物品数 时显示全部牛皮纸，
+            // 但 HitTester 按“前 maxStep 个 placement”截断，牛皮纸在列表末尾，若 maxStep 只取物品数+1 则只能点到第一张牛皮纸。
+            int maxStepForHit = _renderer.CurrentStep > 0 ? _renderer.CurrentStep : int.MaxValue;
+            var containersForHit = _renderer.Containers?.Count > 0 ? _renderer.Containers : (_renderer.Container != null ? new List<Container> { _renderer.Container } : null);
+            if (containersForHit != null && maxStepForHit != int.MaxValue)
+            {
+                int maxItemCount = 0;
+                int maxPlacementCount = 0;
+                foreach (var c in containersForHit)
+                {
+                    if (c?.Stack?.Placements == null) continue;
+                    int items = c.Stack.Placements.Count(p => !p.IsPadding);
+                    maxItemCount = Math.Max(maxItemCount, items);
+                    maxPlacementCount = Math.Max(maxPlacementCount, c.Stack.Placements.Count);
+                }
+                // 当前为“显示牛皮纸”步时，应能点到所有已显示的 placement（含所有牛皮纸）
+                if (maxStepForHit > maxItemCount)
+                    maxStepForHit = maxPlacementCount;
+            }
+            int maxStep = maxStepForHit;
+
             // Use multi-container hit testing if multiple containers are displayed
             Placement hit;
             if (_renderer.Containers.Count > 0)

@@ -124,13 +124,36 @@ namespace ThreeDPacking.Unity
         /// </summary>
         bool LoadJson()
         {
-            string fullPath = useStreamingAssets 
-                ? Path.Combine(Application.streamingAssetsPath, jsonFilePath)
-                : jsonFilePath;
+            // 默认优先 StreamingAssets，便于Unity打包与跨平台读取
+            var candidatePaths = new List<string>();
 
-            if (!File.Exists(fullPath))
+            if (useStreamingAssets)
             {
-                Debug.LogError($"[PackingLoader] 找不到文件: {fullPath}");
+                candidatePaths.Add(Path.Combine(Application.streamingAssetsPath, jsonFilePath));
+            }
+
+            // 允许直接传入绝对路径
+            candidatePaths.Add(jsonFilePath);
+
+            // 回退：若你使用本仓库的导出约定（解决方案根目录/unity/packing_result.json），Unity端也能自动找到
+            // Application.dataPath = <Project>/Assets
+            // 解决方案根目录通常就是Unity工程根的上一级或同级，这里优先尝试 <ProjectRoot>/unity/packing_result.json
+            try
+            {
+                var projectRoot = Directory.GetParent(Application.dataPath)?.FullName;
+                if (!string.IsNullOrEmpty(projectRoot))
+                {
+                    candidatePaths.Add(Path.Combine(projectRoot, "unity", Path.GetFileName(jsonFilePath)));
+                    candidatePaths.Add(Path.Combine(projectRoot, "packing_result.json"));
+                }
+            }
+            catch { /* ignore */ }
+
+            string fullPath = candidatePaths.FirstOrDefault(File.Exists);
+
+            if (string.IsNullOrEmpty(fullPath))
+            {
+                Debug.LogError("[PackingLoader] 找不到JSON文件。已尝试路径:\n" + string.Join("\n", candidatePaths));
                 return false;
             }
 
@@ -138,7 +161,7 @@ namespace ThreeDPacking.Unity
             {
                 string json = File.ReadAllText(fullPath);
                 _packingData = JsonUtility.FromJson<PackingResult>(json);
-                Debug.Log($"[PackingLoader] 成功加载 {_packingData.containers.Count} 个容器");
+                Debug.Log($"[PackingLoader] 成功加载 {_packingData.containers.Count} 个容器 | 文件: {fullPath}");
                 return true;
             }
             catch (System.Exception ex)
@@ -401,7 +424,12 @@ namespace ThreeDPacking.Unity
             if (boxMaterial != null)
             {
                 Material mat = new Material(boxMaterial);
-                if (randomBoxColors)
+                if (stackable.type == "padding")
+                {
+                    // 牛皮纸：固定颜色，方便区分
+                    mat.color = new Color(1f, 0.8f, 0.2f, 0.85f);
+                }
+                else if (randomBoxColors)
                 {
                     mat.color = UnityEngine.Random.ColorHSV(0f, 1f, 0.5f, 1f, 0.7f, 1f);
                 }
@@ -414,7 +442,17 @@ namespace ThreeDPacking.Unity
             rb.drag = 0.1f;
             rb.angularDrag = 0.05f;
             rb.interpolation = RigidbodyInterpolation.Interpolate;
-            rb.useGravity = enableGravity;
+
+            // 牛皮纸不参与物理下落，避免被“机械臂投放/重力”带偏位置（它是装箱后填充的几何体）
+            if (stackable.type == "padding")
+            {
+                rb.useGravity = false;
+                rb.isKinematic = true;
+            }
+            else
+            {
+                rb.useGravity = enableGravity;
+            }
 
             // 设置物理材质
             Collider col = box.GetComponent<Collider>();
@@ -434,6 +472,13 @@ namespace ThreeDPacking.Unity
             // 从stackable获取物品信息
             var stackable = placement.stackable;
             if (stackable == null) return;
+
+            // 牛皮纸：不走机械臂动画，直接放到最终位置
+            if (stackable.type == "padding")
+            {
+                CreateBox(placement, container, offsetX);
+                return;
+            }
 
             GameObject box = GameObject.CreatePrimitive(PrimitiveType.Cube);
             box.name = $"Box_{stackable.id}_{placement.step}";

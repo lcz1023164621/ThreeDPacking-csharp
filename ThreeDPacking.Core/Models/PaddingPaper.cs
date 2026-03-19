@@ -4,25 +4,25 @@ namespace ThreeDPacking.Core.Models
 {
     /// <summary>
     /// 填充纸模型（牛皮纸），用于填充装箱后的空余空间
-    /// 特点：高度固定70，宽度固定160，长度可调整
-    /// 填充纸以长度与宽度所在的面作为底面积（高度始终朝上）
+    /// 特点：尺寸可灵活调整以适应不同空间，支持多种旋转方向
+    /// 目标：尽可能填满所有空余空间
     /// </summary>
     public class PaddingPaper
     {
         /// <summary>
-        /// 固定高度（70mm）- 始终朝上(Z方向)
+        /// 默认高度（70mm）
         /// </summary>
         public const int DefaultHeight = 70;
 
         /// <summary>
-        /// 固定宽度（160mm）
+        /// 默认宽度（160mm）
         /// </summary>
         public const int DefaultWidth = 160;
 
         /// <summary>
-        /// 最小长度
+        /// 最小尺寸（任何方向）
         /// </summary>
-        public const int MinLength = 50;
+        public const int MinSize = 30;
 
         /// <summary>
         /// 填充纸的实际尺寸
@@ -55,44 +55,48 @@ namespace ThreeDPacking.Core.Models
 
         /// <summary>
         /// 创建一个适合指定空间的填充纸
-        /// 填充纸尺寸：长度可自适应，宽度固定160，高度固定70
-        /// 以长度与宽度所在的面作为底面积（高度始终朝上，即Z方向）
-        /// 如果空间放不下标准尺寸则不填充
+        /// 牛皮纸规格：高度固定70，宽度固定160，长度可变
+        /// 旋转策略：只有底面（长x宽）可以旋转，高度始终固定为70
         /// </summary>
-        /// <param name="x">放置位置X</param>
-        /// <param name="y">放置位置Y</param>
-        /// <param name="z">放置位置Z</param>
-        /// <param name="maxDx">可用空间长度</param>
-        /// <param name="maxDy">可用空间宽度</param>
-        /// <param name="maxDz">可用空间高度</param>
-        /// <returns>如果能放下则返回填充纸对象，否则返回null</returns>
         public static PaddingPaper CreateForSpace(int x, int y, int z, int maxDx, int maxDy, int maxDz)
         {
-            // 调试输出
-            Console.WriteLine($"[PaddingPaper] 检查空间: 位置({x},{y},{z}) 可用尺寸({maxDx}x{maxDy}x{maxDz}) 需求高度={DefaultHeight} 需求宽度={DefaultWidth}");
+            // 最小空间要求：至少能容纳宽度160和高度70
+            if (maxDx < MinSize || maxDy < MinSize || maxDz < DefaultHeight)
+                return null;
             
-            // 高度固定为70，始终朝上(Z方向)
-            // 只允许两种底面放置方式：宽度朝Y或宽度朝X
+            PaddingPaper best = null;
+            long bestVolume = 0;
             
-            // 方向1: 高度朝Z(70)，宽度朝Y(160)，长度朝X(自适应)
-            if (maxDz >= DefaultHeight && maxDy >= DefaultWidth && maxDx >= MinLength)
+            // 牛皮纸固定高度为70，放在Z方向
+            int dz = DefaultHeight;
+            
+            // 情况1: 宽度160放在Y方向，长度(X方向)自适应
+            // 底面尺寸: 长=maxDx, 宽=160
+            if (maxDy >= DefaultWidth)
             {
-                int length = maxDx; // 长度填满可用空间
-                Console.WriteLine($"[PaddingPaper] 创建成功(方向1): 尺寸({length}x{DefaultWidth}x{DefaultHeight})");
-                return new PaddingPaper(x, y, z, length, DefaultWidth, DefaultHeight);
+                int dy = DefaultWidth;
+                int dx = maxDx;
+                if (dx >= MinSize)
+                {
+                    var paper = new PaddingPaper(x, y, z, dx, dy, dz);
+                    if (paper.Volume > bestVolume) { best = paper; bestVolume = paper.Volume; }
+                }
             }
-
-            // 方向2: 高度朝Z(70)，宽度朝X(160)，长度朝Y(自适应)
-            if (maxDz >= DefaultHeight && maxDx >= DefaultWidth && maxDy >= MinLength)
+            
+            // 情况2: 宽度160放在X方向，长度(Y方向)自适应
+            // 底面尺寸: 长=160, 宽=maxDy
+            if (maxDx >= DefaultWidth)
             {
-                int length = maxDy;
-                Console.WriteLine($"[PaddingPaper] 创建成功(方向2): 尺寸({DefaultWidth}x{length}x{DefaultHeight})");
-                return new PaddingPaper(x, y, z, DefaultWidth, length, DefaultHeight);
+                int dx = DefaultWidth;
+                int dy = maxDy;
+                if (dy >= MinSize)
+                {
+                    var paper = new PaddingPaper(x, y, z, dx, dy, dz);
+                    if (paper.Volume > bestVolume) { best = paper; bestVolume = paper.Volume; }
+                }
             }
-
-            // 空间太小，无法放置标准填充纸，不填充
-            Console.WriteLine($"[PaddingPaper] 创建失败: 空间不足 (需要Z>={DefaultHeight}, X或Y>={DefaultWidth}, 另一边>={MinLength})");
-            return null;
+            
+            return best;
         }
 
         /// <summary>
