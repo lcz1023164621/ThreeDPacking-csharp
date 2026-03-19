@@ -21,7 +21,8 @@ namespace ThreeDPacking.Core.Packers
     /// </summary>
     public class PaddingPaperPacker
     {
-        private const float MinSupportRatio = 0.10f;
+        // 最小支撑比例：越低越容易放置在支撑较弱的位置（更贴近用户“继续放宽”诉求）
+        private const float MinSupportRatio = 0.05f;
 
         public void FillWithPaddingPaper(Container container)
         {
@@ -131,7 +132,9 @@ namespace ThreeDPacking.Core.Packers
             if (x < 0 || y < 0 || z < 0) return null;
             if (x >= container.LoadDx || y >= container.LoadDy) return null;
             if (z + PaddingPaper.DefaultHeight > container.LoadDz) return null;
-            if (point.Dx < PaddingPaper.MinSize || point.Dy < PaddingPaper.MinSize || point.Dz < PaddingPaper.DefaultHeight)
+            // 只要求 Z 方向能覆盖牛皮纸高度；
+            // X/Y 的可用尺寸由 CalculateMaxPaddingDimensions() 结合当前高度范围与障碍重新计算。
+            if (point.Dz < PaddingPaper.DefaultHeight)
                 return null;
 
             var (maxDx, maxDy) = CalculateMaxPaddingDimensions(x, y, z, point, container, itemPlacements, paddingPapers);
@@ -151,8 +154,13 @@ namespace ThreeDPacking.Core.Packers
         private (int maxDx, int maxDy) CalculateMaxPaddingDimensions(int x, int y, int z, ExtremePoint point,
             Container container, List<Placement> itemPlacements, List<PaddingPaper> paddingPapers)
         {
-            int maxX = Math.Min(x + point.Dx, container.LoadDx);
-            int maxY = Math.Min(y + point.Dy, container.LoadDy);
+            // 关键改动：
+            // 极端点的 MaxX/MaxY 通常是“考虑了 point.Dz 整段”的保守可用范围。
+            // 但牛皮纸的高度是固定 DefaultHeight，我们只关心 [z, z+DefaultHeight) 这一段 Z。
+            // 因此这里允许底面在 X/Y 上重新扩张（只在本高度范围内被障碍截断），
+            // 避免出现：上层物体把极端点过度截短，导致底部仍可继续铺牛皮纸但算法找不到。
+            int maxX = container.LoadDx; // half-open boundary: [x, maxX)
+            int maxY = container.LoadDy; // half-open boundary: [y, maxY)
             int paperTopZ = z + PaddingPaper.DefaultHeight - 1;
 
             // 与 [x,maxX) x [y,maxY) 在 2D 上重叠：item 的 Y 与 [y,maxY) 相交 且 item 的 X 与 [x,maxX) 相交
@@ -167,6 +175,10 @@ namespace ThreeDPacking.Core.Packers
                 {
                     if (item.Z > paperTopZ || item.AbsoluteEndZ < z) continue;
                     if (!overlapsRect(item.X, item.Y, item.AbsoluteEndX, item.AbsoluteEndY)) continue;
+                    // half-open 截断：当障碍从 nx 开始占用时，空闲区只能到 nx（即边界=nx）。
+                    // 保持原策略为严格 > x：当障碍贴在起点（item.X == x）时，
+                    // 可能仍存在通过缩小另一维（Y方向长度）来“绕开”的可行方案；
+                    // 过度在这里截断会导致放置数量大幅下降。
                     if (item.X > x && item.X < maxX)
                     {
                         int nx = item.X;
@@ -279,11 +291,9 @@ namespace ThreeDPacking.Core.Packers
             if (supportRatio < MinSupportRatio)
                 return false;
 
-            int centerX = paper.X + paper.Dx / 2;
-            int centerY = paper.Y + paper.Dy / 2;
-            if (!IsPointSupported(centerX, centerY, paperBottomZ, itemPlacements, paddingPapers))
-                return false;
-
+            // 仅用支撑面积约束即可：
+            // - supportedArea / bottomArea 已经衡量了底面与下一层投影重叠面积
+            // - 采样中心/四角点进行“离散点支撑”容易产生误判（支撑可能是条带/不覆盖采样点）
             return true;
         }
 

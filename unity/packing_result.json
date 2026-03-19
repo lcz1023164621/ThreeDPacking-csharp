@@ -18,56 +18,56 @@
             "z": 0,
             "step": 1,
             "stackable": {
-              "id": "PREMIUMPAKET#4",
-              "name": "PREMIUMPAKET#4",
-              "dx": 140,
-              "dy": 320,
-              "dz": 90,
+              "id": "WT4050ROT#3",
+              "name": "WT4050ROT#3",
+              "dx": 380,
+              "dy": 410,
+              "dz": 80,
               "step": 1,
               "type": "box"
             }
           },
           {
             "x": 0,
-            "y": 320,
-            "z": 0,
+            "y": 0,
+            "z": 80,
             "step": 2,
             "stackable": {
-              "id": "QUPRINCESS3#5",
-              "name": "QUPRINCESS3#5",
-              "dx": 100,
-              "dy": 120,
-              "dz": 40,
+              "id": "WD9550#8",
+              "name": "WD9550#8",
+              "dx": 300,
+              "dy": 280,
+              "dz": 90,
               "step": 2,
               "type": "box"
             }
           },
           {
-            "x": 140,
-            "y": 0,
-            "z": 0,
+            "x": 0,
+            "y": 280,
+            "z": 80,
             "step": 3,
             "stackable": {
-              "id": "GENEVAN#6",
-              "name": "GENEVAN#6",
-              "dx": 160,
-              "dy": 170,
-              "dz": 60,
+              "id": "WS6710#7",
+              "name": "WS6710#7",
+              "dx": 200,
+              "dy": 100,
+              "dz": 70,
               "step": 3,
               "type": "box"
             }
           },
           {
-            "x": 140,
-            "y": 170,
-            "z": 0,
+            "x": 200,
+            "y": 280,
+            "z": 80,
             "step": 4,
             "stackable": {
-              "id": "WD2900#3",
-              "name": "WD2900#3",
-              "dx": 160,
-              "dy": 160,
-              "dz": 100,
+              "id": "MA10880#2",
+              "name": "MA10880#2",
+              "dx": 80,
+              "dy": 80,
+              "dz": 20,
               "step": 4,
               "type": "box"
             }
@@ -75,13 +75,13 @@
           {
             "x": 300,
             "y": 0,
-            "z": 0,
+            "z": 80,
             "step": 5,
             "stackable": {
-              "id": "WT538#1",
-              "name": "WT538#1",
+              "id": "WT463BLAU#6",
+              "name": "WT463BLAU#6",
               "dx": 140,
-              "dy": 170,
+              "dy": 160,
               "dz": 100,
               "step": 5,
               "type": "box"
@@ -89,16 +89,77 @@
           },
           {
             "x": 300,
-            "y": 170,
-            "z": 0,
+            "y": 160,
+            "z": 80,
             "step": 6,
             "stackable": {
-              "id": "MA10101#2",
-              "name": "MA10101#2",
-              "dx": 60,
-              "dy": 170,
-              "dz": 60,
+              "id": "CLOCKYNAVY#4",
+              "name": "CLOCKYNAVY#4",
+              "dx": 140,
+              "dy": 100,
+              "dz": 100,
               "step": 6,
+              "type": "box"
+            }
+          },
+          {
+            "x": 300,
+            "y": 260,
+            "z": 80,
+            "step": 7,
+            "stackable": {
+              "id": "WS9632CHOCO#5",
+              "name": "WS9632CHOCO#5",
+              "dx": 100,
+              "dy": 160,
+              "dz": 80,
+              "step": 7,
+              "type": "box"
+            }
+          },
+          {
+            "x": 0,
+            "y": 280,
+            "z": 150,
+            "step": 8,
+            "stackable": {
+              "id": "WT775GRAU#1",
+              "name": "WT775GRAU#1",
+              "dx": 110,
+              "dy": 150,
+              "dz": 60,
+              "step": 8,
+              "type": "box"
+            }
+          }
+        ]
+      },
+      "type": "container"
+    },
+    {
+      "name": "中间容器1",
+      "id": "中间容器1",
+      "dx": 310,
+      "dy": 220,
+      "dz": 160,
+      "loadDx": 310,
+      "loadDy": 220,
+      "loadDz": 160,
+      "step": 9,
+      "stack": {
+        "placements": [
+          {
+            "x": 0,
+            "y": 0,
+            "z": 0,
+            "step": 10,
+            "stackable": {
+              "id": "WS6449#9",
+              "name": "WS6449#9",
+              "dx": 220,
+              "dy": 190,
+              "dz": 90,
+              "step": 10,
               "type": "box"
             }
           },
@@ -106,29 +167,29 @@
             "x": 0,
             "y": 0,
             "z": 90,
-            "step": 8,
+            "step": 12,
             "stackable": {
               "id": "padding_paper",
               "name": "PaddingPaper",
-              "dx": 110,
-              "dy": 450,
+              "dx": 310,
+              "dy": 110,
               "dz": 70,
-              "step": 8,
+              "step": 12,
               "type": "padding"
             }
           },
           {
-            "x": 300,
-            "y": 170,
-            "z": 60,
-            "step": 8,
+            "x": 0,
+            "y": 110,
+            "z": 90,
+            "step": 12,
             "stackable": {
               "id": "padding_paper",
               "name": "PaddingPaper",
-              "dx": 110,
-              "dy": 280,
+              "dx": 310,
+              "dy": 110,
               "dz": 70,
-              "step": 8,
+              "step": 12,
               "type": "padding"
             }
           }
