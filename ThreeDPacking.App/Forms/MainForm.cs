@@ -29,12 +29,29 @@ namespace ThreeDPacking.App.Forms
         private List<ItemCandidate> _loadedItems = new List<ItemCandidate>();
         private List<Core.Models.Container> _packedContainers = new List<Core.Models.Container>();
 
+        private Button btnProbabilitySelect;
+
         public MainForm()
         {
             InitializeComponent();
+            InitProbabilityButton();
             WireEvents();
             AddDefaultContainer();
             btnRandomSelect.Enabled = false;
+            if (btnProbabilitySelect != null)
+                btnProbabilitySelect.Enabled = false;
+        }
+
+        private void InitProbabilityButton()
+        {
+            btnProbabilitySelect = new Button();
+            btnProbabilitySelect.Name = "btnProbabilitySelect";
+            btnProbabilitySelect.Text = "概率选择";
+            btnProbabilitySelect.UseVisualStyleBackColor = true;
+            btnProbabilitySelect.TabIndex = 5;
+            btnProbabilitySelect.Size = new Size(68, 23);
+            btnProbabilitySelect.Click += BtnProbabilitySelect_Click;
+            grpRandomSelect.Controls.Add(btnProbabilitySelect);
         }
 
         private void WireEvents()
@@ -46,6 +63,7 @@ namespace ThreeDPacking.App.Forms
             menuExit.Click += (s, e) => Close();
             menuStartPacking.Click += MenuStartPacking_Click;
             btnRandomSelect.Click += BtnRandomSelect_Click;
+            // btnProbabilitySelect is created dynamically in InitProbabilityButton()
             btnAddContainer.Click += BtnAddContainer_Click;
             btnRemoveContainer.Click += BtnRemoveContainer_Click;
 
@@ -101,8 +119,14 @@ namespace ThreeDPacking.App.Forms
             numRandomMin.Location = new Point(48, 16);
             lblRandomMax.Location = new Point(115, 20);
             numRandomMax.Location = new Point(155, 16);
-            btnRandomSelect.Location = new Point(w - 90, 15);
-            btnRandomSelect.Size = new Size(85, 23);
+            int btnW = 68;
+            int btnH = 23;
+            int gap = 6;
+            int btnX = Math.Max(0, w - (btnW * 2 + gap));
+            btnProbabilitySelect.Location = new Point(btnX, 15);
+            btnProbabilitySelect.Size = new Size(btnW, btnH);
+            btnRandomSelect.Location = new Point(btnX + btnW + gap, 15);
+            btnRandomSelect.Size = new Size(btnW, btnH);
             lblRandomInfo.Location = new Point(8, 48);
             y += 81;
 
@@ -181,12 +205,12 @@ namespace ThreeDPacking.App.Forms
 
                 try
                 {
-                    _allLoadedItems = ExcelReader.ReadItems(dlg.FileName);
+                    _allLoadedItems = ExcelProbabilityReader.ReadItems(dlg.FileName);
                     // Assign unique instance IDs
                     for (int i = 0; i < _allLoadedItems.Count; i++)
                     {
                         var old = _allLoadedItems[i];
-                        _allLoadedItems[i] = new ItemCandidate(old.Name, old.Dx, old.Dy, old.Dz, i + 1);
+                        _allLoadedItems[i] = new ItemCandidate(old.Name, old.Dx, old.Dy, old.Dz, i + 1, old.Probability);
                     }
 
                     // 默认加载所有物品
@@ -195,6 +219,8 @@ namespace ThreeDPacking.App.Forms
                     RefreshItemsGrid();
                     menuStartPacking.Enabled = _loadedItems.Count > 0;
                     btnRandomSelect.Enabled = _allLoadedItems.Count > 0;
+                    if (btnProbabilitySelect != null)
+                        btnProbabilitySelect.Enabled = _allLoadedItems.Count > 0;
                     lblRandomInfo.Text = $"已加载 {_allLoadedItems.Count} 个物品";
                     statusLabel.Text = $"已加载 {_allLoadedItems.Count} 个物品: {dlg.FileName}";
                     AppendLog($"加载 {_allLoadedItems.Count} 个物品自 {dlg.FileName}");
@@ -259,24 +285,117 @@ namespace ThreeDPacking.App.Forms
             // 生成随机数量
             var random = new Random();
             int targetCount = random.Next(minCount, maxCount + 1);
-            targetCount = Math.Min(targetCount, _allLoadedItems.Count);
+            // 有放回：允许目标数量超过物品种类数
 
-            // 随机选择物品
-            var shuffled = new List<ItemCandidate>(_allLoadedItems);
-            ShuffleList(shuffled, random);
-            _loadedItems = shuffled.Take(targetCount).ToList();
+            // 随机选择物品（有放回抽样：允许重复）
+            _loadedItems = new List<ItemCandidate>(targetCount);
+            for (int i = 0; i < targetCount; i++)
+            {
+                int idx = random.Next(_allLoadedItems.Count);
+                _loadedItems.Add(_allLoadedItems[idx]);
+            }
 
             // 重新分配InstanceId
             for (int i = 0; i < _loadedItems.Count; i++)
             {
                 var old = _loadedItems[i];
-                _loadedItems[i] = new ItemCandidate(old.Name, old.Dx, old.Dy, old.Dz, i + 1);
+                _loadedItems[i] = new ItemCandidate(old.Name, old.Dx, old.Dy, old.Dz, i + 1, old.Probability);
             }
 
             RefreshItemsGrid();
             menuStartPacking.Enabled = _loadedItems.Count > 0;
             statusLabel.Text = $"已随机选择 {_loadedItems.Count} 个物品 (范围: {minCount}-{maxCount})";
             AppendLog($"随机选择了 {_loadedItems.Count} 个物品进行装箱");
+        }
+
+        private void BtnProbabilitySelect_Click(object sender, EventArgs e)
+        {
+            if (_allLoadedItems.Count == 0)
+            {
+                MessageBox.Show("请先加载物品Excel文件。", "提示",
+                    MessageBoxButtons.OK, MessageBoxIcon.Information);
+                return;
+            }
+
+            int minCount = (int)numRandomMin.Value;
+            int maxCount = (int)numRandomMax.Value;
+
+            if (minCount > maxCount)
+            {
+                MessageBox.Show("最小数量不能大于最大数量。", "提示",
+                    MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            // 生成随机数量（与随机选择逻辑一致）
+            var random = new Random();
+            int targetCount = random.Next(minCount, maxCount + 1);
+            // 有放回：允许目标数量超过物品种类数
+
+            // 按权重（出现概率）有放回抽样：允许重复
+            _loadedItems = SelectItemsByProbabilityWithReplacement(_allLoadedItems, targetCount, random);
+
+            // 重新分配 InstanceId
+            for (int i = 0; i < _loadedItems.Count; i++)
+            {
+                var old = _loadedItems[i];
+                _loadedItems[i] = new ItemCandidate(old.Name, old.Dx, old.Dy, old.Dz, i + 1, old.Probability);
+            }
+
+            RefreshItemsGrid();
+            menuStartPacking.Enabled = _loadedItems.Count > 0;
+            statusLabel.Text = $"已按概率选择 {_loadedItems.Count} 个物品 (范围: {minCount}-{maxCount})";
+            AppendLog($"概率选择了 {_loadedItems.Count} 个物品进行装箱");
+        }
+
+        private List<ItemCandidate> SelectItemsByProbabilityWithReplacement(
+            List<ItemCandidate> allItems,
+            int targetCount,
+            Random random)
+        {
+            var selected = new List<ItemCandidate>(targetCount);
+
+            // 只把非负概率当作权重
+            double sum = 0;
+            foreach (var item in allItems)
+                sum += Math.Max(0, item.Probability);
+
+            for (int k = 0; k < targetCount; k++)
+            {
+                if (allItems.Count == 0)
+                    break;
+
+                if (sum <= 0)
+                {
+                    // 如果全部权重为 0，则退化为均匀抽样
+                    int idx = random.Next(allItems.Count);
+                    selected.Add(allItems[idx]);
+                    continue;
+                }
+
+                double roll = random.NextDouble() * sum;
+                double cumulative = 0;
+
+                // 有放回抽样：每次都在全体内按权重选一次，不移除
+                for (int i = 0; i < allItems.Count; i++)
+                {
+                    double w = Math.Max(0, allItems[i].Probability);
+                    cumulative += w;
+                    if (roll <= cumulative)
+                    {
+                        selected.Add(allItems[i]);
+                        break;
+                    }
+                }
+
+                // 防御：浮点误差导致没有命中时，兜底选择最后一个
+                if (selected.Count < k + 1)
+                {
+                    selected.Add(allItems[allItems.Count - 1]);
+                }
+            }
+
+            return selected;
         }
 
         private void ShuffleList<T>(List<T> list, Random random)

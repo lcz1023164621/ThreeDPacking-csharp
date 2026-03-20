@@ -1,14 +1,14 @@
 {
   "containers": [
     {
-      "name": "最大容器",
-      "id": "最大容器",
-      "dx": 450,
-      "dy": 450,
-      "dz": 210,
-      "loadDx": 450,
-      "loadDy": 450,
-      "loadDz": 210,
+      "name": "中间容器1",
+      "id": "中间容器1",
+      "dx": 310,
+      "dy": 220,
+      "dz": 160,
+      "loadDx": 310,
+      "loadDy": 220,
+      "loadDz": 160,
       "step": 0,
       "stack": {
         "placements": [
@@ -18,87 +18,57 @@
             "z": 0,
             "step": 1,
             "stackable": {
-              "id": "NX3164#3",
-              "name": "NX3164#3",
-              "dx": 380,
-              "dy": 380,
-              "dz": 80,
+              "id": "WS9140#3",
+              "name": "WS9140#3",
+              "dx": 90,
+              "dy": 220,
+              "dz": 60,
               "step": 1,
               "type": "box"
             }
           },
           {
-            "x": 0,
+            "x": 90,
             "y": 0,
-            "z": 80,
+            "z": 0,
             "step": 2,
             "stackable": {
-              "id": "WM5412#1",
-              "name": "WM5412#1",
-              "dx": 180,
-              "dy": 220,
-              "dz": 60,
+              "id": "COSTCONTRO II#1",
+              "name": "COSTCONTRO II#1",
+              "dx": 80,
+              "dy": 150,
+              "dz": 70,
               "step": 2,
               "type": "box"
             }
           },
           {
-            "x": 0,
-            "y": 220,
-            "z": 80,
+            "x": 170,
+            "y": 0,
+            "z": 0,
             "step": 3,
             "stackable": {
-              "id": "WD2950#4",
-              "name": "WD2950#4",
-              "dx": 210,
+              "id": "WS7024#2",
+              "name": "WS7024#2",
+              "dx": 80,
               "dy": 130,
-              "dz": 80,
+              "dz": 30,
               "step": 3,
               "type": "box"
             }
           },
           {
-            "x": 180,
+            "x": 170,
             "y": 0,
-            "z": 80,
-            "step": 4,
-            "stackable": {
-              "id": "WD4005BRAUN#2",
-              "name": "WD4005BRAUN#2",
-              "dx": 190,
-              "dy": 150,
-              "dz": 60,
-              "step": 4,
-              "type": "box"
-            }
-          },
-          {
-            "x": 0,
-            "y": 0,
-            "z": 140,
-            "step": 6,
+            "z": 30,
+            "step": 5,
             "stackable": {
               "id": "padding_paper",
               "name": "PaddingPaper",
-              "dx": 450,
-              "dy": 110,
+              "dx": 110,
+              "dy": 220,
               "dz": 70,
-              "step": 6,
-              "type": "padding"
-            }
-          },
-          {
-            "x": 0,
-            "y": 110,
-            "z": 140,
-            "step": 6,
-            "stackable": {
-              "id": "padding_paper",
-              "name": "PaddingPaper",
-              "dx": 450,
-              "dy": 110,
-              "dz": 70,
-              "step": 6,
+              "step": 5,
               "type": "padding"
             }
           }
