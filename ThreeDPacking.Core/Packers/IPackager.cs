@@ -4,16 +4,16 @@ using ThreeDPacking.Core.Models;
 namespace ThreeDPacking.Core.Packers
 {
     /// <summary>
-    /// Interface for all packing algorithms.
+    /// 所有装箱算法的统一接口。
     /// </summary>
     public interface IPackager
     {
         /// <summary>
-        /// Pack items into a single container.
+        /// 将物品装入单个容器。
         /// </summary>
-        /// <param name="items">The items to pack (will be cloned internally).</param>
-        /// <param name="container">The container to pack into (will be cloned internally).</param>
-        /// <returns>A packed container with placements, or null if nothing could be packed.</returns>
+        /// <param name="items">待装箱物品（内部会先克隆）。</param>
+        /// <param name="container">目标容器（内部会先克隆）。</param>
+        /// <returns>返回装箱后的容器；若无法放置任何物品则返回 null。</returns>
         Container Pack(List<BoxItem> items, Container container);
     }
 }

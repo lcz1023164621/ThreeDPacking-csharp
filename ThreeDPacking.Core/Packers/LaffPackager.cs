@@ -38,7 +38,7 @@ namespace ThreeDPacking.Core.Packers
             var pointCalc = new PointCalculator2D();
             pointCalc.ClearToSize(container.LoadDx, container.LoadDy, container.LoadDz);
 
-            // Remove items that don't fit
+            // 移除无法放入容器的物品
             for (int i = source.Size - 1; i >= 0; i--)
             {
                 if (!container.FitsInside(source.Get(i).Box))
@@ -61,7 +61,7 @@ namespace ThreeDPacking.Core.Packers
 
                 if (newLevel)
                 {
-                    // Get first box for new level - prefer largest area
+                    // 新层第一个物品：优先选择底面积最大的箱子
                     // 使用 result 而不是 container，以便支撑检查能访问已放置的物品
                     placement = _firstSelector.GetFirstPlacement(
                         source, pointCalc, result, remainingWeight, remainingVolume);
@@ -88,7 +88,7 @@ namespace ThreeDPacking.Core.Packers
                         }
                     }
 
-                    // Create the level floor
+                    // 创建当前层“地板”极值点
                     int layerHeight = placement.StackValue.Dz;
                     var levelFloor = new ExtremePoint(
                         0, 0, levelOffset,
@@ -103,7 +103,7 @@ namespace ThreeDPacking.Core.Packers
                 }
                 else
                 {
-                    // Continue filling current level
+                    // 继续填充当前层
                     // 使用 result 而不是 container，以便支撑检查能访问已放置的物品
                     placement = _selector.GetBestPlacement(
                         source, pointCalc, result, stack, remainingWeight, remainingVolume);
@@ -116,7 +116,7 @@ namespace ThreeDPacking.Core.Packers
                         if (remainingDz <= 0)
                             break;
 
-                        // Prepare points for new level spanning remaining height
+                        // 为新层准备覆盖剩余高度的起始点
                         var levelFloor = new ExtremePoint(
                             0, 0, levelOffset,
                             container.LoadDx - 1, container.LoadDy - 1,
@@ -125,7 +125,7 @@ namespace ThreeDPacking.Core.Packers
                         pointCalc.SetPoints(new List<ExtremePoint> { levelFloor });
                         pointCalc.Clear();
 
-                        // Remove items too big for remaining space
+                        // 移除对剩余空间来说过大的物品
                         long maxArea = pointCalc.GetMaxArea();
                         long maxVolume = pointCalc.GetMaxVolume();
                         for (int i = source.Size - 1; i >= 0; i--)
@@ -149,7 +149,7 @@ namespace ThreeDPacking.Core.Packers
                     }
                 }
 
-                // Find point index
+                // 查找极值点索引
                 int pointIndex = -1;
                 for (int i = 0; i < pointCalc.PointCount; i++)
                 {
@@ -170,7 +170,7 @@ namespace ThreeDPacking.Core.Packers
                 remainingWeight -= placement.StackValue.Box.Weight;
                 remainingVolume -= placement.StackValue.Box.Volume;
 
-                // Find and decrement box item
+                // 找到对应物品并扣减数量
                 for (int i = 0; i < source.Size; i++)
                 {
                     if (source.Get(i).Box.Id == placement.BoxItem.Box.Id)
@@ -182,7 +182,7 @@ namespace ThreeDPacking.Core.Packers
 
                 if (!source.IsEmpty)
                 {
-                    // Remove items too big for remaining capacity
+                    // 移除超过剩余承重/体积能力的物品
                     for (int i = source.Size - 1; i >= 0; i--)
                     {
                         var box = source.Get(i).Box;

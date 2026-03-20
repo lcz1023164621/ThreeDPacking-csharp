@@ -362,7 +362,7 @@ namespace ThreeDPacking.App.Forms
             this.grpRandomSelect.Size = new System.Drawing.Size(320, 75);
             this.grpRandomSelect.TabIndex = 4;
             this.grpRandomSelect.TabStop = false;
-            this.grpRandomSelect.Text = "随机选择物品";
+            this.grpRandomSelect.Text = "选择物品";
             // 
             // lblRandomInfo
             // 

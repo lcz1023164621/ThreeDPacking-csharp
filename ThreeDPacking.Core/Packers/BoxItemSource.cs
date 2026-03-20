@@ -34,7 +34,7 @@ namespace ThreeDPacking.Core.Packers
         {
             var item = _items[index];
             _items.RemoveAt(index);
-            // Re-index
+            // 重新编排索引
             for (int i = index; i < _items.Count; i++)
                 _items[i].Index = i;
             return item;

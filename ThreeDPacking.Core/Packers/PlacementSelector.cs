@@ -22,16 +22,16 @@ namespace ThreeDPacking.Core.Packers
         }
 
         /// <summary>
-        /// Find the best placement for any box item at any available point.
-        /// Strategy: Prioritize filling the first level (Z=0) completely before moving up.
+        /// 在所有可用点与可用物品中选择最佳放置。
+        /// 策略：优先尽量铺满首层（Z=0），再向上层扩展。
         /// </summary>
-        /// <param name="source">Available box items.</param>
-        /// <param name="calculator">Point calculator with available points.</param>
-        /// <param name="container">The target container.</param>
-        /// <param name="stack">Current placements in the container.</param>
-        /// <param name="remainingWeight">Remaining weight capacity.</param>
-        /// <param name="remainingVolume">Remaining volume capacity.</param>
-        /// <returns>The best placement, or null if nothing fits.</returns>
+        /// <param name="source">可用物品源。</param>
+        /// <param name="calculator">包含可用极值点的计算器。</param>
+        /// <param name="container">目标容器。</param>
+        /// <param name="stack">容器内当前已放置结果。</param>
+        /// <param name="remainingWeight">剩余承重。</param>
+        /// <param name="remainingVolume">剩余体积。</param>
+        /// <returns>最优放置；若无可行方案则返回 null。</returns>
         public Placement GetBestPlacement(
             BoxItemSource source,
             IPointCalculator calculator,
@@ -40,22 +40,22 @@ namespace ThreeDPacking.Core.Packers
             int remainingWeight,
             long remainingVolume)
         {
-            // First, try to find placements on the first level (Z=0) to maximize base coverage
+            // 先尝试在首层（Z=0）找放置，以最大化底面覆盖
             var firstLevelPlacement = GetBestFirstLevelPlacement(
                 source, calculator, container, stack, remainingWeight, remainingVolume);
             
-            // If we found a valid first-level placement, use it
+            // 若找到可用的首层放置，直接使用
             if (firstLevelPlacement != null)
                 return firstLevelPlacement;
             
-            // Otherwise, fall back to normal placement strategy for higher levels
+            // 否则回退到高层常规放置策略
             return GetBestHigherLevelPlacement(
                 source, calculator, container, stack, remainingWeight, remainingVolume);
         }
 
         /// <summary>
-        /// Find the best placement specifically for the first level (Z=0).
-        /// Prioritizes largest area to maximize base coverage.
+        /// 专门为首层（Z=0）选择最佳放置。
+        /// 优先底面积更大者，以提高首层覆盖率。
         /// </summary>
         private Placement GetBestFirstLevelPlacement(
             BoxItemSource source,
@@ -74,7 +74,7 @@ namespace ThreeDPacking.Core.Packers
             {
                 var point = calculator.GetPoint(pi);
                 
-                // Only consider first level points (Z=0)
+                // 仅考虑首层点（Z=0）
                 if (point.MinZ != 0)
                     continue;
 
@@ -94,13 +94,13 @@ namespace ThreeDPacking.Core.Packers
                     {
                         var placement = new Placement(sv, point.MinX, point.MinY, point.MinZ, boxItem);
                         
-                        // Verify placement doesn't exceed container boundaries
+                        // 校验放置后不越过容器边界
                         if (placement.AbsoluteEndX >= container.LoadDx ||
                             placement.AbsoluteEndY >= container.LoadDy ||
                             placement.AbsoluteEndZ >= container.LoadDz)
                             continue;
                         
-                        // Verify placement doesn't intersect with existing placements
+                        // 校验放置后不与已有物品相交
                         if (stack?.Placements != null && stack.Placements.Count > 0)
                         {
                             bool intersects = false;
@@ -115,10 +115,10 @@ namespace ThreeDPacking.Core.Packers
                             if (intersects)
                                 continue;
 
-                            // First level is always on ground, no support check needed
+                            // 首层位于地面，无需支撑检查
                         }
                         
-                        // Prioritize by largest area for first level coverage
+                        // 以底面积最大优先，提升首层铺满率
                         long area = sv.Area;
                         if (area > bestArea)
                         {
@@ -133,8 +133,8 @@ namespace ThreeDPacking.Core.Packers
         }
 
         /// <summary>
-        /// Find the best placement for higher levels (Z>0).
-        /// Uses the standard placement comparer.
+        /// 为高层（Z>0）选择最佳放置。
+        /// 使用标准放置比较器进行排序。
         /// </summary>
         private Placement GetBestHigherLevelPlacement(
             BoxItemSource source,
@@ -168,13 +168,13 @@ namespace ThreeDPacking.Core.Packers
                     {
                         var placement = new Placement(sv, point.MinX, point.MinY, point.MinZ, boxItem);
                         
-                        // Verify placement doesn't exceed container boundaries
+                        // 校验放置后不越过容器边界
                         if (placement.AbsoluteEndX >= container.LoadDx ||
                             placement.AbsoluteEndY >= container.LoadDy ||
                             placement.AbsoluteEndZ >= container.LoadDz)
                             continue;
                         
-                        // Verify placement doesn't intersect with existing placements
+                        // 校验放置后不与已有物品相交
                         if (stack?.Placements != null && stack.Placements.Count > 0)
                         {
                             bool intersects = false;
@@ -189,7 +189,7 @@ namespace ThreeDPacking.Core.Packers
                             if (intersects)
                                 continue;
 
-                            // Verify placement has sufficient support
+                            // 校验放置后支撑是否充足
                             if (!HasSufficientSupport(placement, stack.Placements))
                                 continue;
                         }
@@ -208,8 +208,8 @@ namespace ThreeDPacking.Core.Packers
         }
 
         /// <summary>
-        /// Find the best placement specifically for the first item of a new level.
-        /// Prioritizes by area to get the best base for the level.
+        /// 为新层的第一个物品选择最佳放置。
+        /// 优先底面积更大者，形成更稳定的层基底。
         /// </summary>
         public Placement GetFirstPlacement(
             BoxItemSource source,
@@ -245,19 +245,19 @@ namespace ThreeDPacking.Core.Packers
                         long area = sv.Area;
                         long volume = sv.Volume;
                         
-                        // Create placement to check boundaries
+                        // 先构造放置对象用于边界校验
                         var placement = new Placement(sv, point.MinX, point.MinY, point.MinZ, boxItem);
                         
-                        // Verify placement doesn't exceed container boundaries
+                        // 校验放置后不越过容器边界
                         if (placement.AbsoluteEndX >= container.LoadDx ||
                             placement.AbsoluteEndY >= container.LoadDy ||
                             placement.AbsoluteEndZ >= container.LoadDz)
                             continue;
 
-                        // Get stack from container for collision and support checks
+                        // 从容器获取 stack，用于碰撞与支撑校验
                         var stack = container.Stack;
                         
-                        // Verify placement doesn't intersect with existing placements
+                        // 校验放置后不与已有物品相交
                         if (stack?.Placements != null && stack.Placements.Count > 0)
                         {
                             bool intersects = false;
@@ -272,7 +272,7 @@ namespace ThreeDPacking.Core.Packers
                             if (intersects)
                                 continue;
 
-                            // Verify placement has sufficient support
+                            // 校验放置后支撑是否充足
                             if (!HasSufficientSupport(placement, stack.Placements))
                                 continue;
                         }

@@ -40,7 +40,7 @@ namespace ThreeDPacking.Core.Packers
             var pointCalc = new PointCalculator3D();
             pointCalc.ClearToSize(container.LoadDx, container.LoadDy, container.LoadDz);
 
-            // Remove items that don't fit the container at all
+            // 移除完全无法放入容器的物品
             for (int i = source.Size - 1; i >= 0; i--)
             {
                 var boxItem = source.Get(i);
@@ -67,7 +67,7 @@ namespace ThreeDPacking.Core.Packers
 
 
 
-                // Find the point index used
+                // 查找本次放置所使用的极值点索引
                 int pointIndex = -1;
                 for (int i = 0; i < pointCalc.PointCount; i++)
                 {
@@ -88,7 +88,7 @@ namespace ThreeDPacking.Core.Packers
                 remainingWeight -= placement.StackValue.Box.Weight;
                 remainingVolume -= placement.StackValue.Box.Volume;
 
-                // Find and decrement the box item
+                // 找到对应物品并扣减数量
                 for (int i = 0; i < source.Size; i++)
                 {
                     if (source.Get(i).Box.Id == placement.BoxItem.Box.Id)
@@ -100,7 +100,7 @@ namespace ThreeDPacking.Core.Packers
 
                 if (!source.IsEmpty)
                 {
-                    // Remove items too big for remaining capacity
+                    // 移除超过剩余承重/体积能力的物品
                     for (int i = source.Size - 1; i >= 0; i--)
                     {
                         var box = source.Get(i).Box;
@@ -112,7 +112,7 @@ namespace ThreeDPacking.Core.Packers
                     {
                         pointCalc.SetMinimumAreaAndVolumeLimit(source.GetMinArea(), source.GetMinVolume());
 
-                        // Remove items too big for available points
+                        // 移除对当前可用极值点来说过大的物品
                         long maxPointArea = pointCalc.GetMaxArea();
                         long maxPointVolume = pointCalc.GetMaxVolume();
                         for (int i = source.Size - 1; i >= 0; i--)

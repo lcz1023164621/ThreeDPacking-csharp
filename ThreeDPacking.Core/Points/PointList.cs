@@ -45,8 +45,8 @@ namespace ThreeDPacking.Core.Points
         }
 
         /// <summary>
-        /// Binary search for the first point with MinX > value, starting from startIndex.
-        /// Returns the index of the first element with MinX > value, or Count if none.
+        /// 从 startIndex 开始二分查找第一个 MinX > value 的点。
+        /// 若不存在，返回 Count。
         /// </summary>
         public int BinarySearchPlusMinX(int startIndex, int value)
         {
@@ -64,7 +64,7 @@ namespace ThreeDPacking.Core.Points
         }
 
         /// <summary>
-        /// Binary search for the first point with MinY > value, starting from startIndex.
+        /// 从 startIndex 开始二分查找第一个 MinY > value 的点。
         /// </summary>
         public int BinarySearchPlusMinY(int startIndex, int value)
         {
@@ -82,7 +82,7 @@ namespace ThreeDPacking.Core.Points
         }
 
         /// <summary>
-        /// Sort the list by the standard ordering (MinX, MinY, MinZ, MaxX, MaxY, MaxZ).
+        /// 按标准顺序排序（MinX, MinY, MinZ, MaxX, MaxY, MaxZ）。
         /// </summary>
         public void Sort()
         {
@@ -90,7 +90,7 @@ namespace ThreeDPacking.Core.Points
         }
 
         /// <summary>
-        /// Get the maximum area across all points.
+        /// 获取所有点中的最大面积。
         /// </summary>
         public long GetMaxArea()
         {
@@ -104,7 +104,7 @@ namespace ThreeDPacking.Core.Points
         }
 
         /// <summary>
-        /// Get the maximum volume across all points.
+        /// 获取所有点中的最大体积。
         /// </summary>
         public long GetMaxVolume()
         {
@@ -118,7 +118,7 @@ namespace ThreeDPacking.Core.Points
         }
 
         /// <summary>
-        /// Remove points that are too small (area or volume below limits).
+        /// 移除过小的点（面积或体积低于阈值）。
         /// </summary>
         public void RemoveSmallPoints(long minArea, long minVolume)
         {
@@ -131,7 +131,7 @@ namespace ThreeDPacking.Core.Points
         }
 
         /// <summary>
-        /// Set points from an initial list, replacing all current points.
+        /// 用给定初始列表替换当前全部点。
         /// </summary>
         public void SetFrom(IList<ExtremePoint> points)
         {
@@ -140,7 +140,7 @@ namespace ThreeDPacking.Core.Points
         }
 
         /// <summary>
-        /// Swap the contents of this list with another.
+        /// 与另一个 PointList 交换内容。
         /// </summary>
         public void SwapWith(PointList other)
         {

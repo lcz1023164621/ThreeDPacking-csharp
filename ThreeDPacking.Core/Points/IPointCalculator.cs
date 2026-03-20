@@ -19,37 +19,37 @@ namespace ThreeDPacking.Core.Points
         int Add(int pointIndex, Placement placement);
 
         /// <summary>
-        /// Get the number of available points.
+        /// 获取当前可用极值点数量。
         /// </summary>
         int PointCount { get; }
 
         /// <summary>
-        /// Get a point by index.
+        /// 按索引获取一个极值点。
         /// </summary>
         ExtremePoint GetPoint(int index);
 
         /// <summary>
-        /// Get all available points.
+        /// 获取全部可用极值点。
         /// </summary>
         IList<ExtremePoint> GetAllPoints();
 
         /// <summary>
-        /// Check if there are any available points.
+        /// 判断是否还有可用极值点。
         /// </summary>
         bool IsEmpty { get; }
 
         /// <summary>
-        /// Get the maximum area available across all points.
+        /// 获取所有极值点中的最大可用底面积。
         /// </summary>
         long GetMaxArea();
 
         /// <summary>
-        /// Get the maximum volume available across all points.
+        /// 获取所有极值点中的最大可用体积。
         /// </summary>
         long GetMaxVolume();
 
         /// <summary>
-        /// Set minimum area and volume limits, removing points below these thresholds.
+        /// 设置最小面积/体积阈值，并移除低于阈值的极值点。
         /// </summary>
         void SetMinimumAreaAndVolumeLimit(long minArea, long minVolume);
     }

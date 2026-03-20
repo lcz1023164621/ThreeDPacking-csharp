@@ -15,7 +15,7 @@ namespace ThreeDPacking.Core.Points
         public int MaxX { get; set; }
         public int MaxY { get; set; }
         public int MaxZ { get; set; }
-
+        //可放尺寸
         public int Dx => MaxX - MinX + 1;
         public int Dy => MaxY - MinY + 1;
         public int Dz => MaxZ - MinZ + 1;
@@ -93,7 +93,7 @@ namespace ThreeDPacking.Core.Points
         }
 
         /// <summary>
-        /// Move this point to a new X position (point projection along X axis).
+        /// 将该点移动到新的 X 位置（沿 X 轴投影）。
         /// </summary>
         public ExtremePoint MoveX(int newMinX)
         {
@@ -101,7 +101,7 @@ namespace ThreeDPacking.Core.Points
         }
 
         /// <summary>
-        /// Move this point to a new Y position (point projection along Y axis).
+        /// 将该点移动到新的 Y 位置（沿 Y 轴投影）。
         /// </summary>
         public ExtremePoint MoveY(int newMinY)
         {
@@ -109,7 +109,7 @@ namespace ThreeDPacking.Core.Points
         }
 
         /// <summary>
-        /// Move this point to a new Z position (point projection along Z axis).
+        /// 将该点移动到新的 Z 位置（沿 Z 轴投影）。
         /// </summary>
         public ExtremePoint MoveZ(int newMinZ)
         {
@@ -139,7 +139,7 @@ namespace ThreeDPacking.Core.Points
     }
 
     /// <summary>
-    /// Lightweight reference to a BoxStackValue for point fitting checks.
+    /// 轻量级的 BoxStackValue 引用，用于极值点可放置性检查。
     /// </summary>
     public struct BoxStackValueRef
     {

@@ -32,7 +32,7 @@ namespace ThreeDPacking.Core.Points
             _placements.Clear();
             _minAreaLimit = 0;
             _minVolumeLimit = 0;
-            // Initial point: entire container floor
+            // 初始点：整个容器底面空间
             _points.Add(new ExtremePoint(0, 0, 0, _containerMaxX, _containerMaxY, _containerMaxZ));
         }
 
@@ -72,7 +72,7 @@ namespace ThreeDPacking.Core.Points
         {
             _minAreaLimit = minArea;
             _minVolumeLimit = minVolume;
-            // Remove points that are too small
+            // 移除尺寸过小的极值点
             for (int i = _points.Count - 1; i >= 0; i--)
             {
                 var p = _points[i];
@@ -82,15 +82,15 @@ namespace ThreeDPacking.Core.Points
         }
 
         /// <summary>
-        /// Add a placement and update extreme points.
-        /// Uses the 2D extreme point algorithm: when a box is placed at a point,
-        /// new candidate points are generated at the box's edges.
+        /// 添加一个放置结果并更新极值点。
+        /// 使用 2D 极值点算法：当箱子放在某个点后，
+        /// 在该箱体边缘生成新的候选极值点。
         /// </summary>
         public int Add(int pointIndex, Placement placement)
         {
             _placements.Add(placement);
 
-            // Remove the used point
+            // 移除已使用的极值点
             _points.RemoveAt(pointIndex);
 
             int px = placement.AbsoluteX;
@@ -100,8 +100,8 @@ namespace ThreeDPacking.Core.Points
             int endY = placement.AbsoluteEndY;
             int endZ = placement.AbsoluteEndZ;
 
-            // Generate new extreme points at the box edges
-            // Point 1: Right of the placed box (along X axis)
+            // 在箱体边缘生成新的极值点
+            // 点1：放置箱体右侧（X 轴方向）
             if (endX + 1 <= _containerMaxX)
             {
                 var rightPoint = new ExtremePoint(
@@ -111,7 +111,7 @@ namespace ThreeDPacking.Core.Points
                     AddPointIfNotEclipsed(rightPoint);
             }
 
-            // Point 2: In front of the placed box (along Y axis)
+            // 点2：放置箱体前侧（Y 轴方向）
             if (endY + 1 <= _containerMaxY)
             {
                 var frontPoint = new ExtremePoint(
@@ -121,17 +121,17 @@ namespace ThreeDPacking.Core.Points
                     AddPointIfNotEclipsed(frontPoint);
             }
 
-            // Constrain existing points that overlap with the placement
+            // 对与放置区域重叠的已有极值点执行约束裁剪
             ConstrainPoints(placement);
 
-            // Remove eclipsed points
+            // 删除被包含（被遮蔽）的极值点
             RemoveEclipsedPoints();
 
             return pointIndex;
         }
 
         /// <summary>
-        /// Set new points (used when starting a new level in LAFF).
+        /// 设置新的极值点集合（用于 LAFF 开新层）。
         /// </summary>
         public void SetPoints(IList<ExtremePoint> newPoints)
         {
@@ -140,7 +140,7 @@ namespace ThreeDPacking.Core.Points
         }
 
         /// <summary>
-        /// Clear placements but keep points (used for level transitions).
+        /// 清空已放置记录但保留极值点（用于层切换）。
         /// </summary>
         public void Clear()
         {
@@ -157,7 +157,7 @@ namespace ThreeDPacking.Core.Points
 
         private void AddPointIfNotEclipsed(ExtremePoint newPoint)
         {
-            // Check if any existing point eclipses the new one
+            // 若已有点完全包含新点，则无需添加
             foreach (var existing in _points)
             {
                 if (existing.Eclipses(newPoint))
@@ -175,27 +175,27 @@ namespace ThreeDPacking.Core.Points
             {
                 var p = _points[i];
 
-                // Check if point overlaps with placement in 2D
+                // 检查该点与放置区域在 2D 平面是否重叠
                 bool overlapX = p.MinX <= endX && p.MaxX >= placement.AbsoluteX;
                 bool overlapY = p.MinY <= endY && p.MaxY >= placement.AbsoluteY;
 
                 if (overlapX && overlapY)
                 {
-                    // Point is inside or overlapping the placed box
+                    // 点位于箱体内部或与箱体发生重叠
                     if (p.MinX >= placement.AbsoluteX && p.MinY >= placement.AbsoluteY)
                     {
-                        // Point is completely swallowed - remove it
+                        // 点被完全吞没，直接移除
                         _points.RemoveAt(i);
                     }
                     else
                     {
-                        // Constrain the point
+                        // 对该点做约束裁剪
                         bool needsConstrainX = p.MinX < placement.AbsoluteX && p.MaxX >= placement.AbsoluteX;
                         bool needsConstrainY = p.MinY < placement.AbsoluteY && p.MaxY >= placement.AbsoluteY;
 
                         if (needsConstrainX && needsConstrainY)
                         {
-                            // Split: create constrained X version and constrained Y version
+                            // 分裂：生成 X 约束版本与 Y 约束版本
                             var constrainedX = new ExtremePoint(
                                 p.MinX, p.MinY, p.MinZ,
                                 placement.AbsoluteX - 1, p.MaxY, p.MaxZ);
