@@ -18,6 +18,16 @@ namespace ThreeDPacking.Core.Points
         private int _containerMaxZ;
         private long _minAreaLimit;
         private long _minVolumeLimit;
+        // 生成 Z 方向“顶部极值点”时，对下方投影支撑面积的最低比例要求。
+        // 对于普通箱体放置保持默认 1.0（完全支撑），但牛皮纸填充可用更低比例来修正保守裁剪。
+        private readonly float _minTopSupportRatio;
+
+        public PointCalculator3D(float minTopSupportRatio = 1f)
+        {
+            if (minTopSupportRatio < 0f) minTopSupportRatio = 0f;
+            if (minTopSupportRatio > 1f) minTopSupportRatio = 1f;
+            _minTopSupportRatio = minTopSupportRatio;
+        }
 
         public int PointCount => _points.Count;
         public bool IsEmpty => _points.Count == 0;
@@ -299,7 +309,9 @@ namespace ThreeDPacking.Core.Points
             }
 
             // 要求：支撑面积必须100%覆盖顶部点的底面积
-            return totalSupportedArea >= baseArea;
+            long requiredArea = (long)Math.Ceiling(baseArea * (double)_minTopSupportRatio);
+            if (requiredArea < 0) requiredArea = 0;
+            return totalSupportedArea >= requiredArea;
         }
 
         /// <summary>

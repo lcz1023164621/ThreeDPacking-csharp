@@ -23,6 +23,10 @@ namespace ThreeDPacking.Core.Packers
     {
         // 最小支撑比例：越低越容易放置在支撑较弱的位置（更贴近用户“继续放宽”诉求）
         private const float MinSupportRatio = 0.05f;
+        // point.Dz 是极值点算法给出的“可用高度”，在当前实现中可能对局部空间做保守裁剪。
+        // 牛皮纸高度固定为 70，但为了避免错过“实际上不碰撞”的候选点，这里允许一定 slack。
+        // 经验值：允许 point.Dz >= 60（即 70 - 10），碰撞检查仍会兜底拒绝真正不可行的放置。
+        private const int MinPointDzForPadding = PaddingPaper.DefaultHeight - 10; // 70 -> 60
 
         public void FillWithPaddingPaper(Container container)
         {
@@ -39,7 +43,9 @@ namespace ThreeDPacking.Core.Packers
             Console.WriteLine($"\n[牛皮纸] 容器: {container.Id} 尺寸: {container.LoadDx}x{container.LoadDy}x{container.LoadDz} 物品: {itemPlacements.Count}个");
 
             // 使用与装箱一致的3D极值点计算器来重建当前容器的可用空间
-            var pointCalc = new PointCalculator3D();
+            // 对牛皮纸填充：放宽极值点生成时的“顶部支撑”要求，避免因 PointCalculator3D 过保守导致找不到可用空隙
+            // 实际悬空/支撑仍由 PaddingPaperPacker 的碰撞检查与支撑比例 MinSupportRatio 二次兜底。
+            var pointCalc = new PointCalculator3D(MinSupportRatio);
             pointCalc.ClearToSize(container.LoadDx, container.LoadDy, container.LoadDz);
 
             // 通过“找包含原点的点 + Add”的方式，把已装物品占用空间写入极值点计算器
@@ -58,6 +64,7 @@ namespace ThreeDPacking.Core.Packers
                 PaddingPaper bestPaper = null;
                 int bestPointIndex = -1;
                 long bestVolume = 0;
+                int bestZ = int.MaxValue;
 
                 // 当前可用极值点快照（循环内会被Add更新）
                 int pointCount = pointCalc.PointCount;
@@ -65,8 +72,25 @@ namespace ThreeDPacking.Core.Packers
                 {
                     var point = pointCalc.GetPoint(i);
                     var paper = TryCreatePaddingAtExtremePoint(point, container, itemPlacements, paddingPapers);
-                    if (paper != null && paper.Volume > bestVolume)
+                    if (paper == null)
+                        continue;
+
+                    // 激进但有序的填充策略：
+                    // 1) 先按 Z 从低到高（优先把低层可放空间吃干净，避免过早占用顶层）
+                    // 2) 同层再按体积最大优先
+                    bool isBetter = false;
+                    if (paper.Z < bestZ)
                     {
+                        isBetter = true;
+                    }
+                    else if (paper.Z == bestZ && paper.Volume > bestVolume)
+                    {
+                        isBetter = true;
+                    }
+
+                    if (isBetter)
+                    {
+                        bestZ = paper.Z;
                         bestVolume = paper.Volume;
                         bestPaper = paper;
                         bestPointIndex = i;
@@ -133,12 +157,14 @@ namespace ThreeDPacking.Core.Packers
             if (x >= container.LoadDx || y >= container.LoadDy) return null;
             if (z + PaddingPaper.DefaultHeight > container.LoadDz) return null;
             // 只要求 Z 方向能覆盖牛皮纸高度；
-            // X/Y 的可用尺寸由 CalculateMaxPaddingDimensions() 结合当前高度范围与障碍重新计算。
-            if (point.Dz < PaddingPaper.DefaultHeight)
+            // 为了更激进地铺牛皮纸：X/Y 不先做“过度截断”，而是直接用容器边界作为上限，
+            // 交由碰撞检测 + 支撑比例筛掉真正不可行的候选。
+            if (point.Dz < MinPointDzForPadding)
                 return null;
 
-            var (maxDx, maxDy) = CalculateMaxPaddingDimensions(x, y, z, point, container, itemPlacements, paddingPapers);
-            if (maxDx < PaddingPaper.MinSize || maxDy < PaddingPaper.MinSize)
+            int maxDx = container.LoadDx - x; // 沿 X 的最大长度上限
+            int maxDy = container.LoadDy - y; // 沿 Y 的最大长度上限
+            if (maxDx < PaddingPaper.MinSize && maxDy < PaddingPaper.MinSize)
                 return null;
 
             // 关键：同时尝试两种底面朝向（160xN 与 Nx160），并在“支撑/碰撞”约束后选体积最大者
@@ -216,40 +242,55 @@ namespace ThreeDPacking.Core.Packers
             List<Placement> itemPlacements,
             List<PaddingPaper> paddingPapers)
         {
-            var candidates = new List<PaddingPaper>();
+            // 更激进策略：
+            // 1) 对每种朝向（宽=110固定），把长度从“能到容器边界的最大值”开始向下扫描
+            // 2) 第一个满足“无碰撞 + 支撑比例 >= MinSupportRatio”的候选即为该朝向下的最大长度
+            // 3) 两种朝向再比较最终体积/支撑比例
             int dz = PaddingPaper.DefaultHeight;
-
-            // 朝向A：宽度110放在Y方向，X方向（长度）尽可能长，且长度>=200
-            if (maxDy >= PaddingPaper.DefaultWidth && maxDx >= PaddingPaper.MinLength)
-            {
-                candidates.Add(new PaddingPaper(x, y, z, maxDx, PaddingPaper.DefaultWidth, dz));
-            }
-
-            // 朝向B：宽度110放在X方向，Y方向（长度）尽可能长，且长度>=200
-            if (maxDx >= PaddingPaper.DefaultWidth && maxDy >= PaddingPaper.MinLength)
-            {
-                candidates.Add(new PaddingPaper(x, y, z, PaddingPaper.DefaultWidth, maxDy, dz));
-            }
 
             PaddingPaper best = null;
             long bestVolume = -1;
             float bestSupportRatio = -1f;
 
-            foreach (var paper in candidates)
+            // 朝向A：宽度110放在Y方向，X方向（长度）可变
+            if (maxDy >= PaddingPaper.DefaultWidth && maxDx >= PaddingPaper.MinLength)
             {
-                if (paper == null) continue;
-                if (HasCollisionWithItems(paper, itemPlacements) || HasCollisionWithPadding(paper, paddingPapers))
-                    continue;
-
-                if (!TryGetSupportRatio(paper, itemPlacements, paddingPapers, out var supportRatio))
-                    continue;
-
-                // 先按体积最大；体积相同则支撑比例更高者优先（更稳定）
-                if (paper.Volume > bestVolume || (paper.Volume == bestVolume && supportRatio > bestSupportRatio))
+                for (int dx = maxDx; dx >= PaddingPaper.MinLength; dx--)
                 {
+                    var paper = new PaddingPaper(x, y, z, dx, PaddingPaper.DefaultWidth, dz);
+                    if (HasCollisionWithItems(paper, itemPlacements) || HasCollisionWithPadding(paper, paddingPapers))
+                        continue;
+                    if (!TryGetSupportRatio(paper, itemPlacements, paddingPapers, out var supportRatio))
+                        continue;
+
+                    // dx 从大到小扫描，当前命中即为朝向A下的最大长度
                     best = paper;
                     bestVolume = paper.Volume;
                     bestSupportRatio = supportRatio;
+                    break;
+                }
+            }
+
+            // 朝向B：宽度110放在X方向，Y方向（长度）可变
+            if (maxDx >= PaddingPaper.DefaultWidth && maxDy >= PaddingPaper.MinLength)
+            {
+                for (int dy = maxDy; dy >= PaddingPaper.MinLength; dy--)
+                {
+                    var paper = new PaddingPaper(x, y, z, PaddingPaper.DefaultWidth, dy, dz);
+                    if (HasCollisionWithItems(paper, itemPlacements) || HasCollisionWithPadding(paper, paddingPapers))
+                        continue;
+                    if (!TryGetSupportRatio(paper, itemPlacements, paddingPapers, out var supportRatio))
+                        continue;
+
+                    // dy 从大到小扫描，当前命中即为朝向B下的最大长度
+                    long volume = paper.Volume;
+                    if (best == null || volume > bestVolume || (volume == bestVolume && supportRatio > bestSupportRatio))
+                    {
+                        best = paper;
+                        bestVolume = volume;
+                        bestSupportRatio = supportRatio;
+                    }
+                    break;
                 }
             }
 
