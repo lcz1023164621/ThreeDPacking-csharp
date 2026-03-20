@@ -44,7 +44,8 @@ namespace ThreeDPacking.Core.IO
             List<ItemCandidate> selectedItems,// 待装物品列表（会修改）
             List<ContainerCandidate> containerCandidates,// 容器候选列表
             long randomSeed,// 随机种子（用于Shuffle策略的可复现）
-            Action<string> log = null)
+            Action<string> log = null,
+            PaddingPaperFillStrategy paddingPaperFillStrategy = PaddingPaperFillStrategy.MaxVolume)
         {
             // Sort containers by volume (smallest first)
             var sortedContainers = containerCandidates.OrderBy(c => c.Volume).ToList();
@@ -81,10 +82,23 @@ namespace ThreeDPacking.Core.IO
                             // 装入更多物品，优先选这个
                             isBetter = true;
                         }
-                        else if (attempt.PackedCount == chosen.PackedCount && attempt.Utilization > chosen.Utilization)
+                        else if (attempt.PackedCount == chosen.PackedCount)
                         {
-                            // 装入数量相同，选利用率更高的（容器体积更小）
-                            isBetter = true;
+                            // 装入数量相同：先比较利用率，再做确定性 tie-break（避免微小差异导致不一致）
+                            const double eps = 1e-9;
+                            if (attempt.Utilization > chosen.Utilization + eps)
+                            {
+                                isBetter = true;
+                            }
+                            else if (Math.Abs(attempt.Utilization - chosen.Utilization) <= eps)
+                            {
+                                // 利用率完全相同：偏好体积更小的容器（更“紧凑”）
+                                if (attempt.ContainerCandidate.Volume < chosen.ContainerCandidate.Volume)
+                                    isBetter = true;
+                                else if (attempt.ContainerCandidate.Volume == chosen.ContainerCandidate.Volume &&
+                                         string.CompareOrdinal(attempt.Strategy, chosen.Strategy) < 0)
+                                    isBetter = true;
+                            }
                         }
                         
                         if (isBetter)
@@ -180,10 +194,21 @@ namespace ThreeDPacking.Core.IO
             }
 
             // 对每个容器填充牛皮纸（装箱完成后，使用极值点算法）
-            var paddingPaperPacker = new PaddingPaperPacker();
-            foreach (var container in allContainers)
+            if (paddingPaperFillStrategy == PaddingPaperFillStrategy.LayerFill)
             {
-                paddingPaperPacker.FillWithPaddingPaper(container);
+                var paddingPaperPacker = new LayerFillPaddingPaperPacker();
+                foreach (var container in allContainers)
+                {
+                    paddingPaperPacker.FillWithPaddingPaper(container, log);
+                }
+            }
+            else
+            {
+                var paddingPaperPacker = new PaddingPaperPacker();
+                foreach (var container in allContainers)
+                {
+                    paddingPaperPacker.FillWithPaddingPaper(container, log);
+                }
             }
 
             return allContainers;
@@ -245,14 +270,13 @@ namespace ThreeDPacking.Core.IO
             });
 
             // Return the best attempt for this container (most items packed)
-            PackingAttemptResult best = null;
-            foreach (var attempt in attempts)
-            {
-                if (best == null || attempt.PackedCount > best.PackedCount)
-                    best = attempt;
-            }
-
-            return best;
+            // 注意：attempts 来自并行 ConcurrentBag，遍历顺序不稳定。
+            // 必须做确定性 tie-break，保证同一 randomSeed 时结果可复现。
+            return attempts
+                .OrderByDescending(a => a.PackedCount)
+                .ThenByDescending(a => a.Utilization)
+                .ThenBy(a => a.Strategy, StringComparer.Ordinal)
+                .FirstOrDefault();
         }
 
         private PackingAttemptResult PackWithStrategy(

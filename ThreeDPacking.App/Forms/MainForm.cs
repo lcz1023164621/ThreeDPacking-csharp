@@ -5,11 +5,14 @@ using System.Diagnostics;
 using System.Drawing;
 using System.IO;
 using System.Linq;
+using System.Runtime.Serialization;
+using System.Runtime.Serialization.Json;
 using System.Windows.Forms;
 using OpenTK;
 using OpenTK.Graphics.OpenGL;
 using ThreeDPacking.App.Rendering;
 using ThreeDPacking.Core.IO;
+using ThreeDPacking.Core.Packers;
 using Container = ThreeDPacking.Core.Models.Container;
 using Placement = ThreeDPacking.Core.Models.Placement;
 
@@ -31,10 +34,19 @@ namespace ThreeDPacking.App.Forms
 
         private Button btnProbabilitySelect;
 
+        private ComboBox cmbPaddingStrategy;
+        private Label lblPaddingStrategy;
+
+        private PaddingPaperFillStrategy _paddingPaperFillStrategy = PaddingPaperFillStrategy.MaxVolume;
+        private bool _selectionDirty = true;
+        private bool _isRestoringState = false;
+        private LastRunState _lastRunState;
+
         public MainForm()
         {
             InitializeComponent();
             InitProbabilityButton();
+            InitPaddingStrategyCombo();
             WireEvents();
             AddDefaultContainer();
             btnRandomSelect.Enabled = false;
@@ -52,6 +64,35 @@ namespace ThreeDPacking.App.Forms
             btnProbabilitySelect.Size = new Size(68, 23);
             btnProbabilitySelect.Click += BtnProbabilitySelect_Click;
             grpRandomSelect.Controls.Add(btnProbabilitySelect);
+        }
+
+        private void InitPaddingStrategyCombo()
+        {
+            lblPaddingStrategy = new Label();
+            lblPaddingStrategy.Text = "牛皮纸填充策略";
+            lblPaddingStrategy.AutoSize = false;
+            lblPaddingStrategy.TextAlign = ContentAlignment.MiddleLeft;
+
+            cmbPaddingStrategy = new ComboBox();
+            cmbPaddingStrategy.DropDownStyle = ComboBoxStyle.DropDownList;
+            cmbPaddingStrategy.Items.Add("原策略（最大体积）");
+            cmbPaddingStrategy.Items.Add("分层填充（尽量铺满每层）");
+            cmbPaddingStrategy.SelectedIndex = 0;
+            cmbPaddingStrategy.SelectedIndexChanged += CmbPaddingStrategy_SelectedIndexChanged;
+
+            grpRandomSelect.Controls.Add(lblPaddingStrategy);
+            grpRandomSelect.Controls.Add(cmbPaddingStrategy);
+        }
+
+        private void CmbPaddingStrategy_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            // 仅在用户主动修改时标记 dirty：确保重启后仍按上次的策略复现
+            _paddingPaperFillStrategy = cmbPaddingStrategy.SelectedIndex == 1
+                ? PaddingPaperFillStrategy.LayerFill
+                : PaddingPaperFillStrategy.MaxVolume;
+
+            if (!_isRestoringState)
+                _selectionDirty = true;
         }
 
         private void WireEvents()
@@ -85,6 +126,7 @@ namespace ThreeDPacking.App.Forms
         private void MainForm_Load(object sender, EventArgs e)
         {
             LayoutLeftPanel();
+            TryRestoreLastRunState();
         }
 
         private void LayoutLeftPanel()
@@ -114,7 +156,7 @@ namespace ThreeDPacking.App.Forms
 
             // 随机选择区域
             grpRandomSelect.Location = new Point(6, y);
-            grpRandomSelect.Size = new Size(w, 75);
+            grpRandomSelect.Size = new Size(w, 110);
             lblRandomMin.Location = new Point(8, 20);
             numRandomMin.Location = new Point(48, 16);
             lblRandomMax.Location = new Point(115, 20);
@@ -128,7 +170,17 @@ namespace ThreeDPacking.App.Forms
             btnRandomSelect.Location = new Point(btnX + btnW + gap, 15);
             btnRandomSelect.Size = new Size(btnW, btnH);
             lblRandomInfo.Location = new Point(8, 48);
-            y += 81;
+            
+            // 牛皮纸填充策略下拉
+            if (lblPaddingStrategy != null && cmbPaddingStrategy != null)
+            {
+                lblPaddingStrategy.Location = new Point(8, 62);
+                lblPaddingStrategy.Size = new Size(w - 16, 18);
+                cmbPaddingStrategy.Location = new Point(8, 80);
+                cmbPaddingStrategy.Size = new Size(w - 16, 23);
+            }
+
+            y += 116;
 
             lblResults.Location = new Point(6, y);
             lblResults.Width = w;
@@ -162,6 +214,148 @@ namespace ThreeDPacking.App.Forms
             txtLog.Size = new Size(w, logHeight);
         }
 
+        private string GetStateFilePath()
+        {
+            string dir = Path.Combine(
+                Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData),
+                "ThreeDPacking");
+            return Path.Combine(dir, "last_run_state.json");
+        }
+
+        private void TryRestoreLastRunState()
+        {
+            string path = GetStateFilePath();
+            if (!File.Exists(path))
+                return;
+
+            try
+            {
+                using (var fs = new FileStream(path, FileMode.Open, FileAccess.Read, FileShare.Read))
+                {
+                    var serializer = new DataContractJsonSerializer(typeof(LastRunState));
+                    var state = (LastRunState)serializer.ReadObject(fs);
+                    if (state == null)
+                        return;
+                    _lastRunState = state;
+                }
+
+                _isRestoringState = true;
+
+                _loadedItems = (_lastRunState.LoadedItems ?? new List<LastRunItemCandidate>())
+                    .Select(p => new ItemCandidate(p.Name, p.Dx, p.Dy, p.Dz, p.InstanceId, p.Probability))
+                    .ToList();
+
+                RefreshItemsGrid();
+
+                dgvContainers.Rows.Clear();
+                foreach (var c in (_lastRunState.ContainerCandidates ?? new List<LastRunContainerCandidate>()))
+                {
+                    dgvContainers.Rows.Add(
+                        c.Name,
+                        c.Dx.ToString(),
+                        c.Dy.ToString(),
+                        c.Dz.ToString(),
+                        c.EmptyWeight.ToString(),
+                        c.MaxLoadWeight.ToString());
+                }
+
+                _paddingPaperFillStrategy = (PaddingPaperFillStrategy)_lastRunState.PaddingStrategy;
+                cmbPaddingStrategy.SelectedIndex = _paddingPaperFillStrategy == PaddingPaperFillStrategy.LayerFill ? 1 : 0;
+
+                _selectionDirty = false;
+                menuStartPacking.Enabled = _loadedItems.Count > 0;
+
+                statusLabel.Text = $"已恢复上次选择（{_loadedItems.Count} 件物品）";
+                AppendLog($"[恢复] 使用上次的物体选择与装箱随机种子复现。策略={_paddingPaperFillStrategy}");
+            }
+            catch
+            {
+                // ignore: 恢复失败不影响正常使用
+            }
+            finally
+            {
+                _isRestoringState = false;
+            }
+        }
+
+        private void SaveLastRunState(long packRandomSeed, List<ContainerCandidate> containerCandidates)
+        {
+            try
+            {
+                var state = new LastRunState
+                {
+                    RandomSeed = packRandomSeed,
+                    PaddingStrategy = (int)_paddingPaperFillStrategy,
+                    LoadedItems = _loadedItems.Select(i => new LastRunItemCandidate
+                    {
+                        Name = i.Name,
+                        Dx = i.Dx,
+                        Dy = i.Dy,
+                        Dz = i.Dz,
+                        InstanceId = i.InstanceId,
+                        Probability = i.Probability
+                    }).ToList(),
+                    ContainerCandidates = containerCandidates.Select(c => new LastRunContainerCandidate
+                    {
+                        Name = c.Name,
+                        Dx = c.Dx,
+                        Dy = c.Dy,
+                        Dz = c.Dz,
+                        EmptyWeight = c.EmptyWeight,
+                        MaxLoadWeight = c.MaxLoadWeight
+                    }).ToList()
+                };
+
+                string path = GetStateFilePath();
+                string dir = Path.GetDirectoryName(path);
+                if (!Directory.Exists(dir))
+                    Directory.CreateDirectory(dir);
+
+                using (var fs = new FileStream(path, FileMode.Create, FileAccess.Write, FileShare.None))
+                {
+                    var serializer = new DataContractJsonSerializer(typeof(LastRunState));
+                    serializer.WriteObject(fs, state);
+                }
+
+                _lastRunState = state;
+            }
+            catch (Exception ex)
+            {
+                AppendLog($"[保存] last_run_state.json 失败: {ex.Message}");
+            }
+        }
+
+        [DataContract]
+        private class LastRunState
+        {
+            [DataMember] public long RandomSeed { get; set; }
+            [DataMember] public int PaddingStrategy { get; set; }
+            [DataMember] public List<LastRunItemCandidate> LoadedItems { get; set; }
+            [DataMember] public List<LastRunContainerCandidate> ContainerCandidates { get; set; }
+        }
+
+        [DataContract]
+        private class LastRunItemCandidate
+        {
+            [DataMember] public string Name { get; set; }
+            [DataMember] public int Dx { get; set; }
+            [DataMember] public int Dy { get; set; }
+            [DataMember] public int Dz { get; set; }
+            [DataMember] public int InstanceId { get; set; }
+            [DataMember] public double Probability { get; set; }
+        }
+
+        [DataContract]
+        private class LastRunContainerCandidate
+        {
+            [DataMember] public string Name { get; set; }
+            [DataMember] public int Dx { get; set; }
+            [DataMember] public int Dy { get; set; }
+            [DataMember] public int Dz { get; set; }
+            [DataMember] public int EmptyWeight { get; set; }
+            [DataMember] public int MaxLoadWeight { get; set; }
+        }
+
         private void AddDefaultContainer()
         {
             dgvContainers.Rows.Add("最大容器", "450", "450", "210", "0", "28000");
@@ -175,6 +369,8 @@ namespace ThreeDPacking.App.Forms
         private void BtnAddContainer_Click(object sender, EventArgs e)
         {
             dgvContainers.Rows.Add("新容器", "300", "200", "150", "0", "28000");
+            _selectionDirty = true;
+            _lastRunState = null;
         }
 
         private void BtnRemoveContainer_Click(object sender, EventArgs e)
@@ -191,6 +387,8 @@ namespace ThreeDPacking.App.Forms
             {
                 dgvContainers.Rows.Remove(dgvContainers.CurrentRow);
             }
+            _selectionDirty = true;
+            _lastRunState = null;
         }
 
         #region Menu Handlers
@@ -223,6 +421,8 @@ namespace ThreeDPacking.App.Forms
                         btnProbabilitySelect.Enabled = _allLoadedItems.Count > 0;
                     lblRandomInfo.Text = $"已加载 {_allLoadedItems.Count} 个物品";
                     statusLabel.Text = $"已加载 {_allLoadedItems.Count} 个物品: {dlg.FileName}";
+                    _selectionDirty = true;
+                    _lastRunState = null;
                     AppendLog($"加载 {_allLoadedItems.Count} 个物品自 {dlg.FileName}");
                 }
                 catch (Exception ex)
@@ -305,6 +505,8 @@ namespace ThreeDPacking.App.Forms
             RefreshItemsGrid();
             menuStartPacking.Enabled = _loadedItems.Count > 0;
             statusLabel.Text = $"已随机选择 {_loadedItems.Count} 个物品 (范围: {minCount}-{maxCount})";
+            _selectionDirty = true;
+            _lastRunState = null;
             AppendLog($"随机选择了 {_loadedItems.Count} 个物品进行装箱");
         }
 
@@ -345,6 +547,8 @@ namespace ThreeDPacking.App.Forms
             RefreshItemsGrid();
             menuStartPacking.Enabled = _loadedItems.Count > 0;
             statusLabel.Text = $"已按概率选择 {_loadedItems.Count} 个物品 (范围: {minCount}-{maxCount})";
+            _selectionDirty = true;
+            _lastRunState = null;
             AppendLog($"概率选择了 {_loadedItems.Count} 个物品进行装箱");
         }
 
@@ -434,13 +638,17 @@ namespace ThreeDPacking.App.Forms
 
             var itemsCopy = new List<ItemCandidate>(_loadedItems);
             var sw = Stopwatch.StartNew();
+            long packSeed = (!_selectionDirty && _lastRunState != null)
+                ? _lastRunState.RandomSeed
+                : DateTime.Now.Ticks;
 
             var worker = new BackgroundWorker();
             worker.DoWork += (ws, we) =>
             {
                 var orchestrator = new PackingOrchestrator();
-                we.Result = orchestrator.Run(itemsCopy, containerCandidates, DateTime.Now.Ticks,
-                    msg => BeginInvoke((Action)(() => AppendLog(msg))));
+                we.Result = orchestrator.Run(itemsCopy, containerCandidates, packSeed,
+                    msg => BeginInvoke((Action)(() => AppendLog(msg))),
+                    _paddingPaperFillStrategy);
             };
             worker.RunWorkerCompleted += (ws, we) =>
             {
@@ -458,6 +666,14 @@ namespace ThreeDPacking.App.Forms
 
                 _packedContainers = (List<Container>)we.Result;
                 menuExportJson.Enabled = _packedContainers.Count > 0;
+
+                // 只有成功生成结果后，才保存“可复现状态”
+                if (_packedContainers != null && _packedContainers.Count > 0)
+                {
+                    SaveLastRunState(packSeed, containerCandidates);
+                    _selectionDirty = false;
+                    AppendLog($"[保存] 复现状态已保存（seed={packSeed}，策略={_paddingPaperFillStrategy}）。");
+                }
 
                 // 自动导出到unity文件夹（根目录下）
                 if (_packedContainers.Count > 0)
