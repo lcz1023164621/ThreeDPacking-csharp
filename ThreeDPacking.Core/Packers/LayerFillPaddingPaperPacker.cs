@@ -59,26 +59,65 @@ namespace ThreeDPacking.Core.Packers
         {
             var stack = container.Stack;
             if (stack.IsEmpty)
-            {
-                Log(log, $"\n[分层牛皮纸] 容器 {container.Id} Stack为空，跳过");
                 return;
-            }
 
             var itemPlacements = stack.Placements.Where(p => !p.IsPadding).ToList();
             var paddingPapers = new List<PaddingPaper>();
 
-            Log(log, $"\n[分层牛皮纸] 容器: {container.Id} 尺寸: {container.LoadDx}x{container.LoadDy}x{container.LoadDz} 物品: {itemPlacements.Count}个");
-
             // 关键：尽量放宽点生成，实际可行性仍由碰撞与支撑兜底
             var pointCalc = new PointCalculator3D(0f);
             pointCalc.ClearToSize(container.LoadDx, container.LoadDy, container.LoadDz);
-            RebuildPointsFromPlacements(pointCalc, itemPlacements, log);
+            RebuildPointsFromPlacements(pointCalc, itemPlacements);
 
             int maxIterations = 1000;
             int iteration = 0;
 
             while (iteration < maxIterations && !pointCalc.IsEmpty)
             {
+                // 先做“落底优先”：底层还有可放空间时，先从地面铺起。
+                var floorPaper = TryCreateBestFloorPadding(container, itemPlacements, paddingPapers, out _);
+                if (floorPaper != null)
+                {
+                    iteration++;
+                    paddingPapers.Add(floorPaper);
+                    var floorPlacement = floorPaper.ToPlacement();
+                    stack.Add(floorPlacement);
+
+                    int floorPointIndex = FindContainingPointIndex(pointCalc, floorPlacement);
+                    if (floorPointIndex >= 0)
+                    {
+                        pointCalc.Add(floorPointIndex, floorPlacement);
+                    }
+                    else
+                    {
+                        RebuildPointsFromCurrentState(pointCalc, container, itemPlacements, paddingPapers);
+                    }
+
+                    continue;
+                }
+
+                // EP 可能漏掉“未被新点触达”的可行空隙；用锚点扫描补偿上层可放位。
+                var anchoredPaper = TryCreateBestAnchoredPadding(container, itemPlacements, paddingPapers, out _);
+                if (anchoredPaper != null)
+                {
+                    iteration++;
+                    paddingPapers.Add(anchoredPaper);
+                    var anchoredPlacement = anchoredPaper.ToPlacement();
+                    stack.Add(anchoredPlacement);
+
+                    int anchoredPointIndex = FindContainingPointIndex(pointCalc, anchoredPlacement);
+                    if (anchoredPointIndex >= 0)
+                    {
+                        pointCalc.Add(anchoredPointIndex, anchoredPlacement);
+                    }
+                    else
+                    {
+                        RebuildPointsFromCurrentState(pointCalc, container, itemPlacements, paddingPapers);
+                    }
+
+                    continue;
+                }
+
                 // 选出“下一层”的第一个牛皮纸：全局最小Z优先，同Z下体积最大
                 PaddingPaper firstPaper = null;
                 int firstPointIndex = -1;
@@ -86,15 +125,12 @@ namespace ThreeDPacking.Core.Packers
                 int firstBestZ = int.MaxValue;
                 bool firstBestSplitPossible = false;
                 int firstBestRemainder = -1;
-                int feasibleFirstCandidates = 0;
-
                 int pointCount = pointCalc.PointCount;
                 for (int i = 0; i < pointCount; i++)
                 {
                     var point = pointCalc.GetPoint(i);
-                    var paper = TryCreatePaddingAtExtremePoint(point, container, itemPlacements, paddingPapers, log, iteration: iteration, epIndex: i);
+                    var paper = TryCreatePaddingAtExtremePoint(point, container, itemPlacements, paddingPapers);
                     if (paper == null) continue;
-                    feasibleFirstCandidates++;
 
                     var (splitPossible, remainderAlongVariable) = GetSplitInfo(point, paper);
                     long volume = paper.Volume;
@@ -106,20 +142,19 @@ namespace ThreeDPacking.Core.Packers
                     }
                     else if (paper.Z == firstBestZ)
                     {
-                        // 优先：可切分剩余（splitPossible）
-                        if (splitPossible != firstBestSplitPossible)
+                        // 同层先追求更大体积（可变长度尽量拉长）
+                        if (volume != firstBestScore)
+                        {
+                            isBetter = volume > firstBestScore;
+                        }
+                        // 体积相同再考虑可切分/剩余，作为次级 tie-break
+                        else if (splitPossible != firstBestSplitPossible)
                         {
                             isBetter = splitPossible;
                         }
                         else if (remainderAlongVariable != firstBestRemainder)
                         {
-                            // 无论 splitPossible 与否，都偏好“剩余更大”，以改变后续极值点。
                             isBetter = remainderAlongVariable > firstBestRemainder;
-                        }
-                        else
-                        {
-                            // 最后：体积更大
-                            isBetter = volume > firstBestScore;
                         }
                     }
 
@@ -135,19 +170,7 @@ namespace ThreeDPacking.Core.Packers
                 }
 
                 if (firstPaper == null)
-                {
-                    Log(log, $"[分层牛皮纸] 停止: it={iteration} pointCount={pointCalc.PointCount} feasiblePaperCandidates={feasibleFirstCandidates} firstPaper=null");
-                    if (log != null)
-                    {
-                        Log(log, "[分层牛皮纸] 停止时 EP 列表（用于定位为何无法继续）:");
-                        for (int ei = 0; ei < pointCalc.PointCount; ei++)
-                        {
-                            var ep = pointCalc.GetPoint(ei);
-                            Log(log, $"  EP{ei}: Min=({ep.MinX},{ep.MinY},{ep.MinZ}) Size=({ep.Dx}x{ep.Dy}x{ep.Dz}) zFits={(ep.MinZ + PaddingPaper.DefaultHeight <= container.LoadDz ? "Y" : "N")}");
-                        }
-                    }
                     break;
-                }
 
                 // 之后尽量把“该层Z=firstPaper.Z”填满（LAFF：同层持续放置，直到放不下再起新层）
                 int levelZ = firstPaper.Z;
@@ -156,9 +179,15 @@ namespace ThreeDPacking.Core.Packers
                 {
                     var placement = firstPaper.ToPlacement();
                     stack.Add(placement);
-                    pointCalc.Add(firstPointIndex, placement);
+                    if (firstPointIndex >= 0)
+                    {
+                        pointCalc.Add(firstPointIndex, placement);
+                    }
+                    else
+                    {
+                        RebuildPointsFromCurrentState(pointCalc, container, itemPlacements, paddingPapers);
+                    }
                 }
-                Log(log, $"[分层牛皮纸] 放置: it={iteration} EP=({firstPaper.X},{firstPaper.Y},{firstPaper.Z}) 尺寸({firstPaper.Dx}x{firstPaper.Dy}x{firstPaper.Dz}) 体积={firstPaper.Volume} 可行候选={feasibleFirstCandidates}");
 
                 // 内层：同一 levelZ 继续找可放置牛皮纸
                 while (iteration < maxIterations && !pointCalc.IsEmpty)
@@ -168,16 +197,13 @@ namespace ThreeDPacking.Core.Packers
                     long bestScoreSameZ = long.MinValue;
                     bool bestSplitPossibleSameZ = false;
                     int bestRemainderSameZ = -1;
-                    int feasibleCandidatesSameZ = 0;
-
                     int pc = pointCalc.PointCount;
                     for (int i = 0; i < pc; i++)
                     {
                         var point = pointCalc.GetPoint(i);
-                        var paper = TryCreatePaddingAtExtremePoint(point, container, itemPlacements, paddingPapers, log, iteration: iteration, epIndex: i);
+                        var paper = TryCreatePaddingAtExtremePoint(point, container, itemPlacements, paddingPapers);
                         if (paper == null) continue;
                         if (paper.Z != levelZ) continue;
-                        feasibleCandidatesSameZ++;
 
                         var (splitPossible, remainderAlongVariable) = GetSplitInfo(point, paper);
                         long volume = paper.Volume;
@@ -187,20 +213,18 @@ namespace ThreeDPacking.Core.Packers
                         {
                             isBetter = true;
                         }
+                        else if (volume != bestScoreSameZ)
+                        {
+                            // 同层先追求更大体积（可变长度尽量拉长）
+                            isBetter = volume > bestScoreSameZ;
+                        }
                         else if (splitPossible != bestSplitPossibleSameZ)
                         {
-                            // 优先可切分
                             isBetter = splitPossible;
                         }
                         else if (remainderAlongVariable != bestRemainderSameZ)
                         {
-                            // 偏好剩余更大（即便都不可切分，也会改变后续分裂形态）
                             isBetter = remainderAlongVariable > bestRemainderSameZ;
-                        }
-                        else
-                        {
-                            // 再用体积打破平局
-                            isBetter = volume > bestScoreSameZ;
                         }
 
                         if (isBetter)
@@ -220,16 +244,21 @@ namespace ThreeDPacking.Core.Packers
                     paddingPapers.Add(bestPaperSameZ);
                     var placement2 = bestPaperSameZ.ToPlacement();
                     stack.Add(placement2);
-                    pointCalc.Add(bestPointIndexSameZ, placement2);
-
-                    Log(log, $"[分层牛皮纸][同层] 放置: it={iteration} EP=({bestPaperSameZ.X},{bestPaperSameZ.Y},{bestPaperSameZ.Z}) 尺寸({bestPaperSameZ.Dx}x{bestPaperSameZ.Dy}x{bestPaperSameZ.Dz}) 体积={bestPaperSameZ.Volume} 同层可行候选={feasibleCandidatesSameZ}");
+                    if (bestPointIndexSameZ >= 0)
+                    {
+                        pointCalc.Add(bestPointIndexSameZ, placement2);
+                    }
+                    else
+                    {
+                        RebuildPointsFromCurrentState(pointCalc, container, itemPlacements, paddingPapers);
+                    }
                 }
             }
 
-            PrintPaddingInfo(container, paddingPapers, log);
+            PrintPaddingInfo(paddingPapers, log);
         }
 
-        private void RebuildPointsFromPlacements(PointCalculator3D pointCalc, List<Placement> placements, Action<string> log)
+        private void RebuildPointsFromPlacements(PointCalculator3D pointCalc, List<Placement> placements)
         {
             // 关键：PointCalculator3D 的 Add/切割对“添加顺序”敏感。
             // 这里保持 placements 的原始放置顺序（来自 stack.Placements），避免重建出与真实剩余空间不一致的极值点。
@@ -237,20 +266,13 @@ namespace ThreeDPacking.Core.Packers
                 .Where(p => p != null && p.StackValue != null)
                 .ToList();
 
-            int skipped = 0;
             foreach (var placement in ordered)
             {
                 int pointIndex = FindContainingPointIndex(pointCalc, placement);
                 if (pointIndex < 0)
-                {
-                    skipped++;
                     continue;
-                }
                 pointCalc.Add(pointIndex, placement);
             }
-
-            if (skipped > 0 && log != null)
-                Log(log, $"[分层牛皮纸] 重建极值点：跳过了 {skipped} 个物品（未找到包含该物品的极值点）");
         }
 
         private int FindContainingPointIndex(PointCalculator3D pointCalc, Placement placement)
@@ -266,29 +288,209 @@ namespace ThreeDPacking.Core.Packers
             return -1;
         }
 
+        private void RebuildPointsFromCurrentState(
+            PointCalculator3D pointCalc,
+            Container container,
+            List<Placement> itemPlacements,
+            List<PaddingPaper> paddingPapers)
+        {
+            pointCalc.ClearToSize(container.LoadDx, container.LoadDy, container.LoadDz);
+            RebuildPointsFromPlacements(pointCalc, itemPlacements);
+
+            foreach (var paper in paddingPapers)
+            {
+                var placement = paper.ToPlacement();
+                int pointIndex = FindContainingPointIndex(pointCalc, placement);
+                if (pointIndex < 0)
+                    continue;
+                pointCalc.Add(pointIndex, placement);
+            }
+        }
+
+        private PaddingPaper TryCreateBestFloorPadding(
+            Container container,
+            List<Placement> itemPlacements,
+            List<PaddingPaper> paddingPapers,
+            out float bestSupportRatio)
+        {
+            PaddingPaper best = null;
+            bestSupportRatio = -1f;
+            long bestVolume = -1;
+
+            var xAnchors = new HashSet<int> { 0 };
+            var yAnchors = new HashSet<int> { 0 };
+
+            foreach (var item in itemPlacements)
+            {
+                int nextX = item.AbsoluteEndX + 1;
+                int nextY = item.AbsoluteEndY + 1;
+                if (nextX >= 0 && nextX < container.LoadDx) xAnchors.Add(nextX);
+                if (nextY >= 0 && nextY < container.LoadDy) yAnchors.Add(nextY);
+            }
+
+            foreach (var paper in paddingPapers)
+            {
+                int nextX = paper.AbsoluteEndX + 1;
+                int nextY = paper.AbsoluteEndY + 1;
+                if (nextX >= 0 && nextX < container.LoadDx) xAnchors.Add(nextX);
+                if (nextY >= 0 && nextY < container.LoadDy) yAnchors.Add(nextY);
+            }
+
+            foreach (int x in xAnchors.OrderBy(v => v))
+            {
+                foreach (int y in yAnchors.OrderBy(v => v))
+                {
+                    int maxDx = container.LoadDx - x;
+                    int maxDy = container.LoadDy - y;
+                    if (maxDx <= 0 || maxDy <= 0)
+                        continue;
+
+                    var paper = CreateBestFeasiblePadding(
+                        x, y, 0, maxDx, maxDy,
+                        itemPlacements, paddingPapers);
+                    if (paper == null)
+                        continue;
+                    if (!TryGetSupportRatio(paper, itemPlacements, paddingPapers, out var supportRatio))
+                        continue;
+
+                    bool isBetter = false;
+                    if (best == null)
+                    {
+                        isBetter = true;
+                    }
+                    else if (supportRatio > bestSupportRatio)
+                    {
+                        isBetter = true;
+                    }
+                    else if (Math.Abs(supportRatio - bestSupportRatio) < 1e-6f)
+                    {
+                        if (paper.Volume > bestVolume)
+                        {
+                            isBetter = true;
+                        }
+                        else if (paper.Volume == bestVolume)
+                        {
+                            if (paper.X < best.X || (paper.X == best.X && paper.Y < best.Y))
+                                isBetter = true;
+                        }
+                    }
+
+                    if (isBetter)
+                    {
+                        best = paper;
+                        bestSupportRatio = supportRatio;
+                        bestVolume = paper.Volume;
+                    }
+                }
+            }
+
+            return best;
+        }
+
+        private PaddingPaper TryCreateBestAnchoredPadding(
+            Container container,
+            List<Placement> itemPlacements,
+            List<PaddingPaper> paddingPapers,
+            out float bestSupportRatio)
+        {
+            bestSupportRatio = -1f;
+            PaddingPaper best = null;
+            long bestVolume = -1;
+            int bestZ = int.MaxValue;
+
+            var xAnchors = new HashSet<int> { 0 };
+            var yAnchors = new HashSet<int> { 0 };
+            var zAnchors = new HashSet<int> { 0 };
+
+            foreach (var item in itemPlacements)
+            {
+                int nx = item.AbsoluteEndX + 1;
+                int ny = item.AbsoluteEndY + 1;
+                int nz = item.AbsoluteEndZ + 1;
+                if (nx >= 0 && nx < container.LoadDx) xAnchors.Add(nx);
+                if (ny >= 0 && ny < container.LoadDy) yAnchors.Add(ny);
+                if (nz >= 0 && nz <= container.LoadDz - PaddingPaper.DefaultHeight) zAnchors.Add(nz);
+            }
+
+            foreach (var paper in paddingPapers)
+            {
+                int nx = paper.AbsoluteEndX + 1;
+                int ny = paper.AbsoluteEndY + 1;
+                int nz = paper.AbsoluteEndZ + 1;
+                if (nx >= 0 && nx < container.LoadDx) xAnchors.Add(nx);
+                if (ny >= 0 && ny < container.LoadDy) yAnchors.Add(ny);
+                if (nz >= 0 && nz <= container.LoadDz - PaddingPaper.DefaultHeight) zAnchors.Add(nz);
+            }
+
+            foreach (int z in zAnchors.OrderBy(v => v))
+            {
+                foreach (int x in xAnchors.OrderBy(v => v))
+                {
+                    foreach (int y in yAnchors.OrderBy(v => v))
+                    {
+                        int maxDx = container.LoadDx - x;
+                        int maxDy = container.LoadDy - y;
+                        if (maxDx <= 0 || maxDy <= 0)
+                            continue;
+
+                        var paper = CreateBestFeasiblePadding(
+                            x, y, z, maxDx, maxDy,
+                            itemPlacements, paddingPapers);
+                        if (paper == null)
+                            continue;
+                        if (!TryGetSupportRatio(paper, itemPlacements, paddingPapers, out var supportRatio))
+                            continue;
+
+                        bool isBetter = false;
+                        if (best == null)
+                        {
+                            isBetter = true;
+                        }
+                        else if (paper.Z < bestZ)
+                        {
+                            isBetter = true;
+                        }
+                        else if (paper.Z == bestZ && supportRatio > bestSupportRatio)
+                        {
+                            isBetter = true;
+                        }
+                        else if (paper.Z == bestZ && Math.Abs(supportRatio - bestSupportRatio) < 1e-6f && paper.Volume > bestVolume)
+                        {
+                            isBetter = true;
+                        }
+                        else if (paper.Z == bestZ && Math.Abs(supportRatio - bestSupportRatio) < 1e-6f && paper.Volume == bestVolume)
+                        {
+                            if (paper.X < best.X || (paper.X == best.X && paper.Y < best.Y))
+                                isBetter = true;
+                        }
+
+                        if (isBetter)
+                        {
+                            best = paper;
+                            bestZ = paper.Z;
+                            bestSupportRatio = supportRatio;
+                            bestVolume = paper.Volume;
+                        }
+                    }
+                }
+            }
+
+            return best;
+        }
+
         private PaddingPaper TryCreatePaddingAtExtremePoint(
             ExtremePoint point,
             Container container,
             List<Placement> itemPlacements,
-            List<PaddingPaper> paddingPapers,
-            Action<string> log,
-            int iteration,
-            int epIndex)
+            List<PaddingPaper> paddingPapers)
         {
             int x = point.MinX, y = point.MinY;
             int zStartMin = point.MinZ;
-            bool debug = log != null && iteration >= 2;
 
             if (x < 0 || y < 0 || zStartMin < 0)
-            {
-                if (debug) Log(log, $"[分层牛皮纸][it={iteration}] EP{epIndex} 失败: 坐标为负");
                 return null;
-            }
             if (x >= container.LoadDx || y >= container.LoadDy)
-            {
-                if (debug) Log(log, $"[分层牛皮纸][it={iteration}] EP{epIndex} 失败: 越界 x/y (MaxLoad)");
                 return null;
-            }
 
             int paperHeight = PaddingPaper.DefaultHeight;
             // 思路3：在同一个 EP 内尝试不同的 z 起点（关键是让纸底避开下面已占用的高度段）
@@ -298,16 +500,10 @@ namespace ThreeDPacking.Core.Packers
             int zStartMax = Math.Min(zStartMaxByPoint, zStartMaxByContainer);
 
             if (zStartMin < 0 || zStartMax < zStartMin)
-            {
-                if (debug) Log(log, $"[分层牛皮纸][it={iteration}] EP{epIndex} 失败: z范围无效 (zMin={zStartMin}, zMax={zStartMax})");
                 return null;
-            }
 
             if (point.Dz < MinPointDzForPadding)
-            {
-                if (debug) Log(log, $"[分层牛皮纸][it={iteration}] EP{epIndex} 失败: point.Dz={point.Dz} 小于阈值");
                 return null;
-            }
 
             // 思路2：严格用 EP 给出的剩余矩形范围做上限
             // 这样避免把“其实被障碍占用的区域”也纳入扫描候选，导致所有候选最后全被 collision/支撑否决。
@@ -348,8 +544,7 @@ namespace ThreeDPacking.Core.Packers
             {
                 var paper = CreateBestFeasiblePadding(
                     x, y, zCandidate, maxDx, maxDy,
-                    itemPlacements, paddingPapers,
-                    log, debug, epIndex);
+                    itemPlacements, paddingPapers);
 
                 if (paper == null) continue;
 
@@ -363,9 +558,12 @@ namespace ThreeDPacking.Core.Packers
                 }
                 else if (paper.Z == bestZ)
                 {
-                    if (splitPossible != bestSplitPossible)
+                    // 同层先选体积更大
+                    if (volume != bestVolume)
+                        isBetter = volume > bestVolume;
+                    else if (splitPossible != bestSplitPossible)
                         isBetter = splitPossible;
-                    else if (splitPossible && remainderAlongVariable != bestRemainder)
+                    else if (remainderAlongVariable != bestRemainder)
                         isBetter = remainderAlongVariable > bestRemainder;
                     else
                         isBetter = volume > bestVolume;
@@ -381,12 +579,6 @@ namespace ThreeDPacking.Core.Packers
                 }
             }
 
-            if (debug)
-            {
-                if (best == null)
-                    Log(log, $"[分层牛皮纸][it={iteration}] EP{epIndex} 失败: 多 z候选均无解（通常是 collision/support 不可行）");
-            }
-
             return best;
         }
 
@@ -394,10 +586,7 @@ namespace ThreeDPacking.Core.Packers
             int x, int y, int z,
             int maxDx, int maxDy,
             List<Placement> itemPlacements,
-            List<PaddingPaper> paddingPapers,
-            Action<string> log,
-            bool debug,
-            int epIndex)
+            List<PaddingPaper> paddingPapers)
         {
             int dz = PaddingPaper.DefaultHeight;
 
@@ -439,22 +628,23 @@ namespace ThreeDPacking.Core.Packers
                     {
                         isBetter = true;
                     }
+                    else if (volume != bestVolume)
+                    {
+                        // 主目标：同一可行位置里优先更大体积（即更长）
+                        isBetter = volume > bestVolume;
+                    }
+                    else if (supportRatio != bestSupportRatio)
+                    {
+                        // 体积相同则稳定性更强优先
+                        isBetter = supportRatio > bestSupportRatio;
+                    }
                     else if (splitPossible != bestSplitPossible)
                     {
                         isBetter = splitPossible;
                     }
-                    else if (remainderAlongVariable != bestRemainder)
-                    {
-                        isBetter = remainderAlongVariable > bestRemainder;
-                    }
-                    else if (volume != bestVolume)
-                    {
-                        isBetter = volume > bestVolume;
-                    }
                     else
                     {
-                        // 完全平局时，用支撑比例打破平局
-                        isBetter = supportRatio > bestSupportRatio;
+                        isBetter = remainderAlongVariable > bestRemainder;
                     }
 
                     if (isBetter)
@@ -497,21 +687,22 @@ namespace ThreeDPacking.Core.Packers
                     {
                         isBetter = true;
                     }
+                    else if (volume != bestVolume)
+                    {
+                        // 主目标：同一可行位置里优先更大体积（即更长）
+                        isBetter = volume > bestVolume;
+                    }
+                    else if (supportRatio != bestSupportRatio)
+                    {
+                        isBetter = supportRatio > bestSupportRatio;
+                    }
                     else if (splitPossible != bestSplitPossible)
                     {
                         isBetter = splitPossible;
                     }
-                    else if (remainderAlongVariable != bestRemainder)
-                    {
-                        isBetter = remainderAlongVariable > bestRemainder;
-                    }
-                    else if (volume != bestVolume)
-                    {
-                        isBetter = volume > bestVolume;
-                    }
                     else
                     {
-                        isBetter = supportRatio > bestSupportRatio;
+                        isBetter = remainderAlongVariable > bestRemainder;
                     }
 
                     if (isBetter)
@@ -523,12 +714,6 @@ namespace ThreeDPacking.Core.Packers
                         bestSupportRatio = supportRatio;
                     }
                 }
-            }
-
-            if (debug && best == null && log != null)
-            {
-                Log(log,
-                    $"[分层牛皮纸][it?][EP{epIndex}] CreateBest=null 说明：候选长度全部被 collision/support 拒绝（或不满足 MinPaddingLength）");
             }
 
             return best;
@@ -775,29 +960,10 @@ namespace ThreeDPacking.Core.Packers
             return false;
         }
 
-        private void PrintPaddingInfo(Container container, List<PaddingPaper> paddingPapers, Action<string> log)
+        private void PrintPaddingInfo(List<PaddingPaper> paddingPapers, Action<string> log)
         {
-            Log(log, $"\n===== 分层牛皮纸填充信息 =====");
-            Log(log, $"容器: {container.Id} ({container.LoadDx}x{container.LoadDy}x{container.LoadDz})");
-            Log(log, $"填充纸数量: {paddingPapers.Count}");
-
-            if (paddingPapers.Count > 0)
-            {
-                Console.WriteLine();
-                long totalPaddingVolume = 0;
-                foreach (var paper in paddingPapers)
-                {
-                    Log(log, $"  填充纸: 位置({paper.X}, {paper.Y}, {paper.Z}) 尺寸({paper.Dx} x {paper.Dy} x {paper.Dz})");
-                    totalPaddingVolume += paper.Volume;
-                }
-
-                Log(log, $"\n填充纸总体积: {totalPaddingVolume}");
-                Log(log, $"========================\n");
-            }
-            else
-            {
-                Log(log, $"没有生成任何填充纸\n========================\n");
-            }
+            foreach (var paper in paddingPapers)
+                Log(log, $"[牛皮纸] 位置({paper.X},{paper.Y},{paper.Z}) 尺寸({paper.Dx}x{paper.Dy}x{paper.Dz})");
         }
 
         private static void Log(Action<string> log, string msg)
