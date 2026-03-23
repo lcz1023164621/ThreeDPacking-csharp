@@ -37,7 +37,7 @@ namespace ThreeDPacking.App.Forms
         private ComboBox cmbPaddingStrategy;
         private Label lblPaddingStrategy;
 
-        private PaddingPaperFillStrategy _paddingPaperFillStrategy = PaddingPaperFillStrategy.MaxVolume;
+        private PaddingPaperFillStrategy _paddingPaperFillStrategy = PaddingPaperFillStrategy.MaxUtilization;
         private bool _selectionDirty = true;
         private bool _isRestoringState = false;
         private LastRunState _lastRunState;
@@ -75,8 +75,8 @@ namespace ThreeDPacking.App.Forms
 
             cmbPaddingStrategy = new ComboBox();
             cmbPaddingStrategy.DropDownStyle = ComboBoxStyle.DropDownList;
-            cmbPaddingStrategy.Items.Add("原策略（最大体积）");
-            cmbPaddingStrategy.Items.Add("分层填充（尽量铺满每层）");
+            cmbPaddingStrategy.Items.Add("MaxUtilization（利用率优先）");
+            cmbPaddingStrategy.Items.Add("StableLayerFill（稳定分层优先）");
             cmbPaddingStrategy.SelectedIndex = 0;
             cmbPaddingStrategy.SelectedIndexChanged += CmbPaddingStrategy_SelectedIndexChanged;
 
@@ -88,8 +88,8 @@ namespace ThreeDPacking.App.Forms
         {
             // 仅在用户主动修改时标记 dirty：确保重启后仍按上次的策略复现
             _paddingPaperFillStrategy = cmbPaddingStrategy.SelectedIndex == 1
-                ? PaddingPaperFillStrategy.LayerFill
-                : PaddingPaperFillStrategy.MaxVolume;
+                ? PaddingPaperFillStrategy.StableLayerFill
+                : PaddingPaperFillStrategy.MaxUtilization;
 
             if (!_isRestoringState)
                 _selectionDirty = true;
@@ -260,7 +260,7 @@ namespace ThreeDPacking.App.Forms
                 }
 
                 _paddingPaperFillStrategy = (PaddingPaperFillStrategy)_lastRunState.PaddingStrategy;
-                cmbPaddingStrategy.SelectedIndex = _paddingPaperFillStrategy == PaddingPaperFillStrategy.LayerFill ? 1 : 0;
+                cmbPaddingStrategy.SelectedIndex = _paddingPaperFillStrategy == PaddingPaperFillStrategy.StableLayerFill ? 1 : 0;
 
                 _selectionDirty = false;
                 menuStartPacking.Enabled = _loadedItems.Count > 0;

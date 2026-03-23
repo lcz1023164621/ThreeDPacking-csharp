@@ -6,14 +6,18 @@ namespace ThreeDPacking.Core.Packers
     public enum PaddingPaperFillStrategy
     {
         /// <summary>
-        /// 旧策略：最大体积优先
+        /// 体积利用率优先（推荐默认）
         /// </summary>
-        MaxVolume = 0,
+        MaxUtilization = 0,
 
         /// <summary>
-        /// 新策略：分层填充优先（更均匀、更倾向持续铺满）
+        /// 稳定分层填充优先（低层优先、层连续性优先）
         /// </summary>
-        LayerFill = 1
+        StableLayerFill = 1,
+
+        // Backward compatible aliases
+        MaxVolume = MaxUtilization,
+        LayerFill = StableLayerFill
     }
 }
 

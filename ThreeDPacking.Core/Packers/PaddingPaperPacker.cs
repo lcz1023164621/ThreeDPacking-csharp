@@ -19,12 +19,10 @@ namespace ThreeDPacking.Core.Packers
     /// 2. 最小支撑比例10%
     /// 3. 底面中心点必须有支撑
     /// </summary>
-    public class PaddingPaperPacker
+    public class PaddingPaperPacker : IPaddingPaperPacker
     {
-        // 最小支撑比例：越低越容易放置在支撑较弱的位置（更贴近用户“继续放宽”诉求）
+        // MaxUtilization 模式：支撑阈值相对宽松，优先吃体积。
         private const float MinSupportRatio = 0.01f;
-        // 侧面接触支撑：用于“由侧面接触形成悬空”的场景
-        // 仍复用同一个比例阈值，保持行为可控；如果后续仍太保守再单独调小。
         private const float MinSideSupportRatio = MinSupportRatio;
         // point.Dz 是极值点算法给出的“可用高度”，在当前实现中可能对局部空间做保守裁剪。
         // 牛皮纸高度固定为 70，但为了避免错过“实际上不碰撞”的候选点，这里允许一定 slack。
@@ -116,9 +114,7 @@ namespace ThreeDPacking.Core.Packers
 
                 PaddingPaper bestPaper = null;
                 int bestPointIndex = -1;
-                long bestVolume = 0;
-                int bestZ = int.MaxValue;
-                float bestSupportRatio = -1f;
+                PaddingPaperScore bestScore = PaddingPaperScore.MinValue;
                 // 当前可用极值点快照（循环内会被Add更新）
                 int pointCount = pointCalc.PointCount;
                 for (int i = 0; i < pointCount; i++)
@@ -130,29 +126,10 @@ namespace ThreeDPacking.Core.Packers
                     if (!TryGetSupportRatio(paper, itemPlacements, paddingPapers, out var supportRatio))
                         continue;
 
-                    // 激进但有序的填充策略：
-                    // 1) 先按 Z 从低到高（优先把低层可放空间吃干净，避免过早占用顶层）
-                    // 2) 同层优先支撑更强（更稳定）
-                    // 3) 再按体积最大优先
-                    bool isBetter = false;
-                    if (paper.Z < bestZ)
+                    var score = EvaluateMaxUtilizationScore(paper, supportRatio);
+                    if (score.CompareTo(bestScore) > 0)
                     {
-                        isBetter = true;
-                    }
-                    else if (paper.Z == bestZ && supportRatio > bestSupportRatio)
-                    {
-                        isBetter = true;
-                    }
-                    else if (paper.Z == bestZ && Math.Abs(supportRatio - bestSupportRatio) < 1e-6f && paper.Volume > bestVolume)
-                    {
-                        isBetter = true;
-                    }
-
-                    if (isBetter)
-                    {
-                        bestZ = paper.Z;
-                        bestVolume = paper.Volume;
-                        bestSupportRatio = supportRatio;
+                        bestScore = score;
                         bestPaper = paper;
                         bestPointIndex = i;
                     }
@@ -275,28 +252,11 @@ namespace ThreeDPacking.Core.Packers
                     if (!TryGetSupportRatio(paper, itemPlacements, paddingPapers, out var supportRatio))
                         continue;
 
-                    bool isBetter = false;
-                    if (best == null)
-                    {
-                        isBetter = true;
-                    }
-                    else if (supportRatio > bestSupportRatio)
-                    {
-                        isBetter = true;
-                    }
-                    else if (Math.Abs(supportRatio - bestSupportRatio) < 1e-6f)
-                    {
-                        if (paper.Volume > bestVolume)
-                        {
-                            isBetter = true;
-                        }
-                        else if (paper.Volume == bestVolume)
-                        {
-                            // 稳定且可复现：体积相同则靠左前优先。
-                            if (paper.X < best.X || (paper.X == best.X && paper.Y < best.Y))
-                                isBetter = true;
-                        }
-                    }
+                    bool isBetter = best == null
+                        || paper.Volume > bestVolume
+                        || (paper.Volume == bestVolume && supportRatio > bestSupportRatio)
+                        || (paper.Volume == bestVolume && Math.Abs(supportRatio - bestSupportRatio) < 1e-6f &&
+                            (paper.Z < best.Z || (paper.Z == best.Z && (paper.X < best.X || (paper.X == best.X && paper.Y < best.Y)))));
 
                     if (isBetter)
                     {
@@ -364,28 +324,12 @@ namespace ThreeDPacking.Core.Packers
                         if (!TryGetSupportRatio(paper, itemPlacements, paddingPapers, out var supportRatio))
                             continue;
 
-                        bool isBetter = false;
-                        if (best == null)
-                        {
-                            isBetter = true;
-                        }
-                        else if (paper.Z < bestZ)
-                        {
-                            isBetter = true;
-                        }
-                        else if (paper.Z == bestZ && supportRatio > bestSupportRatio)
-                        {
-                            isBetter = true;
-                        }
-                        else if (paper.Z == bestZ && Math.Abs(supportRatio - bestSupportRatio) < 1e-6f && paper.Volume > bestVolume)
-                        {
-                            isBetter = true;
-                        }
-                        else if (paper.Z == bestZ && Math.Abs(supportRatio - bestSupportRatio) < 1e-6f && paper.Volume == bestVolume)
-                        {
-                            if (paper.X < best.X || (paper.X == best.X && paper.Y < best.Y))
-                                isBetter = true;
-                        }
+                        bool isBetter = best == null
+                            || paper.Volume > bestVolume
+                            || (paper.Volume == bestVolume && supportRatio > bestSupportRatio)
+                            || (paper.Volume == bestVolume && Math.Abs(supportRatio - bestSupportRatio) < 1e-6f && paper.Z < bestZ)
+                            || (paper.Volume == bestVolume && Math.Abs(supportRatio - bestSupportRatio) < 1e-6f && paper.Z == bestZ &&
+                                (paper.X < best.X || (paper.X == best.X && paper.Y < best.Y)));
 
                         if (isBetter)
                         {
@@ -892,6 +836,50 @@ namespace ThreeDPacking.Core.Packers
         {
             if (log != null) log(msg);
             else Console.WriteLine(msg);
+        }
+
+        private PaddingPaperScore EvaluateMaxUtilizationScore(PaddingPaper paper, float supportRatio)
+        {
+            // 优先级：体积 > 支撑率 > 低层位置 > 左前位置（保证可复现）
+            return new PaddingPaperScore(
+                paper.Volume,
+                supportRatio,
+                -paper.Z,
+                -paper.X,
+                -paper.Y);
+        }
+
+        private readonly struct PaddingPaperScore : IComparable<PaddingPaperScore>
+        {
+            public static PaddingPaperScore MinValue { get; } = new PaddingPaperScore(long.MinValue, float.MinValue, int.MinValue, int.MinValue, int.MinValue);
+
+            private readonly long _volume;
+            private readonly float _support;
+            private readonly int _zPriority;
+            private readonly int _xPriority;
+            private readonly int _yPriority;
+
+            public PaddingPaperScore(long volume, float support, int zPriority, int xPriority, int yPriority)
+            {
+                _volume = volume;
+                _support = support;
+                _zPriority = zPriority;
+                _xPriority = xPriority;
+                _yPriority = yPriority;
+            }
+
+            public int CompareTo(PaddingPaperScore other)
+            {
+                int c = _volume.CompareTo(other._volume);
+                if (c != 0) return c;
+                c = _support.CompareTo(other._support);
+                if (c != 0) return c;
+                c = _zPriority.CompareTo(other._zPriority);
+                if (c != 0) return c;
+                c = _xPriority.CompareTo(other._xPriority);
+                if (c != 0) return c;
+                return _yPriority.CompareTo(other._yPriority);
+            }
         }
     }
 }

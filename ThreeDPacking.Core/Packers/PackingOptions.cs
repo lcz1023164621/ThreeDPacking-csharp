@@ -14,5 +14,10 @@ namespace ThreeDPacking.Core.Packers
         /// 每成功放置一件真实物品（非填充物）后调用；可用于与装箱同步填充牛皮纸。
         /// </summary>
         public Action<Container> AfterEachItemPlacement { get; set; }
+
+        /// <summary>
+        /// 牛皮纸填充策略。默认：<see cref="PaddingPaperFillStrategy.MaxUtilization"/>。
+        /// </summary>
+        public PaddingPaperFillStrategy PaddingPaperStrategy { get; set; } = PaddingPaperFillStrategy.MaxUtilization;
     }
 }

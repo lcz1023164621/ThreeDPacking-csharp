@@ -45,8 +45,14 @@ namespace ThreeDPacking.Core.IO
             List<ContainerCandidate> containerCandidates,// 容器候选列表
             long randomSeed,// 随机种子（用于Shuffle策略的可复现）
             Action<string> log = null,
-            PaddingPaperFillStrategy paddingPaperFillStrategy = PaddingPaperFillStrategy.MaxVolume)
+            PaddingPaperFillStrategy paddingPaperFillStrategy = PaddingPaperFillStrategy.MaxUtilization,
+            PackingOptions options = null)
         {
+            var effectiveOptions = options ?? PackingOptions.Default;
+            var effectivePaddingStrategy = effectiveOptions.PaddingPaperStrategy != PaddingPaperFillStrategy.MaxUtilization
+                ? effectiveOptions.PaddingPaperStrategy
+                : paddingPaperFillStrategy;
+
             // Sort containers by volume (smallest first)
             var sortedContainers = containerCandidates.OrderBy(c => c.Volume).ToList();
             
@@ -194,21 +200,10 @@ namespace ThreeDPacking.Core.IO
             }
 
             // 对每个容器填充牛皮纸（装箱完成后，使用极值点算法）
-            if (paddingPaperFillStrategy == PaddingPaperFillStrategy.LayerFill)
+            var paddingPaperPacker = PaddingPaperPackerFactory.Create(effectivePaddingStrategy);
+            foreach (var container in allContainers)
             {
-                var paddingPaperPacker = new LayerFillPaddingPaperPacker();
-                foreach (var container in allContainers)
-                {
-                    paddingPaperPacker.FillWithPaddingPaper(container, log);
-                }
-            }
-            else
-            {
-                var paddingPaperPacker = new PaddingPaperPacker();
-                foreach (var container in allContainers)
-                {
-                    paddingPaperPacker.FillWithPaddingPaper(container, log);
-                }
+                paddingPaperPacker.FillWithPaddingPaper(container, log);
             }
 
             return allContainers;
