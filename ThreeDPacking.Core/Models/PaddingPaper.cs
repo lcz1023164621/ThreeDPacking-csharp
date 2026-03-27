@@ -10,9 +10,9 @@ namespace ThreeDPacking.Core.Models
     public class PaddingPaper
     {
         /// <summary>
-        /// 默认高度（70mm）
+        /// 默认高度（60mm）
         /// </summary>
-        public const int DefaultHeight = 70;
+        public const int DefaultHeight = 60;
 
         /// <summary>
         /// 默认宽度（110mm）
@@ -60,19 +60,19 @@ namespace ThreeDPacking.Core.Models
 
         /// <summary>
         /// 创建一个适合指定空间的填充纸
-        /// 牛皮纸规格：高度固定70，宽度固定110，长度可变
-        /// 旋转策略：只有底面（长x宽）可以旋转，高度始终固定为70
+        /// 牛皮纸规格：高度固定60，宽度固定110，长度可变
+        /// 旋转策略：只有底面（长x宽）可以旋转，高度始终固定为60
         /// </summary>
         public static PaddingPaper CreateForSpace(int x, int y, int z, int maxDx, int maxDy, int maxDz)
         {
-            // 最小空间要求：至少能容纳高度70和一个足够小的候选底面（后续还会按长度最小值筛选）
+            // 最小空间要求：至少能容纳高度60和一个足够小的候选底面（后续还会按长度最小值筛选）
             if (maxDx < MinSize || maxDy < MinSize || maxDz < DefaultHeight)
                 return null;
             
             PaddingPaper best = null;
             long bestVolume = 0;
             
-            // 牛皮纸固定高度为70，放在Z方向
+            // 牛皮纸固定高度为60，放在Z方向
             int dz = DefaultHeight;
             
             // 情况1: 宽度160放在Y方向，长度(X方向)自适应

@@ -15,6 +15,14 @@ namespace ThreeDPacking.Core.Packers
         /// </summary>
         StableLayerFill = 1,
 
+        /// <summary>
+        /// 客户实际需求装填：
+        /// 1) 先预铺底层牛皮纸
+        /// 2) 按既有装箱策略装箱
+        /// 3) 装箱完成后仅在顶部尽量叠放牛皮纸
+        /// </summary>
+        CustomerDemandFill = 2,
+
         // Backward compatible aliases
         MaxVolume = MaxUtilization,
         LayerFill = StableLayerFill

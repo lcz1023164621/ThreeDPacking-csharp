@@ -15,7 +15,7 @@ namespace ThreeDPacking.Core.Packers
     /// 4. 执行约束切割，删除被包含的极值点
     /// 5. 重复直到无法再放置
     /// 约束：
-    /// 1. 牛皮纸宽度固定110，高度固定70，长度可变（底面可旋转：110xN 或 Nx110）
+    /// 1. 牛皮纸宽度固定110，高度固定60，长度可变（底面可旋转：110xN 或 Nx110）
     /// 2. 最小支撑比例10%
     /// 3. 底面中心点必须有支撑
     /// </summary>
@@ -25,8 +25,8 @@ namespace ThreeDPacking.Core.Packers
         private const float MinSupportRatio = 0.01f;
         private const float MinSideSupportRatio = MinSupportRatio;
         // point.Dz 是极值点算法给出的“可用高度”，在当前实现中可能对局部空间做保守裁剪。
-        // 牛皮纸高度固定为 70，但为了避免错过“实际上不碰撞”的候选点，这里允许一定 slack。
-        // 经验值：允许 point.Dz >= 60（即 70 - 10），碰撞检查仍会兜底拒绝真正不可行的放置。
+        // 牛皮纸高度固定为 60，但为了避免错过“实际上不碰撞”的候选点，这里允许一定 slack。
+        // 经验值：允许 point.Dz >= 50（即 60 - 10），碰撞检查仍会兜底拒绝真正不可行的放置。
         // 极值点的 Dz 可能因为点算法的保守裁剪而偏小；
         // 为避免错过“实际上可碰撞”的上层候选，让它尽可能放宽。
         private const int MinPointDzForPadding = 0;

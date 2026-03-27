@@ -7,6 +7,11 @@ namespace ThreeDPacking.Core.Packers
     {
         public static IPaddingPaperPacker Create(PaddingPaperFillStrategy strategy, int minPaddingWidth = 110)
         {
+            if (strategy == PaddingPaperFillStrategy.CustomerDemandFill)
+            {
+                return new CustomerDemandPaddingPaperPacker(minPaddingWidth);
+            }
+
             if (strategy == PaddingPaperFillStrategy.StableLayerFill ||
                 strategy == PaddingPaperFillStrategy.LayerFill)
             {

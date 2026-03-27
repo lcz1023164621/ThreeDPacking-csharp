@@ -97,6 +97,7 @@ namespace ThreeDPacking.App.Forms
             cmbPaddingStrategy.DropDownStyle = ComboBoxStyle.DropDownList;
             cmbPaddingStrategy.Items.Add("MaxUtilization（利用率优先）");
             cmbPaddingStrategy.Items.Add("StableLayerFill（稳定分层优先）");
+            cmbPaddingStrategy.Items.Add("客户实际需求装填");
             cmbPaddingStrategy.SelectedIndex = 0;
             cmbPaddingStrategy.SelectedIndexChanged += CmbPaddingStrategy_SelectedIndexChanged;
 
@@ -126,9 +127,18 @@ namespace ThreeDPacking.App.Forms
         private void CmbPaddingStrategy_SelectedIndexChanged(object sender, EventArgs e)
         {
             // 仅在用户主动修改时标记 dirty：确保重启后仍按上次的策略复现
-            _paddingPaperFillStrategy = cmbPaddingStrategy.SelectedIndex == 1
-                ? PaddingPaperFillStrategy.StableLayerFill
-                : PaddingPaperFillStrategy.MaxUtilization;
+            switch (cmbPaddingStrategy.SelectedIndex)
+            {
+                case 1:
+                    _paddingPaperFillStrategy = PaddingPaperFillStrategy.StableLayerFill;
+                    break;
+                case 2:
+                    _paddingPaperFillStrategy = PaddingPaperFillStrategy.CustomerDemandFill;
+                    break;
+                default:
+                    _paddingPaperFillStrategy = PaddingPaperFillStrategy.MaxUtilization;
+                    break;
+            }
 
             if (!_isRestoringState)
                 _selectionDirty = true;
@@ -317,7 +327,12 @@ namespace ThreeDPacking.App.Forms
                 }
 
                 _paddingPaperFillStrategy = (PaddingPaperFillStrategy)_lastRunState.PaddingStrategy;
-                cmbPaddingStrategy.SelectedIndex = _paddingPaperFillStrategy == PaddingPaperFillStrategy.StableLayerFill ? 1 : 0;
+                if (_paddingPaperFillStrategy == PaddingPaperFillStrategy.StableLayerFill)
+                    cmbPaddingStrategy.SelectedIndex = 1;
+                else if (_paddingPaperFillStrategy == PaddingPaperFillStrategy.CustomerDemandFill)
+                    cmbPaddingStrategy.SelectedIndex = 2;
+                else
+                    cmbPaddingStrategy.SelectedIndex = 0;
                 _paddingPaperMinWidth = _lastRunState.PaddingMinWidth > 0
                     ? _lastRunState.PaddingMinWidth
                     : ThreeDPacking.Core.Models.PaddingPaper.DefaultWidth;

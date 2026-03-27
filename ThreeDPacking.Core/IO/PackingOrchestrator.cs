@@ -55,6 +55,7 @@ namespace ThreeDPacking.Core.IO
             var effectiveMinPaddingWidth = effectiveOptions.PaddingPaperMinWidth > 0
                 ? effectiveOptions.PaddingPaperMinWidth
                 : PaddingPaper.DefaultWidth;
+            bool useCustomerDemandFill = effectivePaddingStrategy == PaddingPaperFillStrategy.CustomerDemandFill;
 
             // Sort containers by volume (smallest first)
             var sortedContainers = containerCandidates.OrderBy(c => c.Volume).ToList();
@@ -77,7 +78,12 @@ namespace ThreeDPacking.Core.IO
                 {
                     log?.Invoke($"Trying container: {candidate.Name} (Volume: {candidate.Volume})");
                     
-                    var attempt = TryPackInContainer(remainingItems, candidate, randomSeed);
+                    var attempt = TryPackInContainer(
+                        remainingItems,
+                        candidate,
+                        randomSeed,
+                        useCustomerDemandFill,
+                        effectiveMinPaddingWidth);
                     
                     if (attempt != null && attempt.PackedCount > 0)
                     {
@@ -126,7 +132,12 @@ namespace ThreeDPacking.Core.IO
                     {
                         log?.Invoke($"No suitable container found. Trying largest container: {largestContainer.Name} for remaining {remainingItems.Count} items");
                         
-                        var attempt = TryPackInContainer(remainingItems, largestContainer, randomSeed);
+                        var attempt = TryPackInContainer(
+                            remainingItems,
+                            largestContainer,
+                            randomSeed,
+                            useCustomerDemandFill,
+                            effectiveMinPaddingWidth);
                         if (attempt != null && attempt.PackedCount > 0)
                         {
                             chosen = attempt;
@@ -143,7 +154,11 @@ namespace ThreeDPacking.Core.IO
                             
                             foreach (var item in sortedRemaining.ToList())
                             {
-                                var singleItemResult = ForcePackSingleItem(item, largestContainer);
+                                var singleItemResult = ForcePackSingleItem(
+                                    item,
+                                    largestContainer,
+                                    useCustomerDemandFill,
+                                    effectiveMinPaddingWidth);
                                 if (singleItemResult != null)
                                 {
                                     packedResults.Add(singleItemResult);
@@ -227,7 +242,9 @@ namespace ThreeDPacking.Core.IO
         private PackingAttemptResult TryPackInContainer(
             List<ItemCandidate> items,
             ContainerCandidate candidate,
-            long randomSeed)
+            long randomSeed,
+            bool reserveBottomPadding,
+            int minPaddingWidth)
         {
             var attempts = new ConcurrentBag<PackingAttemptResult>();
 
@@ -266,7 +283,14 @@ namespace ThreeDPacking.Core.IO
             // 并行执行所有策略
             Parallel.ForEach(strategies, strategy =>
             {
-                var result = PackWithStrategy(items, candidate, strategy.packager, strategy.strategyName, randomSeed);
+                var result = PackWithStrategy(
+                    items,
+                    candidate,
+                    strategy.packager,
+                    strategy.strategyName,
+                    randomSeed,
+                    reserveBottomPadding,
+                    minPaddingWidth);
                 if (result != null && result.PackedCount > 0)
                 {
                     attempts.Add(result);
@@ -276,6 +300,22 @@ namespace ThreeDPacking.Core.IO
             // Return the best attempt for this container (most items packed)
             // 注意：attempts 来自并行 ConcurrentBag，遍历顺序不稳定。
             // 必须做确定性 tie-break，保证同一 randomSeed 时结果可复现。
+            if (reserveBottomPadding)
+            {
+                // 客户需求模式下，优先：
+                // 1) 装入数量更多
+                // 2) 最高装载高度更低（倾向同层并排，减少不必要上叠）
+                // 3) 利用率更高
+                // 4) 在同等条件下偏向 LAFF（再 Hybrid、再 Plain）
+                return attempts
+                    .OrderByDescending(a => a.PackedCount)
+                    .ThenBy(a => GetNonPaddingMaxUsedZ(a.PackedContainer))
+                    .ThenByDescending(a => a.Utilization)
+                    .ThenBy(a => GetCustomerDemandStrategyRank(a.Strategy))
+                    .ThenBy(a => a.Strategy, StringComparer.Ordinal)
+                    .FirstOrDefault();
+            }
+
             return attempts
                 .OrderByDescending(a => a.PackedCount)
                 .ThenByDescending(a => a.Utilization)
@@ -288,7 +328,9 @@ namespace ThreeDPacking.Core.IO
             ContainerCandidate candidate,
             IPackager packager,
             string strategyName,
-            long randomSeed)
+            long randomSeed,
+            bool reserveBottomPadding,
+            int minPaddingWidth)
         {
             var sortedItems = new List<ItemCandidate>(items);
 
@@ -301,14 +343,16 @@ namespace ThreeDPacking.Core.IO
             else if (strategyName.Contains("Shuffle"))
                 Shuffle(sortedItems, randomSeed + strategyName.GetHashCode() + candidate.Volume);
 
-            return PackIntoContainer(sortedItems, candidate, packager, strategyName);
+            return PackIntoContainer(sortedItems, candidate, packager, strategyName, reserveBottomPadding, minPaddingWidth);
         }
 
         private PackingAttemptResult PackIntoContainer(
             List<ItemCandidate> items,
             ContainerCandidate candidate,
             IPackager packager,
-            string strategyName)
+            string strategyName,
+            bool useCustomerDemandFill,
+            int minPaddingWidth)
         {
             var products = BuildProducts(items);
             var container = new Container(
@@ -321,6 +365,32 @@ namespace ThreeDPacking.Core.IO
             if (packedContainer == null || packedContainer.Stack.IsEmpty)
                 return null;
 
+            if (useCustomerDemandFill)
+            {
+                int packedWithoutBottomPaper = CountNonPaddingPlacements(packedContainer);
+                bool allItemsFitWithoutBottom = packedWithoutBottomPaper >= items.Count;
+                bool hasPackedBottomCandidate = NeedBottomPaddingForCustomerDemand(packedContainer);
+                if (allItemsFitWithoutBottom)
+                {
+                    // 单箱可装完：仅当当前箱内已选物体满足铺底条件时，才尝试铺底。
+                    // 否则不铺底，只在后续步骤铺顶部/中间层。
+                    if (hasPackedBottomCandidate)
+                    {
+                        // 空间不足导致铺底失败时，保留不铺底结果（不抛弃可行方案）。
+                        TryApplyBottomPaddingAndLiftItems(packedContainer, minPaddingWidth, forceApplyBottom: true);
+                    }
+                }
+                else
+                {
+                    // 多箱场景：先保留“不铺底”的装载结果；
+                    // 仅当未装下的物品满足“最长边>300 且最短边<100”时，再尝试铺底。
+                    if (NeedBottomPaddingForOverflowItems(items, packedContainer))
+                    {
+                        TryApplyBottomPaddingAndLiftItems(packedContainer, minPaddingWidth, forceApplyBottom: true);
+                    }
+                }
+            }
+
             // Match packed items back to ItemCandidates
             var packedItems = new List<ItemCandidate>();
             var matchedInstanceIds = new HashSet<int>();
@@ -328,6 +398,9 @@ namespace ThreeDPacking.Core.IO
             
             foreach (var p in packedContainer.Stack.Placements)
             {
+                if (p == null || p.IsPadding)
+                    continue;
+
                 string id = p.StackValue.Box?.Id;
                 if (id == null) 
                 {
@@ -467,7 +540,9 @@ namespace ThreeDPacking.Core.IO
         /// </summary>
         private PackingAttemptResult ForcePackSingleItem(
             ItemCandidate item,
-            ContainerCandidate candidate)
+            ContainerCandidate candidate,
+            bool useCustomerDemandFill,
+            int minPaddingWidth)
         {
             // 检查物品是否能放入容器（尝试所有旋转方式）
             bool canFit = false;
@@ -512,12 +587,192 @@ namespace ThreeDPacking.Core.IO
                 candidate.Dx, candidate.Dy, candidate.Dz,
                 candidate.EmptyWeight, candidate.MaxLoadWeight);
             container.Stack.Add(placement);
+
+            if (useCustomerDemandFill)
+            {
+                // 单件单箱：按客户需求优先尝试铺底，失败则保留不铺底结果。
+                TryApplyBottomPaddingAndLiftItems(container, minPaddingWidth, forceApplyBottom: true);
+            }
             
             var packedItems = new List<ItemCandidate> { item };
             long packedVolume = item.Volume;
             double utilization = candidate.Volume > 0 ? (double)packedVolume / candidate.Volume : 0;
             
             return new PackingAttemptResult(container, candidate, packedVolume, utilization, packedItems, "ForcePackSingle");
+        }
+
+        private bool TryApplyBottomPaddingAndLiftItems(Container container, int minPaddingWidth, bool forceApplyBottom = false)
+        {
+            if (container?.Stack == null)
+                return false;
+
+            if (!forceApplyBottom && !NeedBottomPaddingForCustomerDemand(container))
+                return true;
+
+            var basePapers = BuildBottomPaddingPapers(container.LoadDx, container.LoadDy, minPaddingWidth);
+            if (basePapers.Count == 0)
+                return false;
+
+            int liftHeight = PaddingPaper.DefaultHeight;
+
+            // 先验证再执行，避免出现“部分物品已抬高后失败”的中间状态。
+            foreach (var placement in container.Stack.Placements)
+            {
+                if (placement == null || placement.IsPadding)
+                    continue;
+
+                if (placement.AbsoluteEndZ + liftHeight >= container.LoadDz)
+                    return false;
+            }
+
+            foreach (var placement in container.Stack.Placements)
+            {
+                if (placement == null || placement.IsPadding)
+                    continue;
+
+                placement.Z += liftHeight;
+            }
+
+            foreach (var paper in basePapers)
+                container.Stack.Add(paper.ToPlacement());
+
+            return true;
+        }
+
+        private bool NeedBottomPaddingForCustomerDemand(Container container)
+        {
+            var nonPaddingPlacements = container.Stack.Placements
+                .Where(p => p != null && !p.IsPadding && p.StackValue != null)
+                .ToList();
+            if (nonPaddingPlacements.Count == 0)
+                return false;
+
+            int minZ = nonPaddingPlacements.Min(p => p.Z);
+            foreach (var placement in nonPaddingPlacements.Where(p => p.Z == minZ))
+            {
+                int dx = placement.StackValue.Dx;
+                int dy = placement.StackValue.Dy;
+                int dz = placement.StackValue.Dz;
+                int longest = Math.Max(dx, Math.Max(dy, dz));
+                int shortest = Math.Min(dx, Math.Min(dy, dz));
+                if (longest > 300 && shortest < 100)
+                    return true;
+            }
+
+            return false;
+        }
+
+        private bool NeedBottomPaddingForOverflowItems(List<ItemCandidate> requestedItems, Container packedContainer)
+        {
+            if (requestedItems == null || requestedItems.Count == 0 || packedContainer?.Stack == null)
+                return false;
+
+            var packedIds = new HashSet<string>(StringComparer.Ordinal);
+            foreach (var placement in packedContainer.Stack.Placements)
+            {
+                if (placement == null || placement.IsPadding)
+                    continue;
+
+                string id = placement.StackValue?.Box?.Id;
+                if (!string.IsNullOrEmpty(id))
+                    packedIds.Add(id);
+            }
+
+            foreach (var item in requestedItems)
+            {
+                string id = item.Name + "#" + item.InstanceId;
+                if (packedIds.Contains(id))
+                    continue;
+
+                int longest = Math.Max(item.Dx, Math.Max(item.Dy, item.Dz));
+                int shortest = Math.Min(item.Dx, Math.Min(item.Dy, item.Dz));
+                if (longest > 300 && shortest < 100)
+                    return true;
+            }
+
+            return false;
+        }
+
+        private List<PaddingPaper> BuildBottomPaddingPapers(int loadDx, int loadDy, int minPaddingWidth)
+        {
+            var result = new List<PaddingPaper>();
+            int width = Math.Max(PaddingPaper.MinSize, minPaddingWidth);
+            int height = PaddingPaper.DefaultHeight;
+
+            bool canAlongX = loadDx >= PaddingPaper.MinLength && loadDy >= width;
+            bool canAlongY = loadDy >= PaddingPaper.MinLength && loadDx >= width;
+
+            if (!canAlongX && !canAlongY)
+                return result;
+
+            int stripsAlongX = canAlongX ? loadDy / width : 0;
+            int stripsAlongY = canAlongY ? loadDx / width : 0;
+            long areaAlongX = stripsAlongX > 0 ? (long)stripsAlongX * width * loadDx : 0;
+            long areaAlongY = stripsAlongY > 0 ? (long)stripsAlongY * width * loadDy : 0;
+
+            if (areaAlongX >= areaAlongY)
+            {
+                for (int i = 0; i < stripsAlongX; i++)
+                {
+                    int y = i * width;
+                    result.Add(new PaddingPaper(0, y, 0, loadDx, width, height));
+                }
+            }
+            else
+            {
+                for (int i = 0; i < stripsAlongY; i++)
+                {
+                    int x = i * width;
+                    result.Add(new PaddingPaper(x, 0, 0, width, loadDy, height));
+                }
+            }
+
+            return result;
+        }
+
+        private static int CountNonPaddingPlacements(Container container)
+        {
+            if (container?.Stack == null)
+                return 0;
+
+            int count = 0;
+            foreach (var p in container.Stack.Placements)
+            {
+                if (p != null && !p.IsPadding && p.StackValue != null)
+                    count++;
+            }
+
+            return count;
+        }
+
+        private static int GetNonPaddingMaxUsedZ(Container container)
+        {
+            if (container?.Stack == null)
+                return int.MaxValue;
+
+            int maxUsedZ = -1;
+            foreach (var p in container.Stack.Placements)
+            {
+                if (p == null || p.IsPadding || p.StackValue == null)
+                    continue;
+                if (p.AbsoluteEndZ > maxUsedZ)
+                    maxUsedZ = p.AbsoluteEndZ;
+            }
+
+            return maxUsedZ >= 0 ? maxUsedZ : int.MaxValue;
+        }
+
+        private static int GetCustomerDemandStrategyRank(string strategy)
+        {
+            if (string.IsNullOrEmpty(strategy))
+                return 3;
+            if (strategy.StartsWith("Laff-", StringComparison.Ordinal))
+                return 0;
+            if (strategy.StartsWith("Hybrid-", StringComparison.Ordinal))
+                return 1;
+            if (strategy.StartsWith("Plain-", StringComparison.Ordinal))
+                return 2;
+            return 3;
         }
     }
 
