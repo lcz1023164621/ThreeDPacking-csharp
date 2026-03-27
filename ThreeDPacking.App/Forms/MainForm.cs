@@ -32,12 +32,16 @@ namespace ThreeDPacking.App.Forms
         private List<ItemCandidate> _loadedItems = new List<ItemCandidate>();
         private List<Core.Models.Container> _packedContainers = new List<Core.Models.Container>();
 
+        private Button btnInstanceSelect;
         private Button btnProbabilitySelect;
 
         private ComboBox cmbPaddingStrategy;
         private Label lblPaddingStrategy;
+        private NumericUpDown numPaddingMinWidth;
+        private Label lblPaddingMinWidth;
 
         private PaddingPaperFillStrategy _paddingPaperFillStrategy = PaddingPaperFillStrategy.MaxUtilization;
+        private int _paddingPaperMinWidth = ThreeDPacking.Core.Models.PaddingPaper.DefaultWidth;
         private bool _selectionDirty = true;
         private bool _isRestoringState = false;
         private LastRunState _lastRunState;
@@ -45,13 +49,29 @@ namespace ThreeDPacking.App.Forms
         public MainForm()
         {
             InitializeComponent();
+            InitInstanceButton();
             InitProbabilityButton();
             InitPaddingStrategyCombo();
+            InitPaddingMinWidthControl();
             WireEvents();
             AddDefaultContainer();
             btnRandomSelect.Enabled = false;
+            if (btnInstanceSelect != null)
+                btnInstanceSelect.Enabled = false;
             if (btnProbabilitySelect != null)
                 btnProbabilitySelect.Enabled = false;
+        }
+
+        private void InitInstanceButton()
+        {
+            btnInstanceSelect = new Button();
+            btnInstanceSelect.Name = "btnInstanceSelect";
+            btnInstanceSelect.Text = "实例选择";
+            btnInstanceSelect.UseVisualStyleBackColor = true;
+            btnInstanceSelect.TabIndex = 4;
+            btnInstanceSelect.Size = new Size(68, 23);
+            btnInstanceSelect.Click += BtnInstanceSelect_Click;
+            grpRandomSelect.Controls.Add(btnInstanceSelect);
         }
 
         private void InitProbabilityButton()
@@ -84,6 +104,25 @@ namespace ThreeDPacking.App.Forms
             grpRandomSelect.Controls.Add(cmbPaddingStrategy);
         }
 
+        private void InitPaddingMinWidthControl()
+        {
+            lblPaddingMinWidth = new Label();
+            lblPaddingMinWidth.Text = "牛皮纸最小宽度";
+            lblPaddingMinWidth.AutoSize = false;
+            lblPaddingMinWidth.TextAlign = ContentAlignment.MiddleLeft;
+
+            numPaddingMinWidth = new NumericUpDown();
+            numPaddingMinWidth.Minimum = ThreeDPacking.Core.Models.PaddingPaper.MinSize;
+            numPaddingMinWidth.Maximum = 1000;
+            numPaddingMinWidth.Value = _paddingPaperMinWidth;
+            numPaddingMinWidth.Increment = 5;
+            numPaddingMinWidth.TextAlign = HorizontalAlignment.Right;
+            numPaddingMinWidth.ValueChanged += NumPaddingMinWidth_ValueChanged;
+
+            grpRandomSelect.Controls.Add(lblPaddingMinWidth);
+            grpRandomSelect.Controls.Add(numPaddingMinWidth);
+        }
+
         private void CmbPaddingStrategy_SelectedIndexChanged(object sender, EventArgs e)
         {
             // 仅在用户主动修改时标记 dirty：确保重启后仍按上次的策略复现
@@ -91,6 +130,13 @@ namespace ThreeDPacking.App.Forms
                 ? PaddingPaperFillStrategy.StableLayerFill
                 : PaddingPaperFillStrategy.MaxUtilization;
 
+            if (!_isRestoringState)
+                _selectionDirty = true;
+        }
+
+        private void NumPaddingMinWidth_ValueChanged(object sender, EventArgs e)
+        {
+            _paddingPaperMinWidth = (int)numPaddingMinWidth.Value;
             if (!_isRestoringState)
                 _selectionDirty = true;
         }
@@ -156,7 +202,7 @@ namespace ThreeDPacking.App.Forms
 
             // 随机选择区域
             grpRandomSelect.Location = new Point(6, y);
-            grpRandomSelect.Size = new Size(w, 110);
+            grpRandomSelect.Size = new Size(w, 136);
             lblRandomMin.Location = new Point(8, 20);
             numRandomMin.Location = new Point(48, 16);
             lblRandomMax.Location = new Point(115, 20);
@@ -169,18 +215,29 @@ namespace ThreeDPacking.App.Forms
             btnProbabilitySelect.Size = new Size(btnW, btnH);
             btnRandomSelect.Location = new Point(btnX + btnW + gap, 15);
             btnRandomSelect.Size = new Size(btnW, btnH);
-            lblRandomInfo.Location = new Point(8, 48);
+            lblRandomInfo.Location = new Point(8, 46);
+            btnInstanceSelect.Location = new Point(btnX, 43);
+            btnInstanceSelect.Size = new Size(btnW, btnH);
+
+            if (lblPaddingMinWidth != null && numPaddingMinWidth != null)
+            {
+                lblPaddingMinWidth.Location = new Point(8, 90);
+                lblPaddingMinWidth.Size = new Size(100, 20);
+                numPaddingMinWidth.Location = new Point(112, 88);
+                numPaddingMinWidth.Size = new Size(68, 23);
+            }
             
             // 牛皮纸填充策略下拉
             if (lblPaddingStrategy != null && cmbPaddingStrategy != null)
             {
-                lblPaddingStrategy.Location = new Point(8, 62);
+                lblPaddingStrategy.Location = new Point(8, 114);
                 lblPaddingStrategy.Size = new Size(w - 16, 18);
-                cmbPaddingStrategy.Location = new Point(8, 80);
+                cmbPaddingStrategy.Location = new Point(8, 132);
                 cmbPaddingStrategy.Size = new Size(w - 16, 23);
             }
 
-            y += 116;
+            grpRandomSelect.Size = new Size(w, 162);
+            y += 168;
 
             lblResults.Location = new Point(6, y);
             lblResults.Width = w;
@@ -261,6 +318,11 @@ namespace ThreeDPacking.App.Forms
 
                 _paddingPaperFillStrategy = (PaddingPaperFillStrategy)_lastRunState.PaddingStrategy;
                 cmbPaddingStrategy.SelectedIndex = _paddingPaperFillStrategy == PaddingPaperFillStrategy.StableLayerFill ? 1 : 0;
+                _paddingPaperMinWidth = _lastRunState.PaddingMinWidth > 0
+                    ? _lastRunState.PaddingMinWidth
+                    : ThreeDPacking.Core.Models.PaddingPaper.DefaultWidth;
+                numPaddingMinWidth.Value = Math.Max((int)numPaddingMinWidth.Minimum,
+                    Math.Min((int)numPaddingMinWidth.Maximum, _paddingPaperMinWidth));
 
                 _selectionDirty = false;
                 menuStartPacking.Enabled = _loadedItems.Count > 0;
@@ -286,6 +348,7 @@ namespace ThreeDPacking.App.Forms
                 {
                     RandomSeed = packRandomSeed,
                     PaddingStrategy = (int)_paddingPaperFillStrategy,
+                    PaddingMinWidth = _paddingPaperMinWidth,
                     LoadedItems = _loadedItems.Select(i => new LastRunItemCandidate
                     {
                         Name = i.Name,
@@ -330,6 +393,7 @@ namespace ThreeDPacking.App.Forms
         {
             [DataMember] public long RandomSeed { get; set; }
             [DataMember] public int PaddingStrategy { get; set; }
+            [DataMember] public int PaddingMinWidth { get; set; }
             [DataMember] public List<LastRunItemCandidate> LoadedItems { get; set; }
             [DataMember] public List<LastRunContainerCandidate> ContainerCandidates { get; set; }
         }
@@ -408,7 +472,8 @@ namespace ThreeDPacking.App.Forms
                     for (int i = 0; i < _allLoadedItems.Count; i++)
                     {
                         var old = _allLoadedItems[i];
-                        _allLoadedItems[i] = new ItemCandidate(old.Name, old.Dx, old.Dy, old.Dz, i + 1, old.Probability);
+                        _allLoadedItems[i] = new ItemCandidate(
+                            old.Name, old.Dx, old.Dy, old.Dz, i + 1, old.Probability, old.IsHighlighted);
                     }
 
                     // 默认加载所有物品
@@ -417,6 +482,8 @@ namespace ThreeDPacking.App.Forms
                     RefreshItemsGrid();
                     menuStartPacking.Enabled = _loadedItems.Count > 0;
                     btnRandomSelect.Enabled = _allLoadedItems.Count > 0;
+                    if (btnInstanceSelect != null)
+                        btnInstanceSelect.Enabled = _allLoadedItems.Count > 0;
                     if (btnProbabilitySelect != null)
                         btnProbabilitySelect.Enabled = _allLoadedItems.Count > 0;
                     lblRandomInfo.Text = $"已加载 {_allLoadedItems.Count} 个物品";
@@ -499,7 +566,8 @@ namespace ThreeDPacking.App.Forms
             for (int i = 0; i < _loadedItems.Count; i++)
             {
                 var old = _loadedItems[i];
-                _loadedItems[i] = new ItemCandidate(old.Name, old.Dx, old.Dy, old.Dz, i + 1, old.Probability);
+                _loadedItems[i] = new ItemCandidate(
+                    old.Name, old.Dx, old.Dy, old.Dz, i + 1, old.Probability, old.IsHighlighted);
             }
 
             RefreshItemsGrid();
@@ -508,6 +576,66 @@ namespace ThreeDPacking.App.Forms
             _selectionDirty = true;
             _lastRunState = null;
             AppendLog($"随机选择了 {_loadedItems.Count} 个物品进行装箱");
+        }
+
+        private void BtnInstanceSelect_Click(object sender, EventArgs e)
+        {
+            if (_allLoadedItems.Count == 0)
+            {
+                MessageBox.Show("请先加载物品Excel文件。", "提示",
+                    MessageBoxButtons.OK, MessageBoxIcon.Information);
+                return;
+            }
+
+            int minCount = (int)numRandomMin.Value;
+            int maxCount = (int)numRandomMax.Value;
+
+            if (minCount > maxCount)
+            {
+                MessageBox.Show("最小数量不能大于最大数量。", "提示",
+                    MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            var highlightedItems = _allLoadedItems.Where(i => i.IsHighlighted).ToList();
+            if (highlightedItems.Count == 0)
+            {
+                MessageBox.Show("未检测到黄线物体，无法执行实例选择。请在Excel中将至少一行标黄。", "提示",
+                    MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            var random = new Random();
+            int targetCount = random.Next(minCount, maxCount + 1);
+            _loadedItems = new List<ItemCandidate>(targetCount);
+
+            // 第一个物体必须来自黄线物体集合
+            if (targetCount > 0)
+            {
+                int highlightedIdx = random.Next(highlightedItems.Count);
+                _loadedItems.Add(highlightedItems[highlightedIdx]);
+            }
+
+            // 其余物体从全量物体中有放回抽样（可重复）
+            for (int i = _loadedItems.Count; i < targetCount; i++)
+            {
+                int idx = random.Next(_allLoadedItems.Count);
+                _loadedItems.Add(_allLoadedItems[idx]);
+            }
+
+            for (int i = 0; i < _loadedItems.Count; i++)
+            {
+                var old = _loadedItems[i];
+                _loadedItems[i] = new ItemCandidate(
+                    old.Name, old.Dx, old.Dy, old.Dz, i + 1, old.Probability, old.IsHighlighted);
+            }
+
+            RefreshItemsGrid();
+            menuStartPacking.Enabled = _loadedItems.Count > 0;
+            statusLabel.Text = $"已实例选择 {_loadedItems.Count} 个物品 (先黄线1个, 范围: {minCount}-{maxCount})";
+            _selectionDirty = true;
+            _lastRunState = null;
+            AppendLog($"实例选择了 {_loadedItems.Count} 个物品（首个来自黄线物体，其余有放回随机）");
         }
 
         private void BtnProbabilitySelect_Click(object sender, EventArgs e)
@@ -541,7 +669,8 @@ namespace ThreeDPacking.App.Forms
             for (int i = 0; i < _loadedItems.Count; i++)
             {
                 var old = _loadedItems[i];
-                _loadedItems[i] = new ItemCandidate(old.Name, old.Dx, old.Dy, old.Dz, i + 1, old.Probability);
+                _loadedItems[i] = new ItemCandidate(
+                    old.Name, old.Dx, old.Dy, old.Dz, i + 1, old.Probability, old.IsHighlighted);
             }
 
             RefreshItemsGrid();
@@ -615,6 +744,8 @@ namespace ThreeDPacking.App.Forms
 
         private void MenuStartPacking_Click(object sender, EventArgs e)
         {
+            SyncPaddingSettingsFromUi();
+
             if (_loadedItems.Count == 0)
             {
                 MessageBox.Show("请先加载物品Excel文件。", "提示",
@@ -646,9 +777,15 @@ namespace ThreeDPacking.App.Forms
             worker.DoWork += (ws, we) =>
             {
                 var orchestrator = new PackingOrchestrator();
+                var packingOptions = new PackingOptions
+                {
+                    PaddingPaperStrategy = _paddingPaperFillStrategy,
+                    PaddingPaperMinWidth = _paddingPaperMinWidth
+                };
                 we.Result = orchestrator.Run(itemsCopy, containerCandidates, packSeed,
                     msg => BeginInvoke((Action)(() => AppendLog(msg))),
-                    _paddingPaperFillStrategy);
+                    _paddingPaperFillStrategy,
+                    packingOptions);
             };
             worker.RunWorkerCompleted += (ws, we) =>
             {
@@ -729,6 +866,27 @@ namespace ThreeDPacking.App.Forms
                     lstResults.SelectedIndex = 0;
             };
             worker.RunWorkerAsync();
+        }
+
+        private void SyncPaddingSettingsFromUi()
+        {
+            if (numPaddingMinWidth == null)
+                return;
+
+            int min = (int)numPaddingMinWidth.Minimum;
+            int max = (int)numPaddingMinWidth.Maximum;
+
+            // NumericUpDown 在“输入后未离焦”时，Value 可能仍是旧值，优先按当前文本同步。
+            if (int.TryParse(numPaddingMinWidth.Text?.Trim(), out int typedWidth))
+            {
+                typedWidth = Math.Max(min, Math.Min(max, typedWidth));
+                _paddingPaperMinWidth = typedWidth;
+                numPaddingMinWidth.Value = typedWidth;
+            }
+            else
+            {
+                _paddingPaperMinWidth = (int)numPaddingMinWidth.Value;
+            }
         }
 
         #endregion

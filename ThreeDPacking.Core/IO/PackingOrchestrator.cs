@@ -52,6 +52,9 @@ namespace ThreeDPacking.Core.IO
             var effectivePaddingStrategy = effectiveOptions.PaddingPaperStrategy != PaddingPaperFillStrategy.MaxUtilization
                 ? effectiveOptions.PaddingPaperStrategy
                 : paddingPaperFillStrategy;
+            var effectiveMinPaddingWidth = effectiveOptions.PaddingPaperMinWidth > 0
+                ? effectiveOptions.PaddingPaperMinWidth
+                : PaddingPaper.DefaultWidth;
 
             // Sort containers by volume (smallest first)
             var sortedContainers = containerCandidates.OrderBy(c => c.Volume).ToList();
@@ -200,11 +203,17 @@ namespace ThreeDPacking.Core.IO
             }
 
             // 对每个容器填充牛皮纸（装箱完成后，使用极值点算法）
-            var paddingPaperPacker = PaddingPaperPackerFactory.Create(effectivePaddingStrategy);
+            var paddingPaperPacker = PaddingPaperPackerFactory.Create(effectivePaddingStrategy, effectiveMinPaddingWidth);
             foreach (var container in allContainers)
             {
                 paddingPaperPacker.FillWithPaddingPaper(container, log);
             }
+
+            long totalPaddingPaperVolume = allContainers
+                .SelectMany(c => c.Stack.Placements)
+                .Where(p => p.IsPadding && p.StackValue != null)
+                .Sum(p => (long)p.StackValue.Dx * p.StackValue.Dy * p.StackValue.Dz);
+            log?.Invoke($"[牛皮纸] 总体积: {totalPaddingPaperVolume}");
 
             return allContainers;
         }

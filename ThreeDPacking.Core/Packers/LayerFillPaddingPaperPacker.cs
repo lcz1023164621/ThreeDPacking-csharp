@@ -24,20 +24,26 @@ namespace ThreeDPacking.Core.Packers
 
         // 最小长度：用于控制牛皮纸沿可变方向的最短铺放长度（>=200mm）
         private const int MinPaddingLengthForPlacement = PaddingPaper.MinLength; // 200
+        private readonly int _minPaddingWidth;
 
         // 扫描长度的步进：避免在长区间上做太多可行性判断
         private const int LengthScanStep = 5;
         // 在接近最小长度时，用更细的步长补齐“最后一段刚好能拼上的长度”
         private const int FineScanTail = 20;
 
-        private static (bool splitPossible, int remainderAlongVariable) GetSplitInfo(
+        public LayerFillPaddingPaperPacker(int minPaddingWidth = PaddingPaper.DefaultWidth)
+        {
+            _minPaddingWidth = Math.Max(PaddingPaper.MinSize, minPaddingWidth);
+        }
+
+        private (bool splitPossible, int remainderAlongVariable) GetSplitInfo(
             ExtremePoint point,
             PaddingPaper paper)
         {
             // A朝向：宽=110固定在Y方向，长度=Dx（X方向可变）
             // B朝向：宽=110固定在X方向，长度=Dy（Y方向可变）
             int remainder = 0;
-            if (paper.Dy == PaddingPaper.DefaultWidth)
+            if (paper.Dy == _minPaddingWidth)
             {
                 remainder = point.Dx - paper.Dx;
             }
@@ -491,7 +497,7 @@ namespace ThreeDPacking.Core.Packers
             float bestSupportRatio = -1f;
 
             // 朝向A：宽=110放在Y方向，长度=dx（X方向可变）
-            if (maxDy >= PaddingPaper.DefaultWidth && maxDx >= MinPaddingLengthForPlacement)
+            if (maxDy >= _minPaddingWidth && maxDx >= MinPaddingLengthForPlacement)
             {
                 // 生成“更多候选长度”，而不是找到第一个可行就 break。
                 // 这样才能真正把“切分/铺满能力”引入到决策里。
@@ -506,7 +512,7 @@ namespace ThreeDPacking.Core.Packers
                 // 排序 + 去重，保证遍历顺序确定性
                 foreach (var dx in candidateLengths.Distinct().OrderByDescending(v => v))
                 {
-                    var paper = new PaddingPaper(x, y, z, dx, PaddingPaper.DefaultWidth, dz);
+                    var paper = new PaddingPaper(x, y, z, dx, _minPaddingWidth, dz);
                     if (HasCollisionWithItems(paper, itemPlacements) || HasCollisionWithPadding(paper, paddingPapers))
                         continue;
 
@@ -553,7 +559,7 @@ namespace ThreeDPacking.Core.Packers
             }
 
             // 朝向B：宽=110放在X方向，长度=dy（Y方向可变）
-            if (maxDx >= PaddingPaper.DefaultWidth && maxDy >= MinPaddingLengthForPlacement)
+            if (maxDx >= _minPaddingWidth && maxDy >= MinPaddingLengthForPlacement)
             {
                 var candidateLengths = new List<int>();
                 for (int dy = maxDy; dy >= MinPaddingLengthForPlacement; dy -= LengthScanStep)
@@ -565,7 +571,7 @@ namespace ThreeDPacking.Core.Packers
 
                 foreach (var dy in candidateLengths.Distinct().OrderByDescending(v => v))
                 {
-                    var paper = new PaddingPaper(x, y, z, PaddingPaper.DefaultWidth, dy, dz);
+                    var paper = new PaddingPaper(x, y, z, _minPaddingWidth, dy, dz);
                     if (HasCollisionWithItems(paper, itemPlacements) || HasCollisionWithPadding(paper, paddingPapers))
                         continue;
 
@@ -896,7 +902,7 @@ namespace ThreeDPacking.Core.Packers
             List<PaddingPaper> paddingPapers)
         {
             var splitInfo = GetSplitInfo(point, paper);
-            int variableCap = paper.Dy == PaddingPaper.DefaultWidth ? point.Dx : point.Dy;
+            int variableCap = paper.Dy == _minPaddingWidth ? point.Dx : point.Dy;
             int remainder = splitInfo.remainderAlongVariable;
 
             double canContinue = splitInfo.splitPossible ? 1.0 : 0.0;

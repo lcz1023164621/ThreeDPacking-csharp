@@ -32,6 +32,12 @@ namespace ThreeDPacking.Core.Packers
         private const int MinPointDzForPadding = 0;
         // 最小长度：用于控制牛皮纸沿可变方向的最短铺放长度（>=200mm）
         private const int MinPaddingLengthForPlacement = PaddingPaper.MinLength; // 200
+        private readonly int _minPaddingWidth;
+
+        public PaddingPaperPacker(int minPaddingWidth = PaddingPaper.DefaultWidth)
+        {
+            _minPaddingWidth = Math.Max(PaddingPaper.MinSize, minPaddingWidth);
+        }
 
         public void FillWithPaddingPaper(Container container)
         {
@@ -489,15 +495,15 @@ namespace ThreeDPacking.Core.Packers
             long bestVolume = -1;
             float bestSupportRatio = -1f;
 
-            bool canTryA = maxDy >= PaddingPaper.DefaultWidth && maxDx >= MinPaddingLengthForPlacement;
-            bool canTryB = maxDx >= PaddingPaper.DefaultWidth && maxDy >= MinPaddingLengthForPlacement;
+            bool canTryA = maxDy >= _minPaddingWidth && maxDx >= MinPaddingLengthForPlacement;
+            bool canTryB = maxDx >= _minPaddingWidth && maxDy >= MinPaddingLengthForPlacement;
 
             // 朝向A：宽度110放在Y方向，X方向（长度）可变
             if (canTryA)
             {
                 for (int dx = maxDx; dx >= MinPaddingLengthForPlacement; dx--)
                 {
-                    var paper = new PaddingPaper(x, y, z, dx, PaddingPaper.DefaultWidth, dz);
+                    var paper = new PaddingPaper(x, y, z, dx, _minPaddingWidth, dz);
                     if (HasCollisionWithItems(paper, itemPlacements) || HasCollisionWithPadding(paper, paddingPapers))
                         continue;
                     if (!TryGetSupportRatio(paper, itemPlacements, paddingPapers, out var supportRatio))
@@ -516,7 +522,7 @@ namespace ThreeDPacking.Core.Packers
             {
                 for (int dy = maxDy; dy >= MinPaddingLengthForPlacement; dy--)
                 {
-                    var paper = new PaddingPaper(x, y, z, PaddingPaper.DefaultWidth, dy, dz);
+                    var paper = new PaddingPaper(x, y, z, _minPaddingWidth, dy, dz);
                     if (HasCollisionWithItems(paper, itemPlacements) || HasCollisionWithPadding(paper, paddingPapers))
                         continue;
                     if (!TryGetSupportRatio(paper, itemPlacements, paddingPapers, out var supportRatio))

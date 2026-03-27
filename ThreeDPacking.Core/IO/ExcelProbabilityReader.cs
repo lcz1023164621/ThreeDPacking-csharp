@@ -2,7 +2,9 @@ using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
+using System.Drawing;
 using OfficeOpenXml;
+using OfficeOpenXml.Style;
 
 namespace ThreeDPacking.Core.IO
 {
@@ -52,9 +54,10 @@ namespace ThreeDPacking.Core.IO
                     int dz = ParsePositiveInt(dzText) * 10;
 
                     double probability = ParseNonNegativeDouble(probText);
+                    bool isHighlighted = IsHighlightedRow(sheet, row, 1, 10);
 
                     // 初始 InstanceId 先占位；后续在 UI 里会重新分配。
-                    items.Add(new ItemCandidate(name, dx, dy, dz, 0, probability));
+                    items.Add(new ItemCandidate(name, dx, dy, dz, 0, probability, isHighlighted));
                 }
             }
 
@@ -116,6 +119,53 @@ namespace ThreeDPacking.Core.IO
 
             value = 0;
             return false;
+        }
+
+        private static bool IsHighlightedRow(ExcelWorksheet sheet, int row, int startCol, int endCol)
+        {
+            for (int col = startCol; col <= endCol; col++)
+            {
+                var fill = sheet.Cells[row, col].Style.Fill;
+                if (fill == null || fill.PatternType == ExcelFillStyle.None)
+                    continue;
+
+                var color = ParseExcelColor(fill.BackgroundColor);
+                if (!color.IsEmpty && IsYellowish(color))
+                    return true;
+
+                color = ParseExcelColor(fill.PatternColor);
+                if (!color.IsEmpty && IsYellowish(color))
+                    return true;
+            }
+
+            return false;
+        }
+
+        private static Color ParseExcelColor(ExcelColor excelColor)
+        {
+            if (excelColor == null || string.IsNullOrWhiteSpace(excelColor.Rgb))
+                return Color.Empty;
+
+            string rgb = excelColor.Rgb.Trim();
+            if (rgb.Length == 8)
+                rgb = rgb.Substring(2); // ARGB -> RGB
+            if (rgb.Length != 6)
+                return Color.Empty;
+
+            if (!int.TryParse(rgb.Substring(0, 2), NumberStyles.HexNumber, CultureInfo.InvariantCulture, out int r))
+                return Color.Empty;
+            if (!int.TryParse(rgb.Substring(2, 2), NumberStyles.HexNumber, CultureInfo.InvariantCulture, out int g))
+                return Color.Empty;
+            if (!int.TryParse(rgb.Substring(4, 2), NumberStyles.HexNumber, CultureInfo.InvariantCulture, out int b))
+                return Color.Empty;
+
+            return Color.FromArgb(r, g, b);
+        }
+
+        private static bool IsYellowish(Color color)
+        {
+            // 黄色通常 R/G 都高、B 明显偏低；允许少量色偏
+            return color.R >= 180 && color.G >= 170 && color.B <= 150;
         }
     }
 }

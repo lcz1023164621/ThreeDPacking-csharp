@@ -11,8 +11,16 @@ namespace ThreeDPacking.Core.IO
         public int Dz { get; }
         public int InstanceId { get; }
         public double Probability { get; }
+        public bool IsHighlighted { get; }
 
-        public ItemCandidate(string name, int dx, int dy, int dz, int instanceId, double probability = 0)
+        public ItemCandidate(
+            string name,
+            int dx,
+            int dy,
+            int dz,
+            int instanceId,
+            double probability = 0,
+            bool isHighlighted = false)
         {
             Name = name;
             Dx = dx;
@@ -20,6 +28,7 @@ namespace ThreeDPacking.Core.IO
             Dz = dz;
             InstanceId = instanceId;
             Probability = probability;
+            IsHighlighted = isHighlighted;
         }
 
         public long Volume => (long)Dx * Dy * Dz;

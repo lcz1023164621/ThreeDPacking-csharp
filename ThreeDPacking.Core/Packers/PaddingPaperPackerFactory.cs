@@ -5,15 +5,15 @@ namespace ThreeDPacking.Core.Packers
     /// </summary>
     public static class PaddingPaperPackerFactory
     {
-        public static IPaddingPaperPacker Create(PaddingPaperFillStrategy strategy)
+        public static IPaddingPaperPacker Create(PaddingPaperFillStrategy strategy, int minPaddingWidth = 110)
         {
             if (strategy == PaddingPaperFillStrategy.StableLayerFill ||
                 strategy == PaddingPaperFillStrategy.LayerFill)
             {
-                return new LayerFillPaddingPaperPacker();
+                return new LayerFillPaddingPaperPacker(minPaddingWidth);
             }
 
-            return new PaddingPaperPacker();
+            return new PaddingPaperPacker(minPaddingWidth);
         }
     }
 }

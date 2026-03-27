@@ -19,5 +19,10 @@ namespace ThreeDPacking.Core.Packers
         /// 牛皮纸填充策略。默认：<see cref="PaddingPaperFillStrategy.MaxUtilization"/>。
         /// </summary>
         public PaddingPaperFillStrategy PaddingPaperStrategy { get; set; } = PaddingPaperFillStrategy.MaxUtilization;
+
+        /// <summary>
+        /// 牛皮纸最小宽度（默认110mm）。
+        /// </summary>
+        public int PaddingPaperMinWidth { get; set; } = PaddingPaper.DefaultWidth;
     }
 }
