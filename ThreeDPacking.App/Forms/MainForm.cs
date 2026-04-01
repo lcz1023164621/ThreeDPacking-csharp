@@ -39,9 +39,18 @@ namespace ThreeDPacking.App.Forms
         private Label lblPaddingStrategy;
         private NumericUpDown numPaddingMinWidth;
         private Label lblPaddingMinWidth;
+        private NumericUpDown numContainerSafetyDistance;
+        private Label lblContainerSafetyDistance;
+        private NumericUpDown numItemSafetyDistance;
+        private Label lblItemSafetyDistance;
+        private NumericUpDown numPaddingPaperSafetyDistance;
+        private Label lblPaddingPaperSafetyDistance;
 
         private PaddingPaperFillStrategy _paddingPaperFillStrategy = PaddingPaperFillStrategy.MaxUtilization;
         private int _paddingPaperMinWidth = ThreeDPacking.Core.Models.PaddingPaper.DefaultWidth;
+        private int _containerSafetyDistance = 0;
+        private int _itemSafetyDistance = 0;
+        private int _paddingPaperSafetyDistance = 0;
         private bool _selectionDirty = true;
         private bool _isRestoringState = false;
         private LastRunState _lastRunState;
@@ -53,6 +62,7 @@ namespace ThreeDPacking.App.Forms
             InitProbabilityButton();
             InitPaddingStrategyCombo();
             InitPaddingMinWidthControl();
+            InitSafetyDistanceControls();
             WireEvents();
             AddDefaultContainer();
             btnRandomSelect.Enabled = false;
@@ -124,6 +134,55 @@ namespace ThreeDPacking.App.Forms
             grpRandomSelect.Controls.Add(numPaddingMinWidth);
         }
 
+        private void InitSafetyDistanceControls()
+        {
+            lblContainerSafetyDistance = new Label();
+            lblContainerSafetyDistance.Text = "容器边界安全距离";
+            lblContainerSafetyDistance.AutoSize = false;
+            lblContainerSafetyDistance.TextAlign = ContentAlignment.MiddleLeft;
+
+            numContainerSafetyDistance = new NumericUpDown();
+            numContainerSafetyDistance.Minimum = 0;
+            numContainerSafetyDistance.Maximum = 1000;
+            numContainerSafetyDistance.Value = _containerSafetyDistance;
+            numContainerSafetyDistance.Increment = 1;
+            numContainerSafetyDistance.TextAlign = HorizontalAlignment.Right;
+            numContainerSafetyDistance.ValueChanged += NumContainerSafetyDistance_ValueChanged;
+
+            lblItemSafetyDistance = new Label();
+            lblItemSafetyDistance.Text = "物体间安全距离";
+            lblItemSafetyDistance.AutoSize = false;
+            lblItemSafetyDistance.TextAlign = ContentAlignment.MiddleLeft;
+
+            numItemSafetyDistance = new NumericUpDown();
+            numItemSafetyDistance.Minimum = 0;
+            numItemSafetyDistance.Maximum = 1000;
+            numItemSafetyDistance.Value = _itemSafetyDistance;
+            numItemSafetyDistance.Increment = 1;
+            numItemSafetyDistance.TextAlign = HorizontalAlignment.Right;
+            numItemSafetyDistance.ValueChanged += NumItemSafetyDistance_ValueChanged;
+
+            lblPaddingPaperSafetyDistance = new Label();
+            lblPaddingPaperSafetyDistance.Text = "牛皮纸安全距离";
+            lblPaddingPaperSafetyDistance.AutoSize = false;
+            lblPaddingPaperSafetyDistance.TextAlign = ContentAlignment.MiddleLeft;
+
+            numPaddingPaperSafetyDistance = new NumericUpDown();
+            numPaddingPaperSafetyDistance.Minimum = 0;
+            numPaddingPaperSafetyDistance.Maximum = 1000;
+            numPaddingPaperSafetyDistance.Value = _paddingPaperSafetyDistance;
+            numPaddingPaperSafetyDistance.Increment = 1;
+            numPaddingPaperSafetyDistance.TextAlign = HorizontalAlignment.Right;
+            numPaddingPaperSafetyDistance.ValueChanged += NumPaddingPaperSafetyDistance_ValueChanged;
+
+            grpRandomSelect.Controls.Add(lblContainerSafetyDistance);
+            grpRandomSelect.Controls.Add(numContainerSafetyDistance);
+            grpRandomSelect.Controls.Add(lblItemSafetyDistance);
+            grpRandomSelect.Controls.Add(numItemSafetyDistance);
+            grpRandomSelect.Controls.Add(lblPaddingPaperSafetyDistance);
+            grpRandomSelect.Controls.Add(numPaddingPaperSafetyDistance);
+        }
+
         private void CmbPaddingStrategy_SelectedIndexChanged(object sender, EventArgs e)
         {
             // 仅在用户主动修改时标记 dirty：确保重启后仍按上次的策略复现
@@ -147,6 +206,27 @@ namespace ThreeDPacking.App.Forms
         private void NumPaddingMinWidth_ValueChanged(object sender, EventArgs e)
         {
             _paddingPaperMinWidth = (int)numPaddingMinWidth.Value;
+            if (!_isRestoringState)
+                _selectionDirty = true;
+        }
+
+        private void NumContainerSafetyDistance_ValueChanged(object sender, EventArgs e)
+        {
+            _containerSafetyDistance = (int)numContainerSafetyDistance.Value;
+            if (!_isRestoringState)
+                _selectionDirty = true;
+        }
+
+        private void NumItemSafetyDistance_ValueChanged(object sender, EventArgs e)
+        {
+            _itemSafetyDistance = (int)numItemSafetyDistance.Value;
+            if (!_isRestoringState)
+                _selectionDirty = true;
+        }
+
+        private void NumPaddingPaperSafetyDistance_ValueChanged(object sender, EventArgs e)
+        {
+            _paddingPaperSafetyDistance = (int)numPaddingPaperSafetyDistance.Value;
             if (!_isRestoringState)
                 _selectionDirty = true;
         }
@@ -212,7 +292,7 @@ namespace ThreeDPacking.App.Forms
 
             // 随机选择区域
             grpRandomSelect.Location = new Point(6, y);
-            grpRandomSelect.Size = new Size(w, 136);
+            grpRandomSelect.Size = new Size(w, 248);
             lblRandomMin.Location = new Point(8, 20);
             numRandomMin.Location = new Point(48, 16);
             lblRandomMax.Location = new Point(115, 20);
@@ -232,22 +312,46 @@ namespace ThreeDPacking.App.Forms
             if (lblPaddingMinWidth != null && numPaddingMinWidth != null)
             {
                 lblPaddingMinWidth.Location = new Point(8, 90);
-                lblPaddingMinWidth.Size = new Size(100, 20);
-                numPaddingMinWidth.Location = new Point(112, 88);
+                lblPaddingMinWidth.Size = new Size(120, 20);
+                numPaddingMinWidth.Location = new Point(130, 88);
                 numPaddingMinWidth.Size = new Size(68, 23);
+            }
+
+            if (lblContainerSafetyDistance != null && numContainerSafetyDistance != null)
+            {
+                lblContainerSafetyDistance.Location = new Point(8, 114);
+                lblContainerSafetyDistance.Size = new Size(120, 20);
+                numContainerSafetyDistance.Location = new Point(130, 112);
+                numContainerSafetyDistance.Size = new Size(68, 23);
+            }
+
+            if (lblItemSafetyDistance != null && numItemSafetyDistance != null)
+            {
+                lblItemSafetyDistance.Location = new Point(8, 138);
+                lblItemSafetyDistance.Size = new Size(120, 20);
+                numItemSafetyDistance.Location = new Point(130, 136);
+                numItemSafetyDistance.Size = new Size(68, 23);
+            }
+
+            if (lblPaddingPaperSafetyDistance != null && numPaddingPaperSafetyDistance != null)
+            {
+                lblPaddingPaperSafetyDistance.Location = new Point(8, 162);
+                lblPaddingPaperSafetyDistance.Size = new Size(120, 20);
+                numPaddingPaperSafetyDistance.Location = new Point(130, 160);
+                numPaddingPaperSafetyDistance.Size = new Size(68, 23);
             }
             
             // 牛皮纸填充策略下拉
             if (lblPaddingStrategy != null && cmbPaddingStrategy != null)
             {
-                lblPaddingStrategy.Location = new Point(8, 114);
+                lblPaddingStrategy.Location = new Point(8, 188);
                 lblPaddingStrategy.Size = new Size(w - 16, 18);
-                cmbPaddingStrategy.Location = new Point(8, 132);
+                cmbPaddingStrategy.Location = new Point(8, 206);
                 cmbPaddingStrategy.Size = new Size(w - 16, 23);
             }
 
-            grpRandomSelect.Size = new Size(w, 162);
-            y += 168;
+            grpRandomSelect.Size = new Size(w, 236);
+            y += 242;
 
             lblResults.Location = new Point(6, y);
             lblResults.Width = w;
@@ -338,6 +442,15 @@ namespace ThreeDPacking.App.Forms
                     : ThreeDPacking.Core.Models.PaddingPaper.DefaultWidth;
                 numPaddingMinWidth.Value = Math.Max((int)numPaddingMinWidth.Minimum,
                     Math.Min((int)numPaddingMinWidth.Maximum, _paddingPaperMinWidth));
+                _containerSafetyDistance = Math.Max(0, _lastRunState.ContainerSafetyDistance);
+                numContainerSafetyDistance.Value = Math.Max((int)numContainerSafetyDistance.Minimum,
+                    Math.Min((int)numContainerSafetyDistance.Maximum, _containerSafetyDistance));
+                _itemSafetyDistance = Math.Max(0, _lastRunState.ItemSafetyDistance);
+                numItemSafetyDistance.Value = Math.Max((int)numItemSafetyDistance.Minimum,
+                    Math.Min((int)numItemSafetyDistance.Maximum, _itemSafetyDistance));
+                _paddingPaperSafetyDistance = Math.Max(0, _lastRunState.PaddingPaperSafetyDistance);
+                numPaddingPaperSafetyDistance.Value = Math.Max((int)numPaddingPaperSafetyDistance.Minimum,
+                    Math.Min((int)numPaddingPaperSafetyDistance.Maximum, _paddingPaperSafetyDistance));
 
                 _selectionDirty = false;
                 menuStartPacking.Enabled = _loadedItems.Count > 0;
@@ -364,6 +477,9 @@ namespace ThreeDPacking.App.Forms
                     RandomSeed = packRandomSeed,
                     PaddingStrategy = (int)_paddingPaperFillStrategy,
                     PaddingMinWidth = _paddingPaperMinWidth,
+                    ContainerSafetyDistance = _containerSafetyDistance,
+                    ItemSafetyDistance = _itemSafetyDistance,
+                    PaddingPaperSafetyDistance = _paddingPaperSafetyDistance,
                     LoadedItems = _loadedItems.Select(i => new LastRunItemCandidate
                     {
                         Name = i.Name,
@@ -409,6 +525,9 @@ namespace ThreeDPacking.App.Forms
             [DataMember] public long RandomSeed { get; set; }
             [DataMember] public int PaddingStrategy { get; set; }
             [DataMember] public int PaddingMinWidth { get; set; }
+            [DataMember] public int ContainerSafetyDistance { get; set; }
+            [DataMember] public int ItemSafetyDistance { get; set; }
+            [DataMember] public int PaddingPaperSafetyDistance { get; set; }
             [DataMember] public List<LastRunItemCandidate> LoadedItems { get; set; }
             [DataMember] public List<LastRunContainerCandidate> ContainerCandidates { get; set; }
         }
@@ -795,7 +914,10 @@ namespace ThreeDPacking.App.Forms
                 var packingOptions = new PackingOptions
                 {
                     PaddingPaperStrategy = _paddingPaperFillStrategy,
-                    PaddingPaperMinWidth = _paddingPaperMinWidth
+                    PaddingPaperMinWidth = _paddingPaperMinWidth,
+                    ContainerSafetyDistance = _containerSafetyDistance,
+                    ItemSafetyDistance = _itemSafetyDistance,
+                    PaddingPaperSafetyDistance = _paddingPaperSafetyDistance
                 };
                 we.Result = orchestrator.Run(itemsCopy, containerCandidates, packSeed,
                     msg => BeginInvoke((Action)(() => AppendLog(msg))),
@@ -885,23 +1007,30 @@ namespace ThreeDPacking.App.Forms
 
         private void SyncPaddingSettingsFromUi()
         {
-            if (numPaddingMinWidth == null)
+            if (numPaddingMinWidth == null || numContainerSafetyDistance == null ||
+                numItemSafetyDistance == null || numPaddingPaperSafetyDistance == null)
                 return;
 
-            int min = (int)numPaddingMinWidth.Minimum;
-            int max = (int)numPaddingMinWidth.Maximum;
+            _paddingPaperMinWidth = SyncNumericValue(numPaddingMinWidth, _paddingPaperMinWidth);
+            _containerSafetyDistance = SyncNumericValue(numContainerSafetyDistance, _containerSafetyDistance);
+            _itemSafetyDistance = SyncNumericValue(numItemSafetyDistance, _itemSafetyDistance);
+            _paddingPaperSafetyDistance = SyncNumericValue(numPaddingPaperSafetyDistance, _paddingPaperSafetyDistance);
+        }
 
-            // NumericUpDown 在“输入后未离焦”时，Value 可能仍是旧值，优先按当前文本同步。
-            if (int.TryParse(numPaddingMinWidth.Text?.Trim(), out int typedWidth))
+        private static int SyncNumericValue(NumericUpDown control, int fallback)
+        {
+            int min = (int)control.Minimum;
+            int max = (int)control.Maximum;
+            if (int.TryParse(control.Text?.Trim(), out int typedValue))
             {
-                typedWidth = Math.Max(min, Math.Min(max, typedWidth));
-                _paddingPaperMinWidth = typedWidth;
-                numPaddingMinWidth.Value = typedWidth;
+                typedValue = Math.Max(min, Math.Min(max, typedValue));
+                control.Value = typedValue;
+                return typedValue;
             }
-            else
-            {
-                _paddingPaperMinWidth = (int)numPaddingMinWidth.Value;
-            }
+            int currentValue = (int)control.Value;
+            if (currentValue < min || currentValue > max)
+                return Math.Max(min, Math.Min(max, fallback));
+            return currentValue;
         }
 
         #endregion

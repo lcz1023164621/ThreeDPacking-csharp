@@ -55,6 +55,9 @@ namespace ThreeDPacking.Core.IO
             var effectiveMinPaddingWidth = effectiveOptions.PaddingPaperMinWidth > 0
                 ? effectiveOptions.PaddingPaperMinWidth
                 : PaddingPaper.DefaultWidth;
+            int effectiveContainerSafetyDistance = Math.Max(0, effectiveOptions.ContainerSafetyDistance);
+            int effectiveItemSafetyDistance = Math.Max(0, effectiveOptions.ItemSafetyDistance);
+            int effectivePaddingPaperSafetyDistance = Math.Max(0, effectiveOptions.PaddingPaperSafetyDistance);
             bool useCustomerDemandFill = effectivePaddingStrategy == PaddingPaperFillStrategy.CustomerDemandFill;
 
             // Sort containers by volume (smallest first)
@@ -83,7 +86,9 @@ namespace ThreeDPacking.Core.IO
                         candidate,
                         randomSeed,
                         useCustomerDemandFill,
-                        effectiveMinPaddingWidth);
+                        effectiveMinPaddingWidth,
+                        effectiveContainerSafetyDistance,
+                        effectiveItemSafetyDistance);
                     
                     if (attempt != null && attempt.PackedCount > 0)
                     {
@@ -137,7 +142,9 @@ namespace ThreeDPacking.Core.IO
                             largestContainer,
                             randomSeed,
                             useCustomerDemandFill,
-                            effectiveMinPaddingWidth);
+                            effectiveMinPaddingWidth,
+                            effectiveContainerSafetyDistance,
+                            effectiveItemSafetyDistance);
                         if (attempt != null && attempt.PackedCount > 0)
                         {
                             chosen = attempt;
@@ -158,7 +165,9 @@ namespace ThreeDPacking.Core.IO
                                     item,
                                     largestContainer,
                                     useCustomerDemandFill,
-                                    effectiveMinPaddingWidth);
+                                    effectiveMinPaddingWidth,
+                                    effectiveContainerSafetyDistance,
+                                    effectiveItemSafetyDistance);
                                 if (singleItemResult != null)
                                 {
                                     packedResults.Add(singleItemResult);
@@ -221,7 +230,12 @@ namespace ThreeDPacking.Core.IO
             var paddingPaperPacker = PaddingPaperPackerFactory.Create(effectivePaddingStrategy, effectiveMinPaddingWidth);
             foreach (var container in allContainers)
             {
-                paddingPaperPacker.FillWithPaddingPaper(container, log);
+                FillPaddingPaperWithSafetyDistance(
+                    container,
+                    paddingPaperPacker,
+                    effectiveContainerSafetyDistance,
+                    effectivePaddingPaperSafetyDistance,
+                    log);
             }
 
             long totalPaddingPaperVolume = allContainers
@@ -244,7 +258,9 @@ namespace ThreeDPacking.Core.IO
             ContainerCandidate candidate,
             long randomSeed,
             bool reserveBottomPadding,
-            int minPaddingWidth)
+            int minPaddingWidth,
+            int containerSafetyDistance,
+            int itemSafetyDistance)
         {
             var attempts = new ConcurrentBag<PackingAttemptResult>();
 
@@ -290,7 +306,9 @@ namespace ThreeDPacking.Core.IO
                     strategy.strategyName,
                     randomSeed,
                     reserveBottomPadding,
-                    minPaddingWidth);
+                    minPaddingWidth,
+                    containerSafetyDistance,
+                    itemSafetyDistance);
                 if (result != null && result.PackedCount > 0)
                 {
                     attempts.Add(result);
@@ -330,7 +348,9 @@ namespace ThreeDPacking.Core.IO
             string strategyName,
             long randomSeed,
             bool reserveBottomPadding,
-            int minPaddingWidth)
+            int minPaddingWidth,
+            int containerSafetyDistance,
+            int itemSafetyDistance)
         {
             var sortedItems = new List<ItemCandidate>(items);
 
@@ -343,7 +363,15 @@ namespace ThreeDPacking.Core.IO
             else if (strategyName.Contains("Shuffle"))
                 Shuffle(sortedItems, randomSeed + strategyName.GetHashCode() + candidate.Volume);
 
-            return PackIntoContainer(sortedItems, candidate, packager, strategyName, reserveBottomPadding, minPaddingWidth);
+            return PackIntoContainer(
+                sortedItems,
+                candidate,
+                packager,
+                strategyName,
+                reserveBottomPadding,
+                minPaddingWidth,
+                containerSafetyDistance,
+                itemSafetyDistance);
         }
 
         private PackingAttemptResult PackIntoContainer(
@@ -352,18 +380,35 @@ namespace ThreeDPacking.Core.IO
             IPackager packager,
             string strategyName,
             bool useCustomerDemandFill,
-            int minPaddingWidth)
+            int minPaddingWidth,
+            int containerSafetyDistance,
+            int itemSafetyDistance)
         {
-            var products = BuildProducts(items);
+            int safeContainerMargin = Math.Max(0, containerSafetyDistance);
+            int safeItemGap = Math.Max(0, itemSafetyDistance);
+            int effectiveLoadDx = candidate.Dx - safeContainerMargin * 2 + safeItemGap;
+            int effectiveLoadDy = candidate.Dy - safeContainerMargin * 2 + safeItemGap;
+
+            if (effectiveLoadDx <= 0 || effectiveLoadDy <= 0)
+                return null;
+
+            var products = BuildProducts(items, safeItemGap);
             var container = new Container(
                 candidate.Name, candidate.Name,
                 candidate.Dx, candidate.Dy, candidate.Dz,
-                candidate.EmptyWeight, candidate.MaxLoadWeight);
+                candidate.EmptyWeight, candidate.MaxLoadWeight,
+                effectiveLoadDx, effectiveLoadDy, candidate.Dz);
 
             Container packedContainer = packager.Pack(products, container);
 
             if (packedContainer == null || packedContainer.Stack.IsEmpty)
                 return null;
+
+            packedContainer = ConvertToPhysicalContainer(
+                packedContainer,
+                candidate,
+                safeContainerMargin,
+                safeItemGap);
 
             if (useCustomerDemandFill)
             {
@@ -377,7 +422,11 @@ namespace ThreeDPacking.Core.IO
                     if (hasPackedBottomCandidate)
                     {
                         // 空间不足导致铺底失败时，保留不铺底结果（不抛弃可行方案）。
-                        TryApplyBottomPaddingAndLiftItems(packedContainer, minPaddingWidth, forceApplyBottom: true);
+                        TryApplyBottomPaddingAndLiftItems(
+                            packedContainer,
+                            minPaddingWidth,
+                            safeContainerMargin,
+                            forceApplyBottom: true);
                     }
                 }
                 else
@@ -386,7 +435,11 @@ namespace ThreeDPacking.Core.IO
                     // 仅当未装下的物品满足“最长边>300 且最短边<100”时，再尝试铺底。
                     if (NeedBottomPaddingForOverflowItems(items, packedContainer))
                     {
-                        TryApplyBottomPaddingAndLiftItems(packedContainer, minPaddingWidth, forceApplyBottom: true);
+                        TryApplyBottomPaddingAndLiftItems(
+                            packedContainer,
+                            minPaddingWidth,
+                            safeContainerMargin,
+                            forceApplyBottom: true);
                     }
                 }
             }
@@ -441,9 +494,10 @@ namespace ThreeDPacking.Core.IO
             return new PackingAttemptResult(packedContainer, candidate, packedVolume, utilization, packedItems, strategyName);
         }
 
-        private List<BoxItem> BuildProducts(List<ItemCandidate> items)
+        private List<BoxItem> BuildProducts(List<ItemCandidate> items, int itemSafetyDistance)
         {
             var products = new List<BoxItem>();
+            int safeItemGap = Math.Max(0, itemSafetyDistance);
             foreach (var item in items)
             {
                 int dx = item.Dx, dy = item.Dy, dz = item.Dz;
@@ -478,7 +532,7 @@ namespace ThreeDPacking.Core.IO
 
                 string id = item.Name + "#" + item.InstanceId;
                 // rotate3D=false 确保只使用底面旋转，保持底面积最大的面朝下
-                var box = new Box(id, id, dx, dy, dz, 1, false);
+                var box = new Box(id, id, dx + safeItemGap, dy + safeItemGap, dz, 1, false);
                 products.Add(new BoxItem(box, 1));
             }
             return products;
@@ -542,8 +596,17 @@ namespace ThreeDPacking.Core.IO
             ItemCandidate item,
             ContainerCandidate candidate,
             bool useCustomerDemandFill,
-            int minPaddingWidth)
+            int minPaddingWidth,
+            int containerSafetyDistance,
+            int itemSafetyDistance)
         {
+            int safeContainerMargin = Math.Max(0, containerSafetyDistance);
+            int safeItemGap = Math.Max(0, itemSafetyDistance);
+            int effectiveLoadDx = candidate.Dx - safeContainerMargin * 2 + safeItemGap;
+            int effectiveLoadDy = candidate.Dy - safeContainerMargin * 2 + safeItemGap;
+            if (effectiveLoadDx <= 0 || effectiveLoadDy <= 0)
+                return null;
+
             // 检查物品是否能放入容器（尝试所有旋转方式）
             bool canFit = false;
             int bestDx = item.Dx, bestDy = item.Dy, bestDz = item.Dz;
@@ -561,7 +624,9 @@ namespace ThreeDPacking.Core.IO
             
             foreach (var rot in rotations)
             {
-                if (rot.dx <= candidate.Dx && rot.dy <= candidate.Dy && rot.dz <= candidate.Dz)
+                if (rot.dx + safeItemGap <= effectiveLoadDx &&
+                    rot.dy + safeItemGap <= effectiveLoadDy &&
+                    rot.dz <= candidate.Dz)
                 {
                     canFit = true;
                     bestDx = rot.dx;
@@ -580,7 +645,7 @@ namespace ThreeDPacking.Core.IO
             var stackValue = new BoxStackValue(bestDx, bestDy, bestDz, 0);
             stackValue.Box = box;
             var boxItem = new BoxItem(box, 1);
-            var placement = new Placement(stackValue, 0, 0, 0, boxItem);
+            var placement = new Placement(stackValue, safeContainerMargin, safeContainerMargin, 0, boxItem);
             
             var container = new Container(
                 candidate.Name, candidate.Name,
@@ -591,7 +656,11 @@ namespace ThreeDPacking.Core.IO
             if (useCustomerDemandFill)
             {
                 // 单件单箱：按客户需求优先尝试铺底，失败则保留不铺底结果。
-                TryApplyBottomPaddingAndLiftItems(container, minPaddingWidth, forceApplyBottom: true);
+                TryApplyBottomPaddingAndLiftItems(
+                    container,
+                    minPaddingWidth,
+                    safeContainerMargin,
+                    forceApplyBottom: true);
             }
             
             var packedItems = new List<ItemCandidate> { item };
@@ -601,7 +670,189 @@ namespace ThreeDPacking.Core.IO
             return new PackingAttemptResult(container, candidate, packedVolume, utilization, packedItems, "ForcePackSingle");
         }
 
-        private bool TryApplyBottomPaddingAndLiftItems(Container container, int minPaddingWidth, bool forceApplyBottom = false)
+        private Container ConvertToPhysicalContainer(
+            Container packedContainer,
+            ContainerCandidate candidate,
+            int containerSafetyDistance,
+            int itemSafetyDistance)
+        {
+            var converted = new Container(
+                candidate.Name,
+                candidate.Name,
+                candidate.Dx,
+                candidate.Dy,
+                candidate.Dz,
+                candidate.EmptyWeight,
+                candidate.MaxLoadWeight);
+
+            foreach (var placement in packedContainer.Stack.Placements)
+            {
+                if (placement == null || placement.StackValue == null)
+                    continue;
+
+                int shiftedX = placement.X + containerSafetyDistance;
+                int shiftedY = placement.Y + containerSafetyDistance;
+                int z = placement.Z;
+
+                if (placement.IsPadding)
+                {
+                    var paddingCopy = new Placement(placement.StackValue, shiftedX, shiftedY, z, placement.BoxItem)
+                    {
+                        IsPadding = true
+                    };
+                    converted.Stack.Add(paddingCopy);
+                    continue;
+                }
+
+                int realDx = Math.Max(1, placement.StackValue.Dx - itemSafetyDistance);
+                int realDy = Math.Max(1, placement.StackValue.Dy - itemSafetyDistance);
+                int realDz = placement.StackValue.Dz;
+
+                var originalBox = placement.StackValue.Box;
+                string id = originalBox?.Id ?? string.Empty;
+                string description = originalBox?.Description ?? id;
+                int weight = originalBox?.Weight ?? 1;
+
+                var realBox = new Box(id, description, realDx, realDy, realDz, weight, false);
+                var realStackValue = new BoxStackValue(realDx, realDy, realDz, 0);
+                realStackValue.Box = realBox;
+                var realBoxItem = new BoxItem(realBox, 1);
+
+                var realPlacement = new Placement(realStackValue, shiftedX, shiftedY, z, realBoxItem);
+                converted.Stack.Add(realPlacement);
+            }
+
+            return converted;
+        }
+
+        private void FillPaddingPaperWithSafetyDistance(
+            Container container,
+            IPaddingPaperPacker paddingPaperPacker,
+            int containerSafetyDistance,
+            int paddingPaperSafetyDistance,
+            Action<string> log)
+        {
+            if (container?.Stack == null || paddingPaperPacker == null || container.Stack.IsEmpty)
+                return;
+
+            int margin = Math.Max(0, containerSafetyDistance);
+            int gap = Math.Max(0, paddingPaperSafetyDistance);
+
+            // 无安全距离时，保持原逻辑，避免不必要转换。
+            if (margin == 0 && gap == 0)
+            {
+                paddingPaperPacker.FillWithPaddingPaper(container, log);
+                return;
+            }
+
+            int effectiveLoadDx = container.LoadDx - margin * 2 + gap;
+            int effectiveLoadDy = container.LoadDy - margin * 2 + gap;
+            if (effectiveLoadDx <= 0 || effectiveLoadDy <= 0)
+            {
+                log?.Invoke($"[牛皮纸] 跳过：安全距离过大（container={margin}, padding={gap}）。");
+                return;
+            }
+
+            var planningContainer = new Container(
+                container.Id,
+                container.Description,
+                container.Dx,
+                container.Dy,
+                container.Dz,
+                container.EmptyWeight,
+                container.MaxLoadWeight,
+                effectiveLoadDx,
+                effectiveLoadDy,
+                container.LoadDz);
+
+            foreach (var placement in container.Stack.Placements)
+            {
+                var mapped = MapPlacementForPaddingPlanning(placement, margin, gap);
+                if (mapped != null)
+                    planningContainer.Stack.Add(mapped);
+            }
+
+            paddingPaperPacker.FillWithPaddingPaper(planningContainer, log);
+
+            container.Stack.Clear();
+            foreach (var placement in planningContainer.Stack.Placements)
+            {
+                var restored = RestorePlacementFromPaddingPlanning(placement, margin, gap);
+                if (restored != null)
+                    container.Stack.Add(restored);
+            }
+        }
+
+        private static Placement MapPlacementForPaddingPlanning(Placement placement, int containerSafetyDistance, int paddingPaperSafetyDistance)
+        {
+            if (placement == null || placement.StackValue == null)
+                return null;
+
+            int x = placement.X - containerSafetyDistance;
+            int y = placement.Y - containerSafetyDistance;
+            int z = placement.Z;
+            if (x < 0 || y < 0)
+                return null;
+
+            int dx = placement.StackValue.Dx + paddingPaperSafetyDistance;
+            int dy = placement.StackValue.Dy + paddingPaperSafetyDistance;
+            int dz = placement.StackValue.Dz;
+
+            if (placement.IsPadding)
+            {
+                var planningPaper = new PaddingPaper(x, y, z, dx, dy, dz).ToPlacement();
+                planningPaper.IsPadding = true;
+                return planningPaper;
+            }
+
+            var sourceBox = placement.StackValue.Box;
+            string id = sourceBox?.Id ?? string.Empty;
+            string description = sourceBox?.Description ?? id;
+            int weight = sourceBox?.Weight ?? 1;
+
+            var planningBox = new Box(id, description, dx, dy, dz, weight, false);
+            var planningValue = new BoxStackValue(dx, dy, dz, 0);
+            planningValue.Box = planningBox;
+            var planningItem = new BoxItem(planningBox, 1);
+            return new Placement(planningValue, x, y, z, planningItem);
+        }
+
+        private static Placement RestorePlacementFromPaddingPlanning(Placement placement, int containerSafetyDistance, int paddingPaperSafetyDistance)
+        {
+            if (placement == null || placement.StackValue == null)
+                return null;
+
+            int x = placement.X + containerSafetyDistance;
+            int y = placement.Y + containerSafetyDistance;
+            int z = placement.Z;
+            int dx = Math.Max(1, placement.StackValue.Dx - paddingPaperSafetyDistance);
+            int dy = Math.Max(1, placement.StackValue.Dy - paddingPaperSafetyDistance);
+            int dz = placement.StackValue.Dz;
+
+            if (placement.IsPadding)
+            {
+                var restoredPaper = new PaddingPaper(x, y, z, dx, dy, dz).ToPlacement();
+                restoredPaper.IsPadding = true;
+                return restoredPaper;
+            }
+
+            var sourceBox = placement.StackValue.Box;
+            string id = sourceBox?.Id ?? string.Empty;
+            string description = sourceBox?.Description ?? id;
+            int weight = sourceBox?.Weight ?? 1;
+
+            var restoredBox = new Box(id, description, dx, dy, dz, weight, false);
+            var restoredValue = new BoxStackValue(dx, dy, dz, 0);
+            restoredValue.Box = restoredBox;
+            var restoredItem = new BoxItem(restoredBox, 1);
+            return new Placement(restoredValue, x, y, z, restoredItem);
+        }
+
+        private bool TryApplyBottomPaddingAndLiftItems(
+            Container container,
+            int minPaddingWidth,
+            int containerSafetyDistance,
+            bool forceApplyBottom = false)
         {
             if (container?.Stack == null)
                 return false;
@@ -609,8 +860,20 @@ namespace ThreeDPacking.Core.IO
             if (!forceApplyBottom && !NeedBottomPaddingForCustomerDemand(container))
                 return true;
 
-            var basePapers = BuildBottomPaddingPapers(container.LoadDx, container.LoadDy, minPaddingWidth);
+            int safeMargin = Math.Max(0, containerSafetyDistance);
+            int bottomLoadDx = container.LoadDx - safeMargin * 2;
+            int bottomLoadDy = container.LoadDy - safeMargin * 2;
+            if (bottomLoadDx <= 0 || bottomLoadDy <= 0)
+                return false;
+
+            // 铺底安全距离仅作用于 XY：在底面可用区域内铺纸，不改变 Z 方向高度规则。
+            var basePapers = BuildBottomPaddingPapers(bottomLoadDx, bottomLoadDy, minPaddingWidth);
             if (basePapers.Count == 0)
+                return false;
+
+            // 铺底前预校验：首层物体抬高后，必须仍满足至少 50% 的底面支撑。
+            // 若任一首层物体无法满足，则放弃本箱铺底，避免生成不稳定方案。
+            if (!CanBottomLayerSupportFirstLevelItems(container, basePapers, safeMargin))
                 return false;
 
             int liftHeight = PaddingPaper.DefaultHeight;
@@ -634,7 +897,62 @@ namespace ThreeDPacking.Core.IO
             }
 
             foreach (var paper in basePapers)
-                container.Stack.Add(paper.ToPlacement());
+            {
+                var shiftedPaper = new PaddingPaper(
+                    paper.X + safeMargin,
+                    paper.Y + safeMargin,
+                    paper.Z,
+                    paper.Dx,
+                    paper.Dy,
+                    paper.Dz);
+                container.Stack.Add(shiftedPaper.ToPlacement());
+            }
+
+            return true;
+        }
+
+        private static bool CanBottomLayerSupportFirstLevelItems(Container container, List<PaddingPaper> basePapers, int safeMargin)
+        {
+            if (container?.Stack?.Placements == null || basePapers == null || basePapers.Count == 0)
+                return false;
+
+            var firstLevelItems = container.Stack.Placements
+                .Where(p => p != null && !p.IsPadding && p.StackValue != null && p.Z == 0)
+                .ToList();
+            if (firstLevelItems.Count == 0)
+                return true;
+
+            foreach (var placement in firstLevelItems)
+            {
+                long itemArea = 1L * placement.StackValue.Dx * placement.StackValue.Dy;
+                long supportedArea = 0;
+
+                int itemX1 = placement.X;
+                int itemX2 = placement.AbsoluteEndX;
+                int itemY1 = placement.Y;
+                int itemY2 = placement.AbsoluteEndY;
+
+                foreach (var paper in basePapers)
+                {
+                    int paperX1 = paper.X + safeMargin;
+                    int paperX2 = paperX1 + paper.Dx - 1;
+                    int paperY1 = paper.Y + safeMargin;
+                    int paperY2 = paperY1 + paper.Dy - 1;
+
+                    int overlapX1 = Math.Max(itemX1, paperX1);
+                    int overlapX2 = Math.Min(itemX2, paperX2);
+                    int overlapY1 = Math.Max(itemY1, paperY1);
+                    int overlapY2 = Math.Min(itemY2, paperY2);
+
+                    int overlapDx = overlapX2 - overlapX1 + 1;
+                    int overlapDy = overlapY2 - overlapY1 + 1;
+                    if (overlapDx > 0 && overlapDy > 0)
+                        supportedArea += (long)overlapDx * overlapDy;
+                }
+
+                if (supportedArea * 100 < itemArea * 50)
+                    return false;
+            }
 
             return true;
         }
