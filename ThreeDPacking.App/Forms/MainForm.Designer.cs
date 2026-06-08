@@ -29,6 +29,11 @@ namespace ThreeDPacking.App.Forms
             this.statusTime = new System.Windows.Forms.ToolStripStatusLabel();
             this.splitMain = new System.Windows.Forms.SplitContainer();
             this.panelLeft = new System.Windows.Forms.Panel();
+            this.tabLeftFunctions = new System.Windows.Forms.TabControl();
+            this.tabPageAlgorithm = new System.Windows.Forms.TabPage();
+            this.panelAlgorithmContent = new System.Windows.Forms.Panel();
+            this.tabPageActualPacking = new System.Windows.Forms.TabPage();
+            this.panelActualPacking = new System.Windows.Forms.Panel();
             this.lblContainers = new System.Windows.Forms.Label();
             this.dgvContainers = new System.Windows.Forms.DataGridView();
             this.colContName = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -68,6 +73,10 @@ namespace ThreeDPacking.App.Forms
             this.splitMain.Panel2.SuspendLayout();
             this.splitMain.SuspendLayout();
             this.panelLeft.SuspendLayout();
+            this.tabLeftFunctions.SuspendLayout();
+            this.tabPageAlgorithm.SuspendLayout();
+            this.panelAlgorithmContent.SuspendLayout();
+            this.tabPageActualPacking.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvContainers)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dgvItems)).BeginInit();
             this.grpRandomSelect.SuspendLayout();
@@ -174,9 +183,11 @@ namespace ThreeDPacking.App.Forms
             // splitMain
             // 
             this.splitMain.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.splitMain.FixedPanel = System.Windows.Forms.FixedPanel.Panel1;
+            this.splitMain.FixedPanel = System.Windows.Forms.FixedPanel.None;
             this.splitMain.Location = new System.Drawing.Point(0, 0);
             this.splitMain.Name = "splitMain";
+            this.splitMain.Panel1MinSize = 200;
+            this.splitMain.Panel2MinSize = 300;
             // 
             // splitMain.Panel1
             // 
@@ -191,27 +202,78 @@ namespace ThreeDPacking.App.Forms
             // 
             // panelLeft
             // 
-            this.panelLeft.AutoScroll = true;
-            this.panelLeft.Controls.Add(this.lblContainers);
-            this.panelLeft.Controls.Add(this.dgvContainers);
-            this.panelLeft.Controls.Add(this.btnAddContainer);
-            this.panelLeft.Controls.Add(this.btnRemoveContainer);
-            this.panelLeft.Controls.Add(this.lblItems);
-            this.panelLeft.Controls.Add(this.dgvItems);
-            this.panelLeft.Controls.Add(this.grpRandomSelect);
-            this.panelLeft.Controls.Add(this.lblResults);
-            this.panelLeft.Controls.Add(this.lstResults);
-            this.panelLeft.Controls.Add(this.lblStep);
-            this.panelLeft.Controls.Add(this.trackStep);
-            this.panelLeft.Controls.Add(this.lblStepInfo);
-            this.panelLeft.Controls.Add(this.grpSelected);
-            this.panelLeft.Controls.Add(this.txtLog);
+            this.panelLeft.Controls.Add(this.tabLeftFunctions);
             this.panelLeft.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panelLeft.Location = new System.Drawing.Point(0, 0);
             this.panelLeft.Name = "panelLeft";
-            this.panelLeft.Padding = new System.Windows.Forms.Padding(6);
+            this.panelLeft.Padding = new System.Windows.Forms.Padding(0);
             this.panelLeft.Size = new System.Drawing.Size(371, 665);
             this.panelLeft.TabIndex = 0;
+            // 
+            // tabLeftFunctions
+            // 
+            this.tabLeftFunctions.Controls.Add(this.tabPageAlgorithm);
+            this.tabLeftFunctions.Controls.Add(this.tabPageActualPacking);
+            this.tabLeftFunctions.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tabLeftFunctions.Location = new System.Drawing.Point(0, 0);
+            this.tabLeftFunctions.Name = "tabLeftFunctions";
+            this.tabLeftFunctions.SelectedIndex = 0;
+            this.tabLeftFunctions.Size = new System.Drawing.Size(371, 665);
+            this.tabLeftFunctions.TabIndex = 0;
+            // 
+            // tabPageAlgorithm
+            // 
+            this.tabPageAlgorithm.Controls.Add(this.panelAlgorithmContent);
+            this.tabPageAlgorithm.Location = new System.Drawing.Point(4, 22);
+            this.tabPageAlgorithm.Name = "tabPageAlgorithm";
+            this.tabPageAlgorithm.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPageAlgorithm.Size = new System.Drawing.Size(363, 639);
+            this.tabPageAlgorithm.TabIndex = 0;
+            this.tabPageAlgorithm.Text = "算法装箱";
+            this.tabPageAlgorithm.UseVisualStyleBackColor = true;
+            // 
+            // panelAlgorithmContent
+            // 
+            this.panelAlgorithmContent.AutoScroll = true;
+            this.panelAlgorithmContent.Controls.Add(this.lblContainers);
+            this.panelAlgorithmContent.Controls.Add(this.dgvContainers);
+            this.panelAlgorithmContent.Controls.Add(this.btnAddContainer);
+            this.panelAlgorithmContent.Controls.Add(this.btnRemoveContainer);
+            this.panelAlgorithmContent.Controls.Add(this.lblItems);
+            this.panelAlgorithmContent.Controls.Add(this.dgvItems);
+            this.panelAlgorithmContent.Controls.Add(this.grpRandomSelect);
+            this.panelAlgorithmContent.Controls.Add(this.lblResults);
+            this.panelAlgorithmContent.Controls.Add(this.lstResults);
+            this.panelAlgorithmContent.Controls.Add(this.lblStep);
+            this.panelAlgorithmContent.Controls.Add(this.trackStep);
+            this.panelAlgorithmContent.Controls.Add(this.lblStepInfo);
+            this.panelAlgorithmContent.Controls.Add(this.grpSelected);
+            this.panelAlgorithmContent.Controls.Add(this.txtLog);
+            this.panelAlgorithmContent.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.panelAlgorithmContent.Location = new System.Drawing.Point(3, 3);
+            this.panelAlgorithmContent.Name = "panelAlgorithmContent";
+            this.panelAlgorithmContent.Padding = new System.Windows.Forms.Padding(6);
+            this.panelAlgorithmContent.Size = new System.Drawing.Size(357, 633);
+            this.panelAlgorithmContent.TabIndex = 0;
+            // 
+            // tabPageActualPacking
+            // 
+            this.tabPageActualPacking.Controls.Add(this.panelActualPacking);
+            this.tabPageActualPacking.Location = new System.Drawing.Point(4, 22);
+            this.tabPageActualPacking.Name = "tabPageActualPacking";
+            this.tabPageActualPacking.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPageActualPacking.Size = new System.Drawing.Size(363, 639);
+            this.tabPageActualPacking.TabIndex = 1;
+            this.tabPageActualPacking.Text = "实际装箱";
+            this.tabPageActualPacking.UseVisualStyleBackColor = true;
+            // 
+            // panelActualPacking
+            // 
+            this.panelActualPacking.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.panelActualPacking.Location = new System.Drawing.Point(3, 3);
+            this.panelActualPacking.Name = "panelActualPacking";
+            this.panelActualPacking.Size = new System.Drawing.Size(357, 633);
+            this.panelActualPacking.TabIndex = 0;
             // 
             // lblContainers
             // 
@@ -551,7 +613,11 @@ namespace ThreeDPacking.App.Forms
             ((System.ComponentModel.ISupportInitialize)(this.splitMain)).EndInit();
             this.splitMain.ResumeLayout(false);
             this.panelLeft.ResumeLayout(false);
-            this.panelLeft.PerformLayout();
+            this.tabLeftFunctions.ResumeLayout(false);
+            this.tabPageAlgorithm.ResumeLayout(false);
+            this.panelAlgorithmContent.ResumeLayout(false);
+            this.panelAlgorithmContent.PerformLayout();
+            this.tabPageActualPacking.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.dgvContainers)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.dgvItems)).EndInit();
             this.grpRandomSelect.ResumeLayout(false);
@@ -583,6 +649,11 @@ namespace ThreeDPacking.App.Forms
 
         private System.Windows.Forms.SplitContainer splitMain;
         private System.Windows.Forms.Panel panelLeft;
+        private System.Windows.Forms.TabControl tabLeftFunctions;
+        private System.Windows.Forms.TabPage tabPageAlgorithm;
+        private System.Windows.Forms.Panel panelAlgorithmContent;
+        private System.Windows.Forms.TabPage tabPageActualPacking;
+        private System.Windows.Forms.Panel panelActualPacking;
 
         private System.Windows.Forms.Label lblContainers;
         private System.Windows.Forms.DataGridView dgvContainers;

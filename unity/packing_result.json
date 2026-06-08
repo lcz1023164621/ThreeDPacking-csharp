@@ -1,14 +1,14 @@
 {
   "containers": [
     {
-      "name": "最大容器",
-      "id": "最大容器",
-      "dx": 450,
-      "dy": 450,
-      "dz": 210,
-      "loadDx": 450,
-      "loadDy": 450,
-      "loadDz": 210,
+      "name": "中间容器1",
+      "id": "中间容器1",
+      "dx": 310,
+      "dy": 220,
+      "dz": 160,
+      "loadDx": 310,
+      "loadDy": 220,
+      "loadDz": 160,
       "step": 0,
       "stack": {
         "placements": [
@@ -18,117 +18,42 @@
             "z": 60,
             "step": 1,
             "stackable": {
-              "id": "NX8189ZW#1",
-              "name": "NX8189ZW#1",
-              "dx": 420,
-              "dy": 420,
+              "id": "WS9218#3",
+              "name": "WS9218#3",
+              "dx": 90,
+              "dy": 170,
               "dz": 60,
               "step": 1,
               "type": "box"
             }
           },
           {
-            "x": 10,
+            "x": 110,
             "y": 10,
-            "z": 120,
+            "z": 60,
             "step": 2,
             "stackable": {
-              "id": "WS6760#4",
-              "name": "WS6760#4",
-              "dx": 160,
+              "id": "WS9135#2",
+              "name": "WS9135#2",
+              "dx": 100,
               "dy": 150,
-              "dz": 70,
+              "dz": 80,
               "step": 2,
               "type": "box"
             }
           },
           {
             "x": 10,
-            "y": 170,
-            "z": 120,
-            "step": 3,
-            "stackable": {
-              "id": "COSTCONTRO II#3",
-              "name": "COSTCONTRO II#3",
-              "dx": 80,
-              "dy": 150,
-              "dz": 70,
-              "step": 3,
-              "type": "box"
-            }
-          },
-          {
-            "x": 10,
-            "y": 330,
-            "z": 120,
+            "y": 10,
+            "z": 0,
             "step": 4,
             "stackable": {
-              "id": "WS7039#2",
-              "name": "WS7039#2",
-              "dx": 160,
-              "dy": 100,
-              "dz": 40,
+              "id": "padding_paper",
+              "name": "PaddingPaper",
+              "dx": 290,
+              "dy": 160,
+              "dz": 60,
               "step": 4,
-              "type": "box"
-            }
-          },
-          {
-            "x": 180,
-            "y": 10,
-            "z": 120,
-            "step": 5,
-            "stackable": {
-              "id": "WS9632CHOCO#5",
-              "name": "WS9632CHOCO#5",
-              "dx": 100,
-              "dy": 160,
-              "dz": 80,
-              "step": 5,
-              "type": "box"
-            }
-          },
-          {
-            "x": 10,
-            "y": 10,
-            "z": 0,
-            "step": 7,
-            "stackable": {
-              "id": "padding_paper",
-              "name": "PaddingPaper",
-              "dx": 430,
-              "dy": 160,
-              "dz": 60,
-              "step": 7,
-              "type": "padding"
-            }
-          },
-          {
-            "x": 10,
-            "y": 170,
-            "z": 0,
-            "step": 7,
-            "stackable": {
-              "id": "padding_paper",
-              "name": "PaddingPaper",
-              "dx": 430,
-              "dy": 160,
-              "dz": 60,
-              "step": 7,
-              "type": "padding"
-            }
-          },
-          {
-            "x": 290,
-            "y": 10,
-            "z": 120,
-            "step": 7,
-            "stackable": {
-              "id": "padding_paper",
-              "name": "PaddingPaper",
-              "dx": 150,
-              "dy": 430,
-              "dz": 60,
-              "step": 7,
               "type": "padding"
             }
           }

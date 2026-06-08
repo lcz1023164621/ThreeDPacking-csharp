@@ -304,8 +304,24 @@ namespace ThreeDPacking.App.Forms
             TryRestoreLastRunState();
         }
 
+        private void ApplyMainSplitLayout()
+        {
+            if (splitMain.Width <= 0)
+                return;
+
+            int available = splitMain.ClientSize.Width - splitMain.SplitterWidth;
+            int target = available / 3;
+            target = Math.Max(splitMain.Panel1MinSize, target);
+            target = Math.Min(target, available - splitMain.Panel2MinSize);
+
+            if (splitMain.SplitterDistance != target)
+                splitMain.SplitterDistance = target;
+        }
+
         private void LayoutLeftPanel()
         {
+            ApplyMainSplitLayout();
+
             int w = panelLeft.ClientSize.Width - 12;
             int y = 6;
 
@@ -423,10 +439,10 @@ namespace ThreeDPacking.App.Forms
             y += 50;
 
             grpSelected.Location = new Point(6, y);
-            grpSelected.Size = new Size(w, 55);
+            grpSelected.Size = new Size(w, 68);
             lblSelectedInfo.Location = new Point(8, 18);
-            lblSelectedInfo.Size = new Size(w - 16, 32);
-            y += 61;
+            lblSelectedInfo.Size = new Size(w - 16, 45);
+            y += 74;
 
             txtLog.Location = new Point(6, y);
             int logHeight = Math.Max(80, panelLeft.ClientSize.Height - y - 6);
@@ -470,7 +486,7 @@ namespace ThreeDPacking.App.Forms
                 foreach (var c in (_lastRunState.ContainerCandidates ?? new List<LastRunContainerCandidate>()))
                 {
                     dgvContainers.Rows.Add(
-                        c.Name,
+                        NormalizeContainerName(c.Name),
                         c.Dx.ToString(),
                         c.Dy.ToString(),
                         c.Dz.ToString(),
@@ -600,6 +616,19 @@ namespace ThreeDPacking.App.Forms
             [DataMember] public int Dz { get; set; }
             [DataMember] public int EmptyWeight { get; set; }
             [DataMember] public int MaxLoadWeight { get; set; }
+        }
+
+        private static string NormalizeContainerName(string name)
+        {
+            return name == "8" ? "最大容器" : name;
+        }
+
+        private static string FormatTopCenterPoint(Placement placement)
+        {
+            int topCenterX = placement.X + placement.StackValue.Dx / 2;
+            int topCenterY = placement.Y + placement.StackValue.Dy / 2;
+            int topCenterZ = placement.Z + placement.StackValue.Dz;
+            return $"({topCenterX},{topCenterY},{topCenterZ})";
         }
 
         private void AddDefaultContainer()
@@ -1102,7 +1131,7 @@ namespace ThreeDPacking.App.Forms
             {
                 if (row.IsNewRow) continue;
 
-                string name = (row.Cells[0].Value ?? "").ToString().Trim();
+                string name = NormalizeContainerName((row.Cells[0].Value ?? "").ToString().Trim());
                 if (string.IsNullOrEmpty(name)) continue;
 
                 if (!TryParseInt(row.Cells[1].Value, out int dx) ||
@@ -1353,7 +1382,8 @@ namespace ThreeDPacking.App.Forms
                     itemName = "牛皮纸";
                 else
                     itemName = hit.StackValue.Box?.Id ?? "?";
-                lblSelectedInfo.Text = $"{itemName}\n位置: ({hit.X},{hit.Y},{hit.Z}) 尺寸: {hit.StackValue.Dx}x{hit.StackValue.Dy}x{hit.StackValue.Dz}";
+                lblSelectedInfo.Text =
+                    $"{itemName}\n位置: ({hit.X},{hit.Y},{hit.Z}) 尺寸: {hit.StackValue.Dx}x{hit.StackValue.Dy}x{hit.StackValue.Dz} 顶部中心点: {FormatTopCenterPoint(hit)}";
             }
             else
             {
