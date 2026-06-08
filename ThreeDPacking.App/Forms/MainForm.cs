@@ -3,13 +3,17 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.Drawing;
+using System.Drawing.Drawing2D;
 using System.IO;
 using System.Linq;
 using System.Runtime.Serialization;
 using System.Runtime.Serialization.Json;
+using System.Threading;
+using System.Threading.Tasks;
 using System.Windows.Forms;
 using OpenTK;
 using OpenTK.Graphics.OpenGL;
+using ThreeDPacking.App.Communication;
 using ThreeDPacking.App.Rendering;
 using ThreeDPacking.Core.IO;
 using ThreeDPacking.Core.Packers;
@@ -48,6 +52,19 @@ namespace ThreeDPacking.App.Forms
         private Button btnOpenExcel;
         private Button btnStartPacking;
 
+        private GroupBox grpArmConnection;
+        private Label lblArmAddress;
+        private TextBox txtArmAddress;
+        private Label lblArmPort;
+        private NumericUpDown numArmPort;
+        private Button btnArmConnect;
+        private Button btnArmDisconnect;
+        private Panel pnlConnectionIndicator;
+        private Label lblConnectionStatus;
+        private RoboticArmClient _armClient;
+        private bool _armConnecting;
+        private CancellationTokenSource _armConnectCts;
+
         private PaddingPaperFillStrategy _paddingPaperFillStrategy = PaddingPaperFillStrategy.MaxUtilization;
         private int _paddingPaperMinWidth = ThreeDPacking.Core.Models.PaddingPaper.DefaultWidth;
         private int _containerSafetyDistance = 0;
@@ -66,6 +83,7 @@ namespace ThreeDPacking.App.Forms
             InitPaddingMinWidthControl();
             InitSafetyDistanceControls();
             InitFileRunButtons();
+            InitArmConnectionControls();
             WireEvents();
             menuStrip.Visible = false;
             AddDefaultContainer();
@@ -208,6 +226,183 @@ namespace ThreeDPacking.App.Forms
             grpRandomSelect.Controls.Add(btnStartPacking);
         }
 
+        private void InitArmConnectionControls()
+        {
+            grpArmConnection = new GroupBox();
+            grpArmConnection.Text = "机械臂连接";
+            grpArmConnection.TabStop = false;
+
+            lblArmAddress = new Label();
+            lblArmAddress.Text = "地址：";
+            lblArmAddress.AutoSize = true;
+
+            txtArmAddress = new TextBox();
+            txtArmAddress.Text = "127.0.0.1";
+
+            lblArmPort = new Label();
+            lblArmPort.Text = "端口：";
+            lblArmPort.AutoSize = true;
+
+            numArmPort = new NumericUpDown();
+            numArmPort.Minimum = 1;
+            numArmPort.Maximum = 65535;
+            numArmPort.Value = 8080;
+            numArmPort.TextAlign = HorizontalAlignment.Right;
+
+            btnArmConnect = new Button();
+            btnArmConnect.Text = "连接";
+            btnArmConnect.UseVisualStyleBackColor = true;
+            btnArmConnect.Click += BtnArmConnect_Click;
+
+            btnArmDisconnect = new Button();
+            btnArmDisconnect.Text = "断开";
+            btnArmDisconnect.UseVisualStyleBackColor = true;
+            btnArmDisconnect.Enabled = false;
+            btnArmDisconnect.Click += BtnArmDisconnect_Click;
+
+            pnlConnectionIndicator = new Panel();
+            pnlConnectionIndicator.Size = new Size(16, 16);
+            pnlConnectionIndicator.BackColor = Color.Transparent;
+            pnlConnectionIndicator.Paint += PnlConnectionIndicator_Paint;
+
+            lblConnectionStatus = new Label();
+            lblConnectionStatus.Text = "未连接";
+            lblConnectionStatus.AutoSize = true;
+            lblConnectionStatus.ForeColor = Color.FromArgb(180, 60, 60);
+
+            grpArmConnection.Controls.Add(lblArmAddress);
+            grpArmConnection.Controls.Add(txtArmAddress);
+            grpArmConnection.Controls.Add(lblArmPort);
+            grpArmConnection.Controls.Add(numArmPort);
+            grpArmConnection.Controls.Add(btnArmConnect);
+            grpArmConnection.Controls.Add(btnArmDisconnect);
+            grpArmConnection.Controls.Add(pnlConnectionIndicator);
+            grpArmConnection.Controls.Add(lblConnectionStatus);
+
+            panelActualPacking.Controls.Add(grpArmConnection);
+
+            _armClient = new RoboticArmClient();
+            _armClient.ConnectionChanged += ArmClient_ConnectionChanged;
+
+            UpdateConnectionStatus(false);
+        }
+
+        private void PnlConnectionIndicator_Paint(object sender, PaintEventArgs e)
+        {
+            var panel = (Panel)sender;
+            e.Graphics.SmoothingMode = SmoothingMode.AntiAlias;
+            var color = _armClient != null && _armClient.IsConnected
+                ? Color.FromArgb(46, 160, 67)
+                : Color.FromArgb(220, 60, 60);
+            using (var brush = new SolidBrush(color))
+            {
+                e.Graphics.FillEllipse(brush, 1, 1, panel.Width - 2, panel.Height - 2);
+            }
+        }
+
+        private void UpdateConnectionStatus(bool connected)
+        {
+            if (InvokeRequired)
+            {
+                BeginInvoke((Action)(() => UpdateConnectionStatus(connected)));
+                return;
+            }
+
+            lblConnectionStatus.Text = connected ? "已连接" : "未连接";
+            lblConnectionStatus.ForeColor = connected
+                ? Color.FromArgb(46, 160, 67)
+                : Color.FromArgb(180, 60, 60);
+            pnlConnectionIndicator.Invalidate();
+
+            bool busy = _armConnecting;
+            txtArmAddress.Enabled = !connected && !busy;
+            numArmPort.Enabled = !connected && !busy;
+            btnArmConnect.Enabled = !connected && !busy;
+            btnArmDisconnect.Enabled = connected && !busy;
+        }
+
+        private void ArmClient_ConnectionChanged(object sender, bool connected)
+        {
+            UpdateConnectionStatus(connected);
+        }
+
+        private async void BtnArmConnect_Click(object sender, EventArgs e)
+        {
+            string host = txtArmAddress.Text.Trim();
+            if (string.IsNullOrEmpty(host))
+            {
+                MessageBox.Show("请输入机械臂地址。", "提示",
+                    MessageBoxButtons.OK, MessageBoxIcon.Information);
+                return;
+            }
+
+            int port = (int)numArmPort.Value;
+            _armConnecting = true;
+            UpdateConnectionStatus(false);
+            btnArmConnect.Text = "连接中...";
+            btnArmConnect.Enabled = false;
+
+            _armConnectCts?.Cancel();
+            _armConnectCts?.Dispose();
+            _armConnectCts = new CancellationTokenSource();
+
+            try
+            {
+                await _armClient.ConnectAsync(host, port, _armConnectCts.Token);
+                statusLabel.Text = $"机械臂已连接: {host}:{port}";
+            }
+            catch (OperationCanceledException)
+            {
+                UpdateConnectionStatus(_armClient.IsConnected);
+            }
+            catch (Exception ex)
+            {
+                UpdateConnectionStatus(false);
+                MessageBox.Show("连接失败:\n" + ex.Message, "错误",
+                    MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            finally
+            {
+                _armConnecting = false;
+                btnArmConnect.Text = "连接";
+                UpdateConnectionStatus(_armClient.IsConnected);
+            }
+        }
+
+        private void BtnArmDisconnect_Click(object sender, EventArgs e)
+        {
+            _armConnectCts?.Cancel();
+            _armClient.Disconnect();
+            statusLabel.Text = "机械臂已断开";
+            UpdateConnectionStatus(false);
+        }
+
+        private void LayoutActualPackingPanel()
+        {
+            if (grpArmConnection == null)
+                return;
+
+            int w = panelActualPacking.ClientSize.Width - 12;
+            grpArmConnection.Location = new Point(6, 6);
+            grpArmConnection.Size = new Size(Math.Max(200, w), 110);
+
+            lblArmAddress.Location = new Point(12, 26);
+            txtArmAddress.Location = new Point(52, 23);
+            txtArmAddress.Size = new Size(Math.Max(80, w - 200), 21);
+
+            lblArmPort.Location = new Point(12, 56);
+            numArmPort.Location = new Point(52, 53);
+            numArmPort.Size = new Size(80, 21);
+
+            btnArmConnect.Location = new Point(145, 52);
+            btnArmConnect.Size = new Size(60, 23);
+            btnArmDisconnect.Location = new Point(211, 52);
+            btnArmDisconnect.Size = new Size(60, 23);
+
+            pnlConnectionIndicator.Location = new Point(12, 84);
+            lblConnectionStatus.Location = new Point(34, 84);
+        }
+
         private void SetOpenExcelEnabled(bool enabled)
         {
             menuOpenExcel.Enabled = enabled;
@@ -295,12 +490,24 @@ namespace ThreeDPacking.App.Forms
             trackStep.ValueChanged += TrackStep_ValueChanged;
             lstResults.SelectedIndexChanged += LstResults_SelectedIndexChanged;
 
-            this.Resize += (s, e) => LayoutLeftPanel();
+            this.Resize += (s, e) =>
+            {
+                LayoutLeftPanel();
+                LayoutActualPackingPanel();
+            };
+            this.FormClosing += MainForm_FormClosing;
+        }
+
+        private void MainForm_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            _armConnectCts?.Cancel();
+            _armClient?.Dispose();
         }
 
         private void MainForm_Load(object sender, EventArgs e)
         {
             LayoutLeftPanel();
+            LayoutActualPackingPanel();
             TryRestoreLastRunState();
         }
 
