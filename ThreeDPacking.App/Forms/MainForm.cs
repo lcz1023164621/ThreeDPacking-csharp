@@ -71,6 +71,16 @@ namespace ThreeDPacking.App.Forms
         private const int PackingPositionsVisibleRows = 5;
         private const int PackingPositionsListHeaderHeight = 24;
 
+        private GroupBox grpPackingPoints;
+        private Label lblPackingPointsInfo;
+        private ListView lvPackingPoints;
+        private readonly List<string> _packingPointStrings = new List<string>();
+
+        private Button btnSendFirstPackingPoint;
+        private Panel pnlSendStatusIndicator;
+        private Label lblSendStatus;
+        private bool? _packingPointSendSuccess;
+
         private PaddingPaperFillStrategy _paddingPaperFillStrategy = PaddingPaperFillStrategy.MaxUtilization;
         private int _paddingPaperMinWidth = ThreeDPacking.Core.Models.PaddingPaper.DefaultWidth;
         private int _containerSafetyDistance = 0;
@@ -91,6 +101,8 @@ namespace ThreeDPacking.App.Forms
             InitFileRunButtons();
             InitArmConnectionControls();
             InitPackingPositionsControls();
+            InitPackingPointsControls();
+            InitSendPackingPointControls();
             WireEvents();
             menuStrip.Visible = false;
             AddDefaultContainer();
@@ -296,6 +308,8 @@ namespace ThreeDPacking.App.Forms
 
         private void InitPackingPositionsControls()
         {
+            panelActualPacking.AutoScroll = true;
+
             grpPackingPositions = new GroupBox();
             grpPackingPositions.Text = "装箱位置";
             grpPackingPositions.TabStop = false;
@@ -318,6 +332,138 @@ namespace ThreeDPacking.App.Forms
             grpPackingPositions.Controls.Add(lblPackingPositionsInfo);
             grpPackingPositions.Controls.Add(lvPackingPositions);
             panelActualPacking.Controls.Add(grpPackingPositions);
+        }
+
+        private void InitPackingPointsControls()
+        {
+            grpPackingPoints = new GroupBox();
+            grpPackingPoints.Text = "装箱点位";
+            grpPackingPoints.TabStop = false;
+
+            lblPackingPointsInfo = new Label();
+            lblPackingPointsInfo.Text = "暂无装箱点位";
+            lblPackingPointsInfo.AutoSize = false;
+            lblPackingPointsInfo.Height = 18;
+
+            lvPackingPoints = new ListView();
+            lvPackingPoints.View = View.Details;
+            lvPackingPoints.FullRowSelect = true;
+            lvPackingPoints.GridLines = true;
+            lvPackingPoints.HeaderStyle = ColumnHeaderStyle.Nonclickable;
+            lvPackingPoints.Columns.Add("序号", 42, HorizontalAlignment.Center);
+            lvPackingPoints.Columns.Add("物品", 72, HorizontalAlignment.Left);
+            lvPackingPoints.Columns.Add("点位", 160, HorizontalAlignment.Left);
+
+            grpPackingPoints.Controls.Add(lblPackingPointsInfo);
+            grpPackingPoints.Controls.Add(lvPackingPoints);
+            panelActualPacking.Controls.Add(grpPackingPoints);
+        }
+
+        private void InitSendPackingPointControls()
+        {
+            btnSendFirstPackingPoint = new Button();
+            btnSendFirstPackingPoint.Text = "传送数据";
+            btnSendFirstPackingPoint.UseVisualStyleBackColor = true;
+            btnSendFirstPackingPoint.Size = new Size(80, 26);
+            btnSendFirstPackingPoint.Click += BtnSendFirstPackingPoint_Click;
+
+            pnlSendStatusIndicator = new Panel();
+            pnlSendStatusIndicator.Size = new Size(16, 16);
+            pnlSendStatusIndicator.BackColor = Color.Transparent;
+            pnlSendStatusIndicator.Paint += PnlSendStatusIndicator_Paint;
+
+            lblSendStatus = new Label();
+            lblSendStatus.AutoSize = true;
+            lblSendStatus.Text = "未传送";
+
+            panelActualPacking.Controls.Add(btnSendFirstPackingPoint);
+            panelActualPacking.Controls.Add(pnlSendStatusIndicator);
+            panelActualPacking.Controls.Add(lblSendStatus);
+
+            UpdateSendStatus(null);
+        }
+
+        private void PnlSendStatusIndicator_Paint(object sender, PaintEventArgs e)
+        {
+            var panel = (Panel)sender;
+            e.Graphics.SmoothingMode = SmoothingMode.AntiAlias;
+            var color = _packingPointSendSuccess == true
+                ? Color.FromArgb(46, 160, 67)
+                : Color.FromArgb(220, 60, 60);
+            using (var brush = new SolidBrush(color))
+            {
+                e.Graphics.FillEllipse(brush, 1, 1, panel.Width - 2, panel.Height - 2);
+            }
+        }
+
+        private void UpdateSendStatus(bool? success)
+        {
+            if (InvokeRequired)
+            {
+                BeginInvoke((Action)(() => UpdateSendStatus(success)));
+                return;
+            }
+
+            _packingPointSendSuccess = success;
+            if (success == true)
+            {
+                lblSendStatus.Text = "传送成功";
+                lblSendStatus.ForeColor = Color.FromArgb(46, 160, 67);
+            }
+            else if (success == false)
+            {
+                lblSendStatus.Text = "传送失败";
+                lblSendStatus.ForeColor = Color.FromArgb(180, 60, 60);
+            }
+            else
+            {
+                lblSendStatus.Text = "未传送";
+                lblSendStatus.ForeColor = Color.FromArgb(180, 60, 60);
+            }
+
+            pnlSendStatusIndicator?.Invalidate();
+        }
+
+        private async void BtnSendFirstPackingPoint_Click(object sender, EventArgs e)
+        {
+            if (_armClient == null || !_armClient.IsConnected)
+            {
+                MessageBox.Show("请先连接机械臂。", "提示",
+                    MessageBoxButtons.OK, MessageBoxIcon.Information);
+                UpdateSendStatus(false);
+                return;
+            }
+
+            if (_packingPointStrings.Count == 0)
+            {
+                MessageBox.Show("暂无装箱点位，请先完成算法装箱。", "提示",
+                    MessageBoxButtons.OK, MessageBoxIcon.Information);
+                UpdateSendStatus(false);
+                return;
+            }
+
+            string payload = _packingPointStrings[0];
+            btnSendFirstPackingPoint.Enabled = false;
+            btnSendFirstPackingPoint.Text = "传送中...";
+            UpdateSendStatus(null);
+
+            try
+            {
+                await _armClient.SendAsync(payload);
+                UpdateSendStatus(true);
+                statusLabel.Text = $"已传送首个装箱点位: {payload}";
+            }
+            catch (Exception ex)
+            {
+                UpdateSendStatus(false);
+                MessageBox.Show("传送失败:\n" + ex.Message, "错误",
+                    MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            finally
+            {
+                btnSendFirstPackingPoint.Text = "传送数据";
+                btnSendFirstPackingPoint.Enabled = true;
+            }
         }
 
         private void PnlConnectionIndicator_Paint(object sender, PaintEventArgs e)
@@ -357,6 +503,8 @@ namespace ThreeDPacking.App.Forms
         private void ArmClient_ConnectionChanged(object sender, bool connected)
         {
             UpdateConnectionStatus(connected);
+            if (!connected)
+                UpdateSendStatus(null);
         }
 
         private async void BtnArmConnect_Click(object sender, EventArgs e)
@@ -408,6 +556,7 @@ namespace ThreeDPacking.App.Forms
             _armClient.Disconnect();
             statusLabel.Text = "机械臂已断开";
             UpdateConnectionStatus(false);
+            UpdateSendStatus(null);
         }
 
         private void LayoutActualPackingPanel()
@@ -438,7 +587,7 @@ namespace ThreeDPacking.App.Forms
             if (grpPackingPositions != null)
             {
                 int top = grpArmConnection.Bottom + 8;
-                int listHeight = GetPackingPositionsListViewHeight();
+                int listHeight = GetFixedListViewHeight(lvPackingPositions);
                 int groupHeight = 52 + listHeight;
 
                 grpPackingPositions.Location = new Point(6, top);
@@ -450,26 +599,75 @@ namespace ThreeDPacking.App.Forms
                 lvPackingPositions.Location = new Point(12, 44);
                 lvPackingPositions.Size = new Size(grpPackingPositions.ClientSize.Width - 24, listHeight);
 
-                if (lvPackingPositions.Columns.Count >= 4)
-                {
-                    int listW = lvPackingPositions.ClientSize.Width - 4;
-                    lvPackingPositions.Columns[0].Width = 42;
-                    lvPackingPositions.Columns[3].Width = Math.Max(90, listW - 42 - 72 - 72);
-                    lvPackingPositions.Columns[1].Width = 72;
-                    lvPackingPositions.Columns[2].Width = Math.Max(60, listW - 42 - 72 - lvPackingPositions.Columns[3].Width);
-                }
+                LayoutPackingPositionsColumns();
+            }
+
+            if (grpPackingPoints != null)
+            {
+                int top = grpPackingPositions != null
+                    ? grpPackingPositions.Bottom + 8
+                    : grpArmConnection.Bottom + 8;
+                int listHeight = GetFixedListViewHeight(lvPackingPoints);
+                int groupHeight = 52 + listHeight;
+
+                grpPackingPoints.Location = new Point(6, top);
+                grpPackingPoints.Size = new Size(Math.Max(200, w), groupHeight);
+
+                lblPackingPointsInfo.Location = new Point(12, 22);
+                lblPackingPointsInfo.Width = grpPackingPoints.ClientSize.Width - 24;
+
+                lvPackingPoints.Location = new Point(12, 44);
+                lvPackingPoints.Size = new Size(grpPackingPoints.ClientSize.Width - 24, listHeight);
+
+                LayoutPackingPointsColumns();
+            }
+
+            if (btnSendFirstPackingPoint != null)
+            {
+                int top = grpPackingPoints != null
+                    ? grpPackingPoints.Bottom + 8
+                    : (grpPackingPositions != null ? grpPackingPositions.Bottom + 8 : grpArmConnection.Bottom + 8);
+
+                btnSendFirstPackingPoint.Location = new Point(6, top);
+                btnSendFirstPackingPoint.Size = new Size(80, 26);
+
+                pnlSendStatusIndicator.Location = new Point(94, top + 5);
+                lblSendStatus.Location = new Point(116, top + 6);
             }
         }
 
-        private int GetPackingPositionsListViewHeight()
+        private void LayoutPackingPositionsColumns()
         {
-            if (lvPackingPositions == null)
+            if (lvPackingPositions == null || lvPackingPositions.Columns.Count < 4)
+                return;
+
+            int listW = lvPackingPositions.ClientSize.Width - 4;
+            lvPackingPositions.Columns[0].Width = 42;
+            lvPackingPositions.Columns[3].Width = Math.Max(90, listW - 42 - 72 - 72);
+            lvPackingPositions.Columns[1].Width = 72;
+            lvPackingPositions.Columns[2].Width = Math.Max(60, listW - 42 - 72 - lvPackingPositions.Columns[3].Width);
+        }
+
+        private void LayoutPackingPointsColumns()
+        {
+            if (lvPackingPoints == null || lvPackingPoints.Columns.Count < 3)
+                return;
+
+            int listW = lvPackingPoints.ClientSize.Width - 4;
+            lvPackingPoints.Columns[0].Width = 42;
+            lvPackingPoints.Columns[1].Width = 72;
+            lvPackingPoints.Columns[2].Width = Math.Max(120, listW - 42 - 72);
+        }
+
+        private int GetFixedListViewHeight(ListView listView)
+        {
+            if (listView == null)
                 return PackingPositionsListHeaderHeight + 20 * PackingPositionsVisibleRows + 2;
 
-            int rowHeight = lvPackingPositions.Font.Height + 5;
-            if (lvPackingPositions.Items.Count > 0)
+            int rowHeight = listView.Font.Height + 5;
+            if (listView.Items.Count > 0)
             {
-                var rect = lvPackingPositions.GetItemRect(0, ItemBoundsPortion.Entire);
+                var rect = listView.GetItemRect(0, ItemBoundsPortion.Entire);
                 if (rect.Height > 0)
                     rowHeight = rect.Height;
             }
@@ -912,6 +1110,13 @@ namespace ThreeDPacking.App.Forms
             return $"({topCenterX},{topCenterY},{topCenterZ})";
         }
 
+        private static string FormatArmCoordinate(Placement placement)
+        {
+            int topCenterX = placement.X + placement.StackValue.Dx / 2;
+            int topCenterY = placement.Y + placement.StackValue.Dy / 2;
+            return $"[{topCenterX},{topCenterY},0,0,0,0]";
+        }
+
         private static List<Placement> GetItemPlacementsInPackingOrder(Container container)
         {
             if (container?.Stack?.Placements == null)
@@ -948,6 +1153,13 @@ namespace ThreeDPacking.App.Forms
 
             lvPackingPositions.BeginUpdate();
             lvPackingPositions.Items.Clear();
+            if (lvPackingPoints != null)
+            {
+                lvPackingPoints.BeginUpdate();
+                lvPackingPoints.Items.Clear();
+            }
+            _packingPointStrings.Clear();
+            UpdateSendStatus(null);
 
             int sequence = 0;
             if (_packedContainers != null)
@@ -962,22 +1174,42 @@ namespace ThreeDPacking.App.Forms
                     {
                         sequence++;
                         string itemName = placement.StackValue.Box?.Id ?? "?";
+                        string armCoordinate = FormatArmCoordinate(placement);
+
                         var item = new ListViewItem(sequence.ToString());
                         item.SubItems.Add(containerName);
                         item.SubItems.Add(itemName);
                         item.SubItems.Add(FormatTopCenterPoint(placement));
                         lvPackingPositions.Items.Add(item);
+
+                        _packingPointStrings.Add(armCoordinate);
+                        if (lvPackingPoints != null)
+                        {
+                            var pointItem = new ListViewItem(sequence.ToString());
+                            pointItem.SubItems.Add(itemName);
+                            pointItem.SubItems.Add(armCoordinate);
+                            lvPackingPoints.Items.Add(pointItem);
+                        }
                     }
                 }
             }
 
             lvPackingPositions.EndUpdate();
+            if (lvPackingPoints != null)
+                lvPackingPoints.EndUpdate();
 
             if (lblPackingPositionsInfo != null)
             {
                 lblPackingPositionsInfo.Text = sequence > 0
                     ? $"共 {sequence} 个物体（按装箱顺序，不含牛皮纸）"
                     : "暂无装箱结果";
+            }
+
+            if (lblPackingPointsInfo != null)
+            {
+                lblPackingPointsInfo.Text = sequence > 0
+                    ? $"共 {sequence} 个点位（机械臂格式 [X,Y,0,0,0,0]）"
+                    : "暂无装箱点位";
             }
 
             LayoutActualPackingPanel();

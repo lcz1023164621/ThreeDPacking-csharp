@@ -1,14 +1,14 @@
 {
   "containers": [
     {
-      "name": "中间容器1",
-      "id": "中间容器1",
-      "dx": 310,
-      "dy": 220,
-      "dz": 160,
-      "loadDx": 310,
-      "loadDy": 220,
-      "loadDz": 160,
+      "name": "最大容器",
+      "id": "最大容器",
+      "dx": 450,
+      "dy": 450,
+      "dz": 210,
+      "loadDx": 450,
+      "loadDy": 450,
+      "loadDz": 210,
       "step": 0,
       "stack": {
         "placements": [
@@ -18,26 +18,26 @@
             "z": 60,
             "step": 1,
             "stackable": {
-              "id": "WS9218#3",
-              "name": "WS9218#3",
-              "dx": 90,
-              "dy": 170,
+              "id": "WT8610#1",
+              "name": "WT8610#1",
+              "dx": 320,
+              "dy": 360,
               "dz": 60,
               "step": 1,
               "type": "box"
             }
           },
           {
-            "x": 110,
+            "x": 340,
             "y": 10,
             "z": 60,
             "step": 2,
             "stackable": {
-              "id": "WS9135#2",
-              "name": "WS9135#2",
-              "dx": 100,
-              "dy": 150,
-              "dz": 80,
+              "id": "TX48WD-IT#2",
+              "name": "TX48WD-IT#2",
+              "dx": 60,
+              "dy": 100,
+              "dz": 40,
               "step": 2,
               "type": "box"
             }
@@ -50,8 +50,53 @@
             "stackable": {
               "id": "padding_paper",
               "name": "PaddingPaper",
-              "dx": 290,
+              "dx": 430,
               "dy": 160,
+              "dz": 60,
+              "step": 4,
+              "type": "padding"
+            }
+          },
+          {
+            "x": 10,
+            "y": 170,
+            "z": 0,
+            "step": 4,
+            "stackable": {
+              "id": "padding_paper",
+              "name": "PaddingPaper",
+              "dx": 430,
+              "dy": 160,
+              "dz": 60,
+              "step": 4,
+              "type": "padding"
+            }
+          },
+          {
+            "x": 10,
+            "y": 10,
+            "z": 120,
+            "step": 4,
+            "stackable": {
+              "id": "padding_paper",
+              "name": "PaddingPaper",
+              "dx": 430,
+              "dy": 150,
+              "dz": 60,
+              "step": 4,
+              "type": "padding"
+            }
+          },
+          {
+            "x": 10,
+            "y": 170,
+            "z": 120,
+            "step": 4,
+            "stackable": {
+              "id": "padding_paper",
+              "name": "PaddingPaper",
+              "dx": 430,
+              "dy": 150,
               "dz": 60,
               "step": 4,
               "type": "padding"

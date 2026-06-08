@@ -1,5 +1,6 @@
 using System;
 using System.Net.Sockets;
+using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -67,6 +68,19 @@ namespace ThreeDPacking.App.Communication
 
             if (wasConnected)
                 ConnectionChanged?.Invoke(this, false);
+        }
+
+        public async Task SendAsync(string message, CancellationToken cancellationToken = default)
+        {
+            if (!IsConnected || _stream == null)
+                throw new InvalidOperationException("未连接到机械臂");
+
+            if (message == null)
+                throw new ArgumentNullException(nameof(message));
+
+            byte[] data = Encoding.UTF8.GetBytes(message);
+            await _stream.WriteAsync(data, 0, data.Length, cancellationToken).ConfigureAwait(false);
+            _stream.Flush();
         }
 
         public void Dispose()
