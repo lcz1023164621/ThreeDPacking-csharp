@@ -65,6 +65,12 @@ namespace ThreeDPacking.App.Forms
         private bool _armConnecting;
         private CancellationTokenSource _armConnectCts;
 
+        private GroupBox grpPackingPositions;
+        private Label lblPackingPositionsInfo;
+        private ListView lvPackingPositions;
+        private const int PackingPositionsVisibleRows = 5;
+        private const int PackingPositionsListHeaderHeight = 24;
+
         private PaddingPaperFillStrategy _paddingPaperFillStrategy = PaddingPaperFillStrategy.MaxUtilization;
         private int _paddingPaperMinWidth = ThreeDPacking.Core.Models.PaddingPaper.DefaultWidth;
         private int _containerSafetyDistance = 0;
@@ -84,6 +90,7 @@ namespace ThreeDPacking.App.Forms
             InitSafetyDistanceControls();
             InitFileRunButtons();
             InitArmConnectionControls();
+            InitPackingPositionsControls();
             WireEvents();
             menuStrip.Visible = false;
             AddDefaultContainer();
@@ -287,6 +294,32 @@ namespace ThreeDPacking.App.Forms
             UpdateConnectionStatus(false);
         }
 
+        private void InitPackingPositionsControls()
+        {
+            grpPackingPositions = new GroupBox();
+            grpPackingPositions.Text = "装箱位置";
+            grpPackingPositions.TabStop = false;
+
+            lblPackingPositionsInfo = new Label();
+            lblPackingPositionsInfo.Text = "暂无装箱结果";
+            lblPackingPositionsInfo.AutoSize = false;
+            lblPackingPositionsInfo.Height = 18;
+
+            lvPackingPositions = new ListView();
+            lvPackingPositions.View = View.Details;
+            lvPackingPositions.FullRowSelect = true;
+            lvPackingPositions.GridLines = true;
+            lvPackingPositions.HeaderStyle = ColumnHeaderStyle.Nonclickable;
+            lvPackingPositions.Columns.Add("序号", 42, HorizontalAlignment.Center);
+            lvPackingPositions.Columns.Add("容器", 72, HorizontalAlignment.Left);
+            lvPackingPositions.Columns.Add("物品", 72, HorizontalAlignment.Left);
+            lvPackingPositions.Columns.Add("顶点中心点", 110, HorizontalAlignment.Left);
+
+            grpPackingPositions.Controls.Add(lblPackingPositionsInfo);
+            grpPackingPositions.Controls.Add(lvPackingPositions);
+            panelActualPacking.Controls.Add(grpPackingPositions);
+        }
+
         private void PnlConnectionIndicator_Paint(object sender, PaintEventArgs e)
         {
             var panel = (Panel)sender;
@@ -401,6 +434,47 @@ namespace ThreeDPacking.App.Forms
 
             pnlConnectionIndicator.Location = new Point(12, 84);
             lblConnectionStatus.Location = new Point(34, 84);
+
+            if (grpPackingPositions != null)
+            {
+                int top = grpArmConnection.Bottom + 8;
+                int listHeight = GetPackingPositionsListViewHeight();
+                int groupHeight = 52 + listHeight;
+
+                grpPackingPositions.Location = new Point(6, top);
+                grpPackingPositions.Size = new Size(Math.Max(200, w), groupHeight);
+
+                lblPackingPositionsInfo.Location = new Point(12, 22);
+                lblPackingPositionsInfo.Width = grpPackingPositions.ClientSize.Width - 24;
+
+                lvPackingPositions.Location = new Point(12, 44);
+                lvPackingPositions.Size = new Size(grpPackingPositions.ClientSize.Width - 24, listHeight);
+
+                if (lvPackingPositions.Columns.Count >= 4)
+                {
+                    int listW = lvPackingPositions.ClientSize.Width - 4;
+                    lvPackingPositions.Columns[0].Width = 42;
+                    lvPackingPositions.Columns[3].Width = Math.Max(90, listW - 42 - 72 - 72);
+                    lvPackingPositions.Columns[1].Width = 72;
+                    lvPackingPositions.Columns[2].Width = Math.Max(60, listW - 42 - 72 - lvPackingPositions.Columns[3].Width);
+                }
+            }
+        }
+
+        private int GetPackingPositionsListViewHeight()
+        {
+            if (lvPackingPositions == null)
+                return PackingPositionsListHeaderHeight + 20 * PackingPositionsVisibleRows + 2;
+
+            int rowHeight = lvPackingPositions.Font.Height + 5;
+            if (lvPackingPositions.Items.Count > 0)
+            {
+                var rect = lvPackingPositions.GetItemRect(0, ItemBoundsPortion.Entire);
+                if (rect.Height > 0)
+                    rowHeight = rect.Height;
+            }
+
+            return PackingPositionsListHeaderHeight + rowHeight * PackingPositionsVisibleRows + 2;
         }
 
         private void SetOpenExcelEnabled(bool enabled)
@@ -836,6 +910,77 @@ namespace ThreeDPacking.App.Forms
             int topCenterY = placement.Y + placement.StackValue.Dy / 2;
             int topCenterZ = placement.Z + placement.StackValue.Dz;
             return $"({topCenterX},{topCenterY},{topCenterZ})";
+        }
+
+        private static List<Placement> GetItemPlacementsInPackingOrder(Container container)
+        {
+            if (container?.Stack?.Placements == null)
+                return new List<Placement>();
+
+            var orderedPlacements = new List<Placement>(container.Stack.Placements);
+            orderedPlacements.Sort((a, b) =>
+            {
+                int c = a.Z.CompareTo(b.Z);
+                if (c != 0) return c;
+
+                bool aPad = a.IsPadding;
+                bool bPad = b.IsPadding;
+                if (aPad != bPad) return aPad ? 1 : -1;
+
+                c = a.X.CompareTo(b.X);
+                if (c != 0) return c;
+                return a.Y.CompareTo(b.Y);
+            });
+
+            var items = new List<Placement>();
+            foreach (var placement in orderedPlacements)
+            {
+                if (placement != null && !placement.IsPadding && placement.StackValue != null)
+                    items.Add(placement);
+            }
+            return items;
+        }
+
+        private void RefreshPackingPositionsList()
+        {
+            if (lvPackingPositions == null)
+                return;
+
+            lvPackingPositions.BeginUpdate();
+            lvPackingPositions.Items.Clear();
+
+            int sequence = 0;
+            if (_packedContainers != null)
+            {
+                foreach (var container in _packedContainers)
+                {
+                    if (container == null)
+                        continue;
+
+                    string containerName = container.Description ?? "容器";
+                    foreach (var placement in GetItemPlacementsInPackingOrder(container))
+                    {
+                        sequence++;
+                        string itemName = placement.StackValue.Box?.Id ?? "?";
+                        var item = new ListViewItem(sequence.ToString());
+                        item.SubItems.Add(containerName);
+                        item.SubItems.Add(itemName);
+                        item.SubItems.Add(FormatTopCenterPoint(placement));
+                        lvPackingPositions.Items.Add(item);
+                    }
+                }
+            }
+
+            lvPackingPositions.EndUpdate();
+
+            if (lblPackingPositionsInfo != null)
+            {
+                lblPackingPositionsInfo.Text = sequence > 0
+                    ? $"共 {sequence} 个物体（按装箱顺序，不含牛皮纸）"
+                    : "暂无装箱结果";
+            }
+
+            LayoutActualPackingPanel();
         }
 
         private void AddDefaultContainer()
@@ -1282,6 +1427,8 @@ namespace ThreeDPacking.App.Forms
                 statusUtilization.Text = $"体积利用率: {totalUtil:F1}%";
                 statusTime.Text = $"耗时: {sw.ElapsedMilliseconds}ms";
                 AppendLog($"装箱完成! 容器数: {_packedContainers.Count}, 物品数: {totalPacked}, 耗时: {sw.ElapsedMilliseconds}ms");
+
+                RefreshPackingPositionsList();
 
                 if (lstResults.Items.Count > 0)
                     lstResults.SelectedIndex = 0;
