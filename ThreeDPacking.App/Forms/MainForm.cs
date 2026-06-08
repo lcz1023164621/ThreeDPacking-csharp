@@ -76,10 +76,10 @@ namespace ThreeDPacking.App.Forms
         private ListView lvPackingPoints;
         private readonly List<string> _packingPointStrings = new List<string>();
 
-        private Button btnSendFirstPackingPoint;
         private Panel pnlSendStatusIndicator;
         private Label lblSendStatus;
         private bool? _packingPointSendSuccess;
+        private bool _isSendingFirstPackingPoint;
 
         private PaddingPaperFillStrategy _paddingPaperFillStrategy = PaddingPaperFillStrategy.MaxUtilization;
         private int _paddingPaperMinWidth = ThreeDPacking.Core.Models.PaddingPaper.DefaultWidth;
@@ -102,7 +102,7 @@ namespace ThreeDPacking.App.Forms
             InitArmConnectionControls();
             InitPackingPositionsControls();
             InitPackingPointsControls();
-            InitSendPackingPointControls();
+            InitSendStatusControls();
             WireEvents();
             menuStrip.Visible = false;
             AddDefaultContainer();
@@ -359,14 +359,8 @@ namespace ThreeDPacking.App.Forms
             panelActualPacking.Controls.Add(grpPackingPoints);
         }
 
-        private void InitSendPackingPointControls()
+        private void InitSendStatusControls()
         {
-            btnSendFirstPackingPoint = new Button();
-            btnSendFirstPackingPoint.Text = "传送数据";
-            btnSendFirstPackingPoint.UseVisualStyleBackColor = true;
-            btnSendFirstPackingPoint.Size = new Size(80, 26);
-            btnSendFirstPackingPoint.Click += BtnSendFirstPackingPoint_Click;
-
             pnlSendStatusIndicator = new Panel();
             pnlSendStatusIndicator.Size = new Size(16, 16);
             pnlSendStatusIndicator.BackColor = Color.Transparent;
@@ -376,9 +370,8 @@ namespace ThreeDPacking.App.Forms
             lblSendStatus.AutoSize = true;
             lblSendStatus.Text = "未传送";
 
-            panelActualPacking.Controls.Add(btnSendFirstPackingPoint);
-            panelActualPacking.Controls.Add(pnlSendStatusIndicator);
-            panelActualPacking.Controls.Add(lblSendStatus);
+            grpPackingPoints.Controls.Add(pnlSendStatusIndicator);
+            grpPackingPoints.Controls.Add(lblSendStatus);
 
             UpdateSendStatus(null);
         }
@@ -424,45 +417,38 @@ namespace ThreeDPacking.App.Forms
             pnlSendStatusIndicator?.Invalidate();
         }
 
-        private async void BtnSendFirstPackingPoint_Click(object sender, EventArgs e)
+        private void TrySendFirstPackingPoint()
+        {
+            _ = TrySendFirstPackingPointAsync();
+        }
+
+        private async Task TrySendFirstPackingPointAsync()
         {
             if (_armClient == null || !_armClient.IsConnected)
-            {
-                MessageBox.Show("请先连接机械臂。", "提示",
-                    MessageBoxButtons.OK, MessageBoxIcon.Information);
-                UpdateSendStatus(false);
                 return;
-            }
-
             if (_packingPointStrings.Count == 0)
-            {
-                MessageBox.Show("暂无装箱点位，请先完成算法装箱。", "提示",
-                    MessageBoxButtons.OK, MessageBoxIcon.Information);
-                UpdateSendStatus(false);
                 return;
-            }
+            if (_isSendingFirstPackingPoint)
+                return;
 
+            _isSendingFirstPackingPoint = true;
             string payload = _packingPointStrings[0];
-            btnSendFirstPackingPoint.Enabled = false;
-            btnSendFirstPackingPoint.Text = "传送中...";
-            UpdateSendStatus(null);
 
             try
             {
-                await _armClient.SendAsync(payload);
+                await _armClient.SendAsync(payload).ConfigureAwait(true);
                 UpdateSendStatus(true);
-                statusLabel.Text = $"已传送首个装箱点位: {payload}";
+                statusLabel.Text = $"已自动传送首个装箱点位: {payload}";
+                AppendLog($"[机械臂] 已传送首个点位: {payload}");
             }
             catch (Exception ex)
             {
                 UpdateSendStatus(false);
-                MessageBox.Show("传送失败:\n" + ex.Message, "错误",
-                    MessageBoxButtons.OK, MessageBoxIcon.Error);
+                AppendLog($"[机械臂] 传送失败: {ex.Message}");
             }
             finally
             {
-                btnSendFirstPackingPoint.Text = "传送数据";
-                btnSendFirstPackingPoint.Enabled = true;
+                _isSendingFirstPackingPoint = false;
             }
         }
 
@@ -503,7 +489,9 @@ namespace ThreeDPacking.App.Forms
         private void ArmClient_ConnectionChanged(object sender, bool connected)
         {
             UpdateConnectionStatus(connected);
-            if (!connected)
+            if (connected)
+                TrySendFirstPackingPoint();
+            else
                 UpdateSendStatus(null);
         }
 
@@ -608,7 +596,8 @@ namespace ThreeDPacking.App.Forms
                     ? grpPackingPositions.Bottom + 8
                     : grpArmConnection.Bottom + 8;
                 int listHeight = GetFixedListViewHeight(lvPackingPoints);
-                int groupHeight = 52 + listHeight;
+                const int sendStatusRowHeight = 28;
+                int groupHeight = 52 + listHeight + sendStatusRowHeight;
 
                 grpPackingPoints.Location = new Point(6, top);
                 grpPackingPoints.Size = new Size(Math.Max(200, w), groupHeight);
@@ -619,20 +608,11 @@ namespace ThreeDPacking.App.Forms
                 lvPackingPoints.Location = new Point(12, 44);
                 lvPackingPoints.Size = new Size(grpPackingPoints.ClientSize.Width - 24, listHeight);
 
+                int statusTop = 44 + listHeight + 6;
+                pnlSendStatusIndicator.Location = new Point(12, statusTop);
+                lblSendStatus.Location = new Point(34, statusTop);
+
                 LayoutPackingPointsColumns();
-            }
-
-            if (btnSendFirstPackingPoint != null)
-            {
-                int top = grpPackingPoints != null
-                    ? grpPackingPoints.Bottom + 8
-                    : (grpPackingPositions != null ? grpPackingPositions.Bottom + 8 : grpArmConnection.Bottom + 8);
-
-                btnSendFirstPackingPoint.Location = new Point(6, top);
-                btnSendFirstPackingPoint.Size = new Size(80, 26);
-
-                pnlSendStatusIndicator.Location = new Point(94, top + 5);
-                lblSendStatus.Location = new Point(116, top + 6);
             }
         }
 
@@ -1213,6 +1193,7 @@ namespace ThreeDPacking.App.Forms
             }
 
             LayoutActualPackingPanel();
+            TrySendFirstPackingPoint();
         }
 
         private void AddDefaultContainer()
