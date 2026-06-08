@@ -45,6 +45,8 @@ namespace ThreeDPacking.App.Forms
         private Label lblItemSafetyDistance;
         private NumericUpDown numPaddingPaperSafetyDistance;
         private Label lblPaddingPaperSafetyDistance;
+        private Button btnOpenExcel;
+        private Button btnStartPacking;
 
         private PaddingPaperFillStrategy _paddingPaperFillStrategy = PaddingPaperFillStrategy.MaxUtilization;
         private int _paddingPaperMinWidth = ThreeDPacking.Core.Models.PaddingPaper.DefaultWidth;
@@ -63,7 +65,9 @@ namespace ThreeDPacking.App.Forms
             InitPaddingStrategyCombo();
             InitPaddingMinWidthControl();
             InitSafetyDistanceControls();
+            InitFileRunButtons();
             WireEvents();
+            menuStrip.Visible = false;
             AddDefaultContainer();
             btnRandomSelect.Enabled = false;
             if (btnInstanceSelect != null)
@@ -181,6 +185,41 @@ namespace ThreeDPacking.App.Forms
             grpRandomSelect.Controls.Add(numItemSafetyDistance);
             grpRandomSelect.Controls.Add(lblPaddingPaperSafetyDistance);
             grpRandomSelect.Controls.Add(numPaddingPaperSafetyDistance);
+        }
+
+        private void InitFileRunButtons()
+        {
+            btnOpenExcel = new Button();
+            btnOpenExcel.Name = "btnOpenExcel";
+            btnOpenExcel.Text = "选取文件";
+            btnOpenExcel.UseVisualStyleBackColor = true;
+            btnOpenExcel.Size = new Size(68, 23);
+            btnOpenExcel.Click += MenuOpenExcel_Click;
+
+            btnStartPacking = new Button();
+            btnStartPacking.Name = "btnStartPacking";
+            btnStartPacking.Text = "运行";
+            btnStartPacking.UseVisualStyleBackColor = true;
+            btnStartPacking.Enabled = false;
+            btnStartPacking.Size = new Size(68, 23);
+            btnStartPacking.Click += MenuStartPacking_Click;
+
+            grpRandomSelect.Controls.Add(btnOpenExcel);
+            grpRandomSelect.Controls.Add(btnStartPacking);
+        }
+
+        private void SetOpenExcelEnabled(bool enabled)
+        {
+            menuOpenExcel.Enabled = enabled;
+            if (btnOpenExcel != null)
+                btnOpenExcel.Enabled = enabled;
+        }
+
+        private void SetStartPackingEnabled(bool enabled)
+        {
+            menuStartPacking.Enabled = enabled;
+            if (btnStartPacking != null)
+                btnStartPacking.Enabled = enabled;
         }
 
         private void CmbPaddingStrategy_SelectedIndexChanged(object sender, EventArgs e)
@@ -339,6 +378,15 @@ namespace ThreeDPacking.App.Forms
                 lblPaddingPaperSafetyDistance.Size = new Size(120, 20);
                 numPaddingPaperSafetyDistance.Location = new Point(130, 160);
                 numPaddingPaperSafetyDistance.Size = new Size(68, 23);
+
+                if (btnOpenExcel != null && btnStartPacking != null)
+                {
+                    int actionBtnX = Math.Max(204, w - 16 - (btnW * 2 + gap));
+                    btnOpenExcel.Location = new Point(actionBtnX, 160);
+                    btnOpenExcel.Size = new Size(btnW, btnH);
+                    btnStartPacking.Location = new Point(actionBtnX + btnW + gap, 160);
+                    btnStartPacking.Size = new Size(btnW, btnH);
+                }
             }
             
             // 牛皮纸填充策略下拉
@@ -453,7 +501,7 @@ namespace ThreeDPacking.App.Forms
                     Math.Min((int)numPaddingPaperSafetyDistance.Maximum, _paddingPaperSafetyDistance));
 
                 _selectionDirty = false;
-                menuStartPacking.Enabled = _loadedItems.Count > 0;
+                SetStartPackingEnabled(_loadedItems.Count > 0);
 
                 statusLabel.Text = $"已恢复上次选择（{_loadedItems.Count} 件物品）";
                 AppendLog($"[恢复] 使用上次的物体选择与装箱随机种子复现。策略={_paddingPaperFillStrategy}");
@@ -614,7 +662,7 @@ namespace ThreeDPacking.App.Forms
                     _loadedItems = new List<ItemCandidate>(_allLoadedItems);
 
                     RefreshItemsGrid();
-                    menuStartPacking.Enabled = _loadedItems.Count > 0;
+                    SetStartPackingEnabled(_loadedItems.Count > 0);
                     btnRandomSelect.Enabled = _allLoadedItems.Count > 0;
                     if (btnInstanceSelect != null)
                         btnInstanceSelect.Enabled = _allLoadedItems.Count > 0;
@@ -705,7 +753,7 @@ namespace ThreeDPacking.App.Forms
             }
 
             RefreshItemsGrid();
-            menuStartPacking.Enabled = _loadedItems.Count > 0;
+            SetStartPackingEnabled(_loadedItems.Count > 0);
             statusLabel.Text = $"已随机选择 {_loadedItems.Count} 个物品 (范围: {minCount}-{maxCount})";
             _selectionDirty = true;
             _lastRunState = null;
@@ -765,7 +813,7 @@ namespace ThreeDPacking.App.Forms
             }
 
             RefreshItemsGrid();
-            menuStartPacking.Enabled = _loadedItems.Count > 0;
+            SetStartPackingEnabled(_loadedItems.Count > 0);
             statusLabel.Text = $"已实例选择 {_loadedItems.Count} 个物品 (先黄线1个, 范围: {minCount}-{maxCount})";
             _selectionDirty = true;
             _lastRunState = null;
@@ -808,7 +856,7 @@ namespace ThreeDPacking.App.Forms
             }
 
             RefreshItemsGrid();
-            menuStartPacking.Enabled = _loadedItems.Count > 0;
+            SetStartPackingEnabled(_loadedItems.Count > 0);
             statusLabel.Text = $"已按概率选择 {_loadedItems.Count} 个物品 (范围: {minCount}-{maxCount})";
             _selectionDirty = true;
             _lastRunState = null;
@@ -896,8 +944,8 @@ namespace ThreeDPacking.App.Forms
             }
 
             // Disable UI during packing
-            menuStartPacking.Enabled = false;
-            menuOpenExcel.Enabled = false;
+            SetStartPackingEnabled(false);
+            SetOpenExcelEnabled(false);
             statusLabel.Text = "正在装箱，请稍候...";
             AppendLog("========== 开始装箱 ==========");
 
@@ -927,8 +975,8 @@ namespace ThreeDPacking.App.Forms
             worker.RunWorkerCompleted += (ws, we) =>
             {
                 sw.Stop();
-                menuStartPacking.Enabled = true;
-                menuOpenExcel.Enabled = true;
+                SetStartPackingEnabled(true);
+                SetOpenExcelEnabled(true);
 
                 if (we.Error != null)
                 {
