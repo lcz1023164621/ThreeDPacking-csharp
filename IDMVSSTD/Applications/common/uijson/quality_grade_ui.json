@@ -1,0 +1,201 @@
+{
+    "ui_tabs": [
+        {
+            "ui_type": "tab",
+            "ui_param_name": "",
+            "ui_subset": [
+                {
+                    "ui_display_name": "CodeQuality_config",
+                    "ui_display_cn_name": "评级设置",
+                    "ui_display_en_name": "Grading Settings",
+                    "ui_usage_frequency": "Common",
+                    "ui_type": "category",
+                    "ui_param_name": "",
+                    "ui_param_display_type": "",
+                    "ui_subset": [
+                        {
+                            "ui_display_name": "ArithmeticType",
+                            "ui_display_cn_name": "条码类型",
+                            "ui_display_en_name": "Code Type",
+                            "ui_usage_frequency": "Common",
+                            "ui_type": "config_param",
+                            "ui_param_name": "ArithmeticType",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        },
+                        {
+                            "ui_display_name": "Quality1DEnable",
+                            "ui_display_cn_name": "一维码打码评级",
+                            "ui_display_en_name": "1D Code Quality Grading",
+                            "ui_usage_frequency": "Common",
+                            "ui_type": "config_param",
+                            "ui_param_name": "Quality1DEnable",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        },
+                        {
+                            "ui_display_name": "QualityEnable",
+                            "ui_display_cn_name": "二维码打码评级",
+                            "ui_display_en_name": "2D Code Quality Grading",
+                            "ui_usage_frequency": "Common",
+                            "ui_type": "config_param",
+                            "ui_param_name": "QualityEnable",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        },
+                        {
+                            "ui_display_name": "RatingStandard1D",
+                            "ui_display_cn_name": "一维码评级过滤条件",
+                            "ui_display_en_name": "1D Code Grade Filter Condition",
+                            "ui_usage_frequency": "Common",
+                            "ui_type": "config_param",
+                            "ui_param_name": "RatingStandard1D",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        },
+                        {
+                            "ui_display_name": "RatingStandard1D_Enable",
+                            "ui_display_cn_name": "一维码评级过滤",
+                            "ui_display_en_name": "1D Code Grade Filter",
+                            "ui_usage_frequency": "Common",
+                            "ui_type": "config_param",
+                            "ui_param_name": "RatingStandard1D_Enable",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        },
+                        {
+                            "ui_display_name": "Quality1DMaxNum",
+                            "ui_display_cn_name": "一维码评级最大个数",
+                            "ui_display_en_name": "Max. 1D Code Grade Num ",
+                            "ui_usage_frequency": "Common",
+                            "ui_type": "config_param",
+                            "ui_param_name": "Quality1DMaxNum",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        },
+                        {
+                            "ui_display_name": "RatingStandard2D",
+                            "ui_display_cn_name": "二维码评级过滤条件",
+                            "ui_display_en_name": "2D Code Grade Filter Condition",
+                            "ui_usage_frequency": "Common",
+                            "ui_type": "config_param",
+                            "ui_param_name": "RatingStandard2D",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        },
+                        {
+                            "ui_display_name": "RatingStandard2D_Enable",
+                            "ui_display_cn_name": "二维码评级过滤",
+                            "ui_display_en_name": "2D Code Grade Filter",
+                            "ui_usage_frequency": "Common",
+                            "ui_type": "config_param",
+                            "ui_param_name": "RatingStandard2D_Enable",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        },
+                        {
+                            "ui_display_name": "Quality2DMaxNum",
+                            "ui_display_cn_name": "二维码评级最大个数",
+                            "ui_display_en_name": "Max. 2D Code Grade Num ",
+                            "ui_usage_frequency": "Common",
+                            "ui_type": "config_param",
+                            "ui_param_name": "Quality2DMaxNum",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        },
+                        {
+                            "ui_display_name": "IsoEditon",
+                            "ui_display_cn_name": "评级标准",
+                            "ui_display_en_name": "Grading Standard",
+                            "ui_usage_frequency": "Common",
+                            "ui_type": "config_param",
+                            "ui_param_name": "IsoEditon",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        },
+                        {
+                            "ui_display_name": "IdxMirrorMode",
+                            "ui_display_cn_name": "镜像模式",
+                            "ui_display_en_name": "Mirror Mode",
+                            "ui_usage_frequency": "Common",
+                            "ui_type": "config_param",
+                            "ui_param_name": "IdxMirrorMode",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        },
+                        {
+                            "ui_display_name": "EdgeDetermination",
+                            "ui_display_cn_name": "边缘确定度",
+                            "ui_display_en_name": "Edge Determination",
+                            "ui_usage_frequency": "Common",
+                            "ui_type": "config_param",
+                            "ui_param_name": "EdgeDetermination",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        },
+                        {
+                            "ui_display_name": "DecodeEnable",
+                            "ui_display_cn_name": "译码正确性",
+                            "ui_display_en_name": "Decoding Accuracy",
+                            "ui_usage_frequency": "Common",
+                            "ui_type": "config_param",
+                            "ui_param_name": "DecodeEnable",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        },
+                        {
+                            "ui_display_name": "QuietZone",
+                            "ui_display_cn_name": "静区宽度",
+                            "ui_display_en_name": "Quiet Zone Width ",
+                            "ui_usage_frequency": "Common",
+                            "ui_type": "config_param",
+                            "ui_param_name": "QuietZone",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        },
+                        {
+                            "ui_display_name": "TDCRFixedPatternDamage",
+                            "ui_display_cn_name": "定位图形污损",
+                            "ui_display_en_name": "Fixed Pattern Damage",
+                            "ui_usage_frequency": "Common",
+                            "ui_type": "config_param",
+                            "ui_param_name": "TDCRFixedPatternDamage",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        },
+                        {
+                            "ui_display_name": "TDCRReflectanceMargin",
+                            "ui_display_cn_name": "反射率余量",
+                            "ui_display_en_name": "Reflectance Margin",
+                            "ui_usage_frequency": "Common",
+                            "ui_type": "config_param",
+                            "ui_param_name": "TDCRReflectanceMargin",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        },
+                        {
+                            "ui_display_name": "TDCRDecode",
+                            "ui_display_cn_name": "解码成功/失败",
+                            "ui_display_en_name": "Decoding Success/Failure",
+                            "ui_usage_frequency": "Common",
+                            "ui_type": "config_param",
+                            "ui_param_name": "TDCRDecode",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        },
+                        {
+                            "ui_display_name": "rank_subitem_config",
+                            "ui_display_cn_name": "打码评级子项",
+                            "ui_display_en_name": "Code Quality Subitem",
+                            "ui_usage_frequency": "Common",
+                            "ui_type": "config_param",
+                            "ui_param_name": "rank_subitem",
+                            "ui_param_display_type": "rank_subitem",
+                            "ui_subset": null
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}

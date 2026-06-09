@@ -1,0 +1,221 @@
+{
+    "ui_tabs": [
+        {
+            "ui_type": "tab",
+            "ui_param_name": "",
+            "ui_subset": [
+                {
+                    "ui_display_name": "MS_MultiCamera",
+                    "ui_display_cn_name": "主从工作",
+                    "ui_display_en_name": "Main-Sub Operation",
+                    "ui_usage_frequency": "Common",
+                    "ui_type": "category",
+                    "ui_param_name": "",
+                    "ui_param_display_type": "",
+                    "ui_subset": [
+                        {
+                            "ui_display_name": "MultiCameraMode",
+                            "ui_display_cn_name": "主从工作模式",
+                            "ui_display_en_name": "Main-Sub Operation Mode",
+                            "ui_usage_frequency": "Common",
+                            "ui_type": "config_param",
+                            "ui_param_name": "MultiCameraMode",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        },
+                        {
+                            "ui_display_name": "StationRole",
+                            "ui_display_cn_name": "站角色",
+                            "ui_display_en_name": "Station Role",
+                            "ui_usage_frequency": "Common",
+                            "ui_type": "config_param",
+                            "ui_param_name": "StationRole",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        },
+                        {
+                            "ui_display_name": "StationPort",
+                            "ui_display_cn_name": "站通信端口号",
+                            "ui_display_en_name": "Station Port",
+                            "ui_usage_frequency": "Advance",
+                            "ui_type": "config_param",
+                            "ui_param_name": "StationPort",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        },
+                        {
+                            "ui_display_name": "MsWaitTime",
+                            "ui_display_cn_name": "融合时间(ms)",
+                            "ui_display_en_name": "Waiting Time(ms)",
+                            "ui_usage_frequency": "Common",
+                            "ui_type": "config_param",
+                            "ui_param_name": "MsWaitTime",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        },
+                        {
+                            "ui_display_name": "MsTriggerCommandEnable",
+                            "ui_display_cn_name": "同步主站触发信号",
+                            "ui_display_en_name": "Sync Main Station Trigger Signals",
+                            "ui_usage_frequency": "Common",
+                            "ui_type": "config_param",
+                            "ui_param_name": "MsTriggerCommandEnable",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        },
+                        {
+                            "ui_display_name": "MsSyncROIEnable",
+                            "ui_display_cn_name": "同步主站ROI区域",
+                            "ui_display_en_name": "Sync Main Station ROI",
+                            "ui_usage_frequency": "Advance",
+                            "ui_type": "config_param",
+                            "ui_param_name": "MsSyncROIEnable",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        },
+                        {
+                            "ui_display_name": "MsSubSdkEnable",
+                            "ui_display_cn_name": "显示从站读码数据",
+                            "ui_display_en_name": "Display Sub Station Reading Data ",
+                            "ui_usage_frequency": "Advance",
+                            "ui_type": "config_param",
+                            "ui_param_name": "MsSubSdkEnable",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        },
+                        {
+                            "ui_display_name": "MainStationID",
+                            "ui_display_cn_name": "主-从组ID",
+                            "ui_display_en_name": "Main-Sub Group ID",
+                            "ui_usage_frequency": "Common",
+                            "ui_type": "config_param",
+                            "ui_param_name": "MainStationID",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        },
+                        {
+                            "ui_display_name": "SubStationID",
+                            "ui_display_cn_name": "站ID",
+                            "ui_display_en_name": "Station ID",
+                            "ui_usage_frequency": "Common",
+                            "ui_type": "config_param",
+                            "ui_param_name": "SubStationID",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        },
+                        {
+                            "ui_display_name": "MainStationIP",
+                            "ui_display_cn_name": "主站IP地址",
+                            "ui_display_en_name": "Main Station IP",
+                            "ui_usage_frequency": "Common",
+                            "ui_type": "config_param",
+                            "ui_param_name": "MainStationIP",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        },
+                        {
+                            "ui_display_name": "MainStationConnect",
+                            "ui_display_cn_name": "主站连接状态",
+                            "ui_display_en_name": "Main Station Connection Status",
+                            "ui_usage_frequency": "Common",
+                            "ui_type": "config_param",
+                            "ui_param_name": "MainStationConnect",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        },
+                        {
+                            "ui_display_name": "MainStationUserName",
+                            "ui_display_cn_name": "主站名",
+                            "ui_display_en_name": "Main Station Name",
+                            "ui_usage_frequency": "Advance",
+                            "ui_type": "config_param",
+                            "ui_param_name": "MainStationUserName",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        },
+                        {
+                            "ui_display_name": "MainStationModelName",
+                            "ui_display_cn_name": "主站型号名",
+                            "ui_display_en_name": "Main Station Model Name",
+                            "ui_usage_frequency": "Advance",
+                            "ui_type": "config_param",
+                            "ui_param_name": "MainStationModelName",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        },
+                        {
+                            "ui_display_name": "MainStationSN",
+                            "ui_display_cn_name": "主站序列号",
+                            "ui_display_en_name": "Main Station Serial Number",
+                            "ui_usage_frequency": "Advance",
+                            "ui_type": "config_param",
+                            "ui_param_name": "MainStationSN",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        },
+                        {
+                            "ui_display_name": "QuerySubStationID",
+                            "ui_display_cn_name": "查询从站号",
+                            "ui_display_en_name": "Query Sub Station ID",
+                            "ui_usage_frequency": "Advance",
+                            "ui_type": "config_param",
+                            "ui_param_name": "QuerySubStationID",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        },
+                        {
+                            "ui_display_name": "SubStationIP",
+                            "ui_display_cn_name": "从站IP地址",
+                            "ui_display_en_name": "Sub Station IP",
+                            "ui_usage_frequency": "Advance",
+                            "ui_type": "config_param",
+                            "ui_param_name": "SubStationIP",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        },
+                        {
+                            "ui_display_name": "SubStationConnect",
+                            "ui_display_cn_name": "从站连接状态",
+                            "ui_display_en_name": "Sub Station Connection Status",
+                            "ui_usage_frequency": "Advance",
+                            "ui_type": "config_param",
+                            "ui_param_name": "SubStationConnect",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        },
+                        {
+                            "ui_display_name": "SubStationUserName",
+                            "ui_display_cn_name": "从站名",
+                            "ui_display_en_name": "Sub Station Name",
+                            "ui_usage_frequency": "Advance",
+                            "ui_type": "config_param",
+                            "ui_param_name": "SubStationUserName",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        },
+                        {
+                            "ui_display_name": "SubStationModelName",
+                            "ui_display_cn_name": "从站型号名",
+                            "ui_display_en_name": "Sub Station Model",
+                            "ui_usage_frequency": "Advance",
+                            "ui_type": "config_param",
+                            "ui_param_name": "SubStationModelName",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        },
+                        {
+                            "ui_display_name": "SubStationSN",
+                            "ui_display_cn_name": "从站序列号",
+                            "ui_display_en_name": "Sub Station Serial Number",
+                            "ui_usage_frequency": "Advance",
+                            "ui_type": "config_param",
+                            "ui_param_name": "SubStationSN",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}

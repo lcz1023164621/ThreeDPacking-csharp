@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ArithConfig>
+    <MVALSL_VM>
+        <Input>
+            <MaxLinePntNum hide="0" value="1920" type="3" valuelist="1" name="单传感器最大线点数" help="单传感器最大线点数"/>
+            <SensorNum hide="0" value="2" type="3" valuelist="1" name="传感器数目" help="传感器数目"/>
+            <Vx hide="0" value="-0.070071489" type="3" valuelist="4" name="Vx" help="Vx"/>
+            <Vy hide="0" value="-0.99734974" type="3" valuelist="4" name="Vy" help="Vy"/>
+            <Vz hide="0" value="-0.019582801" type="3" valuelist="4" name="Vz" help="Vz"/>
+            <StepDist hide="0" value="5" type="3" valuelist="4" name="步进间距,单位mm" help="步进间距,单位mm"/>
+            <CamMovDist hide="0" value="0" type="3" valuelist="4" name="相机移动距离" help="相机移动距离"/>
+        </Input>
+        <PARAM>
+            <Param hide="1" key="1" value="30" type="3" min="0" max="1000" valuelist="1" name="物件与工作台平面分割阈值" help="物件与工作台平面分割阈值"/>
+            <Param hide="1" key="2" value="200" type="3" min="-1000" max="1000" valuelist="1" name="体积测量触发距离" help="体积测量触发距离"/>
+            <Param hide="1" key="3" value="2" type="3" min="0" max="100" valuelist="1" name="计算高度所需点比例(百分比)" help="计算高度所需点比例(百分比)"/>
+            <Param hide="1" key="4" value="5" type="3" min="-10" max="10" valuelist="1" name="传感器0高度补偿值（mm）" help="传感器0高度补偿值（mm）"/>
+            <Param hide="1" key="5" value="5" type="3" min="-10" max="10" valuelist="1" name="传感器1高度补偿值（mm）" help="传感器1高度补偿值（mm）"/>
+            <Param hide="1" key="6" value="0" type="3" min="-500" max="500" valuelist="1" name="传感器0到传感器1的位置补偿距离" help="传感器0到传感器1的位置补偿距离"/>
+            <Param hide="1" key="7" value="2" type="3" min="1" max="12" valuelist="1" name="选择测量的边缘点数" help="选择测量的边缘点数"/>
+            <Param hide="1" key="8" value="5" type="3" min="1" max="20" valuelist="1" name="目标丢失帧数阈值" help="目标丢失帧数阈值"/>
+            <Param hide="1" key="9" value="20" type="3" min="10" max="100" valuelist="1" name="最小目标点数" help="最小目标点数"/>
+            <Param hide="1" key="10" value="4" type="3" min="0" max="20" valuelist="1" name="点云过滤时聚类的最小目标点数" help="点云过滤时聚类的最小目标点数"/>
+            <Param hide="1" key="11" value="20" type="3" min="5" max="200" valuelist="1" name="点云过滤时聚类的距离阈值" help="点云过滤时聚类的距离阈值"/>
+        </PARAM>
+    </MVALSL_VM>
+    <CAMERA>
+        <SerialId0 hide="0" value="00118856447" type="3" valuelist="1" name="sensor0序列号" help="sensor0序列号"/>
+        <LaserEdgePnts0>
+            <x0 hide="1" type="3" valuelist="4" name="A" help="A" value="-226.87137"/>
+            <y0 hide="1" type="3" valuelist="4" name="A" help="A" value="-18.643097"/>
+            <z0 hide="1" type="3" valuelist="4" name="A" help="A" value="-581.0155"/>
+            <x1 hide="1" type="3" valuelist="4" name="A" help="A" value="773.70343"/>
+            <y1 hide="1" type="3" valuelist="4" name="A" help="A" value="2.9959717"/>
+            <z1 hide="1" type="3" valuelist="4" name="A" help="A" value="-733.49158"/>
+        </LaserEdgePnts0>
+        <SerialId1 hide="0" value="00811494925" type="3" valuelist="1" name="sensor1序列号" help="sensor1序列号"/>
+    </CAMERA>
+    <Physical>
+        <EncodeNum hide="0" value="2000" type="3" valuelist="1" name="编码器线数" help="编码器线数(P/R)"/>
+        <FaceDistance hide="0" value="53" type="3" valuelist="1" name="流水线上下表面距离" help="流水线上下表面距离(mm)"/>
+        <PipelineSpeed hide="0" value="60" type="3" valuelist="1" name="流水线速度" help="流水线速度(m/min)"/>
+    </Physical>
+    <MVALSL_MEASURE>
+        <ABILITY>
+            <max_msr_range_w value="1200" help="最大测量范围--宽度(mm)"/>
+            <max_msr_range_h value="400" help="最大测量范围--长度(pix)"/>
+        </ABILITY>
+        <MAT_TRANS>
+            <mat_trans_enable value="0" help="矩阵转换使能 1-使能 0-关闭"/>
+            <mat_trans_offsetx value="0" help="矩阵转换x方向平移"/>
+            <mat_trans_offsety value="0" help="矩阵转换y方向平移"/>
+            <mat_trans_offsetz value="0" help="矩阵转换z方向平移"/>
+            <mat_trans_rx value="0" help="矩阵转换x轴旋转角度"/>
+            <mat_trans_ry value="0" help="矩阵转换y轴旋转角度"/>
+            <mat_trans_rz value="0" help="矩阵转换z轴旋转角度"/>
+        </MAT_TRANS>
+        <INIT_INPUT>
+            <x_range_0 value="-691.69263" help="x有效范围--最小值(mm)"/>
+            <x_range_1 value="-58.486176" help="x有效范围--最大值(mm)"/>
+            <run_vec_x value="-0.070071489" help="运行方向x分量"/>
+            <run_vec_y value="-0.99734974" help="运行方向y分量"/>
+            <run_vec_z value="-0.019582801" help="运行方向z分量"/>
+            <pix_unit value="2" help="深度图上单像素对应的物理尺寸(mm)"/>
+            <step_dist value="10.5" help="步进间距(mm)"/>
+            <measure_mode value="1" help=" 测量模式：1-连续模式 2-触发模式 3-多包裹模式"/>
+        </INIT_INPUT>
+        <PARAM>
+            <Param key="1" value="10" min="0" max="1000" type="int" name="MIN_HEIGHT" help="目标最小高度"/>
+            <Param key="2" value="5" min="-20" max="30" type="int" name="HEIGHT_COMPENSATE" help="高度补偿值（mm）"/>
+            <Param key="3" value="2" min="0" max="100" type="int" name="MSR_PNT_RATIO_FOR_HEIGHT" help="计算高度所需点比例（百分比）"/>
+            <Param key="4" value="2" min="1" max="100" type="int" name="NEIGHBOUR_NUM" help="消失点查找邻域长度"/>
+            <Param key="5" value="60" min="0" max="999" type="int" name="MIN_CONTOUR_PNT_NUM" help="目标最小轮廓点数"/>
+            <Param key="6" value="5" min="0" max="99" type="int" name="HORI_REVISE_NUM" help="轮廓水平修补点数"/>
+            <Param key="7" value="10" min="0" max="99" type="int" name="VERTI_REVISE_NUM" help="轮廓垂直修补点数"/>
+            <Param key="8" value="0" min="0" max="20" type="int" name="IGNORE_START_FRM_NUM" help="忽略的起始帧数"/>
+            <Param key="9" value="0" min="0" max="50" type="int" name="IGNORE_RELATIVE_HEIGHT_THRE" help="忽略的相对高度阈值"/>
+            <Param key="10" value="2" min="0" max="50" type="int" name="INTERVAL_DZ" help="包裹最小间隔高度差"/>
+            <Param key="11" value="10" min="0" max="99" type="int" name="INTERVAL_DX" help="包裹最小间隔长度"/>
+            <Param key="12" value="5" min="0" max="20" type="int" name="CLU_MIN_PNT_NUM" help="点云聚类最小目标点数"/>
+            <Param key="13" value="5" min="0" max="99" type="int" name="LINE_COMPENSATE" help="掩模图处理行数补偿值"/>
+            <Param key="14" value="0" min="0" max="1" type="int" name="PKG_DETECT" help="大包检测使能"/>
+            <Param key="15" value="16" min="0" max="90" type="int" name="ANGLE_THRES" help="角度阈值"/>
+            <Param key="16" value="70" min="0" max="100" type="int" name="HEIGHT_PNTS_RATIO" help="高度阈值点数比例"/>
+            <Param key="17" value="170" min="0" max="1000" type="int" name="GT_VOL" help="理想体积"/>
+            <Param key="18" value="50" min="0" max="100" type="int" name="FLAT_WEIGHT" help="平整度权重"/>
+            <Param key="19" value="30" min="0" max="100" type="int" name="VOL_WEIGHT" help="体积占空比权重"/>
+            <Param key="20" value="0" min="0" max="100" type="int" name="GT_VOL_WEIGHT" help="理想体积权重"/>
+            <Param key="21" value="20" min="0" max="100" type="int" name="RECT_WEIGHT" help="矩形度权重"/>
+            <Param key="22" value="40" min="0" max="100" type="int" name="MIN_SCORE_THRE" help="分数阈值-小"/>
+            <Param key="23" value="60" min="0" max="100" type="int" name="MAX_SCORE_THRE" help="分数阈值-大"/>
+        </PARAM>
+    </MVALSL_MEASURE>
+</ArithConfig>

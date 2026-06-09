@@ -1,0 +1,9 @@
+<ArithConfig>
+   <BC_PKG_VM>   
+      <PARAM>    
+         <Param index="257"  value="1"   min="1"   max="1"   type="int"  help="融合方法"/>  
+         <Param index="258"  value="1"   min="1"   max="1"   type="int"  help="融合得分类型"/>
+         <Param index="259"  value="100" min="0"   max="255" type="int"  help="融合阈值"/>
+      </PARAM>
+  </BC_PKG_VM>
+</ArithConfig>

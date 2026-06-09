@@ -1,0 +1,432 @@
+{
+    "ui_tabs": [
+        {
+            "ui_type": "tab",
+            "ui_param_name": "",
+            "ui_subset": [
+                {
+                    "ui_display_name": "Filter_Rules",
+                    "ui_display_cn_name": "过滤规则",
+                    "ui_display_en_name": "Filter Rules",
+                    "ui_usage_frequency": "Common",
+                    "ui_type": "category",
+                    "ui_param_name": "",
+                    "ui_param_display_type": "",
+                    "ui_subset": [
+                        {
+                            "ui_display_name": "InstantOutputModeEnable",
+                            "ui_display_cn_name": "立即输出模式",
+                            "ui_display_en_name": "Instant Output Mode",
+                            "ui_usage_frequency": "Common",
+                            "ui_type": "config_param",
+                            "ui_param_name": "InstantOutputModeEnable",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        },
+                        {
+                            "ui_display_name": "DataOutputMode",
+                            "ui_display_cn_name": "数据输出模式",
+                            "ui_display_en_name": "Data Output Mode",
+                            "ui_usage_frequency": "Common",
+                            "ui_type": "config_param",
+                            "ui_param_name": "DataOutputMode",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        },
+                        {
+                            "ui_display_name": "FilterMode",
+                            "ui_display_cn_name": "过滤模式",
+                            "ui_display_en_name": "Filter Mode",
+                            "ui_usage_frequency": "Common",
+                            "ui_type": "config_param",
+                            "ui_param_name": "FilterMode",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        },
+                        {
+                            "ui_display_name": "FilterRegExpConfig",
+                            "ui_display_cn_name": "正则表达式快捷设置",
+                            "ui_display_en_name": "Regular Expression Quick Config",
+                            "ui_usage_frequency": "Common",
+                            "ui_type": "config_param",
+                            "ui_param_name": "FilterRegExpConfig",
+                            "ui_param_display_type": "FilterRegExpConfig",
+                            "ui_subset": null
+                        },
+                        {
+                            "ui_display_name": "WholeNumCodeEnable",
+                            "ui_display_cn_name": "仅输出数字",
+                            "ui_display_en_name": "Only Output Numerics",
+                            "ui_usage_frequency": "Common",
+                            "ui_type": "config_param",
+                            "ui_param_name": "WholeNumCodeEnable",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        },
+                        {
+                            "ui_display_name": "BarcodecharacterbeginsEnable",
+                            "ui_display_cn_name": "仅输出以特定字符串开始",
+                            "ui_display_en_name": "Begins with Specific String",
+                            "ui_usage_frequency": "Common",
+                            "ui_type": "config_param",
+                            "ui_param_name": "BarcodecharacterbeginsEnable",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        },
+                        {
+                            "ui_display_name": "Barcodecharacterbegins",
+                            "ui_display_cn_name": "以..开始",
+                            "ui_display_en_name": "Begins with",
+                            "ui_usage_frequency": "Common",
+                            "ui_type": "config_param",
+                            "ui_param_name": "Barcodecharacterbegins",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        },
+                        {
+                            "ui_display_name": "BarcodeContainStringEnable",
+                            "ui_display_cn_name": "仅输出包含特定字符串",
+                            "ui_display_en_name": "Include Specific String",
+                            "ui_usage_frequency": "Common",
+                            "ui_type": "config_param",
+                            "ui_param_name": "BarcodeContainStringEnable",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        },
+                        {
+                            "ui_display_name": "BarcodeContainStart",
+                            "ui_display_cn_name": "字符串搜索区域起始位置",
+                            "ui_display_en_name": "String Search Area Start",
+                            "ui_usage_frequency": "Common",
+                            "ui_type": "config_param",
+                            "ui_param_name": "BarcodeContainStart",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        },
+                        {
+                            "ui_display_name": "BarcodeContainEnd",
+                            "ui_display_cn_name": "字符串搜索区域结束位置",
+                            "ui_display_en_name": "String Search Area End",
+                            "ui_usage_frequency": "Common",
+                            "ui_type": "config_param",
+                            "ui_param_name": "BarcodeContainEnd",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        },
+                        {
+                            "ui_display_name": "BarcodeContainString",
+                            "ui_display_cn_name": "特定字符串",
+                            "ui_display_en_name": "Specific String",
+                            "ui_usage_frequency": "Common",
+                            "ui_type": "config_param",
+                            "ui_param_name": "BarcodeContainString",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        },
+                        {
+                            "ui_display_name": "BarcodeNoContainStringEnable",
+                            "ui_display_cn_name": "排除条形码中的特殊字符",
+                            "ui_display_en_name": "Exclude Specific String Enable",
+                            "ui_usage_frequency": "Common",
+                            "ui_type": "config_param",
+                            "ui_param_name": "BarcodeNoContainStringEnable",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        },
+                        {
+                            "ui_display_name": "BarcodeNoContainStart",
+                            "ui_display_cn_name": "排除字符串搜索区域起始位置",
+                            "ui_display_en_name": "Exclude String Search Area Start",
+                            "ui_usage_frequency": "Common",
+                            "ui_type": "config_param",
+                            "ui_param_name": "BarcodeNoContainStart",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        },
+                        {
+                            "ui_display_name": "BarcodeNoContainEnd",
+                            "ui_display_cn_name": "排除字符串搜索区域结束位置",
+                            "ui_display_en_name": "Exclude String Search Area End",
+                            "ui_usage_frequency": "Common",
+                            "ui_type": "config_param",
+                            "ui_param_name": "BarcodeNoContainEnd",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        },
+                        {
+                            "ui_display_name": "BarcodeNoContainString",
+                            "ui_display_cn_name": "排除特定字符串",
+                            "ui_display_en_name": "Exclude Specific String",
+                            "ui_usage_frequency": "Common",
+                            "ui_type": "config_param",
+                            "ui_param_name": "BarcodeNoContainString",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        },
+                        {
+                            "ui_display_name": "DuplicationEnable",
+                            "ui_display_cn_name": "过滤触发次数内重复条码",
+                            "ui_display_en_name": "Filter Duplicate Code by Trigger",
+                            "ui_usage_frequency": "Common",
+                            "ui_type": "config_param",
+                            "ui_param_name": "DuplicationEnable",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        },
+                        {
+                            "ui_display_name": "DuplicationWindowSize",
+                            "ui_display_cn_name": "过滤触发计数",
+                            "ui_display_en_name": "Trigger Count for Filter",
+                            "ui_usage_frequency": "Common",
+                            "ui_type": "config_param",
+                            "ui_param_name": "DuplicationWindowSize",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        },
+                        {
+                            "ui_display_name": "AutoFillZeroOfUPCA",
+                            "ui_display_cn_name": "UPCA自动补0",
+                            "ui_display_en_name": "UPCA Auto Zero-Fill",
+                            "ui_usage_frequency": "Common",
+                            "ui_type": "config_param",
+                            "ui_param_name": "AutoFillZeroOfUPCA",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        },
+                        {
+                            "ui_display_name": "RemoveDuplicateByROI",
+                            "ui_display_cn_name": "过滤ROI内重复条码",
+                            "ui_display_en_name": "Filter Duplicate Code by ROI",
+                            "ui_usage_frequency": "Common",
+                            "ui_type": "config_param",
+                            "ui_param_name": "RemoveDuplicateByROI",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        },
+                        {
+                            "ui_display_name": "TimeOutEndTriggerMin",
+                            "ui_display_cn_name": "最小输出时间(ms)",
+                            "ui_display_en_name": "Min. Output Duration(ms)",
+                            "ui_usage_frequency": "Common",
+                            "ui_type": "config_param",
+                            "ui_param_name": "TimeOutEndTriggerMin",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        },
+                        {
+                            "ui_display_name": "FalseTriggerTimeFilterEnable",
+                            "ui_display_cn_name": "过滤误触发",
+                            "ui_display_en_name": "Filter False Trigger",
+                            "ui_usage_frequency": "Common",
+                            "ui_type": "config_param",
+                            "ui_param_name": "FalseTriggerTimeFilterEnable",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        },
+                        {
+                            "ui_display_name": "FalseTriggerImageMinTime",
+                            "ui_display_cn_name": "误触发最小时间(ms)",
+                            "ui_display_en_name": "Min. False Trigger Interval(ms)",
+                            "ui_usage_frequency": "Common",
+                            "ui_type": "config_param",
+                            "ui_param_name": "FalseTriggerImageMinTime",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        },
+                        {
+                            "ui_display_name": "FalseTriggerResultOutputEnable",
+                            "ui_display_cn_name": "输出误触发结果",
+                            "ui_display_en_name": "Output False Trigger Result",
+                            "ui_usage_frequency": "Common",
+                            "ui_type": "config_param",
+                            "ui_param_name": "FalseTriggerResultOutputEnable",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        },
+                        {
+                            "ui_display_name": "RegularExpressionRulesEnable",
+                            "ui_display_cn_name": "正则表达式使能",
+                            "ui_display_en_name": "Regular Rules Enable",
+                            "ui_usage_frequency": "Common",
+                            "ui_type": "config_param",
+                            "ui_param_name": "RegularExpressionRulesEnable",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        },
+                        {
+                            "ui_display_name": "SortOnExpressSortSet",
+                            "ui_display_cn_name": "正则表达式规则组号",
+                            "ui_display_en_name": "Regex Group Num",
+                            "ui_usage_frequency": "Common",
+                            "ui_type": "config_param",
+                            "ui_param_name": "SortOnExpressSortSet",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        },
+                        {
+                            "ui_display_name": "CodeLengthUpperLimit",
+                            "ui_display_cn_name": "条码最大解析长度",
+                            "ui_display_en_name": "Max. Decoding Length",
+                            "ui_usage_frequency": "Common",
+                            "ui_type": "config_param",
+                            "ui_param_name": "CodeLengthUpperLimit",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        },
+                        {
+                            "ui_display_name": "CodeLengthLowerLimit",
+                            "ui_display_cn_name": "条码最小解析长度",
+                            "ui_display_en_name": "Min. Decoding Length",
+                            "ui_usage_frequency": "Common",
+                            "ui_type": "config_param",
+                            "ui_param_name": "CodeLengthLowerLimit",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        },
+                        {
+                            "ui_display_name": "HistoryFilterMode",
+                            "ui_display_cn_name": "历史过滤模式",
+                            "ui_display_en_name": "History filter mode",
+                            "ui_usage_frequency": "Common",
+                            "ui_type": "config_param",
+                            "ui_param_name": "HistoryFilterMode",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        },
+                        {
+                            "ui_display_name": "FilterTimeMode",
+                            "ui_display_cn_name": "时间过滤模式",
+                            "ui_display_en_name": "Time Filter Mode",
+                            "ui_usage_frequency": "Common",
+                            "ui_type": "config_param",
+                            "ui_param_name": "FilterTimeMode",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        },
+                        {
+                            "ui_display_name": "FilterTime",
+                            "ui_display_cn_name": "过滤时间(ms)",
+                            "ui_display_en_name": "Filter Time(ms)",
+                            "ui_usage_frequency": "Common",
+                            "ui_type": "config_param",
+                            "ui_param_name": "FilterTime",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        },
+                        {
+                            "ui_display_name": "MaxHistoryCodeNum",
+                            "ui_display_cn_name": "历史编码最大值",
+                            "ui_display_en_name": "Max history code num value",
+                            "ui_usage_frequency": "Common",
+                            "ui_type": "config_param",
+                            "ui_param_name": "MaxHistoryCodeNum",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        },
+                        {
+                            "ui_display_name": "ReadTimesThreshold",
+                            "ui_display_cn_name": "读取次数阈值",
+                            "ui_display_en_name": "Read Times Threshold",
+                            "ui_usage_frequency": "Common",
+                            "ui_type": "config_param",
+                            "ui_param_name": "ReadTimesThreshold",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        },
+                        {
+                            "ui_display_name": "JpgTransmissionConditions",
+                            "ui_display_cn_name": "JPEG传输条件",
+                            "ui_display_en_name": "JPEG Transmission Conditions",
+                            "ui_usage_frequency": "Common",
+                            "ui_type": "config_param",
+                            "ui_param_name": "JpgTransmissionConditions",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        }
+                    ]
+                },
+                {
+                    "ui_display_name": "SortingMethod",
+                    "ui_display_cn_name": "排序方式",
+                    "ui_display_en_name": "Sorting Method",
+                    "ui_usage_frequency": "Common",
+                    "ui_type": "category",
+                    "ui_param_name": "",
+                    "ui_param_display_type": "",
+                    "ui_subset": [
+                        {
+                            "ui_display_name": "SortingRules",
+                            "ui_display_cn_name": "排序规则",
+                            "ui_display_en_name": "Sorting Rules",
+                            "ui_usage_frequency": "Common",
+                            "ui_type": "config_param",
+                            "ui_param_name": "SortingRules",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        },
+                        {
+                            "ui_display_name": "SortTolerance",
+                            "ui_display_cn_name": "第一优先级排序误差(px)",
+                            "ui_display_en_name": "Sort Tolerance(px)",
+                            "ui_usage_frequency": "Common",
+                            "ui_type": "config_param",
+                            "ui_param_name": "SortTolerance",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        },
+                        {
+                            "ui_display_name": "OneByOneEnable",
+                            "ui_display_cn_name": "逐条输出使能",
+                            "ui_display_en_name": "One By One Enable",
+                            "ui_usage_frequency": "Common",
+                            "ui_type": "config_param",
+                            "ui_param_name": "OneByOneEnable",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        },
+                        {
+                            "ui_display_name": "OneByOneInterval",
+                            "ui_display_cn_name": "逐条输出间隔(ms)",
+                            "ui_display_en_name": "One By One Interval(ms)",
+                            "ui_usage_frequency": "Common",
+                            "ui_type": "config_param",
+                            "ui_param_name": "OneByOneInterval",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        },
+                        {
+                            "ui_display_name": "CodePosWidthEnable",
+                            "ui_display_cn_name": "码坐标宽度补齐",
+                            "ui_display_en_name": "Fill in Code Pos Width",
+                            "ui_usage_frequency": "Common",
+                            "ui_type": "config_param",
+                            "ui_param_name": "CodePosWidthEnable",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        },
+                        {
+                            "ui_display_name": "CodePosWidth",
+                            "ui_display_cn_name": "码坐标宽度",
+                            "ui_display_en_name": "Code Pos Width",
+                            "ui_usage_frequency": "Common",
+                            "ui_type": "config_param",
+                            "ui_param_name": "CodePosWidth",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        },
+                        {
+                            "ui_display_name": "ROIOutputNoreadEnable",
+                            "ui_display_cn_name": "ROI无读补齐",
+                            "ui_display_en_name": "Fill in ROI Output Noread",
+                            "ui_usage_frequency": "Common",
+                            "ui_type": "config_param",
+                            "ui_param_name": "ROIOutputNoreadEnable",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}

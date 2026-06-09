@@ -1,0 +1,88 @@
+{
+    "subitems": [
+        {
+            "node_name": "SymbolContrast",
+            "A_grade": ["SymbolContrastA", "0.70"],   
+            "B_grade": ["SymbolContrastB", "0.55"],
+            "C_grade": ["SymbolContrastC", "0.40"],
+            "D_grade": ["SymbolContrastD", "0.20"]
+        },
+        {
+            "node_name": "MinimumReflectance",
+            "A_grade": ["MinimumReflectanceA", "0.50"],   
+            "B_grade": ["MinimumReflectanceB", "0.60"],
+            "C_grade": ["MinimumReflectanceC", "0.70"],
+            "D_grade": ["MinimumReflectanceD", "0.80"]
+        },
+        {
+            "node_name": "MinimumEdgeContrast",
+            "A_grade": ["MinimumEdgeContrastA", "0.15"],   
+            "B_grade": ["MinimumEdgeContrastB", "0.13"],
+            "C_grade": ["MinimumEdgeContrastC", "0.11"],
+            "D_grade": ["MinimumEdgeContrastD", "0.09"]
+        },
+        {
+            "node_name": "Modulation",
+            "A_grade": ["ModulationA", "0.70"],   
+            "B_grade": ["ModulationB", "0.60"],
+            "C_grade": ["ModulationC", "0.50"],
+            "D_grade": ["ModulationD", "0.40"]
+        },
+        {
+            "node_name": "Decodability",
+            "A_grade": ["DecodabilityA", "0.62"],   
+            "B_grade": ["DecodabilityB", "0.50"],
+            "C_grade": ["DecodabilityC", "0.37"],
+            "D_grade": ["DecodabilityD", "0.25"]
+        },
+        {
+            "node_name": "Defects",
+            "A_grade": ["DefectsA", "0.15"],   
+            "B_grade": ["DefectsB", "0.20"],
+            "C_grade": ["DefectsC", "0.25"],
+            "D_grade": ["DefectsD", "0.30"]
+        },
+        {
+            "node_name": "TDCRSymbolContrast",
+            "A_grade": ["TDCRSymbolContrastA", "0.70"],   
+            "B_grade": ["TDCRSymbolContrastB", "0.55"],
+            "C_grade": ["TDCRSymbolContrastC", "0.40"],
+            "D_grade": ["TDCRSymbolContrastD", "0.20"]
+        },
+        {
+            "node_name": "TDCRModulation",
+            "A_grade": ["TDCRModulationA", "0.50"],   
+            "B_grade": ["TDCRModulationB", "0.40"],
+            "C_grade": ["TDCRModulationC", "0.30"],
+            "D_grade": ["TDCRModulationD", "0.20"]
+        },
+        {
+            "node_name": "TDCRAxialNonuniformity",
+            "A_grade": ["TDCRAxialNonuniformityA", "0.06"],   
+            "B_grade": ["TDCRAxialNonuniformityB", "0.08"],
+            "C_grade": ["TDCRAxialNonuniformityC", "0.10"],
+            "D_grade": ["TDCRAxialNonuniformityD", "0.12"]
+        },
+        {
+            "node_name": "TDCRGridNonuniformity",
+            "A_grade": ["TDCRGridNonuniformityA", "0.38"],   
+            "B_grade": ["TDCRGridNonuniformityB", "0.50"],
+            "C_grade": ["TDCRGridNonuniformityC", "0.63"],
+            "D_grade": ["TDCRGridNonuniformityD", "0.75"]
+        },
+        {
+            "node_name": "TDCRUnusedErrorCorrection",
+            "A_grade": ["TDCRUnusedErrorCorrectionA", "0.62"],   
+            "B_grade": ["TDCRUnusedErrorCorrectionB", "0.50"],
+            "C_grade": ["TDCRUnusedErrorCorrectionC", "0.37"],
+            "D_grade": ["TDCRUnusedErrorCorrectionD", "0.25"]
+        },
+        {
+            "node_name": "TDCRPrintGrowth",
+            "A_grade": ["TDCRPrintGrowthA", "0.50"],   
+            "B_grade": ["TDCRPrintGrowthB", "0.70"],
+            "C_grade": ["TDCRPrintGrowthC", "0.85"],
+            "D_grade": ["TDCRPrintGrowthD", "1.00"]
+        }
+    ]
+}

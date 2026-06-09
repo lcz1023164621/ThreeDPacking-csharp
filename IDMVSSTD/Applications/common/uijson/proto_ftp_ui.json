@@ -1,0 +1,241 @@
+{
+    "ui_tabs": [
+        {
+            "ui_type": "tab",
+            "ui_param_name": "",
+            "ui_subset": [
+                {
+                    "ui_display_name": "Protocol_FTP",
+                    "ui_display_cn_name": "FTP协议",
+                    "ui_display_en_name": "FTP",
+                    "ui_usage_frequency": "Common",
+                    "ui_type": "category",
+                    "ui_param_name": "",
+                    "ui_param_display_type": "",
+                    "ui_subset": [
+                        {
+                            "ui_display_name": "FtpHostAddr",
+                            "ui_display_cn_name": "主机地址",
+                            "ui_display_en_name": "Host IP",
+                            "ui_usage_frequency": "Common",
+                            "ui_type": "config_param",
+                            "ui_param_name": "FtpHostAddr",
+                            "ui_param_display_type": "IPlineedit",
+                            "ui_subset": null
+                        },
+                        {
+                            "ui_display_name": "FtpHostPort",
+                            "ui_display_cn_name": "主机端口号",
+                            "ui_display_en_name": "Host Port",
+                            "ui_usage_frequency": "Common",
+                            "ui_type": "config_param",
+                            "ui_param_name": "FtpHostPort",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        },
+                        {
+                            "ui_display_name": "FtpUserName",
+                            "ui_display_cn_name": "用户名",
+                            "ui_display_en_name": "User Name",
+                            "ui_usage_frequency": "Common",
+                            "ui_type": "config_param",
+                            "ui_param_name": "FtpUserName",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        },
+                        {
+                            "ui_display_name": "FtpUserPasswd",
+                            "ui_display_cn_name": "用户密码",
+                            "ui_display_en_name": "User Password",
+                            "ui_usage_frequency": "Common",
+                            "ui_type": "config_param",
+                            "ui_param_name": "FtpUserPasswd",
+                            "ui_param_display_type": "lineedit_password",
+                            "ui_subset": null
+                        },
+                        {
+                            "ui_display_name": "ResSet_Emmc_IS_Type",
+                            "ui_display_cn_name": "无读存图格式",
+                            "ui_display_en_name": "Noread Image Format",
+                            "ui_usage_frequency": "Common",
+                            "ui_type": "config_param",
+                            "ui_param_name": "ResSet_Emmc_IS_Type",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        },
+                        {
+                            "ui_display_name": "ResSet_Output_IS_Stra",
+                            "ui_display_cn_name": "输出选图策略",
+                            "ui_display_en_name": "Image Output Strategy",
+                            "ui_usage_frequency": "Common",
+                            "ui_type": "config_param",
+                            "ui_param_name": "ResSet_Output_IS_Stra",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        },
+                        {
+                            "ui_display_name": "EncodeFormat",
+                            "ui_display_cn_name": "文件名编码格式",
+                            "ui_display_en_name": "File Name Encoding Format",
+                            "ui_usage_frequency": "Common",
+                            "ui_type": "config_param",
+                            "ui_param_name": "EncodeFormat",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        },
+                        {
+                            "ui_display_name": "OutputRetransEnable",
+                            "ui_display_cn_name": "FTP重传",
+                            "ui_display_en_name": "FTP Retransmission",
+                            "ui_usage_frequency": "Common",
+                            "ui_type": "config_param",
+                            "ui_param_name": "OutputRetransEnable",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        },
+                        {
+                            "ui_display_name": "FtpTransmissionConditions",
+                            "ui_display_cn_name": "FTP传输条件",
+                            "ui_display_en_name": "FTP Transfer Condition",
+                            "ui_usage_frequency": "Common",
+                            "ui_type": "config_param",
+                            "ui_param_name": "FtpTransmissionConditions",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        },
+                        {
+                            "ui_display_name": "FtpTransmissionResultType",
+                            "ui_display_cn_name": "传输内容",
+                            "ui_display_en_name": "Transfer Content",
+                            "ui_usage_frequency": "Common",
+                            "ui_type": "config_param",
+                            "ui_param_name": "FtpTransmissionResultType",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        },
+                        {
+                            "ui_display_name": "ftpResultType",
+                            "ui_display_cn_name": "传输文件类型",
+                            "ui_display_en_name": "Transfer File Type",
+                            "ui_usage_frequency": "Common",
+                            "ui_type": "config_param",
+                            "ui_param_name": "ftpResultType",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        },
+                        {
+                            "ui_display_name": "FtpFormatResultString",
+                            "ui_display_cn_name": "FTP结果文件内容设置",
+                            "ui_display_en_name": "FTP Result File Settings",
+                            "ui_usage_frequency": "Common",
+                            "ui_type": "config_param",
+                            "ui_param_name": "FtpFormatResultString",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        },
+                        {
+                            "ui_display_name": "FtpResultNoreadString",
+                            "ui_display_cn_name": "无读字符串",
+                            "ui_display_en_name": "Noread String",
+                            "ui_usage_frequency": "Common",
+                            "ui_type": "config_param",
+                            "ui_param_name": "FtpResultNoreadString",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        },
+                        {
+                            "ui_display_name": "ResSet_Ftp_IS_Stra",
+                            "ui_display_cn_name": "传输无读选图策略",
+                            "ui_display_en_name": "NoRead Image Transfer Strategy",
+                            "ui_usage_frequency": "Common",
+                            "ui_type": "config_param",
+                            "ui_param_name": "ResSet_Ftp_IS_Stra",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        },
+                        {
+                            "ui_display_name": "ResSet_Ftp_IS_Index",
+                            "ui_display_cn_name": "帧索引",
+                            "ui_display_en_name": "Frame Index",
+                            "ui_usage_frequency": "Common",
+                            "ui_type": "config_param",
+                            "ui_param_name": "ResSet_Ftp_IS_Index",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        },
+                        {
+                            "ui_display_name": "ResSet_Ftp_IS_Range_Start_Index",
+                            "ui_display_cn_name": "帧起始索引",
+                            "ui_display_en_name": "FTP Frame Start Index",
+                            "ui_usage_frequency": "Common",
+                            "ui_type": "config_param",
+                            "ui_param_name": "ResSet_Ftp_IS_Range_Start_Index",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        },
+                        {
+                            "ui_display_name": "ResSet_Ftp_IS_Range_End_Index",
+                            "ui_display_cn_name": "帧终止索引",
+                            "ui_display_en_name": "FTP Frame End Index",
+                            "ui_usage_frequency": "Common",
+                            "ui_type": "config_param",
+                            "ui_param_name": "ResSet_Ftp_IS_Range_End_Index",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        },
+                        {
+                            "ui_display_name": "FtpJpgDirectoryOK_NG",
+                            "ui_display_cn_name": "OK/NG存图目录",
+                            "ui_display_en_name": "OK/NG Image Directory",
+                            "ui_usage_frequency": "Common",
+                            "ui_type": "config_param",
+                            "ui_param_name": "FtpJpgDirectoryOK_NG",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        },
+                        {
+                            "ui_display_name": "ResSet_Ftp_Time_Format",
+                            "ui_display_cn_name": "传输时间格式",
+                            "ui_display_en_name": "Transfer Time Format",
+                            "ui_usage_frequency": "Common",
+                            "ui_type": "config_param",
+                            "ui_param_name": "ResSet_Ftp_Time_Format",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        },
+                        {
+                            "ui_display_name": "FtpFormatDirectoryString",
+                            "ui_display_cn_name": "FTP上传路径",
+                            "ui_display_en_name": "FTP Upload Directory String",
+                            "ui_usage_frequency": "Common",
+                            "ui_type": "config_param",
+                            "ui_param_name": "FtpFormatDirectoryString",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        },
+                        {
+                            "ui_display_name": "ResSet_Ftp_Picture_Name",
+                            "ui_display_cn_name": "FTP传输图片名称",
+                            "ui_display_en_name": "FTP Picture Name",
+                            "ui_usage_frequency": "Common",
+                            "ui_type": "config_param",
+                            "ui_param_name": "ResSet_Ftp_Picture_Name",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        },
+                        {
+                            "ui_display_name": "WithCodeButNoRead_Save",
+                            "ui_display_cn_name": "有码无读存图使能",
+                            "ui_display_en_name": "With Code But NoRead Save Enable",
+                            "ui_usage_frequency": "Common",
+                            "ui_type": "config_param",
+                            "ui_param_name": "WithCodeButNoRead_Save",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}

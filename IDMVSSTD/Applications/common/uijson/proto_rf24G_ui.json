@@ -1,0 +1,31 @@
+{
+    "ui_tabs": [
+        {
+            "ui_type": "tab",
+            "ui_param_name": "",
+            "ui_subset": [
+                {
+                    "ui_display_name": "2.4G_Protocol",
+                    "ui_display_cn_name": "2.4G协议",
+                    "ui_display_en_name": "2.4G",
+                    "ui_usage_frequency": "Common",
+                    "ui_type": "category",
+                    "ui_param_name": "",
+                    "ui_param_display_type": "",
+                    "ui_subset": [
+                        {
+                            "ui_display_name": "RF24Enable",
+                            "ui_display_cn_name": "开启2.4G通信",
+                            "ui_display_en_name": "Enable 2.4G",
+                            "ui_usage_frequency": "Common",
+                            "ui_type": "config_param",
+                            "ui_param_name": "RF24Enable",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}

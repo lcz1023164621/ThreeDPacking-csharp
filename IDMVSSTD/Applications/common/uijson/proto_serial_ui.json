@@ -1,0 +1,61 @@
+{
+    "ui_tabs": [
+        {
+            "ui_type": "tab",
+            "ui_param_name": "",
+            "ui_subset": [
+                {
+                    "ui_display_name": "Protocol_Serial",
+                    "ui_display_cn_name": "串口协议",
+                    "ui_display_en_name": "Serial",
+                    "ui_usage_frequency": "Common",
+                    "ui_type": "category",
+                    "ui_param_name": "",
+                    "ui_param_display_type": "",
+                    "ui_subset": [
+                        {
+                            "ui_display_name": "SerialBaudrate",
+                            "ui_display_cn_name": "串口波特率",
+                            "ui_display_en_name": "Serial Baud Rate",
+                            "ui_usage_frequency": "Common",
+                            "ui_type": "config_param",
+                            "ui_param_name": "SerialBaudrate",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        },
+                        {
+                            "ui_display_name": "SerialDataBits",
+                            "ui_display_cn_name": "串口数据位",
+                            "ui_display_en_name": "Serial Data Bit",
+                            "ui_usage_frequency": "Common",
+                            "ui_type": "config_param",
+                            "ui_param_name": "SerialDataBits",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        },
+                        {
+                            "ui_display_name": "SerialParity",
+                            "ui_display_cn_name": "串口奇偶校验",
+                            "ui_display_en_name": "Serial Parity Check",
+                            "ui_usage_frequency": "Common",
+                            "ui_type": "config_param",
+                            "ui_param_name": "SerialParity",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        },
+                        {
+                            "ui_display_name": "SerialStopBit",
+                            "ui_display_cn_name": "串口停止位",
+                            "ui_display_en_name": "Serial Stop Bit",
+                            "ui_usage_frequency": "Common",
+                            "ui_type": "config_param",
+                            "ui_param_name": "SerialStopBit",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}

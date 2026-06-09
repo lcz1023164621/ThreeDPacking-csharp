@@ -1,0 +1,113 @@
+
+<!DOCTYPE html
+  PUBLIC "" "about:legacy-compat">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:whc="http://www.daksys.com/webhelp/components" xml:lang="zh-cn" lang="zh-cn">
+	<head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />        
+      <meta name="copyright" content="©  杭州海康威视数字技术股份有限公司。保留一切权利。" /><meta name="DC.Type" content="concept" /><meta name="DC.Title" content="可识别条码，但上位机接收码数据异常" /><meta name="abstract" content="上位机无法正常接收码数据时，可能和环境配置、参数设置、外部接线有关。" /><meta name="description" content="上位机无法正常接收码数据时，可能和环境配置、参数设置、外部接线有关。" /><meta name="DC.Relation" scheme="URI" content="GUID-4CFF5E7B-A983-41D0-8F97-690E1ED31AC8.html" /><meta name="DC.Format" content="XHTML" /><meta name="DC.Identifier" content="GUID-A337EA85-1E2F-4127-AEC0-D801E3852EE9" /><meta name="DC.Language" content="zh-CN" /><title>可识别条码，但上位机接收码数据异常</title><!-- Generated with dksgen version 1.0, build number 2023071300.  --><meta viewport="Content-Type" content="width=device-width, initial-scale=1.0" /><meta http-equiv="X-UA-Compatible" content="IE=edge,Chrome=1" /><meta name="wh-path2root" content="index.html" />
+		<!-- commonltr css -->
+		<link rel="stylesheet" type="text/css" href="daksys-webhelp/resources/css/commonltr.css" />
+		<!-- Bootstrap css -->
+		<link rel="stylesheet" type="text/css" href="daksys-webhelp/resources/bootstrap/css/bootstrap.min.css" />
+		<link rel="stylesheet" type="text/css" href="daksys-webhelp/resources/bootstrap/css/bootstrap-theme.min.css" />
+		<link rel="stylesheet" type="text/css" href="daksys-webhelp/resources/js/jquery-ui.min.css" />
+		
+		<!-- Template css  -->
+		<link href="daksys-webhelp/template/resources/css/HIKROBOT_color.css?buildId=2023071300" rel="stylesheet" type="text/css" />
+		<link rel="stylesheet" type="text/css" href="daksys-webhelp/template/resources/css/wt_topic.css?buildId=2023071300" />
+		<link rel="stylesheet" type="text/css" href="daksys-webhelp/template/resources/css/wt_topic_m.css?buildId=2023071300" />
+		<link rel="stylesheet" type="text/css" href="daksys-webhelp/template/resources/css/wt_expand.css?buildId=2023071300" />
+		<link rel="stylesheet" type="text/css" href="daksys-webhelp/template/resources/css/wt_note.css?buildId=2023071300" />
+		<link rel="stylesheet" type="text/css" href="daksys-webhelp/template/resources/css/wt_steps.css?buildId=2023071300" />
+		
+		<!-- jquery js  -->
+		<script type="text/javascript" src="daksys-webhelp/resources/js/jquery-3.6.2.min.js"></script>
+		<script type="text/javascript" src="daksys-webhelp/resources/js/jquery.cookie.js"></script>
+		<script type="text/javascript" src="daksys-webhelp/resources/js/jquery.highlight-3.js"></script>
+		<script type="text/javascript" src="daksys-webhelp/resources/js/jquery-ui.min.js"></script>
+		
+		<!-- common js  -->
+		<script type="text/javascript" src="daksys-webhelp/resources/bootstrap/js/bootstrap.min.js"></script>
+		<script type="text/javascript" src="daksys-webhelp/resources/js/base64.js"></script>
+		<script type="text/javascript" src="daksys-webhelp/resources/js/browserDetect.js"></script>
+		<script type="text/javascript" src="daksys-webhelp/resources/js/localization.js"></script>
+		<script type="text/javascript" src="daksys-webhelp/resources/js/parseuri.js"></script>
+		<script type="text/javascript" src="daksys-webhelp/resources/localization/strings.js"></script>
+		<!-- Template js -->
+		<script type="text/javascript" src="daksys-webhelp/template/resources/js/wt_topic.js?buildId=2023071300"></script>
+		<script type="text/javascript" src="daksys-webhelp/template/resources/js/wt_expand.js?buildId=2023071300"></script>
+	</head>
+	<body class="wt_topic_page frmBody" id="GUID-A337EA85-1E2F-4127-AEC0-D801E3852EE9" onload="topicOnload()">
+		<!-- get_lang -->
+		<div id="lang" style="display:none">zh-CN</div><div id="mapoutputclass" style="display:none"></div>
+		<input hidden="hidden" id="UDCode" value="UD12345B" /><input hidden="hidden" id="Trademark" value="海康机器人" />
+		
+		<div class="content_box">
+			<div class="middle_view content_area col-sm-9" id="content_area">
+				<div class=" wt_breadcrumb "><ol><li><span class="home topicref"><a href="javascript:void(0)" onclick="gotoFirstPage()">首页</a></span></li><li><span class="topicref"><a href="GUID-EE9D5317-D3A9-4595-8068-C96B2ABBD11B.html" data-id="GUID-EE9D5317-D3A9-4595-8068-C96B2ABBD11B">问题排查</a></span></li><li><span class="topicref"><a href="GUID-4CFF5E7B-A983-41D0-8F97-690E1ED31AC8.html" data-id="GUID-4CFF5E7B-A983-41D0-8F97-690E1ED31AC8">条码识别与输出问题排查</a></span></li><li class="active"><span class="topicref">可识别条码，但上位机接收码数据异常</span></li></ol><div class="wt_breadcrumb_ellipsis" onclick="expandBreadcrumbDiv()"></div><div class="wt_breadcrumb_collapse" style="display: none;"><div class="wt_breadcrumb_collapse_button" onclick="collapseBreadcrumbDiv()"></div></div></div>
+				
+				<div id="container_body" class="container">
+					<div id="contentArea">
+						<div class=" wt_topic_content body ">
+    <h1 class="title topictitle1">可识别条码，但上位机接收码数据异常</h1>
+
+    
+
+<div class="body conbody"><p class="shortdesc">上位机无法正常接收码数据时，可能和环境配置、参数设置、外部接线有关。</p>
+
+        <div class="section" id="GUID-A337EA85-1E2F-4127-AEC0-D801E3852EE9__GUID-A1D291EA-48FC-4EE4-8646-05EDA0D689A1"><h2 class="title sectiontitle">现象</h2>
+            
+            <p class="p">IDMVS可识别条码，但上位机（如PLC）未接收到码数据、或接收到乱码。</p>
+
+        </div>
+
+        <div class="section" id="GUID-A337EA85-1E2F-4127-AEC0-D801E3852EE9__GUID-636D9880-7E3C-45FC-B7A5-FEC564B1369A"><h2 class="title sectiontitle">解决方法</h2>
+            
+            <p class="p">您可按照以下方法逐步排查。</p>
+
+            <ol class="ol" id="GUID-A337EA85-1E2F-4127-AEC0-D801E3852EE9__OL_HYC_MMM_1FC">
+                <li class="li" id="GUID-A337EA85-1E2F-4127-AEC0-D801E3852EE9__GUID-0B28B73B-49BB-4D3B-8D3A-447F87E5E336">
+                    <p class="p">确认已关闭防火墙及相关杀毒软件。若未关闭，可能会导致数据传输异常。</p>
+
+                </li>
+
+                <li class="li" id="GUID-A337EA85-1E2F-4127-AEC0-D801E3852EE9__GUID-F318124E-3295-4068-984A-06D872CAA675">
+                    <p class="p">确认<span class="ph uicontrol">格式化配置</span>中已勾选<span class="keyword parmname">条码内容</span>（即Code
+                            Content），详情参见<a class="xref" href="GUID-C3AE063C-E14B-4882-A14C-1A6B2F872C1E.html#GUID-C3AE063C-E14B-4882-A14C-1A6B2F872C1E" title="格式化配置功能支持通过通讯协议输出的数据按照特定的结构、样式或规则进行组织，包括添加或删除输出内容或字符、设置输出内容开始和结束部分等。">格式化配置</a>章节。</p>
+
+                </li>
+
+                <li class="li" id="GUID-A337EA85-1E2F-4127-AEC0-D801E3852EE9__GUID-70CCCBFB-42E5-45FE-B646-FB08892FFAF9">
+                    <p class="p">若使用串口方式通讯，需确保串口地线与读码器负极共地。</p>
+
+                </li>
+
+            </ol>
+
+        </div>
+
+    </div>
+
+
+</div>
+						<div class=" wt_topic_wpp_content wt_pc_only "><div class=" wt_topic_wpp_content_flex "><div class="wt_topic_wpp_item like"></div><div class="wt_topic_wpp_item view"></div><div class="wt_topic_wpp_item share">分享</div></div></div>
+						
+						
+						
+					</div>
+				</div><!-- container_body -->
+				
+				<div class=" body_footer "><div onclick="prevTopic()" class=" body_footer_left link_button "><span>上一页</span></div><div onclick="nextTopic()" class=" body_footer_right link_button "><span>下一页</span></div></div>
+				<div class=" body_wpp mobile_only"><div class="wt_body_mobile_like"></div><div class="wt_body_mobile_view"></div></div>
+				<!-- <whc:webhelp_side_toc /> -->
+				
+			</div> <!-- middle_view content_area -->
+			<div class=" right_content wt_pc_only "><div class=" right_fixed_container "><div class="right_guide"><div class="feature_guide"><div>本页导航</div><ul><li onclick="scrollToAnchor($(this))" data-id="GUID-A337EA85-1E2F-4127-AEC0-D801E3852EE9__GUID-A1D291EA-48FC-4EE4-8646-05EDA0D689A1" class="feature_guide_h2"><span class="link_button">现象</span></li><li onclick="scrollToAnchor($(this))" data-id="GUID-A337EA85-1E2F-4127-AEC0-D801E3852EE9__GUID-636D9880-7E3C-45FC-B7A5-FEC564B1369A" class="feature_guide_h2"><span class="link_button">解决方法</span></li></ul></div></div></div></div>
+		</div> <!-- content_box -->
+		
+		<!-- 置顶按钮 -->
+		<div class="body_to_top" onclick="scrollTopicTop()"></div> 
+		<!-- 评价反馈 -->
+		<div onclick="manualFeedback()" class=" body_feedback " data-href="https://wj.hikvision.com/#/public-survey?id=64c8b90d80e02e9e88feca2f"></div>
+		
+	</body>
+</html>

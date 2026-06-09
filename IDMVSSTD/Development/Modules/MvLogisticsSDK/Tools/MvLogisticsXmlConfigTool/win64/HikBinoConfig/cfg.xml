@@ -1,0 +1,9 @@
+<ArithConfig>
+   <BC_PKG_VM>   
+      <PARAM>
+         <Param  index="1"  value="11"   min="5"   max="40"   type="int"   info="1"   hide="0"  high="0"  name="匹配窗口的大小"  help="匹配窗口的大小"/>
+         <Param  index="2"  value="0"    min="0"   max="400"  type="int"   info="1"   hide="0"  high="0"  name="最小视差"        help="最小视差"/>
+         <Param  index="3"  value="160"  min="16"  max="240"  type="int"   info="1"   hide="0"  high="0"  name="视差数"          help="视差数"/>      
+      </PARAM>
+  </BC_PKG_VM>
+</ArithConfig>

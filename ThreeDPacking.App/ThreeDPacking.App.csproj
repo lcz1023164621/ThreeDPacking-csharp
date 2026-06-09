@@ -6,6 +6,7 @@
     <AssemblyName>ThreeDPacking.App</AssemblyName>
     <LangVersion>7.3</LangVersion>
     <UseWindowsForms>false</UseWindowsForms>
+    <PlatformTarget>x64</PlatformTarget>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System.Windows.Forms" />
@@ -17,5 +18,18 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\ThreeDPacking.Core\ThreeDPacking.Core.csproj" />
+    <ProjectReference Include="..\CRreaderFW\CRreaderFW.csproj" />
   </ItemGroup>
+  <ItemGroup>
+    <CodeReaderNativeDll Include="..\IDMVSSTD\Development\Modules\MvCodeReaderSDK\SDK\win64\*.dll" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\CRreaderFW\ProductInfo.xls">
+      <Link>ProductInfo.xls</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+  <Target Name="CopyCodeReaderNativeDlls" AfterTargets="Build">
+    <Copy SourceFiles="@(CodeReaderNativeDll)" DestinationFolder="$(OutDir)" SkipUnchangedFiles="true" />
+  </Target>
 </Project>

@@ -1,0 +1,388 @@
+
+<!DOCTYPE html
+  PUBLIC "" "about:legacy-compat">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:whc="http://www.daksys.com/webhelp/components" xml:lang="zh-cn" lang="zh-cn">
+	<head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />        
+      <meta name="copyright" content="©  杭州海康威视数字技术股份有限公司。保留一切权利。" /><meta name="DC.Type" content="task" /><meta name="DC.Title" content="参数轮询" /><meta name="abstract" content="针对动态复杂读码场景（如条码位置变化、光线波动等），参数轮询功能通过预设多组成像参数组合，读码器取流时自动切换参数适配环境变化，确保动态读码场景下条码识别的稳定性与准确性。本章节以开启多组参数轮询为例，为您介绍参数轮询功能。" /><meta name="description" content="针对动态复杂读码场景（如条码位置变化、光线波动等），参数轮询功能通过预设多组成像参数组合，读码器取流时自动切换参数适配环境变化，确保动态读码场景下条码识别的稳定性与准确性。本章节以开启多组参数轮询为例，为您介绍参数轮询功能。" /><meta name="DC.Relation" scheme="URI" content="GUID-9ED8A60A-4358-4489-A0B0-005FA5B048B5.html" /><meta name="DC.Format" content="XHTML" /><meta name="DC.Identifier" content="GUID-A49A7A2C-9786-463B-B026-31FE012E4FA7" /><meta name="DC.Language" content="zh-CN" /><title>参数轮询</title><!-- Generated with dksgen version 1.0, build number 2023071300.  --><meta viewport="Content-Type" content="width=device-width, initial-scale=1.0" /><meta http-equiv="X-UA-Compatible" content="IE=edge,Chrome=1" /><meta name="wh-path2root" content="index.html" />
+		<!-- commonltr css -->
+		<link rel="stylesheet" type="text/css" href="daksys-webhelp/resources/css/commonltr.css" />
+		<!-- Bootstrap css -->
+		<link rel="stylesheet" type="text/css" href="daksys-webhelp/resources/bootstrap/css/bootstrap.min.css" />
+		<link rel="stylesheet" type="text/css" href="daksys-webhelp/resources/bootstrap/css/bootstrap-theme.min.css" />
+		<link rel="stylesheet" type="text/css" href="daksys-webhelp/resources/js/jquery-ui.min.css" />
+		
+		<!-- Template css  -->
+		<link href="daksys-webhelp/template/resources/css/HIKROBOT_color.css?buildId=2023071300" rel="stylesheet" type="text/css" />
+		<link rel="stylesheet" type="text/css" href="daksys-webhelp/template/resources/css/wt_topic.css?buildId=2023071300" />
+		<link rel="stylesheet" type="text/css" href="daksys-webhelp/template/resources/css/wt_topic_m.css?buildId=2023071300" />
+		<link rel="stylesheet" type="text/css" href="daksys-webhelp/template/resources/css/wt_expand.css?buildId=2023071300" />
+		<link rel="stylesheet" type="text/css" href="daksys-webhelp/template/resources/css/wt_note.css?buildId=2023071300" />
+		<link rel="stylesheet" type="text/css" href="daksys-webhelp/template/resources/css/wt_steps.css?buildId=2023071300" />
+		
+		<!-- jquery js  -->
+		<script type="text/javascript" src="daksys-webhelp/resources/js/jquery-3.6.2.min.js"></script>
+		<script type="text/javascript" src="daksys-webhelp/resources/js/jquery.cookie.js"></script>
+		<script type="text/javascript" src="daksys-webhelp/resources/js/jquery.highlight-3.js"></script>
+		<script type="text/javascript" src="daksys-webhelp/resources/js/jquery-ui.min.js"></script>
+		
+		<!-- common js  -->
+		<script type="text/javascript" src="daksys-webhelp/resources/bootstrap/js/bootstrap.min.js"></script>
+		<script type="text/javascript" src="daksys-webhelp/resources/js/base64.js"></script>
+		<script type="text/javascript" src="daksys-webhelp/resources/js/browserDetect.js"></script>
+		<script type="text/javascript" src="daksys-webhelp/resources/js/localization.js"></script>
+		<script type="text/javascript" src="daksys-webhelp/resources/js/parseuri.js"></script>
+		<script type="text/javascript" src="daksys-webhelp/resources/localization/strings.js"></script>
+		<!-- Template js -->
+		<script type="text/javascript" src="daksys-webhelp/template/resources/js/wt_topic.js?buildId=2023071300"></script>
+		<script type="text/javascript" src="daksys-webhelp/template/resources/js/wt_expand.js?buildId=2023071300"></script>
+	</head>
+	<body class="wt_topic_page frmBody" id="GUID-A49A7A2C-9786-463B-B026-31FE012E4FA7" onload="topicOnload()">
+		<!-- get_lang -->
+		<div id="lang" style="display:none">zh-CN</div><div id="mapoutputclass" style="display:none"></div>
+		<input hidden="hidden" id="UDCode" value="UD12345B" /><input hidden="hidden" id="Trademark" value="海康机器人" />
+		
+		<div class="content_box">
+			<div class="middle_view content_area col-sm-9" id="content_area">
+				<div class=" wt_breadcrumb "><ol><li><span class="home topicref"><a href="javascript:void(0)" onclick="gotoFirstPage()">首页</a></span></li><li><span class="topicref"><a href="GUID-D8488278-18E0-41D0-91B9-35636662C53F.html" data-id="GUID-D8488278-18E0-41D0-91B9-35636662C53F">读码器常用配置</a></span></li><li><span class="topicref"><a href="GUID-9ED8A60A-4358-4489-A0B0-005FA5B048B5.html" data-id="GUID-9ED8A60A-4358-4489-A0B0-005FA5B048B5">调试图像及码制</a></span></li><li class="active"><span class="topicref">参数轮询</span></li></ol><div class="wt_breadcrumb_ellipsis" onclick="expandBreadcrumbDiv()"></div><div class="wt_breadcrumb_collapse" style="display: none;"><div class="wt_breadcrumb_collapse_button" onclick="collapseBreadcrumbDiv()"></div></div></div>
+				
+				<div id="container_body" class="container">
+					<div id="contentArea">
+						<div class=" wt_topic_content body ">
+    <h1 class="title topictitle1">参数轮询</h1>
+
+    
+
+<div class="body taskbody"><p class="shortdesc">针对动态复杂读码场景（如条码位置变化、光线波动等），参数轮询功能通过预设多组成像参数组合，读码器取流时自动切换参数适配环境变化，确保动态读码场景下条码识别的稳定性与准确性。本章节以开启多组参数轮询为例，为您介绍参数轮询功能。</p>
+
+<div class="section prereq p" id="GUID-A49A7A2C-9786-463B-B026-31FE012E4FA7__GUID-9BBB67BB-EE3C-4A21-912D-0765C1AE770C">
+            <ul class="ul" id="GUID-A49A7A2C-9786-463B-B026-31FE012E4FA7__UL_TG2_K5H_42C">
+                <li class="li" id="GUID-A49A7A2C-9786-463B-B026-31FE012E4FA7__GUID-C4405B83-D8F9-400B-BD2E-6BD14BE71093">
+                    <p class="p">读码器已关闭实时取流。</p>
+
+                    <div class="note note" id="GUID-A49A7A2C-9786-463B-B026-31FE012E4FA7__GUID-920940F3-86A0-44CE-AF71-E0A4D272AC69"><span class="notetitle">说明</span> 
+                        <p class="p">如果读码器开启实时取流，不支持配置参数轮询，配置界面参数置灰。</p>
+
+                    </div>
+
+                </li>
+
+                <li class="li" id="GUID-A49A7A2C-9786-463B-B026-31FE012E4FA7__GUID-3F22EE11-F9DB-48E8-BCA6-49F809CE705D">
+                    <p class="p">已配置读码器的输入<span class="keyword parmname">触发模式</span>参数为开启，且<span class="ph uicontrol">触发源</span>参数不为“亮度感应触发”。</p>
+
+                </li>
+
+            </ul>
+
+        </div>
+
+<ol class="ol steps" id="GUID-A49A7A2C-9786-463B-B026-31FE012E4FA7__GUID-D055F9AC-40A9-4D0D-A300-ADC373FA43D0"><li class="li step stepexpand" id="GUID-A49A7A2C-9786-463B-B026-31FE012E4FA7__GUID-E16212B6-9661-4460-B45A-54A21380E1EA">
+                <span class="ph cmd">在IDMVS主界面功能导航栏，选择<span class="ph uicontrol">参数轮询</span>。</span>
+            </li>
+<li class="li step stepexpand" id="GUID-A49A7A2C-9786-463B-B026-31FE012E4FA7__GUID-5FDB9808-DB05-4FFD-B1B7-50B9B1C94E35">
+                <span class="ph cmd">在<span class="ph uicontrol">参数轮询</span>页面上方参数轮询模式选择框处，下拉选择<span class="ph uicontrol">多组轮询</span>。</span>
+                <div class="itemgroup info">
+                    <div class="fig fignone" id="GUID-A49A7A2C-9786-463B-B026-31FE012E4FA7__FIG_ZDL_R2X_PFC">
+                        
+                        <img class="image" style="display:none;" id="GUID-A49A7A2C-9786-463B-B026-31FE012E4FA7__IMAGE_A2L_R2X_PFC" src="GUID-EC2E1E54-B941-4E59-8BA1-A17A5B552915-high.png" width="1400" />
+                    <div class="fig_caption"><span class="figcap">图 1 参数轮询</span></div></div>
+
+                    <p class="p">您需启用任意两组及以上轮询参数，读码器工作时轮换应用启用的轮询库参数进行读码，直至读取到条码后停止轮询。8套参数之间的轮询示意图如下图所示，轮询规则为：由最优参数组开始，从前往后依次轮换已启用的参数组。例如启用的轮询组为1、2、3、4、5，当前使用轮询组3进行读码（即轮询组3作为最优组），则轮询顺序为：3、4、5、1、2，如此为一个轮询周期。</p>
+
+                    <div class="fig fignone" id="GUID-A49A7A2C-9786-463B-B026-31FE012E4FA7__FIG_HNS_3FG_5QB">
+                        
+                        <img class="image" style="display:none;" id="GUID-A49A7A2C-9786-463B-B026-31FE012E4FA7__IMAGE_INS_3FG_5QB" src="GUID-CC0E42AE-B552-476F-B13C-6FEF66C3F19C-high.png" width="1000" />
+                    <div class="fig_caption"><span class="figcap">图 2 轮询示意图</span></div></div>
+
+                    <div class="note note" id="GUID-A49A7A2C-9786-463B-B026-31FE012E4FA7__GUID-F91D9C71-966B-4EE2-89FC-DB2795EBA41C"><span class="notetitle">说明</span> 
+                        <p class="p">如需使用单组轮询，可在参数轮询模式选择框处选择<span class="ph uicontrol">库*</span>（*为轮询组序号），当前参数轮询界面只支持配置选择轮询组的参数，其他轮询组参数不支持配置且置灰，读码器工作时应用当前选择的轮询组参数。</p>
+
+                    </div>
+
+                </div>
+            </li>
+<li class="li step stepexpand" id="GUID-A49A7A2C-9786-463B-B026-31FE012E4FA7__GUID-0CE82039-03BF-4C76-B659-DC0728A7BE48">
+                <span class="ph cmd">配置目标启用的轮询库参数。</span>
+                <div class="itemgroup info">
+                    <p class="p">每组轮询库可配置的参数说明如下。</p>
+
+                    <div class="note note" id="GUID-A49A7A2C-9786-463B-B026-31FE012E4FA7__GUID-84F20E97-38D7-4D4C-B74F-CEF77736D381"><span class="notetitle">说明</span> 
+                        <ul class="ul" id="GUID-A49A7A2C-9786-463B-B026-31FE012E4FA7__UL_SV1_HNS_52C">
+                            <li class="li" id="GUID-A49A7A2C-9786-463B-B026-31FE012E4FA7__GUID-1EC1DD17-471A-482C-9419-2867260892C4">
+                                <p class="p">每组轮询参数组中的可配置参数与读码器固件版本和硬件相关，实际可配置参数请以界面显示为准。</p>
+
+                            </li>
+
+                            <li class="li" id="GUID-A49A7A2C-9786-463B-B026-31FE012E4FA7__GUID-0C349743-CDDC-43FB-B422-77CB0225D99B">
+                                <p class="p">修改后的参数所在单元格标紫处理。</p>
+
+                            </li>
+
+                            <li class="li" id="GUID-A49A7A2C-9786-463B-B026-31FE012E4FA7__GUID-CD6E94D9-9E2B-47A4-8658-8FC8D5A97237">
+                                <p class="p">单组参数轮询可配置参数与多组参数轮询类似，本文不再单独介绍单组参数轮询参数。</p>
+
+                            </li>
+
+                        </ul>
+
+                    </div>
+
+                    <dl class="dl parml">
+                        
+                            <dt class="dt pt dlterm"><a name="GUID-A49A7A2C-9786-463B-B026-31FE012E4FA7__GUID-4C908455-DB92-49FE-A2C8-3F8333FF010C"><!-- --></a>库名称</dt>
+
+                            <dd class="dd pd">
+                                <p class="p">自定义当前轮询组的名称。</p>
+
+                            </dd>
+
+                        
+                        
+                            <dt class="dt pt dlterm"><a name="GUID-A49A7A2C-9786-463B-B026-31FE012E4FA7__GUID-4E956740-9AEE-4568-8EAD-1C3D8CB52293"><!-- --></a>上次更新时间</dt>
+
+                            <dd class="dd pd">
+                                <p class="p">显示最近一次修改轮询组参数的时间。如果从未修改，系统默认显示为1970-01-01。</p>
+
+                            </dd>
+
+                        
+                        
+                            <dt class="dt pt dlterm"><a name="GUID-A49A7A2C-9786-463B-B026-31FE012E4FA7__GUID-F06573EA-55F3-4BC0-9F21-55FD61543329"><!-- --></a>是否启用</dt>
+
+                            <dd class="dd pd">
+                                <p class="p">选择是否开启当前轮询组，将当前轮询组加入到读码器的轮询中。</p>
+
+                            </dd>
+
+                        
+                        
+                            <dt class="dt pt dlterm"><a name="GUID-A49A7A2C-9786-463B-B026-31FE012E4FA7__GUID-493B6686-4228-465F-A480-0AC6FA9ECA64"><!-- --></a>单组轮询超时时间(ms)</dt>
+
+                            <dd class="dd pd">
+                                <p class="p">设置应用当前轮询组读码的最大等待时间，如果在此时间内未读到码，停止读码并应用下一轮询组参数。</p>
+
+                            </dd>
+
+                        
+                        
+                            <dt class="dt pt dlterm"><a name="GUID-A49A7A2C-9786-463B-B026-31FE012E4FA7__GUID-20593A7D-6186-4D98-A7C6-BAD3B955850B"><!-- --></a>单组轮询重复次数</dt>
+
+                            <dd class="dd pd">
+                                <p class="p">设置应用当前轮询组读码时的出图帧数。</p>
+
+                            </dd>
+
+                        
+                        
+                            <dt class="dt pt dlterm"><a name="GUID-A49A7A2C-9786-463B-B026-31FE012E4FA7__GUID-03E0E9A9-E0DF-4B7F-9F35-7B1CD784D5E3"><!-- --></a>轮询关注区域（ROI）</dt>
+
+                            <dd class="dd pd">
+                                <p class="p">设置读码器应用当前轮询组参数读码时，读码的ROI序号。当设置为<span class="ph uicontrol">0</span>或不存在的ROI序号时，读取读码器视野内的所有条码。</p>
+
+                            </dd>
+
+                        
+                        
+                            <dt class="dt pt dlterm"><a name="GUID-A49A7A2C-9786-463B-B026-31FE012E4FA7__GUID-EA404BF2-7654-4A54-A46E-7A4F35A4CD00"><!-- --></a>条码详细信息设置</dt>
+
+                            <dd class="dd pd">
+                                <p class="p">单击<span class="ph uicontrol">部分码制</span>，在<span class="ph uicontrol">条码详细信息设置</span>页面选择需要读取的码制，同时可设置已选择码制的读取位数范围。</p>
+
+                            </dd>
+
+                        
+                        
+                            <dt class="dt pt dlterm"><a name="GUID-A49A7A2C-9786-463B-B026-31FE012E4FA7__GUID-E0535617-EAF0-4E6F-BF08-BA327D909AF6"><!-- --></a>内部光源</dt>
+
+                            <dd class="dd pd">
+                                <p class="p">在读码器光源示意图上选择要开启的光源通道，也可通过勾选或去勾选<span class="ph uicontrol">全选</span>，开启或关闭所有分路光源。开启后灯珠为绿色。</p>
+
+                                <div class="note note" id="GUID-A49A7A2C-9786-463B-B026-31FE012E4FA7__GUID-7E98C1D4-DADF-4DAD-BF1C-E4EEB08057F0"><span class="notetitle">说明</span> 
+                                    <p class="p">光源通道示意图对应读码器出厂配套的光源。</p>
+
+                                </div>
+
+                            </dd>
+
+                        
+                        
+                            <dt class="dt pt dlterm"><a name="GUID-A49A7A2C-9786-463B-B026-31FE012E4FA7__GUID-8D34A50E-D4E5-4254-A71B-2966BD73BC5D"><!-- --></a>外部光源</dt>
+
+                            <dd class="dd pd">
+                                <p class="p">如果读码器通过IO管脚连接了外部光源，可通过此参数选择连接外部光源的管脚号和是否打开光源。</p>
+
+                            </dd>
+
+                        
+                        
+                            <dt class="dt pt dlterm"><a name="GUID-A49A7A2C-9786-463B-B026-31FE012E4FA7__GUID-0DA36F15-6C6E-40AE-ADA0-4D7096B22F15"><!-- --></a>图像配置</dt>
+
+                            <dd class="dd pd">
+                                <p class="p">图像配置相关参数说明此处不一一列举，可配置参数详情可参考<a class="xref" href="GUID-2B44A318-9C5F-426A-9149-25867EDB0B14.html#GUID-2B44A318-9C5F-426A-9149-25867EDB0B14" title="成像配置模块提供全面且精细的成像参数调整功能，可在此调整图像、光源、自适应、调焦等相关参数，以获得最佳的图像效果。">成像配置</a>。</p>
+
+                                <dl class="dl parml">
+                                    
+                                        <dt class="dt pt dlterm"><a name="GUID-A49A7A2C-9786-463B-B026-31FE012E4FA7__GUID-A9C7F915-22BD-4CDE-9777-76F90DCC649A"><!-- --></a>轮询调焦位置使能</dt>
+
+                                        <dd class="dd pd">
+                                            <p class="p">选择参数轮询时是否可以设置镜头的焦距，开启后可通过<span class="ph uicontrol">轮询调焦位置</span>参数指定读码器的镜头焦距。</p>
+
+                                        </dd>
+
+                                    
+                                </dl>
+
+                            </dd>
+
+                        
+                        
+                            <dt class="dt pt dlterm"><a name="GUID-A49A7A2C-9786-463B-B026-31FE012E4FA7__GUID-60376044-2A0F-4D4C-8817-D9B98186BCF6"><!-- --></a>轮询时间(ms)</dt>
+
+                            <dd class="dd pd">
+                                <p class="p">设置轮询持续时间，轮询模式最少输出2帧，用于判断轮询结束状态使用。</p>
+
+                                <div class="note note" id="GUID-A49A7A2C-9786-463B-B026-31FE012E4FA7__GUID-CF69E7E3-3880-449C-A43B-1ED20B00C78F"><span class="notetitle">说明</span> 
+                                    <p class="p">仅轮询模式选择多组轮询时可在<span class="ph uicontrol">参数轮询</span>页面底部配置。</p>
+
+                                </div>
+
+                            </dd>
+
+                        
+                        
+                            <dt class="dt pt dlterm"><a name="GUID-A49A7A2C-9786-463B-B026-31FE012E4FA7__GUID-CAD3F3CB-06D5-443E-9452-95D8C9FC3998"><!-- --></a>轮询周期</dt>
+
+                            <dd class="dd pd">
+                                <p class="p">设置参数轮询运行的周期数，遍历一遍启用的所有轮询组为一个轮询周期。</p>
+
+                                <div class="note note" id="GUID-A49A7A2C-9786-463B-B026-31FE012E4FA7__GUID-42A9488F-F5CD-44BF-996A-E1D4427B2FE6"><span class="notetitle">说明</span> 
+                                    <p class="p">仅轮询模式选择多组轮询时可在<span class="ph uicontrol">参数轮询</span>页面底部配置。</p>
+
+                                </div>
+
+                            </dd>
+
+                        
+                        
+                            <dt class="dt pt dlterm"><a name="GUID-A49A7A2C-9786-463B-B026-31FE012E4FA7__GUID-816EE3CA-1A57-47EE-8507-148D434D0FD3"><!-- --></a>轮询读码个数停止触发</dt>
+
+                            <dd class="dd pd">
+                                <p class="p">选择触发的参数轮询是否配置停止条件，开启后可通过<span class="ph uicontrol">轮询停止条件</span>参数设置停止条件，可选如下条件。</p>
+
+                                <ul class="ul" id="GUID-A49A7A2C-9786-463B-B026-31FE012E4FA7__UL_S2B_SDS_52C">
+                                    <li class="li" id="GUID-A49A7A2C-9786-463B-B026-31FE012E4FA7__GUID-6555DC5A-4384-4A94-ABA8-E9DE58B0AF96">
+                                        <p class="p">单帧内指定个数：根据一帧图像内读取到的条码个数停止当前参数轮询，选择后可通过<span class="ph uicontrol">轮询指定个数</span>参数指定触发停止的读码个数。</p>
+
+                                    </li>
+
+                                    <li class="li" id="GUID-A49A7A2C-9786-463B-B026-31FE012E4FA7__GUID-5B66BE79-5E9E-429D-B6A5-B1834D7DB6B5">
+                                        <p class="p">整个轮询周期内指定个数：根据轮询周期内读取到的读码个数停止当前参数轮询，选择后可通过<span class="ph uicontrol">轮询指定个数</span>参数指定触发停止的读码个数。</p>
+
+                                    </li>
+
+                                </ul>
+
+                                <div class="note note" id="GUID-A49A7A2C-9786-463B-B026-31FE012E4FA7__GUID-24F859E8-4DC9-4B9D-8C2B-92A0B3B08875"><span class="notetitle">说明</span> 
+                                    <p class="p">仅轮询模式选择多组轮询时可在<span class="ph uicontrol">参数轮询</span>页面底部配置。</p>
+
+                                </div>
+
+                            </dd>
+
+                        
+                    </dl>
+
+                </div>
+            </li>
+<li class="li step stepexpand" id="GUID-A49A7A2C-9786-463B-B026-31FE012E4FA7__GUID-3D07761F-D272-4520-81C7-7C196B1E99C6">
+                <span class="ph cmd">重复步骤3，配置需要开启的轮询组参数。</span>
+                <div class="itemgroup info">
+                    <p class="p">配置其他组轮询参数时，您可选择使用如下功能。</p>
+
+                    <ul class="ul" id="GUID-A49A7A2C-9786-463B-B026-31FE012E4FA7__UL_G4Z_QNS_52C">
+                        <li class="li" id="GUID-A49A7A2C-9786-463B-B026-31FE012E4FA7__GUID-8314D399-D98A-4E13-8F11-5FC81747E055">
+                            <p class="p">搜索框：支持根据输入内容搜索参数，如果参数中含有输入内容，对应参数处标橙处理。</p>
+
+                            <div class="note note" id="GUID-A49A7A2C-9786-463B-B026-31FE012E4FA7__GUID-80419099-8782-4B78-979C-208B88DB090A"><span class="notetitle">说明</span> 
+                                <p class="p">搜索对大小写敏感。</p>
+
+                            </div>
+
+                        </li>
+
+                        <li class="li" id="GUID-A49A7A2C-9786-463B-B026-31FE012E4FA7__GUID-67E7D23E-976F-4DC1-9787-E1437D39B7C7">
+                            <p class="p">添加库：如果默认8组轮询组不能满足需求，您可以单击<span class="ph uicontrol">添加库</span>，继续新增轮询参数组。</p>
+
+                            <div class="note note" id="GUID-A49A7A2C-9786-463B-B026-31FE012E4FA7__GUID-AC240787-FADD-4E32-8C91-96FBE843FDE0"><span class="notetitle">说明</span> 
+                                <p class="p">仅使用V4.0.0及以上固件版本的部分型号读码器支持添加轮询参数组，最多支持添加8组轮询参数，总计16组轮询参数。具体支持情况请以界面显示为准。</p>
+
+                            </div>
+
+                        </li>
+
+                        <li class="li" id="GUID-A49A7A2C-9786-463B-B026-31FE012E4FA7__GUID-41EC7445-280F-4BC7-A8A2-121103490509">
+                            <p class="p"><span class="ph uicontrol">恢复默认</span>：将当前所有轮询组参数恢复为默认值。</p>
+
+                        </li>
+
+                        <li class="li" id="GUID-A49A7A2C-9786-463B-B026-31FE012E4FA7__GUID-AF095622-12F1-4201-A176-3CA6747C18C3">
+                            <p class="p"><img class="image icon" style="display:none;" id="GUID-A49A7A2C-9786-463B-B026-31FE012E4FA7__IMAGE_SMJ_RQS_52C" src="GUID-4DF02E3E-0664-46AC-B730-0762E81FA6E6-high.png" />：单击后可对当前轮询组进行如下设置。</p>
+
+                            <ul class="ul" id="GUID-A49A7A2C-9786-463B-B026-31FE012E4FA7__UL_SVY_TQS_52C">
+                                <li class="li" id="GUID-A49A7A2C-9786-463B-B026-31FE012E4FA7__GUID-359FAB11-551F-4C13-BE90-5F5EC0F7BCAE">
+                                    <p class="p">恢复当前列：将当前轮询组所有参数恢复为默认值。</p>
+
+                                </li>
+
+                                <li class="li" id="GUID-A49A7A2C-9786-463B-B026-31FE012E4FA7__GUID-FA5C53FD-2CD4-4FFD-B448-A8D96CE8D846">
+                                    <p class="p">应用到所有库：将当前轮询组参数值应用到其他轮询组。</p>
+
+                                </li>
+
+                                <li class="li" id="GUID-A49A7A2C-9786-463B-B026-31FE012E4FA7__GUID-7F306785-8B14-44CE-8DB6-130F44529711">
+                                    <p class="p">应用到其他库：将当前轮询组参数值应用到指定的轮询组中。</p>
+
+                                </li>
+
+                            </ul>
+
+                        </li>
+
+                    </ul>
+
+                </div>
+            </li>
+<li class="li step stepexpand" id="GUID-A49A7A2C-9786-463B-B026-31FE012E4FA7__GUID-47F9CA1B-6082-4DC5-AE17-D48099A3E057">
+                <span class="ph cmd">在<span class="ph uicontrol">参数轮询</span>页面上方，单击<span class="ph uicontrol">保存</span>。</span>
+                <div class="itemgroup info">
+                    <p class="p">保存成功后，读码器开始工作后将触发参数轮询。</p>
+
+                </div>
+            </li>
+</ol>
+
+</div>
+
+
+</div>
+						<div class=" wt_topic_wpp_content wt_pc_only "><div class=" wt_topic_wpp_content_flex "><div class="wt_topic_wpp_item like"></div><div class="wt_topic_wpp_item view"></div><div class="wt_topic_wpp_item share">分享</div></div></div>
+						
+						
+						
+					</div>
+				</div><!-- container_body -->
+				
+				<div class=" body_footer "><div onclick="prevTopic()" class=" body_footer_left link_button "><span>上一页</span></div><div onclick="nextTopic()" class=" body_footer_right link_button "><span>下一页</span></div></div>
+				<div class=" body_wpp mobile_only"><div class="wt_body_mobile_like"></div><div class="wt_body_mobile_view"></div></div>
+				<!-- <whc:webhelp_side_toc /> -->
+				
+			</div> <!-- middle_view content_area -->
+			<div class=" right_content wt_pc_only "></div>
+		</div> <!-- content_box -->
+		
+		<!-- 置顶按钮 -->
+		<div class="body_to_top" onclick="scrollTopicTop()"></div> 
+		<!-- 评价反馈 -->
+		<div onclick="manualFeedback()" class=" body_feedback " data-href="https://wj.hikvision.com/#/public-survey?id=64c8b90d80e02e9e88feca2f"></div>
+		
+	</body>
+</html>

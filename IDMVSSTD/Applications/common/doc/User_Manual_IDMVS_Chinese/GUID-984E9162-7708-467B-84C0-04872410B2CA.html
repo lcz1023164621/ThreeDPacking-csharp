@@ -1,0 +1,117 @@
+
+<!DOCTYPE html
+  PUBLIC "" "about:legacy-compat">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:whc="http://www.daksys.com/webhelp/components" xml:lang="zh-cn" lang="zh-cn">
+	<head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />        
+      <meta name="copyright" content="©  杭州海康威视数字技术股份有限公司。保留一切权利。" /><meta name="DC.Type" content="concept" /><meta name="DC.Title" content="预览有画面，但条码未识别" /><meta name="abstract" content="当图像中的条码无法识别时，可从支持的码制、图像质量方面尝试解决。" /><meta name="description" content="当图像中的条码无法识别时，可从支持的码制、图像质量方面尝试解决。" /><meta name="DC.Relation" scheme="URI" content="GUID-4CFF5E7B-A983-41D0-8F97-690E1ED31AC8.html" /><meta name="DC.Format" content="XHTML" /><meta name="DC.Identifier" content="GUID-984E9162-7708-467B-84C0-04872410B2CA" /><meta name="DC.Language" content="zh-CN" /><title>预览有画面，但条码未识别</title><!-- Generated with dksgen version 1.0, build number 2023071300.  --><meta viewport="Content-Type" content="width=device-width, initial-scale=1.0" /><meta http-equiv="X-UA-Compatible" content="IE=edge,Chrome=1" /><meta name="wh-path2root" content="index.html" />
+		<!-- commonltr css -->
+		<link rel="stylesheet" type="text/css" href="daksys-webhelp/resources/css/commonltr.css" />
+		<!-- Bootstrap css -->
+		<link rel="stylesheet" type="text/css" href="daksys-webhelp/resources/bootstrap/css/bootstrap.min.css" />
+		<link rel="stylesheet" type="text/css" href="daksys-webhelp/resources/bootstrap/css/bootstrap-theme.min.css" />
+		<link rel="stylesheet" type="text/css" href="daksys-webhelp/resources/js/jquery-ui.min.css" />
+		
+		<!-- Template css  -->
+		<link href="daksys-webhelp/template/resources/css/HIKROBOT_color.css?buildId=2023071300" rel="stylesheet" type="text/css" />
+		<link rel="stylesheet" type="text/css" href="daksys-webhelp/template/resources/css/wt_topic.css?buildId=2023071300" />
+		<link rel="stylesheet" type="text/css" href="daksys-webhelp/template/resources/css/wt_topic_m.css?buildId=2023071300" />
+		<link rel="stylesheet" type="text/css" href="daksys-webhelp/template/resources/css/wt_expand.css?buildId=2023071300" />
+		<link rel="stylesheet" type="text/css" href="daksys-webhelp/template/resources/css/wt_note.css?buildId=2023071300" />
+		<link rel="stylesheet" type="text/css" href="daksys-webhelp/template/resources/css/wt_steps.css?buildId=2023071300" />
+		
+		<!-- jquery js  -->
+		<script type="text/javascript" src="daksys-webhelp/resources/js/jquery-3.6.2.min.js"></script>
+		<script type="text/javascript" src="daksys-webhelp/resources/js/jquery.cookie.js"></script>
+		<script type="text/javascript" src="daksys-webhelp/resources/js/jquery.highlight-3.js"></script>
+		<script type="text/javascript" src="daksys-webhelp/resources/js/jquery-ui.min.js"></script>
+		
+		<!-- common js  -->
+		<script type="text/javascript" src="daksys-webhelp/resources/bootstrap/js/bootstrap.min.js"></script>
+		<script type="text/javascript" src="daksys-webhelp/resources/js/base64.js"></script>
+		<script type="text/javascript" src="daksys-webhelp/resources/js/browserDetect.js"></script>
+		<script type="text/javascript" src="daksys-webhelp/resources/js/localization.js"></script>
+		<script type="text/javascript" src="daksys-webhelp/resources/js/parseuri.js"></script>
+		<script type="text/javascript" src="daksys-webhelp/resources/localization/strings.js"></script>
+		<!-- Template js -->
+		<script type="text/javascript" src="daksys-webhelp/template/resources/js/wt_topic.js?buildId=2023071300"></script>
+		<script type="text/javascript" src="daksys-webhelp/template/resources/js/wt_expand.js?buildId=2023071300"></script>
+	</head>
+	<body class="wt_topic_page frmBody" id="GUID-984E9162-7708-467B-84C0-04872410B2CA" onload="topicOnload()">
+		<!-- get_lang -->
+		<div id="lang" style="display:none">zh-CN</div><div id="mapoutputclass" style="display:none"></div>
+		<input hidden="hidden" id="UDCode" value="UD12345B" /><input hidden="hidden" id="Trademark" value="海康机器人" />
+		
+		<div class="content_box">
+			<div class="middle_view content_area col-sm-9" id="content_area">
+				<div class=" wt_breadcrumb "><ol><li><span class="home topicref"><a href="javascript:void(0)" onclick="gotoFirstPage()">首页</a></span></li><li><span class="topicref"><a href="GUID-EE9D5317-D3A9-4595-8068-C96B2ABBD11B.html" data-id="GUID-EE9D5317-D3A9-4595-8068-C96B2ABBD11B">问题排查</a></span></li><li><span class="topicref"><a href="GUID-4CFF5E7B-A983-41D0-8F97-690E1ED31AC8.html" data-id="GUID-4CFF5E7B-A983-41D0-8F97-690E1ED31AC8">条码识别与输出问题排查</a></span></li><li class="active"><span class="topicref">预览有画面，但条码未识别</span></li></ol><div class="wt_breadcrumb_ellipsis" onclick="expandBreadcrumbDiv()"></div><div class="wt_breadcrumb_collapse" style="display: none;"><div class="wt_breadcrumb_collapse_button" onclick="collapseBreadcrumbDiv()"></div></div></div>
+				
+				<div id="container_body" class="container">
+					<div id="contentArea">
+						<div class=" wt_topic_content body ">
+    <h1 class="title topictitle1">预览有画面，但条码未识别</h1>
+
+    
+
+<div class="body conbody"><p class="shortdesc">当图像中的条码无法识别时，可从支持的码制、图像质量方面尝试解决。</p>
+
+        <div class="section" id="GUID-984E9162-7708-467B-84C0-04872410B2CA__GUID-A1D291EA-48FC-4EE4-8646-05EDA0D689A1"><h2 class="title sectiontitle">现象</h2>
+            
+            <p class="p">IDMVS连接读码器后，可正常采集图像，且图像有码，但未成功识别。</p>
+
+        </div>
+
+        <div class="section" id="GUID-984E9162-7708-467B-84C0-04872410B2CA__GUID-636D9880-7E3C-45FC-B7A5-FEC564B1369A"><h2 class="title sectiontitle">解决方法</h2>
+            
+            <p class="p">首先，您需要确认具体的码制，再按照以下方法逐步排查。</p>
+
+            <ol class="ol" id="GUID-984E9162-7708-467B-84C0-04872410B2CA__OL_RN4_P3M_1FC">
+                <li class="li" id="GUID-984E9162-7708-467B-84C0-04872410B2CA__GUID-BDA6F378-7563-4B35-847F-57BF716C76DE">
+                    <p class="p">确保读码器是支持识别的。可通过技术规格书了解支持情况。</p>
+
+                    <div class="note note" id="GUID-984E9162-7708-467B-84C0-04872410B2CA__GUID-EDC4A65E-014C-471B-BE73-2233C25E55F4"><span class="notetitle">说明</span> 
+                        <p class="p">若读码器不支持识别此码制，但您希望能支持，可与本公司技术同事进一步沟通。</p>
+
+                    </div>
+
+                </li>
+
+                <li class="li" id="GUID-984E9162-7708-467B-84C0-04872410B2CA__GUID-CE645D19-1C3F-4C57-B524-BCB055E957DD">
+                    <p class="p">确保读码器在<span class="ph uicontrol">码制选择</span>已勾选此码制，详情参见<a class="xref" href="GUID-CD0A67A0-A5F1-42E4-BCC6-C4DA9B21C28D.html#GUID-CD0A67A0-A5F1-42E4-BCC6-C4DA9B21C28D" title="IDMVS码制选择模块支持配置读码器可读取的条码类型、条码个数、读码算法和ROI，适配不同读码场景，方便按需优化读码效果。">码制选择</a>。</p>
+
+                </li>
+
+                <li class="li" id="GUID-984E9162-7708-467B-84C0-04872410B2CA__GUID-DC01DC11-8126-42C1-BA90-26E51102302C">
+                    <p class="p">通过<a class="xref" href="GUID-02BC73C2-5CA2-4D34-8B18-52CDA1103144.html#GUID-02BC73C2-5CA2-4D34-8B18-52CDA1103144" title="IDMVS支持评估一维码、二维码和堆叠码的质量，确保其可读性和可靠性。适用于读码调试、生产线集成和质量控制等场景，有助于提高读码准确性。">打码评级</a>功能查看读码器采集的图像是否不符合读码要求，主要为PPM、清晰度、对比度等指标。若评级较低，则无法读取，需更换读取条码。</p>
+
+                </li>
+
+            </ol>
+
+        </div>
+
+    </div>
+
+
+</div>
+						<div class=" wt_topic_wpp_content wt_pc_only "><div class=" wt_topic_wpp_content_flex "><div class="wt_topic_wpp_item like"></div><div class="wt_topic_wpp_item view"></div><div class="wt_topic_wpp_item share">分享</div></div></div>
+						
+						
+						
+					</div>
+				</div><!-- container_body -->
+				
+				<div class=" body_footer "><div onclick="prevTopic()" class=" body_footer_left link_button "><span>上一页</span></div><div onclick="nextTopic()" class=" body_footer_right link_button "><span>下一页</span></div></div>
+				<div class=" body_wpp mobile_only"><div class="wt_body_mobile_like"></div><div class="wt_body_mobile_view"></div></div>
+				<!-- <whc:webhelp_side_toc /> -->
+				
+			</div> <!-- middle_view content_area -->
+			<div class=" right_content wt_pc_only "><div class=" right_fixed_container "><div class="right_guide"><div class="feature_guide"><div>本页导航</div><ul><li onclick="scrollToAnchor($(this))" data-id="GUID-984E9162-7708-467B-84C0-04872410B2CA__GUID-A1D291EA-48FC-4EE4-8646-05EDA0D689A1" class="feature_guide_h2"><span class="link_button">现象</span></li><li onclick="scrollToAnchor($(this))" data-id="GUID-984E9162-7708-467B-84C0-04872410B2CA__GUID-636D9880-7E3C-45FC-B7A5-FEC564B1369A" class="feature_guide_h2"><span class="link_button">解决方法</span></li></ul></div></div></div></div>
+		</div> <!-- content_box -->
+		
+		<!-- 置顶按钮 -->
+		<div class="body_to_top" onclick="scrollTopicTop()"></div> 
+		<!-- 评价反馈 -->
+		<div onclick="manualFeedback()" class=" body_feedback " data-href="https://wj.hikvision.com/#/public-survey?id=64c8b90d80e02e9e88feca2f"></div>
+		
+	</body>
+</html>

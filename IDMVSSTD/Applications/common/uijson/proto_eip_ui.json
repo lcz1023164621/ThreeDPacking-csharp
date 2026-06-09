@@ -1,0 +1,61 @@
+{
+    "ui_tabs": [
+        {
+            "ui_type": "tab",
+            "ui_param_name": "",
+            "ui_subset": [
+                {
+                    "ui_display_name": "Protocol_EthernetIp",
+                    "ui_display_cn_name": "EtherNet/IP 协议",
+                    "ui_display_en_name": "EtherNet/IP",
+                    "ui_usage_frequency": "Common",
+                    "ui_type": "category",
+                    "ui_param_name": "",
+                    "ui_param_display_type": "",
+                    "ui_subset": [
+                        {
+                            "ui_display_name": "EthernetIpInputAssemblySize",
+                            "ui_display_cn_name": "输入数据大小(Byte)",
+                            "ui_display_en_name": "Input Assembly Size(Byte)",
+                            "ui_usage_frequency": "Common",
+                            "ui_type": "config_param",
+                            "ui_param_name": "EthernetIpInputAssemblySize",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        },
+                        {
+                            "ui_display_name": "EthernetIpOutputAssemblySize",
+                            "ui_display_cn_name": "输出数据大小(Byte)",
+                            "ui_display_en_name": "Output Assembly Size(Byte)",
+                            "ui_usage_frequency": "Common",
+                            "ui_type": "config_param",
+                            "ui_param_name": "EthernetIpOutputAssemblySize",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        },
+                        {
+                            "ui_display_name": "EthernetIpResultByteSwap",
+                            "ui_display_cn_name": "字节交换大小端",
+                            "ui_display_en_name": "Byte Swap Endianness",
+                            "ui_usage_frequency": "Common",
+                            "ui_type": "config_param",
+                            "ui_param_name": "EthernetIpResultByteSwap",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        },
+                        {
+                            "ui_display_name": "EthernetIpResultTimeout",
+                            "ui_display_cn_name": "响应等待时间(s)",
+                            "ui_display_en_name": "Response Wait Time(s)",
+                            "ui_usage_frequency": "Common",
+                            "ui_type": "config_param",
+                            "ui_param_name": "EthernetIpResultTimeout",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}

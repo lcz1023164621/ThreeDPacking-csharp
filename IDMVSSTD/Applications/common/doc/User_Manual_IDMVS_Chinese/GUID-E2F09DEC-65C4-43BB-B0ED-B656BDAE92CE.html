@@ -1,0 +1,135 @@
+
+<!DOCTYPE html
+  PUBLIC "" "about:legacy-compat">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:whc="http://www.daksys.com/webhelp/components" xml:lang="zh-cn" lang="zh-cn">
+	<head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />        
+      <meta name="copyright" content="©  杭州海康威视数字技术股份有限公司。保留一切权利。" /><meta name="DC.Type" content="concept" /><meta name="DC.Title" content="组播" /><meta name="abstract" content="多读码器组播组网由一个主读码器和多个从读码器组成，主读码器用于同步触发号，所有读码器各自传输读码数据至读码平台。" /><meta name="description" content="多读码器组播组网由一个主读码器和多个从读码器组成，主读码器用于同步触发号，所有读码器各自传输读码数据至读码平台。" /><meta name="DC.Relation" scheme="URI" content="GUID-B9202C17-0068-4879-9520-132F7C4F6BCB.html" /><meta name="DC.Format" content="XHTML" /><meta name="DC.Identifier" content="GUID-E2F09DEC-65C4-43BB-B0ED-B656BDAE92CE" /><meta name="DC.Language" content="zh-CN" /><title>组播</title><!-- Generated with dksgen version 1.0, build number 2023071300.  --><meta viewport="Content-Type" content="width=device-width, initial-scale=1.0" /><meta http-equiv="X-UA-Compatible" content="IE=edge,Chrome=1" /><meta name="wh-path2root" content="index.html" />
+		<!-- commonltr css -->
+		<link rel="stylesheet" type="text/css" href="daksys-webhelp/resources/css/commonltr.css" />
+		<!-- Bootstrap css -->
+		<link rel="stylesheet" type="text/css" href="daksys-webhelp/resources/bootstrap/css/bootstrap.min.css" />
+		<link rel="stylesheet" type="text/css" href="daksys-webhelp/resources/bootstrap/css/bootstrap-theme.min.css" />
+		<link rel="stylesheet" type="text/css" href="daksys-webhelp/resources/js/jquery-ui.min.css" />
+		
+		<!-- Template css  -->
+		<link href="daksys-webhelp/template/resources/css/HIKROBOT_color.css?buildId=2023071300" rel="stylesheet" type="text/css" />
+		<link rel="stylesheet" type="text/css" href="daksys-webhelp/template/resources/css/wt_topic.css?buildId=2023071300" />
+		<link rel="stylesheet" type="text/css" href="daksys-webhelp/template/resources/css/wt_topic_m.css?buildId=2023071300" />
+		<link rel="stylesheet" type="text/css" href="daksys-webhelp/template/resources/css/wt_expand.css?buildId=2023071300" />
+		<link rel="stylesheet" type="text/css" href="daksys-webhelp/template/resources/css/wt_note.css?buildId=2023071300" />
+		<link rel="stylesheet" type="text/css" href="daksys-webhelp/template/resources/css/wt_steps.css?buildId=2023071300" />
+		
+		<!-- jquery js  -->
+		<script type="text/javascript" src="daksys-webhelp/resources/js/jquery-3.6.2.min.js"></script>
+		<script type="text/javascript" src="daksys-webhelp/resources/js/jquery.cookie.js"></script>
+		<script type="text/javascript" src="daksys-webhelp/resources/js/jquery.highlight-3.js"></script>
+		<script type="text/javascript" src="daksys-webhelp/resources/js/jquery-ui.min.js"></script>
+		
+		<!-- common js  -->
+		<script type="text/javascript" src="daksys-webhelp/resources/bootstrap/js/bootstrap.min.js"></script>
+		<script type="text/javascript" src="daksys-webhelp/resources/js/base64.js"></script>
+		<script type="text/javascript" src="daksys-webhelp/resources/js/browserDetect.js"></script>
+		<script type="text/javascript" src="daksys-webhelp/resources/js/localization.js"></script>
+		<script type="text/javascript" src="daksys-webhelp/resources/js/parseuri.js"></script>
+		<script type="text/javascript" src="daksys-webhelp/resources/localization/strings.js"></script>
+		<!-- Template js -->
+		<script type="text/javascript" src="daksys-webhelp/template/resources/js/wt_topic.js?buildId=2023071300"></script>
+		<script type="text/javascript" src="daksys-webhelp/template/resources/js/wt_expand.js?buildId=2023071300"></script>
+	</head>
+	<body onload="topicOnload()" class="wt_topic_page frmBody" id="GUID-E2F09DEC-65C4-43BB-B0ED-B656BDAE92CE">
+		<!-- get_lang -->
+		<div id="lang" style="display:none">zh-CN</div><div id="mapoutputclass" style="display:none"></div>
+		<input hidden="hidden" id="UDCode" value="UD12345B" /><input hidden="hidden" id="Trademark" value="海康机器人" />
+		
+		<div class="content_box">
+			<div class="middle_view content_area col-sm-9" id="content_area">
+				<div class=" wt_breadcrumb "><ol><li><span class="home topicref"><a href="javascript:void(0)" onclick="gotoFirstPage()">首页</a></span></li><li><span class="topicref"><a href="GUID-3F138232-3CF2-4E3F-A3C0-3D677CF174B5.html" data-id="GUID-3F138232-3CF2-4E3F-A3C0-3D677CF174B5">读码器高级配置</a></span></li><li><span class="topicref"><a href="GUID-B9202C17-0068-4879-9520-132F7C4F6BCB.html" data-id="GUID-B9202C17-0068-4879-9520-132F7C4F6BCB">配置多读码器同步</a></span></li><li class="active"><span class="topicref">组播</span></li></ol><div class="wt_breadcrumb_ellipsis" onclick="expandBreadcrumbDiv()"></div><div class="wt_breadcrumb_collapse" style="display: none;"><div class="wt_breadcrumb_collapse_button" onclick="collapseBreadcrumbDiv()"></div></div></div>
+				
+				<div id="container_body" class="container">
+					<div id="contentArea">
+						<div class=" wt_topic_content body ">
+    <h1 class="title topictitle1">组播</h1>
+
+    
+
+<div class="body conbody"><p class="shortdesc">多读码器组播组网由一个主读码器和多个从读码器组成，主读码器用于同步触发号，所有读码器各自传输读码数据至读码平台。</p>
+
+        <p class="p">组播组网的主要原理是将多台读码器中的其中一台设置为主读码器，其他读码器设置为从读码器，主读码器和从读码器同时触发采图，主读码器同步触发号给其他从读码器，主读码器和从读码器传输读码数据至读码平台，读码平台基于触发号进行整合同步处理，输出融合后的结果。适用于物流多面扫（一般大于3台读码器）场景，通过读码平台将主从读码器所有输出融合一起发出，实现多读码器的协同工作。</p>
+
+        <p class="p">在IDMVS主界面功能导航栏，选择<span class="ph menucascade"><span class="ph uicontrol">操作配置 </span> &gt; <span class="ph uicontrol">组网配置</span> &gt; <span class="ph uicontrol">组播配置</span></span>，进入组播配置页签配置如下参数。</p>
+
+        <div class="note note" id="GUID-E2F09DEC-65C4-43BB-B0ED-B656BDAE92CE__GUID-FE7BCA87-CFF5-4676-8294-930E7F17ABA5"><span class="notetitle">说明</span> 
+            <p class="p">不支持同时配置组播和主从组网功能。</p>
+
+        </div>
+
+        <div class="fig fignone" id="GUID-E2F09DEC-65C4-43BB-B0ED-B656BDAE92CE__FIG_PB4_HXJ_WFC">
+            
+            <img class="image" style="display:none;" id="GUID-E2F09DEC-65C4-43BB-B0ED-B656BDAE92CE__IMAGE_QB4_HXJ_WFC" src="GUID-D50788E4-D111-46E4-A967-FB657BD7E263-high.png" width="1400" />
+        <div class="fig_caption"><span class="figcap">图 1 组播配置</span></div></div>
+
+        <dl class="dl parml">
+            
+                <dt class="dt pt dlterm"><a name="GUID-E2F09DEC-65C4-43BB-B0ED-B656BDAE92CE__GUID-936820C0-A8D7-4C97-B2A5-23BA864163AD"><!-- --></a>组播模式</dt>
+
+                <dd class="dd pd">
+                    <p class="p">选择是否开启组播功能或配置当前连接读码器的模式，可选如下模式。</p>
+
+                    <ul class="ul" id="GUID-E2F09DEC-65C4-43BB-B0ED-B656BDAE92CE__UL_RSQ_S32_52C">
+                        <li class="li" id="GUID-E2F09DEC-65C4-43BB-B0ED-B656BDAE92CE__GUID-1DE519B8-975C-4B88-8296-27FD6DC0277E">
+                            <p class="p"><span class="ph uicontrol">关闭组播模式</span>：不启用组播功能。</p>
+
+                        </li>
+
+                        <li class="li" id="GUID-E2F09DEC-65C4-43BB-B0ED-B656BDAE92CE__GUID-6895F415-E499-47D9-ACFB-A39C764D08EA">
+                            <p class="p"><span class="ph uicontrol">主</span>：设置当前连接的读码器为主读码器，主读码器同步触发号给其他从读码器。</p>
+
+                        </li>
+
+                        <li class="li" id="GUID-E2F09DEC-65C4-43BB-B0ED-B656BDAE92CE__GUID-B60490DA-2774-4CCF-A3D8-D3CD63C7ABD4">
+                            <p class="p"><span class="ph uicontrol">从</span>：设置当前连接的读码器为从读码器。</p>
+
+                        </li>
+
+                    </ul>
+
+                </dd>
+
+            
+            
+                <dt class="dt pt dlterm"><a name="GUID-E2F09DEC-65C4-43BB-B0ED-B656BDAE92CE__GUID-C362D73E-0EBC-48AD-82AA-31D8419F391F"><!-- --></a>组号</dt>
+
+                <dd class="dd pd">
+                    <p class="p"><span class="ph uicontrol">组播模式</span>选择主或从后，可通过此参数指定读码器的组播组序号，相同序号为同一组。</p>
+
+                </dd>
+
+            
+        </dl>
+
+    </div>
+
+
+</div>
+						<div class=" wt_topic_wpp_content wt_pc_only "><div class=" wt_topic_wpp_content_flex "><div class="wt_topic_wpp_item like"></div><div class="wt_topic_wpp_item view"></div><div class="wt_topic_wpp_item share">分享</div></div></div>
+						
+						
+						
+					</div>
+				</div><!-- container_body -->
+				
+				<div class=" body_footer "><div onclick="prevTopic()" class=" body_footer_left link_button "><span>上一页</span></div><div onclick="nextTopic()" class=" body_footer_right link_button "><span>下一页</span></div></div>
+				<div class=" body_wpp mobile_only"><div class="wt_body_mobile_like"></div><div class="wt_body_mobile_view"></div></div>
+				<!-- <whc:webhelp_side_toc /> -->
+				
+			</div> <!-- middle_view content_area -->
+			<div class=" right_content wt_pc_only "></div>
+		</div> <!-- content_box -->
+		
+		<!-- 置顶按钮 -->
+		<div class="body_to_top" onclick="scrollTopicTop()"></div> 
+		<!-- 评价反馈 -->
+		<div onclick="manualFeedback()" class=" body_feedback " data-href="https://wj.hikvision.com/#/public-survey?id=64c8b90d80e02e9e88feca2f"></div>
+		
+	</body>
+</html>

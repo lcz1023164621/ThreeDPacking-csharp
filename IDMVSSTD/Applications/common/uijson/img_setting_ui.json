@@ -1,0 +1,1017 @@
+{
+    "ui_tabs": [
+        {
+            "ui_type": "tab",
+            "ui_param_name": "",
+            "ui_subset": [
+                {
+                    "ui_display_name": "image_config",
+                    "ui_display_cn_name": "图像配置",
+                    "ui_display_en_name": "Image Settings ",
+                    "ui_usage_frequency": "Common",
+                    "ui_type": "category",
+                    "ui_param_name": "",
+                    "ui_param_display_type": "",
+                    "ui_subset": [
+                        {
+                            "ui_display_name": "CameraSelector",
+                            "ui_display_cn_name": "通道选项",
+                            "ui_display_en_name": "CameraSelector",
+                            "ui_usage_frequency": "Common",
+                            "ui_type": "config_param",
+                            "ui_param_name": "CameraSelector",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        },
+                        {
+                            "ui_display_name": "ExposureTime",
+                            "ui_display_cn_name": "曝光时间(μs)",
+                            "ui_display_en_name": "Exposure(μs)",
+                            "ui_usage_frequency": "Common",
+                            "ui_type": "config_param",
+                            "ui_param_name": "ExposureTime",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        },
+                        {
+                            "ui_display_name": "Gain",
+                            "ui_display_cn_name": "增益(dB)",
+                            "ui_display_en_name": "Gain(dB)",
+                            "ui_usage_frequency": "Common",
+                            "ui_type": "config_param",
+                            "ui_param_name": "Gain",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        },
+                        {
+                            "ui_display_name": "Gamma",
+                            "ui_display_cn_name": "伽马",
+                            "ui_display_en_name": "Gamma",
+                            "ui_usage_frequency": "Common",
+                            "ui_type": "config_param",
+                            "ui_param_name": "Gamma",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        },
+                        {
+                            "ui_display_name": "AcquisitionLineRate",
+                            "ui_display_cn_name": "采集行频(Hz)",
+                            "ui_display_en_name": "Acquisition Line Rate(Hz)",
+                            "ui_usage_frequency": "Common",
+                            "ui_type": "config_param",
+                            "ui_param_name": "AcquisitionLineRate",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        },
+                        {
+                            "ui_display_name": "AcquisitionFrameRate",
+                            "ui_display_cn_name": "采集帧率(fps)",
+                            "ui_display_en_name": "Acquisition Frame Rate(fps)",
+                            "ui_usage_frequency": "Common",
+                            "ui_type": "config_param",
+                            "ui_param_name": "AcquisitionFrameRate",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        },
+                        {
+                            "ui_display_name": "ResultingFrameRate",
+                            "ui_display_cn_name": "算法识别帧率(fps)",
+                            "ui_display_en_name": "Resulting Frame Rate(fps)",
+                            "ui_usage_frequency": "Advance",
+                            "ui_type": "config_param",
+                            "ui_param_name": "ResultingFrameRate",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        },
+                        {
+                            "ui_display_name": "AcquisitionBurstFrameCount",
+                            "ui_display_cn_name": "单次触发帧计数",
+                            "ui_display_en_name": "Acquisition Burst Frame Count",
+                            "ui_usage_frequency": "Advance",
+                            "ui_type": "config_param",
+                            "ui_param_name": "AcquisitionBurstFrameCount",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        },
+                        {
+                            "ui_display_name": "RawModeEnable",
+                            "ui_display_cn_name": "Raw模式",
+                            "ui_display_en_name": "Raw Mode",
+                            "ui_usage_frequency": "Advance",
+                            "ui_type": "config_param",
+                            "ui_param_name": "RawModeEnable",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        },
+                        {
+                            "ui_display_name": "ExposureAuto",
+                            "ui_display_cn_name": "自动曝光模式",
+                            "ui_display_en_name": "Auto Exposure Mode",
+                            "ui_usage_frequency": "Common",
+                            "ui_type": "config_param",
+                            "ui_param_name": "ExposureAuto",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        },
+                        {
+                            "ui_display_name": "ExposingArea",
+                            "ui_display_cn_name": "曝光区域",
+                            "ui_display_en_name": "Exposure Area",
+                            "ui_usage_frequency": "Advance",
+                            "ui_type": "config_param",
+                            "ui_param_name": "ExposingArea",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        },
+                        {
+                            "ui_display_name": "AreaWidth",
+                            "ui_display_cn_name": "曝光区域宽度(px)",
+                            "ui_display_en_name": "Exposure Area Width(px)",
+                            "ui_usage_frequency": "Advance",
+                            "ui_type": "config_param",
+                            "ui_param_name": "AreaWidth",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        },
+                        {
+                            "ui_display_name": "AreaHeight",
+                            "ui_display_cn_name": "曝光区域高度(px)",
+                            "ui_display_en_name": "Exposure Area Height(px)",
+                            "ui_usage_frequency": "Advance",
+                            "ui_type": "config_param",
+                            "ui_param_name": "AreaHeight",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        },
+                        {
+                            "ui_display_name": "AreaOffsetX",
+                            "ui_display_cn_name": "曝光区域X轴偏移量(px)",
+                            "ui_display_en_name": "Exposure Area X Offset(px)",
+                            "ui_usage_frequency": "Advance",
+                            "ui_type": "config_param",
+                            "ui_param_name": "AreaOffsetX",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        },
+                        {
+                            "ui_display_name": "AreaOffsetY",
+                            "ui_display_cn_name": "曝光区域Y轴偏移量(px)",
+                            "ui_display_en_name": "Exposure Area Y Offset(px)",
+                            "ui_usage_frequency": "Advance",
+                            "ui_type": "config_param",
+                            "ui_param_name": "AreaOffsetY",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        },
+                        {
+                            "ui_display_name": "GainAuto",
+                            "ui_display_cn_name": "自动增益模式",
+                            "ui_display_en_name": "Auto Gain Mode",
+                            "ui_usage_frequency": "Common",
+                            "ui_type": "config_param",
+                            "ui_param_name": "GainAuto",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        },
+                        {
+                            "ui_display_name": "ExposureAlternate",
+                            "ui_display_cn_name": "交替曝光",
+                            "ui_display_en_name": "Alternate Exposure",
+                            "ui_usage_frequency": "Advance",
+                            "ui_type": "config_param",
+                            "ui_param_name": "ExposureAlternate",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        },
+                        {
+                            "ui_display_name": "AlternateExposureSelector",
+                            "ui_display_cn_name": "交替曝光组",
+                            "ui_display_en_name": "Alternate Exposure Group",
+                            "ui_usage_frequency": "Advance",
+                            "ui_type": "config_param",
+                            "ui_param_name": "AlternateExposureSelector",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        },
+                        {
+                            "ui_display_name": "AlternateExposureEnable",
+                            "ui_display_cn_name": "特定组开启交替曝光",
+                            "ui_display_en_name": "Enable Alternate Exposure",
+                            "ui_usage_frequency": "Advance",
+                            "ui_type": "config_param",
+                            "ui_param_name": "AlternateExposureEnable",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        },
+                        {
+                            "ui_display_name": "AlternateExposureTime",
+                            "ui_display_cn_name": "交替曝光时间(μs)",
+                            "ui_display_en_name": "Alternate Exposure Time(μs)",
+                            "ui_usage_frequency": "Advance",
+                            "ui_type": "config_param",
+                            "ui_param_name": "AlternateExposureTime",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        },
+                        {
+                            "ui_display_name": "GainAlternate",
+                            "ui_display_cn_name": "交替增益",
+                            "ui_display_en_name": "Alternate Gain",
+                            "ui_usage_frequency": "Advance",
+                            "ui_type": "config_param",
+                            "ui_param_name": "GainAlternate",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        },
+                        {
+                            "ui_display_name": "AlternateGainSelector",
+                            "ui_display_cn_name": "交替增益组",
+                            "ui_display_en_name": "Alternate Gain Group",
+                            "ui_usage_frequency": "Advance",
+                            "ui_type": "config_param",
+                            "ui_param_name": "AlternateGainSelector",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        },
+                        {
+                            "ui_display_name": "AlternateGainEnable",
+                            "ui_display_cn_name": "特定组开启交替增益",
+                            "ui_display_en_name": "Enable Alternate Gain",
+                            "ui_usage_frequency": "Advance",
+                            "ui_type": "config_param",
+                            "ui_param_name": "AlternateGainEnable",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        },
+                        {
+                            "ui_display_name": "AlternateGain",
+                            "ui_display_cn_name": "交替增益(dB)",
+                            "ui_display_en_name": "Alternate Gain(dB)",
+                            "ui_usage_frequency": "Advance",
+                            "ui_type": "config_param",
+                            "ui_param_name": "AlternateGain",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        },
+                        {
+                            "ui_display_name": "DigitGainEnable",
+                            "ui_display_cn_name": "数字增益使能",
+                            "ui_display_en_name": "Digital Gain Enable",
+                            "ui_usage_frequency": "Advance",
+                            "ui_type": "config_param",
+                            "ui_param_name": "DigitGainEnable",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        },
+                        {
+                            "ui_display_name": "DigitGain",
+                            "ui_display_cn_name": "数字增益(dB)",
+                            "ui_display_en_name": "Digital Gain(dB)",
+                            "ui_usage_frequency": "Advance",
+                            "ui_type": "config_param",
+                            "ui_param_name": "DigitGain",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        },
+                        {
+                            "ui_display_name": "PreampGain",
+                            "ui_display_cn_name": "等级增益",
+                            "ui_display_en_name": "Preamp Gain",
+                            "ui_usage_frequency": "Common",
+                            "ui_type": "config_param",
+                            "ui_param_name": "PreampGain",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        },
+                        {
+                            "ui_display_name": "PreampGainDisplay",
+                            "ui_display_cn_name": "等级增益",
+                            "ui_display_en_name": "Preamp Gain",
+                            "ui_usage_frequency": "Common",
+                            "ui_type": "config_param",
+                            "ui_param_name": "PreampGainDisplay",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        },
+                        {
+                            "ui_display_name": "Brightness",
+                            "ui_display_cn_name": "图像亮度",
+                            "ui_display_en_name": "Image Brightness",
+                            "ui_usage_frequency": "Advance",
+                            "ui_type": "config_param",
+                            "ui_param_name": "Brightness",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        },
+                        {
+                            "ui_display_name": "CameraOutputImagePolicy",
+                            "ui_display_cn_name": "图像输出策略",
+                            "ui_display_en_name": "Camera Output Image Policy",
+                            "ui_usage_frequency": "Common",
+                            "ui_type": "config_param",
+                            "ui_param_name": "CameraOutputImagePolicy",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        },
+                        {
+                            "ui_display_name": "CodeReadMode",
+                            "ui_display_cn_name": "读码模式",
+                            "ui_display_en_name": "Reading Mode",
+                            "ui_usage_frequency": "Common",
+                            "ui_type": "config_param",
+                            "ui_param_name": "CodeReadMode",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        },
+                        {
+                            "ui_display_name": "BatchTimeOut",
+                            "ui_display_cn_name": "批量超时时间(ms)",
+                            "ui_display_en_name": "Batch TimeOut(ms)",
+                            "ui_usage_frequency": "Common",
+                            "ui_type": "config_param",
+                            "ui_param_name": "BatchTimeOut",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        },
+                        {
+                            "ui_display_name": "BatchFrameNum",
+                            "ui_display_cn_name": "批处理触发帧数",
+                            "ui_display_en_name": "Batch Frame Num",
+                            "ui_usage_frequency": "Common",
+                            "ui_type": "config_param",
+                            "ui_param_name": "BatchFrameNum",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        },
+                        {
+                            "ui_display_name": "MinimumExposure",
+                            "ui_display_cn_name": "极小码曝光时间(μs)",
+                            "ui_display_en_name": "Minimum Exposure Time(μs)",
+                            "ui_usage_frequency": "Common",
+                            "ui_type": "config_param",
+                            "ui_param_name": "MinimumExposure",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        },
+                        {
+                            "ui_display_name": "MinimumGain",
+                            "ui_display_cn_name": "极小码增益(dB)",
+                            "ui_display_en_name": "Minimum Gain(dB)",
+                            "ui_usage_frequency": "Common",
+                            "ui_type": "config_param",
+                            "ui_param_name": "MinimumGain",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        },
+                        {
+                            "ui_display_name": "MinimumLight",
+                            "ui_display_cn_name": "极小码光源",
+                            "ui_display_en_name": "Minimum Light",
+                            "ui_usage_frequency": "Common",
+                            "ui_type": "config_param",
+                            "ui_param_name": "MinimumLight",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        },
+                        {
+                            "ui_display_name": "CylindricalExposure",
+                            "ui_display_cn_name": "柱面码曝光时间(μs)",
+                            "ui_display_en_name": "Cylindrical Exposure Time(μs)",
+                            "ui_usage_frequency": "Common",
+                            "ui_type": "config_param",
+                            "ui_param_name": "CylindricalExposure",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        },
+                        {
+                            "ui_display_name": "CylindricalGain",
+                            "ui_display_cn_name": "柱面码增益(dB)",
+                            "ui_display_en_name": "Cylindrical Gain(dB)",
+                            "ui_usage_frequency": "Common",
+                            "ui_type": "config_param",
+                            "ui_param_name": "CylindricalGain",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        },
+                        {
+                            "ui_display_name": "CylindricalFocusPos",
+                            "ui_display_cn_name": "柱面码调焦位置",
+                            "ui_display_en_name": "Cylindrical Focus Pos",
+                            "ui_usage_frequency": "Common",
+                            "ui_type": "config_param",
+                            "ui_param_name": "CylindricalFocusPos",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        },
+                        {
+                            "ui_display_name": "CylindricalLight",
+                            "ui_display_cn_name": "柱面码光源",
+                            "ui_display_en_name": "Cylindrical Light",
+                            "ui_usage_frequency": "Common",
+                            "ui_type": "config_param",
+                            "ui_param_name": "CylindricalLight",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        },
+                        {
+                            "ui_display_name": "TDIDirection",
+                            "ui_display_cn_name": "TDI方向",
+                            "ui_display_en_name": "TDI Direction",
+                            "ui_usage_frequency": "Common",
+                            "ui_type": "config_param",
+                            "ui_param_name": "TDIDirection",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        }
+                    ]
+                },
+                {
+                    "ui_display_name": "light_control",
+                    "ui_display_cn_name": "光源控制",
+                    "ui_display_en_name": "Light Source",
+                    "ui_usage_frequency": "Common",
+                    "ui_type": "category",
+                    "ui_param_name": "",
+                    "ui_param_display_type": "",
+                    "ui_subset": [
+                        {
+                            "ui_display_name": "FlashMode",
+                            "ui_display_cn_name": "光源模式",
+                            "ui_display_en_name": "Lighting Mode",
+                            "ui_usage_frequency": "Common",
+                            "ui_type": "config_param",
+                            "ui_param_name": "FlashMode",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        },
+                        {
+                            "ui_display_name": "PrechargeTime",
+                            "ui_display_cn_name": "照明提前时间(μs)",
+                            "ui_display_en_name": "Lighting Lead Time(μs)",
+                            "ui_usage_frequency": "Common",
+                            "ui_type": "config_param",
+                            "ui_param_name": "PrechargeTime",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        },
+                        {
+                            "ui_display_name": "LightingDuration",
+                            "ui_display_cn_name": "照明持续时间(μs)",
+                            "ui_display_en_name": "Lighting Duration(μs)",
+                            "ui_usage_frequency": "Common",
+                            "ui_type": "config_param",
+                            "ui_param_name": "LightingDuration",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        },
+                        {
+                            "ui_display_name": "LightingFlashDelay",
+                            "ui_display_cn_name": "照明延迟时间(μs)",
+                            "ui_display_en_name": "Lighting Delay Time(μs)",
+                            "ui_usage_frequency": "Common",
+                            "ui_type": "config_param",
+                            "ui_param_name": "LightingFlashDelay",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        },
+                        {
+                            "ui_display_name": "Lighting_selector",
+                            "ui_display_cn_name": "光源通道选择",
+                            "ui_display_en_name": "Lighting Channel Selector",
+                            "ui_usage_frequency": "Common",
+                            "ui_type": "config_param",
+                            "ui_param_name": "Lighting_selector",
+                            "ui_param_display_type": "Lighting_selector",
+                            "ui_subset": null
+                        },
+                        {
+                            "ui_display_name": "LightBrightness",
+                            "ui_display_cn_name": "光源亮度",
+                            "ui_display_en_name": "Light Brightness",
+                            "ui_usage_frequency": "Common",
+                            "ui_type": "config_param",
+                            "ui_param_name": "LightBrightness",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        },
+                        {
+                            "ui_display_name": "LightFlashMode",
+                            "ui_display_cn_name": "光源模式",
+                            "ui_display_en_name": "Lighting Mode",
+                            "ui_usage_frequency": "Common",
+                            "ui_type": "config_param",
+                            "ui_param_name": "LightFlashMode",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        },
+                        {
+                            "ui_display_name": "AmingLightEnable",
+                            "ui_display_cn_name": "瞄准灯模式",
+                            "ui_display_en_name": "Aiming Light Mode",
+                            "ui_usage_frequency": "Common",
+                            "ui_type": "config_param",
+                            "ui_param_name": "AmingLightEnable",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        },
+                        {
+                            "ui_display_name": "AmingLightEnable1",
+                            "ui_display_cn_name": "极小码瞄准灯(红色+绿色)",
+                            "ui_display_en_name": "Minimum Code Aiming(red + green)",
+                            "ui_usage_frequency": "Common",
+                            "ui_type": "config_param",
+                            "ui_param_name": "AmingLightEnable1",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        },
+                        {
+                            "ui_display_name": "LightModeControl",
+                            "ui_display_cn_name": "灯光模式控制",
+                            "ui_display_en_name": "Light Mode Control",
+                            "ui_usage_frequency": "Common",
+                            "ui_type": "config_param",
+                            "ui_param_name": "LightModeControl",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        },
+                        {
+                            "ui_display_name": "LaserEnable",
+                            "ui_display_cn_name": "激光灯使能",
+                            "ui_display_en_name": "Laser Enable",
+                            "ui_usage_frequency": "Common",
+                            "ui_type": "config_param",
+                            "ui_param_name": "LaserEnable",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        },
+                        {
+                            "ui_display_name": "LaserDelayEnable",
+                            "ui_display_cn_name": "激光灯时间延后使能",
+                            "ui_display_en_name": "Laser Delay Enable",
+                            "ui_usage_frequency": "Common",
+                            "ui_type": "config_param",
+                            "ui_param_name": "LaserDelayEnable",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        },
+                        {
+                            "ui_display_name": "LaserDelayTime",
+                            "ui_display_cn_name": "激光灯延后时间(ms)",
+                            "ui_display_en_name": "Laser Delay Time(ms)",
+                            "ui_usage_frequency": "Common",
+                            "ui_type": "config_param",
+                            "ui_param_name": "LaserDelayTime",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        },
+                        {
+                            "ui_display_name": "AmingLightDelayEnable",
+                            "ui_display_cn_name": "激光灯时间延后使能",
+                            "ui_display_en_name": "Laser Delay Enable",
+                            "ui_usage_frequency": "Common",
+                            "ui_type": "config_param",
+                            "ui_param_name": "AmingLightDelayEnable",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        },
+                        {
+                            "ui_display_name": "AmingLightDelayTime",
+                            "ui_display_cn_name": "激光灯延后时间(ms)",
+                            "ui_display_en_name": "Laser Delay Time(ms)",
+                            "ui_usage_frequency": "Common",
+                            "ui_type": "config_param",
+                            "ui_param_name": "AmingLightDelayTime",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        },
+                        {
+                            "ui_display_name": "ResultLightEnable",
+                            "ui_display_cn_name": "OK/NG结果灯",
+                            "ui_display_en_name": "OK/NG Light",
+                            "ui_usage_frequency": "Common",
+                            "ui_type": "config_param",
+                            "ui_param_name": "ResultLightEnable",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        }
+                    ]
+                },
+                {
+                    "ui_display_name": "TofControl",
+                    "ui_display_cn_name": "Tof控制",
+                    "ui_display_en_name": "Tof Control",
+                    "ui_usage_frequency": "Common",
+                    "ui_type": "category",
+                    "ui_param_name": "",
+                    "ui_param_display_type": "",
+                    "ui_subset": [
+                        {
+                            "ui_display_name": "TofEnable",
+                            "ui_display_cn_name": "Tof测距使能",
+                            "ui_display_en_name": "Tof Enable",
+                            "ui_usage_frequency": "Common",
+                            "ui_type": "config_param",
+                            "ui_param_name": "TofEnable",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        },
+                        {
+                            "ui_display_name": "FastFocusEnable",
+                            "ui_display_cn_name": "快速变焦使能",
+                            "ui_display_en_name": "Fast Focus Enable",
+                            "ui_usage_frequency": "Common",
+                            "ui_type": "config_param",
+                            "ui_param_name": "FastFocusEnable",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        },
+                        {
+                            "ui_display_name": "OdFocusEnable",
+                            "ui_display_cn_name": "快速变焦使能",
+                            "ui_display_en_name": "Fast Focus Enable",
+                            "ui_usage_frequency": "Common",
+                            "ui_type": "config_param",
+                            "ui_param_name": "OdFocusEnable",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        },
+                        {
+                            "ui_display_name": "TofTolerance",
+                            "ui_display_cn_name": "Tof变焦阈值(mm)",
+                            "ui_display_en_name": "Tof Tolerance(mm)",
+                            "ui_usage_frequency": "Common",
+                            "ui_type": "config_param",
+                            "ui_param_name": "TofTolerance",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        },
+                        {
+                            "ui_display_name": "TofMeasureRange",
+                            "ui_display_cn_name": "Tof测量范围(mm)",
+                            "ui_display_en_name": "Tof Measuring Range(mm)",
+                            "ui_usage_frequency": "Common",
+                            "ui_type": "config_param",
+                            "ui_param_name": "TofMeasureRange",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        },
+                        {
+                            "ui_display_name": "TofDistance",
+                            "ui_display_cn_name": "Tof距离(mm)",
+                            "ui_display_en_name": "Tof Distance(mm)",
+                            "ui_usage_frequency": "Common",
+                            "ui_type": "config_param",
+                            "ui_param_name": "TofDistance",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        }
+                    ]
+                },
+                {
+                    "ui_display_name": "FocusOpt_settings",
+                    "ui_display_cn_name": "调焦参数",
+                    "ui_display_en_name": "Focus Settings",
+                    "ui_usage_frequency": "Common",
+                    "ui_type": "category",
+                    "ui_param_name": "",
+                    "ui_param_display_type": "",
+                    "ui_subset": [
+                        {
+                            "ui_display_name": "AutoConfig",
+                            "ui_display_cn_name": "调焦图像配置",
+                            "ui_display_en_name": "Focus Image Configuration",
+                            "ui_usage_frequency": "Common",
+                            "ui_type": "config_param",
+                            "ui_param_name": "AutoConfig",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        },
+                        {
+                            "ui_display_name": "FocusModeSelector",
+                            "ui_display_cn_name": "对焦模式",
+                            "ui_display_en_name": "Focus Mode Selector",
+                            "ui_usage_frequency": "Advance",
+                            "ui_type": "config_param",
+                            "ui_param_name": "FocusModeSelector",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        },
+                        {
+                            "ui_display_name": "AFXROI",
+                            "ui_display_cn_name": "调焦区域左上角顶点X坐标",
+                            "ui_display_en_name": "AF Offset X",
+                            "ui_usage_frequency": "Advance",
+                            "ui_type": "config_param",
+                            "ui_param_name": "AFXROI",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        },
+                        {
+                            "ui_display_name": "AFYROI",
+                            "ui_display_cn_name": "调焦区域左上角顶点Y坐标",
+                            "ui_display_en_name": "AF Offset Y",
+                            "ui_usage_frequency": "Advance",
+                            "ui_type": "config_param",
+                            "ui_param_name": "AFYROI",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        },
+                        {
+                            "ui_display_name": "AFWidthROI",
+                            "ui_display_cn_name": "调焦区域宽度(px)",
+                            "ui_display_en_name": "AF Width ROI(px)",
+                            "ui_usage_frequency": "Advance",
+                            "ui_type": "config_param",
+                            "ui_param_name": "AFWidthROI",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        },
+                        {
+                            "ui_display_name": "AFHeightROI",
+                            "ui_display_cn_name": "调焦区域高度(px)",
+                            "ui_display_en_name": "AF Height ROI(px)",
+                            "ui_usage_frequency": "Advance",
+                            "ui_type": "config_param",
+                            "ui_param_name": "AFHeightROI",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        },
+                        {
+                            "ui_display_name": "OriginalFocusExecute",
+                            "ui_display_cn_name": "电机归位",
+                            "ui_display_en_name": "Focus Reset",
+                            "ui_usage_frequency": "Common",
+                            "ui_type": "config_param",
+                            "ui_param_name": "OriginalFocusExecute",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        },
+                        {
+                            "ui_display_name": "FocusStep",
+                            "ui_display_cn_name": "调焦步进",
+                            "ui_display_en_name": "Focus Step",
+                            "ui_usage_frequency": "Common",
+                            "ui_type": "config_param",
+                            "ui_param_name": "FocusStep",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        },
+                        {
+                            "ui_display_name": "FocusPositiveExecute",
+                            "ui_display_cn_name": "正向调焦",
+                            "ui_display_en_name": "Positive Focus ",
+                            "ui_usage_frequency": "Common",
+                            "ui_type": "config_param",
+                            "ui_param_name": "FocusPositiveExecute",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        },
+                        {
+                            "ui_display_name": "FocusNegativeExecute",
+                            "ui_display_cn_name": "反向调焦",
+                            "ui_display_en_name": "Negative Focus",
+                            "ui_usage_frequency": "Common",
+                            "ui_type": "config_param",
+                            "ui_param_name": "FocusNegativeExecute",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        },
+                        {
+                            "ui_display_name": "CurrentStep",
+                            "ui_display_cn_name": "当前焦点位置",
+                            "ui_display_en_name": "Current Focus Position",
+                            "ui_usage_frequency": "Common",
+                            "ui_type": "config_param",
+                            "ui_param_name": "CurrentStep",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        },
+                        {
+                            "ui_display_name": "LensTemperatureGet",
+                            "ui_display_cn_name": "当前温度",
+                            "ui_display_en_name": "Current Temperature",
+                            "ui_usage_frequency": "Common",
+                            "ui_type": "config_param",
+                            "ui_param_name": "LensTemperatureGet",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        }
+                    ]
+                },
+                {
+                    "ui_display_name": "SelfAdapt_config",
+                    "ui_display_cn_name": "自适应设置",
+                    "ui_display_en_name": "Adaptive Settings",
+                    "ui_usage_frequency": "Common",
+                    "ui_type": "category",
+                    "ui_param_name": "",
+                    "ui_param_display_type": "",
+                    "ui_subset": [
+                        {
+                            "ui_display_name": "SelfAdaptParamAdjustMode",
+                            "ui_display_cn_name": "自适应模式",
+                            "ui_display_en_name": "Adaptive Mode",
+                            "ui_usage_frequency": "Advance",
+                            "ui_type": "config_param",
+                            "ui_param_name": "SelfAdaptParamAdjustMode",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        },
+                        {
+                            "ui_display_name": "SelfAdaptExposureMax",
+                            "ui_display_cn_name": "最大曝光(μs)",
+                            "ui_display_en_name": "Max. Exposure(μs)",
+                            "ui_usage_frequency": "Common",
+                            "ui_type": "config_param",
+                            "ui_param_name": "SelfAdaptExposureMax",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        },
+                        {
+                            "ui_display_name": "SelfAdaptGainMax",
+                            "ui_display_cn_name": "最大增益(dB)",
+                            "ui_display_en_name": "Max. Gain(dB)",
+                            "ui_usage_frequency": "Common",
+                            "ui_type": "config_param",
+                            "ui_param_name": "SelfAdaptGainMax",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        },
+                        {
+                            "ui_display_name": "SelfAdaptCodeTypeAdapt",
+                            "ui_display_cn_name": "条码类型自适应",
+                            "ui_display_en_name": "Code Type Adaptation",
+                            "ui_usage_frequency": "Advance",
+                            "ui_type": "config_param",
+                            "ui_param_name": "SelfAdaptCodeTypeAdapt",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        },
+                        {
+                            "ui_display_name": "SelfAdaptLightingEnable",
+                            "ui_display_cn_name": "光源自适应",
+                            "ui_display_en_name": "Light Source Adaptation",
+                            "ui_usage_frequency": "Common",
+                            "ui_type": "config_param",
+                            "ui_param_name": "SelfAdaptLightingEnable",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        },
+                        {
+                            "ui_display_name": "SelfAdaptParamAdjustTimeout",
+                            "ui_display_cn_name": "超时时间(s)",
+                            "ui_display_en_name": "Timeout(s)",
+                            "ui_usage_frequency": "Common",
+                            "ui_type": "config_param",
+                            "ui_param_name": "SelfAdaptParamAdjustTimeout",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        },
+                        {
+                            "ui_display_name": "TuneTimeout",
+                            "ui_display_cn_name": "超时时间(s)",
+                            "ui_display_en_name": "Timeout(s)",
+                            "ui_usage_frequency": "Common",
+                            "ui_type": "config_param",
+                            "ui_param_name": "TuneTimeout",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        },
+                        {
+                            "ui_display_name": "SelfAdaptLightingMode",
+                            "ui_display_cn_name": "自适应光源",
+                            "ui_display_en_name": "Light Source Adaptation",
+                            "ui_usage_frequency": "Advance",
+                            "ui_type": "config_param",
+                            "ui_param_name": "SelfAdaptLightingMode",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        }
+                    ]
+                },
+                {
+                    "ui_display_name": "ScreenParam",
+                    "ui_display_cn_name": "屏幕控制",
+                    "ui_display_en_name": "Screen Control",
+                    "ui_usage_frequency": "Common",
+                    "ui_type": "category",
+                    "ui_param_name": "",
+                    "ui_param_display_type": "",
+                    "ui_subset": [
+                        {
+                            "ui_display_name": "ScreenEnable",
+                            "ui_display_cn_name": "屏幕使能",
+                            "ui_display_en_name": "Screen Enable",
+                            "ui_usage_frequency": "Common",
+                            "ui_type": "config_param",
+                            "ui_param_name": "ScreenEnable",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        },
+                        {
+                            "ui_display_name": "ScreenLumi",
+                            "ui_display_cn_name": "屏幕亮度",
+                            "ui_display_en_name": "Screen Brightness",
+                            "ui_usage_frequency": "Common",
+                            "ui_type": "config_param",
+                            "ui_param_name": "ScreenLumi",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        },
+                        {
+                            "ui_display_name": "ScreenLanguage",
+                            "ui_display_cn_name": "屏幕语言",
+                            "ui_display_en_name": "Screen Language",
+                            "ui_usage_frequency": "Common",
+                            "ui_type": "config_param",
+                            "ui_param_name": "ScreenLanguage",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        },
+                        {
+                            "ui_display_name": "ScreenHomepage",
+                            "ui_display_cn_name": "屏幕首页选择",
+                            "ui_display_en_name": "Screen Homepage",
+                            "ui_usage_frequency": "Common",
+                            "ui_type": "config_param",
+                            "ui_param_name": "ScreenHomepage",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        },
+                        {
+                            "ui_display_name": "ScreenDirection",
+                            "ui_display_cn_name": "屏幕旋转",
+                            "ui_display_en_name": "Direction",
+                            "ui_usage_frequency": "Common",
+                            "ui_type": "config_param",
+                            "ui_param_name": "ScreenDirection",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        },
+                        {
+                            "ui_display_name": "ScreenCloseTime",
+                            "ui_display_cn_name": "息屏时间",
+                            "ui_display_en_name": "Shutdown Time",
+                            "ui_usage_frequency": "Common",
+                            "ui_type": "config_param",
+                            "ui_param_name": "ScreenCloseTime",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        }
+                    ]
+                },
+                {
+                    "ui_display_name": "Other_Image_Param",
+                    "ui_display_cn_name": "其它",
+                    "ui_display_en_name": "Other Settings",
+                    "ui_usage_frequency": "Advance",
+                    "ui_type": "category",
+                    "ui_param_name": "",
+                    "ui_param_display_type": "",
+                    "ui_subset": [
+                        {
+                            "ui_display_name": "ReverseX",
+                            "ui_display_cn_name": "X轴镜像",
+                            "ui_display_en_name": "X-axis Mirror",
+                            "ui_usage_frequency": "Common",
+                            "ui_type": "config_param",
+                            "ui_param_name": "ReverseX",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        },
+                        {
+                            "ui_display_name": "ReverseY",
+                            "ui_display_cn_name": "Y轴镜像",
+                            "ui_display_en_name": "Y-axis Mirror",
+                            "ui_usage_frequency": "Common",
+                            "ui_type": "config_param",
+                            "ui_param_name": "ReverseY",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        },
+                        {
+                            "ui_display_name": "TestPattern",
+                            "ui_display_cn_name": "测试图模式",
+                            "ui_display_en_name": "Test Image Mode",
+                            "ui_usage_frequency": "Advance",
+                            "ui_type": "config_param",
+                            "ui_param_name": "TestPattern",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        },
+                        {
+                            "ui_display_name": "UploadTestRawPictureEnable",
+                            "ui_display_cn_name": "启用FTP测试图服务器",
+                            "ui_display_en_name": "Enable FTP Test Image Server",
+                            "ui_usage_frequency": "Advance",
+                            "ui_type": "config_param",
+                            "ui_param_name": "UploadTestRawPictureEnable",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}

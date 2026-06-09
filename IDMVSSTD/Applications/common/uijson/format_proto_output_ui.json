@@ -1,0 +1,962 @@
+{
+    "ui_tabs": [
+        {
+            "ui_type": "tab",
+            "ui_param_name": "",
+            "ui_subset": [
+                {
+                    "ui_display_name": "tcpclient_config",
+                    "ui_display_cn_name": "None",
+                    "ui_display_en_name": "None",
+                    "ui_usage_frequency": "Common",
+                    "ui_type": "category",
+                    "ui_param_name": "",
+                    "ui_param_display_type": "",
+                    "ui_subset": [
+                        {
+                            "ui_display_name": "TcpWithCodeNoReadText",
+                            "ui_display_cn_name": "TCP客户端输出有码无读输出文本",
+                            "ui_display_en_name": "TCP Client Output With Code NoRead Text",
+                            "ui_usage_frequency": "Common",
+                            "ui_type": "config_param",
+                            "ui_param_name": "TcpWithCodeNoReadText",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        },
+                        {
+                            "ui_display_name": "TcpNoCodeText",
+                            "ui_display_cn_name": "TCP客户端输出无码输出文本",
+                            "ui_display_en_name": "TCP Client Output NoCode Text",
+                            "ui_usage_frequency": "Common",
+                            "ui_type": "config_param",
+                            "ui_param_name": "TcpNoCodeText",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        },
+                        {
+                            "ui_display_name": "TcpOutputNoRead",
+                            "ui_display_cn_name": "TCP输出无读补齐",
+                            "ui_display_en_name": "TCP Output NoRead Enable",
+                            "ui_usage_frequency": "Common",
+                            "ui_type": "config_param",
+                            "ui_param_name": "TcpOutputNoRead",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        },
+                        {
+                            "ui_display_name": "TcpstrNoReadText",
+                            "ui_display_cn_name": "TCP输出无读补齐文本",
+                            "ui_display_en_name": "TCP Output NoRead Text",
+                            "ui_usage_frequency": "Common",
+                            "ui_type": "config_param",
+                            "ui_param_name": "TcpstrNoReadText",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        },
+                        {
+                            "ui_display_name": "TcpClientAddNoReadType",
+                            "ui_display_cn_name": "TCP客户端输出无读数量补齐",
+                            "ui_display_en_name": "TCP Client Output Add NoRead Enable",
+                            "ui_usage_frequency": "Common",
+                            "ui_type": "config_param",
+                            "ui_param_name": "TcpClientAddNoReadType",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        },
+                        {
+                            "ui_display_name": "TcpBarcodeEnterCharacterEnable",
+                            "ui_display_cn_name": "TCP输出回车符使能",
+                            "ui_display_en_name": "TCP Output Barcode Enter Character Enable",
+                            "ui_usage_frequency": "Common",
+                            "ui_type": "config_param",
+                            "ui_param_name": "TcpBarcodeEnterCharacterEnable",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        },
+                        {
+                            "ui_display_name": "TcpBarcodeNewlineCharacterEnable",
+                            "ui_display_cn_name": "TCP输出换行符使能",
+                            "ui_display_en_name": "TCP Output Barcode Newline Character Enable",
+                            "ui_usage_frequency": "Common",
+                            "ui_type": "config_param",
+                            "ui_param_name": "TcpBarcodeNewlineCharacterEnable",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        }
+                    ]
+                },
+                {
+                    "ui_display_name": "serial_config",
+                    "ui_display_cn_name": "None",
+                    "ui_display_en_name": "None",
+                    "ui_usage_frequency": "Common",
+                    "ui_type": "category",
+                    "ui_param_name": "",
+                    "ui_param_display_type": "",
+                    "ui_subset": [
+                        {
+                            "ui_display_name": "SerialstrWithCodeNoReadText",
+                            "ui_display_cn_name": "串口输出有码无读输出文本",
+                            "ui_display_en_name": "Serial Output With code NoRead Text",
+                            "ui_usage_frequency": "Common",
+                            "ui_type": "config_param",
+                            "ui_param_name": "SerialstrWithCodeNoReadText",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        },
+                        {
+                            "ui_display_name": "SerialstrNoCodeText",
+                            "ui_display_cn_name": "串口输出无码输出文本",
+                            "ui_display_en_name": "Serial Output NoCode Text",
+                            "ui_usage_frequency": "Common",
+                            "ui_type": "config_param",
+                            "ui_param_name": "SerialstrNoCodeText",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        },
+                        {
+                            "ui_display_name": "SerialOutputNoRead",
+                            "ui_display_cn_name": "串口输出无读补齐",
+                            "ui_display_en_name": "Serial Output NoRead Enable",
+                            "ui_usage_frequency": "Common",
+                            "ui_type": "config_param",
+                            "ui_param_name": "SerialOutputNoRead",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        },
+                        {
+                            "ui_display_name": "SerialstrNoReadText",
+                            "ui_display_cn_name": "串口输出无读补齐文本",
+                            "ui_display_en_name": "Serial Output NoRead Text",
+                            "ui_usage_frequency": "Common",
+                            "ui_type": "config_param",
+                            "ui_param_name": "SerialstrNoReadText",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        },
+                        {
+                            "ui_display_name": "SerialAddNoReadType",
+                            "ui_display_cn_name": "串口输出无读数量补齐",
+                            "ui_display_en_name": " Serial Add NoRead Enable",
+                            "ui_usage_frequency": "Common",
+                            "ui_type": "config_param",
+                            "ui_param_name": "SerialAddNoReadType",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        },
+                        {
+                            "ui_display_name": "SerialBarcodeEnterCharacterEnable",
+                            "ui_display_cn_name": "串口输出回车符使能",
+                            "ui_display_en_name": "Serial Output Barcode Enter Character Enable",
+                            "ui_usage_frequency": "Common",
+                            "ui_type": "config_param",
+                            "ui_param_name": "SerialBarcodeEnterCharacterEnable",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        },
+                        {
+                            "ui_display_name": "SerialBarcodeNewlineCharacterEnable",
+                            "ui_display_cn_name": "串口输出换行符使能",
+                            "ui_display_en_name": "Serial Output Barcode Newline Character Enable",
+                            "ui_usage_frequency": "Common",
+                            "ui_type": "config_param",
+                            "ui_param_name": "SerialBarcodeNewlineCharacterEnable",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        }
+                    ]
+                },
+                {
+                    "ui_display_name": "tcpserver_config",
+                    "ui_display_cn_name": "None",
+                    "ui_display_en_name": "None",
+                    "ui_usage_frequency": "Common",
+                    "ui_type": "category",
+                    "ui_param_name": "",
+                    "ui_param_display_type": "",
+                    "ui_subset": [
+                        {
+                            "ui_display_name": "TcpServerstrWithCodeNoReadText",
+                            "ui_display_cn_name": "TCP服务端输出有码无读输出文本",
+                            "ui_display_en_name": "TCP Server Output With Code NoRead Text",
+                            "ui_usage_frequency": "Common",
+                            "ui_type": "config_param",
+                            "ui_param_name": "TcpServerstrWithCodeNoReadText",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        },
+                        {
+                            "ui_display_name": "TcpServerstrNoCodeText",
+                            "ui_display_cn_name": "TCP服务端输出无码输出文本",
+                            "ui_display_en_name": "TCP Server Output NoCode Text",
+                            "ui_usage_frequency": "Common",
+                            "ui_type": "config_param",
+                            "ui_param_name": "TcpServerstrNoCodeText",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        },
+                        {
+                            "ui_display_name": "TcpServerOutputNoRead",
+                            "ui_display_cn_name": "TCP服务输出无读补齐",
+                            "ui_display_en_name": "TCP Server Output NoRead Enable",
+                            "ui_usage_frequency": "Common",
+                            "ui_type": "config_param",
+                            "ui_param_name": "TcpServerOutputNoRead",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        },
+                        {
+                            "ui_display_name": "TcpServerstrNoReadText",
+                            "ui_display_cn_name": "TCP服务输出无读补齐文本",
+                            "ui_display_en_name": "TCP Server Output NoRead Text",
+                            "ui_usage_frequency": "Common",
+                            "ui_type": "config_param",
+                            "ui_param_name": "TcpServerstrNoReadText",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        },
+                        {
+                            "ui_display_name": "TcpServerAddNoReadType",
+                            "ui_display_cn_name": "TCP服务端输出无读数量补齐",
+                            "ui_display_en_name": "TCP Server Output Add NoRead Enable",
+                            "ui_usage_frequency": "Common",
+                            "ui_type": "config_param",
+                            "ui_param_name": "TcpServerAddNoReadType",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        },
+                        {
+                            "ui_display_name": "TcpServerBarcodeEnterCharacterEnable",
+                            "ui_display_cn_name": "TCP服务输出回车符使能",
+                            "ui_display_en_name": "TCP Server Output Barcode Enter Character Enable",
+                            "ui_usage_frequency": "Common",
+                            "ui_type": "config_param",
+                            "ui_param_name": "TcpServerBarcodeEnterCharacterEnable",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        },
+                        {
+                            "ui_display_name": "TcpServerBarcodeNewlineCharacterEnable",
+                            "ui_display_cn_name": "TCP服务输出换行符使能",
+                            "ui_display_en_name": "TCP Server Output Barcode Newline Character Enable",
+                            "ui_usage_frequency": "Common",
+                            "ui_type": "config_param",
+                            "ui_param_name": "TcpServerBarcodeNewlineCharacterEnable",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        }
+                    ]
+                },
+                {
+                    "ui_display_name": "profinet_config",
+                    "ui_display_cn_name": "None",
+                    "ui_display_en_name": "None",
+                    "ui_usage_frequency": "Common",
+                    "ui_type": "category",
+                    "ui_param_name": "",
+                    "ui_param_display_type": "",
+                    "ui_subset": [
+                        {
+                            "ui_display_name": "ProfinetWithCodeNoReadText",
+                            "ui_display_cn_name": "Profinet输出有码无读输出文本",
+                            "ui_display_en_name": "Profinet Output With Code NoRead Text",
+                            "ui_usage_frequency": "Common",
+                            "ui_type": "config_param",
+                            "ui_param_name": "ProfinetWithCodeNoReadText",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        },
+                        {
+                            "ui_display_name": "ProfinetNoCodeText",
+                            "ui_display_cn_name": "Profinet输出无码输出文本",
+                            "ui_display_en_name": "Profinet Output NoCode Text",
+                            "ui_usage_frequency": "Common",
+                            "ui_type": "config_param",
+                            "ui_param_name": "ProfinetNoCodeText",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        },
+                        {
+                            "ui_display_name": "ProfinetOutputNoRead",
+                            "ui_display_cn_name": "Profinet输出无读补齐",
+                            "ui_display_en_name": "Profinet Output NoRead Enable",
+                            "ui_usage_frequency": "Common",
+                            "ui_type": "config_param",
+                            "ui_param_name": "ProfinetOutputNoRead",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        },
+                        {
+                            "ui_display_name": "ProfinetNoReadText",
+                            "ui_display_cn_name": "Profinet输出无读补齐文本",
+                            "ui_display_en_name": "Profinet Output NoRead Text",
+                            "ui_usage_frequency": "Common",
+                            "ui_type": "config_param",
+                            "ui_param_name": "ProfinetNoReadText",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        },
+                        {
+                            "ui_display_name": "ProfinetAddNoReadType",
+                            "ui_display_cn_name": "Profinet输出无读数量补齐",
+                            "ui_display_en_name": "Profinet Output Add NoRead Enable",
+                            "ui_usage_frequency": "Common",
+                            "ui_type": "config_param",
+                            "ui_param_name": "ProfinetAddNoReadType",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        },
+                        {
+                            "ui_display_name": "ProfinetBarcodeEnterCharacterEnable",
+                            "ui_display_cn_name": "Profinet输出回车符使能",
+                            "ui_display_en_name": "Profinet Output Barcode Enter Character Enable",
+                            "ui_usage_frequency": "Common",
+                            "ui_type": "config_param",
+                            "ui_param_name": "ProfinetBarcodeEnterCharacterEnable",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        },
+                        {
+                            "ui_display_name": "ProfinetBarcodeNewlineCharacterEnable",
+                            "ui_display_cn_name": "Profinet输出换行符使能",
+                            "ui_display_en_name": "Profinet Output Barcode Newline Character Enable",
+                            "ui_usage_frequency": "Common",
+                            "ui_type": "config_param",
+                            "ui_param_name": "ProfinetBarcodeNewlineCharacterEnable",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        }
+                    ]
+                },
+                {
+                    "ui_display_name": "melsec_config",
+                    "ui_display_cn_name": "None",
+                    "ui_display_en_name": "None",
+                    "ui_usage_frequency": "Common",
+                    "ui_type": "category",
+                    "ui_param_name": "",
+                    "ui_param_display_type": "",
+                    "ui_subset": [
+                        {
+                            "ui_display_name": "MelsecWithCodeNoReadText",
+                            "ui_display_cn_name": "Melsec输出有码无读输出文本",
+                            "ui_display_en_name": "Melsec Output With Code NoRead Text",
+                            "ui_usage_frequency": "Common",
+                            "ui_type": "config_param",
+                            "ui_param_name": "MelsecWithCodeNoReadText",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        },
+                        {
+                            "ui_display_name": "MelsecNoCodeText",
+                            "ui_display_cn_name": "Melsec输出无码输出文本",
+                            "ui_display_en_name": "Melsec Output NoCode Text",
+                            "ui_usage_frequency": "Common",
+                            "ui_type": "config_param",
+                            "ui_param_name": "MelsecNoCodeText",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        },
+                        {
+                            "ui_display_name": "MelsecOutputNoRead",
+                            "ui_display_cn_name": "Melsec输出无读补齐",
+                            "ui_display_en_name": "Melsec Output NoRead Enable",
+                            "ui_usage_frequency": "Common",
+                            "ui_type": "config_param",
+                            "ui_param_name": "MelsecOutputNoRead",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        },
+                        {
+                            "ui_display_name": "MelsecNoReadText",
+                            "ui_display_cn_name": "Melsec输出无读补齐文本",
+                            "ui_display_en_name": "Melsec Output NoRead Text",
+                            "ui_usage_frequency": "Common",
+                            "ui_type": "config_param",
+                            "ui_param_name": "MelsecNoReadText",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        },
+                        {
+                            "ui_display_name": "MelsecAddNoReadType",
+                            "ui_display_cn_name": "Melsec输出无读数量补齐",
+                            "ui_display_en_name": "Melsec Output Add NoRead Enable",
+                            "ui_usage_frequency": "Common",
+                            "ui_type": "config_param",
+                            "ui_param_name": "MelsecAddNoReadType",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        },
+                        {
+                            "ui_display_name": "MelsecBarcodeEnterCharacterEnable",
+                            "ui_display_cn_name": "Melsec输出回车符使能",
+                            "ui_display_en_name": "Melsec Output Barcode Enter Character Enable",
+                            "ui_usage_frequency": "Common",
+                            "ui_type": "config_param",
+                            "ui_param_name": "MelsecBarcodeEnterCharacterEnable",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        },
+                        {
+                            "ui_display_name": "MelsecBarcodeNewlineCharacterEnable",
+                            "ui_display_cn_name": "Melsec输出换行符使能",
+                            "ui_display_en_name": "Melsec Output Barcode Newline Character Enable",
+                            "ui_usage_frequency": "Common",
+                            "ui_type": "config_param",
+                            "ui_param_name": "MelsecBarcodeNewlineCharacterEnable",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        }
+                    ]
+                },
+                {
+                    "ui_display_name": "eip_config",
+                    "ui_display_cn_name": "None",
+                    "ui_display_en_name": "None",
+                    "ui_usage_frequency": "Common",
+                    "ui_type": "category",
+                    "ui_param_name": "",
+                    "ui_param_display_type": "",
+                    "ui_subset": [
+                        {
+                            "ui_display_name": "EthernetIpWithCodeNoReadText",
+                            "ui_display_cn_name": "EtherNet/IP输出有码无读输出文本",
+                            "ui_display_en_name": "EtherNet/IP Output With Code NoRead Text",
+                            "ui_usage_frequency": "Common",
+                            "ui_type": "config_param",
+                            "ui_param_name": "EthernetIpWithCodeNoReadText",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        },
+                        {
+                            "ui_display_name": "EthernetIpNoCodeText",
+                            "ui_display_cn_name": "EtherNet/IP输出无码输出文本",
+                            "ui_display_en_name": "EtherNet/IP Output NoCode Text",
+                            "ui_usage_frequency": "Common",
+                            "ui_type": "config_param",
+                            "ui_param_name": "EthernetIpNoCodeText",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        },
+                        {
+                            "ui_display_name": "EthernetIpOutputNoRead",
+                            "ui_display_cn_name": "EtherNet/IP输出无读补齐",
+                            "ui_display_en_name": "EtherNet/IP Output NoRead Enable",
+                            "ui_usage_frequency": "Common",
+                            "ui_type": "config_param",
+                            "ui_param_name": "EthernetIpOutputNoRead",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        },
+                        {
+                            "ui_display_name": "EthernetIpNoReadText",
+                            "ui_display_cn_name": "EtherNet/IP输出无读补齐文本",
+                            "ui_display_en_name": "EtherNet/IP Output NoRead Text",
+                            "ui_usage_frequency": "Common",
+                            "ui_type": "config_param",
+                            "ui_param_name": "EthernetIpNoReadText",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        },
+                        {
+                            "ui_display_name": "EthernetIpAddNoReadType",
+                            "ui_display_cn_name": "EtherNet/IP输出无读数量补齐",
+                            "ui_display_en_name": "EtherNet/IP Output Add NoRead Enable",
+                            "ui_usage_frequency": "Common",
+                            "ui_type": "config_param",
+                            "ui_param_name": "EthernetIpAddNoReadType",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        },
+                        {
+                            "ui_display_name": "EthernetIpBarcodeEnterCharacterEnable",
+                            "ui_display_cn_name": "EtherNet/IP输出回车符使能",
+                            "ui_display_en_name": "EtherNet/IP Output Barcode Enter Character Enable",
+                            "ui_usage_frequency": "Common",
+                            "ui_type": "config_param",
+                            "ui_param_name": "EthernetIpBarcodeEnterCharacterEnable",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        },
+                        {
+                            "ui_display_name": "EthernetIpBarcodeNewlineCharacterEnable",
+                            "ui_display_cn_name": "EtherNet/IP输出换行符使能",
+                            "ui_display_en_name": "EtherNet/IP Output Barcode Newline Character Enable",
+                            "ui_usage_frequency": "Common",
+                            "ui_type": "config_param",
+                            "ui_param_name": "EthernetIpBarcodeNewlineCharacterEnable",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        }
+                    ]
+                },
+                {
+                    "ui_display_name": "modbus_config",
+                    "ui_display_cn_name": "None",
+                    "ui_display_en_name": "None",
+                    "ui_usage_frequency": "Common",
+                    "ui_type": "category",
+                    "ui_param_name": "",
+                    "ui_param_display_type": "",
+                    "ui_subset": [
+                        {
+                            "ui_display_name": "ModBusWithCodeNoReadText",
+                            "ui_display_cn_name": "ModBus输出有码无读输出文本",
+                            "ui_display_en_name": "ModBus Output With Code NoRead Text",
+                            "ui_usage_frequency": "Common",
+                            "ui_type": "config_param",
+                            "ui_param_name": "ModBusWithCodeNoReadText",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        },
+                        {
+                            "ui_display_name": "ModBusNoCodeText",
+                            "ui_display_cn_name": "ModBus输出无码输出文本",
+                            "ui_display_en_name": "ModBus Output NoCode Text",
+                            "ui_usage_frequency": "Common",
+                            "ui_type": "config_param",
+                            "ui_param_name": "ModBusNoCodeText",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        },
+                        {
+                            "ui_display_name": "ModBusOutputNoRead",
+                            "ui_display_cn_name": "ModBus输出无读补齐",
+                            "ui_display_en_name": "ModBus Output NoRead Enable",
+                            "ui_usage_frequency": "Common",
+                            "ui_type": "config_param",
+                            "ui_param_name": "ModBusOutputNoRead",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        },
+                        {
+                            "ui_display_name": "ModBusNoReadText",
+                            "ui_display_cn_name": "ModBus输出无读补齐文本",
+                            "ui_display_en_name": "ModBus Output NoRead Text",
+                            "ui_usage_frequency": "Common",
+                            "ui_type": "config_param",
+                            "ui_param_name": "ModBusNoReadText",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        },
+                        {
+                            "ui_display_name": "ModBusAddNoReadType",
+                            "ui_display_cn_name": "ModBus输出无读数量补齐",
+                            "ui_display_en_name": "ModBus Output Add NoRead Enable",
+                            "ui_usage_frequency": "Common",
+                            "ui_type": "config_param",
+                            "ui_param_name": "ModBusAddNoReadType",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        },
+                        {
+                            "ui_display_name": "ModBusBarcodeEnterCharacterEnable",
+                            "ui_display_cn_name": "ModBus输出回车符使能",
+                            "ui_display_en_name": "ModBus Output Barcode Enter Character Enable",
+                            "ui_usage_frequency": "Common",
+                            "ui_type": "config_param",
+                            "ui_param_name": "ModBusBarcodeEnterCharacterEnable",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        },
+                        {
+                            "ui_display_name": "ModBusBarcodeNewlineCharacterEnable",
+                            "ui_display_cn_name": "ModBus输出换行符使能",
+                            "ui_display_en_name": "ModBus Output Barcode Newline Character Enable",
+                            "ui_usage_frequency": "Common",
+                            "ui_type": "config_param",
+                            "ui_param_name": "ModBusBarcodeNewlineCharacterEnable",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        }
+                    ]
+                },
+                {
+                    "ui_display_name": "udp_config",
+                    "ui_display_cn_name": "None",
+                    "ui_display_en_name": "None",
+                    "ui_usage_frequency": "Common",
+                    "ui_type": "category",
+                    "ui_param_name": "",
+                    "ui_param_display_type": "",
+                    "ui_subset": [
+                        {
+                            "ui_display_name": "UdpWithCodeNoreadText",
+                            "ui_display_cn_name": "UDP输出有码无读输出文本",
+                            "ui_display_en_name": "UDP Output With Code NoRead Text",
+                            "ui_usage_frequency": "Common",
+                            "ui_type": "config_param",
+                            "ui_param_name": "UdpWithCodeNoreadText",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        },
+                        {
+                            "ui_display_name": "UdpNoCodeText",
+                            "ui_display_cn_name": "UDP输出无码输出文本",
+                            "ui_display_en_name": "UDP Output NoCode Text",
+                            "ui_usage_frequency": "Common",
+                            "ui_type": "config_param",
+                            "ui_param_name": "UdpNoCodeText",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        },
+                        {
+                            "ui_display_name": "UdpOutputNoRead",
+                            "ui_display_cn_name": "UDP输出无读补齐",
+                            "ui_display_en_name": "UDP Output NoRead Enable",
+                            "ui_usage_frequency": "Common",
+                            "ui_type": "config_param",
+                            "ui_param_name": "UdpOutputNoRead",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        },
+                        {
+                            "ui_display_name": "UdpNoreadText",
+                            "ui_display_cn_name": "UDP输出无读补齐文本",
+                            "ui_display_en_name": "UDP Output NoRead Text",
+                            "ui_usage_frequency": "Common",
+                            "ui_type": "config_param",
+                            "ui_param_name": "UdpNoreadText",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        },
+                        {
+                            "ui_display_name": "UdpAddNoReadType",
+                            "ui_display_cn_name": "UDP输出无读数量补齐",
+                            "ui_display_en_name": "UDP Output Add NoRead Enable",
+                            "ui_usage_frequency": "Common",
+                            "ui_type": "config_param",
+                            "ui_param_name": "UdpAddNoReadType",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        },
+                        {
+                            "ui_display_name": "UdpBarcodeEnterCharacterEnable",
+                            "ui_display_cn_name": "UDP输出回车符使能",
+                            "ui_display_en_name": "UDP Output Barcode Enter Character Enable",
+                            "ui_usage_frequency": "Common",
+                            "ui_type": "config_param",
+                            "ui_param_name": "UdpBarcodeEnterCharacterEnable",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        },
+                        {
+                            "ui_display_name": "UdpBarcodeNewlineCharacterEnable",
+                            "ui_display_cn_name": "UDP输出换行符使能",
+                            "ui_display_en_name": "UDP Output Barcode Newline Character Enable",
+                            "ui_usage_frequency": "Common",
+                            "ui_type": "config_param",
+                            "ui_param_name": "UdpBarcodeNewlineCharacterEnable",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        }
+                    ]
+                },
+                {
+                    "ui_display_name": "fins_config",
+                    "ui_display_cn_name": "None",
+                    "ui_display_en_name": "None",
+                    "ui_usage_frequency": "Common",
+                    "ui_type": "category",
+                    "ui_param_name": "",
+                    "ui_param_display_type": "",
+                    "ui_subset": [
+                        {
+                            "ui_display_name": "FinsWithCodeNoReadText",
+                            "ui_display_cn_name": "FINS输出有码无读输出文本",
+                            "ui_display_en_name": "FINS Output With Code NoRead Text",
+                            "ui_usage_frequency": "Common",
+                            "ui_type": "config_param",
+                            "ui_param_name": "FinsWithCodeNoReadText",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        },
+                        {
+                            "ui_display_name": "FinsNoCodeText",
+                            "ui_display_cn_name": "FINS输出无码输出文本",
+                            "ui_display_en_name": "FINS Output NoCode Text",
+                            "ui_usage_frequency": "Common",
+                            "ui_type": "config_param",
+                            "ui_param_name": "FinsNoCodeText",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        },
+                        {
+                            "ui_display_name": "FinsOutputNoRead",
+                            "ui_display_cn_name": "FINS输出无读补齐",
+                            "ui_display_en_name": "FINS Output NoRead Enable",
+                            "ui_usage_frequency": "Common",
+                            "ui_type": "config_param",
+                            "ui_param_name": "FinsOutputNoRead",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        },
+                        {
+                            "ui_display_name": "FinsNoReadText",
+                            "ui_display_cn_name": "FINS输出无读补齐文本",
+                            "ui_display_en_name": "FINS Output NoRead Text",
+                            "ui_usage_frequency": "Common",
+                            "ui_type": "config_param",
+                            "ui_param_name": "FinsNoReadText",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        },
+                        {
+                            "ui_display_name": "FinsAddNoReadType",
+                            "ui_display_cn_name": "FINS输出无读数量补齐",
+                            "ui_display_en_name": "FINS Output Add NoRead Enable",
+                            "ui_usage_frequency": "Common",
+                            "ui_type": "config_param",
+                            "ui_param_name": "FinsAddNoReadType",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        },
+                        {
+                            "ui_display_name": "FinsBarcodeEnterCharacterEnable",
+                            "ui_display_cn_name": "FINS输出回车符使能",
+                            "ui_display_en_name": "FINS Output Barcode Enter Character Enable",
+                            "ui_usage_frequency": "Common",
+                            "ui_type": "config_param",
+                            "ui_param_name": "FinsBarcodeEnterCharacterEnable",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        },
+                        {
+                            "ui_display_name": "FinsBarcodeNewlineCharacterEnable",
+                            "ui_display_cn_name": "FINS输出换行符使能",
+                            "ui_display_en_name": "FINS Output Barcode Newline Character Enable",
+                            "ui_usage_frequency": "Common",
+                            "ui_type": "config_param",
+                            "ui_param_name": "FinsBarcodeNewlineCharacterEnable",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        }
+                    ]
+                },
+                {
+                    "ui_display_name": "udp_config",
+                    "ui_display_cn_name": "None",
+                    "ui_display_en_name": "None",
+                    "ui_usage_frequency": "Common",
+                    "ui_type": "category",
+                    "ui_param_name": "",
+                    "ui_param_display_type": "",
+                    "ui_subset": [
+                        {
+                            "ui_display_name": "UsbOutputNoReadEnable",
+                            "ui_display_cn_name": "USB输出无读补齐",
+                            "ui_display_en_name": "USB Output NoRead Enable",
+                            "ui_usage_frequency": "Common",
+                            "ui_type": "config_param",
+                            "ui_param_name": "UsbOutputNoReadEnable",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        },
+                        {
+                            "ui_display_name": "UsbNoReadText",
+                            "ui_display_cn_name": "USB输出无读补齐文本",
+                            "ui_display_en_name": "USB Output NoRead Text",
+                            "ui_usage_frequency": "Common",
+                            "ui_type": "config_param",
+                            "ui_param_name": "UsbNoReadText",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        },
+                        {
+                            "ui_display_name": "UsbAddNoReadType",
+                            "ui_display_cn_name": "USB输出无读数量补齐",
+                            "ui_display_en_name": "USB Output Add NoRead Enable",
+                            "ui_usage_frequency": "Common",
+                            "ui_type": "config_param",
+                            "ui_param_name": "UsbAddNoReadType",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        },
+                        {
+                            "ui_display_name": "UsbBarcodeEnterCharacterEnable",
+                            "ui_display_cn_name": "USB输出回车符使能",
+                            "ui_display_en_name": "USB Output Barcode Enter Character Enable",
+                            "ui_usage_frequency": "Common",
+                            "ui_type": "config_param",
+                            "ui_param_name": "UsbBarcodeEnterCharacterEnable",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        },
+                        {
+                            "ui_display_name": "UsbBarcodeNewlineCharacterEnable",
+                            "ui_display_cn_name": "USB输出换行符使能",
+                            "ui_display_en_name": "USB Output Barcode Newline Character Enable",
+                            "ui_usage_frequency": "Common",
+                            "ui_type": "config_param",
+                            "ui_param_name": "UsbBarcodeNewlineCharacterEnable",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        }
+                    ]
+                },
+                {
+                    "ui_display_name": "RF24_config",
+                    "ui_display_cn_name": "None",
+                    "ui_display_en_name": "None",
+                    "ui_usage_frequency": "Common",
+                    "ui_type": "category",
+                    "ui_param_name": "",
+                    "ui_param_display_type": "",
+                    "ui_subset": [
+                        {
+                            "ui_display_name": "RF24OutputNoReadEnable",
+                            "ui_display_cn_name": "2.4G输出无读补齐",
+                            "ui_display_en_name": "2.4G Output NoRead Enable",
+                            "ui_usage_frequency": "Common",
+                            "ui_type": "config_param",
+                            "ui_param_name": "RF24OutputNoReadEnable",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        },
+                        {
+                            "ui_display_name": "RF24NoReadText",
+                            "ui_display_cn_name": "2.4G输出无读补齐文本",
+                            "ui_display_en_name": "2.4G Output NoRead Text",
+                            "ui_usage_frequency": "Common",
+                            "ui_type": "config_param",
+                            "ui_param_name": "RF24NoReadText",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        },
+                        {
+                            "ui_display_name": "RF24BarcodeEnterCharacterEnable",
+                            "ui_display_cn_name": "2.4G输出回车符使能",
+                            "ui_display_en_name": "2.4G Output Barcode Enter Character Enable",
+                            "ui_usage_frequency": "Common",
+                            "ui_type": "config_param",
+                            "ui_param_name": "RF24BarcodeEnterCharacterEnable",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        },
+                        {
+                            "ui_display_name": "RF24BarcodeNewlineCharacterEnable",
+                            "ui_display_cn_name": "2.4G输出换行符使能",
+                            "ui_display_en_name": "2.4G Output Barcode Newline Character Enable",
+                            "ui_usage_frequency": "Common",
+                            "ui_type": "config_param",
+                            "ui_param_name": "RF24BarcodeNewlineCharacterEnable",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        }
+                    ]
+                },
+                {
+                    "ui_display_name": "Bluetooth_config",
+                    "ui_display_cn_name": "None",
+                    "ui_display_en_name": "None",
+                    "ui_usage_frequency": "Common",
+                    "ui_type": "category",
+                    "ui_param_name": "",
+                    "ui_param_display_type": "",
+                    "ui_subset": [
+                        {
+                            "ui_display_name": "BaseOrReceiverOutputNoReadEnable",
+                            "ui_display_cn_name": "蓝牙输出无读补齐",
+                            "ui_display_en_name": "Bluetooth Output NoRead Enable",
+                            "ui_usage_frequency": "Common",
+                            "ui_type": "config_param",
+                            "ui_param_name": "BaseOrReceiverOutputNoReadEnable",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        },
+                        {
+                            "ui_display_name": "BaseOrReceiverNoReadText",
+                            "ui_display_cn_name": "蓝牙输出无读补齐文本",
+                            "ui_display_en_name": "Bluetooth Output NoRead Text",
+                            "ui_usage_frequency": "Common",
+                            "ui_type": "config_param",
+                            "ui_param_name": "BaseOrReceiverNoReadText",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        },
+                        {
+                            "ui_display_name": "BaseOrReceiverBarcodeEnterCharacterEnable",
+                            "ui_display_cn_name": "蓝牙输出回车符使能",
+                            "ui_display_en_name": "Bluetooth Output Barcode Enter Character Enable",
+                            "ui_usage_frequency": "Common",
+                            "ui_type": "config_param",
+                            "ui_param_name": "BaseOrReceiverBarcodeEnterCharacterEnable",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        },
+                        {
+                            "ui_display_name": "BaseOrReceiverBarcodeNewlineCharacterEnable",
+                            "ui_display_cn_name": "蓝牙输出换行符使能",
+                            "ui_display_en_name": "Bluetooth Output Barcode Newline Character Enable",
+                            "ui_usage_frequency": "Common",
+                            "ui_type": "config_param",
+                            "ui_param_name": "BaseOrReceiverBarcodeNewlineCharacterEnable",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        },
+                        {
+                            "ui_display_name": "BaseOrReceiverBarcodeHoriTabCharacterEnable",
+                            "ui_display_cn_name": "蓝牙输出水平制表符使能",
+                            "ui_display_en_name": "Bluetooth Output Barcode Tab Character Enable",
+                            "ui_usage_frequency": "Common",
+                            "ui_type": "config_param",
+                            "ui_param_name": "BaseOrReceiverBarcodeHoriTabCharacterEnable",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        },
+                        {
+                            "ui_display_name": "HidOutputNoReadEnable",
+                            "ui_display_cn_name": "HID输出无读补齐",
+                            "ui_display_en_name": "HID Output NoRead Enable",
+                            "ui_usage_frequency": "Common",
+                            "ui_type": "config_param",
+                            "ui_param_name": "HidOutputNoReadEnable",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        },
+                        {
+                            "ui_display_name": "HidNoReadText",
+                            "ui_display_cn_name": "HID输出无读补齐文本",
+                            "ui_display_en_name": "HID Output NoRead Text",
+                            "ui_usage_frequency": "Common",
+                            "ui_type": "config_param",
+                            "ui_param_name": "HidNoReadText",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        },
+                        {
+                            "ui_display_name": "HidBarcodeEnterCharacterEnable",
+                            "ui_display_cn_name": "HID输出回车符使能",
+                            "ui_display_en_name": "HID Output Barcode Enter Character Enable",
+                            "ui_usage_frequency": "Common",
+                            "ui_type": "config_param",
+                            "ui_param_name": "HidBarcodeEnterCharacterEnable",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        },
+                        {
+                            "ui_display_name": "HidBarcodeNewlineCharacterEnable",
+                            "ui_display_cn_name": "HID输出换行符使能",
+                            "ui_display_en_name": "HID Output Barcode Newline Character Enable",
+                            "ui_usage_frequency": "Common",
+                            "ui_type": "config_param",
+                            "ui_param_name": "HidBarcodeNewlineCharacterEnable",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        },
+                        {
+                            "ui_display_name": "HidBarcodeHoriTabCharacterEnable",
+                            "ui_display_cn_name": "HID输出水平制表符使能",
+                            "ui_display_en_name": "HID Output Barcode Tab Character Enable",
+                            "ui_usage_frequency": "Common",
+                            "ui_type": "config_param",
+                            "ui_param_name": "HidBarcodeHoriTabCharacterEnable",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}

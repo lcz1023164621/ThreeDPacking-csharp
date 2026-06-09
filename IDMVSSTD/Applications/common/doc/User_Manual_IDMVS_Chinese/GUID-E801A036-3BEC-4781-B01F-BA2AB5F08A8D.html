@@ -1,0 +1,211 @@
+
+<!DOCTYPE html
+  PUBLIC "" "about:legacy-compat">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:whc="http://www.daksys.com/webhelp/components" xml:lang="zh-cn" lang="zh-cn">
+	<head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />        
+      <meta name="copyright" content="©  杭州海康威视数字技术股份有限公司。保留一切权利。" /><meta name="DC.Type" content="concept" /><meta name="DC.Title" content="SDK日志" /><meta name="abstract" content="SDK日志主要用于查看SDK运行时产生的日志信息。" /><meta name="description" content="SDK日志主要用于查看SDK运行时产生的日志信息。" /><meta name="DC.Relation" scheme="URI" content="GUID-0379FFCE-314B-49B6-944C-5FF95ED15965.html" /><meta name="DC.Format" content="XHTML" /><meta name="DC.Identifier" content="GUID-E801A036-3BEC-4781-B01F-BA2AB5F08A8D" /><meta name="DC.Language" content="zh-CN" /><title>SDK日志</title><!-- Generated with dksgen version 1.0, build number 2023071300.  --><meta viewport="Content-Type" content="width=device-width, initial-scale=1.0" /><meta http-equiv="X-UA-Compatible" content="IE=edge,Chrome=1" /><meta name="wh-path2root" content="index.html" />
+		<!-- commonltr css -->
+		<link rel="stylesheet" type="text/css" href="daksys-webhelp/resources/css/commonltr.css" />
+		<!-- Bootstrap css -->
+		<link rel="stylesheet" type="text/css" href="daksys-webhelp/resources/bootstrap/css/bootstrap.min.css" />
+		<link rel="stylesheet" type="text/css" href="daksys-webhelp/resources/bootstrap/css/bootstrap-theme.min.css" />
+		<link rel="stylesheet" type="text/css" href="daksys-webhelp/resources/js/jquery-ui.min.css" />
+		
+		<!-- Template css  -->
+		<link href="daksys-webhelp/template/resources/css/HIKROBOT_color.css?buildId=2023071300" rel="stylesheet" type="text/css" />
+		<link rel="stylesheet" type="text/css" href="daksys-webhelp/template/resources/css/wt_topic.css?buildId=2023071300" />
+		<link rel="stylesheet" type="text/css" href="daksys-webhelp/template/resources/css/wt_topic_m.css?buildId=2023071300" />
+		<link rel="stylesheet" type="text/css" href="daksys-webhelp/template/resources/css/wt_expand.css?buildId=2023071300" />
+		<link rel="stylesheet" type="text/css" href="daksys-webhelp/template/resources/css/wt_note.css?buildId=2023071300" />
+		<link rel="stylesheet" type="text/css" href="daksys-webhelp/template/resources/css/wt_steps.css?buildId=2023071300" />
+		
+		<!-- jquery js  -->
+		<script type="text/javascript" src="daksys-webhelp/resources/js/jquery-3.6.2.min.js"></script>
+		<script type="text/javascript" src="daksys-webhelp/resources/js/jquery.cookie.js"></script>
+		<script type="text/javascript" src="daksys-webhelp/resources/js/jquery.highlight-3.js"></script>
+		<script type="text/javascript" src="daksys-webhelp/resources/js/jquery-ui.min.js"></script>
+		
+		<!-- common js  -->
+		<script type="text/javascript" src="daksys-webhelp/resources/bootstrap/js/bootstrap.min.js"></script>
+		<script type="text/javascript" src="daksys-webhelp/resources/js/base64.js"></script>
+		<script type="text/javascript" src="daksys-webhelp/resources/js/browserDetect.js"></script>
+		<script type="text/javascript" src="daksys-webhelp/resources/js/localization.js"></script>
+		<script type="text/javascript" src="daksys-webhelp/resources/js/parseuri.js"></script>
+		<script type="text/javascript" src="daksys-webhelp/resources/localization/strings.js"></script>
+		<!-- Template js -->
+		<script type="text/javascript" src="daksys-webhelp/template/resources/js/wt_topic.js?buildId=2023071300"></script>
+		<script type="text/javascript" src="daksys-webhelp/template/resources/js/wt_expand.js?buildId=2023071300"></script>
+	</head>
+	<body class="wt_topic_page frmBody" id="GUID-E801A036-3BEC-4781-B01F-BA2AB5F08A8D" onload="topicOnload()">
+		<!-- get_lang -->
+		<div id="lang" style="display:none">zh-CN</div><div id="mapoutputclass" style="display:none"></div>
+		<input hidden="hidden" id="UDCode" value="UD12345B" /><input hidden="hidden" id="Trademark" value="海康机器人" />
+		
+		<div class="content_box">
+			<div class="middle_view content_area col-sm-9" id="content_area">
+				<div class=" wt_breadcrumb "><ol><li><span class="home topicref"><a href="javascript:void(0)" onclick="gotoFirstPage()">首页</a></span></li><li><span class="topicref"><a href="GUID-9E538898-40D1-480E-8A36-40BEC4586E63.html" data-id="GUID-9E538898-40D1-480E-8A36-40BEC4586E63">菜单栏相关介绍</a></span></li><li><span class="topicref"><a href="GUID-0379FFCE-314B-49B6-944C-5FF95ED15965.html" data-id="GUID-0379FFCE-314B-49B6-944C-5FF95ED15965">日志</a></span></li><li class="active"><span class="topicref">SDK日志</span></li></ol><div class="wt_breadcrumb_ellipsis" onclick="expandBreadcrumbDiv()"></div><div class="wt_breadcrumb_collapse" style="display: none;"><div class="wt_breadcrumb_collapse_button" onclick="collapseBreadcrumbDiv()"></div></div></div>
+				
+				<div id="container_body" class="container">
+					<div id="contentArea">
+						<div class=" wt_topic_content body ">
+    <h1 class="title topictitle1">SDK日志</h1>
+
+    
+    <div class="body conbody"><p class="shortdesc"><span class="ph uicontrol">SDK日志</span>主要用于查看SDK运行时产生的日志信息。</p>
+
+        <p class="p">一般在使用IDMVS遇到问题时，可尝试通过<span class="ph uicontrol">SDK日志</span>查看问题原因。</p>
+
+        <div class="note note" id="GUID-E801A036-3BEC-4781-B01F-BA2AB5F08A8D__GUID-CEE64C7B-DBB1-4823-99FC-DF7EE4DE81A3"><span class="notetitle">说明</span> 
+            <p class="p"><span class="ph uicontrol">SDK日志</span>仅支持64位操作系统。</p>
+
+        </div>
+
+        <p class="p">每条SDK日志信息均包含<span class="keyword parmname">类型</span>、<span class="keyword parmname">时间</span>、<span class="keyword parmname">内容</span>、<span class="keyword parmname">来源</span>，如下图所示。通过工具右上角的<img class="image icon" style="display:none;" id="GUID-E801A036-3BEC-4781-B01F-BA2AB5F08A8D__IMAGE_F3L_3GM_S2C" src="GUID-B25640A6-5C0C-4E6E-90B2-E27808CB4952-high.png" />可设置SDK日志信息显示的内容。</p>
+
+        <div class="fig fignone" id="GUID-E801A036-3BEC-4781-B01F-BA2AB5F08A8D__FIG_ECN_FGM_S2C">
+            
+            <img class="image" style="display:none;" id="GUID-E801A036-3BEC-4781-B01F-BA2AB5F08A8D__IMAGE_FCN_FGM_S2C" src="GUID-5C2FBA1F-3A0D-43AF-A864-332A35FB4CDC-high.png" width="1400" />
+        <div class="fig_caption"><span class="figcap">图 1 SDK日志</span></div></div>
+
+        <p class="p">单击SDK日志列表中的<span class="keyword parmname">时间</span>表头，可将SDK日志以时间方式降序或升序排列，默认为降序。</p>
+
+        <p class="p">您可通过鼠标和<span class="ph uicontrol">Ctrl</span>键或<span class="ph uicontrol">Shift</span>键选中多条SDK日志。</p>
+
+        <div class="note note" id="GUID-E801A036-3BEC-4781-B01F-BA2AB5F08A8D__GUID-5F4DAD63-338C-4117-B223-5A49F442C6CB"><span class="notetitle">说明</span> 
+            <p class="p">操作方法和Windows系统中选择多个文件的方法相同，此处不再赘述。</p>
+
+        </div>
+
+        <p class="p">选中SDK日志信息后，右键单击可进行以下操作。</p>
+
+        <dl class="dl parml">
+            
+                <dt class="dt pt dlterm"><a name="GUID-E801A036-3BEC-4781-B01F-BA2AB5F08A8D__GUID-E1C87AF1-B9FA-4FD4-89A5-01E3D0DA2F8C"><!-- --></a>导出所有日志</dt>
+
+                <dd class="dd pd">
+                    <p class="p">可将所有SDK日志以txt格式导出。</p>
+
+                </dd>
+
+            
+            
+                <dt class="dt pt dlterm"><a name="GUID-E801A036-3BEC-4781-B01F-BA2AB5F08A8D__GUID-3F3BEAC5-ECD3-4376-A173-3A045037F8F7"><!-- --></a>导出所选日志</dt>
+
+                <dd class="dd pd">
+                    <p class="p">可将选中的SDK日志以txt格式导出。</p>
+
+                </dd>
+
+            
+            
+                <dt class="dt pt dlterm"><a name="GUID-E801A036-3BEC-4781-B01F-BA2AB5F08A8D__GUID-8B041456-C738-419D-B89E-6FFF17E82E97"><!-- --></a>复制所有日志</dt>
+
+                <dd class="dd pd">
+                    <p class="p">可复制所有SDK日志，再拷贝到其他文件中，例如txt或Word等。 </p>
+
+                </dd>
+
+            
+            
+                <dt class="dt pt dlterm"><a name="GUID-E801A036-3BEC-4781-B01F-BA2AB5F08A8D__GUID-E67601AE-78F6-4FB7-9D72-CC17C42129A6"><!-- --></a>复制所选日志</dt>
+
+                <dd class="dd pd">
+                    <p class="p">可复制选中的SDK日志，再拷贝到其他文件中，例如txt或Word等。 </p>
+
+                </dd>
+
+            
+            
+                <dt class="dt pt dlterm"><a name="GUID-E801A036-3BEC-4781-B01F-BA2AB5F08A8D__GUID-87AB74D7-CBEF-4E35-8BA8-9F60FD1C6CDE"><!-- --></a>清空日志</dt>
+
+                <dd class="dd pd">
+                    <p class="p">可将当前所有SDK日志清空。 </p>
+
+                </dd>
+
+            
+        </dl>
+
+        <p class="p">此外，该工具还支持以下功能。</p>
+
+        <ul class="ul" id="GUID-E801A036-3BEC-4781-B01F-BA2AB5F08A8D__UL_ALR_JX1_T2C">
+            <li class="li" id="GUID-E801A036-3BEC-4781-B01F-BA2AB5F08A8D__GUID-141D188B-A4B6-416E-A2B2-51E7B4D4062C">
+                <p class="p">SDK日志类型筛选：SDK日志分为<span class="keyword parmname">ERROR</span>、<span class="keyword parmname">WARN</span>、<span class="keyword parmname">INFO</span>3种类型，可通过左上角是否勾选筛选日志类型。 </p>
+
+            </li>
+
+            <li class="li" id="GUID-E801A036-3BEC-4781-B01F-BA2AB5F08A8D__GUID-5E272AD4-510A-4D57-ACFC-A36A2FB1F6B5">
+                <p class="p">SDK日志搜索：SDK日志信息较多时，可在右上角输入关键字后，单击<img class="image icon" style="display:none;" id="GUID-E801A036-3BEC-4781-B01F-BA2AB5F08A8D__IMAGE_B5V_YHM_S2C" src="GUID-EC2BDDEB-168B-49D7-837E-18F1D1A1F30C-high.png" />，进行快速查找。</p>
+
+                <div class="note_noline" id="GUID-E801A036-3BEC-4781-B01F-BA2AB5F08A8D__GUID-255AB47B-2B9C-44C3-B135-98CE8014CD5B"><span class="notetitle">说明</span> 
+                    <p class="p">目前仅支持对SDK日志中的<span class="keyword parmname">内容</span>进行关键字搜索。</p>
+
+                </div>
+
+            </li>
+
+            <li class="li" id="GUID-E801A036-3BEC-4781-B01F-BA2AB5F08A8D__GUID-B07C94EE-1C02-459D-8511-EB507DB2D25E">
+                <p class="p">置顶工具：单击工具右上角的<img class="image icon" style="display:none;" id="GUID-E801A036-3BEC-4781-B01F-BA2AB5F08A8D__IMAGE_Q42_XHM_S2C" src="GUID-607A1A65-1D29-4DDD-AD88-4D37DA59DAB3-high.png" />即可。 </p>
+
+            </li>
+
+            <li class="li" id="GUID-E801A036-3BEC-4781-B01F-BA2AB5F08A8D__GUID-50B45EF9-5FE0-4ABA-8370-CE68A6C32574">
+                <p class="p">手动刷新：单击<span class="ph uicontrol">刷新</span>即可。</p>
+
+            </li>
+
+            <li class="li" id="GUID-E801A036-3BEC-4781-B01F-BA2AB5F08A8D__GUID-5F335CFB-068F-4130-A0AC-1190F1827BFB">
+                <p class="p">更多设置：单击左上角的<span class="ph uicontrol">更多</span>，可设置工具的显示条数及更新时间。 </p>
+
+                <dl class="dl parml">
+                    
+                        <dt class="dt pt dlterm"><a name="GUID-E801A036-3BEC-4781-B01F-BA2AB5F08A8D__GUID-00E8235C-EE3E-43B1-A99F-8DE8D13A0B35"><!-- --></a>最大日志显示数</dt>
+
+                        <dd class="dd pd">
+                            <p class="p">可设置该工具最多能显示的SDK日志数量，默认为1000，范围为1 ~ 100000。 </p>
+
+                        </dd>
+
+                    
+                    
+                        <dt class="dt pt dlterm"><a name="GUID-E801A036-3BEC-4781-B01F-BA2AB5F08A8D__GUID-801BA5A8-0048-4554-8EEF-A0BB8C3467B1"><!-- --></a>更新间隔（ms）</dt>
+
+                        <dd class="dd pd">
+                            <p class="p">可设置该工具的SDK日志间隔多长时间自动刷新，默认为1000
+                                ms，范围为100 ~ 1000000 ms。</p>
+
+                        </dd>
+
+                    
+                </dl>
+
+            </li>
+
+        </ul>
+
+    </div>
+
+
+</div>
+						<div class=" wt_topic_wpp_content wt_pc_only "><div class=" wt_topic_wpp_content_flex "><div class="wt_topic_wpp_item like"></div><div class="wt_topic_wpp_item view"></div><div class="wt_topic_wpp_item share">分享</div></div></div>
+						
+						
+						
+					</div>
+				</div><!-- container_body -->
+				
+				<div class=" body_footer "><div onclick="prevTopic()" class=" body_footer_left link_button "><span>上一页</span></div><div onclick="nextTopic()" class=" body_footer_right link_button "><span>下一页</span></div></div>
+				<div class=" body_wpp mobile_only"><div class="wt_body_mobile_like"></div><div class="wt_body_mobile_view"></div></div>
+				<!-- <whc:webhelp_side_toc /> -->
+				
+			</div> <!-- middle_view content_area -->
+			<div class=" right_content wt_pc_only "></div>
+		</div> <!-- content_box -->
+		
+		<!-- 置顶按钮 -->
+		<div class="body_to_top" onclick="scrollTopicTop()"></div> 
+		<!-- 评价反馈 -->
+		<div onclick="manualFeedback()" class=" body_feedback " data-href="https://wj.hikvision.com/#/public-survey?id=64c8b90d80e02e9e88feca2f"></div>
+		
+	</body>
+</html>

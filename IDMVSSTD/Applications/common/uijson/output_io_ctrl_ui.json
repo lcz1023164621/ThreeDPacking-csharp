@@ -1,0 +1,165 @@
+{
+    "ui_tabs": [
+        {
+            "ui_type": "tab",
+            "ui_param_name": "",
+            "ui_subset": [
+                {
+                    "ui_display_name": "OutputIO_Control",
+                    "ui_display_cn_name": "输出配置",
+                    "ui_display_en_name": "Output Settings",
+                    "ui_usage_frequency": "Common",
+                    "ui_type": "category",
+                    "ui_param_name": "",
+                    "ui_param_display_type": "",
+                    "ui_subset": [
+                        {
+                            "ui_display_name": "OutputIO_Ctrl",
+                            "ui_display_cn_name": "",
+                            "ui_display_en_name": "",
+                            "ui_usage_frequency": "Common",
+                            "ui_type": "config_param",
+                            "ui_param_name": "line_out",
+                            "ui_param_display_type": "line_out",
+                            "ui_subset": null
+                        }
+                    ]
+                },
+                {
+                    "ui_display_name": "Buzzer",
+                    "ui_display_cn_name": "蜂鸣器",
+                    "ui_display_en_name": "Buzzer",
+                    "ui_usage_frequency": "Common",
+                    "ui_type": "category",
+                    "ui_param_name": "",
+                    "ui_param_display_type": "",
+                    "ui_subset": [
+                        {
+                            "ui_display_name": "BuzzerEnable",
+                            "ui_display_cn_name": "蜂鸣器使能",
+                            "ui_display_en_name": "Buzzer Enable",
+                            "ui_usage_frequency": "Common",
+                            "ui_type": "config_param",
+                            "ui_param_name": "BuzzerEnable",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        },
+                        {
+                            "ui_display_name": "BuzzerDuration",
+                            "ui_display_cn_name": "蜂鸣器持续时间(ms)",
+                            "ui_display_en_name": "Buzzer Duration(ms)",
+                            "ui_usage_frequency": "Common",
+                            "ui_type": "config_param",
+                            "ui_param_name": "BuzzerDuration",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        },
+                        {
+                            "ui_display_name": "BuzzerFrequency",
+                            "ui_display_cn_name": "蜂鸣器频率(Hz)",
+                            "ui_display_en_name": "Buzzer Frequency(Hz)",
+                            "ui_usage_frequency": "Common",
+                            "ui_type": "config_param",
+                            "ui_param_name": "BuzzerFrequency",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        }
+                    ]
+                },
+                {
+                    "ui_display_name": "Vibrator",
+                    "ui_display_cn_name": "震动器",
+                    "ui_display_en_name": "Vibrator",
+                    "ui_usage_frequency": "Common",
+                    "ui_type": "category",
+                    "ui_param_name": "",
+                    "ui_param_display_type": "",
+                    "ui_subset": [
+                        {
+                            "ui_display_name": "VibratorEnable",
+                            "ui_display_cn_name": "震动器使能",
+                            "ui_display_en_name": "Vibrator Enable",
+                            "ui_usage_frequency": "Common",
+                            "ui_type": "config_param",
+                            "ui_param_name": "VibratorEnable",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        },
+                        {
+                            "ui_display_name": "BcrVibratorDuration",
+                            "ui_display_cn_name": "震动器持续时间(ms)",
+                            "ui_display_en_name": "Vibrator Duration(ms)",
+                            "ui_usage_frequency": "Common",
+                            "ui_type": "config_param",
+                            "ui_param_name": "BcrVibratorDuration",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        }
+                    ]
+                },
+                {
+                    "ui_display_name": "ROILinkIO",
+                    "ui_display_cn_name": "ROI联动输出",
+                    "ui_display_en_name": "ROI Link Output",
+                    "ui_usage_frequency": "Common",
+                    "ui_type": "category",
+                    "ui_param_name": "",
+                    "ui_param_display_type": "",
+                    "ui_subset": [
+                        {
+                            "ui_display_name": "ROILinkIOEnable",
+                            "ui_display_cn_name": "开启ROI联动输出",
+                            "ui_display_en_name": "Enable ROI Link Output",
+                            "ui_usage_frequency": "Common",
+                            "ui_type": "config_param",
+                            "ui_param_name": "ROILinkIOEnable",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        }
+                    ]
+                },
+                {
+                    "ui_display_name": "LED",
+                    "ui_display_cn_name": "用户指示灯",
+                    "ui_display_en_name": "User LED",
+                    "ui_usage_frequency": "Common",
+                    "ui_type": "category",
+                    "ui_param_name": "",
+                    "ui_param_display_type": "",
+                    "ui_subset": [
+                        {
+                            "ui_display_name": "User1LED",
+                            "ui_display_cn_name": "用户指示灯1",
+                            "ui_display_en_name": "User LED 1",
+                            "ui_usage_frequency": "Common",
+                            "ui_type": "config_param",
+                            "ui_param_name": "User1LED",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        },
+                        {
+                            "ui_display_name": "User2LED",
+                            "ui_display_cn_name": "用户指示灯2",
+                            "ui_display_en_name": "User LED 2",
+                            "ui_usage_frequency": "Common",
+                            "ui_type": "config_param",
+                            "ui_param_name": "User2LED",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        },
+                        {
+                            "ui_display_name": "WhoAmI",
+                            "ui_display_cn_name": "本机",
+                            "ui_display_en_name": "Who Am I",
+                            "ui_usage_frequency": "Common",
+                            "ui_type": "config_param",
+                            "ui_param_name": "WhoAmI",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}

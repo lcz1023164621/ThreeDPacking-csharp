@@ -1,0 +1,381 @@
+
+<!DOCTYPE html
+  PUBLIC "" "about:legacy-compat">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:whc="http://www.daksys.com/webhelp/components" xml:lang="zh-cn" lang="zh-cn">
+	<head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />        
+      <meta name="copyright" content="©  杭州海康威视数字技术股份有限公司。保留一切权利。" /><meta name="DC.Type" content="concept" /><meta name="DC.Title" content="客户端存图" /><meta name="abstract" content="客户端存图是通过IDMVS层面将读码器图像存储到本机PC上。通过菜单栏存图的客户端存图可设置存图规则。" /><meta name="description" content="客户端存图是通过IDMVS层面将读码器图像存储到本机PC上。通过菜单栏存图的客户端存图可设置存图规则。" /><meta name="DC.Relation" scheme="URI" content="GUID-7B2CB895-8384-44F3-A0F3-3788E6D7ADD5.html" /><meta name="DC.Format" content="XHTML" /><meta name="DC.Identifier" content="GUID-9B65ABDB-62FE-4C22-8E46-750F094B35FD" /><meta name="DC.Language" content="zh-CN" /><title>客户端存图</title><!-- Generated with dksgen version 1.0, build number 2023071300.  --><meta viewport="Content-Type" content="width=device-width, initial-scale=1.0" /><meta http-equiv="X-UA-Compatible" content="IE=edge,Chrome=1" /><meta name="wh-path2root" content="index.html" />
+		<!-- commonltr css -->
+		<link rel="stylesheet" type="text/css" href="daksys-webhelp/resources/css/commonltr.css" />
+		<!-- Bootstrap css -->
+		<link rel="stylesheet" type="text/css" href="daksys-webhelp/resources/bootstrap/css/bootstrap.min.css" />
+		<link rel="stylesheet" type="text/css" href="daksys-webhelp/resources/bootstrap/css/bootstrap-theme.min.css" />
+		<link rel="stylesheet" type="text/css" href="daksys-webhelp/resources/js/jquery-ui.min.css" />
+		
+		<!-- Template css  -->
+		<link href="daksys-webhelp/template/resources/css/HIKROBOT_color.css?buildId=2023071300" rel="stylesheet" type="text/css" />
+		<link rel="stylesheet" type="text/css" href="daksys-webhelp/template/resources/css/wt_topic.css?buildId=2023071300" />
+		<link rel="stylesheet" type="text/css" href="daksys-webhelp/template/resources/css/wt_topic_m.css?buildId=2023071300" />
+		<link rel="stylesheet" type="text/css" href="daksys-webhelp/template/resources/css/wt_expand.css?buildId=2023071300" />
+		<link rel="stylesheet" type="text/css" href="daksys-webhelp/template/resources/css/wt_note.css?buildId=2023071300" />
+		<link rel="stylesheet" type="text/css" href="daksys-webhelp/template/resources/css/wt_steps.css?buildId=2023071300" />
+		
+		<!-- jquery js  -->
+		<script type="text/javascript" src="daksys-webhelp/resources/js/jquery-3.6.2.min.js"></script>
+		<script type="text/javascript" src="daksys-webhelp/resources/js/jquery.cookie.js"></script>
+		<script type="text/javascript" src="daksys-webhelp/resources/js/jquery.highlight-3.js"></script>
+		<script type="text/javascript" src="daksys-webhelp/resources/js/jquery-ui.min.js"></script>
+		
+		<!-- common js  -->
+		<script type="text/javascript" src="daksys-webhelp/resources/bootstrap/js/bootstrap.min.js"></script>
+		<script type="text/javascript" src="daksys-webhelp/resources/js/base64.js"></script>
+		<script type="text/javascript" src="daksys-webhelp/resources/js/browserDetect.js"></script>
+		<script type="text/javascript" src="daksys-webhelp/resources/js/localization.js"></script>
+		<script type="text/javascript" src="daksys-webhelp/resources/js/parseuri.js"></script>
+		<script type="text/javascript" src="daksys-webhelp/resources/localization/strings.js"></script>
+		<!-- Template js -->
+		<script type="text/javascript" src="daksys-webhelp/template/resources/js/wt_topic.js?buildId=2023071300"></script>
+		<script type="text/javascript" src="daksys-webhelp/template/resources/js/wt_expand.js?buildId=2023071300"></script>
+	</head>
+	<body class="wt_topic_page frmBody" id="GUID-9B65ABDB-62FE-4C22-8E46-750F094B35FD" onload="topicOnload()">
+		<!-- get_lang -->
+		<div id="lang" style="display:none">zh-CN</div><div id="mapoutputclass" style="display:none"></div>
+		<input hidden="hidden" id="UDCode" value="UD12345B" /><input hidden="hidden" id="Trademark" value="海康机器人" />
+		
+		<div class="content_box">
+			<div class="middle_view content_area col-sm-9" id="content_area">
+				<div class=" wt_breadcrumb "><ol><li><span class="home topicref"><a href="javascript:void(0)" onclick="gotoFirstPage()">首页</a></span></li><li><span class="topicref"><a href="GUID-5264E9B3-93FE-419C-B2B2-36AFEF98E781.html" data-id="GUID-5264E9B3-93FE-419C-B2B2-36AFEF98E781">读码器采图及读码</a></span></li><li><span class="topicref"><a href="GUID-7B2CB895-8384-44F3-A0F3-3788E6D7ADD5.html" data-id="GUID-7B2CB895-8384-44F3-A0F3-3788E6D7ADD5">保存图像</a></span></li><li class="active"><span class="topicref">客户端存图</span></li></ol><div class="wt_breadcrumb_ellipsis" onclick="expandBreadcrumbDiv()"></div><div class="wt_breadcrumb_collapse" style="display: none;"><div class="wt_breadcrumb_collapse_button" onclick="collapseBreadcrumbDiv()"></div></div></div>
+				
+				<div id="container_body" class="container">
+					<div id="contentArea">
+						<div class=" wt_topic_content body ">
+    <h1 class="title topictitle1">客户端存图</h1>
+
+    
+    <div class="body conbody"><p class="shortdesc"><span class="ph uicontrol">客户端存图</span>是通过IDMVS层面将读码器图像存储到本机PC上。通过菜单栏<span class="ph uicontrol">存图</span>的<span class="ph uicontrol">客户端存图</span>可设置存图规则。</p>
+
+        <p class="p">完成参数设置后，读码器取流过程中可通过图像预览区进行抓图，详情参见<a class="xref" href="GUID-42AF9F7D-DB4E-4E3E-80F3-272D764FE5D8.html#GUID-42AF9F7D-DB4E-4E3E-80F3-272D764FE5D8" title="客户端支持通过图像预览区查看读码器采集的实时图像。">预览图像</a>章节。</p>
+
+        <p class="p">整个<span class="ph uicontrol">客户端存图</span>分为<span class="keyword parmname">路径设置</span>、<span class="keyword parmname">抓图</span>、<span class="keyword parmname">抠图</span>和<span class="keyword parmname">缓存</span>。</p>
+
+        <div class="section" id="GUID-9B65ABDB-62FE-4C22-8E46-750F094B35FD__GUID-874642E6-FC71-493A-BF84-1B7E9851E39B"><h2 class="title sectiontitle">路径设置</h2>
+            
+            <p class="p"><span class="keyword parmname">路径设置</span>处可设置客户端存图时的存储路径，通过<span class="keyword parmname">保存路径</span>右侧的<img class="image icon" style="display:none;" id="GUID-9B65ABDB-62FE-4C22-8E46-750F094B35FD__IMAGE_APY_MS2_52C" src="GUID-81C2118E-146C-4BE3-B8A3-7F8693566CBE-high.png" />选择当前PC的路径即可。</p>
+
+            <div class="note note" id="GUID-9B65ABDB-62FE-4C22-8E46-750F094B35FD__GUID-3B6E13B8-395D-4AA6-A270-33132C21D663"><span class="notetitle">说明</span> 
+                <p class="p">此处设置的<span class="keyword parmname">保存路径</span>不是抠图的存图路径。</p>
+
+            </div>
+
+        </div>
+
+        <div class="section" id="GUID-9B65ABDB-62FE-4C22-8E46-750F094B35FD__GUID-31A9C519-1682-48A4-B94A-5E2A54779522"><h2 class="title sectiontitle">抓图</h2>
+            
+            <p class="p"><span class="keyword parmname">抓图</span>处可设置图像格式、图像品质、命名规则以及连续抓图模式等参数。</p>
+
+            <p class="p">具体参数如下：</p>
+
+            <dl class="dl parml">
+                
+                    <dt class="dt pt dlterm"><a name="GUID-9B65ABDB-62FE-4C22-8E46-750F094B35FD__GUID-3DF7EA4C-F7D1-4433-A50C-06A82C987B17"><!-- --></a>运行模式使能</dt>
+
+                    <dd class="dd pd">
+                        <ul class="ul" id="GUID-9B65ABDB-62FE-4C22-8E46-750F094B35FD__UL_JWN_BCJ_52C">
+                            <li class="li" id="GUID-9B65ABDB-62FE-4C22-8E46-750F094B35FD__GUID-5A0705EF-869E-49ED-8E61-C9BE5FB63B6C">
+                                <p class="p">若您无需区分不同运行模式下的存图策略，则无需打开此参数。</p>
+
+                            </li>
+
+                            <li class="li" id="GUID-9B65ABDB-62FE-4C22-8E46-750F094B35FD__GUID-DDCCB9BA-4DF6-40C9-A1C7-7E81B2609571">
+                                <p class="p">若您不同运行模式的存图策略需分别设置，则需要打开此参数后先选择对应的<span class="keyword parmname">运行模式</span>，再完成以下参数的设置。重复多次，完成不同运行模式下各参数的设置。</p>
+
+                            </li>
+
+                        </ul>
+
+                        <div class="note note" id="GUID-9B65ABDB-62FE-4C22-8E46-750F094B35FD__GUID-C2032C98-6619-4AC4-86C1-59D4AAC3BEC0"><span class="notetitle">说明</span> 
+                            <p class="p">若读码器固件为3.2.0及以上版本，则不区分运行模式，无需设置此参数。</p>
+
+                        </div>
+
+                    </dd>
+
+                
+                
+                    <dt class="dt pt dlterm"><a name="GUID-9B65ABDB-62FE-4C22-8E46-750F094B35FD__GUID-154E8672-8DF6-484C-B819-7D0802AF075D"><!-- --></a>图像格式</dt>
+
+                    <dd class="dd pd">
+                        <p class="p">可选<span class="keyword parmname">BMP</span>、<span class="keyword parmname">RAW</span>或<span class="keyword parmname">JPG</span>3种格式。其中<span class="ph uicontrol">RAW</span>为裸数据格式。</p>
+
+                        <p class="p">选择<span class="keyword parmname">JPG</span>时，还需设置<span class="keyword parmname">图像质量</span>参数。</p>
+
+                        <dl class="dl parml">
+                            
+                                <dt class="dt pt dlterm"><a name="GUID-9B65ABDB-62FE-4C22-8E46-750F094B35FD__GUID-D51A3866-5726-4AD9-9BC0-94925B6C2C42"><!-- --></a>图像质量</dt>
+
+                                <dd class="dd pd">
+                                    <p class="p">决定JPG格式图像的压缩质量，分为<span class="keyword parmname">普通</span>、<span class="keyword parmname">较好</span>或<span class="keyword parmname">最佳</span>3种。其中分数区间1
+                                        ~ 40为<span class="keyword parmname">普通</span>，41 ~
+                                        70为<span class="keyword parmname">较好</span>，71 ~
+                                        100为<span class="keyword parmname">最佳</span>。</p>
+
+                                    <div class="note_noline" id="GUID-9B65ABDB-62FE-4C22-8E46-750F094B35FD__GUID-1C7C4A8D-1ED5-428D-B6F8-F565E411FA4A"><span class="notetitle">说明</span> 
+                                        <ul class="ul" id="GUID-9B65ABDB-62FE-4C22-8E46-750F094B35FD__UL_YTR_T2V_2RB">
+                                            <li class="li" id="GUID-9B65ABDB-62FE-4C22-8E46-750F094B35FD__GUID-D48E8FD5-869B-4D0B-A076-05432C6DAA6B">
+                                                <p class="p">若对图像质量没有过高的要求，下拉选择图像质量即可，无需调整具体分数。</p>
+
+                                            </li>
+
+                                            <li class="li" id="GUID-9B65ABDB-62FE-4C22-8E46-750F094B35FD__GUID-E95FF917-C214-4A3B-8BE6-51D7E86207F0">
+                                                <p class="p"><span class="keyword parmname">图像质量</span>越高，对系统资源消耗越大。请结合实际情况设置。</p>
+
+                                            </li>
+
+                                        </ul>
+
+                                    </div>
+
+                                </dd>
+
+                            
+                        </dl>
+
+                    </dd>
+
+                
+                
+                    <dt class="dt pt dlterm"><a name="GUID-9B65ABDB-62FE-4C22-8E46-750F094B35FD__GUID-7B911883-3C6A-43C9-B72A-94B511CAAF36"><!-- --></a>保存类型</dt>
+
+                    <dd class="dd pd">
+                        <p class="p">可设置图像保存的类型，可选<span class="keyword parmname">默认</span>、<span class="keyword parmname">渲染图</span>或<span class="keyword parmname">默认+渲染图</span>。</p>
+
+                        <dl class="dl parml">
+                            
+                                <dt class="dt pt dlterm"><a name="GUID-9B65ABDB-62FE-4C22-8E46-750F094B35FD__GUID-6F4EFBA2-49DA-4752-B831-2E5B0D059B6C"><!-- --></a>默认</dt>
+
+                                <dd class="dd pd">
+                                    <p class="p">保存读码器采集的原始图像。</p>
+
+                                </dd>
+
+                            
+                            
+                                <dt class="dt pt dlterm"><a name="GUID-9B65ABDB-62FE-4C22-8E46-750F094B35FD__GUID-0CD140D2-931D-4A01-BC4D-4ACBCC16ECD5"><!-- --></a>渲染图</dt>
+
+                                <dd class="dd pd">
+                                    <p class="p">保存带有码信息及码边框的图像。</p>
+
+                                </dd>
+
+                            
+                            
+                                <dt class="dt pt dlterm"><a name="GUID-9B65ABDB-62FE-4C22-8E46-750F094B35FD__GUID-E1C18B26-C913-49DE-9C69-85FA53C25878"><!-- --></a>默认+渲染图</dt>
+
+                                <dd class="dd pd">
+                                    <p class="p">同时保存读码器采集的原始图像和带有码信息及码边框的图像。</p>
+
+                                </dd>
+
+                            
+                        </dl>
+
+                    </dd>
+
+                
+                
+                    <dt class="dt pt dlterm"><a name="GUID-9B65ABDB-62FE-4C22-8E46-750F094B35FD__GUID-56471619-BD91-4E15-91D0-5AA606715631"><!-- --></a>保存策略</dt>
+
+                    <dd class="dd pd">
+                        <p class="p">可设置保存图像的条件，可选<span class="keyword parmname">ALL</span>、<span class="keyword parmname">OK</span>或<span class="keyword parmname">NG</span>3种。</p>
+
+                        <dl class="dl parml">
+                            
+                                <dt class="dt pt dlterm"><a name="GUID-9B65ABDB-62FE-4C22-8E46-750F094B35FD__GUID-78750C20-A5BF-4F48-BFA3-62CB9A916A40"><!-- --></a>ALL</dt>
+
+                                <dd class="dd pd">
+                                    <p class="p">保存所有图像。</p>
+
+                                </dd>
+
+                            
+                            
+                                <dt class="dt pt dlterm"><a name="GUID-9B65ABDB-62FE-4C22-8E46-750F094B35FD__GUID-3B601DCC-587D-4A91-BC10-DAC83015556D"><!-- --></a>OK</dt>
+
+                                <dd class="dd pd">
+                                    <p class="p">仅保存读码成功的图像。</p>
+
+                                </dd>
+
+                            
+                            
+                                <dt class="dt pt dlterm"><a name="GUID-9B65ABDB-62FE-4C22-8E46-750F094B35FD__GUID-DB0CB86E-A897-414E-A187-C3870B892EE5"><!-- --></a>NG</dt>
+
+                                <dd class="dd pd">
+                                    <p class="p">仅保存读码失败的图像。</p>
+
+                                </dd>
+
+                            
+                        </dl>
+
+                    </dd>
+
+                
+                
+                    <dt class="dt pt dlterm"><a name="GUID-9B65ABDB-62FE-4C22-8E46-750F094B35FD__GUID-45C3501A-E2C6-45C5-9FF3-7CE576C82CF8"><!-- --></a>文件命名规则</dt>
+
+                    <dd class="dd pd">
+                        <p class="p">可自定义设置图像名称的命名规则。单击右侧的<img class="image icon" style="display:none;" id="GUID-9B65ABDB-62FE-4C22-8E46-750F094B35FD__IMAGE_LYC_K53_52C" src="GUID-EC2BDDEB-168B-49D7-837E-18F1D1A1F30C-high.png" />根据实际情况勾选1个或多个类型，再单击<span class="ph uicontrol">确定</span>即可。类型可选<span class="keyword parmname">当前时间</span>、<span class="keyword parmname">递增序号</span>、<span class="keyword parmname">条码内容</span>、<span class="keyword parmname">轮询组编号</span>、<span class="keyword parmname">条码类型</span>、<span class="keyword parmname">算法耗时</span>、<span class="keyword parmname">触发序号</span>、<span class="keyword parmname">触发时间</span>。 </p>
+
+                        <div class="note note" id="GUID-9B65ABDB-62FE-4C22-8E46-750F094B35FD__GUID-488E833D-0F25-497C-8A58-7F1B75CE20C4"><span class="notetitle">说明</span> 
+                            <p class="p">默认勾选类型的先后顺序即最终命名规则中从前到后的排序。如需调整，可在上方命名规则的可编辑区域调整鼠标位置。</p>
+
+                            <div class="fig fignone" id="GUID-9B65ABDB-62FE-4C22-8E46-750F094B35FD__FIG_EJB_KW3_52C">
+                                
+                                <img class="image" style="display:none;" id="GUID-9B65ABDB-62FE-4C22-8E46-750F094B35FD__IMAGE_FJB_KW3_52C" src="GUID-267E8ABF-68D2-4D43-903E-AD5CA36F0BDF-high.png" width="700" />
+                            <div class="fig_caption"><span class="figcap">图 1 命名规则</span></div></div>
+
+                        </div>
+
+                    </dd>
+
+                
+                
+                    <dt class="dt pt dlterm"><a name="GUID-9B65ABDB-62FE-4C22-8E46-750F094B35FD__GUID-B3BF4577-AC61-47C9-8DCF-70B26D3CC45D"><!-- --></a>连续抓图</dt>
+
+                    <dd class="dd pd">
+                        <p class="p">可设置连续抓图时的运行规则。可选<span class="ph uicontrol">按数目抓图</span>或<span class="ph uicontrol">按时间抓图</span>2种方式。</p>
+
+                        <dl class="dl parml">
+                            
+                                <dt class="dt pt dlterm"><a name="GUID-9B65ABDB-62FE-4C22-8E46-750F094B35FD__GUID-4C6F31E6-C0EE-4197-B4BE-DFA90EE81364"><!-- --></a>按数目抓图</dt>
+
+                                <dd class="dd pd">
+                                    <p class="p">需设置每隔几帧抓取一张图像，以及取流几帧后停止抓图。</p>
+
+                                </dd>
+
+                            
+                            
+                                <dt class="dt pt dlterm"><a name="GUID-9B65ABDB-62FE-4C22-8E46-750F094B35FD__GUID-CAC37086-C095-47B7-91A1-111C4EFCCA8F"><!-- --></a>按时间抓图</dt>
+
+                                <dd class="dd pd">需设置每隔多久抓取一张图像，以及取流多久后停止抓图。</dd>
+
+                            
+                        </dl>
+
+                    </dd>
+
+                
+                
+                    <dt class="dt pt dlterm"><a name="GUID-9B65ABDB-62FE-4C22-8E46-750F094B35FD__GUID-A200C6D0-8F6A-45EA-A88D-4F5C3B257AA9"><!-- --></a>默认存图</dt>
+
+                    <dd class="dd pd">
+                        <p class="p">打开该参数后，IDMVS取流时默认进行存图。 </p>
+
+                    </dd>
+
+                
+                
+                    <dt class="dt pt dlterm"><a name="GUID-9B65ABDB-62FE-4C22-8E46-750F094B35FD__GUID-62928D17-A520-4480-8797-E626751416B1"><!-- --></a>自动清图</dt>
+
+                    <dd class="dd pd">
+                        <p class="p">打开该参数后，超过一定时间限制的图像将被自动清除。具体时间通过<span class="keyword parmname">图片保存时间</span>参数设置。 </p>
+
+                    </dd>
+
+                
+            </dl>
+
+        </div>
+
+        <div class="section" id="GUID-9B65ABDB-62FE-4C22-8E46-750F094B35FD__GUID-BA1FDE26-81CB-49B5-A88D-8A926FD6418E"><h2 class="title sectiontitle">抠图</h2>
+            
+            <p class="p"><span class="keyword parmname">抠图</span>处可设置物流场景使用的读码器如何存储抠图的图像。</p>
+
+            <dl class="dl parml">
+                
+                    <dt class="dt pt dlterm"><a name="GUID-9B65ABDB-62FE-4C22-8E46-750F094B35FD__GUID-73D91D3B-C098-4A1D-A34F-2B45D1CB155D"><!-- --></a>保存路径</dt>
+
+                    <dd class="dd pd">
+                        <p class="p">可设置读码器抠图图像的存储位置。</p>
+
+                        <div class="note note" id="GUID-9B65ABDB-62FE-4C22-8E46-750F094B35FD__GUID-7AD74810-3F11-4AB8-BAEA-36EC0D4E9A42"><span class="notetitle">说明</span> 
+                            <p class="p">需先开启读码器的抠图功能。</p>
+
+                        </div>
+
+                    </dd>
+
+                
+                
+                    <dt class="dt pt dlterm"><a name="GUID-9B65ABDB-62FE-4C22-8E46-750F094B35FD__GUID-EAAEAEDE-91DF-4F61-90D8-6650D93501FF"><!-- --></a>文件名前缀</dt>
+
+                    <dd class="dd pd">
+                        <p class="p">可自定义设置抠图图像命名规则的前缀。抠图图像的文件名称由文件名前缀、包裹名、帧号、时间组成。</p>
+
+                    </dd>
+
+                
+            </dl>
+
+        </div>
+
+        <div class="section" id="GUID-9B65ABDB-62FE-4C22-8E46-750F094B35FD__GUID-AA4636F1-62CF-4002-8089-DD62A36601D8"><h2 class="title sectiontitle">缓存</h2>
+            
+            
+            <p class="p"><span class="keyword parmname">缓存</span>处可设置IDMVS存图和SDK缓存节点。通过<span class="keyword parmname">存图缓存节点</span>参数进行设置。</p>
+
+            <dl class="dl parml">
+                
+                    <dt class="dt pt dlterm"><a name="GUID-9B65ABDB-62FE-4C22-8E46-750F094B35FD__GUID-83C6DC1E-9795-4B51-A850-5F0731805230"><!-- --></a>存图缓存节点</dt>
+
+                    <dd class="dd pd">
+                        <p class="p">增大<span class="keyword parmname">存图缓存节点</span>数量，可避免高帧率取流时丢帧，能尽可能多的保存图像。但同时会占用PC更多内存。请根据实际需求，合理设置。</p>
+
+                    </dd>
+
+                
+                
+                    <dt class="dt pt dlterm"><a name="GUID-9B65ABDB-62FE-4C22-8E46-750F094B35FD__GUID-17E57B24-97C2-42E6-86BF-39EA426FDA46"><!-- --></a>SDK缓存节点</dt>
+
+                    <dd class="dd pd">
+                        <p class="p">增大<span class="keyword parmname">SDK缓存节点</span>数量，可避免IDMVS接收读码器图像数据时丢帧。</p>
+
+                    </dd>
+
+                
+            </dl>
+
+            <div class="note note" id="GUID-9B65ABDB-62FE-4C22-8E46-750F094B35FD__GUID-3DD5370D-FF81-4FEF-98AE-1E0D2CF6BAD4"><span class="notetitle">说明</span> 
+                <p class="p">以上参数修改后，需重连读码器，方可生效。</p>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+</div>
+						<div class=" wt_topic_wpp_content wt_pc_only "><div class=" wt_topic_wpp_content_flex "><div class="wt_topic_wpp_item like"></div><div class="wt_topic_wpp_item view"></div><div class="wt_topic_wpp_item share">分享</div></div></div>
+						
+						
+						
+					</div>
+				</div><!-- container_body -->
+				
+				<div class=" body_footer "><div onclick="prevTopic()" class=" body_footer_left link_button "><span>上一页</span></div><div onclick="nextTopic()" class=" body_footer_right link_button "><span>下一页</span></div></div>
+				<div class=" body_wpp mobile_only"><div class="wt_body_mobile_like"></div><div class="wt_body_mobile_view"></div></div>
+				<!-- <whc:webhelp_side_toc /> -->
+				
+			</div> <!-- middle_view content_area -->
+			<div class=" right_content wt_pc_only "><div class=" right_fixed_container "><div class="right_guide"><div class="feature_guide"><div>本页导航</div><ul><li onclick="scrollToAnchor($(this))" data-id="GUID-9B65ABDB-62FE-4C22-8E46-750F094B35FD__GUID-874642E6-FC71-493A-BF84-1B7E9851E39B" class="feature_guide_h2"><span class="link_button">路径设置</span></li><li onclick="scrollToAnchor($(this))" data-id="GUID-9B65ABDB-62FE-4C22-8E46-750F094B35FD__GUID-31A9C519-1682-48A4-B94A-5E2A54779522" class="feature_guide_h2"><span class="link_button">抓图</span></li><li onclick="scrollToAnchor($(this))" data-id="GUID-9B65ABDB-62FE-4C22-8E46-750F094B35FD__GUID-BA1FDE26-81CB-49B5-A88D-8A926FD6418E" class="feature_guide_h2"><span class="link_button">抠图</span></li><li onclick="scrollToAnchor($(this))" data-id="GUID-9B65ABDB-62FE-4C22-8E46-750F094B35FD__GUID-AA4636F1-62CF-4002-8089-DD62A36601D8" class="feature_guide_h2"><span class="link_button">缓存</span></li></ul></div></div></div></div>
+		</div> <!-- content_box -->
+		
+		<!-- 置顶按钮 -->
+		<div class="body_to_top" onclick="scrollTopicTop()"></div> 
+		<!-- 评价反馈 -->
+		<div onclick="manualFeedback()" class=" body_feedback " data-href="https://wj.hikvision.com/#/public-survey?id=64c8b90d80e02e9e88feca2f"></div>
+		
+	</body>
+</html>

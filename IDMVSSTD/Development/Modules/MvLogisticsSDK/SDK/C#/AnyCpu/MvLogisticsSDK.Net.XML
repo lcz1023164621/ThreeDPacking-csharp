@@ -1,0 +1,815 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>MvLogisticsSDK.Net</name>
+    </assembly>
+    <members>
+        <member name="T:MvLogisticsSDKNet.MvLogistics">
+            <summary>
+            MvLogisticsSDK
+            </summary>
+        </member>
+        <member name="F:MvLogisticsSDKNet.MvLogistics.MV_LGS_OK">
+            <summary>ch:成功, 无错误 | en:Successed, no error</summary>
+        </member>
+        <member name="F:MvLogisticsSDKNet.MvLogistics.MV_LGS_E_HANDLE">
+            <summary> ch:错误或无效的句柄 | en:Error or invalid handle</summary>
+        </member>
+        <member name="F:MvLogisticsSDKNet.MvLogistics.MV_LGS_E_SUPPORT">
+            <summary> ch:不支持的功能 | en:The function is not supported</summary>
+        </member>
+        <member name="F:MvLogisticsSDKNet.MvLogistics.MV_LGS_E_BUFOVER">
+            <summary> ch:缓存已满 | en:Buffer is full</summary>
+        </member>
+        <member name="F:MvLogisticsSDKNet.MvLogistics.MV_LGS_E_CALLORDER">
+            <summary> ch:函数调用顺序错误 | en:Incorrect calling sequence</summary>
+        </member>
+        <member name="F:MvLogisticsSDKNet.MvLogistics.MV_LGS_E_PARAMETER">
+            <summary> ch:错误的参数 | en:Incorrect parameter</summary>
+        </member>
+        <member name="F:MvLogisticsSDKNet.MvLogistics.MV_LGS_E_RESOURCE">
+            <summary> ch:资源申请失败 | en:Applying resource failed</summary>
+        </member>
+        <member name="F:MvLogisticsSDKNet.MvLogistics.MV_LGS_E_NODATA">
+            <summary> ch:无数据 | en:No data</summary>
+        </member>
+        <member name="F:MvLogisticsSDKNet.MvLogistics.MV_LGS_E_PRECONDITION">
+            <summary> ch:前置条件有误，或运行环境已发生变化 | en:Precondition error, or running environment changed</summary>
+        </member>
+        <member name="F:MvLogisticsSDKNet.MvLogistics.MV_LGS_E_ENCRYPT">
+            <summary> ch:凭证错误，可能是未插加密狗，或加密狗过期 | en:Credential error, possibly because the dongle was not installed or expired</summary>
+        </member>
+        <member name="F:MvLogisticsSDKNet.MvLogistics.MV_LGS_E_RULE">
+            <summary> ch:过滤规则相关的错误 | en:Filter rule error</summary>
+        </member>
+        <member name="F:MvLogisticsSDKNet.MvLogistics.MV_LGS_E_JPGENC">
+            <summary> ch:jpg编码相关错误 | en:Jpg encoding error</summary>
+        </member>
+        <member name="F:MvLogisticsSDKNet.MvLogistics.MV_LGS_E_IMAGE">
+            <summary> ch:输入的图像数据有损或图像格式,宽高错误 | en:Abnormal image. Incomplete image caused by packet loss or incorrect image format, width, or height</summary>
+        </member>
+        <member name="F:MvLogisticsSDKNet.MvLogistics.MV_LGS_E_CONFIG">
+            <summary> ch:配置文件有误 | en:Config file error</summary>
+        </member>
+        <member name="F:MvLogisticsSDKNet.MvLogistics.MV_LGS_E_UNKNOW">
+            <summary> ch:未知的错误 | en:Unknown error</summary>
+        </member>
+        <member name="F:MvLogisticsSDKNet.MvLogistics.MV_LGS_E_CAMERA">
+            <summary> ch:相机相关的错误 | en:Camera error</summary>
+        </member>
+        <member name="F:MvLogisticsSDKNet.MvLogistics.MV_LGS_E_BCR">
+            <summary> ch:一维码相关错误 | en:1D barcode error</summary>
+        </member>
+        <member name="F:MvLogisticsSDKNet.MvLogistics.MV_LGS_E_TDCR">
+            <summary> ch:二维码相关错误 | en:2D barcode error</summary>
+        </member>
+        <member name="F:MvLogisticsSDKNet.MvLogistics.MV_LGS_E_WAYBILL">
+            <summary> ch:抠图相关错误 | en:Matting error</summary>
+        </member>
+        <member name="F:MvLogisticsSDKNet.MvLogistics.MV_LGS_E_SCRIPT">
+            <summary> ch:脚本规则相关错误 | en:Script rule error</summary>
+        </member>
+        <member name="F:MvLogisticsSDKNet.MvLogistics.MV_LGS_E_GC_GENERIC">
+            <summary> ch:通用错误 | en:General error</summary>
+        </member>
+        <member name="F:MvLogisticsSDKNet.MvLogistics.MV_LGS_E_GC_ARGUMENT">
+            <summary> ch:参数非法 | en:Invalid parameter</summary>
+        </member>
+        <member name="F:MvLogisticsSDKNet.MvLogistics.MV_LGS_E_GC_RANGE">
+            <summary> ch:值超出范围 | en:The value is out of range</summary>
+        </member>
+        <member name="F:MvLogisticsSDKNet.MvLogistics.MV_LGS_E_GC_PROPERTY">
+            <summary> ch:属性错误 | en:Attribute error</summary>
+        </member>
+        <member name="F:MvLogisticsSDKNet.MvLogistics.MV_LGS_E_GC_RUNTIME">
+            <summary> ch:运行环境有问题 | en:Running environment error</summary>
+        </member>
+        <member name="F:MvLogisticsSDKNet.MvLogistics.MV_LGS_E_GC_LOGICAL">
+            <summary> ch:逻辑错误 | en:Incorrect logic</summary>
+        </member>
+        <member name="F:MvLogisticsSDKNet.MvLogistics.MV_LGS_E_GC_ACCESS">
+            <summary> ch:节点访问条件有误 | en:Node accessing condition error</summary>
+        </member>
+        <member name="F:MvLogisticsSDKNet.MvLogistics.MV_LGS_E_GC_TIMEOUT">
+            <summary> ch:超时 | en:Timeout</summary>
+        </member>
+        <member name="F:MvLogisticsSDKNet.MvLogistics.MV_LGS_E_GC_DYNAMICCAST">
+            <summary> ch:转换异常 | en:Transformation exception</summary>
+        </member>
+        <member name="F:MvLogisticsSDKNet.MvLogistics.MV_LGS_E_GC_UNKNOW">
+            <summary> ch:GenICam未知错误 | en:GenICam unknown error</summary>
+        </member>
+        <member name="F:MvLogisticsSDKNet.MvLogistics.MV_LGS_E_NOT_IMPLEMENTED">
+            <summary> ch:命令不被设备支持 | en:The command is not supported by device</summary>
+        </member>
+        <member name="F:MvLogisticsSDKNet.MvLogistics.MV_LGS_E_INVALID_ADDRESS">
+            <summary> ch:访问的目标地址不存在 | en:Target address does not exist</summary>
+        </member>
+        <member name="F:MvLogisticsSDKNet.MvLogistics.MV_LGS_E_WRITE_PROTECT">
+            <summary> ch:目标地址不可写 | en:The target address is not writable</summary>
+        </member>
+        <member name="F:MvLogisticsSDKNet.MvLogistics.MV_LGS_E_ACCESS_DENIED">
+            <summary> ch:设备无访问权限 | en:No access permission</summary>
+        </member>
+        <member name="F:MvLogisticsSDKNet.MvLogistics.MV_LGS_E_BUSY">
+            <summary> ch:设备忙，或网络断开 | en:Device is busy, or network is disconnected</summary>
+        </member>
+        <member name="F:MvLogisticsSDKNet.MvLogistics.MV_LGS_E_PACKET">
+            <summary> ch:网络包数据错误 | en:Network packet error</summary>
+        </member>
+        <member name="F:MvLogisticsSDKNet.MvLogistics.MV_LGS_E_NETER">
+            <summary> ch:网络相关错误 | en:Network error</summary>
+        </member>
+        <member name="F:MvLogisticsSDKNet.MvLogistics.MV_LGS_E_IP_CONFLICT">
+            <summary> ch:设备IP冲突 | en:IP address conflicted</summary>
+        </member>
+        <member name="F:MvLogisticsSDKNet.MvLogistics.MV_LGS_E_USB_READ">
+            <summary> ch:读usb出错 | en:USB read error</summary>
+        </member>
+        <member name="F:MvLogisticsSDKNet.MvLogistics.MV_LGS_E_USB_WRITE">
+            <summary> ch:写usb出错 | en:USB write error</summary>
+        </member>
+        <member name="F:MvLogisticsSDKNet.MvLogistics.MV_LGS_E_USB_DEVICE">
+            <summary> ch:设备异常 | en:Device exception</summary>
+        </member>
+        <member name="F:MvLogisticsSDKNet.MvLogistics.MV_LGS_E_USB_GENICAM">
+            <summary> ch:GenICam相关错误 | en:GenICam error</summary>
+        </member>
+        <member name="F:MvLogisticsSDKNet.MvLogistics.MV_LGS_E_USB_BANDWIDTH">
+            <summary> ch:带宽不足  该错误码新增 | en:Insufficient bandwidth, this error code is newly added</summary>
+        </member>
+        <member name="F:MvLogisticsSDKNet.MvLogistics.MV_LGS_E_USB_DRIVER">
+            <summary> ch:驱动不匹配或者未装驱动 | en:Driver is mismatched, or is not installed</summary>
+        </member>
+        <member name="F:MvLogisticsSDKNet.MvLogistics.MV_LGS_E_USB_UNKNOW">
+            <summary> ch:USB未知的错误 | en:USB unknown error</summary>
+        </member>
+        <member name="F:MvLogisticsSDKNet.MvLogistics.MV_LGS_E_FUSION_PARAM">
+            <summary> ch:融合模块参数错误 | en:Fusion module parameter error</summary>
+        </member>
+        <member name="F:MvLogisticsSDKNet.MvLogistics.MV_LGS_E_FUSION_MALLOC">
+            <summary> ch:融合模块内存分配失败 | en:Fusion module memory allocation failed</summary>
+        </member>
+        <member name="F:MvLogisticsSDKNet.MvLogistics.MV_LGS_E_FUSION_CALLORDER">
+            <summary> ch:融合模块调用顺序错误 | en:Fusion module call sequence is wrong</summary>
+        </member>
+        <member name="F:MvLogisticsSDKNet.MvLogistics.MV_LGS_E_FUSION_CFGFILE">
+            <summary> ch:融合模块配置文件错误 | en:Fusion module configuration file error</summary>
+        </member>
+        <member name="F:MvLogisticsSDKNet.MvLogistics.MV_LGS_E_FUSION_UNKNOWN">
+            <summary> ch:融合模块未知错误 | en:Unknown error of fusion module</summary>
+        </member>
+        <member name="F:MvLogisticsSDKNet.MvLogistics.MV_LGS_E_FUSION_LACKBUF">
+            <summary> ch:融合模块缓存不足 | en:Insufficient Fusion Module Cache</summary>
+        </member>
+        <member name="F:MvLogisticsSDKNet.MvLogistics.MV_LGS_E_FUSION_SUPPORT">
+            <summary> ch:融合模块不支持 | en:Fusion module does not support</summary>
+        </member>
+        <member name="F:MvLogisticsSDKNet.MvLogistics.MV_LGS_E_VOLMEASURE_PARAM">
+            <summary> ch:体积模块参数错误 | en:Volume module parameter error</summary>
+        </member>
+        <member name="F:MvLogisticsSDKNet.MvLogistics.MV_LGS_E_VOLMEASURE_MALLOC">
+            <summary> ch:体积模块内存分配失败 | en:Volume module memory allocation failed</summary>
+        </member>
+        <member name="F:MvLogisticsSDKNet.MvLogistics.MV_LGS_E_VOLMEASURE_CALLORDER">
+            <summary> ch:体积模块调用顺序错误 | en:Volume module calling sequence is wrong</summary>
+        </member>
+        <member name="F:MvLogisticsSDKNet.MvLogistics.MV_LGS_E_VOLMEASURE_NODATA">
+            <summary> ch:体积模块无数据 | en:No data for volume module</summary>
+        </member>
+        <member name="F:MvLogisticsSDKNet.MvLogistics.MV_LGS_E_VOLMEASURE_CFGFILE">
+            <summary> ch:体积模块配置文件错误 | en:Volume module configuration file error</summary>
+        </member>
+        <member name="F:MvLogisticsSDKNet.MvLogistics.MV_LGS_E_VOLMEASURE_NOPKG">
+            <summary> ch:体积模块无包裹 | en:Volume module without package</summary>
+        </member>
+        <member name="F:MvLogisticsSDKNet.MvLogistics.MV_LGS_E_VOLMEASURE_UNKNOWN">
+            <summary> ch:体积模块未知错误 | en:Volume module unknown error</summary>
+        </member>
+        <member name="F:MvLogisticsSDKNet.MvLogistics.MV_LGS_E_VOLMEASURE_LACKBUF">
+            <summary> ch:体积模块缓存不足 | en:Insufficient volume module cache</summary>
+        </member>
+        <member name="F:MvLogisticsSDKNet.MvLogistics.MV_LGS_E_VOLMEASURE_SUPPORT">
+            <summary> ch:体积模块不支持 | en:Volume module does not support</summary>
+        </member>
+        <member name="F:MvLogisticsSDKNet.MvLogistics.MV_LGS_E_WGHT_OPEN">
+            <summary> ch:称重模块称重设备打开失败 | en:Weighing module weighing equipment failed to open</summary>
+        </member>
+        <member name="F:MvLogisticsSDKNet.MvLogistics.MV_LGS_E_WGHT_ENC">
+            <summary> ch:称重模块加密错误 | en:Weighing module encryption error</summary>
+        </member>
+        <member name="F:MvLogisticsSDKNet.MvLogistics.MV_LGS_E_WGHT_RESOURCE">
+            <summary> ch:称重模块资源初始化失败 | en:Weighing module resource initialization failed</summary>
+        </member>
+        <member name="F:MvLogisticsSDKNet.MvLogistics.MV_LGS_E_WGHT_CALLORDER">
+            <summary> ch:称重模块调用顺序错误 | en:Weighing module call sequence error</summary>
+        </member>
+        <member name="F:MvLogisticsSDKNet.MvLogistics.MV_LGS_E_WGHT_NULL">
+            <summary> ch:称重模块指针类型参数为空 | en:Weighing module pointer type parameter is null</summary>
+        </member>
+        <member name="F:MvLogisticsSDKNet.MvLogistics.MV_LGS_E_WGHT_RANGE">
+            <summary> ch:称重模块数值类型参数范围错误 | en:Weighing module numerical type parameter range error</summary>
+        </member>
+        <member name="F:MvLogisticsSDKNet.MvLogistics.MV_LGS_E_WGHT_ENABLE">
+            <summary> ch:称重模块能力集错误 | en:Weighing module capability set error</summary>
+        </member>
+        <member name="F:MvLogisticsSDKNet.MvLogistics.MV_LGS_E_WGHT_UNKNOW">
+            <summary> ch:称重模块其他内部错误 | en:Weighing module other internal errors</summary>
+        </member>
+        <member name="F:MvLogisticsSDKNet.MvLogistics.MV_LGS_EXCEPTION_RECONNECT_DEV_SUCCESS">
+            <summary>ch:设备重连成功 | en:The device is reconnect success</summary>
+        </member>
+        <member name="F:MvLogisticsSDKNet.MvLogistics.MV_LGS_EXCEPTION_DEV_DISCONNECT">
+            <summary>ch:设备断开连接 | en:The device is disconnected</summary>
+        </member>
+        <member name="F:MvLogisticsSDKNet.MvLogistics.MV_LGS_EXCEPTION_SOFTDOG_DISCONNECT">
+            <summary>ch:加密狗掉线 | en:The softdog is disconnected</summary>
+        </member>
+        <member name="F:MvLogisticsSDKNet.MvLogistics.MV_LGS_BEGIN_TRIGGER">
+            <summary>ch:开始触发 | en:Start trigger</summary>
+        </member>
+        <member name="F:MvLogisticsSDKNet.MvLogistics.MV_LGS_STOP_TRIGGER">
+            <summary>ch:结束触发 | en:Stop trigger</summary>
+        </member>
+        <member name="F:MvLogisticsSDKNet.MvLogistics.MVLGS_MAX_CODECHARATERLEN">
+            <summary> ch:最大条码长度 | en:Maximum barcode length</summary>
+        </member>
+        <member name="F:MvLogisticsSDKNet.MvLogistics.MVLGS_MAX_CODENUM">
+            <summary> ch:单张图片内最大条码个数 | en:Maximum number of barcodes in a single picture</summary>
+        </member>
+        <member name="F:MvLogisticsSDKNet.MvLogistics.MVLGS_MAX_CODELISTNUM">
+            <summary> ch:最大条码信息列表个数 | en:Maximum number of barcode information lists</summary>
+        </member>
+        <member name="M:MvLogisticsSDKNet.MvLogistics.MV_LGS_GetVersion_NET">
+            <summary>
+            ch:获取SDK版本号 | en:Get SDK Version
+            </summary>
+            <returns>ch:返回SDK版本号 | en:SDK Version</returns>
+        </member>
+        <member name="M:MvLogisticsSDKNet.MvLogistics.#ctor">
+            <summary>
+            ch:构造函数 | en:Constructor
+            </summary>
+        </member>
+        <member name="M:MvLogisticsSDKNet.MvLogistics.Finalize">
+            <summary>
+            ch:析构函数 | en:Destructor
+            </summary>
+        </member>
+        <member name="M:MvLogisticsSDKNet.MvLogistics.MV_LGS_CreateHandle_NET">
+            <summary>
+            ch:创建句柄 | en:Create Handle
+            </summary>
+            <returns>ch:成功, 返回MV_LGS_OK; 错误, 返回错误码 | en:Success, return MV_LGS_OK. Failure, return error code</returns>
+        </member>
+        <member name="M:MvLogisticsSDKNet.MvLogistics.MV_LGS_DestroyHandle_NET">
+            <summary>
+            ch:销毁句柄 | en:Destroy Handle
+            </summary>
+            <returns>ch:成功, 返回MV_LGS_OK; 错误, 返回错误码 | en:Success, return MV_LGS_OK. Failure, return error code</returns>
+        </member>
+        <member name="M:MvLogisticsSDKNet.MvLogistics.MV_LGS_LoadDevCfg_NET(System.String)">
+            <summary>
+            ch:加载配置文件 | en:Load Config file
+            </summary>
+            <param name="strCfgPath">ch:配置文件路径 | en:FilePath of Config File</param>
+            <returns>ch:成功, 返回MV_LGS_OK; 错误, 返回错误码 | en:Success, return MV_LGS_OK. Failure, return error code</returns>
+        </member>
+        <member name="M:MvLogisticsSDKNet.MvLogistics.MV_LGS_RegisterExceptionCB_NET(MvLogisticsSDKNet.MvLogistics.cbExceptiondelegate,System.IntPtr)">
+            <summary>
+            ch:注册异常消息回调 | en:Register Exception Message CallBack
+            </summary>
+            <param name="cbException">ch:异常回调函数指针 | en:Exception Message CallBack Function Pointer</param>
+            <param name="pUser">ch:用户自定义变量 | en:User defined variable</param>
+            <returns>ch:成功, 返回MV_LGS_OK; 错误, 返回错误码 | en:Success, return MV_LGS_OK. Failure, return error code</returns>
+        </member>
+        <member name="M:MvLogisticsSDKNet.MvLogistics.MV_LGS_RegisterPackageCB_NET(MvLogisticsSDKNet.MvLogistics.cbOutputdelegate,System.IntPtr)">
+            <summary>
+            ch:包裹消息回调 | en:Register Pakcage Message CallBack
+            </summary>
+            <param name="cbOutput">ch:包裹信息回调函数指针 | en:Pakcage Message CallBack Function Pointer</param>
+            <param name="pUser">ch:用户自定义变量 | en:User defined variable</param>
+            <returns>ch:成功, 返回MV_LGS_OK; 错误, 返回错误码 | en:Success, return MV_LGS_OK. Failure, return error code</returns>
+        </member>
+        <member name="M:MvLogisticsSDKNet.MvLogistics.MV_LGS_RegisterTriggerInfoCB_NET(MvLogisticsSDKNet.MvLogistics.cbTriggerOutputdelegate,System.IntPtr)">
+            <summary>
+            ch:触发消息回调 | en:Register Trigger Message CallBack
+            </summary>
+            <param name="cbTriggerInfoOutput">ch:触发消息回调函数指针 | en:Trigger Message CallBack Function Pointer</param>
+            <param name="pUser">ch:用户自定义变量 | en:User defined variable</param>
+            <returns>ch:成功, 返回MV_LGS_OK; 错误, 返回错误码 | en:Success, return MV_LGS_OK. Failure, return error code</returns>
+        </member>
+        <member name="M:MvLogisticsSDKNet.MvLogistics.MV_LGS_Start_NET">
+            <summary>
+            ch:开始取流 | en:Start Grabbing
+            </summary>
+            <returns>ch:成功, 返回MV_LGS_OK; 错误, 返回错误码 | en:Success, return MV_LGS_OK. Failure, return error code</returns>
+        </member>
+        <member name="M:MvLogisticsSDKNet.MvLogistics.MV_LGS_Stop_NET">
+            <summary>
+            ch:结束取流 | en:Stop Grabbing
+            </summary>
+            <returns>ch:成功, 返回MV_LGS_OK; 错误, 返回错误码 | en:Success, return MV_LGS_OK. Failure, return error code</returns>
+        </member>
+        <member name="M:MvLogisticsSDKNet.MvLogistics.MV_LGS_SetTrigger_NET(System.UInt32)">
+            <summary>
+            ch:外部设置触发状态 | en:Set Trigger Signal
+            </summary>
+            <param name="nTriggerSignal">ch:触发状态 | en:Trigger Signal</param>
+            <returns>ch:成功, 返回MV_LGS_OK; 错误, 返回错误码 | en:Success, return MV_LGS_OK. Failure, return error code</returns>
+        </member>
+        <member name="M:MvLogisticsSDKNet.MvLogistics.MV_LGS_RegisterNoReadImageCB_NET(MvLogisticsSDKNet.MvLogistics.cbNoReaddelegate,System.IntPtr)">
+            <summary>
+            ch:读码器NoRead图像回调 | en:NoRead Image CallBack
+            </summary>
+            <param name="cbNoReadImageOutput">ch:NoRead图像输出回调函数指针 | en:NoRead Image Output CallBack Function Pointer</param>
+            <param name="pUser">ch:用户自定义变量 | en:User defined variable</param>
+            <returns>ch:成功, 返回MV_LGS_OK; 错误, 返回错误码 | en:Success, return MV_LGS_OK. Failure, return error code</returns>
+        </member>
+        <member name="M:MvLogisticsSDKNet.MvLogistics.MV_LGS_GetXmlCfgCamInfo_NET(MvLogisticsSDKNet.MvLogistics.MVLGS_XML_CFG_CAM_INFO_LIST@,System.String)">
+            <summary>
+            ch:获取XML配置中的相机信息 | en:Get XML Config Camera Info
+            </summary>
+            <param name="pstXmlCfgCamInfo">ch:配置文件中对应相机信息列表 | en:Camera Info Lists</param>
+            <param name="strCfgPath">ch:配置文件路径 | en:Config File Path</param>
+            <returns>ch:成功, 返回MV_LGS_OK; 错误, 返回错误码 | en:Success, return MV_LGS_OK. Failure, return error code</returns>
+        </member>
+        <member name="M:MvLogisticsSDKNet.MvLogistics.GetCameraHandle">
+            <summary>
+            ch:获取相机句柄 | en:Get Camera Handle
+            </summary>
+            <returns>ch:返回相机句柄 | en:return camera handle</returns>
+        </member>
+        <member name="M:MvLogisticsSDKNet.MvLogistics.MV_LGS_SetRunNumber_NET(System.UInt32,System.UInt32)">
+            <summary>
+            ch:设置流水号 | en:Set Running Number
+            </summary>
+            <param name="nRunNumber">ch:流水号 | en:Running Number</param>
+            <param name="unBindTime">ch:流水号和触发号绑定的时间区间 | en:The time interval of the serial number and the trigger number binding</param>
+            <returns>ch:成功, 返回MV_LGS_OK; 错误, 返回错误码 | en:Success, return MV_LGS_OK. Failure, return error code</returns>
+        </member>
+        <member name="F:MvLogisticsSDKNet.MvLogistics.handle">
+            <summary> ch:设备句柄 | en:Device handle</summary>
+        </member>
+        <member name="T:MvLogisticsSDKNet.MvLogistics.cbExceptiondelegate">
+            <summary>
+            ch:异常消息回调 | en:Exception message callBack
+            </summary>
+            <param name="pstEcptInfo">ch:异常回调参数结构体 | en:Exception message structure</param>
+            <param name="pUser">ch:用户自定义变量 | en:User defined variable</param>
+        </member>
+        <member name="T:MvLogisticsSDKNet.MvLogistics.cbOutputdelegate">
+            <summary>
+            ch:包裹回调 | en:package callback
+            </summary>
+            <param name="pstOutput">ch:包裹信息指针 | en:package infomation pointer</param>
+            <param name="pUser">ch:用户自定义变量 | en:User defined variable</param>
+        </member>
+        <member name="T:MvLogisticsSDKNet.MvLogistics.cbNoReaddelegate">
+            <summary>
+            ch:NoRead图像回调 | en:NoRead Image data callback
+            </summary>
+            <param name="pstImageOutPutInfo">ch:NoRead图像回调参数指针 | en:NoRead image callback parameter pointer</param>
+            <param name="pUser">ch:用户自定义变量 | en:User defined variable</param>
+        </member>
+        <member name="T:MvLogisticsSDKNet.MvLogistics.cbTriggerOutputdelegate">
+            <summary>
+            ch:触发回调 | en:Trigger callback
+            </summary>
+            <param name="pstTriggerInfo">ch:触发回调参数指针 | en:Trigger callback parameter pointer</param>
+            <param name="pUser">ch:用户自定义变量 | en:User defined variable</param>
+        </member>
+        <member name="T:MvLogisticsSDKNet.MvLogistics.MVLGS_CODE_TYPE">
+            <summary> ch:条码类型 | en:Code type</summary>
+        </member>
+        <member name="F:MvLogisticsSDKNet.MvLogistics.MVLGS_CODE_TYPE.MVLGS_CODE_NONE">
+            <summary>ch:无可识别条码 | en:No recognizable bar code</summary>
+        </member>
+        <member name="F:MvLogisticsSDKNet.MvLogistics.MVLGS_CODE_TYPE.MVLGS_CODE_TDCR_DM">
+            <summary>ch:DM码 | en:DM code</summary>
+        </member>
+        <member name="F:MvLogisticsSDKNet.MvLogistics.MVLGS_CODE_TYPE.MVLGS_CODE_TDCR_QR">
+            <summary>ch:QR码 | en:QR code</summary>
+        </member>
+        <member name="F:MvLogisticsSDKNet.MvLogistics.MVLGS_CODE_TYPE.MVLGS_CODE_BCR_EAN8">
+            <summary>ch:EAN8码 | en:EAN8 code</summary>
+        </member>
+        <member name="F:MvLogisticsSDKNet.MvLogistics.MVLGS_CODE_TYPE.MVLGS_CODE_BCR_UPCE">
+            <summary>ch:UPCE码 | en:UPCE code</summary>
+        </member>
+        <member name="F:MvLogisticsSDKNet.MvLogistics.MVLGS_CODE_TYPE.MVLGS_CODE_BCR_UPCA">
+            <summary>ch:UPCA码 | en:UPCA code</summary>
+        </member>
+        <member name="F:MvLogisticsSDKNet.MvLogistics.MVLGS_CODE_TYPE.MVLGS_CODE_BCR_EAN13">
+            <summary>ch:EAN13码 | en:EAN13 code</summary>
+        </member>
+        <member name="F:MvLogisticsSDKNet.MvLogistics.MVLGS_CODE_TYPE.MVLGS_CODE_BCR_ISBN13">
+            <summary>ch:ISBN13码 | en:ISBN13 code</summary>
+        </member>
+        <member name="F:MvLogisticsSDKNet.MvLogistics.MVLGS_CODE_TYPE.MVLGS_CODE_BCR_CODABAR">
+            <summary>ch:库德巴码 | en:Codabar code</summary>
+        </member>
+        <member name="F:MvLogisticsSDKNet.MvLogistics.MVLGS_CODE_TYPE.MVLGS_CODE_BCR_ITF25">
+            <summary>ch:交叉25码 | en:ITF25 code</summary>
+        </member>
+        <member name="F:MvLogisticsSDKNet.MvLogistics.MVLGS_CODE_TYPE.MVLGS_CODE_BCR_CODE39">
+            <summary>ch:Code 39 | en:Code 39</summary>
+        </member>
+        <member name="F:MvLogisticsSDKNet.MvLogistics.MVLGS_CODE_TYPE.MVLGS_CODE_BCR_CODE93">
+            <summary>ch:Code 93 | en:Code 93</summary>
+        </member>
+        <member name="F:MvLogisticsSDKNet.MvLogistics.MVLGS_CODE_TYPE.MVLGS_CODE_BCR_CODE128">
+            <summary>ch:Code 128 | en:Code 128</summary>
+        </member>
+        <member name="T:MvLogisticsSDKNet.MvLogistics.MVLGS_IMAGE_TYPE">
+            <summary>ch:图像格式 | en:Image Type</summary>
+        </member>
+        <member name="F:MvLogisticsSDKNet.MvLogistics.MVLGS_IMAGE_TYPE.MVLGS_IMAGE_Undefined">
+            <summary>ch:未定义 | en:Undefined format</summary>
+        </member>
+        <member name="F:MvLogisticsSDKNet.MvLogistics.MVLGS_IMAGE_TYPE.MVLGS_IMAGE_MONO8">
+            <summary>ch:Mono8 | en:MONO8 format</summary>
+        </member>
+        <member name="F:MvLogisticsSDKNet.MvLogistics.MVLGS_IMAGE_TYPE.MVLGS_IMAGE_JPEG">
+            <summary>ch:JPEG | en:JPEG format</summary>
+        </member>
+        <member name="F:MvLogisticsSDKNet.MvLogistics.MVLGS_IMAGE_TYPE.MVLGS_IMAGE_BMP">
+            <summary>ch:Bmp | en:BMP format</summary>
+        </member>
+        <member name="F:MvLogisticsSDKNet.MvLogistics.MVLGS_IMAGE_TYPE.MVLGS_IMAGE_RGB24">
+            <summary>ch:RGB24 | en:RGB format</summary>
+        </member>
+        <member name="F:MvLogisticsSDKNet.MvLogistics.MVLGS_IMAGE_TYPE.MVLGS_IMAGE_BGR24">
+            <summary>ch:BGR24 | en:BGR format</summary>
+        </member>
+        <member name="T:MvLogisticsSDKNet.MvLogistics.MVLGS_DEVICE_TYPE">
+            <summary> ch:设备类型 | en:Device type</summary>
+        </member>
+        <member name="F:MvLogisticsSDKNet.MvLogistics.MVLGS_DEVICE_TYPE.MVLGS_IDCAM">
+            <summary> ch:工业相机 | en:industrial camera</summary>
+        </member>
+        <member name="F:MvLogisticsSDKNet.MvLogistics.MVLGS_DEVICE_TYPE.MVLGS_CODEREADER">
+            <summary> ch:读码器 | en:Barcode reader</summary>
+        </member>
+        <member name="F:MvLogisticsSDKNet.MvLogistics.MVLGS_DEVICE_TYPE.MVLGS_LINESCAN">
+            <summary> ch:线扫相机 | en:Line Scan Camera</summary>
+        </member>
+        <member name="F:MvLogisticsSDKNet.MvLogistics.MVLGS_DEVICE_TYPE.MVLGS_PANORAMIC">
+            <summary> ch:全景相机 | en:Panoramic camera</summary>
+        </member>
+        <member name="F:MvLogisticsSDKNet.MvLogistics.MVLGS_DEVICE_TYPE.MVLGS_VOLUME">
+            <summary> ch:体积相机 | en:Volume Camera</summary>
+        </member>
+        <member name="F:MvLogisticsSDKNet.MvLogistics.MVLGS_DEVICE_TYPE.MVLGS_WEIGHT">
+            <summary> ch:称重 | en:Weighting</summary>
+        </member>
+        <member name="T:MvLogisticsSDKNet.MvLogistics.MVLGS_POINT_I">
+            <summary> ch:条码位置坐标 | en:Barcode position coordinates</summary>
+        </member>
+        <member name="F:MvLogisticsSDKNet.MvLogistics.MVLGS_POINT_I.nX">
+            <summary> ch:X坐标 | en:X coordinate</summary>
+        </member>
+        <member name="F:MvLogisticsSDKNet.MvLogistics.MVLGS_POINT_I.nY">
+            <summary> ch:Y坐标 | en:Y coordinate</summary>
+        </member>
+        <member name="T:MvLogisticsSDKNet.MvLogistics.MVLGS_CODE_INFO">
+            <summary>ch:条码信息 | en:Code information</summary>
+        </member>
+        <member name="F:MvLogisticsSDKNet.MvLogistics.MVLGS_CODE_INFO.strCode">
+            <summary>ch:字符 | en:Character, maximum size: 4096</summary>
+        </member>
+        <member name="F:MvLogisticsSDKNet.MvLogistics.MVLGS_CODE_INFO.nLen">
+            <summary>ch:字符长度 | en:Character size</summary>
+        </member>
+        <member name="F:MvLogisticsSDKNet.MvLogistics.MVLGS_CODE_INFO.enBarType">
+            <summary>ch:条码类型 | en:Bar code type</summary>
+        </member>
+        <member name="F:MvLogisticsSDKNet.MvLogistics.MVLGS_CODE_INFO.stCornerPt">
+            <summary>ch:条码位置 | en:Bar code location</summary>
+        </member>
+        <member name="F:MvLogisticsSDKNet.MvLogistics.MVLGS_CODE_INFO.nAngle">
+            <summary>ch:条码角度（0~3600） | en:Bar code angle, range: [0, 3600°]</summary>
+        </member>
+        <member name="F:MvLogisticsSDKNet.MvLogistics.MVLGS_CODE_INFO.nFilterFlag">
+            <summary>ch:过滤码标识(0为正常码, 1为过滤码) | en:Filter identifier: 0- normal code, 1-filter code</summary>
+        </member>
+        <member name="F:MvLogisticsSDKNet.MvLogistics.MVLGS_CODE_INFO.strSerialNumber">
+            <summary> ch:相机序列号 | en:Camera serial number</summary>
+        </member>
+        <member name="F:MvLogisticsSDKNet.MvLogistics.MVLGS_CODE_INFO.nReserved">
+            <summary>ch:保留 | en:Reserved</summary>
+        </member>
+        <member name="T:MvLogisticsSDKNet.MvLogistics.MVLGS_CODE_INFOEx">
+            <summary>ch:条码信息 | en:Code information</summary>
+        </member>
+        <member name="F:MvLogisticsSDKNet.MvLogistics.MVLGS_CODE_INFOEx.strCode">
+            <summary>ch:字符 | en:Character, maximum size: 4096</summary>
+        </member>
+        <member name="F:MvLogisticsSDKNet.MvLogistics.MVLGS_CODE_INFOEx.nLen">
+            <summary>ch:字符长度 | en:Character size</summary>
+        </member>
+        <member name="F:MvLogisticsSDKNet.MvLogistics.MVLGS_CODE_INFOEx.enBarType">
+            <summary>ch:条码类型 | en:Bar code type</summary>         
+        </member>
+        <member name="F:MvLogisticsSDKNet.MvLogistics.MVLGS_CODE_INFOEx.stCornerPt">
+            <summary>ch:条码位置 | en:Bar code location</summary>
+        </member>
+        <member name="F:MvLogisticsSDKNet.MvLogistics.MVLGS_CODE_INFOEx.nAngle">
+            <summary>ch:条码角度（0~3600） | en:Bar code angle, range: [0, 3600°]</summary>
+        </member>
+        <member name="F:MvLogisticsSDKNet.MvLogistics.MVLGS_CODE_INFOEx.nFilterFlag">
+            <summary>ch:过滤码标识(0为正常码, 1为过滤码) | en:Filter identifier: 0- normal code, 1-filter code</summary>           
+        </member>
+        <member name="F:MvLogisticsSDKNet.MvLogistics.MVLGS_CODE_INFOEx.strSerialNumber">
+            <summary> ch:相机序列号 | en:Camera serial number</summary>
+        </member>
+        <member name="F:MvLogisticsSDKNet.MvLogistics.MVLGS_CODE_INFOEx.nReserved">
+            <summary>ch:保留 | en:Reserved</summary>
+        </member>
+        <member name="T:MvLogisticsSDKNet.MvLogistics.MVLGS_IMAGE_INFO">
+            <summary>ch:输出图像的信息 | en:Output Frame Information</summary>
+        </member>
+        <member name="F:MvLogisticsSDKNet.MvLogistics.MVLGS_IMAGE_INFO.pImageBuf">
+            <summary> ch:原始图像缓存，由用户传入 | en:Original image buffer</summary>
+        </member>
+        <member name="F:MvLogisticsSDKNet.MvLogistics.MVLGS_IMAGE_INFO.nImageLen">
+            <summary>ch:原始图像长度 | en:Original image size</summary>
+        </member>
+        <member name="F:MvLogisticsSDKNet.MvLogistics.MVLGS_IMAGE_INFO.enImageType">
+            <summary>ch:图像格式 | en:Image Type</summary>
+        </member>
+        <member name="F:MvLogisticsSDKNet.MvLogistics.MVLGS_IMAGE_INFO.nWidth">
+            <summary>ch:图像宽 | en:Image Width</summary>
+        </member>
+        <member name="F:MvLogisticsSDKNet.MvLogistics.MVLGS_IMAGE_INFO.nHeight">
+            <summary>ch:图像高 | en:Image Height</summary>
+        </member>
+        <member name="F:MvLogisticsSDKNet.MvLogistics.MVLGS_IMAGE_INFO.nTriggerIndex">
+            <summary> ch:触发序号，特殊场合可当做包裹号使用 | en:Trigger serial number, can be used as a parcel number in special occasions</summary>
+        </member>
+        <member name="F:MvLogisticsSDKNet.MvLogistics.MVLGS_IMAGE_INFO.nFrameNum">
+            <summary>ch:帧号 | en:Frame No.</summary>
+        </member>
+        <member name="F:MvLogisticsSDKNet.MvLogistics.MVLGS_IMAGE_INFO.nDevTimeStampHigh">
+            <summary>ch:时间戳高32位 | en:Timestamp high 32 bits</summary>
+        </member>
+        <member name="F:MvLogisticsSDKNet.MvLogistics.MVLGS_IMAGE_INFO.nDevTimeStampLow">
+            <summary>ch:时间戳低32位 | en:Timestamp low 32 bits</summary>
+        </member>
+        <member name="F:MvLogisticsSDKNet.MvLogistics.MVLGS_IMAGE_INFO.chUserDefinedName">
+            <summary>ch:用户自定义名字 | en:Custom name</summary>
+        </member>
+        <member name="F:MvLogisticsSDKNet.MvLogistics.MVLGS_IMAGE_INFO.nReserved">
+            <summary>ch:保留 | en:Reserved</summary>
+        </member>
+        <member name="T:MvLogisticsSDKNet.MvLogistics.MVLGS_CODE_LIST">
+            <summary> ch:条码信息列表 | en:List of barcode information</summary>
+        </member>
+        <member name="F:MvLogisticsSDKNet.MvLogistics.MVLGS_CODE_LIST.nCodeNum">
+            <summary> ch:条码数量 | en:Number of barcodes</summary>
+        </member>
+        <member name="F:MvLogisticsSDKNet.MvLogistics.MVLGS_CODE_LIST.stCodeInfo">
+            <summary> ch:条码信息 | en:Barcode information</summary>
+        </member>
+        <member name="F:MvLogisticsSDKNet.MvLogistics.MVLGS_CODE_LIST.stImage">
+            <summary> ch:原始图像信息 | en:Original image information</summary>
+        </member>
+        <member name="F:MvLogisticsSDKNet.MvLogistics.MVLGS_CODE_LIST.pImageWaybill">
+            <summary> ch:抠图缓存，由SDK内部分配 | en:Cutout cache, allocated internally by the SDK</summary>
+        </member>
+        <member name="F:MvLogisticsSDKNet.MvLogistics.MVLGS_CODE_LIST.nImageWaybillLen">
+            <summary> ch:图像大小 | en:Image size</summary>
+        </member>
+        <member name="F:MvLogisticsSDKNet.MvLogistics.MVLGS_CODE_LIST.enWaybillImageType">
+            <summary> ch:抠图图像格式 | en:Matte image format</summary>
+        </member>
+        <member name="F:MvLogisticsSDKNet.MvLogistics.MVLGS_CODE_LIST.nReserved">
+            <summary>ch:保留 | en:Reserved</summary>
+        </member>
+        <member name="T:MvLogisticsSDKNet.MvLogistics.MVLGS_CODE_LISTEx">
+            <summary> ch:条码信息列表 | en:List of barcode information</summary>
+        </member>
+        <member name="F:MvLogisticsSDKNet.MvLogistics.MVLGS_CODE_LISTEx.nCodeNum">
+            <summary> ch:条码数量 | en:Number of barcodes</summary>
+        </member>
+        <member name="F:MvLogisticsSDKNet.MvLogistics.MVLGS_CODE_LISTEx.stCodeInfo">
+            <summary> ch:条码信息 | en:Barcode information</summary>       
+        </member>
+        <member name="F:MvLogisticsSDKNet.MvLogistics.MVLGS_CODE_LISTEx.stImage">
+            <summary> ch:原始图像信息 | en:Original image information</summary>
+        </member>
+        <member name="F:MvLogisticsSDKNet.MvLogistics.MVLGS_CODE_LISTEx.pImageWaybill">
+            <summary> ch:抠图缓存，由SDK内部分配 | en:Cutout cache, allocated internally by the SDK</summary>
+        </member>
+        <member name="F:MvLogisticsSDKNet.MvLogistics.MVLGS_CODE_LISTEx.nImageWaybillLen">
+            <summary> ch:图像大小 | en:Image size</summary> 
+        </member>
+        <member name="F:MvLogisticsSDKNet.MvLogistics.MVLGS_CODE_LISTEx.enWaybillImageType">
+            <summary> ch:抠图图像格式 | en:Matte image format</summary>
+        </member>
+        <member name="F:MvLogisticsSDKNet.MvLogistics.MVLGS_CODE_LISTEx.nReserved">
+            <summary>ch:保留 | en:Reserved</summary>
+        </member>
+        <member name="T:MvLogisticsSDKNet.MvLogistics.MVLGS_VOLUME_INFO">
+            <summary> ch:包裹体积字段信息 | en:Package volume field information</summary>
+        </member>
+        <member name="F:MvLogisticsSDKNet.MvLogistics.MVLGS_VOLUME_INFO.nPkgID">
+            <summary> ch:包裹ID | en:Package ID</summary>
+        </member>
+        <member name="F:MvLogisticsSDKNet.MvLogistics.MVLGS_VOLUME_INFO.fVolume">
+            <summary> ch:体积 | en: volume</summary>
+        </member>
+        <member name="F:MvLogisticsSDKNet.MvLogistics.MVLGS_VOLUME_INFO.fLength">
+            <summary> ch:长度 | en: length</summary>
+        </member>
+        <member name="F:MvLogisticsSDKNet.MvLogistics.MVLGS_VOLUME_INFO.fWidth">
+            <summary> ch:宽度 | en:Width</summary>
+        </member>
+        <member name="F:MvLogisticsSDKNet.MvLogistics.MVLGS_VOLUME_INFO.fHeight">
+            <summary> ch:高度 | en:Height</summary>
+        </member>
+        <member name="F:MvLogisticsSDKNet.MvLogistics.MVLGS_VOLUME_INFO.nObjEnterSysTime">
+            <summary> ch:体积测量开始时间戳 | en:Volume measurement start timestamp</summary>
+        </member>
+        <member name="F:MvLogisticsSDKNet.MvLogistics.MVLGS_VOLUME_INFO.nObjLeaveSysTime">
+            <summary> ch:体积测量结束时间戳 | en:Volume measurement end timestamp</summary>
+        </member>
+        <member name="F:MvLogisticsSDKNet.MvLogistics.MVLGS_VOLUME_INFO.nReserved">
+            <summary>ch:保留 | en:Reserved</summary>
+        </member>
+        <member name="T:MvLogisticsSDKNet.MvLogistics.MVLGS_PACKAGE_INFO">
+            <summary> ch:包裹信息 | en:Package information</summary>
+        </member>
+        <member name="F:MvLogisticsSDKNet.MvLogistics.MVLGS_PACKAGE_INFO.bCodeEnable">
+            <summary> ch:是否包含条码信息,非0：包含条码信息 | en:Whether to include barcode information, non-zero: contains barcode information</summary>
+        </member>
+        <member name="F:MvLogisticsSDKNet.MvLogistics.MVLGS_PACKAGE_INFO.nCodeListNum">
+            <summary> ch:条码列表数量 | en:Number of barcode lists</summary>
+        </member>
+        <member name="F:MvLogisticsSDKNet.MvLogistics.MVLGS_PACKAGE_INFO.stCodeList">
+            <summary> ch:条码列表信息 | en:Bar code list information</summary>
+        </member>
+        <member name="F:MvLogisticsSDKNet.MvLogistics.MVLGS_PACKAGE_INFO.bVolumeEnable">
+            <summary> ch:是否包含体积信息,非0：包含体积信息 | en:Whether to include volume information, non-zero: contains volume information</summary>
+        </member>
+        <member name="F:MvLogisticsSDKNet.MvLogistics.MVLGS_PACKAGE_INFO.stVolumeInfo">
+            <summary> ch:体积信息 | en:Volume information</summary>
+        </member>
+        <member name="F:MvLogisticsSDKNet.MvLogistics.MVLGS_PACKAGE_INFO.bWeightEnable">
+            <summary> ch:是否包含重量信息,非0：包含重量信息 | en:Whether to include weight information, non-zero: contains weight information</summary>
+        </member>
+        <member name="F:MvLogisticsSDKNet.MvLogistics.MVLGS_PACKAGE_INFO.fWeight">
+            <summary> ch:重量信息 | en:Weight information</summary>
+        </member>
+        <member name="F:MvLogisticsSDKNet.MvLogistics.MVLGS_PACKAGE_INFO.bPRMEnable">
+            <summary> ch:是否包含全景图像,非0：包含全景图像 | en:Whether to include panoramic images, non-zero: include panoramic images</summary>
+        </member>
+        <member name="F:MvLogisticsSDKNet.MvLogistics.MVLGS_PACKAGE_INFO.stPRMImage">
+            <summary> ch:原始图像信息 | en:Original image information</summary>
+        </member>
+        <member name="F:MvLogisticsSDKNet.MvLogistics.MVLGS_PACKAGE_INFO.bIsFirstCodeOut">
+            <summary> ch:是否为条码先输出 (1为第一次输出，0为第二次输出) | en:Whether to output the barcode first (1 is the first output, 0 is the second output)</summary>
+        </member>
+        <member name="F:MvLogisticsSDKNet.MvLogistics.MVLGS_PACKAGE_INFO.llTriggerStartTimeStamp">
+            <summary> ch:触发开始时间戳(13位) | en:Trigger start timestamp (13 bits)</summary>
+        </member>
+        <member name="F:MvLogisticsSDKNet.MvLogistics.MVLGS_PACKAGE_INFO.llTriggerEndTimeStamp">
+            <summary> ch:触发结束时间戳(13位) | en:Trigger end timestamp (13 bits)</summary>
+        </member>
+        <member name="F:MvLogisticsSDKNet.MvLogistics.MVLGS_PACKAGE_INFO.nReserved">
+            <summary>ch:保留 | en:Reserved</summary>
+        </member>
+        <member name="T:MvLogisticsSDKNet.MvLogistics.MVLGS_PACKAGE_INFOEx">
+            <summary> ch:包裹信息 | en:Package information</summary>
+        </member>
+        <member name="F:MvLogisticsSDKNet.MvLogistics.MVLGS_PACKAGE_INFOEx.bCodeEnable">
+            <summary> ch:是否包含条码信息,非0：包含条码信息 | en:Whether to include barcode information, non-zero: contains barcode information</summary>
+        </member>
+        <member name="F:MvLogisticsSDKNet.MvLogistics.MVLGS_PACKAGE_INFOEx.nCodeListNum">
+            <summary> ch:条码列表数量 | en:Number of barcode lists</summary>
+        </member>
+        <member name="F:MvLogisticsSDKNet.MvLogistics.MVLGS_PACKAGE_INFOEx.stCodeList">
+            <summary> ch:条码列表信息 | en:Bar code list information</summary>
+        </member>
+        <member name="F:MvLogisticsSDKNet.MvLogistics.MVLGS_PACKAGE_INFOEx.bVolumeEnable">
+            <summary> ch:是否包含体积信息,非0：包含体积信息 | en:Whether to include volume information, non-zero: contains volume information</summary>
+        </member>
+        <member name="F:MvLogisticsSDKNet.MvLogistics.MVLGS_PACKAGE_INFOEx.stVolumeInfo">
+            <summary> ch:体积信息 | en:Volume information</summary>
+        </member>
+        <member name="F:MvLogisticsSDKNet.MvLogistics.MVLGS_PACKAGE_INFOEx.bWeightEnable">
+            <summary> ch:是否包含重量信息,非0：包含重量信息 | en:Whether to include weight information, non-zero: contains weight information</summary>
+        </member>
+        <member name="F:MvLogisticsSDKNet.MvLogistics.MVLGS_PACKAGE_INFOEx.fWeight">
+            <summary> ch:重量信息 | en:Weight information</summary>
+        </member>
+        <member name="F:MvLogisticsSDKNet.MvLogistics.MVLGS_PACKAGE_INFOEx.bPRMEnable">
+            <summary> ch:是否包含全景图像,非0：包含全景图像 | en:Whether to include panoramic images, non-zero: include panoramic images</summary>
+        </member>
+        <member name="F:MvLogisticsSDKNet.MvLogistics.MVLGS_PACKAGE_INFOEx.stPRMImage">
+            <summary> ch:是否包含全景图像,非0：包含全景图像 | en:Whether to include panoramic images, non-zero: include panoramic images</summary>
+        </member>
+        <member name="F:MvLogisticsSDKNet.MvLogistics.MVLGS_PACKAGE_INFOEx.bIsFirstCodeOut">
+            <summary> ch:是否为条码先输出 (1为第一次输出，0为第二次输出) | en:Whether to output the barcode first (1 is the first output, 0 is the second output)</summary>
+        </member>
+        <member name="F:MvLogisticsSDKNet.MvLogistics.MVLGS_PACKAGE_INFOEx.llTriggerStartTimeStamp">
+            <summary> ch:触发开始时间戳(13位) | en:Trigger start timestamp (13 bits)</summary>
+        </member>
+        <member name="F:MvLogisticsSDKNet.MvLogistics.MVLGS_PACKAGE_INFOEx.llTriggerEndTimeStamp">
+            <summary> ch:触发结束时间戳(13位) | en:Trigger end timestamp (13 bits)</summary>
+        </member>
+        <member name="F:MvLogisticsSDKNet.MvLogistics.MVLGS_PACKAGE_INFOEx.nReserved">
+            <summary>ch:保留 | en:Reserved</summary>
+        </member>
+        <member name="T:MvLogisticsSDKNet.MvLogistics.MVLGS_EXCEPTION_INFO">
+            <summary> ch:异常信息 | en:Exception information</summary>
+        </member>
+        <member name="F:MvLogisticsSDKNet.MvLogistics.MVLGS_EXCEPTION_INFO.nExceptionID">
+            <summary> ch:异常ID | en:Exception ID</summary>
+        </member>
+        <member name="F:MvLogisticsSDKNet.MvLogistics.MVLGS_EXCEPTION_INFO.enCamType">
+            <summary> ch:异常设备类型 | en:Abnormal device type</summary>
+        </member>
+        <member name="F:MvLogisticsSDKNet.MvLogistics.MVLGS_EXCEPTION_INFO.strCamSerialNum">
+            <summary> ch:异常设备序列号(体积相机此处为MAC地址) | en:Abnormal device serial number (the volume camera here is the MAC address)</summary>
+        </member>
+        <member name="F:MvLogisticsSDKNet.MvLogistics.MVLGS_EXCEPTION_INFO.strExceptionDes">
+            <summary> ch:异常描述 | en:Exception description</summary>
+        </member>
+        <member name="F:MvLogisticsSDKNet.MvLogistics.MVLGS_EXCEPTION_INFO.nReserved">
+            <summary>ch:保留 | en:Reserved</summary>
+        </member>
+        <member name="T:MvLogisticsSDKNet.MvLogistics.MVLGS_TRIGGER_INFO">
+            <summary> ch:触发信息 | en:Trigger information</summary>
+        </member>
+        <member name="F:MvLogisticsSDKNet.MvLogistics.MVLGS_TRIGGER_INFO.nTriggerIndex">
+            <summary> ch:触发ID | en:Trigger ID</summary>
+        </member>
+        <member name="F:MvLogisticsSDKNet.MvLogistics.MVLGS_TRIGGER_INFO.nTriggerFlag">
+            <summary> ch:触发标识 与头文件触发开始为1(MV_LGS_BEGIN_TRIGGER) 触发结束为0(MV_LGS_STOP_TRIGGER) 对应映射| en:Trigger description</summary>          
+        </member>
+        <member name="F:MvLogisticsSDKNet.MvLogistics.MVLGS_TRIGGER_INFO.nReserved">
+            <summary>ch:保留 | en:Reserved</summary>
+        </member>
+        <member name="T:MvLogisticsSDKNet.MvLogistics.MVLGS_IMAGE_OUTPUT_INFO">
+            <summary> ch:相机输出图像信息 | en:Camera output image information</summary>
+        </member>
+        <member name="F:MvLogisticsSDKNet.MvLogistics.MVLGS_IMAGE_OUTPUT_INFO.stImage">
+            <summary> ch:图像信息 | en:Image information</summary>
+        </member>
+        <member name="F:MvLogisticsSDKNet.MvLogistics.MVLGS_IMAGE_OUTPUT_INFO.strSerialNumber">
+            <summary> ch:相机序列号 | en:Camera serial number</summary>
+        </member>
+        <member name="F:MvLogisticsSDKNet.MvLogistics.MVLGS_IMAGE_OUTPUT_INFO.nReserved">
+            <summary>ch:保留 | en:Reserved</summary>
+        </member>
+        <member name="T:MvLogisticsSDKNet.MvLogistics.MVLGS_XML_CFG_CAM_INFO">
+            <summary> ch:设备信息 | en:Device Information</summary>
+        </member>
+        <member name="F:MvLogisticsSDKNet.MvLogistics.MVLGS_XML_CFG_CAM_INFO.enXmlCamType">
+            <summary> ch:相机类型 | en:Camera type</summary>
+        </member>
+        <member name="F:MvLogisticsSDKNet.MvLogistics.MVLGS_XML_CFG_CAM_INFO.nMacAddrHigh">
+            <summary>ch:MAC 地址 高位| en:High MAC address</summary>
+        </member>
+        <member name="F:MvLogisticsSDKNet.MvLogistics.MVLGS_XML_CFG_CAM_INFO.nMacAddrLow">
+            <summary>ch:MAC 地址 低位| en:Low MAC address</summary>
+        </member>
+        <member name="F:MvLogisticsSDKNet.MvLogistics.MVLGS_XML_CFG_CAM_INFO.nCurrentIp">
+            <summary>ch:当前IP | en:Current IP address</summary> 
+        </member>
+        <member name="F:MvLogisticsSDKNet.MvLogistics.MVLGS_XML_CFG_CAM_INFO.strManufacturerName">
+            <summary>ch:制造商名字 | en:Manufacturer Name</summary>
+        </member>
+        <member name="F:MvLogisticsSDKNet.MvLogistics.MVLGS_XML_CFG_CAM_INFO.strModelName">
+            <summary>ch:型号名字 | en:Model Name</summary>
+        </member>
+        <member name="F:MvLogisticsSDKNet.MvLogistics.MVLGS_XML_CFG_CAM_INFO.strDeviceVersion">
+            <summary>ch:设备版本号 | en:Device version No.</summary>
+        </member>
+        <member name="F:MvLogisticsSDKNet.MvLogistics.MVLGS_XML_CFG_CAM_INFO.strSerialNumber">
+            <summary>ch:序列号 | en:Device serial No.</summary>
+        </member>
+        <member name="F:MvLogisticsSDKNet.MvLogistics.MVLGS_XML_CFG_CAM_INFO.strUserDefinedName">
+            <summary>ch:用户自定义名字 | en:Custom name</summary>
+        </member>
+        <member name="F:MvLogisticsSDKNet.MvLogistics.MVLGS_XML_CFG_CAM_INFO.bDeviceOnline">
+            <summary> ch:设备在线状态，true在线，false离线 | en:Device online status, true online, false offline</summary>
+        </member>
+        <member name="F:MvLogisticsSDKNet.MvLogistics.MVLGS_XML_CFG_CAM_INFO.bMainCamera">
+            <summary> ch:是否为主相机 | en:Whether the main camera</summary>
+        </member>
+        <member name="F:MvLogisticsSDKNet.MvLogistics.MVLGS_XML_CFG_CAM_INFO.nReserved">
+            <summary>ch:保留 | en:Reserved</summary>
+        </member>
+        <member name="T:MvLogisticsSDKNet.MvLogistics.MVLGS_XML_CFG_CAM_INFO_LIST">
+            <summary> ch:XML配置文件中相机信息列表 | en:List of camera information in XML configuration file</summary>
+        </member>
+        <member name="F:MvLogisticsSDKNet.MvLogistics.MVLGS_XML_CFG_CAM_INFO_LIST.nXmlCfgCamNum">
+            <summary> ch:XML配置文件中的相机数量 | en:Number of cameras in XML configuration file</summary>
+        </member>
+        <member name="F:MvLogisticsSDKNet.MvLogistics.MVLGS_XML_CFG_CAM_INFO_LIST.pstXmlCamInfo">
+            <summary> ch:相机信息结构体数组 | en:Camera information structure array</summary>
+        </member>
+    </members>
+</doc>

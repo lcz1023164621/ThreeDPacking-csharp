@@ -1,0 +1,1307 @@
+{
+    "ui_tabs": [
+        {
+            "ui_type": "tab",
+            "ui_param_name": "",
+            "ui_subset": [
+                {
+                    "ui_display_name": "Line0",
+                    "ui_display_cn_name": "管脚0输出",
+                    "ui_display_en_name": "LineOut 0",
+                    "ui_usage_frequency": "Common",
+                    "ui_type": "category",
+                    "ui_param_name": "Line0",
+                    "ui_param_display_type": "",
+                    "ui_subset": [
+                        {
+                            "ui_display_name": "LineInverter",
+                            "ui_display_cn_name": "管脚输出极性反转",
+                            "ui_display_en_name": "Line Output Polarity Reversal",
+                            "ui_usage_frequency": "Common",
+                            "ui_type": "config_param",
+                            "ui_param_name": "LineInverter",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        },
+                        {
+                            "ui_display_name": "LineSource",
+                            "ui_display_cn_name": "输出事件",
+                            "ui_display_en_name": "Line Output Event",
+                            "ui_usage_frequency": "Common",
+                            "ui_type": "config_param",
+                            "ui_param_name": "LineSource",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        },
+                        {
+                            "ui_display_name": "StrobeLineDuration",
+                            "ui_display_cn_name": "输出持续时间(μs)",
+                            "ui_display_en_name": "Line Output Duration(μs)",
+                            "ui_usage_frequency": "Common",
+                            "ui_type": "config_param",
+                            "ui_param_name": "StrobeLineDuration",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        },
+                        {
+                            "ui_display_name": "TimerOutPeriod",
+                            "ui_display_cn_name": "输出周期(μs)",
+                            "ui_display_en_name": "Line Output Period(μs)",
+                            "ui_usage_frequency": "Common",
+                            "ui_type": "config_param",
+                            "ui_param_name": "TimerOutPeriod",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        },
+                        {
+                            "ui_display_name": "StrobeLineDelay",
+                            "ui_display_cn_name": "输出延时时间(μs)",
+                            "ui_display_en_name": "Line Output Delay Time(μs)",
+                            "ui_usage_frequency": "Common",
+                            "ui_type": "config_param",
+                            "ui_param_name": "StrobeLineDelay",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        },
+                        {
+                            "ui_display_name": "StrobeLineExposeDelay",
+                            "ui_display_cn_name": "输出延时时间(μs)",
+                            "ui_display_en_name": "Line Output Delay Time(μs)",
+                            "ui_usage_frequency": "Common",
+                            "ui_type": "config_param",
+                            "ui_param_name": "StrobeLineExposeDelay",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        },
+                        {
+                            "ui_display_name": "StrobeLineExposeDuration",
+                            "ui_display_cn_name": "输出持续时间(μs)",
+                            "ui_display_en_name": "Line Output Duration(μs)",
+                            "ui_usage_frequency": "Common",
+                            "ui_type": "config_param",
+                            "ui_param_name": "StrobeLineExposeDuration",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        },
+                        {
+                            "ui_display_name": "StrobeLinePreDelay",
+                            "ui_display_cn_name": "输出提前时间(μs)",
+                            "ui_display_en_name": "Line Output Lead Time(μs)",
+                            "ui_usage_frequency": "Common",
+                            "ui_type": "config_param",
+                            "ui_param_name": "StrobeLinePreDelay",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        },
+                        {
+                            "ui_display_name": "LineTriggerSoftware",
+                            "ui_display_cn_name": "软触发",
+                            "ui_display_en_name": "Software Trigger",
+                            "ui_usage_frequency": "Common",
+                            "ui_type": "config_param",
+                            "ui_param_name": "LineTriggerSoftware",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        },
+                        {
+                            "ui_display_name": "HardwareTriggerSource",
+                            "ui_display_cn_name": "硬件触发源",
+                            "ui_display_en_name": "Hardware Trigger Source",
+                            "ui_usage_frequency": "Common",
+                            "ui_type": "config_param",
+                            "ui_param_name": "HardwareTriggerSource",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        },
+                        {
+                            "ui_display_name": "HardwareTriggerActivation",
+                            "ui_display_cn_name": "硬件触发事件",
+                            "ui_display_en_name": "Hardware Trigger Event",
+                            "ui_usage_frequency": "Common",
+                            "ui_type": "config_param",
+                            "ui_param_name": "HardwareTriggerActivation",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        },
+                        {
+                            "ui_display_name": "TcpStartTriggerPortLine",
+                            "ui_display_cn_name": "TCP服务端开始触发端口",
+                            "ui_display_en_name": "TCP Server Trigger Port",
+                            "ui_usage_frequency": "Common",
+                            "ui_type": "config_param",
+                            "ui_param_name": "TcpStartTriggerPortLine",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        },
+                        {
+                            "ui_display_name": "TcpServerReturnFromIoCtrlLine",
+                            "ui_display_cn_name": "TCP服务端输出原路返回",
+                            "ui_display_en_name": "TCP Server Return From Io Ctrl",
+                            "ui_usage_frequency": "Common",
+                            "ui_type": "config_param",
+                            "ui_param_name": "TcpServerReturnFromIoCtrlLine",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        },
+                        {
+                            "ui_display_name": "TcpClientStartTriggerAddrLine",
+                            "ui_display_cn_name": "TCP客户端触发IP地址",
+                            "ui_display_en_name": "TCP Client Dst Trigger IP",
+                            "ui_usage_frequency": "Common",
+                            "ui_type": "config_param",
+                            "ui_param_name": "TcpClientStartTriggerAddrLine",
+                            "ui_param_display_type": "IPlineedit",
+                            "ui_subset": null
+                        },
+                        {
+                            "ui_display_name": "TcpClientStartTriggerPortLine",
+                            "ui_display_cn_name": "TCP客户端触发端口",
+                            "ui_display_en_name": "TCP Client Dst Trigger Port",
+                            "ui_usage_frequency": "Common",
+                            "ui_type": "config_param",
+                            "ui_param_name": "TcpClientStartTriggerPortLine",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        },
+                        {
+                            "ui_display_name": "TCPReturnFromIoCtrlLine",
+                            "ui_display_cn_name": "TCP客户端输出原路返回",
+                            "ui_display_en_name": "TCP Client Return From Io Ctrl",
+                            "ui_usage_frequency": "Common",
+                            "ui_type": "config_param",
+                            "ui_param_name": "TCPReturnFromIoCtrlLine",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        },
+                        {
+                            "ui_display_name": "ControlStartStr",
+                            "ui_display_cn_name": "开始输出文本",
+                            "ui_display_en_name": "Start Output Text",
+                            "ui_usage_frequency": "Common",
+                            "ui_type": "config_param",
+                            "ui_param_name": "ControlStartStr",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        },
+                        {
+                            "ui_display_name": "ControlStopStr",
+                            "ui_display_cn_name": "结束输出文本",
+                            "ui_display_en_name": "Stop Output Text",
+                            "ui_usage_frequency": "Common",
+                            "ui_type": "config_param",
+                            "ui_param_name": "ControlStopStr",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        },
+                        {
+                            "ui_display_name": "ControlIOConsistOutputEnable",
+                            "ui_display_cn_name": "持续输出指令",
+                            "ui_display_en_name": "Continuous Output Command ",
+                            "ui_usage_frequency": "Common",
+                            "ui_type": "config_param",
+                            "ui_param_name": "ControlIOConsistOutputEnable",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        }
+                    ]
+                },
+                {
+                    "ui_display_name": "Line1",
+                    "ui_display_cn_name": "管脚1输出",
+                    "ui_display_en_name": "LineOut 1",
+                    "ui_usage_frequency": "Common",
+                    "ui_type": "category",
+                    "ui_param_name": "Line1",
+                    "ui_param_display_type": "",
+                    "ui_subset": [
+                        {
+                            "ui_display_name": "LineInverter",
+                            "ui_display_cn_name": "管脚输出极性反转",
+                            "ui_display_en_name": "Line Output Polarity Reversal",
+                            "ui_usage_frequency": "Common",
+                            "ui_type": "config_param",
+                            "ui_param_name": "LineInverter",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        },
+                        {
+                            "ui_display_name": "LineSource",
+                            "ui_display_cn_name": "输出事件",
+                            "ui_display_en_name": "Line Output Event",
+                            "ui_usage_frequency": "Common",
+                            "ui_type": "config_param",
+                            "ui_param_name": "LineSource",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        },
+                        {
+                            "ui_display_name": "StrobeLineDuration",
+                            "ui_display_cn_name": "输出持续时间(μs)",
+                            "ui_display_en_name": "Line Output Duration(μs)",
+                            "ui_usage_frequency": "Common",
+                            "ui_type": "config_param",
+                            "ui_param_name": "StrobeLineDuration",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        },
+                        {
+                            "ui_display_name": "TimerOutPeriod",
+                            "ui_display_cn_name": "输出周期(μs)",
+                            "ui_display_en_name": "Line Output Period(μs)",
+                            "ui_usage_frequency": "Common",
+                            "ui_type": "config_param",
+                            "ui_param_name": "TimerOutPeriod",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        },
+                        {
+                            "ui_display_name": "StrobeLineDelay",
+                            "ui_display_cn_name": "输出延时时间(μs)",
+                            "ui_display_en_name": "Line Output Delay Time(μs)",
+                            "ui_usage_frequency": "Common",
+                            "ui_type": "config_param",
+                            "ui_param_name": "StrobeLineDelay",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        },
+                        {
+                            "ui_display_name": "StrobeLineExposeDelay",
+                            "ui_display_cn_name": "输出延时时间(μs)",
+                            "ui_display_en_name": "Line Output Delay Time(μs)",
+                            "ui_usage_frequency": "Common",
+                            "ui_type": "config_param",
+                            "ui_param_name": "StrobeLineExposeDelay",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        },
+                        {
+                            "ui_display_name": "StrobeLineExposeDuration",
+                            "ui_display_cn_name": "输出持续时间(μs)",
+                            "ui_display_en_name": "Line Output Duration(μs)",
+                            "ui_usage_frequency": "Common",
+                            "ui_type": "config_param",
+                            "ui_param_name": "StrobeLineExposeDuration",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        },
+                        {
+                            "ui_display_name": "StrobeLinePreDelay",
+                            "ui_display_cn_name": "输出提前时间(μs)",
+                            "ui_display_en_name": "Line Output Lead Time(μs)",
+                            "ui_usage_frequency": "Common",
+                            "ui_type": "config_param",
+                            "ui_param_name": "StrobeLinePreDelay",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        },
+                        {
+                            "ui_display_name": "LineTriggerSoftware",
+                            "ui_display_cn_name": "软触发",
+                            "ui_display_en_name": "Software Trigger",
+                            "ui_usage_frequency": "Common",
+                            "ui_type": "config_param",
+                            "ui_param_name": "LineTriggerSoftware",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        },
+                        {
+                            "ui_display_name": "HardwareTriggerSource",
+                            "ui_display_cn_name": "硬件触发源",
+                            "ui_display_en_name": "Hardware Trigger Source",
+                            "ui_usage_frequency": "Common",
+                            "ui_type": "config_param",
+                            "ui_param_name": "HardwareTriggerSource",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        },
+                        {
+                            "ui_display_name": "HardwareTriggerActivation",
+                            "ui_display_cn_name": "硬件触发事件",
+                            "ui_display_en_name": "Hardware Trigger Event",
+                            "ui_usage_frequency": "Common",
+                            "ui_type": "config_param",
+                            "ui_param_name": "HardwareTriggerActivation",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        },
+                        {
+                            "ui_display_name": "TcpStartTriggerPortLine",
+                            "ui_display_cn_name": "TCP服务端开始触发端口",
+                            "ui_display_en_name": "TCP Server Trigger Port",
+                            "ui_usage_frequency": "Common",
+                            "ui_type": "config_param",
+                            "ui_param_name": "TcpStartTriggerPortLine",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        },
+                        {
+                            "ui_display_name": "TcpServerReturnFromIoCtrlLine",
+                            "ui_display_cn_name": "TCP服务端输出原路返回",
+                            "ui_display_en_name": "TCP Server Return From Io Ctrl",
+                            "ui_usage_frequency": "Common",
+                            "ui_type": "config_param",
+                            "ui_param_name": "TcpServerReturnFromIoCtrlLine",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        },
+                        {
+                            "ui_display_name": "TcpClientStartTriggerAddrLine",
+                            "ui_display_cn_name": "TCP客户端触发IP地址",
+                            "ui_display_en_name": "TCP Client Dst Trigger IP",
+                            "ui_usage_frequency": "Common",
+                            "ui_type": "config_param",
+                            "ui_param_name": "TcpClientStartTriggerAddrLine",
+                            "ui_param_display_type": "IPlineedit",
+                            "ui_subset": null
+                        },
+                        {
+                            "ui_display_name": "TcpClientStartTriggerPortLine",
+                            "ui_display_cn_name": "TCP客户端触发端口",
+                            "ui_display_en_name": "TCP Client Dst Trigger Port",
+                            "ui_usage_frequency": "Common",
+                            "ui_type": "config_param",
+                            "ui_param_name": "TcpClientStartTriggerPortLine",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        },
+                        {
+                            "ui_display_name": "TCPReturnFromIoCtrlLine",
+                            "ui_display_cn_name": "TCP客户端输出原路返回",
+                            "ui_display_en_name": "TCP Client Return From Io Ctrl",
+                            "ui_usage_frequency": "Common",
+                            "ui_type": "config_param",
+                            "ui_param_name": "TCPReturnFromIoCtrlLine",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        },
+                        {
+                            "ui_display_name": "ControlStartStr",
+                            "ui_display_cn_name": "开始输出文本",
+                            "ui_display_en_name": "Start Output Text",
+                            "ui_usage_frequency": "Common",
+                            "ui_type": "config_param",
+                            "ui_param_name": "ControlStartStr",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        },
+                        {
+                            "ui_display_name": "ControlStopStr",
+                            "ui_display_cn_name": "结束输出文本",
+                            "ui_display_en_name": "Stop Output Text",
+                            "ui_usage_frequency": "Common",
+                            "ui_type": "config_param",
+                            "ui_param_name": "ControlStopStr",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        },
+                        {
+                            "ui_display_name": "ControlIOConsistOutputEnable",
+                            "ui_display_cn_name": "持续输出指令",
+                            "ui_display_en_name": "Continuous Output Command ",
+                            "ui_usage_frequency": "Common",
+                            "ui_type": "config_param",
+                            "ui_param_name": "ControlIOConsistOutputEnable",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        }
+                    ]
+                },
+                {
+                    "ui_display_name": "Line2",
+                    "ui_display_cn_name": "管脚2输出",
+                    "ui_display_en_name": "LineOut 2",
+                    "ui_usage_frequency": "Common",
+                    "ui_type": "category",
+                    "ui_param_name": "Line2",
+                    "ui_param_display_type": "",
+                    "ui_subset": [
+                        {
+                            "ui_display_name": "LineInverter",
+                            "ui_display_cn_name": "管脚输出极性反转",
+                            "ui_display_en_name": "Line Output Polarity Reversal",
+                            "ui_usage_frequency": "Common",
+                            "ui_type": "config_param",
+                            "ui_param_name": "LineInverter",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        },
+                        {
+                            "ui_display_name": "LineSource",
+                            "ui_display_cn_name": "输出事件",
+                            "ui_display_en_name": "Line Output Event",
+                            "ui_usage_frequency": "Common",
+                            "ui_type": "config_param",
+                            "ui_param_name": "LineSource",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        },
+                        {
+                            "ui_display_name": "StrobeLineDuration",
+                            "ui_display_cn_name": "输出持续时间(μs)",
+                            "ui_display_en_name": "Line Output Duration(μs)",
+                            "ui_usage_frequency": "Common",
+                            "ui_type": "config_param",
+                            "ui_param_name": "StrobeLineDuration",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        },
+                        {
+                            "ui_display_name": "TimerOutPeriod",
+                            "ui_display_cn_name": "输出周期(μs)",
+                            "ui_display_en_name": "Line Output Period(μs)",
+                            "ui_usage_frequency": "Common",
+                            "ui_type": "config_param",
+                            "ui_param_name": "TimerOutPeriod",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        },
+                        {
+                            "ui_display_name": "StrobeLineDelay",
+                            "ui_display_cn_name": "输出延时时间(μs)",
+                            "ui_display_en_name": "Line Output Delay Time(μs)",
+                            "ui_usage_frequency": "Common",
+                            "ui_type": "config_param",
+                            "ui_param_name": "StrobeLineDelay",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        },
+                        {
+                            "ui_display_name": "StrobeLineExposeDelay",
+                            "ui_display_cn_name": "输出延时时间(μs)",
+                            "ui_display_en_name": "Line Output Delay Time(μs)",
+                            "ui_usage_frequency": "Common",
+                            "ui_type": "config_param",
+                            "ui_param_name": "StrobeLineExposeDelay",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        },
+                        {
+                            "ui_display_name": "StrobeLineExposeDuration",
+                            "ui_display_cn_name": "输出持续时间(μs)",
+                            "ui_display_en_name": "Line Output Duration(μs)",
+                            "ui_usage_frequency": "Common",
+                            "ui_type": "config_param",
+                            "ui_param_name": "StrobeLineExposeDuration",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        },
+                        {
+                            "ui_display_name": "StrobeLinePreDelay",
+                            "ui_display_cn_name": "输出提前时间(μs)",
+                            "ui_display_en_name": "Line Output Lead Time(μs)",
+                            "ui_usage_frequency": "Common",
+                            "ui_type": "config_param",
+                            "ui_param_name": "StrobeLinePreDelay",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        },
+                        {
+                            "ui_display_name": "LineTriggerSoftware",
+                            "ui_display_cn_name": "软触发",
+                            "ui_display_en_name": "Software Trigger",
+                            "ui_usage_frequency": "Common",
+                            "ui_type": "config_param",
+                            "ui_param_name": "LineTriggerSoftware",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        },
+                        {
+                            "ui_display_name": "HardwareTriggerSource",
+                            "ui_display_cn_name": "硬件触发源",
+                            "ui_display_en_name": "Hardware Trigger Source",
+                            "ui_usage_frequency": "Common",
+                            "ui_type": "config_param",
+                            "ui_param_name": "HardwareTriggerSource",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        },
+                        {
+                            "ui_display_name": "HardwareTriggerActivation",
+                            "ui_display_cn_name": "硬件触发事件",
+                            "ui_display_en_name": "Hardware Trigger Event",
+                            "ui_usage_frequency": "Common",
+                            "ui_type": "config_param",
+                            "ui_param_name": "HardwareTriggerActivation",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        },
+                        {
+                            "ui_display_name": "TcpStartTriggerPortLine",
+                            "ui_display_cn_name": "TCP服务端开始触发端口",
+                            "ui_display_en_name": "TCP Server Trigger Port",
+                            "ui_usage_frequency": "Common",
+                            "ui_type": "config_param",
+                            "ui_param_name": "TcpStartTriggerPortLine",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        },
+                        {
+                            "ui_display_name": "TcpServerReturnFromIoCtrlLine",
+                            "ui_display_cn_name": "TCP服务端输出原路返回",
+                            "ui_display_en_name": "TCP Server Return From Io Ctrl",
+                            "ui_usage_frequency": "Common",
+                            "ui_type": "config_param",
+                            "ui_param_name": "TcpServerReturnFromIoCtrlLine",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        },
+                        {
+                            "ui_display_name": "TcpClientStartTriggerAddrLine",
+                            "ui_display_cn_name": "TCP客户端触发IP地址",
+                            "ui_display_en_name": "TCP Client Dst Trigger IP",
+                            "ui_usage_frequency": "Common",
+                            "ui_type": "config_param",
+                            "ui_param_name": "TcpClientStartTriggerAddrLine",
+                            "ui_param_display_type": "IPlineedit",
+                            "ui_subset": null
+                        },
+                        {
+                            "ui_display_name": "TcpClientStartTriggerPortLine",
+                            "ui_display_cn_name": "TCP客户端触发端口",
+                            "ui_display_en_name": "TCP Client Dst Trigger Port",
+                            "ui_usage_frequency": "Common",
+                            "ui_type": "config_param",
+                            "ui_param_name": "TcpClientStartTriggerPortLine",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        },
+                        {
+                            "ui_display_name": "TCPReturnFromIoCtrlLine",
+                            "ui_display_cn_name": "TCP客户端输出原路返回",
+                            "ui_display_en_name": "TCP Client Return From Io Ctrl",
+                            "ui_usage_frequency": "Common",
+                            "ui_type": "config_param",
+                            "ui_param_name": "TCPReturnFromIoCtrlLine",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        },
+                        {
+                            "ui_display_name": "ControlStartStr",
+                            "ui_display_cn_name": "开始输出文本",
+                            "ui_display_en_name": "Start Output Text",
+                            "ui_usage_frequency": "Common",
+                            "ui_type": "config_param",
+                            "ui_param_name": "ControlStartStr",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        },
+                        {
+                            "ui_display_name": "ControlStopStr",
+                            "ui_display_cn_name": "结束输出文本",
+                            "ui_display_en_name": "Stop Output Text",
+                            "ui_usage_frequency": "Common",
+                            "ui_type": "config_param",
+                            "ui_param_name": "ControlStopStr",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        },
+                        {
+                            "ui_display_name": "ControlIOConsistOutputEnable",
+                            "ui_display_cn_name": "持续输出指令",
+                            "ui_display_en_name": "Continuous Output Command ",
+                            "ui_usage_frequency": "Common",
+                            "ui_type": "config_param",
+                            "ui_param_name": "ControlIOConsistOutputEnable",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        }
+                    ]
+                },
+                {
+                    "ui_display_name": "Line3",
+                    "ui_display_cn_name": "管脚3输出",
+                    "ui_display_en_name": "LineOut 3",
+                    "ui_usage_frequency": "Common",
+                    "ui_type": "category",
+                    "ui_param_name": "Line3",
+                    "ui_param_display_type": "",
+                    "ui_subset": [
+                        {
+                            "ui_display_name": "LineInverter",
+                            "ui_display_cn_name": "管脚输出极性反转",
+                            "ui_display_en_name": "Line Output Polarity Reversal",
+                            "ui_usage_frequency": "Common",
+                            "ui_type": "config_param",
+                            "ui_param_name": "LineInverter",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        },
+                        {
+                            "ui_display_name": "LineSource",
+                            "ui_display_cn_name": "输出事件",
+                            "ui_display_en_name": "Line Output Event",
+                            "ui_usage_frequency": "Common",
+                            "ui_type": "config_param",
+                            "ui_param_name": "LineSource",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        },
+                        {
+                            "ui_display_name": "StrobeLineDuration",
+                            "ui_display_cn_name": "输出持续时间(μs)",
+                            "ui_display_en_name": "Line Output Duration(μs)",
+                            "ui_usage_frequency": "Common",
+                            "ui_type": "config_param",
+                            "ui_param_name": "StrobeLineDuration",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        },
+                        {
+                            "ui_display_name": "TimerOutPeriod",
+                            "ui_display_cn_name": "输出周期(μs)",
+                            "ui_display_en_name": "Line Output Period(μs)",
+                            "ui_usage_frequency": "Common",
+                            "ui_type": "config_param",
+                            "ui_param_name": "TimerOutPeriod",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        },
+                        {
+                            "ui_display_name": "StrobeLineDelay",
+                            "ui_display_cn_name": "输出延时时间(μs)",
+                            "ui_display_en_name": "Line Output Delay Time(μs)",
+                            "ui_usage_frequency": "Common",
+                            "ui_type": "config_param",
+                            "ui_param_name": "StrobeLineDelay",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        },
+                        {
+                            "ui_display_name": "StrobeLineExposeDelay",
+                            "ui_display_cn_name": "输出延时时间(μs)",
+                            "ui_display_en_name": "Line Output Delay Time(μs)",
+                            "ui_usage_frequency": "Common",
+                            "ui_type": "config_param",
+                            "ui_param_name": "StrobeLineExposeDelay",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        },
+                        {
+                            "ui_display_name": "StrobeLineExposeDuration",
+                            "ui_display_cn_name": "输出持续时间(μs)",
+                            "ui_display_en_name": "Line Output Duration(μs)",
+                            "ui_usage_frequency": "Common",
+                            "ui_type": "config_param",
+                            "ui_param_name": "StrobeLineExposeDuration",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        },
+                        {
+                            "ui_display_name": "StrobeLinePreDelay",
+                            "ui_display_cn_name": "输出提前时间(μs)",
+                            "ui_display_en_name": "Line Output Lead Time(μs)",
+                            "ui_usage_frequency": "Common",
+                            "ui_type": "config_param",
+                            "ui_param_name": "StrobeLinePreDelay",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        },
+                        {
+                            "ui_display_name": "LineTriggerSoftware",
+                            "ui_display_cn_name": "软触发",
+                            "ui_display_en_name": "Software Trigger",
+                            "ui_usage_frequency": "Common",
+                            "ui_type": "config_param",
+                            "ui_param_name": "LineTriggerSoftware",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        },
+                        {
+                            "ui_display_name": "HardwareTriggerSource",
+                            "ui_display_cn_name": "硬件触发源",
+                            "ui_display_en_name": "Hardware Trigger Source",
+                            "ui_usage_frequency": "Common",
+                            "ui_type": "config_param",
+                            "ui_param_name": "HardwareTriggerSource",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        },
+                        {
+                            "ui_display_name": "HardwareTriggerActivation",
+                            "ui_display_cn_name": "硬件触发事件",
+                            "ui_display_en_name": "Hardware Trigger Event",
+                            "ui_usage_frequency": "Common",
+                            "ui_type": "config_param",
+                            "ui_param_name": "HardwareTriggerActivation",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        },
+                        {
+                            "ui_display_name": "TcpStartTriggerPortLine",
+                            "ui_display_cn_name": "TCP服务端开始触发端口",
+                            "ui_display_en_name": "TCP Server Trigger Port",
+                            "ui_usage_frequency": "Common",
+                            "ui_type": "config_param",
+                            "ui_param_name": "TcpStartTriggerPortLine",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        },
+                        {
+                            "ui_display_name": "TcpServerReturnFromIoCtrlLine",
+                            "ui_display_cn_name": "TCP服务端输出原路返回",
+                            "ui_display_en_name": "TCP Server Return From Io Ctrl",
+                            "ui_usage_frequency": "Common",
+                            "ui_type": "config_param",
+                            "ui_param_name": "TcpServerReturnFromIoCtrlLine",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        },
+                        {
+                            "ui_display_name": "TcpClientStartTriggerAddrLine",
+                            "ui_display_cn_name": "TCP客户端触发IP地址",
+                            "ui_display_en_name": "TCP Client Dst Trigger IP",
+                            "ui_usage_frequency": "Common",
+                            "ui_type": "config_param",
+                            "ui_param_name": "TcpClientStartTriggerAddrLine",
+                            "ui_param_display_type": "IPlineedit",
+                            "ui_subset": null
+                        },
+                        {
+                            "ui_display_name": "TcpClientStartTriggerPortLine",
+                            "ui_display_cn_name": "TCP客户端触发端口",
+                            "ui_display_en_name": "TCP Client Dst Trigger Port",
+                            "ui_usage_frequency": "Common",
+                            "ui_type": "config_param",
+                            "ui_param_name": "TcpClientStartTriggerPortLine",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        },
+                        {
+                            "ui_display_name": "TCPReturnFromIoCtrlLine",
+                            "ui_display_cn_name": "TCP客户端输出原路返回",
+                            "ui_display_en_name": "TCP Client Return From Io Ctrl",
+                            "ui_usage_frequency": "Common",
+                            "ui_type": "config_param",
+                            "ui_param_name": "TCPReturnFromIoCtrlLine",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        },
+                        {
+                            "ui_display_name": "ControlStartStr",
+                            "ui_display_cn_name": "开始输出文本",
+                            "ui_display_en_name": "Start Output Text",
+                            "ui_usage_frequency": "Common",
+                            "ui_type": "config_param",
+                            "ui_param_name": "ControlStartStr",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        },
+                        {
+                            "ui_display_name": "ControlStopStr",
+                            "ui_display_cn_name": "结束输出文本",
+                            "ui_display_en_name": "Stop Output Text",
+                            "ui_usage_frequency": "Common",
+                            "ui_type": "config_param",
+                            "ui_param_name": "ControlStopStr",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        },
+                        {
+                            "ui_display_name": "ControlIOConsistOutputEnable",
+                            "ui_display_cn_name": "持续输出指令",
+                            "ui_display_en_name": "Continuous Output Command ",
+                            "ui_usage_frequency": "Common",
+                            "ui_type": "config_param",
+                            "ui_param_name": "ControlIOConsistOutputEnable",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        }
+                    ]
+                },
+                {
+                    "ui_display_name": "Line4",
+                    "ui_display_cn_name": "管脚4输出",
+                    "ui_display_en_name": "LineOut 4",
+                    "ui_usage_frequency": "Common",
+                    "ui_type": "category",
+                    "ui_param_name": "Line4",
+                    "ui_param_display_type": "",
+                    "ui_subset": [
+                        {
+                            "ui_display_name": "LineInverter",
+                            "ui_display_cn_name": "管脚输出极性反转",
+                            "ui_display_en_name": "Line Output Polarity Reversal",
+                            "ui_usage_frequency": "Common",
+                            "ui_type": "config_param",
+                            "ui_param_name": "LineInverter",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        },
+                        {
+                            "ui_display_name": "LineSource",
+                            "ui_display_cn_name": "输出事件",
+                            "ui_display_en_name": "Line Output Event",
+                            "ui_usage_frequency": "Common",
+                            "ui_type": "config_param",
+                            "ui_param_name": "LineSource",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        },
+                        {
+                            "ui_display_name": "StrobeLineDuration",
+                            "ui_display_cn_name": "输出持续时间(μs)",
+                            "ui_display_en_name": "Line Output Duration(μs)",
+                            "ui_usage_frequency": "Common",
+                            "ui_type": "config_param",
+                            "ui_param_name": "StrobeLineDuration",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        },
+                        {
+                            "ui_display_name": "TimerOutPeriod",
+                            "ui_display_cn_name": "输出周期(μs)",
+                            "ui_display_en_name": "Line Output Period(μs)",
+                            "ui_usage_frequency": "Common",
+                            "ui_type": "config_param",
+                            "ui_param_name": "TimerOutPeriod",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        },
+                        {
+                            "ui_display_name": "StrobeLineDelay",
+                            "ui_display_cn_name": "输出延时时间(μs)",
+                            "ui_display_en_name": "Line Output Delay Time(μs)",
+                            "ui_usage_frequency": "Common",
+                            "ui_type": "config_param",
+                            "ui_param_name": "StrobeLineDelay",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        },
+                        {
+                            "ui_display_name": "StrobeLineExposeDelay",
+                            "ui_display_cn_name": "输出延时时间(μs)",
+                            "ui_display_en_name": "Line Output Delay Time(μs)",
+                            "ui_usage_frequency": "Common",
+                            "ui_type": "config_param",
+                            "ui_param_name": "StrobeLineExposeDelay",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        },
+                        {
+                            "ui_display_name": "StrobeLineExposeDuration",
+                            "ui_display_cn_name": "输出持续时间(μs)",
+                            "ui_display_en_name": "Line Output Duration(μs)",
+                            "ui_usage_frequency": "Common",
+                            "ui_type": "config_param",
+                            "ui_param_name": "StrobeLineExposeDuration",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        },
+                        {
+                            "ui_display_name": "StrobeLinePreDelay",
+                            "ui_display_cn_name": "输出提前时间(μs)",
+                            "ui_display_en_name": "Line Output Lead Time(μs)",
+                            "ui_usage_frequency": "Common",
+                            "ui_type": "config_param",
+                            "ui_param_name": "StrobeLinePreDelay",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        },
+                        {
+                            "ui_display_name": "LineTriggerSoftware",
+                            "ui_display_cn_name": "软触发",
+                            "ui_display_en_name": "Software Trigger",
+                            "ui_usage_frequency": "Common",
+                            "ui_type": "config_param",
+                            "ui_param_name": "LineTriggerSoftware",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        },
+                        {
+                            "ui_display_name": "HardwareTriggerSource",
+                            "ui_display_cn_name": "硬件触发源",
+                            "ui_display_en_name": "Hardware Trigger Source",
+                            "ui_usage_frequency": "Common",
+                            "ui_type": "config_param",
+                            "ui_param_name": "HardwareTriggerSource",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        },
+                        {
+                            "ui_display_name": "HardwareTriggerActivation",
+                            "ui_display_cn_name": "硬件触发事件",
+                            "ui_display_en_name": "Hardware Trigger Event",
+                            "ui_usage_frequency": "Common",
+                            "ui_type": "config_param",
+                            "ui_param_name": "HardwareTriggerActivation",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        },
+                        {
+                            "ui_display_name": "TcpStartTriggerPortLine",
+                            "ui_display_cn_name": "TCP服务端开始触发端口",
+                            "ui_display_en_name": "TCP Server Trigger Port",
+                            "ui_usage_frequency": "Common",
+                            "ui_type": "config_param",
+                            "ui_param_name": "TcpStartTriggerPortLine",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        },
+                        {
+                            "ui_display_name": "TcpServerReturnFromIoCtrlLine",
+                            "ui_display_cn_name": "TCP服务端输出原路返回",
+                            "ui_display_en_name": "TCP Server Return From Io Ctrl",
+                            "ui_usage_frequency": "Common",
+                            "ui_type": "config_param",
+                            "ui_param_name": "TcpServerReturnFromIoCtrlLine",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        },
+                        {
+                            "ui_display_name": "TcpClientStartTriggerAddrLine",
+                            "ui_display_cn_name": "TCP客户端触发IP地址",
+                            "ui_display_en_name": "TCP Client Dst Trigger IP",
+                            "ui_usage_frequency": "Common",
+                            "ui_type": "config_param",
+                            "ui_param_name": "TcpClientStartTriggerAddrLine",
+                            "ui_param_display_type": "IPlineedit",
+                            "ui_subset": null
+                        },
+                        {
+                            "ui_display_name": "TcpClientStartTriggerPortLine",
+                            "ui_display_cn_name": "TCP客户端触发端口",
+                            "ui_display_en_name": "TCP Client Dst Trigger Port",
+                            "ui_usage_frequency": "Common",
+                            "ui_type": "config_param",
+                            "ui_param_name": "TcpClientStartTriggerPortLine",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        },
+                        {
+                            "ui_display_name": "TCPReturnFromIoCtrlLine",
+                            "ui_display_cn_name": "TCP客户端输出原路返回",
+                            "ui_display_en_name": "TCP Client Return From Io Ctrl",
+                            "ui_usage_frequency": "Common",
+                            "ui_type": "config_param",
+                            "ui_param_name": "TCPReturnFromIoCtrlLine",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        },
+                        {
+                            "ui_display_name": "ControlStartStr",
+                            "ui_display_cn_name": "开始输出文本",
+                            "ui_display_en_name": "Start Output Text",
+                            "ui_usage_frequency": "Common",
+                            "ui_type": "config_param",
+                            "ui_param_name": "ControlStartStr",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        },
+                        {
+                            "ui_display_name": "ControlStopStr",
+                            "ui_display_cn_name": "结束输出文本",
+                            "ui_display_en_name": "Stop Output Text",
+                            "ui_usage_frequency": "Common",
+                            "ui_type": "config_param",
+                            "ui_param_name": "ControlStopStr",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        },
+                        {
+                            "ui_display_name": "ControlIOConsistOutputEnable",
+                            "ui_display_cn_name": "持续输出指令",
+                            "ui_display_en_name": "Continuous Output Command ",
+                            "ui_usage_frequency": "Common",
+                            "ui_type": "config_param",
+                            "ui_param_name": "ControlIOConsistOutputEnable",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        }
+                    ]
+                },
+                {
+                    "ui_display_name": "Line5",
+                    "ui_display_cn_name": "管脚5输出",
+                    "ui_display_en_name": "LineOut 5",
+                    "ui_usage_frequency": "Common",
+                    "ui_type": "category",
+                    "ui_param_name": "Line5",
+                    "ui_param_display_type": "",
+                    "ui_subset": [
+                        {
+                            "ui_display_name": "LineInverter",
+                            "ui_display_cn_name": "管脚输出极性反转",
+                            "ui_display_en_name": "Line Output Polarity Reversal",
+                            "ui_usage_frequency": "Common",
+                            "ui_type": "config_param",
+                            "ui_param_name": "LineInverter",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        },
+                        {
+                            "ui_display_name": "LineSource",
+                            "ui_display_cn_name": "输出事件",
+                            "ui_display_en_name": "Line Output Event",
+                            "ui_usage_frequency": "Common",
+                            "ui_type": "config_param",
+                            "ui_param_name": "LineSource",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        },
+                        {
+                            "ui_display_name": "StrobeLineDuration",
+                            "ui_display_cn_name": "输出持续时间(μs)",
+                            "ui_display_en_name": "Line Output Duration(μs)",
+                            "ui_usage_frequency": "Common",
+                            "ui_type": "config_param",
+                            "ui_param_name": "StrobeLineDuration",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        },
+                        {
+                            "ui_display_name": "TimerOutPeriod",
+                            "ui_display_cn_name": "输出周期(μs)",
+                            "ui_display_en_name": "Line Output Period(μs)",
+                            "ui_usage_frequency": "Common",
+                            "ui_type": "config_param",
+                            "ui_param_name": "TimerOutPeriod",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        },
+                        {
+                            "ui_display_name": "StrobeLineDelay",
+                            "ui_display_cn_name": "输出延时时间(μs)",
+                            "ui_display_en_name": "Line Output Delay Time(μs)",
+                            "ui_usage_frequency": "Common",
+                            "ui_type": "config_param",
+                            "ui_param_name": "StrobeLineDelay",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        },
+                        {
+                            "ui_display_name": "StrobeLineExposeDelay",
+                            "ui_display_cn_name": "输出延时时间(μs)",
+                            "ui_display_en_name": "Line Output Delay Time(μs)",
+                            "ui_usage_frequency": "Common",
+                            "ui_type": "config_param",
+                            "ui_param_name": "StrobeLineExposeDelay",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        },
+                        {
+                            "ui_display_name": "StrobeLineExposeDuration",
+                            "ui_display_cn_name": "输出持续时间(μs)",
+                            "ui_display_en_name": "Line Output Duration(μs)",
+                            "ui_usage_frequency": "Common",
+                            "ui_type": "config_param",
+                            "ui_param_name": "StrobeLineExposeDuration",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        },
+                        {
+                            "ui_display_name": "StrobeLinePreDelay",
+                            "ui_display_cn_name": "输出提前时间(μs)",
+                            "ui_display_en_name": "Line Output Lead Time(μs)",
+                            "ui_usage_frequency": "Common",
+                            "ui_type": "config_param",
+                            "ui_param_name": "StrobeLinePreDelay",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        },
+                        {
+                            "ui_display_name": "LineTriggerSoftware",
+                            "ui_display_cn_name": "软触发",
+                            "ui_display_en_name": "Software Trigger",
+                            "ui_usage_frequency": "Common",
+                            "ui_type": "config_param",
+                            "ui_param_name": "LineTriggerSoftware",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        },
+                        {
+                            "ui_display_name": "HardwareTriggerSource",
+                            "ui_display_cn_name": "硬件触发源",
+                            "ui_display_en_name": "Hardware Trigger Source",
+                            "ui_usage_frequency": "Common",
+                            "ui_type": "config_param",
+                            "ui_param_name": "HardwareTriggerSource",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        },
+                        {
+                            "ui_display_name": "HardwareTriggerActivation",
+                            "ui_display_cn_name": "硬件触发事件",
+                            "ui_display_en_name": "Hardware Trigger Event",
+                            "ui_usage_frequency": "Common",
+                            "ui_type": "config_param",
+                            "ui_param_name": "HardwareTriggerActivation",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        },
+                        {
+                            "ui_display_name": "TcpStartTriggerPortLine",
+                            "ui_display_cn_name": "TCP服务端开始触发端口",
+                            "ui_display_en_name": "TCP Server Trigger Port",
+                            "ui_usage_frequency": "Common",
+                            "ui_type": "config_param",
+                            "ui_param_name": "TcpStartTriggerPortLine",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        },
+                        {
+                            "ui_display_name": "TcpServerReturnFromIoCtrlLine",
+                            "ui_display_cn_name": "TCP服务端输出原路返回",
+                            "ui_display_en_name": "TCP Server Return From Io Ctrl",
+                            "ui_usage_frequency": "Common",
+                            "ui_type": "config_param",
+                            "ui_param_name": "TcpServerReturnFromIoCtrlLine",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        },
+                        {
+                            "ui_display_name": "TcpClientStartTriggerAddrLine",
+                            "ui_display_cn_name": "TCP客户端触发IP地址",
+                            "ui_display_en_name": "TCP Client Dst Trigger IP",
+                            "ui_usage_frequency": "Common",
+                            "ui_type": "config_param",
+                            "ui_param_name": "TcpClientStartTriggerAddrLine",
+                            "ui_param_display_type": "IPlineedit",
+                            "ui_subset": null
+                        },
+                        {
+                            "ui_display_name": "TcpClientStartTriggerPortLine",
+                            "ui_display_cn_name": "TCP客户端触发端口",
+                            "ui_display_en_name": "TCP Client Dst Trigger Port",
+                            "ui_usage_frequency": "Common",
+                            "ui_type": "config_param",
+                            "ui_param_name": "TcpClientStartTriggerPortLine",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        },
+                        {
+                            "ui_display_name": "TCPReturnFromIoCtrlLine",
+                            "ui_display_cn_name": "TCP客户端输出原路返回",
+                            "ui_display_en_name": "TCP Client Return From Io Ctrl",
+                            "ui_usage_frequency": "Common",
+                            "ui_type": "config_param",
+                            "ui_param_name": "TCPReturnFromIoCtrlLine",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        },
+                        {
+                            "ui_display_name": "ControlStartStr",
+                            "ui_display_cn_name": "开始输出文本",
+                            "ui_display_en_name": "Start Output Text",
+                            "ui_usage_frequency": "Common",
+                            "ui_type": "config_param",
+                            "ui_param_name": "ControlStartStr",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        },
+                        {
+                            "ui_display_name": "ControlStopStr",
+                            "ui_display_cn_name": "结束输出文本",
+                            "ui_display_en_name": "Stop Output Text",
+                            "ui_usage_frequency": "Common",
+                            "ui_type": "config_param",
+                            "ui_param_name": "ControlStopStr",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        },
+                        {
+                            "ui_display_name": "ControlIOConsistOutputEnable",
+                            "ui_display_cn_name": "持续输出指令",
+                            "ui_display_en_name": "Continuous Output Command ",
+                            "ui_usage_frequency": "Common",
+                            "ui_type": "config_param",
+                            "ui_param_name": "ControlIOConsistOutputEnable",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        }
+                    ]
+                },
+                {
+                    "ui_display_name": "Line6",
+                    "ui_display_cn_name": "内部光源",
+                    "ui_display_en_name": "Internal light source",
+                    "ui_usage_frequency": "Common",
+                    "ui_type": "category",
+                    "ui_param_name": "Line6",
+                    "ui_param_display_type": "",
+                    "ui_subset": [
+                        {
+                            "ui_display_name": "LineInverter",
+                            "ui_display_cn_name": "管脚输出极性反转",
+                            "ui_display_en_name": "Line Output Polarity Reversal",
+                            "ui_usage_frequency": "Common",
+                            "ui_type": "config_param",
+                            "ui_param_name": "LineInverter",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        },
+                        {
+                            "ui_display_name": "LineSource",
+                            "ui_display_cn_name": "输出事件",
+                            "ui_display_en_name": "Line Output Event",
+                            "ui_usage_frequency": "Common",
+                            "ui_type": "config_param",
+                            "ui_param_name": "LineSource",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        },
+                        {
+                            "ui_display_name": "LineTriggerSoftware",
+                            "ui_display_cn_name": "软触发",
+                            "ui_display_en_name": "Software Trigger",
+                            "ui_usage_frequency": "Common",
+                            "ui_type": "config_param",
+                            "ui_param_name": "LineTriggerSoftware",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        },
+                        {
+                            "ui_display_name": "StrobeLineDelay  ",
+                            "ui_display_cn_name": "管脚输出延时时间(μs)",
+                            "ui_display_en_name": "Line Output Delay Time(μs)",
+                            "ui_usage_frequency": "Common",
+                            "ui_type": "config_param",
+                            "ui_param_name": "StrobeLineDelay  ",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        },
+                        {
+                            "ui_display_name": "StrobeLineDuration",
+                            "ui_display_cn_name": "管家输出持续时间(μs)",
+                            "ui_display_en_name": "Line Output Lead Time(μs)",
+                            "ui_usage_frequency": "Common",
+                            "ui_type": "config_param",
+                            "ui_param_name": "StrobeLineDuration",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        },
+                        {
+                            "ui_display_name": "TransportBandControlSource",
+                            "ui_display_cn_name": "传输带电平输入源",
+                            "ui_display_en_name": "TransportBand Control Source",
+                            "ui_usage_frequency": "Common",
+                            "ui_type": "config_param",
+                            "ui_param_name": "TransportBandControlSource",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        },
+                        {
+                            "ui_display_name": "TransportBandControlActivation",
+                            "ui_display_cn_name": "传输带电平输入极性",
+                            "ui_display_en_name": "TransportBandControl",
+                            "ui_usage_frequency": "Common",
+                            "ui_type": "config_param",
+                            "ui_param_name": "TransportBandControlActivation",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        },
+                        {
+                            "ui_display_name": "TransportBandControlEndDelay",
+                            "ui_display_cn_name": "添加持续时间(μs) ",
+                            "ui_display_en_name": "Add Duration Time(μs) ",
+                            "ui_usage_frequency": "Common",
+                            "ui_type": "config_param",
+                            "ui_param_name": "TransportBandControlEndDelay",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}

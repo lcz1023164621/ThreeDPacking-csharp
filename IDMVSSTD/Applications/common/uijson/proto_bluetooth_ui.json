@@ -1,0 +1,51 @@
+{
+    "ui_tabs": [
+        {
+            "ui_type": "tab",
+            "ui_param_name": "",
+            "ui_subset": [
+                {
+                    "ui_display_name": "Bluetooth_Protocol",
+                    "ui_display_cn_name": "蓝牙协议",
+                    "ui_display_en_name": "Bluetooth",
+                    "ui_usage_frequency": "Common",
+                    "ui_type": "category",
+                    "ui_param_name": "",
+                    "ui_param_display_type": "",
+                    "ui_subset": [
+                        {
+                            "ui_display_name": "BleOutput",
+                            "ui_display_cn_name": "蓝牙输出模式",
+                            "ui_display_en_name": "Bluetooth Output Mode",
+                            "ui_usage_frequency": "Common",
+                            "ui_type": "config_param",
+                            "ui_param_name": "BleOutput",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        },
+                        {
+                            "ui_display_name": "BleDataTransMode",
+                            "ui_display_cn_name": "蓝牙数据传输模式",
+                            "ui_display_en_name": "Bluetooth Data Trans Mode",
+                            "ui_usage_frequency": "Common",
+                            "ui_type": "config_param",
+                            "ui_param_name": "BleDataTransMode",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        },
+                        {
+                            "ui_display_name": "BleCacheNum",
+                            "ui_display_cn_name": "条码缓存数量",
+                            "ui_display_en_name": "Bluetooth Cache Num",
+                            "ui_usage_frequency": "Common",
+                            "ui_type": "config_param",
+                            "ui_param_name": "BleCacheNum",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}

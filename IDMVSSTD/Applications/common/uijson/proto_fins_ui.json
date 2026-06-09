@@ -1,0 +1,171 @@
+{
+    "ui_tabs": [
+        {
+            "ui_type": "tab",
+            "ui_param_name": "",
+            "ui_subset": [
+                {
+                    "ui_display_name": "Protocol_Fins",
+                    "ui_display_cn_name": "FINS协议",
+                    "ui_display_en_name": "FINS",
+                    "ui_usage_frequency": "Common",
+                    "ui_type": "category",
+                    "ui_param_name": "",
+                    "ui_param_display_type": "",
+                    "ui_subset": [
+                        {
+                            "ui_display_name": "FinsProtocol",
+                            "ui_display_cn_name": "FINS通信方式",
+                            "ui_display_en_name": "FINS Communication Method",
+                            "ui_usage_frequency": "Common",
+                            "ui_type": "config_param",
+                            "ui_param_name": "FinsProtocol",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        },
+                        {
+                            "ui_display_name": "FinsServerIP",
+                            "ui_display_cn_name": "服务器地址",
+                            "ui_display_en_name": "Server IP",
+                            "ui_usage_frequency": "Common",
+                            "ui_type": "config_param",
+                            "ui_param_name": "FinsServerIP",
+                            "ui_param_display_type": "IPlineedit",
+                            "ui_subset": null
+                        },
+                        {
+                            "ui_display_name": "FinsServerPort",
+                            "ui_display_cn_name": "服务器端口号",
+                            "ui_display_en_name": "Server Port",
+                            "ui_usage_frequency": "Common",
+                            "ui_type": "config_param",
+                            "ui_param_name": "FinsServerPort",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        },
+                        {
+                            "ui_display_name": "FinsControlPollInterval",
+                            "ui_display_cn_name": "刷新速率(ms)",
+                            "ui_display_en_name": "Refresh Rate(ms)",
+                            "ui_usage_frequency": "Common",
+                            "ui_type": "config_param",
+                            "ui_param_name": "FinsControlPollInterval",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        },
+                        {
+                            "ui_display_name": "FinsControlSpace",
+                            "ui_display_cn_name": "控制区域地址",
+                            "ui_display_en_name": "Control Region Address",
+                            "ui_usage_frequency": "Common",
+                            "ui_type": "config_param",
+                            "ui_param_name": "FinsControlSpace",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        },
+                        {
+                            "ui_display_name": "FinsControlOffset",
+                            "ui_display_cn_name": "控制区域地址偏移",
+                            "ui_display_en_name": "Control Region Address Offset",
+                            "ui_usage_frequency": "Common",
+                            "ui_type": "config_param",
+                            "ui_param_name": "FinsControlOffset",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        },
+                        {
+                            "ui_display_name": "FinsControlSize",
+                            "ui_display_cn_name": "控制区域大小(word)",
+                            "ui_display_en_name": "Control Region Size(word)",
+                            "ui_usage_frequency": "Common",
+                            "ui_type": "config_param",
+                            "ui_param_name": "FinsControlSize",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        },
+                        {
+                            "ui_display_name": "FinsStatusSpace",
+                            "ui_display_cn_name": "状态区域地址",
+                            "ui_display_en_name": "Status Region Address",
+                            "ui_usage_frequency": "Common",
+                            "ui_type": "config_param",
+                            "ui_param_name": "FinsStatusSpace",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        },
+                        {
+                            "ui_display_name": "FinsStatusOffset",
+                            "ui_display_cn_name": "状态区域地址偏移",
+                            "ui_display_en_name": "Status Region Address Offset",
+                            "ui_usage_frequency": "Common",
+                            "ui_type": "config_param",
+                            "ui_param_name": "FinsStatusOffset",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        },
+                        {
+                            "ui_display_name": "FinsStatusSize",
+                            "ui_display_cn_name": "状态区域大小(word)",
+                            "ui_display_en_name": "Status Region Size(word)",
+                            "ui_usage_frequency": "Common",
+                            "ui_type": "config_param",
+                            "ui_param_name": "FinsStatusSize",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        },
+                        {
+                            "ui_display_name": "FinsResultSpace",
+                            "ui_display_cn_name": "结果区域地址",
+                            "ui_display_en_name": "Result Region Address",
+                            "ui_usage_frequency": "Common",
+                            "ui_type": "config_param",
+                            "ui_param_name": "FinsResultSpace",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        },
+                        {
+                            "ui_display_name": "FinsResultOffset",
+                            "ui_display_cn_name": "结果区域地址偏移",
+                            "ui_display_en_name": "Result Region Address Offset",
+                            "ui_usage_frequency": "Common",
+                            "ui_type": "config_param",
+                            "ui_param_name": "FinsResultOffset",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        },
+                        {
+                            "ui_display_name": "FinsResultSize",
+                            "ui_display_cn_name": "结果区域大小(word)",
+                            "ui_display_en_name": "Result Region Size(word)",
+                            "ui_usage_frequency": "Common",
+                            "ui_type": "config_param",
+                            "ui_param_name": "FinsResultSize",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        },
+                        {
+                            "ui_display_name": "FinsResultByteSwap",
+                            "ui_display_cn_name": "字节交换大小端",
+                            "ui_display_en_name": "Byte Swap Endianness",
+                            "ui_usage_frequency": "Common",
+                            "ui_type": "config_param",
+                            "ui_param_name": "FinsResultByteSwap",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        },
+                        {
+                            "ui_display_name": "FinsResultTimeout",
+                            "ui_display_cn_name": "响应等待时间(s)",
+                            "ui_display_en_name": "Response Wait Time(s)",
+                            "ui_usage_frequency": "Common",
+                            "ui_type": "config_param",
+                            "ui_param_name": "FinsResultTimeout",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}

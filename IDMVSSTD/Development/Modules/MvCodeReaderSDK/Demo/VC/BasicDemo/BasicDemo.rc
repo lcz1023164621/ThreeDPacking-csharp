@@ -1,0 +1,227 @@
+// Microsoft Visual C++ generated resource script.
+//
+#include "resource.h"
+
+#define APSTUDIO_READONLY_SYMBOLS
+/////////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 2 resource.
+//
+#ifndef APSTUDIO_INVOKED
+#include "targetver.h"
+#endif
+#include "afxres.h"
+
+/////////////////////////////////////////////////////////////////////////////
+#undef APSTUDIO_READONLY_SYMBOLS
+
+/////////////////////////////////////////////////////////////////////////////
+// 中文(中华人民共和国) resources
+
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_CHS)
+#ifdef _WIN32
+LANGUAGE LANG_CHINESE, SUBLANG_CHINESE_SIMPLIFIED
+#pragma code_page(936)
+#endif //_WIN32
+
+#ifdef APSTUDIO_INVOKED
+/////////////////////////////////////////////////////////////////////////////
+//
+// TEXTINCLUDE
+//
+
+1 TEXTINCLUDE 
+BEGIN
+    "resource.h\0"
+END
+
+2 TEXTINCLUDE 
+BEGIN
+    "#ifndef APSTUDIO_INVOKED\r\n"
+    "#include ""targetver.h""\r\n"
+    "#endif\r\n"
+    "#include ""afxres.h""\r\n"
+    "\0"
+END
+
+3 TEXTINCLUDE 
+BEGIN
+    "#define _AFX_NO_SPLITTER_RESOURCES\r\n"
+    "#define _AFX_NO_OLE_RESOURCES\r\n"
+    "#define _AFX_NO_TRACKER_RESOURCES\r\n"
+    "#define _AFX_NO_PROPERTY_RESOURCES\r\n"
+    "\r\n"
+    "#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_CHS)\r\n"
+    "LANGUAGE 4, 2\r\n"
+    "#pragma code_page(936)\r\n"
+    "#include ""res\\BasicDemo.rc2""  // 非 Microsoft Visual C++ 编辑的资源\r\n"
+    "#include ""l.CHS\\afxres.rc""      // 标准组件\r\n"
+    "#endif\r\n"
+    "\0"
+END
+
+#endif    // APSTUDIO_INVOKED
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Icon
+//
+
+// Icon with lowest ID value placed first to ensure application icon
+// remains consistent on all systems.
+IDR_MAINFRAME           ICON                    "res\\BasicDemo.ico"
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Dialog
+//
+
+IDD_ABOUTBOX DIALOGEX 0, 0, 170, 62
+STYLE DS_SETFONT | DS_MODALFRAME | DS_FIXEDSYS | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "关于 BasicDemo"
+FONT 9, "MS Shell Dlg", 0, 0, 0x1
+BEGIN
+    ICON            IDR_MAINFRAME,IDC_STATIC,14,14,21,20
+    LTEXT           "BasicDemo 1.2.0 版",IDC_STATIC,42,14,114,8,SS_NOPREFIX
+    LTEXT           "Copyright (C) 2021",IDC_STATIC,42,26,114,8
+    DEFPUSHBUTTON   "确定",IDOK,113,41,50,14,WS_GROUP
+END
+
+IDD_BasicDemo_DIALOG DIALOGEX 0, 0, 471, 442
+STYLE DS_SETFONT | DS_MODALFRAME | DS_FIXEDSYS | WS_POPUP | WS_VISIBLE | WS_CAPTION | WS_SYSMENU
+EXSTYLE WS_EX_APPWINDOW
+CAPTION "MvCodeRead BasicDemo"
+FONT 9, "MS Shell Dlg", 0, 0, 0x1
+BEGIN
+    COMBOBOX        IDC_DEVICE_COMBO,14,15,315,411,CBS_DROPDOWN
+    PUSHBUTTON      "查找设备",IDC_ENUM_BUTTON,344,26,106,14
+    PUSHBUTTON      "连接相机",IDC_OPEN_BUTTON,344,50,50,14
+    PUSHBUTTON      "关闭设备",IDC_CLOSE_BUTTON,400,50,50,14
+    CONTROL         "连续采集",IDC_CONTINUS_MODE_RADIO,"Button",BS_AUTORADIOBUTTON | WS_GROUP | WS_TABSTOP,348,89,43,10
+    CONTROL         "触发模式",IDC_TRIGGER_MODE_RADIO,"Button",BS_AUTORADIOBUTTON | WS_TABSTOP,404,89,43,10
+    PUSHBUTTON      "采集图像",IDC_START_GRABBING_BUTTON,344,105,50,14
+    PUSHBUTTON      "停止采集",IDC_STOP_GRABBING_BUTTON,400,105,50,14
+    CONTROL         "软触发",IDC_SOFTWARE_TRIGGER_CHECK,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,350,127,37,10
+    PUSHBUTTON      "软触发一次",IDC_SOFTWARE_ONCE_BUTTON,400,125,50,14
+    PUSHBUTTON      "保存BMP",IDC_SAVE_BMP_BUTTON,344,164,50,14
+    PUSHBUTTON      "保存JPG",IDC_SAVE_JPG_BUTTON,400,164,50,14
+    EDITTEXT        IDC_EXPOSURE_EDIT,369,222,78,14,ES_AUTOHSCROLL
+    LTEXT           "曝光",IDC_STATIC,348,224,15,8
+    EDITTEXT        IDC_GAIN_EDIT,369,241,78,14,ES_AUTOHSCROLL
+    LTEXT           "增益",IDC_STATIC,348,243,15,8
+    EDITTEXT        IDC_FRAME_RATE_EDIT,369,260,78,14,ES_AUTOHSCROLL
+    LTEXT           "帧率",IDC_STATIC,348,262,15,8
+    PUSHBUTTON      "参数获取",IDC_GET_PARAMETER_BUTTON,344,280,50,14
+    PUSHBUTTON      "参数设置",IDC_SET_PARAMETER_BUTTON,400,280,50,14
+    CONTROL         "",IDC_DISPLAY_STATIC,"Static",SS_BLACKFRAME,14,34,316,265
+    GROUPBOX        "相机连接",IDC_INIT_STATIC,337,14,120,58
+    GROUPBOX        "图像采集",IDC_IMAGE_GRABBING_STATIC,337,77,120,68
+    GROUPBOX        "图片保存",IDC_SAVE_IMAGE_STATIC,337,151,119,54
+    GROUPBOX        "参数设置",IDC_PARAMETER_STATIC,337,209,119,90
+    PUSHBUTTON      "保存RAW",IDC_SAVE_RAW_BUTTON,344,186,106,14
+    CONTROL         "",IDC_DISPLAY_INFO_LIST,"SysListView32",LVS_ALIGNLEFT | WS_BORDER | WS_TABSTOP,15,310,441,117
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Version
+//
+
+VS_VERSION_INFO VERSIONINFO
+ FILEVERSION 1,2,0,2
+ PRODUCTVERSION 1,2,0,2
+ FILEFLAGSMASK 0x3fL
+#ifdef _DEBUG
+ FILEFLAGS 0x1L
+#else
+ FILEFLAGS 0x0L
+#endif
+ FILEOS 0x4L
+ FILETYPE 0x1L
+ FILESUBTYPE 0x0L
+BEGIN
+    BLOCK "StringFileInfo"
+    BEGIN
+        BLOCK "080403a8"
+        BEGIN
+            VALUE "CompanyName", "Copyright Microsoft 2024"
+            VALUE "FileDescription", "MvCodeRead_SDK_BasicDemo"
+            VALUE "FileVersion", "1.2.0.2"
+            VALUE "InternalName", "BasicDemo.exe"
+            VALUE "LegalCopyright", "Copyright Microsoft 2024"
+            VALUE "OriginalFilename", "BasicDemo.exe"
+            VALUE "ProductName", "MvCodeRead_SDK_BasicDemo"
+            VALUE "ProductVersion", "1.2.0.2"
+        END
+    END
+    BLOCK "VarFileInfo"
+    BEGIN
+        VALUE "Translation", 0x804, 936
+    END
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// DESIGNINFO
+//
+
+#ifdef APSTUDIO_INVOKED
+GUIDELINES DESIGNINFO 
+BEGIN
+    IDD_ABOUTBOX, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 163
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 55
+    END
+
+    IDD_BasicDemo_DIALOG, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 464
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 435
+    END
+END
+#endif    // APSTUDIO_INVOKED
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// String Table
+//
+
+STRINGTABLE 
+BEGIN
+    IDS_ABOUTBOX            "关于 BasicDemo(&A)..."
+END
+
+#endif    // 中文(中华人民共和国) resources
+/////////////////////////////////////////////////////////////////////////////
+
+
+
+#ifndef APSTUDIO_INVOKED
+/////////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 3 resource.
+//
+#define _AFX_NO_SPLITTER_RESOURCES
+#define _AFX_NO_OLE_RESOURCES
+#define _AFX_NO_TRACKER_RESOURCES
+#define _AFX_NO_PROPERTY_RESOURCES
+
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_CHS)
+LANGUAGE 4, 2
+#pragma code_page(936)
+#include "res\BasicDemo.rc2"  // 非 Microsoft Visual C++ 编辑的资源
+#include "l.CHS\afxres.rc"      // 标准组件
+#endif
+
+/////////////////////////////////////////////////////////////////////////////
+#endif    // not APSTUDIO_INVOKED
+

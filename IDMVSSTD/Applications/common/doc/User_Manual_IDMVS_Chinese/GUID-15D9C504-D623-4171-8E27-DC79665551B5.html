@@ -1,0 +1,2418 @@
+
+<!DOCTYPE html
+  PUBLIC "" "about:legacy-compat">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:whc="http://www.daksys.com/webhelp/components" xml:lang="zh-cn" lang="zh-cn">
+	<head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />        
+      <meta name="copyright" content="©  杭州海康威视数字技术股份有限公司。保留一切权利。" /><meta name="DC.Type" content="concept" /><meta name="DC.Title" content="ASCII码" /><meta name="abstract" content="读码器在读取条形码或二维码后，会将编码信息转换为ASCII码形式的数据，以便通过串口（如RS-232）、USB或以太网等接口传输到其他设备（如PLC、计算机或数据库）。" /><meta name="description" content="读码器在读取条形码或二维码后，会将编码信息转换为ASCII码形式的数据，以便通过串口（如RS-232）、USB或以太网等接口传输到其他设备（如PLC、计算机或数据库）。" /><meta name="DC.Format" content="XHTML" /><meta name="DC.Identifier" content="GUID-15D9C504-D623-4171-8E27-DC79665551B5" /><meta name="DC.Language" content="zh-CN" /><title>ASCII码</title><!-- Generated with dksgen version 1.0, build number 2023071300.  --><meta viewport="Content-Type" content="width=device-width, initial-scale=1.0" /><meta http-equiv="X-UA-Compatible" content="IE=edge,Chrome=1" /><meta name="wh-path2root" content="index.html" />
+		<!-- commonltr css -->
+		<link rel="stylesheet" type="text/css" href="daksys-webhelp/resources/css/commonltr.css" />
+		<!-- Bootstrap css -->
+		<link rel="stylesheet" type="text/css" href="daksys-webhelp/resources/bootstrap/css/bootstrap.min.css" />
+		<link rel="stylesheet" type="text/css" href="daksys-webhelp/resources/bootstrap/css/bootstrap-theme.min.css" />
+		<link rel="stylesheet" type="text/css" href="daksys-webhelp/resources/js/jquery-ui.min.css" />
+		
+		<!-- Template css  -->
+		<link href="daksys-webhelp/template/resources/css/HIKROBOT_color.css?buildId=2023071300" rel="stylesheet" type="text/css" />
+		<link rel="stylesheet" type="text/css" href="daksys-webhelp/template/resources/css/wt_topic.css?buildId=2023071300" />
+		<link rel="stylesheet" type="text/css" href="daksys-webhelp/template/resources/css/wt_topic_m.css?buildId=2023071300" />
+		<link rel="stylesheet" type="text/css" href="daksys-webhelp/template/resources/css/wt_expand.css?buildId=2023071300" />
+		<link rel="stylesheet" type="text/css" href="daksys-webhelp/template/resources/css/wt_note.css?buildId=2023071300" />
+		<link rel="stylesheet" type="text/css" href="daksys-webhelp/template/resources/css/wt_steps.css?buildId=2023071300" />
+		
+		<!-- jquery js  -->
+		<script type="text/javascript" src="daksys-webhelp/resources/js/jquery-3.6.2.min.js"></script>
+		<script type="text/javascript" src="daksys-webhelp/resources/js/jquery.cookie.js"></script>
+		<script type="text/javascript" src="daksys-webhelp/resources/js/jquery.highlight-3.js"></script>
+		<script type="text/javascript" src="daksys-webhelp/resources/js/jquery-ui.min.js"></script>
+		
+		<!-- common js  -->
+		<script type="text/javascript" src="daksys-webhelp/resources/bootstrap/js/bootstrap.min.js"></script>
+		<script type="text/javascript" src="daksys-webhelp/resources/js/base64.js"></script>
+		<script type="text/javascript" src="daksys-webhelp/resources/js/browserDetect.js"></script>
+		<script type="text/javascript" src="daksys-webhelp/resources/js/localization.js"></script>
+		<script type="text/javascript" src="daksys-webhelp/resources/js/parseuri.js"></script>
+		<script type="text/javascript" src="daksys-webhelp/resources/localization/strings.js"></script>
+		<!-- Template js -->
+		<script type="text/javascript" src="daksys-webhelp/template/resources/js/wt_topic.js?buildId=2023071300"></script>
+		<script type="text/javascript" src="daksys-webhelp/template/resources/js/wt_expand.js?buildId=2023071300"></script>
+	</head>
+	<body class="wt_topic_page frmBody" id="GUID-15D9C504-D623-4171-8E27-DC79665551B5" onload="topicOnload()">
+		<!-- get_lang -->
+		<div id="lang" style="display:none">zh-CN</div><div id="mapoutputclass" style="display:none"></div>
+		<input hidden="hidden" id="UDCode" value="UD12345B" /><input hidden="hidden" id="Trademark" value="海康机器人" />
+		
+		<div class="content_box">
+			<div class="middle_view content_area col-sm-9" id="content_area">
+				<div class=" wt_breadcrumb "><ol><li><span class="home topicref"><a href="javascript:void(0)" onclick="gotoFirstPage()">首页</a></span></li><li class="active"><span class="topicref">ASCII码</span></li></ol><div class="wt_breadcrumb_ellipsis" onclick="expandBreadcrumbDiv()"></div><div class="wt_breadcrumb_collapse" style="display: none;"><div class="wt_breadcrumb_collapse_button" onclick="collapseBreadcrumbDiv()"></div></div></div>
+				
+				<div id="container_body" class="container">
+					<div id="contentArea">
+						<div class=" wt_topic_content body ">
+    <h1 class="title topictitle1">ASCII码</h1>
+
+
+<div class="body conbody"><p class="shortdesc">读码器在读取条形码或二维码后，会将编码信息转换为ASCII码形式的数据，以便通过串口（如RS-232）、USB或以太网等接口传输到其他设备（如PLC、计算机或数据库）。</p>
+
+        <p class="p">下表将罗列ASCII码内容，您可基于以下内容进行数据的传输、解析和显示。</p>
+
+        
+<div class="div_table"><table cellpadding="4" cellspacing="0" summary="" style="display:none;" id="tbl_rowfixed" class="table wt_table_rowfixed" frame="border" border="1" rules="all"></table><table cellpadding="4" cellspacing="0" summary="" id="GUID-15D9C504-D623-4171-8E27-DC79665551B5__TABLE_HQF_ZWF_M2C" class="table" frame="border" border="1" rules="all"><caption><span class="tablecap">表 1 ASCII码</span></caption>
+                
+                
+                
+                <thead class="thead" align="left">
+                    <tr>
+                        <th class="entry" valign="top" width="23.364485981308412%" id="d4359e38">
+                            <p class="p">十六进制</p>
+
+                        </th>
+
+                        <th class="entry" valign="top" width="23.364485981308412%" id="d4359e44">
+                            <p class="p">十进制</p>
+
+                        </th>
+
+                        <th class="entry" valign="top" width="53.27102803738318%" id="d4359e50">
+                            <p class="p">字符</p>
+
+                        </th>
+
+                    </tr>
+
+                </thead>
+
+                <tbody class="tbody">
+                    <tr>
+                        <td class="entry" valign="top" width="23.364485981308412%" headers="d4359e38 ">
+                            <p class="p">0x00</p>
+
+                        </td>
+
+                        <td class="entry" valign="top" width="23.364485981308412%" headers="d4359e44 ">
+                            <p class="p">0</p>
+
+                        </td>
+
+                        <td class="entry" valign="top" width="53.27102803738318%" headers="d4359e50 ">
+                            <p class="p">NUL (Null char., 空字符)</p>
+
+                        </td>
+
+                    </tr>
+
+                    <tr>
+                        <td class="entry" valign="top" width="23.364485981308412%" headers="d4359e38 ">
+                            <p class="p">0x01</p>
+
+                        </td>
+
+                        <td class="entry" valign="top" width="23.364485981308412%" headers="d4359e44 ">
+                            <p class="p">1</p>
+
+                        </td>
+
+                        <td class="entry" valign="top" width="53.27102803738318%" headers="d4359e50 ">
+                            <p class="p">SOH (Start of Header, 标题开始)</p>
+
+                        </td>
+
+                    </tr>
+
+                    <tr>
+                        <td class="entry" valign="top" width="23.364485981308412%" headers="d4359e38 ">
+                            <p class="p">0x02</p>
+
+                        </td>
+
+                        <td class="entry" valign="top" width="23.364485981308412%" headers="d4359e44 ">
+                            <p class="p">2</p>
+
+                        </td>
+
+                        <td class="entry" valign="top" width="53.27102803738318%" headers="d4359e50 ">
+                            <p class="p">STX (Start of T, 正文开始)</p>
+
+                        </td>
+
+                    </tr>
+
+                    <tr>
+                        <td class="entry" valign="top" width="23.364485981308412%" headers="d4359e38 ">
+                            <p class="p">0x03</p>
+
+                        </td>
+
+                        <td class="entry" valign="top" width="23.364485981308412%" headers="d4359e44 ">
+                            <p class="p">3</p>
+
+                        </td>
+
+                        <td class="entry" valign="top" width="53.27102803738318%" headers="d4359e50 ">
+                            <p class="p">ETX (End of Text, 正文结束)</p>
+
+                        </td>
+
+                    </tr>
+
+                    <tr>
+                        <td class="entry" valign="top" width="23.364485981308412%" headers="d4359e38 ">
+                            <p class="p">0x04</p>
+
+                        </td>
+
+                        <td class="entry" valign="top" width="23.364485981308412%" headers="d4359e44 ">
+                            <p class="p">4</p>
+
+                        </td>
+
+                        <td class="entry" valign="top" width="53.27102803738318%" headers="d4359e50 ">
+                            <p class="p">EOT (End of Transmission, 传输结束)</p>
+
+                        </td>
+
+                    </tr>
+
+                    <tr>
+                        <td class="entry" valign="top" width="23.364485981308412%" headers="d4359e38 ">
+                            <p class="p">0x05</p>
+
+                        </td>
+
+                        <td class="entry" valign="top" width="23.364485981308412%" headers="d4359e44 ">
+                            <p class="p">5</p>
+
+                        </td>
+
+                        <td class="entry" valign="top" width="53.27102803738318%" headers="d4359e50 ">
+                            <p class="p">ENQ (Enquiry, 请求)</p>
+
+                        </td>
+
+                    </tr>
+
+                    <tr>
+                        <td class="entry" valign="top" width="23.364485981308412%" headers="d4359e38 ">
+                            <p class="p">0x06</p>
+
+                        </td>
+
+                        <td class="entry" valign="top" width="23.364485981308412%" headers="d4359e44 ">
+                            <p class="p">6</p>
+
+                        </td>
+
+                        <td class="entry" valign="top" width="53.27102803738318%" headers="d4359e50 ">
+                            <p class="p">ACK (Acknowledgment, 收到通知)</p>
+
+                        </td>
+
+                    </tr>
+
+                    <tr>
+                        <td class="entry" valign="top" width="23.364485981308412%" headers="d4359e38 ">
+                            <p class="p">0x07</p>
+
+                        </td>
+
+                        <td class="entry" valign="top" width="23.364485981308412%" headers="d4359e44 ">
+                            <p class="p">7</p>
+
+                        </td>
+
+                        <td class="entry" valign="top" width="53.27102803738318%" headers="d4359e50 ">
+                            <p class="p">BEL (Bell, 响铃)</p>
+
+                        </td>
+
+                    </tr>
+
+                    <tr>
+                        <td class="entry" valign="top" width="23.364485981308412%" headers="d4359e38 ">
+                            <p class="p">0x08</p>
+
+                        </td>
+
+                        <td class="entry" valign="top" width="23.364485981308412%" headers="d4359e44 ">
+                            <p class="p">8</p>
+
+                        </td>
+
+                        <td class="entry" valign="top" width="53.27102803738318%" headers="d4359e50 ">
+                            <p class="p">BS (Backspace, 退格)</p>
+
+                        </td>
+
+                    </tr>
+
+                    <tr>
+                        <td class="entry" valign="top" width="23.364485981308412%" headers="d4359e38 ">
+                            <p class="p">0x09</p>
+
+                        </td>
+
+                        <td class="entry" valign="top" width="23.364485981308412%" headers="d4359e44 ">
+                            <p class="p">9</p>
+
+                        </td>
+
+                        <td class="entry" valign="top" width="53.27102803738318%" headers="d4359e50 ">
+                            <p class="p">HT (Horizontal T, 水平制表符)</p>
+
+                        </td>
+
+                    </tr>
+
+                    <tr>
+                        <td class="entry" valign="top" width="23.364485981308412%" headers="d4359e38 ">
+                            <p class="p">0x0A</p>
+
+                        </td>
+
+                        <td class="entry" valign="top" width="23.364485981308412%" headers="d4359e44 ">
+                            <p class="p">10</p>
+
+                        </td>
+
+                        <td class="entry" valign="top" width="53.27102803738318%" headers="d4359e50 ">
+                            <p class="p">LF (Line Feed, 换行键)</p>
+
+                        </td>
+
+                    </tr>
+
+                    <tr>
+                        <td class="entry" valign="top" width="23.364485981308412%" headers="d4359e38 ">
+                            <p class="p">0x0B</p>
+
+                        </td>
+
+                        <td class="entry" valign="top" width="23.364485981308412%" headers="d4359e44 ">
+                            <p class="p">11</p>
+
+                        </td>
+
+                        <td class="entry" valign="top" width="53.27102803738318%" headers="d4359e50 ">
+                            <p class="p">VT (Vertical Tab, 垂直制表符)</p>
+
+                        </td>
+
+                    </tr>
+
+                    <tr>
+                        <td class="entry" valign="top" width="23.364485981308412%" headers="d4359e38 ">
+                            <p class="p">0x0C</p>
+
+                        </td>
+
+                        <td class="entry" valign="top" width="23.364485981308412%" headers="d4359e44 ">
+                            <p class="p">12</p>
+
+                        </td>
+
+                        <td class="entry" valign="top" width="53.27102803738318%" headers="d4359e50 ">
+                            <p class="p">FF (Form Feed, 换页键)</p>
+
+                        </td>
+
+                    </tr>
+
+                    <tr>
+                        <td class="entry" valign="top" width="23.364485981308412%" headers="d4359e38 ">
+                            <p class="p">0x0D</p>
+
+                        </td>
+
+                        <td class="entry" valign="top" width="23.364485981308412%" headers="d4359e44 ">
+                            <p class="p">13</p>
+
+                        </td>
+
+                        <td class="entry" valign="top" width="53.27102803738318%" headers="d4359e50 ">
+                            <p class="p">CR (Carriage Ret, 回车键)</p>
+
+                        </td>
+
+                    </tr>
+
+                    <tr>
+                        <td class="entry" valign="top" width="23.364485981308412%" headers="d4359e38 ">
+                            <p class="p">0x0E</p>
+
+                        </td>
+
+                        <td class="entry" valign="top" width="23.364485981308412%" headers="d4359e44 ">
+                            <p class="p">14</p>
+
+                        </td>
+
+                        <td class="entry" valign="top" width="53.27102803738318%" headers="d4359e50 ">
+                            <p class="p">SO (Shift Out, 不用切换)</p>
+
+                        </td>
+
+                    </tr>
+
+                    <tr>
+                        <td class="entry" valign="top" width="23.364485981308412%" headers="d4359e38 ">
+                            <p class="p">0x0F</p>
+
+                        </td>
+
+                        <td class="entry" valign="top" width="23.364485981308412%" headers="d4359e44 ">
+                            <p class="p">15</p>
+
+                        </td>
+
+                        <td class="entry" valign="top" width="53.27102803738318%" headers="d4359e50 ">
+                            <p class="p">SI (Shift In, 启用切换)</p>
+
+                        </td>
+
+                    </tr>
+
+                    <tr>
+                        <td class="entry" valign="top" width="23.364485981308412%" headers="d4359e38 ">
+                            <p class="p">0x10</p>
+
+                        </td>
+
+                        <td class="entry" valign="top" width="23.364485981308412%" headers="d4359e44 ">
+                            <p class="p">16</p>
+
+                        </td>
+
+                        <td class="entry" valign="top" width="53.27102803738318%" headers="d4359e50 ">
+                            <p class="p">DLE (Data Link Escape, 数据链路转义)</p>
+
+                        </td>
+
+                    </tr>
+
+                    <tr>
+                        <td class="entry" valign="top" width="23.364485981308412%" headers="d4359e38 ">
+                            <p class="p">0x11</p>
+
+                        </td>
+
+                        <td class="entry" valign="top" width="23.364485981308412%" headers="d4359e44 ">
+                            <p class="p">17</p>
+
+                        </td>
+
+                        <td class="entry" valign="top" width="53.27102803738318%" headers="d4359e50 ">
+                            <p class="p">DC1/XON (Device Control 1, 设备控制1)</p>
+
+                        </td>
+
+                    </tr>
+
+                    <tr>
+                        <td class="entry" valign="top" width="23.364485981308412%" headers="d4359e38 ">
+                            <p class="p">0x12</p>
+
+                        </td>
+
+                        <td class="entry" valign="top" width="23.364485981308412%" headers="d4359e44 ">
+                            <p class="p">18</p>
+
+                        </td>
+
+                        <td class="entry" valign="top" width="53.27102803738318%" headers="d4359e50 ">
+                            <p class="p">DC2 (Device Control 2, 设备控制2)</p>
+
+                        </td>
+
+                    </tr>
+
+                    <tr>
+                        <td class="entry" valign="top" width="23.364485981308412%" headers="d4359e38 ">
+                            <p class="p">0x13</p>
+
+                        </td>
+
+                        <td class="entry" valign="top" width="23.364485981308412%" headers="d4359e44 ">
+                            <p class="p">19</p>
+
+                        </td>
+
+                        <td class="entry" valign="top" width="53.27102803738318%" headers="d4359e50 ">
+                            <p class="p">DC3/XOFF (Device Control 3, 设备控制3)</p>
+
+                        </td>
+
+                    </tr>
+
+                    <tr>
+                        <td class="entry" valign="top" width="23.364485981308412%" headers="d4359e38 ">
+                            <p class="p">0x14</p>
+
+                        </td>
+
+                        <td class="entry" valign="top" width="23.364485981308412%" headers="d4359e44 ">
+                            <p class="p">20</p>
+
+                        </td>
+
+                        <td class="entry" valign="top" width="53.27102803738318%" headers="d4359e50 ">
+                            <p class="p">DC4 (Device Control 4, 设备控制4)</p>
+
+                        </td>
+
+                    </tr>
+
+                    <tr>
+                        <td class="entry" valign="top" width="23.364485981308412%" headers="d4359e38 ">
+                            <p class="p">0x15</p>
+
+                        </td>
+
+                        <td class="entry" valign="top" width="23.364485981308412%" headers="d4359e44 ">
+                            <p class="p">21</p>
+
+                        </td>
+
+                        <td class="entry" valign="top" width="53.27102803738318%" headers="d4359e50 ">
+                            <p class="p">NAK (Negative Acknowledgment, 拒绝接收)</p>
+
+                        </td>
+
+                    </tr>
+
+                    <tr>
+                        <td class="entry" valign="top" width="23.364485981308412%" headers="d4359e38 ">
+                            <p class="p">0x16</p>
+
+                        </td>
+
+                        <td class="entry" valign="top" width="23.364485981308412%" headers="d4359e44 ">
+                            <p class="p">22</p>
+
+                        </td>
+
+                        <td class="entry" valign="top" width="53.27102803738318%" headers="d4359e50 ">
+                            <p class="p">SYN (Synchronous Idle, 同步空闲)</p>
+
+                        </td>
+
+                    </tr>
+
+                    <tr>
+                        <td class="entry" valign="top" width="23.364485981308412%" headers="d4359e38 ">
+                            <p class="p">0x17</p>
+
+                        </td>
+
+                        <td class="entry" valign="top" width="23.364485981308412%" headers="d4359e44 ">
+                            <p class="p">23</p>
+
+                        </td>
+
+                        <td class="entry" valign="top" width="53.27102803738318%" headers="d4359e50 ">
+                            <p class="p">ETB (End of Trans. Block, 结束传输块)</p>
+
+                        </td>
+
+                    </tr>
+
+                    <tr>
+                        <td class="entry" valign="top" width="23.364485981308412%" headers="d4359e38 ">
+                            <p class="p">0x18</p>
+
+                        </td>
+
+                        <td class="entry" valign="top" width="23.364485981308412%" headers="d4359e44 ">
+                            <p class="p">24</p>
+
+                        </td>
+
+                        <td class="entry" valign="top" width="53.27102803738318%" headers="d4359e50 ">
+                            <p class="p">CAN (Cancel, 取消)</p>
+
+                        </td>
+
+                    </tr>
+
+                    <tr>
+                        <td class="entry" valign="top" width="23.364485981308412%" headers="d4359e38 ">
+                            <p class="p">0x19</p>
+
+                        </td>
+
+                        <td class="entry" valign="top" width="23.364485981308412%" headers="d4359e44 ">
+                            <p class="p">25</p>
+
+                        </td>
+
+                        <td class="entry" valign="top" width="53.27102803738318%" headers="d4359e50 ">
+                            <p class="p">EM (End of Medium, 媒介结束)</p>
+
+                        </td>
+
+                    </tr>
+
+                    <tr>
+                        <td class="entry" valign="top" width="23.364485981308412%" headers="d4359e38 ">
+                            <p class="p">0x1A</p>
+
+                        </td>
+
+                        <td class="entry" valign="top" width="23.364485981308412%" headers="d4359e44 ">
+                            <p class="p">26</p>
+
+                        </td>
+
+                        <td class="entry" valign="top" width="53.27102803738318%" headers="d4359e50 ">
+                            <p class="p">SUB (Substitute, 代替)</p>
+
+                        </td>
+
+                    </tr>
+
+                    <tr>
+                        <td class="entry" valign="top" width="23.364485981308412%" headers="d4359e38 ">
+                            <p class="p">0x1B</p>
+
+                        </td>
+
+                        <td class="entry" valign="top" width="23.364485981308412%" headers="d4359e44 ">
+                            <p class="p">27</p>
+
+                        </td>
+
+                        <td class="entry" valign="top" width="53.27102803738318%" headers="d4359e50 ">
+                            <p class="p">ESC (Escape, 换码)</p>
+
+                        </td>
+
+                    </tr>
+
+                    <tr>
+                        <td class="entry" valign="top" width="23.364485981308412%" headers="d4359e38 ">
+                            <p class="p">0x1C</p>
+
+                        </td>
+
+                        <td class="entry" valign="top" width="23.364485981308412%" headers="d4359e44 ">
+                            <p class="p">28</p>
+
+                        </td>
+
+                        <td class="entry" valign="top" width="53.27102803738318%" headers="d4359e50 ">
+                            <p class="p">FS (File Separator, 文件分隔符)</p>
+
+                        </td>
+
+                    </tr>
+
+                    <tr>
+                        <td class="entry" valign="top" width="23.364485981308412%" headers="d4359e38 ">
+                            <p class="p">0x1D</p>
+
+                        </td>
+
+                        <td class="entry" valign="top" width="23.364485981308412%" headers="d4359e44 ">
+                            <p class="p">29</p>
+
+                        </td>
+
+                        <td class="entry" valign="top" width="53.27102803738318%" headers="d4359e50 ">
+                            <p class="p">GS (Group Separator, 分组符)</p>
+
+                        </td>
+
+                    </tr>
+
+                    <tr>
+                        <td class="entry" valign="top" width="23.364485981308412%" headers="d4359e38 ">
+                            <p class="p">0x1E</p>
+
+                        </td>
+
+                        <td class="entry" valign="top" width="23.364485981308412%" headers="d4359e44 ">
+                            <p class="p">30</p>
+
+                        </td>
+
+                        <td class="entry" valign="top" width="53.27102803738318%" headers="d4359e50 ">
+                            <p class="p">RS (Request to Send, 记录分隔符)</p>
+
+                        </td>
+
+                    </tr>
+
+                    <tr>
+                        <td class="entry" valign="top" width="23.364485981308412%" headers="d4359e38 ">
+                            <p class="p">0x1F</p>
+
+                        </td>
+
+                        <td class="entry" valign="top" width="23.364485981308412%" headers="d4359e44 ">
+                            <p class="p">31</p>
+
+                        </td>
+
+                        <td class="entry" valign="top" width="53.27102803738318%" headers="d4359e50 ">
+                            <p class="p">US (Unit Separator, 单元分隔符)</p>
+
+                        </td>
+
+                    </tr>
+
+                    <tr>
+                        <td class="entry" valign="top" width="23.364485981308412%" headers="d4359e38 ">
+                            <p class="p">0x20</p>
+
+                        </td>
+
+                        <td class="entry" valign="top" width="23.364485981308412%" headers="d4359e44 ">
+                            <p class="p">32</p>
+
+                        </td>
+
+                        <td class="entry" valign="top" width="53.27102803738318%" headers="d4359e50 ">
+                            <p class="p">SP (Space, 空格)</p>
+
+                        </td>
+
+                    </tr>
+
+                    <tr>
+                        <td class="entry" valign="top" width="23.364485981308412%" headers="d4359e38 ">
+                            <p class="p">0x21</p>
+
+                        </td>
+
+                        <td class="entry" valign="top" width="23.364485981308412%" headers="d4359e44 ">
+                            <p class="p">33</p>
+
+                        </td>
+
+                        <td class="entry" valign="top" width="53.27102803738318%" headers="d4359e50 ">
+                            <p class="p">! (Exclamation Mark, 叹号)</p>
+
+                        </td>
+
+                    </tr>
+
+                    <tr>
+                        <td class="entry" valign="top" width="23.364485981308412%" headers="d4359e38 ">
+                            <p class="p">0x22</p>
+
+                        </td>
+
+                        <td class="entry" valign="top" width="23.364485981308412%" headers="d4359e44 ">
+                            <p class="p">34</p>
+
+                        </td>
+
+                        <td class="entry" valign="top" width="53.27102803738318%" headers="d4359e50 ">
+                            <p class="p">" (Double Quote, 双引号)</p>
+
+                        </td>
+
+                    </tr>
+
+                    <tr>
+                        <td class="entry" valign="top" width="23.364485981308412%" headers="d4359e38 ">
+                            <p class="p">0x23</p>
+
+                        </td>
+
+                        <td class="entry" valign="top" width="23.364485981308412%" headers="d4359e44 ">
+                            <p class="p">35</p>
+
+                        </td>
+
+                        <td class="entry" valign="top" width="53.27102803738318%" headers="d4359e50 ">
+                            <p class="p"># (Number Sign, 井号)</p>
+
+                        </td>
+
+                    </tr>
+
+                    <tr>
+                        <td class="entry" valign="top" width="23.364485981308412%" headers="d4359e38 ">
+                            <p class="p">0x24</p>
+
+                        </td>
+
+                        <td class="entry" valign="top" width="23.364485981308412%" headers="d4359e44 ">
+                            <p class="p">36</p>
+
+                        </td>
+
+                        <td class="entry" valign="top" width="53.27102803738318%" headers="d4359e50 ">
+                            <p class="p">$ (Dollar Sign, 美元符)</p>
+
+                        </td>
+
+                    </tr>
+
+                    <tr>
+                        <td class="entry" valign="top" width="23.364485981308412%" headers="d4359e38 ">
+                            <p class="p">0x25</p>
+
+                        </td>
+
+                        <td class="entry" valign="top" width="23.364485981308412%" headers="d4359e44 ">
+                            <p class="p">37</p>
+
+                        </td>
+
+                        <td class="entry" valign="top" width="53.27102803738318%" headers="d4359e50 ">
+                            <p class="p">% (Percent, 百分号)</p>
+
+                        </td>
+
+                    </tr>
+
+                    <tr>
+                        <td class="entry" valign="top" width="23.364485981308412%" headers="d4359e38 ">
+                            <p class="p">0x26</p>
+
+                        </td>
+
+                        <td class="entry" valign="top" width="23.364485981308412%" headers="d4359e44 ">
+                            <p class="p">38</p>
+
+                        </td>
+
+                        <td class="entry" valign="top" width="53.27102803738318%" headers="d4359e50 ">
+                            <p class="p">&amp; (Ampersand, 和号)</p>
+
+                        </td>
+
+                    </tr>
+
+                    <tr>
+                        <td class="entry" valign="top" width="23.364485981308412%" headers="d4359e38 ">
+                            <p class="p">0x27</p>
+
+                        </td>
+
+                        <td class="entry" valign="top" width="23.364485981308412%" headers="d4359e44 ">
+                            <p class="p">39</p>
+
+                        </td>
+
+                        <td class="entry" valign="top" width="53.27102803738318%" headers="d4359e50 ">
+                            <p class="p">' (Single Quote, 闭单引号)</p>
+
+                        </td>
+
+                    </tr>
+
+                    <tr>
+                        <td class="entry" valign="top" width="23.364485981308412%" headers="d4359e38 ">
+                            <p class="p">0x28</p>
+
+                        </td>
+
+                        <td class="entry" valign="top" width="23.364485981308412%" headers="d4359e44 ">
+                            <p class="p">40</p>
+
+                        </td>
+
+                        <td class="entry" valign="top" width="53.27102803738318%" headers="d4359e50 ">
+                            <p class="p">( (Left / Opening Parenthesis, 开括号)</p>
+
+                        </td>
+
+                    </tr>
+
+                    <tr>
+                        <td class="entry" valign="top" width="23.364485981308412%" headers="d4359e38 ">
+                            <p class="p">0x29</p>
+
+                        </td>
+
+                        <td class="entry" valign="top" width="23.364485981308412%" headers="d4359e44 ">
+                            <p class="p">41</p>
+
+                        </td>
+
+                        <td class="entry" valign="top" width="53.27102803738318%" headers="d4359e50 ">
+                            <p class="p">) (Right / Closing Parenthesis, 闭括号)</p>
+
+                        </td>
+
+                    </tr>
+
+                    <tr>
+                        <td class="entry" valign="top" width="23.364485981308412%" headers="d4359e38 ">
+                            <p class="p">0x2A</p>
+
+                        </td>
+
+                        <td class="entry" valign="top" width="23.364485981308412%" headers="d4359e44 ">
+                            <p class="p">42</p>
+
+                        </td>
+
+                        <td class="entry" valign="top" width="53.27102803738318%" headers="d4359e50 ">
+                            <p class="p">* (Asterisk, 星号)</p>
+
+                        </td>
+
+                    </tr>
+
+                    <tr>
+                        <td class="entry" valign="top" width="23.364485981308412%" headers="d4359e38 ">
+                            <p class="p">0x2B</p>
+
+                        </td>
+
+                        <td class="entry" valign="top" width="23.364485981308412%" headers="d4359e44 ">
+                            <p class="p">43</p>
+
+                        </td>
+
+                        <td class="entry" valign="top" width="53.27102803738318%" headers="d4359e50 ">
+                            <p class="p">+ (Plus, 加号)</p>
+
+                        </td>
+
+                    </tr>
+
+                    <tr>
+                        <td class="entry" valign="top" width="23.364485981308412%" headers="d4359e38 ">
+                            <p class="p">0x2C</p>
+
+                        </td>
+
+                        <td class="entry" valign="top" width="23.364485981308412%" headers="d4359e44 ">
+                            <p class="p">44</p>
+
+                        </td>
+
+                        <td class="entry" valign="top" width="53.27102803738318%" headers="d4359e50 ">
+                            <p class="p">, (Comma, 逗号)</p>
+
+                        </td>
+
+                    </tr>
+
+                    <tr>
+                        <td class="entry" valign="top" width="23.364485981308412%" headers="d4359e38 ">
+                            <p class="p">0x2D</p>
+
+                        </td>
+
+                        <td class="entry" valign="top" width="23.364485981308412%" headers="d4359e44 ">
+                            <p class="p">45</p>
+
+                        </td>
+
+                        <td class="entry" valign="top" width="53.27102803738318%" headers="d4359e50 ">
+                            <p class="p">- (Minus / Dash, 减号/破折号)</p>
+
+                        </td>
+
+                    </tr>
+
+                    <tr>
+                        <td class="entry" valign="top" width="23.364485981308412%" headers="d4359e38 ">
+                            <p class="p">0x2E</p>
+
+                        </td>
+
+                        <td class="entry" valign="top" width="23.364485981308412%" headers="d4359e44 ">
+                            <p class="p">46</p>
+
+                        </td>
+
+                        <td class="entry" valign="top" width="53.27102803738318%" headers="d4359e50 ">
+                            <p class="p">. (Dot, 句号)</p>
+
+                        </td>
+
+                    </tr>
+
+                    <tr>
+                        <td class="entry" valign="top" width="23.364485981308412%" headers="d4359e38 ">
+                            <p class="p">0x2F</p>
+
+                        </td>
+
+                        <td class="entry" valign="top" width="23.364485981308412%" headers="d4359e44 ">
+                            <p class="p">47</p>
+
+                        </td>
+
+                        <td class="entry" valign="top" width="53.27102803738318%" headers="d4359e50 ">
+                            <p class="p">/ (Forward Slash, 斜杠)</p>
+
+                        </td>
+
+                    </tr>
+
+                    <tr>
+                        <td class="entry" valign="top" width="23.364485981308412%" headers="d4359e38 ">
+                            <p class="p">0x30</p>
+
+                        </td>
+
+                        <td class="entry" valign="top" width="23.364485981308412%" headers="d4359e44 ">
+                            <p class="p">48</p>
+
+                        </td>
+
+                        <td class="entry" valign="top" width="53.27102803738318%" headers="d4359e50 ">
+                            <p class="p">0</p>
+
+                        </td>
+
+                    </tr>
+
+                    <tr>
+                        <td class="entry" valign="top" width="23.364485981308412%" headers="d4359e38 ">
+                            <p class="p">0x31</p>
+
+                        </td>
+
+                        <td class="entry" valign="top" width="23.364485981308412%" headers="d4359e44 ">
+                            <p class="p">49</p>
+
+                        </td>
+
+                        <td class="entry" valign="top" width="53.27102803738318%" headers="d4359e50 ">
+                            <p class="p">1</p>
+
+                        </td>
+
+                    </tr>
+
+                    <tr>
+                        <td class="entry" valign="top" width="23.364485981308412%" headers="d4359e38 ">
+                            <p class="p">0x32</p>
+
+                        </td>
+
+                        <td class="entry" valign="top" width="23.364485981308412%" headers="d4359e44 ">
+                            <p class="p">50</p>
+
+                        </td>
+
+                        <td class="entry" valign="top" width="53.27102803738318%" headers="d4359e50 ">
+                            <p class="p">2</p>
+
+                        </td>
+
+                    </tr>
+
+                    <tr>
+                        <td class="entry" valign="top" width="23.364485981308412%" headers="d4359e38 ">
+                            <p class="p">0x33</p>
+
+                        </td>
+
+                        <td class="entry" valign="top" width="23.364485981308412%" headers="d4359e44 ">
+                            <p class="p">51</p>
+
+                        </td>
+
+                        <td class="entry" valign="top" width="53.27102803738318%" headers="d4359e50 ">
+                            <p class="p">3</p>
+
+                        </td>
+
+                    </tr>
+
+                    <tr>
+                        <td class="entry" valign="top" width="23.364485981308412%" headers="d4359e38 ">
+                            <p class="p">0x34</p>
+
+                        </td>
+
+                        <td class="entry" valign="top" width="23.364485981308412%" headers="d4359e44 ">
+                            <p class="p">52</p>
+
+                        </td>
+
+                        <td class="entry" valign="top" width="53.27102803738318%" headers="d4359e50 ">
+                            <p class="p">4</p>
+
+                        </td>
+
+                    </tr>
+
+                    <tr>
+                        <td class="entry" valign="top" width="23.364485981308412%" headers="d4359e38 ">
+                            <p class="p">0x35</p>
+
+                        </td>
+
+                        <td class="entry" valign="top" width="23.364485981308412%" headers="d4359e44 ">
+                            <p class="p">53</p>
+
+                        </td>
+
+                        <td class="entry" valign="top" width="53.27102803738318%" headers="d4359e50 ">
+                            <p class="p">5</p>
+
+                        </td>
+
+                    </tr>
+
+                    <tr>
+                        <td class="entry" valign="top" width="23.364485981308412%" headers="d4359e38 ">
+                            <p class="p">0x36</p>
+
+                        </td>
+
+                        <td class="entry" valign="top" width="23.364485981308412%" headers="d4359e44 ">
+                            <p class="p">54</p>
+
+                        </td>
+
+                        <td class="entry" valign="top" width="53.27102803738318%" headers="d4359e50 ">
+                            <p class="p">6</p>
+
+                        </td>
+
+                    </tr>
+
+                    <tr>
+                        <td class="entry" valign="top" width="23.364485981308412%" headers="d4359e38 ">
+                            <p class="p">0x37</p>
+
+                        </td>
+
+                        <td class="entry" valign="top" width="23.364485981308412%" headers="d4359e44 ">
+                            <p class="p">55</p>
+
+                        </td>
+
+                        <td class="entry" valign="top" width="53.27102803738318%" headers="d4359e50 ">
+                            <p class="p">7</p>
+
+                        </td>
+
+                    </tr>
+
+                    <tr>
+                        <td class="entry" valign="top" width="23.364485981308412%" headers="d4359e38 ">
+                            <p class="p">0x38</p>
+
+                        </td>
+
+                        <td class="entry" valign="top" width="23.364485981308412%" headers="d4359e44 ">
+                            <p class="p">56</p>
+
+                        </td>
+
+                        <td class="entry" valign="top" width="53.27102803738318%" headers="d4359e50 ">
+                            <p class="p">8</p>
+
+                        </td>
+
+                    </tr>
+
+                    <tr>
+                        <td class="entry" valign="top" width="23.364485981308412%" headers="d4359e38 ">
+                            <p class="p">0x39</p>
+
+                        </td>
+
+                        <td class="entry" valign="top" width="23.364485981308412%" headers="d4359e44 ">
+                            <p class="p">57</p>
+
+                        </td>
+
+                        <td class="entry" valign="top" width="53.27102803738318%" headers="d4359e50 ">
+                            <p class="p">9</p>
+
+                        </td>
+
+                    </tr>
+
+                    <tr>
+                        <td class="entry" valign="top" width="23.364485981308412%" headers="d4359e38 ">
+                            <p class="p">0x3A</p>
+
+                        </td>
+
+                        <td class="entry" valign="top" width="23.364485981308412%" headers="d4359e44 ">
+                            <p class="p">58</p>
+
+                        </td>
+
+                        <td class="entry" valign="top" width="53.27102803738318%" headers="d4359e50 ">
+                            <p class="p">: (Colon, 冒号)</p>
+
+                        </td>
+
+                    </tr>
+
+                    <tr>
+                        <td class="entry" valign="top" width="23.364485981308412%" headers="d4359e38 ">
+                            <p class="p">0x3B</p>
+
+                        </td>
+
+                        <td class="entry" valign="top" width="23.364485981308412%" headers="d4359e44 ">
+                            <p class="p">59</p>
+
+                        </td>
+
+                        <td class="entry" valign="top" width="53.27102803738318%" headers="d4359e50 ">
+                            <p class="p">; (Semi-colon, 分号)</p>
+
+                        </td>
+
+                    </tr>
+
+                    <tr>
+                        <td class="entry" valign="top" width="23.364485981308412%" headers="d4359e38 ">
+                            <p class="p">0x3C</p>
+
+                        </td>
+
+                        <td class="entry" valign="top" width="23.364485981308412%" headers="d4359e44 ">
+                            <p class="p">60</p>
+
+                        </td>
+
+                        <td class="entry" valign="top" width="53.27102803738318%" headers="d4359e50 ">
+                            <p class="p">&lt; (Less Than, 小于)</p>
+
+                        </td>
+
+                    </tr>
+
+                    <tr>
+                        <td class="entry" valign="top" width="23.364485981308412%" headers="d4359e38 ">
+                            <p class="p">0x3D</p>
+
+                        </td>
+
+                        <td class="entry" valign="top" width="23.364485981308412%" headers="d4359e44 ">
+                            <p class="p">61</p>
+
+                        </td>
+
+                        <td class="entry" valign="top" width="53.27102803738318%" headers="d4359e50 ">
+                            <p class="p">= (Equal Sign, 等号)</p>
+
+                        </td>
+
+                    </tr>
+
+                    <tr>
+                        <td class="entry" valign="top" width="23.364485981308412%" headers="d4359e38 ">
+                            <p class="p">0x3E</p>
+
+                        </td>
+
+                        <td class="entry" valign="top" width="23.364485981308412%" headers="d4359e44 ">
+                            <p class="p">62</p>
+
+                        </td>
+
+                        <td class="entry" valign="top" width="53.27102803738318%" headers="d4359e50 ">
+                            <p class="p">&gt; (Greater Than, 大于)</p>
+
+                        </td>
+
+                    </tr>
+
+                    <tr>
+                        <td class="entry" valign="top" width="23.364485981308412%" headers="d4359e38 ">
+                            <p class="p">0x3F</p>
+
+                        </td>
+
+                        <td class="entry" valign="top" width="23.364485981308412%" headers="d4359e44 ">
+                            <p class="p">63</p>
+
+                        </td>
+
+                        <td class="entry" valign="top" width="53.27102803738318%" headers="d4359e50 ">
+                            <p class="p">? (Question Mark, 问号)</p>
+
+                        </td>
+
+                    </tr>
+
+                    <tr>
+                        <td class="entry" valign="top" width="23.364485981308412%" headers="d4359e38 ">
+                            <p class="p">0x40</p>
+
+                        </td>
+
+                        <td class="entry" valign="top" width="23.364485981308412%" headers="d4359e44 ">
+                            <p class="p">64</p>
+
+                        </td>
+
+                        <td class="entry" valign="top" width="53.27102803738318%" headers="d4359e50 ">
+                            <p class="p">@ (AT Symbol, 电子邮件符号)</p>
+
+                        </td>
+
+                    </tr>
+
+                    <tr>
+                        <td class="entry" valign="top" width="23.364485981308412%" headers="d4359e38 ">
+                            <p class="p">0x41</p>
+
+                        </td>
+
+                        <td class="entry" valign="top" width="23.364485981308412%" headers="d4359e44 ">
+                            <p class="p">65</p>
+
+                        </td>
+
+                        <td class="entry" valign="top" width="53.27102803738318%" headers="d4359e50 ">
+                            <p class="p">A</p>
+
+                        </td>
+
+                    </tr>
+
+                    <tr>
+                        <td class="entry" valign="top" width="23.364485981308412%" headers="d4359e38 ">
+                            <p class="p">0x42</p>
+
+                        </td>
+
+                        <td class="entry" valign="top" width="23.364485981308412%" headers="d4359e44 ">
+                            <p class="p">66</p>
+
+                        </td>
+
+                        <td class="entry" valign="top" width="53.27102803738318%" headers="d4359e50 ">
+                            <p class="p">B</p>
+
+                        </td>
+
+                    </tr>
+
+                    <tr>
+                        <td class="entry" valign="top" width="23.364485981308412%" headers="d4359e38 ">
+                            <p class="p">0x43</p>
+
+                        </td>
+
+                        <td class="entry" valign="top" width="23.364485981308412%" headers="d4359e44 ">
+                            <p class="p">67</p>
+
+                        </td>
+
+                        <td class="entry" valign="top" width="53.27102803738318%" headers="d4359e50 ">
+                            <p class="p">C</p>
+
+                        </td>
+
+                    </tr>
+
+                    <tr>
+                        <td class="entry" valign="top" width="23.364485981308412%" headers="d4359e38 ">
+                            <p class="p">0x44</p>
+
+                        </td>
+
+                        <td class="entry" valign="top" width="23.364485981308412%" headers="d4359e44 ">
+                            <p class="p">68</p>
+
+                        </td>
+
+                        <td class="entry" valign="top" width="53.27102803738318%" headers="d4359e50 ">
+                            <p class="p">D</p>
+
+                        </td>
+
+                    </tr>
+
+                    <tr>
+                        <td class="entry" valign="top" width="23.364485981308412%" headers="d4359e38 ">
+                            <p class="p">0x45</p>
+
+                        </td>
+
+                        <td class="entry" valign="top" width="23.364485981308412%" headers="d4359e44 ">
+                            <p class="p">69</p>
+
+                        </td>
+
+                        <td class="entry" valign="top" width="53.27102803738318%" headers="d4359e50 ">
+                            <p class="p">E</p>
+
+                        </td>
+
+                    </tr>
+
+                    <tr>
+                        <td class="entry" valign="top" width="23.364485981308412%" headers="d4359e38 ">
+                            <p class="p">0x46</p>
+
+                        </td>
+
+                        <td class="entry" valign="top" width="23.364485981308412%" headers="d4359e44 ">
+                            <p class="p">70</p>
+
+                        </td>
+
+                        <td class="entry" valign="top" width="53.27102803738318%" headers="d4359e50 ">
+                            <p class="p">F</p>
+
+                        </td>
+
+                    </tr>
+
+                    <tr>
+                        <td class="entry" valign="top" width="23.364485981308412%" headers="d4359e38 ">
+                            <p class="p">0x47</p>
+
+                        </td>
+
+                        <td class="entry" valign="top" width="23.364485981308412%" headers="d4359e44 ">
+                            <p class="p">71</p>
+
+                        </td>
+
+                        <td class="entry" valign="top" width="53.27102803738318%" headers="d4359e50 ">
+                            <p class="p">G</p>
+
+                        </td>
+
+                    </tr>
+
+                    <tr>
+                        <td class="entry" valign="top" width="23.364485981308412%" headers="d4359e38 ">
+                            <p class="p">0x48</p>
+
+                        </td>
+
+                        <td class="entry" valign="top" width="23.364485981308412%" headers="d4359e44 ">
+                            <p class="p">72</p>
+
+                        </td>
+
+                        <td class="entry" valign="top" width="53.27102803738318%" headers="d4359e50 ">
+                            <p class="p">H</p>
+
+                        </td>
+
+                    </tr>
+
+                    <tr>
+                        <td class="entry" valign="top" width="23.364485981308412%" headers="d4359e38 ">
+                            <p class="p">0x49</p>
+
+                        </td>
+
+                        <td class="entry" valign="top" width="23.364485981308412%" headers="d4359e44 ">
+                            <p class="p">73</p>
+
+                        </td>
+
+                        <td class="entry" valign="top" width="53.27102803738318%" headers="d4359e50 ">
+                            <p class="p">I</p>
+
+                        </td>
+
+                    </tr>
+
+                    <tr>
+                        <td class="entry" valign="top" width="23.364485981308412%" headers="d4359e38 ">
+                            <p class="p">0x4A</p>
+
+                        </td>
+
+                        <td class="entry" valign="top" width="23.364485981308412%" headers="d4359e44 ">
+                            <p class="p">74</p>
+
+                        </td>
+
+                        <td class="entry" valign="top" width="53.27102803738318%" headers="d4359e50 ">
+                            <p class="p">J</p>
+
+                        </td>
+
+                    </tr>
+
+                    <tr>
+                        <td class="entry" valign="top" width="23.364485981308412%" headers="d4359e38 ">
+                            <p class="p">0x4B</p>
+
+                        </td>
+
+                        <td class="entry" valign="top" width="23.364485981308412%" headers="d4359e44 ">
+                            <p class="p">75</p>
+
+                        </td>
+
+                        <td class="entry" valign="top" width="53.27102803738318%" headers="d4359e50 ">
+                            <p class="p">K</p>
+
+                        </td>
+
+                    </tr>
+
+                    <tr>
+                        <td class="entry" valign="top" width="23.364485981308412%" headers="d4359e38 ">
+                            <p class="p">0x4C</p>
+
+                        </td>
+
+                        <td class="entry" valign="top" width="23.364485981308412%" headers="d4359e44 ">
+                            <p class="p">76</p>
+
+                        </td>
+
+                        <td class="entry" valign="top" width="53.27102803738318%" headers="d4359e50 ">
+                            <p class="p">L</p>
+
+                        </td>
+
+                    </tr>
+
+                    <tr>
+                        <td class="entry" valign="top" width="23.364485981308412%" headers="d4359e38 ">
+                            <p class="p">0x4D</p>
+
+                        </td>
+
+                        <td class="entry" valign="top" width="23.364485981308412%" headers="d4359e44 ">
+                            <p class="p">77</p>
+
+                        </td>
+
+                        <td class="entry" valign="top" width="53.27102803738318%" headers="d4359e50 ">
+                            <p class="p">M</p>
+
+                        </td>
+
+                    </tr>
+
+                    <tr>
+                        <td class="entry" valign="top" width="23.364485981308412%" headers="d4359e38 ">
+                            <p class="p">0x4E</p>
+
+                        </td>
+
+                        <td class="entry" valign="top" width="23.364485981308412%" headers="d4359e44 ">
+                            <p class="p">78</p>
+
+                        </td>
+
+                        <td class="entry" valign="top" width="53.27102803738318%" headers="d4359e50 ">
+                            <p class="p">N</p>
+
+                        </td>
+
+                    </tr>
+
+                    <tr>
+                        <td class="entry" valign="top" width="23.364485981308412%" headers="d4359e38 ">
+                            <p class="p">0x4F</p>
+
+                        </td>
+
+                        <td class="entry" valign="top" width="23.364485981308412%" headers="d4359e44 ">
+                            <p class="p">79</p>
+
+                        </td>
+
+                        <td class="entry" valign="top" width="53.27102803738318%" headers="d4359e50 ">
+                            <p class="p">O</p>
+
+                        </td>
+
+                    </tr>
+
+                    <tr>
+                        <td class="entry" valign="top" width="23.364485981308412%" headers="d4359e38 ">
+                            <p class="p">0x50</p>
+
+                        </td>
+
+                        <td class="entry" valign="top" width="23.364485981308412%" headers="d4359e44 ">
+                            <p class="p">80</p>
+
+                        </td>
+
+                        <td class="entry" valign="top" width="53.27102803738318%" headers="d4359e50 ">
+                            <p class="p">P</p>
+
+                        </td>
+
+                    </tr>
+
+                    <tr>
+                        <td class="entry" valign="top" width="23.364485981308412%" headers="d4359e38 ">
+                            <p class="p">0x51</p>
+
+                        </td>
+
+                        <td class="entry" valign="top" width="23.364485981308412%" headers="d4359e44 ">
+                            <p class="p">81</p>
+
+                        </td>
+
+                        <td class="entry" valign="top" width="53.27102803738318%" headers="d4359e50 ">
+                            <p class="p">Q</p>
+
+                        </td>
+
+                    </tr>
+
+                    <tr>
+                        <td class="entry" valign="top" width="23.364485981308412%" headers="d4359e38 ">
+                            <p class="p">0x52</p>
+
+                        </td>
+
+                        <td class="entry" valign="top" width="23.364485981308412%" headers="d4359e44 ">
+                            <p class="p">82</p>
+
+                        </td>
+
+                        <td class="entry" valign="top" width="53.27102803738318%" headers="d4359e50 ">
+                            <p class="p">R</p>
+
+                        </td>
+
+                    </tr>
+
+                    <tr>
+                        <td class="entry" valign="top" width="23.364485981308412%" headers="d4359e38 ">
+                            <p class="p">0x53</p>
+
+                        </td>
+
+                        <td class="entry" valign="top" width="23.364485981308412%" headers="d4359e44 ">
+                            <p class="p">83</p>
+
+                        </td>
+
+                        <td class="entry" valign="top" width="53.27102803738318%" headers="d4359e50 ">
+                            <p class="p">S</p>
+
+                        </td>
+
+                    </tr>
+
+                    <tr>
+                        <td class="entry" valign="top" width="23.364485981308412%" headers="d4359e38 ">
+                            <p class="p">0x54</p>
+
+                        </td>
+
+                        <td class="entry" valign="top" width="23.364485981308412%" headers="d4359e44 ">
+                            <p class="p">84</p>
+
+                        </td>
+
+                        <td class="entry" valign="top" width="53.27102803738318%" headers="d4359e50 ">
+                            <p class="p">T</p>
+
+                        </td>
+
+                    </tr>
+
+                    <tr>
+                        <td class="entry" valign="top" width="23.364485981308412%" headers="d4359e38 ">
+                            <p class="p">0x55</p>
+
+                        </td>
+
+                        <td class="entry" valign="top" width="23.364485981308412%" headers="d4359e44 ">
+                            <p class="p">85</p>
+
+                        </td>
+
+                        <td class="entry" valign="top" width="53.27102803738318%" headers="d4359e50 ">
+                            <p class="p">U</p>
+
+                        </td>
+
+                    </tr>
+
+                    <tr>
+                        <td class="entry" valign="top" width="23.364485981308412%" headers="d4359e38 ">
+                            <p class="p">0x56</p>
+
+                        </td>
+
+                        <td class="entry" valign="top" width="23.364485981308412%" headers="d4359e44 ">
+                            <p class="p">86</p>
+
+                        </td>
+
+                        <td class="entry" valign="top" width="53.27102803738318%" headers="d4359e50 ">
+                            <p class="p">V</p>
+
+                        </td>
+
+                    </tr>
+
+                    <tr>
+                        <td class="entry" valign="top" width="23.364485981308412%" headers="d4359e38 ">
+                            <p class="p">0x57</p>
+
+                        </td>
+
+                        <td class="entry" valign="top" width="23.364485981308412%" headers="d4359e44 ">
+                            <p class="p">87</p>
+
+                        </td>
+
+                        <td class="entry" valign="top" width="53.27102803738318%" headers="d4359e50 ">
+                            <p class="p">W</p>
+
+                        </td>
+
+                    </tr>
+
+                    <tr>
+                        <td class="entry" valign="top" width="23.364485981308412%" headers="d4359e38 ">
+                            <p class="p">0x58</p>
+
+                        </td>
+
+                        <td class="entry" valign="top" width="23.364485981308412%" headers="d4359e44 ">
+                            <p class="p">88</p>
+
+                        </td>
+
+                        <td class="entry" valign="top" width="53.27102803738318%" headers="d4359e50 ">
+                            <p class="p">X</p>
+
+                        </td>
+
+                    </tr>
+
+                    <tr>
+                        <td class="entry" valign="top" width="23.364485981308412%" headers="d4359e38 ">
+                            <p class="p">0x59</p>
+
+                        </td>
+
+                        <td class="entry" valign="top" width="23.364485981308412%" headers="d4359e44 ">
+                            <p class="p">89</p>
+
+                        </td>
+
+                        <td class="entry" valign="top" width="53.27102803738318%" headers="d4359e50 ">
+                            <p class="p">Y</p>
+
+                        </td>
+
+                    </tr>
+
+                    <tr>
+                        <td class="entry" valign="top" width="23.364485981308412%" headers="d4359e38 ">
+                            <p class="p">0x5A</p>
+
+                        </td>
+
+                        <td class="entry" valign="top" width="23.364485981308412%" headers="d4359e44 ">
+                            <p class="p">90</p>
+
+                        </td>
+
+                        <td class="entry" valign="top" width="53.27102803738318%" headers="d4359e50 ">
+                            <p class="p">Z</p>
+
+                        </td>
+
+                    </tr>
+
+                    <tr>
+                        <td class="entry" valign="top" width="23.364485981308412%" headers="d4359e38 ">
+                            <p class="p">0x5B</p>
+
+                        </td>
+
+                        <td class="entry" valign="top" width="23.364485981308412%" headers="d4359e44 ">
+                            <p class="p">91</p>
+
+                        </td>
+
+                        <td class="entry" valign="top" width="53.27102803738318%" headers="d4359e50 ">
+                            <p class="p">[ (Left / Opening Brack, 开方括号)</p>
+
+                        </td>
+
+                    </tr>
+
+                    <tr>
+                        <td class="entry" valign="top" width="23.364485981308412%" headers="d4359e38 ">
+                            <p class="p">0x5C</p>
+
+                        </td>
+
+                        <td class="entry" valign="top" width="23.364485981308412%" headers="d4359e44 ">
+                            <p class="p">92</p>
+
+                        </td>
+
+                        <td class="entry" valign="top" width="53.27102803738318%" headers="d4359e50 ">
+                            <p class="p">\ (Back Slash, 反斜杠)</p>
+
+                        </td>
+
+                    </tr>
+
+                    <tr>
+                        <td class="entry" valign="top" width="23.364485981308412%" headers="d4359e38 ">
+                            <p class="p">0x5D</p>
+
+                        </td>
+
+                        <td class="entry" valign="top" width="23.364485981308412%" headers="d4359e44 ">
+                            <p class="p">93</p>
+
+                        </td>
+
+                        <td class="entry" valign="top" width="53.27102803738318%" headers="d4359e50 ">
+                            <p class="p">] (Right / Closing Bracket, 闭方括号)</p>
+
+                        </td>
+
+                    </tr>
+
+                    <tr>
+                        <td class="entry" valign="top" width="23.364485981308412%" headers="d4359e38 ">
+                            <p class="p">0x5E</p>
+
+                        </td>
+
+                        <td class="entry" valign="top" width="23.364485981308412%" headers="d4359e44 ">
+                            <p class="p">94</p>
+
+                        </td>
+
+                        <td class="entry" valign="top" width="53.27102803738318%" headers="d4359e50 ">
+                            <p class="p">^ (Caret / Circumflex, 脱字符)</p>
+
+                        </td>
+
+                    </tr>
+
+                    <tr>
+                        <td class="entry" valign="top" width="23.364485981308412%" headers="d4359e38 ">
+                            <p class="p">0x5F</p>
+
+                        </td>
+
+                        <td class="entry" valign="top" width="23.364485981308412%" headers="d4359e44 ">
+                            <p class="p">95</p>
+
+                        </td>
+
+                        <td class="entry" valign="top" width="53.27102803738318%" headers="d4359e50 ">
+                            <p class="p">_ (Underscore, 下划线)</p>
+
+                        </td>
+
+                    </tr>
+
+                    <tr>
+                        <td class="entry" valign="top" width="23.364485981308412%" headers="d4359e38 ">
+                            <p class="p">0x60</p>
+
+                        </td>
+
+                        <td class="entry" valign="top" width="23.364485981308412%" headers="d4359e44 ">
+                            <p class="p">96</p>
+
+                        </td>
+
+                        <td class="entry" valign="top" width="53.27102803738318%" headers="d4359e50 ">
+                            <p class="p">' (Grave Accent, 开单引号)</p>
+
+                        </td>
+
+                    </tr>
+
+                    <tr>
+                        <td class="entry" valign="top" width="23.364485981308412%" headers="d4359e38 ">
+                            <p class="p">0x61</p>
+
+                        </td>
+
+                        <td class="entry" valign="top" width="23.364485981308412%" headers="d4359e44 ">
+                            <p class="p">97</p>
+
+                        </td>
+
+                        <td class="entry" valign="top" width="53.27102803738318%" headers="d4359e50 ">
+                            <p class="p">a</p>
+
+                        </td>
+
+                    </tr>
+
+                    <tr>
+                        <td class="entry" valign="top" width="23.364485981308412%" headers="d4359e38 ">
+                            <p class="p">0x62</p>
+
+                        </td>
+
+                        <td class="entry" valign="top" width="23.364485981308412%" headers="d4359e44 ">
+                            <p class="p">98</p>
+
+                        </td>
+
+                        <td class="entry" valign="top" width="53.27102803738318%" headers="d4359e50 ">
+                            <p class="p">b</p>
+
+                        </td>
+
+                    </tr>
+
+                    <tr>
+                        <td class="entry" valign="top" width="23.364485981308412%" headers="d4359e38 ">
+                            <p class="p">0x63</p>
+
+                        </td>
+
+                        <td class="entry" valign="top" width="23.364485981308412%" headers="d4359e44 ">
+                            <p class="p">99</p>
+
+                        </td>
+
+                        <td class="entry" valign="top" width="53.27102803738318%" headers="d4359e50 ">
+                            <p class="p">c</p>
+
+                        </td>
+
+                    </tr>
+
+                    <tr>
+                        <td class="entry" valign="top" width="23.364485981308412%" headers="d4359e38 ">
+                            <p class="p">0x64</p>
+
+                        </td>
+
+                        <td class="entry" valign="top" width="23.364485981308412%" headers="d4359e44 ">
+                            <p class="p">100</p>
+
+                        </td>
+
+                        <td class="entry" valign="top" width="53.27102803738318%" headers="d4359e50 ">
+                            <p class="p">d</p>
+
+                        </td>
+
+                    </tr>
+
+                    <tr>
+                        <td class="entry" valign="top" width="23.364485981308412%" headers="d4359e38 ">
+                            <p class="p">0x65</p>
+
+                        </td>
+
+                        <td class="entry" valign="top" width="23.364485981308412%" headers="d4359e44 ">
+                            <p class="p">101</p>
+
+                        </td>
+
+                        <td class="entry" valign="top" width="53.27102803738318%" headers="d4359e50 ">
+                            <p class="p">e</p>
+
+                        </td>
+
+                    </tr>
+
+                    <tr>
+                        <td class="entry" valign="top" width="23.364485981308412%" headers="d4359e38 ">
+                            <p class="p">0x66</p>
+
+                        </td>
+
+                        <td class="entry" valign="top" width="23.364485981308412%" headers="d4359e44 ">
+                            <p class="p">102</p>
+
+                        </td>
+
+                        <td class="entry" valign="top" width="53.27102803738318%" headers="d4359e50 ">
+                            <p class="p">f</p>
+
+                        </td>
+
+                    </tr>
+
+                    <tr>
+                        <td class="entry" valign="top" width="23.364485981308412%" headers="d4359e38 ">
+                            <p class="p">0x67</p>
+
+                        </td>
+
+                        <td class="entry" valign="top" width="23.364485981308412%" headers="d4359e44 ">
+                            <p class="p">103</p>
+
+                        </td>
+
+                        <td class="entry" valign="top" width="53.27102803738318%" headers="d4359e50 ">
+                            <p class="p">g</p>
+
+                        </td>
+
+                    </tr>
+
+                    <tr>
+                        <td class="entry" valign="top" width="23.364485981308412%" headers="d4359e38 ">
+                            <p class="p">0x68</p>
+
+                        </td>
+
+                        <td class="entry" valign="top" width="23.364485981308412%" headers="d4359e44 ">
+                            <p class="p">104</p>
+
+                        </td>
+
+                        <td class="entry" valign="top" width="53.27102803738318%" headers="d4359e50 ">
+                            <p class="p">h</p>
+
+                        </td>
+
+                    </tr>
+
+                    <tr>
+                        <td class="entry" valign="top" width="23.364485981308412%" headers="d4359e38 ">
+                            <p class="p">0x69</p>
+
+                        </td>
+
+                        <td class="entry" valign="top" width="23.364485981308412%" headers="d4359e44 ">
+                            <p class="p">105</p>
+
+                        </td>
+
+                        <td class="entry" valign="top" width="53.27102803738318%" headers="d4359e50 ">
+                            <p class="p">i</p>
+
+                        </td>
+
+                    </tr>
+
+                    <tr>
+                        <td class="entry" valign="top" width="23.364485981308412%" headers="d4359e38 ">
+                            <p class="p">0x6A</p>
+
+                        </td>
+
+                        <td class="entry" valign="top" width="23.364485981308412%" headers="d4359e44 ">
+                            <p class="p">106</p>
+
+                        </td>
+
+                        <td class="entry" valign="top" width="53.27102803738318%" headers="d4359e50 ">
+                            <p class="p">j</p>
+
+                        </td>
+
+                    </tr>
+
+                    <tr>
+                        <td class="entry" valign="top" width="23.364485981308412%" headers="d4359e38 ">
+                            <p class="p">0x6B</p>
+
+                        </td>
+
+                        <td class="entry" valign="top" width="23.364485981308412%" headers="d4359e44 ">
+                            <p class="p">107</p>
+
+                        </td>
+
+                        <td class="entry" valign="top" width="53.27102803738318%" headers="d4359e50 ">
+                            <p class="p">k</p>
+
+                        </td>
+
+                    </tr>
+
+                    <tr>
+                        <td class="entry" valign="top" width="23.364485981308412%" headers="d4359e38 ">
+                            <p class="p">0x6C</p>
+
+                        </td>
+
+                        <td class="entry" valign="top" width="23.364485981308412%" headers="d4359e44 ">
+                            <p class="p">108</p>
+
+                        </td>
+
+                        <td class="entry" valign="top" width="53.27102803738318%" headers="d4359e50 ">
+                            <p class="p">l</p>
+
+                        </td>
+
+                    </tr>
+
+                    <tr>
+                        <td class="entry" valign="top" width="23.364485981308412%" headers="d4359e38 ">
+                            <p class="p">0x6D</p>
+
+                        </td>
+
+                        <td class="entry" valign="top" width="23.364485981308412%" headers="d4359e44 ">
+                            <p class="p">109</p>
+
+                        </td>
+
+                        <td class="entry" valign="top" width="53.27102803738318%" headers="d4359e50 ">
+                            <p class="p">m</p>
+
+                        </td>
+
+                    </tr>
+
+                    <tr>
+                        <td class="entry" valign="top" width="23.364485981308412%" headers="d4359e38 ">
+                            <p class="p">0x6E</p>
+
+                        </td>
+
+                        <td class="entry" valign="top" width="23.364485981308412%" headers="d4359e44 ">
+                            <p class="p">110</p>
+
+                        </td>
+
+                        <td class="entry" valign="top" width="53.27102803738318%" headers="d4359e50 ">
+                            <p class="p">n</p>
+
+                        </td>
+
+                    </tr>
+
+                    <tr>
+                        <td class="entry" valign="top" width="23.364485981308412%" headers="d4359e38 ">
+                            <p class="p">0x6F</p>
+
+                        </td>
+
+                        <td class="entry" valign="top" width="23.364485981308412%" headers="d4359e44 ">
+                            <p class="p">111</p>
+
+                        </td>
+
+                        <td class="entry" valign="top" width="53.27102803738318%" headers="d4359e50 ">
+                            <p class="p">o</p>
+
+                        </td>
+
+                    </tr>
+
+                    <tr>
+                        <td class="entry" valign="top" width="23.364485981308412%" headers="d4359e38 ">
+                            <p class="p">0x70</p>
+
+                        </td>
+
+                        <td class="entry" valign="top" width="23.364485981308412%" headers="d4359e44 ">
+                            <p class="p">112</p>
+
+                        </td>
+
+                        <td class="entry" valign="top" width="53.27102803738318%" headers="d4359e50 ">
+                            <p class="p">p</p>
+
+                        </td>
+
+                    </tr>
+
+                    <tr>
+                        <td class="entry" valign="top" width="23.364485981308412%" headers="d4359e38 ">
+                            <p class="p">0x71</p>
+
+                        </td>
+
+                        <td class="entry" valign="top" width="23.364485981308412%" headers="d4359e44 ">
+                            <p class="p">113</p>
+
+                        </td>
+
+                        <td class="entry" valign="top" width="53.27102803738318%" headers="d4359e50 ">
+                            <p class="p">q</p>
+
+                        </td>
+
+                    </tr>
+
+                    <tr>
+                        <td class="entry" valign="top" width="23.364485981308412%" headers="d4359e38 ">
+                            <p class="p">0x72</p>
+
+                        </td>
+
+                        <td class="entry" valign="top" width="23.364485981308412%" headers="d4359e44 ">
+                            <p class="p">114</p>
+
+                        </td>
+
+                        <td class="entry" valign="top" width="53.27102803738318%" headers="d4359e50 ">
+                            <p class="p">r</p>
+
+                        </td>
+
+                    </tr>
+
+                    <tr>
+                        <td class="entry" valign="top" width="23.364485981308412%" headers="d4359e38 ">
+                            <p class="p">0x73</p>
+
+                        </td>
+
+                        <td class="entry" valign="top" width="23.364485981308412%" headers="d4359e44 ">
+                            <p class="p">115</p>
+
+                        </td>
+
+                        <td class="entry" valign="top" width="53.27102803738318%" headers="d4359e50 ">
+                            <p class="p">s</p>
+
+                        </td>
+
+                    </tr>
+
+                    <tr>
+                        <td class="entry" valign="top" width="23.364485981308412%" headers="d4359e38 ">
+                            <p class="p">0x74</p>
+
+                        </td>
+
+                        <td class="entry" valign="top" width="23.364485981308412%" headers="d4359e44 ">
+                            <p class="p">116</p>
+
+                        </td>
+
+                        <td class="entry" valign="top" width="53.27102803738318%" headers="d4359e50 ">
+                            <p class="p">t</p>
+
+                        </td>
+
+                    </tr>
+
+                    <tr>
+                        <td class="entry" valign="top" width="23.364485981308412%" headers="d4359e38 ">
+                            <p class="p">0x75</p>
+
+                        </td>
+
+                        <td class="entry" valign="top" width="23.364485981308412%" headers="d4359e44 ">
+                            <p class="p">117</p>
+
+                        </td>
+
+                        <td class="entry" valign="top" width="53.27102803738318%" headers="d4359e50 ">
+                            <p class="p">u</p>
+
+                        </td>
+
+                    </tr>
+
+                    <tr>
+                        <td class="entry" valign="top" width="23.364485981308412%" headers="d4359e38 ">
+                            <p class="p">0x76</p>
+
+                        </td>
+
+                        <td class="entry" valign="top" width="23.364485981308412%" headers="d4359e44 ">
+                            <p class="p">118</p>
+
+                        </td>
+
+                        <td class="entry" valign="top" width="53.27102803738318%" headers="d4359e50 ">
+                            <p class="p">v</p>
+
+                        </td>
+
+                    </tr>
+
+                    <tr>
+                        <td class="entry" valign="top" width="23.364485981308412%" headers="d4359e38 ">
+                            <p class="p">0x77</p>
+
+                        </td>
+
+                        <td class="entry" valign="top" width="23.364485981308412%" headers="d4359e44 ">
+                            <p class="p">119</p>
+
+                        </td>
+
+                        <td class="entry" valign="top" width="53.27102803738318%" headers="d4359e50 ">
+                            <p class="p">w</p>
+
+                        </td>
+
+                    </tr>
+
+                    <tr>
+                        <td class="entry" valign="top" width="23.364485981308412%" headers="d4359e38 ">
+                            <p class="p">0x78</p>
+
+                        </td>
+
+                        <td class="entry" valign="top" width="23.364485981308412%" headers="d4359e44 ">
+                            <p class="p">120</p>
+
+                        </td>
+
+                        <td class="entry" valign="top" width="53.27102803738318%" headers="d4359e50 ">
+                            <p class="p">x</p>
+
+                        </td>
+
+                    </tr>
+
+                    <tr>
+                        <td class="entry" valign="top" width="23.364485981308412%" headers="d4359e38 ">
+                            <p class="p">0x79</p>
+
+                        </td>
+
+                        <td class="entry" valign="top" width="23.364485981308412%" headers="d4359e44 ">
+                            <p class="p">121</p>
+
+                        </td>
+
+                        <td class="entry" valign="top" width="53.27102803738318%" headers="d4359e50 ">
+                            <p class="p">y</p>
+
+                        </td>
+
+                    </tr>
+
+                    <tr>
+                        <td class="entry" valign="top" width="23.364485981308412%" headers="d4359e38 ">
+                            <p class="p">0x7A</p>
+
+                        </td>
+
+                        <td class="entry" valign="top" width="23.364485981308412%" headers="d4359e44 ">
+                            <p class="p">122</p>
+
+                        </td>
+
+                        <td class="entry" valign="top" width="53.27102803738318%" headers="d4359e50 ">
+                            <p class="p">z</p>
+
+                        </td>
+
+                    </tr>
+
+                    <tr>
+                        <td class="entry" valign="top" width="23.364485981308412%" headers="d4359e38 ">
+                            <p class="p">0x7B</p>
+
+                        </td>
+
+                        <td class="entry" valign="top" width="23.364485981308412%" headers="d4359e44 ">
+                            <p class="p">123</p>
+
+                        </td>
+
+                        <td class="entry" valign="top" width="53.27102803738318%" headers="d4359e50 ">
+                            <p class="p">{ (Left/ Opening Brace, 开花括号)</p>
+
+                        </td>
+
+                    </tr>
+
+                    <tr>
+                        <td class="entry" valign="top" width="23.364485981308412%" headers="d4359e38 ">
+                            <p class="p">0x7C</p>
+
+                        </td>
+
+                        <td class="entry" valign="top" width="23.364485981308412%" headers="d4359e44 ">
+                            <p class="p">124</p>
+
+                        </td>
+
+                        <td class="entry" valign="top" width="53.27102803738318%" headers="d4359e50 ">
+                            <p class="p">| (Vertical Bar, 垂线)</p>
+
+                        </td>
+
+                    </tr>
+
+                    <tr>
+                        <td class="entry" valign="top" width="23.364485981308412%" headers="d4359e38 ">
+                            <p class="p">0x7D</p>
+
+                        </td>
+
+                        <td class="entry" valign="top" width="23.364485981308412%" headers="d4359e44 ">
+                            <p class="p">125</p>
+
+                        </td>
+
+                        <td class="entry" valign="top" width="53.27102803738318%" headers="d4359e50 ">
+                            <p class="p">} (Right/Closing Brace, 闭花括号)</p>
+
+                        </td>
+
+                    </tr>
+
+                    <tr>
+                        <td class="entry" valign="top" width="23.364485981308412%" headers="d4359e38 ">
+                            <p class="p">0x7E</p>
+
+                        </td>
+
+                        <td class="entry" valign="top" width="23.364485981308412%" headers="d4359e44 ">
+                            <p class="p">126</p>
+
+                        </td>
+
+                        <td class="entry" valign="top" width="53.27102803738318%" headers="d4359e50 ">
+                            <p class="p">~ (Tilde, 波浪号)</p>
+
+                        </td>
+
+                    </tr>
+
+                    <tr>
+                        <td class="entry" valign="top" width="23.364485981308412%" headers="d4359e38 ">
+                            <p class="p">0x7F</p>
+
+                        </td>
+
+                        <td class="entry" valign="top" width="23.364485981308412%" headers="d4359e44 ">
+                            <p class="p">127</p>
+
+                        </td>
+
+                        <td class="entry" valign="top" width="53.27102803738318%" headers="d4359e50 ">
+                            <p class="p">DEL (Delete, 删除)</p>
+
+                        </td>
+
+                    </tr>
+
+                </tbody>
+
+            </table>
+</div>
+
+</div>
+
+</div>
+						<div class=" wt_topic_wpp_content wt_pc_only "><div class=" wt_topic_wpp_content_flex "><div class="wt_topic_wpp_item like"></div><div class="wt_topic_wpp_item view"></div><div class="wt_topic_wpp_item share">分享</div></div></div>
+						
+						
+						
+					</div>
+				</div><!-- container_body -->
+				
+				<div class=" body_footer "><div onclick="prevTopic()" class=" body_footer_left link_button "><span>上一页</span></div><div onclick="nextTopic()" class=" body_footer_right link_button "><span>下一页</span></div></div>
+				<div class=" body_wpp mobile_only"><div class="wt_body_mobile_like"></div><div class="wt_body_mobile_view"></div></div>
+				<!-- <whc:webhelp_side_toc /> -->
+				
+			</div> <!-- middle_view content_area -->
+			<div class=" right_content wt_pc_only "></div>
+		</div> <!-- content_box -->
+		
+		<!-- 置顶按钮 -->
+		<div class="body_to_top" onclick="scrollTopicTop()"></div> 
+		<!-- 评价反馈 -->
+		<div onclick="manualFeedback()" class=" body_feedback " data-href="https://wj.hikvision.com/#/public-survey?id=64c8b90d80e02e9e88feca2f"></div>
+		
+	</body>
+</html>

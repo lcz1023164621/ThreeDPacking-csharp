@@ -1,0 +1,166 @@
+
+<!DOCTYPE html
+  PUBLIC "" "about:legacy-compat">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:whc="http://www.daksys.com/webhelp/components" xml:lang="zh-cn" lang="zh-cn">
+	<head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />        
+      <meta name="copyright" content="©  杭州海康威视数字技术股份有限公司。保留一切权利。" /><meta name="DC.Type" content="task" /><meta name="DC.Title" content="字符替换" /><meta name="abstract" content="字符替换功能支持对读码器读取的条码内容进行指定字符替换或大小写转换，实现读码内容的标准化输出。" /><meta name="description" content="字符替换功能支持对读码器读取的条码内容进行指定字符替换或大小写转换，实现读码内容的标准化输出。" /><meta name="DC.Relation" scheme="URI" content="GUID-18029E9E-3083-437A-B970-24EE067E6132.html" /><meta name="DC.Format" content="XHTML" /><meta name="DC.Identifier" content="GUID-146B084D-D47B-4019-A905-4757E09BF82D" /><meta name="DC.Language" content="zh-CN" /><title>字符替换</title><!-- Generated with dksgen version 1.0, build number 2023071300.  --><meta viewport="Content-Type" content="width=device-width, initial-scale=1.0" /><meta http-equiv="X-UA-Compatible" content="IE=edge,Chrome=1" /><meta name="wh-path2root" content="index.html" />
+		<!-- commonltr css -->
+		<link rel="stylesheet" type="text/css" href="daksys-webhelp/resources/css/commonltr.css" />
+		<!-- Bootstrap css -->
+		<link rel="stylesheet" type="text/css" href="daksys-webhelp/resources/bootstrap/css/bootstrap.min.css" />
+		<link rel="stylesheet" type="text/css" href="daksys-webhelp/resources/bootstrap/css/bootstrap-theme.min.css" />
+		<link rel="stylesheet" type="text/css" href="daksys-webhelp/resources/js/jquery-ui.min.css" />
+		
+		<!-- Template css  -->
+		<link href="daksys-webhelp/template/resources/css/HIKROBOT_color.css?buildId=2023071300" rel="stylesheet" type="text/css" />
+		<link rel="stylesheet" type="text/css" href="daksys-webhelp/template/resources/css/wt_topic.css?buildId=2023071300" />
+		<link rel="stylesheet" type="text/css" href="daksys-webhelp/template/resources/css/wt_topic_m.css?buildId=2023071300" />
+		<link rel="stylesheet" type="text/css" href="daksys-webhelp/template/resources/css/wt_expand.css?buildId=2023071300" />
+		<link rel="stylesheet" type="text/css" href="daksys-webhelp/template/resources/css/wt_note.css?buildId=2023071300" />
+		<link rel="stylesheet" type="text/css" href="daksys-webhelp/template/resources/css/wt_steps.css?buildId=2023071300" />
+		
+		<!-- jquery js  -->
+		<script type="text/javascript" src="daksys-webhelp/resources/js/jquery-3.6.2.min.js"></script>
+		<script type="text/javascript" src="daksys-webhelp/resources/js/jquery.cookie.js"></script>
+		<script type="text/javascript" src="daksys-webhelp/resources/js/jquery.highlight-3.js"></script>
+		<script type="text/javascript" src="daksys-webhelp/resources/js/jquery-ui.min.js"></script>
+		
+		<!-- common js  -->
+		<script type="text/javascript" src="daksys-webhelp/resources/bootstrap/js/bootstrap.min.js"></script>
+		<script type="text/javascript" src="daksys-webhelp/resources/js/base64.js"></script>
+		<script type="text/javascript" src="daksys-webhelp/resources/js/browserDetect.js"></script>
+		<script type="text/javascript" src="daksys-webhelp/resources/js/localization.js"></script>
+		<script type="text/javascript" src="daksys-webhelp/resources/js/parseuri.js"></script>
+		<script type="text/javascript" src="daksys-webhelp/resources/localization/strings.js"></script>
+		<!-- Template js -->
+		<script type="text/javascript" src="daksys-webhelp/template/resources/js/wt_topic.js?buildId=2023071300"></script>
+		<script type="text/javascript" src="daksys-webhelp/template/resources/js/wt_expand.js?buildId=2023071300"></script>
+	</head>
+	<body class="wt_topic_page frmBody" id="GUID-146B084D-D47B-4019-A905-4757E09BF82D" onload="topicOnload()">
+		<!-- get_lang -->
+		<div id="lang" style="display:none">zh-CN</div><div id="mapoutputclass" style="display:none"></div>
+		<input hidden="hidden" id="UDCode" value="UD12345B" /><input hidden="hidden" id="Trademark" value="海康机器人" />
+		
+		<div class="content_box">
+			<div class="middle_view content_area col-sm-9" id="content_area">
+				<div class=" wt_breadcrumb "><ol><li><span class="home topicref"><a href="javascript:void(0)" onclick="gotoFirstPage()">首页</a></span></li><li><span class="topicref"><a href="GUID-D8488278-18E0-41D0-91B9-35636662C53F.html" data-id="GUID-D8488278-18E0-41D0-91B9-35636662C53F">读码器常用配置</a></span></li><li><span class="topicref"><a href="GUID-18029E9E-3083-437A-B970-24EE067E6132.html" data-id="GUID-18029E9E-3083-437A-B970-24EE067E6132">处理输出数据</a></span></li><li class="active"><span class="topicref">字符替换</span></li></ol><div class="wt_breadcrumb_ellipsis" onclick="expandBreadcrumbDiv()"></div><div class="wt_breadcrumb_collapse" style="display: none;"><div class="wt_breadcrumb_collapse_button" onclick="collapseBreadcrumbDiv()"></div></div></div>
+				
+				<div id="container_body" class="container">
+					<div id="contentArea">
+						<div class=" wt_topic_content body ">
+    <h1 class="title topictitle1">字符替换</h1>
+
+
+<div class="body taskbody"><p class="shortdesc"><span class="ph uicontrol">字符替换</span>功能支持对读码器读取的条码内容进行指定字符替换或大小写转换，实现读码内容的标准化输出。</p>
+
+<ol class="ol steps" id="GUID-146B084D-D47B-4019-A905-4757E09BF82D__GUID-254F78FD-2A9F-4CE3-A730-37B8FD314384"><li class="li step stepexpand" id="GUID-146B084D-D47B-4019-A905-4757E09BF82D__GUID-610ADC55-DB28-45AE-883E-8B9C1672EF67">
+                <span class="ph cmd">在IDMVS主界面功能导航栏，选择<span class="ph menucascade"><span class="ph uicontrol">操作配置</span> &gt; <span class="ph uicontrol">数据处理</span> &gt; <span class="ph uicontrol">字符替换</span></span>。</span>
+                <div class="itemgroup info">
+                    <div class="fig fignone" id="GUID-146B084D-D47B-4019-A905-4757E09BF82D__FIG_JNG_4NR_PFC">
+                        
+                        <img class="image" style="display:none;" id="GUID-146B084D-D47B-4019-A905-4757E09BF82D__IMAGE_KNG_4NR_PFC" src="GUID-B554B973-82D1-4392-A179-4FEF9CA875F3-high.png" width="1400" />
+                    <div class="fig_caption"><span class="figcap">图 1 字符替换</span></div></div>
+
+                </div>
+            </li>
+<li class="li step stepexpand" id="GUID-146B084D-D47B-4019-A905-4757E09BF82D__GUID-C5B050A0-F66E-493C-BCA3-137ABA13DC60">
+                <span class="ph cmd">在<span class="ph uicontrol">字符替换</span>页面，可配置对条码内容进行字符替换的规则。</span>
+                <ol type="a" class="ol substeps" id="GUID-146B084D-D47B-4019-A905-4757E09BF82D__SUBSTEPS_JMP_3ZK_PFC">
+                    <li class="li substep substepexpand" id="GUID-146B084D-D47B-4019-A905-4757E09BF82D__GUID-4F252720-D953-46C4-A6C2-AE6591EE78B8">
+                        <span class="ph cmd">打开<span class="ph uicontrol">替换模式</span>开关。</span>
+                    </li>
+
+                    <li class="li substep substepexpand" id="GUID-146B084D-D47B-4019-A905-4757E09BF82D__GUID-C4CA3D8D-8102-43F1-9BE6-37EC880687AE">
+                        <span class="ph cmd">在<span class="ph uicontrol">字符设置</span>参数处，单击<span class="ph uicontrol">添加</span>。</span>
+                    </li>
+
+                    <li class="li substep substepexpand" id="GUID-146B084D-D47B-4019-A905-4757E09BF82D__GUID-AF463E9F-1458-4AA9-8BAA-C4BEED91E0DD">
+                        <span class="ph cmd">在字符替换规则列表的<span class="ph uicontrol">原字符串</span>、<span class="ph uicontrol">替换为</span>列，分别输入待替换字符串和替换后的字符串。</span>
+                        <div class="itemgroup info">
+                            <p class="p">您可以单击输入框右侧的<img class="image" style="display:none;" id="GUID-146B084D-D47B-4019-A905-4757E09BF82D__IMAGE_R4K_HBL_PFC" src="GUID-ECAC2D8F-07A4-480D-9E53-680CDED921C7-high.png" />，在<span class="ph uicontrol">ASCII表</span>中单击选择添加字符。</p>
+
+                        </div>
+                    </li>
+
+                    <li class="li substep substepexpand" id="GUID-146B084D-D47B-4019-A905-4757E09BF82D__GUID-B44A85F7-DDF2-4B1F-8CC4-851333BFB6EC">
+                        <span class="ph cmd">重复以上2个步骤，添加多个字符替换规则。</span>
+                        <div class="itemgroup info">
+                            <p class="p">如果需要删除字符替换规则，单击目标字符替换规则后的<img class="image icon" style="display:none;" id="GUID-146B084D-D47B-4019-A905-4757E09BF82D__IMAGE_B33_F2B_WFC" src="GUID-B6494558-0621-4454-8852-92788683D178-high.png" />，删除对应规则。</p>
+
+                        </div>
+                    </li>
+
+                </ol>
+
+            </li>
+<li class="li step stepexpand" id="GUID-146B084D-D47B-4019-A905-4757E09BF82D__GUID-AB651D02-59CC-4A34-BBBD-2AB098BC2B2C">
+                <span class="ph cmd">在<span class="ph uicontrol">转换模式</span>参数处选择条码内容大小写转换模式，可选如下模式。</span>
+                <div class="itemgroup info">
+                    <ul class="ul" id="GUID-146B084D-D47B-4019-A905-4757E09BF82D__UL_LYV_FCL_PFC">
+                        <li class="li" id="GUID-146B084D-D47B-4019-A905-4757E09BF82D__GUID-098D1939-4DFC-49AB-A97E-F7812AD63D74">
+                            <p class="p"><span class="ph uicontrol">正常输出</span>：不对条码内容中的字母进行大小写转换。</p>
+
+                        </li>
+
+                        <li class="li" id="GUID-146B084D-D47B-4019-A905-4757E09BF82D__GUID-805ABC91-F90E-494F-837B-7BC259DBF918">
+                            <p class="p"><span class="ph uicontrol">转大写</span>：将条码内容中的小写字母转换为大写字母。</p>
+
+                        </li>
+
+                        <li class="li" id="GUID-146B084D-D47B-4019-A905-4757E09BF82D__GUID-EFE48952-77B1-44D4-B8FC-027C5015F0EE">
+                            <p class="p"><span class="ph uicontrol">转小写</span>：将条码内容中的大写字母转换为小写字母。</p>
+
+                        </li>
+
+                        <li class="li" id="GUID-146B084D-D47B-4019-A905-4757E09BF82D__GUID-D41E2B7C-D330-4569-AB68-180107398343">
+                            <p class="p"><span class="ph uicontrol">大小写反转</span>：将条码内容中的小写字母转换为大写字母、大写字母转换为小写字 母。</p>
+
+                        </li>
+
+                    </ul>
+
+                </div>
+            </li>
+<li class="li step stepexpand" id="GUID-146B084D-D47B-4019-A905-4757E09BF82D__GUID-B378C0C9-937B-414A-910A-E2009F1D4FBE">
+                <span class="ph cmd">单击<span class="ph uicontrol">保存</span>，使字符替换和转换生效。</span>
+            </li>
+</ol>
+
+        <div class="section result" id="GUID-146B084D-D47B-4019-A905-4757E09BF82D__GUID-685C53AE-21EA-4512-9A91-EEA7AC41D27B">
+            <p class="p">假设已配置的字符替换规则和<span class="keyword parmname">转换模式</span>参数如下图所示。</p>
+
+            <div class="fig fignone" id="GUID-146B084D-D47B-4019-A905-4757E09BF82D__FIG_LMW_Q2B_WFC">
+                
+                <img class="image" style="display:none;" id="GUID-146B084D-D47B-4019-A905-4757E09BF82D__IMAGE_MMW_Q2B_WFC" src="GUID-D03F6F13-6DB5-4E40-8D89-4190210BBC7E-high.png" width="1400" />
+            <div class="fig_caption"><span class="figcap">图 2 字符替换示例</span></div></div>
+
+            <p class="p">当原始条码内容为“A12345678A”时，读码器输出结果为“1bb1”。</p>
+
+        </div>
+
+</div>
+
+
+</div>
+						<div class=" wt_topic_wpp_content wt_pc_only "><div class=" wt_topic_wpp_content_flex "><div class="wt_topic_wpp_item like"></div><div class="wt_topic_wpp_item view"></div><div class="wt_topic_wpp_item share">分享</div></div></div>
+						
+						
+						
+					</div>
+				</div><!-- container_body -->
+				
+				<div class=" body_footer "><div onclick="prevTopic()" class=" body_footer_left link_button "><span>上一页</span></div><div onclick="nextTopic()" class=" body_footer_right link_button "><span>下一页</span></div></div>
+				<div class=" body_wpp mobile_only"><div class="wt_body_mobile_like"></div><div class="wt_body_mobile_view"></div></div>
+				<!-- <whc:webhelp_side_toc /> -->
+				
+			</div> <!-- middle_view content_area -->
+			<div class=" right_content wt_pc_only "></div>
+		</div> <!-- content_box -->
+		
+		<!-- 置顶按钮 -->
+		<div class="body_to_top" onclick="scrollTopicTop()"></div> 
+		<!-- 评价反馈 -->
+		<div onclick="manualFeedback()" class=" body_feedback " data-href="https://wj.hikvision.com/#/public-survey?id=64c8b90d80e02e9e88feca2f"></div>
+		
+	</body>
+</html>

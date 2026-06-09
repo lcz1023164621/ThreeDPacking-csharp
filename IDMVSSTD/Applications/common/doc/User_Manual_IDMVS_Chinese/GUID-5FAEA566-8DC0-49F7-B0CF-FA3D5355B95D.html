@@ -1,0 +1,363 @@
+
+<!DOCTYPE html
+  PUBLIC "" "about:legacy-compat">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:whc="http://www.daksys.com/webhelp/components" xml:lang="zh-cn" lang="zh-cn">
+	<head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />        
+      <meta name="copyright" content="©  杭州海康威视数字技术股份有限公司。保留一切权利。" /><meta name="DC.Type" content="concept" /><meta name="DC.Title" content="查看读码结果" /><meta name="abstract" content="单击读取设置的开始工作或单次触发后，读码器开始取流并读码，还支持查看历史记录、统计信息等。" /><meta name="description" content="单击读取设置的开始工作或单次触发后，读码器开始取流并读码，还支持查看历史记录、统计信息等。" /><meta name="DC.Relation" scheme="URI" content="GUID-5264E9B3-93FE-419C-B2B2-36AFEF98E781.html" /><meta name="DC.Format" content="XHTML" /><meta name="DC.Identifier" content="GUID-5FAEA566-8DC0-49F7-B0CF-FA3D5355B95D" /><meta name="DC.Language" content="zh-CN" /><title>查看读码结果</title><!-- Generated with dksgen version 1.0, build number 2023071300.  --><meta viewport="Content-Type" content="width=device-width, initial-scale=1.0" /><meta http-equiv="X-UA-Compatible" content="IE=edge,Chrome=1" /><meta name="wh-path2root" content="index.html" />
+		<!-- commonltr css -->
+		<link rel="stylesheet" type="text/css" href="daksys-webhelp/resources/css/commonltr.css" />
+		<!-- Bootstrap css -->
+		<link rel="stylesheet" type="text/css" href="daksys-webhelp/resources/bootstrap/css/bootstrap.min.css" />
+		<link rel="stylesheet" type="text/css" href="daksys-webhelp/resources/bootstrap/css/bootstrap-theme.min.css" />
+		<link rel="stylesheet" type="text/css" href="daksys-webhelp/resources/js/jquery-ui.min.css" />
+		
+		<!-- Template css  -->
+		<link href="daksys-webhelp/template/resources/css/HIKROBOT_color.css?buildId=2023071300" rel="stylesheet" type="text/css" />
+		<link rel="stylesheet" type="text/css" href="daksys-webhelp/template/resources/css/wt_topic.css?buildId=2023071300" />
+		<link rel="stylesheet" type="text/css" href="daksys-webhelp/template/resources/css/wt_topic_m.css?buildId=2023071300" />
+		<link rel="stylesheet" type="text/css" href="daksys-webhelp/template/resources/css/wt_expand.css?buildId=2023071300" />
+		<link rel="stylesheet" type="text/css" href="daksys-webhelp/template/resources/css/wt_note.css?buildId=2023071300" />
+		<link rel="stylesheet" type="text/css" href="daksys-webhelp/template/resources/css/wt_steps.css?buildId=2023071300" />
+		
+		<!-- jquery js  -->
+		<script type="text/javascript" src="daksys-webhelp/resources/js/jquery-3.6.2.min.js"></script>
+		<script type="text/javascript" src="daksys-webhelp/resources/js/jquery.cookie.js"></script>
+		<script type="text/javascript" src="daksys-webhelp/resources/js/jquery.highlight-3.js"></script>
+		<script type="text/javascript" src="daksys-webhelp/resources/js/jquery-ui.min.js"></script>
+		
+		<!-- common js  -->
+		<script type="text/javascript" src="daksys-webhelp/resources/bootstrap/js/bootstrap.min.js"></script>
+		<script type="text/javascript" src="daksys-webhelp/resources/js/base64.js"></script>
+		<script type="text/javascript" src="daksys-webhelp/resources/js/browserDetect.js"></script>
+		<script type="text/javascript" src="daksys-webhelp/resources/js/localization.js"></script>
+		<script type="text/javascript" src="daksys-webhelp/resources/js/parseuri.js"></script>
+		<script type="text/javascript" src="daksys-webhelp/resources/localization/strings.js"></script>
+		<!-- Template js -->
+		<script type="text/javascript" src="daksys-webhelp/template/resources/js/wt_topic.js?buildId=2023071300"></script>
+		<script type="text/javascript" src="daksys-webhelp/template/resources/js/wt_expand.js?buildId=2023071300"></script>
+	</head>
+	<body class="wt_topic_page frmBody" id="GUID-5FAEA566-8DC0-49F7-B0CF-FA3D5355B95D" onload="topicOnload()">
+		<!-- get_lang -->
+		<div id="lang" style="display:none">zh-CN</div><div id="mapoutputclass" style="display:none"></div>
+		<input hidden="hidden" id="UDCode" value="UD12345B" /><input hidden="hidden" id="Trademark" value="海康机器人" />
+		
+		<div class="content_box">
+			<div class="middle_view content_area col-sm-9" id="content_area">
+				<div class=" wt_breadcrumb "><ol><li><span class="home topicref"><a href="javascript:void(0)" onclick="gotoFirstPage()">首页</a></span></li><li><span class="topicref"><a href="GUID-5264E9B3-93FE-419C-B2B2-36AFEF98E781.html" data-id="GUID-5264E9B3-93FE-419C-B2B2-36AFEF98E781">读码器采图及读码</a></span></li><li class="active"><span class="topicref">查看读码结果</span></li></ol><div class="wt_breadcrumb_ellipsis" onclick="expandBreadcrumbDiv()"></div><div class="wt_breadcrumb_collapse" style="display: none;"><div class="wt_breadcrumb_collapse_button" onclick="collapseBreadcrumbDiv()"></div></div></div>
+				
+				<div id="container_body" class="container">
+					<div id="contentArea">
+						<div class=" wt_topic_content body ">
+    <h1 class="title topictitle1">查看读码结果</h1>
+
+    
+
+<div class="body conbody"><p class="shortdesc">单击<span class="ph uicontrol">读取设置</span>的<span class="ph uicontrol">开始工作</span>或<span class="ph uicontrol">单次触发</span>后，读码器开始取流并读码，还支持查看历史记录、统计信息等。</p>
+
+        
+        <div class="fig fignone" id="GUID-5FAEA566-8DC0-49F7-B0CF-FA3D5355B95D__FIG_SZ2_BW1_1FC">
+            
+            <img class="image" style="display:none;" id="GUID-5FAEA566-8DC0-49F7-B0CF-FA3D5355B95D__IMAGE_TZ2_BW1_1FC" src="GUID-E482DCA3-E874-40BF-BCBB-D6CA1B3C2DAE-high.png" width="2100" />
+            
+        <div class="fig_caption"><span class="figcap">图 1 查看读码信息</span></div></div>
+
+        <div class="section" id="GUID-5FAEA566-8DC0-49F7-B0CF-FA3D5355B95D__GUID-A342154D-C9E1-48B0-B7D9-1CE69FD73F82"><h2 class="title sectiontitle">统计信息</h2>
+            
+            <p class="p"><span class="ph uicontrol">开始工作</span>下方的统计信息，可查看读码器当前采图过程中的读码情况。</p>
+
+            
+<div class="div_table"><table cellpadding="4" cellspacing="0" summary="" style="display:none;" id="tbl_rowfixed" class="table wt_table_rowfixed" frame="border" border="1" rules="all"></table><table cellpadding="4" cellspacing="0" summary="" id="GUID-5FAEA566-8DC0-49F7-B0CF-FA3D5355B95D__TABLE_GYQ_LW1_1FC" class="table" frame="border" border="1" rules="all"><caption><span class="tablecap">表 1 统计信息介绍</span></caption>
+                    
+                    
+                    <thead class="thead" align="left">
+                        <tr>
+                            <th class="entry" valign="top" width="16%" id="d28231e64">
+                                <p class="p">信息名称</p>
+
+                            </th>
+
+                            <th class="entry" valign="top" width="84%" id="d28231e70">
+                                <p class="p">说明</p>
+
+                            </th>
+
+                        </tr>
+
+                    </thead>
+
+                    <tbody class="tbody">
+                        <tr>
+                            <td class="entry" valign="top" width="16%" headers="d28231e64 ">
+                                <p class="p">读码率</p>
+
+                            </td>
+
+                            <td class="entry" valign="top" width="84%" headers="d28231e70 ">
+                                <p class="p">统计当前采集过程中，解码成功的图像数占所有图像数的百分比。</p>
+
+                            </td>
+
+                        </tr>
+
+                        <tr>
+                            <td class="entry" valign="top" width="16%" headers="d28231e64 ">
+                                <p class="p">条码个数</p>
+
+                            </td>
+
+                            <td class="entry" valign="top" width="84%" headers="d28231e70 ">
+                                <p class="p">统计当前采集过程中，共成功读取到多少个条码或二维码。</p>
+
+                            </td>
+
+                        </tr>
+
+                        <tr>
+                            <td class="entry" valign="top" width="16%" headers="d28231e64 ">
+                                <p class="p">解码成功图像</p>
+
+                            </td>
+
+                            <td class="entry" valign="top" width="84%" headers="d28231e70 ">
+                                <p class="p">统计当前采集过程中，共有几张图像解码成功。</p>
+
+                            </td>
+
+                        </tr>
+
+                        <tr>
+                            <td class="entry" valign="top" width="16%" headers="d28231e64 ">
+                                <p class="p">NoRead数</p>
+
+                            </td>
+
+                            <td class="entry" valign="top" width="84%" headers="d28231e70 ">
+                                <p class="p">统计当前采集过程中，共有几张图像未成功读到码。</p>
+
+                            </td>
+
+                        </tr>
+
+                    </tbody>
+
+                </table>
+</div>
+
+            <p class="p">如您想查看更详细的统计信息，可单击右上角的<img class="image icon" style="display:none;" id="GUID-5FAEA566-8DC0-49F7-B0CF-FA3D5355B95D__IMAGE_OJ1_5LL_52C" src="GUID-6BF54C3A-B5BE-4296-A876-AE117E078879-high.png" />进入<span class="keyword parmname">统计数据</span>。此处会显示当前及历史的读码统计信息以及<span class="keyword parmname">读码率</span>的整体趋势。鼠标选中<span class="keyword parmname">读码率</span>的折线图，通过滚轮可放大或缩小折线图的横坐标。</p>
+
+            <p class="p">单击右上角的<img class="image icon" style="display:none;" id="GUID-5FAEA566-8DC0-49F7-B0CF-FA3D5355B95D__IMAGE_OW3_PNL_52C" src="GUID-F56958DE-D9AA-496E-8A4F-E6A263FD3087-high.png" />可重置统计信息。</p>
+
+        </div>
+
+        <div class="section" id="GUID-5FAEA566-8DC0-49F7-B0CF-FA3D5355B95D__GUID-0CF68FC9-00D6-4781-B394-B9057A8FF2FA"><h2 class="title sectiontitle">历史记录</h2>
+            
+            <p class="p"><span class="ph uicontrol">历史记录</span>区可查看本次采集过程中每帧图像的读码情况。</p>
+
+            <p class="p">通过历史记录区右上角的相关按钮可实现以下功能。</p>
+
+            <ul class="ul" id="GUID-5FAEA566-8DC0-49F7-B0CF-FA3D5355B95D__UL_GV5_NQL_52C">
+                <li class="li" id="GUID-5FAEA566-8DC0-49F7-B0CF-FA3D5355B95D__GUID-8ECA0796-CA7E-440B-9843-9132EBE9CCE0">
+                    <p class="p"><span class="keyword parmname">过滤无读</span>：勾选后可将NoRead的结果过滤掉。</p>
+
+                </li>
+
+                <li class="li" id="GUID-5FAEA566-8DC0-49F7-B0CF-FA3D5355B95D__GUID-FAE8CF0F-9734-45E6-A686-DD9A377E80A7">
+                    <p class="p"><img class="image icon" style="display:none;" id="GUID-5FAEA566-8DC0-49F7-B0CF-FA3D5355B95D__IMAGE_ATY_PQL_52C" src="GUID-8D11F141-160A-4758-AC42-9A3165321D2E-high.png" />：可导出当前区域的所有历史记录信息。</p>
+
+                    <div class="note note" id="GUID-5FAEA566-8DC0-49F7-B0CF-FA3D5355B95D__GUID-526A877A-FB1B-413E-90C3-98D94115B960"><span class="notetitle">说明</span> 
+                        <p class="p">使用该功能前，需先通过菜单栏<span class="ph uicontrol">设置</span>的<a class="xref" href="GUID-D7E2D52E-3606-4973-8A6B-0D5263A25343.html#GUID-D7E2D52E-3606-4973-8A6B-0D5263A25343" title="历史记录导出可设置读码器导出历史记录的方式、文件格式、文件个数以及存储路径等。"><span class="ph uicontrol">历史记录导出</span></a>完成相关参数设置。</p>
+
+                    </div>
+
+                </li>
+
+                <li class="li" id="GUID-5FAEA566-8DC0-49F7-B0CF-FA3D5355B95D__GUID-69C14C7A-EE63-4331-B33D-ECE92D50B575">
+                    <p class="p"><img class="image icon" style="display:none;" id="GUID-5FAEA566-8DC0-49F7-B0CF-FA3D5355B95D__IMAGE_KQN_PQL_52C" src="GUID-5D4B77A6-6BDF-4BE5-A124-84F754C8F1F0-high.png" />：可清空当前的历史记录信息。</p>
+
+                </li>
+
+                <li class="li" id="GUID-5FAEA566-8DC0-49F7-B0CF-FA3D5355B95D__GUID-394B7C01-691E-4327-BA97-6087D1CD17B7">
+                    <p class="p"><img class="image icon" style="display:none;" id="GUID-5FAEA566-8DC0-49F7-B0CF-FA3D5355B95D__IMAGE_JHL_3QL_52C" src="GUID-9296132A-CB6C-45B8-94B9-53405FADDF97-high.png" />：可调整显示的信息类型。</p>
+
+                </li>
+
+            </ul>
+
+            <p class="p">历史记录区可显示的信息类型为：<span class="keyword parmname">序号</span>、<span class="keyword parmname">结果</span>、<span class="keyword parmname">触发序号</span>、<span class="keyword parmname">码内容</span>、<span class="keyword parmname">轮询组编号</span>、<span class="keyword parmname">算法耗时(ms)</span>、<span class="keyword parmname">PPM</span>、<span class="keyword parmname">码制</span>、<span class="keyword parmname">码长度</span>、<span class="keyword parmname">触发时间</span>、<span class="keyword parmname">抠图查看</span>、<span class="keyword parmname">识别时间</span>、<span class="keyword parmname">输出总耗时(ms)</span>、<span class="keyword parmname">总体评估</span>、<span class="keyword parmname">图像清晰度</span>、<span class="keyword parmname">丢包数</span>。</p>
+
+            <p class="p">下表仅对部分可显示的信息类型做介绍。</p>
+
+            
+<div class="div_table"><table cellpadding="4" cellspacing="0" summary="" style="display:none;" id="tbl_rowfixed" class="table wt_table_rowfixed" frame="border" border="1" rules="all"></table><table cellpadding="4" cellspacing="0" summary="" id="GUID-5FAEA566-8DC0-49F7-B0CF-FA3D5355B95D__TABLE_HCW_ZW1_1FC" class="table" frame="border" border="1" rules="all"><caption><span class="tablecap">表 2 部分历史记录信息介绍</span></caption>
+                    
+                    
+                    <thead class="thead" align="left">
+                        <tr>
+                            <th class="entry" valign="top" width="12.004801920768307%" id="d28231e302">
+                                <p class="p">信息名称</p>
+
+                            </th>
+
+                            <th class="entry" valign="top" width="87.9951980792317%" id="d28231e308">
+                                <p class="p">说明</p>
+
+                            </th>
+
+                        </tr>
+
+                    </thead>
+
+                    <tbody class="tbody">
+                        <tr>
+                            <td class="entry" valign="top" width="12.004801920768307%" headers="d28231e302 ">
+                                <p class="p">结果</p>
+
+                            </td>
+
+                            <td class="entry" valign="top" width="87.9951980792317%" headers="d28231e308 ">
+                                <p class="p">读码成功时，显示绿色圆点；读码失败时，显示红色圆点。</p>
+
+                            </td>
+
+                        </tr>
+
+                        <tr>
+                            <td class="entry" valign="top" width="12.004801920768307%" headers="d28231e302 ">
+                                <p class="p">PPM</p>
+
+                            </td>
+
+                            <td class="entry" valign="top" width="87.9951980792317%" headers="d28231e308 ">
+                                <p class="p">指一维码或二维码中每个模块所需的像素数。</p>
+
+                            </td>
+
+                        </tr>
+
+                        <tr>
+                            <td class="entry" valign="top" width="12.004801920768307%" headers="d28231e302 ">
+                                <p class="p">抠图查看</p>
+
+                            </td>
+
+                            <td class="entry" valign="top" width="87.9951980792317%" headers="d28231e308 ">
+                                <p class="p">物流读码器开启抠图使能时，单击具体数据抠图列的<span class="ph uicontrol">查看</span>可预览对应的面单图像。</p>
+
+                            </td>
+
+                        </tr>
+
+                        <tr>
+                            <td class="entry" valign="top" width="12.004801920768307%" headers="d28231e302 ">
+                                <p class="p">总体评估</p>
+
+                            </td>
+
+                            <td class="entry" valign="top" width="87.9951980792317%" headers="d28231e308 ">
+                                <p class="p">显示对应的打码评级等级，单击具体数据总体评估列的<span class="ph uicontrol">评级报告</span>可弹框显示具体的评级报告。</p>
+
+                                <div class="note note" id="GUID-5FAEA566-8DC0-49F7-B0CF-FA3D5355B95D__GUID-83E4FF4B-5A27-4DEB-A0A0-3BBEE343F60B"><span class="notetitle">说明</span> 
+                                    
+                                    <p class="p">需确保已打开读码器的<span class="ph uicontrol">打码评级</span>功能。</p>
+
+                                </div>
+
+                                <p class="p">评级报告中包含设备基本信息、条码或二维码的图片、读码结果以及评级的质量等级和得分等信息。</p>
+
+                                <ul class="ul" id="GUID-5FAEA566-8DC0-49F7-B0CF-FA3D5355B95D__UL_EQ2_DX1_1FC">
+                                    <li class="li" id="GUID-5FAEA566-8DC0-49F7-B0CF-FA3D5355B95D__GUID-0DD8C35E-377C-42C1-B8A6-572E17BD5113">
+                                        <p class="p">单击<span class="ph uicontrol">保存至本地</span>可将详细的评级报告以pdf格式文档保存到本机PC上。</p>
+
+                                        <div class="note note" id="GUID-5FAEA566-8DC0-49F7-B0CF-FA3D5355B95D__GUID-18E85A88-1D04-4CC8-AA71-A466387DB3B2"><span class="notetitle">说明</span> 
+                                            <p class="p">pdf文件的保存路径为：C:\Users\用户名\IDMVS\Data。</p>
+
+                                        </div>
+
+                                    </li>
+
+                                    <li class="li" id="GUID-5FAEA566-8DC0-49F7-B0CF-FA3D5355B95D__GUID-69189A4D-9CDB-4DAA-A8A5-CB5A411ADCC6">
+                                        <p class="p">单击<span class="ph uicontrol">打印</span>可将读码器的评级报告通过打印机打印出来。</p>
+
+                                    </li>
+
+                                </ul>
+
+                            </td>
+
+                        </tr>
+
+                    </tbody>
+
+                </table>
+</div>
+
+        </div>
+
+        <div class="section" id="GUID-5FAEA566-8DC0-49F7-B0CF-FA3D5355B95D__GUID-C1EB7B86-1229-4C44-8A59-AD156EED64CC"><h2 class="title sectiontitle">基础信息</h2>
+            
+            <p class="p">主界面的统计信息下方默认显示读码的<span class="ph uicontrol">基础信息</span>。</p>
+
+            <p class="p">此处默认显示最新一次读码结果的基础信息。历史记录区选中不同的记录时，此处会切换为对应记录的基础信息。</p>
+
+            <p class="p">具体显示的信息如下图所示。</p>
+
+            <div class="fig fignone" id="GUID-5FAEA566-8DC0-49F7-B0CF-FA3D5355B95D__FIG_JWQ_VYL_52C">
+                
+                <img class="image" style="display:none;" id="GUID-5FAEA566-8DC0-49F7-B0CF-FA3D5355B95D__IMAGE_KWQ_VYL_52C" src="GUID-A520000A-4DB6-43DE-8319-28B5058AD791-high.png" width="1400" />
+            <div class="fig_caption"><span class="figcap">图 2 基础信息</span></div></div>
+
+            <div class="note note" id="GUID-5FAEA566-8DC0-49F7-B0CF-FA3D5355B95D__GUID-0FBB9C2A-0F65-445C-8BEE-6905472F9070"><span class="notetitle">说明</span> 
+                
+                <p class="p">总体评级仅在打开读码器的<span class="ph uicontrol">打码评级</span>功能后方可显示。</p>
+
+            </div>
+
+        </div>
+
+        <div class="section" id="GUID-5FAEA566-8DC0-49F7-B0CF-FA3D5355B95D__GUID-13EB2D39-C127-4B49-B6A2-D15B157BAF9F"><h2 class="title sectiontitle">评级信息</h2>
+            
+            <p class="p">若读码器打开<span class="ph uicontrol">打码评级</span>功能且输出的结果中带评级信息，则通过<span class="ph uicontrol">基础信息</span>的右侧可切换具体的查看<span class="ph uicontrol">评级信息</span>。</p>
+
+            <p class="p">此处和基础信息的显示逻辑相同。默认显示最新一次读码结果的评级信息。历史记录区选中不同的记录时，此处会切换为对应记录的评级信息。</p>
+
+            <p class="p">评级信息主要显示总体评级、评级标准、以及各个评级库对应的等级和得分。</p>
+
+            <p class="p">单击评级标准右侧的<img class="image icon" style="display:none;" id="GUID-5FAEA566-8DC0-49F7-B0CF-FA3D5355B95D__IMAGE_WFZ_4VL_52C" src="GUID-31842847-03B1-4C51-9DD5-6471B7606839-high.png" />可跳转至<span class="ph uicontrol">操作配置</span>的<a class="xref" href="GUID-02BC73C2-5CA2-4D34-8B18-52CDA1103144.html#GUID-02BC73C2-5CA2-4D34-8B18-52CDA1103144" title="IDMVS支持评估一维码、二维码和堆叠码的质量，确保其可读性和可靠性。适用于读码调试、生产线集成和质量控制等场景，有助于提高读码准确性。"><span class="ph uicontrol">打码评级</span></a>界面进行相关参数的调整。</p>
+
+        </div>
+
+        <div class="section" id="GUID-5FAEA566-8DC0-49F7-B0CF-FA3D5355B95D__GUID-91764CE3-EA6B-4671-A861-2ED11B420661"><h2 class="title sectiontitle">图像缓存</h2>
+            
+            
+            <p class="p">IDMVS取流时会在<span class="ph uicontrol">图像缓存</span>区显示本机PC上实时缓存的若干张最新图像数据，用于查看历史触发帧是否读码成功。单击选中缓存图像小图，即可在图像预览区查看读码结果。</p>
+
+            <p class="p">缓存的图像张数由<span class="keyword parmname">缓存数量</span>参数控制。与读码器的<span class="keyword parmname">单次触发帧计数</span>参数无关。假设：<span class="keyword parmname">缓存数量</span>为10，<span class="keyword parmname">单次触发帧计数</span>为2，则缓存最近5次触发的10张图像。</p>
+
+        </div>
+
+</div>
+
+
+</div>
+						<div class=" wt_topic_wpp_content wt_pc_only "><div class=" wt_topic_wpp_content_flex "><div class="wt_topic_wpp_item like"></div><div class="wt_topic_wpp_item view"></div><div class="wt_topic_wpp_item share">分享</div></div></div>
+						
+						
+						
+					</div>
+				</div><!-- container_body -->
+				
+				<div class=" body_footer "><div onclick="prevTopic()" class=" body_footer_left link_button "><span>上一页</span></div><div onclick="nextTopic()" class=" body_footer_right link_button "><span>下一页</span></div></div>
+				<div class=" body_wpp mobile_only"><div class="wt_body_mobile_like"></div><div class="wt_body_mobile_view"></div></div>
+				<!-- <whc:webhelp_side_toc /> -->
+				
+			</div> <!-- middle_view content_area -->
+			<div class=" right_content wt_pc_only "><div class=" right_fixed_container "><div class="right_guide"><div class="feature_guide"><div>本页导航</div><ul><li onclick="scrollToAnchor($(this))" data-id="GUID-5FAEA566-8DC0-49F7-B0CF-FA3D5355B95D__GUID-A342154D-C9E1-48B0-B7D9-1CE69FD73F82" class="feature_guide_h2"><span class="link_button">统计信息</span></li><li onclick="scrollToAnchor($(this))" data-id="GUID-5FAEA566-8DC0-49F7-B0CF-FA3D5355B95D__GUID-0CF68FC9-00D6-4781-B394-B9057A8FF2FA" class="feature_guide_h2"><span class="link_button">历史记录</span></li><li onclick="scrollToAnchor($(this))" data-id="GUID-5FAEA566-8DC0-49F7-B0CF-FA3D5355B95D__GUID-C1EB7B86-1229-4C44-8A59-AD156EED64CC" class="feature_guide_h2"><span class="link_button">基础信息</span></li><li onclick="scrollToAnchor($(this))" data-id="GUID-5FAEA566-8DC0-49F7-B0CF-FA3D5355B95D__GUID-13EB2D39-C127-4B49-B6A2-D15B157BAF9F" class="feature_guide_h2"><span class="link_button">评级信息</span></li><li onclick="scrollToAnchor($(this))" data-id="GUID-5FAEA566-8DC0-49F7-B0CF-FA3D5355B95D__GUID-91764CE3-EA6B-4671-A861-2ED11B420661" class="feature_guide_h2"><span class="link_button">图像缓存</span></li></ul></div></div></div></div>
+		</div> <!-- content_box -->
+		
+		<!-- 置顶按钮 -->
+		<div class="body_to_top" onclick="scrollTopicTop()"></div> 
+		<!-- 评价反馈 -->
+		<div onclick="manualFeedback()" class=" body_feedback " data-href="https://wj.hikvision.com/#/public-survey?id=64c8b90d80e02e9e88feca2f"></div>
+		
+	</body>
+</html>

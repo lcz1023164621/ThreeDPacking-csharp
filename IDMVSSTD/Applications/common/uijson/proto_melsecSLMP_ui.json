@@ -1,0 +1,201 @@
+{
+    "ui_tabs": [
+        {
+            "ui_type": "tab",
+            "ui_param_name": "",
+            "ui_subset": [
+                {
+                    "ui_display_name": "Protocol_MelsecSLMP",
+                    "ui_display_cn_name": "Melsec协议",
+                    "ui_display_en_name": "Melsec",
+                    "ui_usage_frequency": "Common",
+                    "ui_type": "category",
+                    "ui_param_name": "",
+                    "ui_param_display_type": "",
+                    "ui_subset": [
+                        {
+                            "ui_display_name": "MelsecServerIP",
+                            "ui_display_cn_name": "PLC地址",
+                            "ui_display_en_name": "PLC IP",
+                            "ui_usage_frequency": "Common",
+                            "ui_type": "config_param",
+                            "ui_param_name": "MelsecServerIP",
+                            "ui_param_display_type": "IPlineedit",
+                            "ui_subset": null
+                        },
+                        {
+                            "ui_display_name": "MelsecServerPort",
+                            "ui_display_cn_name": "服务器端口号",
+                            "ui_display_en_name": "Server Port",
+                            "ui_usage_frequency": "Common",
+                            "ui_type": "config_param",
+                            "ui_param_name": "MelsecServerPort",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        },
+                        {
+                            "ui_display_name": "MelsecFrameType",
+                            "ui_display_cn_name": "消息帧类型",
+                            "ui_display_en_name": "Message Frame Type",
+                            "ui_usage_frequency": "Common",
+                            "ui_type": "config_param",
+                            "ui_param_name": "MelsecFrameType",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        },
+                        {
+                            "ui_display_name": "MelsecNetworkNum",
+                            "ui_display_cn_name": "网络编号",
+                            "ui_display_en_name": "Network Number",
+                            "ui_usage_frequency": "Common",
+                            "ui_type": "config_param",
+                            "ui_param_name": "MelsecNetworkNum",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        },
+                        {
+                            "ui_display_name": "MelsecNodeNum",
+                            "ui_display_cn_name": "PLC编号",
+                            "ui_display_en_name": "PLC Number",
+                            "ui_usage_frequency": "Common",
+                            "ui_type": "config_param",
+                            "ui_param_name": "MelsecNodeNum",
+                            "ui_param_display_type": "Hexlineedit",
+                            "ui_subset": null
+                        },
+                        {
+                            "ui_display_name": "MelsecProcNum",
+                            "ui_display_cn_name": "PLC目标IO编号",
+                            "ui_display_en_name": "Target PLC IO Number",
+                            "ui_usage_frequency": "Common",
+                            "ui_type": "config_param",
+                            "ui_param_name": "MelsecProcNum",
+                            "ui_param_display_type": "Hexlineedit",
+                            "ui_subset": null
+                        },
+                        {
+                            "ui_display_name": "MelsecControlPollInterval",
+                            "ui_display_cn_name": "刷新速率(ms)",
+                            "ui_display_en_name": "Refresh Rate(ms)",
+                            "ui_usage_frequency": "Common",
+                            "ui_type": "config_param",
+                            "ui_param_name": "MelsecControlPollInterval",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        },
+                        {
+                            "ui_display_name": "MelsecControlSpace",
+                            "ui_display_cn_name": "控制区域地址",
+                            "ui_display_en_name": "Control Region Address",
+                            "ui_usage_frequency": "Common",
+                            "ui_type": "config_param",
+                            "ui_param_name": "MelsecControlSpace",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        },
+                        {
+                            "ui_display_name": "MelsecControlOffset",
+                            "ui_display_cn_name": "控制区域地址偏移",
+                            "ui_display_en_name": "Control Region Address Offset",
+                            "ui_usage_frequency": "Common",
+                            "ui_type": "config_param",
+                            "ui_param_name": "MelsecControlOffset",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        },
+                        {
+                            "ui_display_name": "MelsecControlSize",
+                            "ui_display_cn_name": "控制区域大小(word)",
+                            "ui_display_en_name": "Control Region Size(word)",
+                            "ui_usage_frequency": "Common",
+                            "ui_type": "config_param",
+                            "ui_param_name": "MelsecControlSize",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        },
+                        {
+                            "ui_display_name": "MelsecStatusSpace",
+                            "ui_display_cn_name": "状态区域地址",
+                            "ui_display_en_name": "Status Region Address",
+                            "ui_usage_frequency": "Common",
+                            "ui_type": "config_param",
+                            "ui_param_name": "MelsecStatusSpace",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        },
+                        {
+                            "ui_display_name": "MelsecStatusOffset",
+                            "ui_display_cn_name": "状态区域地址偏移",
+                            "ui_display_en_name": "Status Region Address Offset",
+                            "ui_usage_frequency": "Common",
+                            "ui_type": "config_param",
+                            "ui_param_name": "MelsecStatusOffset",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        },
+                        {
+                            "ui_display_name": "MelsecStatusSize",
+                            "ui_display_cn_name": "状态区域大小(word)",
+                            "ui_display_en_name": "Status Region Size(word)",
+                            "ui_usage_frequency": "Common",
+                            "ui_type": "config_param",
+                            "ui_param_name": "MelsecStatusSize",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        },
+                        {
+                            "ui_display_name": "MelsecResultSpace",
+                            "ui_display_cn_name": "结果区域地址",
+                            "ui_display_en_name": "Result Region Address",
+                            "ui_usage_frequency": "Common",
+                            "ui_type": "config_param",
+                            "ui_param_name": "MelsecResultSpace",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        },
+                        {
+                            "ui_display_name": "MelsecResultOffset",
+                            "ui_display_cn_name": "结果区域地址偏移",
+                            "ui_display_en_name": "Result Region Address Offset",
+                            "ui_usage_frequency": "Common",
+                            "ui_type": "config_param",
+                            "ui_param_name": "MelsecResultOffset",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        },
+                        {
+                            "ui_display_name": "MelsecResultSize",
+                            "ui_display_cn_name": "结果区域大小(word)",
+                            "ui_display_en_name": "Result Region Size(word)",
+                            "ui_usage_frequency": "Common",
+                            "ui_type": "config_param",
+                            "ui_param_name": "MelsecResultSize",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        },
+                        {
+                            "ui_display_name": "MelsecResultByteSwap",
+                            "ui_display_cn_name": "字节交换大小端",
+                            "ui_display_en_name": "Byte Swap Endianness",
+                            "ui_usage_frequency": "Common",
+                            "ui_type": "config_param",
+                            "ui_param_name": "MelsecResultByteSwap",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        },
+                        {
+                            "ui_display_name": "MelsecResultTimeout",
+                            "ui_display_cn_name": "响应等待时间(s)",
+                            "ui_display_en_name": "Response Wait Time(s)",
+                            "ui_usage_frequency": "Common",
+                            "ui_type": "config_param",
+                            "ui_param_name": "MelsecResultTimeout",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}

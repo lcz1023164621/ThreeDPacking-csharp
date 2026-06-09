@@ -1,0 +1,262 @@
+
+<!DOCTYPE html
+  PUBLIC "" "about:legacy-compat">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:whc="http://www.daksys.com/webhelp/components" xml:lang="zh-cn" lang="zh-cn">
+	<head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />        
+      <meta name="copyright" content="©  杭州海康威视数字技术股份有限公司。保留一切权利。" /><meta name="DC.Type" content="concept" /><meta name="DC.Title" content="通信指令" /><meta name="abstract" content="通信指令是通过TCP、UDP及Serial其中任意一种通信方式给读码器发送的指令。读码器接收到指令后，可根据指令内容执行设备控制、用户参数、触发与IO、码制使能以及智能调参等功能设置。" /><meta name="description" content="通信指令是通过TCP、UDP及Serial其中任意一种通信方式给读码器发送的指令。读码器接收到指令后，可根据指令内容执行设备控制、用户参数、触发与IO、码制使能以及智能调参等功能设置。" /><meta name="DC.Relation" scheme="URI" content="GUID-4DF87BED-D50A-45D4-9058-79F4FD96840C.html" /><meta name="DC.Relation" scheme="URI" content="GUID-21B3A40E-B9C5-4E52-9B37-A2B6A4C7194D.html" /><meta name="DC.Relation" scheme="URI" content="GUID-7A7FE456-BDA1-43AE-9666-F294BCFB4A67.html" /><meta name="DC.Relation" scheme="URI" content="GUID-8EEF68D1-C715-4C6E-BC62-BB32C7B56F46.html" /><meta name="DC.Relation" scheme="URI" content="GUID-6B682DFA-9D18-45F0-82EC-1524D5389880.html" /><meta name="DC.Format" content="XHTML" /><meta name="DC.Identifier" content="GUID-ED0C6770-2ECF-4430-B692-9078556D1D2D" /><meta name="DC.Language" content="zh-CN" /><title>通信指令</title><!-- Generated with dksgen version 1.0, build number 2023071300.  --><meta viewport="Content-Type" content="width=device-width, initial-scale=1.0" /><meta http-equiv="X-UA-Compatible" content="IE=edge,Chrome=1" /><meta name="wh-path2root" content="index.html" />
+		<!-- commonltr css -->
+		<link rel="stylesheet" type="text/css" href="daksys-webhelp/resources/css/commonltr.css" />
+		<!-- Bootstrap css -->
+		<link rel="stylesheet" type="text/css" href="daksys-webhelp/resources/bootstrap/css/bootstrap.min.css" />
+		<link rel="stylesheet" type="text/css" href="daksys-webhelp/resources/bootstrap/css/bootstrap-theme.min.css" />
+		<link rel="stylesheet" type="text/css" href="daksys-webhelp/resources/js/jquery-ui.min.css" />
+		
+		<!-- Template css  -->
+		<link href="daksys-webhelp/template/resources/css/HIKROBOT_color.css?buildId=2023071300" rel="stylesheet" type="text/css" />
+		<link rel="stylesheet" type="text/css" href="daksys-webhelp/template/resources/css/wt_topic.css?buildId=2023071300" />
+		<link rel="stylesheet" type="text/css" href="daksys-webhelp/template/resources/css/wt_topic_m.css?buildId=2023071300" />
+		<link rel="stylesheet" type="text/css" href="daksys-webhelp/template/resources/css/wt_expand.css?buildId=2023071300" />
+		<link rel="stylesheet" type="text/css" href="daksys-webhelp/template/resources/css/wt_note.css?buildId=2023071300" />
+		<link rel="stylesheet" type="text/css" href="daksys-webhelp/template/resources/css/wt_steps.css?buildId=2023071300" />
+		
+		<!-- jquery js  -->
+		<script type="text/javascript" src="daksys-webhelp/resources/js/jquery-3.6.2.min.js"></script>
+		<script type="text/javascript" src="daksys-webhelp/resources/js/jquery.cookie.js"></script>
+		<script type="text/javascript" src="daksys-webhelp/resources/js/jquery.highlight-3.js"></script>
+		<script type="text/javascript" src="daksys-webhelp/resources/js/jquery-ui.min.js"></script>
+		
+		<!-- common js  -->
+		<script type="text/javascript" src="daksys-webhelp/resources/bootstrap/js/bootstrap.min.js"></script>
+		<script type="text/javascript" src="daksys-webhelp/resources/js/base64.js"></script>
+		<script type="text/javascript" src="daksys-webhelp/resources/js/browserDetect.js"></script>
+		<script type="text/javascript" src="daksys-webhelp/resources/js/localization.js"></script>
+		<script type="text/javascript" src="daksys-webhelp/resources/js/parseuri.js"></script>
+		<script type="text/javascript" src="daksys-webhelp/resources/localization/strings.js"></script>
+		<!-- Template js -->
+		<script type="text/javascript" src="daksys-webhelp/template/resources/js/wt_topic.js?buildId=2023071300"></script>
+		<script type="text/javascript" src="daksys-webhelp/template/resources/js/wt_expand.js?buildId=2023071300"></script>
+	</head>
+	<body class="wt_topic_page frmBody" id="GUID-ED0C6770-2ECF-4430-B692-9078556D1D2D" onload="topicOnload()">
+		<!-- get_lang -->
+		<div id="lang" style="display:none">zh-CN</div><div id="mapoutputclass" style="display:none"></div>
+		<input hidden="hidden" id="UDCode" value="UD12345B" /><input hidden="hidden" id="Trademark" value="海康机器人" />
+		
+		<div class="content_box">
+			<div class="middle_view content_area col-sm-9" id="content_area">
+				<div class=" wt_breadcrumb "><ol><li><span class="home topicref"><a href="javascript:void(0)" onclick="gotoFirstPage()">首页</a></span></li><li class="active"><span class="topicref">通信指令</span></li></ol><div class="wt_breadcrumb_ellipsis" onclick="expandBreadcrumbDiv()"></div><div class="wt_breadcrumb_collapse" style="display: none;"><div class="wt_breadcrumb_collapse_button" onclick="collapseBreadcrumbDiv()"></div></div></div>
+				
+				<div id="container_body" class="container">
+					<div id="contentArea">
+						<div class=" wt_topic_content body ">
+    <h1 class="title topictitle1">通信指令</h1>
+
+
+<div class="body conbody"><p class="shortdesc">通信指令是通过TCP、UDP及Serial其中任意一种通信方式给读码器发送的指令。读码器接收到指令后，可根据指令内容执行设备控制、用户参数、触发与IO、码制使能以及智能调参等功能设置。</p>
+
+        <div class="section" id="GUID-ED0C6770-2ECF-4430-B692-9078556D1D2D__GUID-C0EC1EC8-790D-4D2A-A622-32E566AECEB2"><h2 class="title sectiontitle">指令分类</h2>
+            
+            <p class="p">读码器通信指令可分为以下3种类型：</p>
+
+            <ul class="ul" id="GUID-ED0C6770-2ECF-4430-B692-9078556D1D2D__UL_PNP_VZ5_V2C">
+                <li class="li" id="GUID-ED0C6770-2ECF-4430-B692-9078556D1D2D__GUID-A0CE9ABE-A717-478C-9B9C-B58908838414">
+                    <p class="p">Get指令：获取参数值指令，可根据指令返回结果获取设备当前参数值。</p>
+
+                </li>
+
+                <li class="li" id="GUID-ED0C6770-2ECF-4430-B692-9078556D1D2D__GUID-1ED9C627-3DE5-4F26-A9FF-D754CED453C5">
+                    <p class="p">Set指令：设置参数指令，可对设备当前参数值进行更改。</p>
+
+                </li>
+
+                <li class="li" id="GUID-ED0C6770-2ECF-4430-B692-9078556D1D2D__GUID-F7F4F546-3E40-4B4C-A7E4-589C4C19A849">
+                    <p class="p">Exec指令：执行指令，可对设备执行重启、智能调参等操作。</p>
+
+                </li>
+
+            </ul>
+
+            <div class="note note" id="GUID-ED0C6770-2ECF-4430-B692-9078556D1D2D__GUID-FA3CEC7B-2724-46C7-AE1E-1303A5C05A7E"><span class="notetitle">说明</span> 
+                <p class="p">具体指令内容及返回结果可参见<a class="xref" href="GUID-8EEF68D1-C715-4C6E-BC62-BB32C7B56F46.html#GUID-8EEF68D1-C715-4C6E-BC62-BB32C7B56F46" title="本节为您介绍包含设备控制、用户参数、触发与IO、码制使能以及智能调参相关通信指令，供您使用参考。">指令参考表</a>。</p>
+
+            </div>
+
+        </div>
+
+        <div class="section" id="GUID-ED0C6770-2ECF-4430-B692-9078556D1D2D__GUID-96057A60-99E3-4961-B9DF-4CED1078FD02"><h2 class="title sectiontitle">指令格式</h2>
+            
+            <p class="p">指令类型不同，对应的指令格式有所差别。</p>
+
+            
+<div class="div_table"><table cellpadding="4" cellspacing="0" summary="" style="display:none;" id="tbl_rowfixed" class="table wt_table_rowfixed" frame="border" border="1" rules="all"></table><table cellpadding="4" cellspacing="0" summary="" id="GUID-ED0C6770-2ECF-4430-B692-9078556D1D2D__TABLE_VJS_P1V_V2C" class="table" frame="border" border="1" rules="all">
+                    
+                    
+                    <thead class="thead" align="left">
+                        <tr>
+                            <th class="entry" valign="top" width="23.076923076923077%" id="d83242e85">
+                                <p class="p">指令类型</p>
+
+                            </th>
+
+                            <th class="entry" valign="top" width="76.92307692307692%" id="d83242e91">
+                                <p class="p">指令格式</p>
+
+                            </th>
+
+                        </tr>
+
+                    </thead>
+
+                    <tbody class="tbody">
+                        <tr>
+                            <td class="entry" valign="top" width="23.076923076923077%" headers="d83242e85 ">
+                                <p class="p">Get指令</p>
+
+                            </td>
+
+                            <td class="entry" valign="top" width="76.92307692307692%" headers="d83242e91 "><img class="image" style="display:none;" id="GUID-ED0C6770-2ECF-4430-B692-9078556D1D2D__IMAGE_BNG_FCV_V2C" src="GUID-56BA6874-C545-402F-9614-2EEAB60FBB8F-high.png" width="713" /></td>
+
+                        </tr>
+
+                        <tr>
+                            <td class="entry" valign="top" width="23.076923076923077%" headers="d83242e85 ">
+                                <p class="p">Set指令</p>
+
+                            </td>
+
+                            <td class="entry" valign="top" width="76.92307692307692%" headers="d83242e91 "><img class="image" style="display:none;" id="GUID-ED0C6770-2ECF-4430-B692-9078556D1D2D__IMAGE_LVY_FCV_V2C" src="GUID-133F1D89-85EE-43D6-82F4-FB282A9444A8-high.png" width="713" /></td>
+
+                        </tr>
+
+                        <tr>
+                            <td class="entry" valign="top" width="23.076923076923077%" headers="d83242e85 ">
+                                <p class="p">Exec指令</p>
+
+                            </td>
+
+                            <td class="entry" valign="top" width="76.92307692307692%" headers="d83242e91 "><img class="image" style="display:none;" id="GUID-ED0C6770-2ECF-4430-B692-9078556D1D2D__IMAGE_JWS_HCV_V2C" src="GUID-6C7642AE-F4E8-42FC-BA2E-34F18B0F7554-high.png" width="713" /></td>
+
+                        </tr>
+
+                    </tbody>
+
+                </table>
+</div>
+
+            <div class="note note" id="GUID-ED0C6770-2ECF-4430-B692-9078556D1D2D__GUID-7BD96F61-18DC-4613-BF80-E60E79AAAA3A"><span class="notetitle">说明</span> 
+                <p class="p"> 当输入的指令不符合通用格式无法解析对应字段时，将返回invalid。示例如下：&lt;cmdType, cmdStr, param&gt; invalid。</p>
+
+            </div>
+
+        </div>
+
+        <div class="section" id="GUID-ED0C6770-2ECF-4430-B692-9078556D1D2D__GUID-524DDE53-CC46-49C3-9151-FE89EA422E7A"><h2 class="title sectiontitle">指令协议类型</h2>
+            
+            <p class="p">设备可通过如下协议类型进行通信指令设置。</p>
+
+            
+<div class="div_table"><table cellpadding="4" cellspacing="0" summary="" style="display:none;" id="tbl_rowfixed" class="table wt_table_rowfixed" frame="border" border="1" rules="all"></table><table cellpadding="4" cellspacing="0" summary="" id="GUID-ED0C6770-2ECF-4430-B692-9078556D1D2D__TABLE_L53_WCV_V2C" class="table" frame="border" border="1" rules="all">
+                    
+                    
+                    <thead class="thead" align="left">
+                        <tr>
+                            <th class="entry" valign="top" width="23.076923076923077%" id="d83242e167">
+                                <p class="p">协议名称</p>
+
+                            </th>
+
+                            <th class="entry" valign="top" width="76.92307692307692%" id="d83242e173">说明</th>
+
+                        </tr>
+
+                    </thead>
+
+                    <tbody class="tbody">
+                        <tr>
+                            <td class="entry" valign="top" width="23.076923076923077%" headers="d83242e167 ">
+                                <p class="p">TCP 协议</p>
+
+                            </td>
+
+                            <td class="entry" valign="top" width="76.92307692307692%" headers="d83242e173 ">
+                                <p class="p">传输控制协议/互联网络协议。规范了网络上所有通信设备的数据格式及传送方式，是一种面向连接的可靠传输协议。</p>
+
+                                <div class="note note" id="GUID-ED0C6770-2ECF-4430-B692-9078556D1D2D__GUID-617F75DF-CE9E-4A0C-B7F5-8448DD02E3E4"><span class="notetitle">说明</span> 
+                                    <p class="p">TCP协议支持复用触发源端口使用通信命令，即触发文本可以是通信指令，发送后读码器执行对应功能设置。</p>
+
+                                </div>
+
+                            </td>
+
+                        </tr>
+
+                        <tr>
+                            <td class="entry" valign="top" width="23.076923076923077%" headers="d83242e167 ">
+                                <p class="p">UDP协议</p>
+
+                            </td>
+
+                            <td class="entry" valign="top" width="76.92307692307692%" headers="d83242e173 ">
+                                <p class="p">用户数据报协议。为应用程序提供一种无需建立连接即可进行数据通信方式，适用于对传输效率要求高的场景。</p>
+
+                                <div class="note note" id="GUID-ED0C6770-2ECF-4430-B692-9078556D1D2D__GUID-C14B86B8-9902-4AD2-BB1F-0B636B65B34E"><span class="notetitle">说明</span> 
+                                    <p class="p">UDP协议支持复用触发源端口使用通信命令，即触发文本可以是通信指令，发送后读码器执行对应功能设置。</p>
+
+                                </div>
+
+                            </td>
+
+                        </tr>
+
+                        <tr>
+                            <td class="entry" valign="top" width="23.076923076923077%" headers="d83242e167 ">
+                                <p class="p">串口协议</p>
+
+                            </td>
+
+                            <td class="entry" valign="top" width="76.92307692307692%" headers="d83242e173 ">
+                                <p class="p">串口通信协议，外部通信设备和计算机通过串口按位进行传输数据的一种通信方式。</p>
+
+                                <p class="p">该通信方式使用的数据线少，适用于远距离通信场景。</p>
+
+                                <div class="note note" id="GUID-ED0C6770-2ECF-4430-B692-9078556D1D2D__GUID-EFB82EF3-F912-4E76-93C1-64DB0E76A4B7"><span class="notetitle">说明</span> 
+                                    <p class="p">USB口读码器通过模拟串口，使用串口协议传输通信指令。</p>
+
+                                </div>
+
+                            </td>
+
+                        </tr>
+
+                    </tbody>
+
+                </table>
+</div>
+
+        </div>
+
+    </div>
+
+
+</div>
+						<div class=" wt_topic_wpp_content wt_pc_only "><div class=" wt_topic_wpp_content_flex "><div class="wt_topic_wpp_item like"></div><div class="wt_topic_wpp_item view"></div><div class="wt_topic_wpp_item share">分享</div></div></div>
+						
+						
+						
+					</div>
+				</div><!-- container_body -->
+				
+				<div class=" body_footer "><div onclick="prevTopic()" class=" body_footer_left link_button "><span>上一页</span></div><div onclick="nextTopic()" class=" body_footer_right link_button "><span>下一页</span></div></div>
+				<div class=" body_wpp mobile_only"><div class="wt_body_mobile_like"></div><div class="wt_body_mobile_view"></div></div>
+				<!-- <whc:webhelp_side_toc /> -->
+				
+			</div> <!-- middle_view content_area -->
+			<div class=" right_content wt_pc_only "><div class=" right_fixed_container "><div class="right_guide"><div class="feature_guide"><div>本页导航</div><ul><li onclick="scrollToAnchor($(this))" data-id="GUID-ED0C6770-2ECF-4430-B692-9078556D1D2D__GUID-C0EC1EC8-790D-4D2A-A622-32E566AECEB2" class="feature_guide_h2"><span class="link_button">指令分类</span></li><li onclick="scrollToAnchor($(this))" data-id="GUID-ED0C6770-2ECF-4430-B692-9078556D1D2D__GUID-96057A60-99E3-4961-B9DF-4CED1078FD02" class="feature_guide_h2"><span class="link_button">指令格式</span></li><li onclick="scrollToAnchor($(this))" data-id="GUID-ED0C6770-2ECF-4430-B692-9078556D1D2D__GUID-524DDE53-CC46-49C3-9151-FE89EA422E7A" class="feature_guide_h2"><span class="link_button">指令协议类型</span></li></ul></div></div></div></div>
+		</div> <!-- content_box -->
+		
+		<!-- 置顶按钮 -->
+		<div class="body_to_top" onclick="scrollTopicTop()"></div> 
+		<!-- 评价反馈 -->
+		<div onclick="manualFeedback()" class=" body_feedback " data-href="https://wj.hikvision.com/#/public-survey?id=64c8b90d80e02e9e88feca2f"></div>
+		
+	</body>
+</html>

@@ -1,0 +1,28 @@
+<ArithConfig>
+    <STEREO_VM>
+        <Input>
+            <Camera img_w="1440" cx="719.133" cy="574.003" img_h="1080" focal="992.578"/>
+            <MeasureRoi pnt_num="4" y0="177" x0="162" y1="177" x1="1286" y2="981" x2="1286" y3="981" x3="162"/>
+            <DatumPlaneRoi pnt_num="4" y0="319" x0="429" y1="319" x1="857" y2="717" x2="857" y3="717" x3="429"/>
+            <PhysicalSpaceOffset top_offset="0" bottom_offset="0" right_offset="0" left_offset="0"/>
+        </Input>
+        <PARAM>
+            <Param help="包裹最小高度（mm）" value="25" type="int" index="1" min="1" max="2000" name="PKG_MIN_HEIGHT"/>
+            <Param help="包裹最大高度(mm)" value="1200" type="int" index="2" min="1" max="2000" name="PKG_MAX_HEIGHT"/>
+            <Param help="包裹的最小blob面积" value="300" type="int" index="3" min="1" max="100000" name="PKG_MIN_BLOB_AREA"/>
+            <Param help="异形件边缘剪裁最大比例" value="10" type="int" index="4" min="1" max="40" name="MAX_TRIM_RATIO"/>
+            <Param help="异形件单次剪裁像素数" value="2" type="int" index="5" min="2" max="20" name="SINGLE_TRIM_PIX"/>
+            <Param help="异形件边缘占空比阈值" value="10" type="int" index="6" min="10" max="100" name="OCCUPANCY_TH"/>
+            <Param help="包裹平面波动度" value="15" type="int" index="7" min="1" max="200" name="PLANE_VARIANCE"/>
+            <Param help="轮廓定位乘子" value="5" type="int" index="8" min="1" max="50" name="CT_FACTOR"/>
+            <Param help="投影栅格大小" value="2" type="int" index="9" min="1" max="100" name="GRID_SIZE"/>
+            <Param help="轮廓收缩因子" value="10" type="int" index="10" min="1" max="99" name="CS_FACTOR"/>
+            <Param help="轮廓追踪灰度阈值" value="30" type="int" index="11" min="10" max="255" name="CT_GRAY_TH"/>
+            <Param help="高度补偿值" value="0" type="int" index="12" min="-999" max="999" name="DELTA_HEIGHT"/>
+            <Param help="转系统坐标系栅格点云采样间隔" value="2" type="int" index="13" min="2" max="100" name="TRANS_GRID_SIZE"/>
+            <Param help="矩形度阈值" value="80" type="int" index="14" min="1" max="100" name="RECTANGULARITY_THR"/>
+            <Param help="规则件边缘占空比阈值" value="10" type="int" index="15" min="10" max="100" name="REGULAR_OCCUPANCY_TH"/>
+            <Param help="相机到平台的最大距离" value="1500" type="int" index="16" min="10" max="2000" name="CAM2BENCH_MAX_DIS"/>
+        </PARAM>
+    </STEREO_VM>
+</ArithConfig>

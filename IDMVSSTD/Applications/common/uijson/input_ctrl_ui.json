@@ -1,0 +1,852 @@
+{
+    "ui_tabs": [
+        {
+            "ui_type": "tab",
+            "ui_param_name": "",
+            "ui_subset": [
+                {
+                    "ui_display_name": "Trigger_Mode",
+                    "ui_display_cn_name": "触发设置",
+                    "ui_display_en_name": "Trigger Settings",
+                    "ui_usage_frequency": "Common",
+                    "ui_type": "category",
+                    "ui_param_name": "",
+                    "ui_param_display_type": "",
+                    "ui_subset": [
+                        {
+                            "ui_display_name": "TriggerMode",
+                            "ui_display_cn_name": "触发模式",
+                            "ui_display_en_name": "Trigger Mode",
+                            "ui_usage_frequency": "Common",
+                            "ui_type": "config_param",
+                            "ui_param_name": "TriggerMode",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        },
+                        {
+                            "ui_display_name": "TriggerSelector",
+                            "ui_display_cn_name": "触发方式",
+                            "ui_display_en_name": "Trigger Selector",
+                            "ui_usage_frequency": "Common",
+                            "ui_type": "config_param",
+                            "ui_param_name": "TriggerSelector",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        },
+                        {
+                            "ui_display_name": "TriggerSource",
+                            "ui_display_cn_name": "触发源",
+                            "ui_display_en_name": "Trigger Source",
+                            "ui_usage_frequency": "Common",
+                            "ui_type": "config_param",
+                            "ui_param_name": "TriggerSource",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        },
+                        {
+                            "ui_display_name": "",
+                            "ui_display_cn_name": "",
+                            "ui_display_en_name": "",
+                            "ui_usage_frequency": "Common",
+                            "ui_type": "config_param",
+                            "ui_param_name": "IOWaveForm",
+                            "ui_param_display_type": "IOWaveForm",
+                            "ui_subset": null
+                        },
+                        {
+                            "ui_display_name": "FuzzyTriggerEnable",
+                            "ui_display_cn_name": "模糊触发",
+                            "ui_display_en_name": "Fuzzy Trigger",
+                            "ui_usage_frequency": "Common",
+                            "ui_type": "config_param",
+                            "ui_param_name": "FuzzyTriggerEnable",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        },
+                        {
+                            "ui_display_name": "TofTrigThreshold",
+                            "ui_display_cn_name": "ToF触发阈值(mm)",
+                            "ui_display_en_name": "TOF Trigger Threshold(mm)",
+                            "ui_usage_frequency": "Common",
+                            "ui_type": "config_param",
+                            "ui_param_name": "TofTrigThreshold",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        },
+                        {
+                            "ui_display_name": "LineOutHardTriggerActive",
+                            "ui_display_cn_name": "触发极性",
+                            "ui_display_en_name": "Trigger Polarity",
+                            "ui_usage_frequency": "Common",
+                            "ui_type": "config_param",
+                            "ui_param_name": "LineOutHardTriggerActive",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        },
+                        {
+                            "ui_display_name": "LineDebouncerTime",
+                            "ui_display_cn_name": "去抖时间(μs)",
+                            "ui_display_en_name": "Debounce Time(μs)",
+                            "ui_usage_frequency": "Common",
+                            "ui_type": "config_param",
+                            "ui_param_name": "LineDebouncerTime",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        },
+                        {
+                            "ui_display_name": "TriggerSoftware",
+                            "ui_display_cn_name": "软触发",
+                            "ui_display_en_name": "Software Trigger",
+                            "ui_usage_frequency": "Common",
+                            "ui_type": "config_param",
+                            "ui_param_name": "TriggerSoftware",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        },
+                        {
+                            "ui_display_name": "TriggerDelay",
+                            "ui_display_cn_name": "触发延时(μs)",
+                            "ui_display_en_name": "Trigger Delay(μs)",
+                            "ui_usage_frequency": "Common",
+                            "ui_type": "config_param",
+                            "ui_param_name": "TriggerDelay",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        },
+                        {
+                            "ui_display_name": "CommunicationProtocolTriggerEnable",
+                            "ui_display_cn_name": "通信协议触发使能",
+                            "ui_display_en_name": "Communication Protocol Trigger Enable",
+                            "ui_usage_frequency": "Common",
+                            "ui_type": "config_param",
+                            "ui_param_name": "CommunicationProtocolTriggerEnable",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        },
+                        {
+                            "ui_display_name": "TriggerBlock",
+                            "ui_display_cn_name": "触发屏蔽",
+                            "ui_display_en_name": "Trigger Block",
+                            "ui_usage_frequency": "Common",
+                            "ui_type": "config_param",
+                            "ui_param_name": "TriggerBlock",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        },
+                        {
+                            "ui_display_name": "TriggerBlockTime",
+                            "ui_display_cn_name": "触发屏蔽时间(ms)",
+                            "ui_display_en_name": "Trigger Block Time(ms)",
+                            "ui_usage_frequency": "Common",
+                            "ui_type": "config_param",
+                            "ui_param_name": "TriggerBlockTime",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        },
+                        {
+                            "ui_display_name": "TriggerCache",
+                            "ui_display_cn_name": "触发缓存",
+                            "ui_display_en_name": "Trigger Cache",
+                            "ui_usage_frequency": "Common",
+                            "ui_type": "config_param",
+                            "ui_param_name": "TriggerCache",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        },
+                        {
+                            "ui_display_name": "KeyEnable",
+                            "ui_display_cn_name": "按键触发",
+                            "ui_display_en_name": "Button Trigger",
+                            "ui_usage_frequency": "Common",
+                            "ui_type": "config_param",
+                            "ui_param_name": "KeyEnable",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        },
+                        {
+                            "ui_display_name": "ConsistentTriggerEnable",
+                            "ui_display_cn_name": "命令持续触发",
+                            "ui_display_en_name": "Continuous Command Triggering",
+                            "ui_usage_frequency": "Common",
+                            "ui_type": "config_param",
+                            "ui_param_name": "ConsistentTriggerEnable",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        },
+                        {
+                            "ui_display_name": "TriggerUpDelay",
+                            "ui_display_cn_name": "触发开始延迟(μs)",
+                            "ui_display_en_name": "Trigger Start Delay Time(μs)",
+                            "ui_usage_frequency": "Common",
+                            "ui_type": "config_param",
+                            "ui_param_name": "TriggerUpDelay",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        },
+                        {
+                            "ui_display_name": "TriggerDownDelay",
+                            "ui_display_cn_name": "触发结束延迟(μs)",
+                            "ui_display_en_name": "Trigger End Delay Time(μs)",
+                            "ui_usage_frequency": "Common",
+                            "ui_type": "config_param",
+                            "ui_param_name": "TriggerDownDelay",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        }
+                    ]
+                },
+                {
+                    "ui_display_name": "Counter0",
+                    "ui_display_cn_name": "计数器触发",
+                    "ui_display_en_name": "Counter Trigger",
+                    "ui_usage_frequency": "Common",
+                    "ui_type": "category",
+                    "ui_param_name": "",
+                    "ui_param_display_type": "",
+                    "ui_subset": [
+                        {
+                            "ui_display_name": "CountNumber",
+                            "ui_display_cn_name": "计数值",
+                            "ui_display_en_name": "Count Number",
+                            "ui_usage_frequency": "Common",
+                            "ui_type": "config_param",
+                            "ui_param_name": "CountNumber",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        },
+                        {
+                            "ui_display_name": "CountSource",
+                            "ui_display_cn_name": "计数源",
+                            "ui_display_en_name": "Count Source",
+                            "ui_usage_frequency": "Common",
+                            "ui_type": "config_param",
+                            "ui_param_name": "CountSource",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        }
+                    ]
+                },
+                {
+                    "ui_display_name": "TriggerSelf",
+                    "ui_display_cn_name": "自触发",
+                    "ui_display_en_name": "Self-Trigger",
+                    "ui_usage_frequency": "Common",
+                    "ui_type": "category",
+                    "ui_param_name": "",
+                    "ui_param_display_type": "",
+                    "ui_subset": [
+                        {
+                            "ui_display_name": "TriggerSelfTriggerPeriod",
+                            "ui_display_cn_name": "自触发周期(ms)",
+                            "ui_display_en_name": "Self-Trigger Period(ms)",
+                            "ui_usage_frequency": "Common",
+                            "ui_type": "config_param",
+                            "ui_param_name": "TriggerSelfTriggerPeriod",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        },
+                        {
+                            "ui_display_name": "TriggerSelfTriggerCount",
+                            "ui_display_cn_name": "自触发计数",
+                            "ui_display_en_name": "Self-Trigger Count",
+                            "ui_usage_frequency": "Common",
+                            "ui_type": "config_param",
+                            "ui_param_name": "TriggerSelfTriggerCount",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        },
+                        {
+                            "ui_display_name": "TriggerSelfTriggerStart",
+                            "ui_display_cn_name": "自触发开始",
+                            "ui_display_en_name": "Self-Trigger Start",
+                            "ui_usage_frequency": "Common",
+                            "ui_type": "config_param",
+                            "ui_param_name": "TriggerSelfTriggerStart",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        },
+                        {
+                            "ui_display_name": "TriggerSelfTriggerStop",
+                            "ui_display_cn_name": "自触发结束",
+                            "ui_display_en_name": "Self-Trigger Stop",
+                            "ui_usage_frequency": "Common",
+                            "ui_type": "config_param",
+                            "ui_param_name": "TriggerSelfTriggerStop",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        }
+                    ]
+                },
+                {
+                    "ui_display_name": "TcpClientStartTrigger",
+                    "ui_display_cn_name": "TCP客户端触发",
+                    "ui_display_en_name": "TCP Client Trigger",
+                    "ui_usage_frequency": "Common",
+                    "ui_type": "category",
+                    "ui_param_name": "",
+                    "ui_param_display_type": "",
+                    "ui_subset": [
+                        {
+                            "ui_display_name": "TcpClientStartTriggerAddr",
+                            "ui_display_cn_name": "TCP客户端触发IP地址",
+                            "ui_display_en_name": "TCP Client Trigger IP ",
+                            "ui_usage_frequency": "Common",
+                            "ui_type": "config_param",
+                            "ui_param_name": "TcpClientStartTriggerAddr",
+                            "ui_param_display_type": "IPlineedit",
+                            "ui_subset": null
+                        },
+                        {
+                            "ui_display_name": "TcpClientStartTriggerPort",
+                            "ui_display_cn_name": "TCP客户端触发端口",
+                            "ui_display_en_name": "TCP Client Trigger Port",
+                            "ui_usage_frequency": "Common",
+                            "ui_type": "config_param",
+                            "ui_param_name": "TcpClientStartTriggerPort",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        },
+                        {
+                            "ui_display_name": "TcpClientStartTriFormat",
+                            "ui_display_cn_name": "TCP客户端触发文本格式",
+                            "ui_display_en_name": "TCP Client Trigger Text Format",
+                            "ui_usage_frequency": "Common",
+                            "ui_type": "config_param",
+                            "ui_param_name": "TcpClientStartTriFormat",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        },
+                        {
+                            "ui_display_name": "TcpClientStartTriggerStr",
+                            "ui_display_cn_name": "TCP客户端触发文本",
+                            "ui_display_en_name": "TCP Client Trigger Text",
+                            "ui_usage_frequency": "Common",
+                            "ui_type": "config_param",
+                            "ui_param_name": "TcpClientStartTriggerStr",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        },
+                        {
+                            "ui_display_name": "TcpClientStartTriggerHex",
+                            "ui_display_cn_name": "TCP客户端触发十六进制命令",
+                            "ui_display_en_name": "TCP Client Trigger Hex Command",
+                            "ui_usage_frequency": "Common",
+                            "ui_type": "config_param",
+                            "ui_param_name": "TcpClientStartTriggerHex",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        },
+                        {
+                            "ui_display_name": "TcpClientHandshakeRequestStr",
+                            "ui_display_cn_name": "TCP客户端交互请求文本",
+                            "ui_display_en_name": "TCP Client Handshake Request Text",
+                            "ui_usage_frequency": "Common",
+                            "ui_type": "config_param",
+                            "ui_param_name": "TcpClientHandshakeRequestStr",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        },
+                        {
+                            "ui_display_name": "TcpClientHandshakeResponseStr",
+                            "ui_display_cn_name": "TCP客户端交互回复文本",
+                            "ui_display_en_name": "TCP Client Handshake Response Text",
+                            "ui_usage_frequency": "Common",
+                            "ui_type": "config_param",
+                            "ui_param_name": "TcpClientHandshakeResponseStr",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        }
+                    ]
+                },
+                {
+                    "ui_display_name": "TcpServerStartTrigger",
+                    "ui_display_cn_name": "TCP服务器触发",
+                    "ui_display_en_name": "TCP Server Trigger",
+                    "ui_usage_frequency": "Common",
+                    "ui_type": "category",
+                    "ui_param_name": "",
+                    "ui_param_display_type": "",
+                    "ui_subset": [
+                        {
+                            "ui_display_name": "TcpStartTriggerPort",
+                            "ui_display_cn_name": "TCP服务器触发端口",
+                            "ui_display_en_name": "TCP Server Trigger Port",
+                            "ui_usage_frequency": "Common",
+                            "ui_type": "config_param",
+                            "ui_param_name": "TcpStartTriggerPort",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        },
+                        {
+                            "ui_display_name": "TcpStartTriFormat",
+                            "ui_display_cn_name": "TCP服务端触发文本格式",
+                            "ui_display_en_name": "TCP Server Trigger Text Format",
+                            "ui_usage_frequency": "Common",
+                            "ui_type": "config_param",
+                            "ui_param_name": "TcpStartTriFormat",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        },
+                        {
+                            "ui_display_name": "TcpStartTriggerStr",
+                            "ui_display_cn_name": "TCP服务端触发文本",
+                            "ui_display_en_name": "TCP Server Trigger Text",
+                            "ui_usage_frequency": "Common",
+                            "ui_type": "config_param",
+                            "ui_param_name": "TcpStartTriggerStr",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        },
+                        {
+                            "ui_display_name": "TcpStartTriggerHex",
+                            "ui_display_cn_name": "TCP服务端触发十六进制命令",
+                            "ui_display_en_name": "TCP Server Trigger Hex Command",
+                            "ui_usage_frequency": "Common",
+                            "ui_type": "config_param",
+                            "ui_param_name": "TcpStartTriggerHex",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        },
+                        {
+                            "ui_display_name": "TcpHandshakeRequestStr",
+                            "ui_display_cn_name": "TCP服务端交互请求文本",
+                            "ui_display_en_name": "TCP Server Handshake Request Text",
+                            "ui_usage_frequency": "Common",
+                            "ui_type": "config_param",
+                            "ui_param_name": "TcpHandshakeRequestStr",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        },
+                        {
+                            "ui_display_name": "TcpHandshakeResponseStr",
+                            "ui_display_cn_name": "TCP服务端交互回复文本",
+                            "ui_display_en_name": "TCP Server Handshake Response Text",
+                            "ui_usage_frequency": "Common",
+                            "ui_type": "config_param",
+                            "ui_param_name": "TcpHandshakeResponseStr",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        },
+                        {
+                            "ui_display_name": "TcpFlexibleConnectEnable",
+                            "ui_display_cn_name": "TCP服务端自动重连",
+                            "ui_display_en_name": "TCP Server Auto Reconnect",
+                            "ui_usage_frequency": "Common",
+                            "ui_type": "config_param",
+                            "ui_param_name": "TcpFlexibleConnectEnable",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        }
+                    ]
+                },
+                {
+                    "ui_display_name": "SerialStartTrigger",
+                    "ui_display_cn_name": "串口触发",
+                    "ui_display_en_name": "Serial Trigger",
+                    "ui_usage_frequency": "Common",
+                    "ui_type": "category",
+                    "ui_param_name": "",
+                    "ui_param_display_type": "",
+                    "ui_subset": [
+                        {
+                            "ui_display_name": "SerialBaudrate1",
+                            "ui_display_cn_name": "串口波特率",
+                            "ui_display_en_name": "Serial Baud Rate",
+                            "ui_usage_frequency": "Common",
+                            "ui_type": "config_param",
+                            "ui_param_name": "SerialBaudrate1",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        },
+                        {
+                            "ui_display_name": "SerialDataBits1",
+                            "ui_display_cn_name": "串口数据位",
+                            "ui_display_en_name": "Serial Data Bit",
+                            "ui_usage_frequency": "Common",
+                            "ui_type": "config_param",
+                            "ui_param_name": "SerialDataBits1",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        },
+                        {
+                            "ui_display_name": "SerialStopBit1",
+                            "ui_display_cn_name": "串口停止位",
+                            "ui_display_en_name": "Serial Stop Bit",
+                            "ui_usage_frequency": "Common",
+                            "ui_type": "config_param",
+                            "ui_param_name": "SerialStopBit1",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        },
+                        {
+                            "ui_display_name": "SerialParity1",
+                            "ui_display_cn_name": "串口奇偶校验",
+                            "ui_display_en_name": "Serial Parity Check",
+                            "ui_usage_frequency": "Common",
+                            "ui_type": "config_param",
+                            "ui_param_name": "SerialParity1",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        },
+                        {
+                            "ui_display_name": "SerialStartTriFormat",
+                            "ui_display_cn_name": "串口触发文本格式",
+                            "ui_display_en_name": "Serial Trigger Text Format",
+                            "ui_usage_frequency": "Common",
+                            "ui_type": "config_param",
+                            "ui_param_name": "SerialStartTriFormat",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        },
+                        {
+                            "ui_display_name": "SerialStartTriggerStr",
+                            "ui_display_cn_name": "串口触发文本",
+                            "ui_display_en_name": "Serial Trigger Text",
+                            "ui_usage_frequency": "Common",
+                            "ui_type": "config_param",
+                            "ui_param_name": "SerialStartTriggerStr",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        },
+                        {
+                            "ui_display_name": "SerialStartTriggerHex",
+                            "ui_display_cn_name": "串口触发十六进制命令",
+                            "ui_display_en_name": "Serial Trigger Hex Command",
+                            "ui_usage_frequency": "Common",
+                            "ui_type": "config_param",
+                            "ui_param_name": "SerialStartTriggerHex",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        },
+                        {
+                            "ui_display_name": "SerialHandshakeRequestStr",
+                            "ui_display_cn_name": "串口交互请求文本",
+                            "ui_display_en_name": "Serial Handshake Request Text",
+                            "ui_usage_frequency": "Common",
+                            "ui_type": "config_param",
+                            "ui_param_name": "SerialHandshakeRequestStr",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        },
+                        {
+                            "ui_display_name": "SerialHandshakeResponseStr",
+                            "ui_display_cn_name": "串口交互回复文本",
+                            "ui_display_en_name": "Serial Handshake Response Text",
+                            "ui_usage_frequency": "Common",
+                            "ui_type": "config_param",
+                            "ui_param_name": "SerialHandshakeResponseStr",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        }
+                    ]
+                },
+                {
+                    "ui_display_name": "UdpStartTrigger",
+                    "ui_display_cn_name": "UDP触发",
+                    "ui_display_en_name": "UDP Trigger",
+                    "ui_usage_frequency": "Common",
+                    "ui_type": "category",
+                    "ui_param_name": "",
+                    "ui_param_display_type": "",
+                    "ui_subset": [
+                        {
+                            "ui_display_name": "UdpStartTriggerPort",
+                            "ui_display_cn_name": "UDP触发端口",
+                            "ui_display_en_name": "UDP Trigger Port",
+                            "ui_usage_frequency": "Common",
+                            "ui_type": "config_param",
+                            "ui_param_name": "UdpStartTriggerPort",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        },
+                        {
+                            "ui_display_name": "UdpStartTriFormat",
+                            "ui_display_cn_name": "UDP触发文本格式",
+                            "ui_display_en_name": "UDP Trigger Text Format",
+                            "ui_usage_frequency": "Common",
+                            "ui_type": "config_param",
+                            "ui_param_name": "UdpStartTriFormat",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        },
+                        {
+                            "ui_display_name": "UdpStartTriggerStr",
+                            "ui_display_cn_name": "UDP触发文本",
+                            "ui_display_en_name": "UDP Trigger Text",
+                            "ui_usage_frequency": "Common",
+                            "ui_type": "config_param",
+                            "ui_param_name": "UdpStartTriggerStr",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        },
+                        {
+                            "ui_display_name": "UdpStartTriggerHex",
+                            "ui_display_cn_name": "UDP触发十六进制命令",
+                            "ui_display_en_name": "UDP Trigger Hex Command",
+                            "ui_usage_frequency": "Common",
+                            "ui_type": "config_param",
+                            "ui_param_name": "UdpStartTriggerHex",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        },
+                        {
+                            "ui_display_name": "UdpHandshakeRequestStr",
+                            "ui_display_cn_name": "UDP交互请求文本",
+                            "ui_display_en_name": "UDP Handshake Request Text",
+                            "ui_usage_frequency": "Common",
+                            "ui_type": "config_param",
+                            "ui_param_name": "UdpHandshakeRequestStr",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        },
+                        {
+                            "ui_display_name": "UdpHandshakeResponseStr",
+                            "ui_display_cn_name": "UDP交互回复文本",
+                            "ui_display_en_name": "UDP Handshake Response Text",
+                            "ui_usage_frequency": "Common",
+                            "ui_type": "config_param",
+                            "ui_param_name": "UdpHandshakeResponseStr",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        }
+                    ]
+                },
+                {
+                    "ui_display_name": "USBStartTrigger",
+                    "ui_display_cn_name": "USB触发",
+                    "ui_display_en_name": "USB Trigger",
+                    "ui_usage_frequency": "Common",
+                    "ui_type": "category",
+                    "ui_param_name": "",
+                    "ui_param_display_type": "",
+                    "ui_subset": [
+                        {
+                            "ui_display_name": "UsbBaudrate1",
+                            "ui_display_cn_name": "USB CDC波特率",
+                            "ui_display_en_name": "USB CDC Baud Rate",
+                            "ui_usage_frequency": "Common",
+                            "ui_type": "config_param",
+                            "ui_param_name": "UsbBaudrate1",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        },
+                        {
+                            "ui_display_name": "UsbDataBits1",
+                            "ui_display_cn_name": "USB CDC数据位",
+                            "ui_display_en_name": "USB CDC Data Bit",
+                            "ui_usage_frequency": "Common",
+                            "ui_type": "config_param",
+                            "ui_param_name": "UsbDataBits1",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        },
+                        {
+                            "ui_display_name": "UsbParity1",
+                            "ui_display_cn_name": "USB CDC奇偶校验",
+                            "ui_display_en_name": "USB CDC Parity Check",
+                            "ui_usage_frequency": "Common",
+                            "ui_type": "config_param",
+                            "ui_param_name": "UsbParity1",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        },
+                        {
+                            "ui_display_name": "UsbStopBit1",
+                            "ui_display_cn_name": "USB CDC停止位",
+                            "ui_display_en_name": "USB CDC Stop Bit",
+                            "ui_usage_frequency": "Common",
+                            "ui_type": "config_param",
+                            "ui_param_name": "UsbStopBit1",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        },
+                        {
+                            "ui_display_name": "UsbStartTriggerStr",
+                            "ui_display_cn_name": "USB CDC触发文本",
+                            "ui_display_en_name": "USB CDC Trigger Text",
+                            "ui_usage_frequency": "Common",
+                            "ui_type": "config_param",
+                            "ui_param_name": "UsbStartTriggerStr",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        }
+                    ]
+                },
+                {
+                    "ui_display_name": "BrightnessStartTrigger",
+                    "ui_display_cn_name": "亮度感应触发",
+                    "ui_display_en_name": "Brightness Trigger",
+                    "ui_usage_frequency": "Common",
+                    "ui_type": "category",
+                    "ui_param_name": "",
+                    "ui_param_display_type": "",
+                    "ui_subset": [
+                        {
+                            "ui_display_name": "BrightnessSensitivity",
+                            "ui_display_cn_name": "亮度感应触发灵敏度",
+                            "ui_display_en_name": "Brightness Sensitivity",
+                            "ui_usage_frequency": "Common",
+                            "ui_type": "config_param",
+                            "ui_param_name": "BrightnessSensitivity",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        },
+                        {
+                            "ui_display_name": "BrightnessUnrespondTime",
+                            "ui_display_cn_name": "亮度感应消隐时间(ms)",
+                            "ui_display_en_name": "Brightness Unrespond Time(ms)",
+                            "ui_usage_frequency": "Common",
+                            "ui_type": "config_param",
+                            "ui_param_name": "BrightnessUnrespondTime",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        },
+                        {
+                            "ui_display_name": "BrightnessTimeout",
+                            "ui_display_cn_name": "亮度感应超时时间(ms)",
+                            "ui_display_en_name": "Brightness Timeout(ms)",
+                            "ui_usage_frequency": "Common",
+                            "ui_type": "config_param",
+                            "ui_param_name": "BrightnessTimeout",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        },
+                        {
+                            "ui_display_name": "BrightnessGainAuto",
+                            "ui_display_cn_name": "感应触发自动增益",
+                            "ui_display_en_name": "Brightness Auto Gain",
+                            "ui_usage_frequency": "Common",
+                            "ui_type": "config_param",
+                            "ui_param_name": "BrightnessGainAuto",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        },
+                        {
+                            "ui_display_name": "BrightnessExposureAuto",
+                            "ui_display_cn_name": "感应触发自动曝光",
+                            "ui_display_en_name": "Brightness Auto Exposure",
+                            "ui_usage_frequency": "Common",
+                            "ui_type": "config_param",
+                            "ui_param_name": "BrightnessExposureAuto",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        }
+                    ]
+                },
+                {
+                    "ui_display_name": "TOF_Trigger",
+                    "ui_display_cn_name": "TOF触发",
+                    "ui_display_en_name": "TOF Trigger",
+                    "ui_usage_frequency": "Common",
+                    "ui_type": "category",
+                    "ui_param_name": "",
+                    "ui_param_display_type": "",
+                    "ui_subset": [
+                        {
+                            "ui_display_name": "MotorTofTrigSensitivity",
+                            "ui_display_cn_name": "TOF触发灵敏度",
+                            "ui_display_en_name": "TOF Trigger Sensitivity",
+                            "ui_usage_frequency": "Common",
+                            "ui_type": "config_param",
+                            "ui_param_name": "MotorTofTrigSensitivity",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        },
+                        {
+                            "ui_display_name": "MotorTofTrigThreshold",
+                            "ui_display_cn_name": "TOF触发阈值(mm)",
+                            "ui_display_en_name": "TOF Trigger Threshold(mm)",
+                            "ui_usage_frequency": "Common",
+                            "ui_type": "config_param",
+                            "ui_param_name": "MotorTofTrigThreshold",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        }
+                    ]
+                },
+                {
+                    "ui_display_name": "StopTriggerControl",
+                    "ui_display_cn_name": "停止触发配置",
+                    "ui_display_en_name": "Stop Trigger Settings",
+                    "ui_usage_frequency": "Common",
+                    "ui_type": "category",
+                    "ui_param_name": "",
+                    "ui_param_display_type": "",
+                    "ui_subset": [
+                        {
+                            "ui_display_name": "",
+                            "ui_display_cn_name": "",
+                            "ui_display_en_name": "",
+                            "ui_usage_frequency": "Common",
+                            "ui_type": "config_param",
+                            "ui_param_name": "stop_trigger",
+                            "ui_param_display_type": "stop_trigger",
+                            "ui_subset": null
+                        }
+                    ]
+                },
+                {
+                    "ui_display_name": "LineModeControl",
+                    "ui_display_cn_name": "管脚I/O模式控制",
+                    "ui_display_en_name": "LineMode Control",
+                    "ui_usage_frequency": "Common",
+                    "ui_type": "category",
+                    "ui_param_name": "LineModeControl",
+                    "ui_param_display_type": "",
+                    "ui_subset": [
+                        {
+                            "ui_display_name": "LineConfig0",
+                            "ui_display_cn_name": "管脚0模式",
+                            "ui_display_en_name": "Line0 Mode",
+                            "ui_usage_frequency": "Common",
+                            "ui_type": "config_param",
+                            "ui_param_name": "LineConfig0",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        },
+                        {
+                            "ui_display_name": "LineConfig1",
+                            "ui_display_cn_name": "管脚1模式",
+                            "ui_display_en_name": "Line1 Mode",
+                            "ui_usage_frequency": "Common",
+                            "ui_type": "config_param",
+                            "ui_param_name": "LineConfig1",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        },
+						{
+                            "ui_display_name": "LineConfig2",
+                            "ui_display_cn_name": "管脚2模式",
+                            "ui_display_en_name": "Line2 Mode",
+                            "ui_usage_frequency": "Common",
+                            "ui_type": "config_param",
+                            "ui_param_name": "LineConfig2",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        },
+                        {
+                            "ui_display_name": "LineConfig0_1",
+                            "ui_display_cn_name": "管脚0_1模式",
+                            "ui_display_en_name": "Line0_1 Mode",
+                            "ui_usage_frequency": "Common",
+                            "ui_type": "config_param",
+                            "ui_param_name": "LineConfig0_1",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        },
+                        {
+                            "ui_display_name": "LineConfig2_3",
+                            "ui_display_cn_name": "管脚2_3模式",
+                            "ui_display_en_name": "Line2_3 Mode",
+                            "ui_usage_frequency": "Common",
+                            "ui_type": "config_param",
+                            "ui_param_name": "LineConfig2_3",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}

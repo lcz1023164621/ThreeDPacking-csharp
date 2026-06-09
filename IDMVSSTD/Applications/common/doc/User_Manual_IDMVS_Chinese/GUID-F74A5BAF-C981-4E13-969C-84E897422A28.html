@@ -1,0 +1,251 @@
+
+<!DOCTYPE html
+  PUBLIC "" "about:legacy-compat">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:whc="http://www.daksys.com/webhelp/components" xml:lang="zh-cn" lang="zh-cn">
+	<head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />        
+      <meta name="copyright" content="©  杭州海康威视数字技术股份有限公司。保留一切权利。" /><meta name="DC.Type" content="concept" /><meta name="DC.Title" content="正则表达式过滤" /><meta name="abstract" content="过滤规则模块支持设置正则表达式对条码进行复杂的匹配和过滤，例如条码中包含动态变化的部分或需要匹配多种格式的情况。" /><meta name="description" content="过滤规则模块支持设置正则表达式对条码进行复杂的匹配和过滤，例如条码中包含动态变化的部分或需要匹配多种格式的情况。" /><meta name="DC.Relation" scheme="URI" content="GUID-95AB18A5-4B46-4D79-8DE4-F398D813DEF6.html" /><meta name="DC.Format" content="XHTML" /><meta name="DC.Identifier" content="GUID-F74A5BAF-C981-4E13-969C-84E897422A28" /><meta name="DC.Language" content="zh-CN" /><title>正则表达式过滤</title><!-- Generated with dksgen version 1.0, build number 2023071300.  --><meta viewport="Content-Type" content="width=device-width, initial-scale=1.0" /><meta http-equiv="X-UA-Compatible" content="IE=edge,Chrome=1" /><meta name="wh-path2root" content="index.html" />
+		<!-- commonltr css -->
+		<link rel="stylesheet" type="text/css" href="daksys-webhelp/resources/css/commonltr.css" />
+		<!-- Bootstrap css -->
+		<link rel="stylesheet" type="text/css" href="daksys-webhelp/resources/bootstrap/css/bootstrap.min.css" />
+		<link rel="stylesheet" type="text/css" href="daksys-webhelp/resources/bootstrap/css/bootstrap-theme.min.css" />
+		<link rel="stylesheet" type="text/css" href="daksys-webhelp/resources/js/jquery-ui.min.css" />
+		
+		<!-- Template css  -->
+		<link href="daksys-webhelp/template/resources/css/HIKROBOT_color.css?buildId=2023071300" rel="stylesheet" type="text/css" />
+		<link rel="stylesheet" type="text/css" href="daksys-webhelp/template/resources/css/wt_topic.css?buildId=2023071300" />
+		<link rel="stylesheet" type="text/css" href="daksys-webhelp/template/resources/css/wt_topic_m.css?buildId=2023071300" />
+		<link rel="stylesheet" type="text/css" href="daksys-webhelp/template/resources/css/wt_expand.css?buildId=2023071300" />
+		<link rel="stylesheet" type="text/css" href="daksys-webhelp/template/resources/css/wt_note.css?buildId=2023071300" />
+		<link rel="stylesheet" type="text/css" href="daksys-webhelp/template/resources/css/wt_steps.css?buildId=2023071300" />
+		
+		<!-- jquery js  -->
+		<script type="text/javascript" src="daksys-webhelp/resources/js/jquery-3.6.2.min.js"></script>
+		<script type="text/javascript" src="daksys-webhelp/resources/js/jquery.cookie.js"></script>
+		<script type="text/javascript" src="daksys-webhelp/resources/js/jquery.highlight-3.js"></script>
+		<script type="text/javascript" src="daksys-webhelp/resources/js/jquery-ui.min.js"></script>
+		
+		<!-- common js  -->
+		<script type="text/javascript" src="daksys-webhelp/resources/bootstrap/js/bootstrap.min.js"></script>
+		<script type="text/javascript" src="daksys-webhelp/resources/js/base64.js"></script>
+		<script type="text/javascript" src="daksys-webhelp/resources/js/browserDetect.js"></script>
+		<script type="text/javascript" src="daksys-webhelp/resources/js/localization.js"></script>
+		<script type="text/javascript" src="daksys-webhelp/resources/js/parseuri.js"></script>
+		<script type="text/javascript" src="daksys-webhelp/resources/localization/strings.js"></script>
+		<!-- Template js -->
+		<script type="text/javascript" src="daksys-webhelp/template/resources/js/wt_topic.js?buildId=2023071300"></script>
+		<script type="text/javascript" src="daksys-webhelp/template/resources/js/wt_expand.js?buildId=2023071300"></script>
+	</head>
+	<body class="wt_topic_page frmBody" id="GUID-F74A5BAF-C981-4E13-969C-84E897422A28" onload="topicOnload()">
+		<!-- get_lang -->
+		<div id="lang" style="display:none">zh-CN</div><div id="mapoutputclass" style="display:none"></div>
+		<input hidden="hidden" id="UDCode" value="UD12345B" /><input hidden="hidden" id="Trademark" value="海康机器人" />
+		
+		<div class="content_box">
+			<div class="middle_view content_area col-sm-9" id="content_area">
+				<div class=" wt_breadcrumb "><ol><li><span class="home topicref"><a href="javascript:void(0)" onclick="gotoFirstPage()">首页</a></span></li><li><span class="topicref"><a href="GUID-D8488278-18E0-41D0-91B9-35636662C53F.html" data-id="GUID-D8488278-18E0-41D0-91B9-35636662C53F">读码器常用配置</a></span></li><li><span class="topicref"><a href="GUID-18029E9E-3083-437A-B970-24EE067E6132.html" data-id="GUID-18029E9E-3083-437A-B970-24EE067E6132">处理输出数据</a></span></li><li><span class="topicref"><a href="GUID-95AB18A5-4B46-4D79-8DE4-F398D813DEF6.html" data-id="GUID-95AB18A5-4B46-4D79-8DE4-F398D813DEF6">过滤排序</a></span></li><li class="active"><span class="topicref">正则表达式过滤</span></li></ol><div class="wt_breadcrumb_ellipsis" onclick="expandBreadcrumbDiv()"></div><div class="wt_breadcrumb_collapse" style="display: none;"><div class="wt_breadcrumb_collapse_button" onclick="collapseBreadcrumbDiv()"></div></div></div>
+				
+				<div id="container_body" class="container">
+					<div id="contentArea">
+						<div class=" wt_topic_content body ">
+    <h1 class="title topictitle1">正则表达式过滤</h1>
+
+    
+<div class="body conbody"><p class="shortdesc">过滤规则模块支持设置正则表达式对条码进行复杂的匹配和过滤，例如条码中包含动态变化的部分或需要匹配多种格式的情况。</p>
+
+        <p class="p">正则表达式过滤配置操作步骤如下。</p>
+
+        <ol class="ol" id="GUID-F74A5BAF-C981-4E13-969C-84E897422A28__OL_XS2_W13_T2C">
+            <li class="li" id="GUID-F74A5BAF-C981-4E13-969C-84E897422A28__GUID-0B535E7A-7AD6-40BC-B8FB-DBBF1F077007">
+                <p class="p">在过滤规则区域<span class="ph uicontrol">过滤模式</span>参数选择“正则表达式过滤”。</p>
+
+            </li>
+
+            <li class="li" id="GUID-F74A5BAF-C981-4E13-969C-84E897422A28__GUID-750E5062-C26A-4F31-8892-27032D08AB95">
+                
+                <p class="p">单击<span class="ph uicontrol">正则表达式快捷设置</span>后的<span class="ph uicontrol">配置</span>，打开正则表达式过滤规则配置界面，如下图所示。</p>
+
+                <div class="fig fignone" id="GUID-F74A5BAF-C981-4E13-969C-84E897422A28__FIG_EFM_BPD_Q2C">
+                    
+                    <img class="image" style="display:none;" id="GUID-F74A5BAF-C981-4E13-969C-84E897422A28__IMAGE_FFM_BPD_Q2C" src="GUID-612C6EE9-7E41-41D0-812C-7B95585EDCC3-high.png" width="1200" />
+                <div class="fig_caption"><span class="figcap">图 1 正则表达式过滤规则配置界面</span></div></div>
+
+            </li>
+
+            <li class="li" id="GUID-F74A5BAF-C981-4E13-969C-84E897422A28__GUID-9FF1E843-1AFB-46F3-86D9-1C0CF9A6A59E">
+                <p class="p">通过导入本地文件或者自定义的方式设置正则表达式过滤规则。</p>
+
+                <div class="note note" id="GUID-F74A5BAF-C981-4E13-969C-84E897422A28__GUID-D1B7C191-7EE5-40F9-89E2-D113E6230CB4"><span class="notetitle">说明</span> 
+                    <p class="p">在正则表达式过滤规则配置界面中，最多可设置10条过滤规则。</p>
+
+                </div>
+
+                <ul class="ul" id="GUID-F74A5BAF-C981-4E13-969C-84E897422A28__UL_ESB_FB3_T2C">
+                    <li class="li" id="GUID-F74A5BAF-C981-4E13-969C-84E897422A28__GUID-FE65C5E7-D54B-478B-85E1-B29501369C42">
+                        <p class="p">导入本地过滤规则文件</p>
+
+                        <p class="p">单击界面右上方的<span class="keyword parmname">导入</span>，选择本地的.xml文件，即可导入过滤规则。若成功导入，将弹出<span class="ph uicontrol">导入成功</span>提示，同时界面将显示导入的过滤规则，如下图所示。</p>
+
+                        <div class="fig fignone" id="GUID-F74A5BAF-C981-4E13-969C-84E897422A28__FIG_F23_T5X_TQB">
+                            
+                            <img class="image" style="display:none;" id="GUID-F74A5BAF-C981-4E13-969C-84E897422A28__IMAGE_G23_T5X_TQB" src="GUID-4715BD94-7A40-44D4-94DC-82C41AF2DFAC-high.png" width="1200" />
+                        <div class="fig_caption"><span class="figcap">图 2 正则表达式过滤规则导入</span></div></div>
+
+                    </li>
+
+                    <li class="li" id="GUID-F74A5BAF-C981-4E13-969C-84E897422A28__GUID-435C52F9-DAC3-4F81-94D3-A32A0645C490">
+                        <p class="p">自定义设置过滤规则</p>
+
+                        <p class="p">单击界面左上方的<span class="keyword parmname">添加</span>，在弹出的配置界面中设置过滤规则的相关参数，然后单击<span class="keyword parmname">确定</span>，正则表达式过滤规则配置界面将显示新增的过滤规则。配置界面的参数说明如下： </p>
+
+                        <div class="fig fignone" id="GUID-F74A5BAF-C981-4E13-969C-84E897422A28__FIG_Z1X_XB3_T2C">
+                            
+                            <img class="image" style="display:none;" id="GUID-F74A5BAF-C981-4E13-969C-84E897422A28__IMAGE_ABX_XB3_T2C" src="GUID-31C49A6B-62DB-4863-A8E4-105E9229410F-high.png" width="1000" />
+                        <div class="fig_caption"><span class="figcap">图 3 自定义设置过滤规则</span></div></div>
+
+                        <ul class="ul" id="GUID-F74A5BAF-C981-4E13-969C-84E897422A28__UL_I2B_CVX_TQB">
+                            <li class="li" id="GUID-F74A5BAF-C981-4E13-969C-84E897422A28__GUID-9D863B73-00A4-4116-8FBB-A23DB94A3EE8">
+                                <p class="p"><span class="keyword parmname">规则名称</span>：默认为<span class="ph uicontrol">Rule*</span>，不可修改，其中*为数字。 </p>
+
+                            </li>
+
+                            <li class="li" id="GUID-F74A5BAF-C981-4E13-969C-84E897422A28__GUID-820F89C9-407D-4F36-83BB-446D5429F63A">
+                                <p class="p"><span class="keyword parmname">长度限制</span>：对需过滤的条码长度进行限制。 </p>
+
+                            </li>
+
+                            <li class="li" id="GUID-F74A5BAF-C981-4E13-969C-84E897422A28__GUID-2539B9C1-9C4C-4C99-834D-4AF2D91D5E1F">
+                                <p class="p"><span class="keyword parmname">特定字符开头</span>：对过滤条码的开头输入条件，多个条件以<span class="ph uicontrol">;</span>分隔，条码满足其中某个条件则视为符合要求。</p>
+
+                            </li>
+
+                            <li class="li" id="GUID-F74A5BAF-C981-4E13-969C-84E897422A28__GUID-38D8919F-C84E-47C8-B276-1D068FCB71B4">
+                                <p class="p"><span class="keyword parmname">特定字符结尾</span>：对过滤条码的结尾输入条件，多个条件以<span class="ph uicontrol">;</span>分隔，条码满足其中某个条件则视为符合要求。</p>
+
+                            </li>
+
+                            <li class="li" id="GUID-F74A5BAF-C981-4E13-969C-84E897422A28__GUID-0EB341A6-E21E-4A54-A7D6-68F9BB68C44A">
+                                
+                                <p class="p"><span class="keyword parmname">非特定字符开头</span>：过滤条码的开头部分不能包含的内容，多个条件以<span class="ph uicontrol">;</span>分隔，条码满足其中某个条件则视为符合要求。</p>
+
+                            </li>
+
+                            <li class="li" id="GUID-F74A5BAF-C981-4E13-969C-84E897422A28__GUID-EB5D7B5F-6E91-4A71-8102-670288757413">
+                                
+                                <p class="p"><span class="keyword parmname">非特定字符结尾</span>：过滤条码的结尾部分不能包含的内容，多个条件以<span class="ph uicontrol">;</span>分隔，条码满足其中某个条件则视为符合要求。</p>
+
+                            </li>
+
+                            <li class="li" id="GUID-F74A5BAF-C981-4E13-969C-84E897422A28__GUID-46833E3C-DBA9-4761-A29A-92A62D1BE538">
+                                <p class="p"><span class="keyword parmname">包含</span>：输入过滤条码中必须包含的内容，多个条件以<span class="ph uicontrol">;</span>分隔，条码须同时满足所有条件则视为符合要求。</p>
+
+                            </li>
+
+                            <li class="li" id="GUID-F74A5BAF-C981-4E13-969C-84E897422A28__GUID-E33CC6AB-203E-4900-9204-B9525C9E7D68">
+                                <p class="p"><span class="keyword parmname">不包含</span>：输入过滤条码中不能包含的内容，多个条件以<span class="ph uicontrol">;</span>分隔，条码须同时满足所有条件则视为符合要求。 </p>
+
+                            </li>
+
+                            <li class="li" id="GUID-F74A5BAF-C981-4E13-969C-84E897422A28__GUID-E45945EA-B21D-4680-95AD-9BC24432E65E">
+                                <p class="p"><span class="keyword parmname">特定字符</span>：设置过滤条码中某特定字符必须从第几位开始。其中从左到右第一个数字代表第0位，例如，若设置为<span class="keyword parmname">aaa从2位开始</span>，则条码1aaa23不符合要求，12aaa3符合要求。</p>
+
+                            </li>
+
+                            <li class="li" id="GUID-F74A5BAF-C981-4E13-969C-84E897422A28__GUID-53D36917-7D3F-48EA-92B1-4713C781B4BE">
+                                <p class="p"><span class="keyword parmname">字符其余要求</span>：设置过滤条码中其他字符的字符型，可选择<span class="ph uicontrol">大写</span>、<span class="ph uicontrol">小写</span>、<span class="ph uicontrol">数字</span>、<span class="ph uicontrol">中文</span>。</p>
+
+                            </li>
+
+                        </ul>
+
+                        <div class="note note" id="GUID-F74A5BAF-C981-4E13-969C-84E897422A28__GUID-EB4B47C2-A143-481C-88C0-200DE7A7B5EB"><span class="notetitle">说明</span> 
+                            <p class="p">不同型号以及不同固件程序设备支持的过滤规则参数有所差别，具体请以实际显示为准。</p>
+
+                        </div>
+
+                    </li>
+
+                </ul>
+
+            </li>
+
+            
+            <li class="li" id="GUID-F74A5BAF-C981-4E13-969C-84E897422A28__GUID-7AF0C2BB-2C47-4A1D-ACA9-4CC5AC20EC40">
+                <p class="p">完成过滤规则设置后，可以在条码校验框中输入条码内容，对设置的规则进行校验。符合过滤规则时，结果为通过，
+                    否则显示不通过。存在多条过滤规则时，条码仅须满足其中一条即可校验通过，如下图所示。</p>
+
+                <div class="fig fignone" id="GUID-F74A5BAF-C981-4E13-969C-84E897422A28__FIG_RR3_FR5_T2C">
+                    
+                    <img class="image" style="display:none;" id="GUID-F74A5BAF-C981-4E13-969C-84E897422A28__IMAGE_SR3_FR5_T2C" src="GUID-315D94BF-C89B-48A7-B2E1-D4A8C6AC41E0-high.png" width="1200" />
+                <div class="fig_caption"><span class="figcap">图 4 过滤规则验证</span></div></div>
+
+                <p class="p"><span class="ph uicontrol">正则表达式过滤规则配置</span>页面支持如下可选操作。</p>
+
+                <ul class="ul" id="GUID-F74A5BAF-C981-4E13-969C-84E897422A28__UL_HQK_D1J_1FC">
+                    <li class="li" id="GUID-F74A5BAF-C981-4E13-969C-84E897422A28__GUID-511522E8-50C9-45B0-AB1A-B68944BD483B">
+                        <p class="p">单击规则右侧的<img class="image icon" style="display:none;" id="GUID-F74A5BAF-C981-4E13-969C-84E897422A28__IMAGE_WXG_QWX_TQB" src="GUID-54CCD948-0743-4104-8AAF-13ECCFC8CB26-high.png" />，可以删除当前的过滤规则。</p>
+
+                    </li>
+
+                    <li class="li" id="GUID-F74A5BAF-C981-4E13-969C-84E897422A28__GUID-948AEE52-6FCD-47BE-9B7C-3F5F50A1A630">
+                        <p class="p">单击规则右侧的<img class="image icon" style="display:none;" id="GUID-F74A5BAF-C981-4E13-969C-84E897422A28__IMAGE_FV3_B5M_VYB" src="GUID-55E96AB9-9183-48A8-AE85-409510F44C35-high.png" />，可以修改当前的过滤规则。 </p>
+
+                        <div class="note note" id="GUID-F74A5BAF-C981-4E13-969C-84E897422A28__GUID-8A6070C2-4DCC-400D-BD56-438F8E356A32"><span class="notetitle">说明</span> 
+                            <p class="p">修改过滤规则后，需重新输入条码内容进行验证。</p>
+
+                        </div>
+
+                    </li>
+
+                    <li class="li" id="GUID-F74A5BAF-C981-4E13-969C-84E897422A28__GUID-B1AB8F31-C585-4C4E-BFAE-22F37EC5F5F9">
+                        <p class="p">单击界面右上方的<span class="keyword parmname">导出</span>，可以将界面上的过滤规则以.xml文件的格式导出，导出路径和文件名可自行设置。</p>
+
+                    </li>
+
+                </ul>
+
+            </li>
+
+            <li class="li" id="GUID-F74A5BAF-C981-4E13-969C-84E897422A28__GUID-24FC98C2-AF71-477E-AD7B-AEECE3FCA474">
+                <p class="p">在<span class="ph uicontrol">正则表达式过滤规则配置</span>页面下方，单击<span class="ph uicontrol">确定</span>以保存配置的正则表达式。</p>
+
+            </li>
+
+            <li class="li" id="GUID-F74A5BAF-C981-4E13-969C-84E897422A28__GUID-536439DA-99C9-4B82-B800-63516DB4FB9C">
+                <p class="p">在<span class="ph uicontrol">过滤规则</span>区域，通过<span class="ph uicontrol">正则表达式规则组号</span>参数选择生效的正则表达式规则。</p>
+
+                <div class="note note" id="GUID-F74A5BAF-C981-4E13-969C-84E897422A28__GUID-B4E0D493-7F24-4DAA-AEF9-539B98E5FC76"><span class="notetitle">说明</span> 
+                    <p class="p">其他可配置过滤参数说明请参见<a class="xref" href="GUID-276CE1BF-C371-4B01-BECD-22E11EBF00D8.html#GUID-276CE1BF-C371-4B01-BECD-22E11EBF00D8" title="过滤规则模块支持设置普通规则对条码进行简单的过滤操作，适用于基本的筛选需求，例如只需要根据条码长度或固定位置的字符进行过滤的情况。">普通过滤</a>。</p>
+
+                </div>
+
+            </li>
+
+        </ol>
+
+</div>
+
+
+</div>
+						<div class=" wt_topic_wpp_content wt_pc_only "><div class=" wt_topic_wpp_content_flex "><div class="wt_topic_wpp_item like"></div><div class="wt_topic_wpp_item view"></div><div class="wt_topic_wpp_item share">分享</div></div></div>
+						
+						
+						
+					</div>
+				</div><!-- container_body -->
+				
+				<div class=" body_footer "><div onclick="prevTopic()" class=" body_footer_left link_button "><span>上一页</span></div><div onclick="nextTopic()" class=" body_footer_right link_button "><span>下一页</span></div></div>
+				<div class=" body_wpp mobile_only"><div class="wt_body_mobile_like"></div><div class="wt_body_mobile_view"></div></div>
+				<!-- <whc:webhelp_side_toc /> -->
+				
+			</div> <!-- middle_view content_area -->
+			<div class=" right_content wt_pc_only "></div>
+		</div> <!-- content_box -->
+		
+		<!-- 置顶按钮 -->
+		<div class="body_to_top" onclick="scrollTopicTop()"></div> 
+		<!-- 评价反馈 -->
+		<div onclick="manualFeedback()" class=" body_feedback " data-href="https://wj.hikvision.com/#/public-survey?id=64c8b90d80e02e9e88feca2f"></div>
+		
+	</body>
+</html>

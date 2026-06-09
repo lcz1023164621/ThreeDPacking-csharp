@@ -1,0 +1,313 @@
+
+<!DOCTYPE html
+  PUBLIC "" "about:legacy-compat">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:whc="http://www.daksys.com/webhelp/components" xml:lang="zh-cn" lang="zh-cn">
+	<head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />        
+      <meta name="copyright" content="©  杭州海康威视数字技术股份有限公司。保留一切权利。" /><meta name="DC.Type" content="concept" /><meta name="DC.Title" content="相机存图" /><meta name="abstract" content="相机存图是指读码器将图像存储到自身内置的存储介质中。" /><meta name="description" content="相机存图是指读码器将图像存储到自身内置的存储介质中。" /><meta name="DC.Relation" scheme="URI" content="GUID-7B2CB895-8384-44F3-A0F3-3788E6D7ADD5.html" /><meta name="DC.Format" content="XHTML" /><meta name="DC.Identifier" content="GUID-4EFCB13F-13C4-4288-A2D0-9CD02A602E24" /><meta name="DC.Language" content="zh-CN" /><title>相机存图</title><!-- Generated with dksgen version 1.0, build number 2023071300.  --><meta viewport="Content-Type" content="width=device-width, initial-scale=1.0" /><meta http-equiv="X-UA-Compatible" content="IE=edge,Chrome=1" /><meta name="wh-path2root" content="index.html" />
+		<!-- commonltr css -->
+		<link rel="stylesheet" type="text/css" href="daksys-webhelp/resources/css/commonltr.css" />
+		<!-- Bootstrap css -->
+		<link rel="stylesheet" type="text/css" href="daksys-webhelp/resources/bootstrap/css/bootstrap.min.css" />
+		<link rel="stylesheet" type="text/css" href="daksys-webhelp/resources/bootstrap/css/bootstrap-theme.min.css" />
+		<link rel="stylesheet" type="text/css" href="daksys-webhelp/resources/js/jquery-ui.min.css" />
+		
+		<!-- Template css  -->
+		<link href="daksys-webhelp/template/resources/css/HIKROBOT_color.css?buildId=2023071300" rel="stylesheet" type="text/css" />
+		<link rel="stylesheet" type="text/css" href="daksys-webhelp/template/resources/css/wt_topic.css?buildId=2023071300" />
+		<link rel="stylesheet" type="text/css" href="daksys-webhelp/template/resources/css/wt_topic_m.css?buildId=2023071300" />
+		<link rel="stylesheet" type="text/css" href="daksys-webhelp/template/resources/css/wt_expand.css?buildId=2023071300" />
+		<link rel="stylesheet" type="text/css" href="daksys-webhelp/template/resources/css/wt_note.css?buildId=2023071300" />
+		<link rel="stylesheet" type="text/css" href="daksys-webhelp/template/resources/css/wt_steps.css?buildId=2023071300" />
+		
+		<!-- jquery js  -->
+		<script type="text/javascript" src="daksys-webhelp/resources/js/jquery-3.6.2.min.js"></script>
+		<script type="text/javascript" src="daksys-webhelp/resources/js/jquery.cookie.js"></script>
+		<script type="text/javascript" src="daksys-webhelp/resources/js/jquery.highlight-3.js"></script>
+		<script type="text/javascript" src="daksys-webhelp/resources/js/jquery-ui.min.js"></script>
+		
+		<!-- common js  -->
+		<script type="text/javascript" src="daksys-webhelp/resources/bootstrap/js/bootstrap.min.js"></script>
+		<script type="text/javascript" src="daksys-webhelp/resources/js/base64.js"></script>
+		<script type="text/javascript" src="daksys-webhelp/resources/js/browserDetect.js"></script>
+		<script type="text/javascript" src="daksys-webhelp/resources/js/localization.js"></script>
+		<script type="text/javascript" src="daksys-webhelp/resources/js/parseuri.js"></script>
+		<script type="text/javascript" src="daksys-webhelp/resources/localization/strings.js"></script>
+		<!-- Template js -->
+		<script type="text/javascript" src="daksys-webhelp/template/resources/js/wt_topic.js?buildId=2023071300"></script>
+		<script type="text/javascript" src="daksys-webhelp/template/resources/js/wt_expand.js?buildId=2023071300"></script>
+	</head>
+	<body class="wt_topic_page frmBody" id="GUID-4EFCB13F-13C4-4288-A2D0-9CD02A602E24" onload="topicOnload()">
+		<!-- get_lang -->
+		<div id="lang" style="display:none">zh-CN</div><div id="mapoutputclass" style="display:none"></div>
+		<input hidden="hidden" id="UDCode" value="UD12345B" /><input hidden="hidden" id="Trademark" value="海康机器人" />
+		
+		<div class="content_box">
+			<div class="middle_view content_area col-sm-9" id="content_area">
+				<div class=" wt_breadcrumb "><ol><li><span class="home topicref"><a href="javascript:void(0)" onclick="gotoFirstPage()">首页</a></span></li><li><span class="topicref"><a href="GUID-5264E9B3-93FE-419C-B2B2-36AFEF98E781.html" data-id="GUID-5264E9B3-93FE-419C-B2B2-36AFEF98E781">读码器采图及读码</a></span></li><li><span class="topicref"><a href="GUID-7B2CB895-8384-44F3-A0F3-3788E6D7ADD5.html" data-id="GUID-7B2CB895-8384-44F3-A0F3-3788E6D7ADD5">保存图像</a></span></li><li class="active"><span class="topicref">相机存图</span></li></ol><div class="wt_breadcrumb_ellipsis" onclick="expandBreadcrumbDiv()"></div><div class="wt_breadcrumb_collapse" style="display: none;"><div class="wt_breadcrumb_collapse_button" onclick="collapseBreadcrumbDiv()"></div></div></div>
+				
+				<div id="container_body" class="container">
+					<div id="contentArea">
+						<div class=" wt_topic_content body ">
+    <h1 class="title topictitle1">相机存图</h1>
+
+    
+    
+<div class="body conbody"><p class="shortdesc"><span class="ph uicontrol">相机存图</span>是指读码器将图像存储到自身内置的存储介质中。</p>
+
+        <div class="note note" id="GUID-4EFCB13F-13C4-4288-A2D0-9CD02A602E24__GUID-D9CA4033-B00C-47B2-A6F5-1C251AC5EE53"><span class="notetitle">说明</span> 
+            
+            <p class="p">由于读码器的存储介质存在使用寿命，因此<span class="ph uicontrol">相机存图</span>功能存在使用次数的限制。该功能仅适用于临时存图，长期存图建议使用<a class="xref" href="GUID-D0FF465C-9D02-4E72-91DF-8FDA54B37BD9.html#GUID-D0FF465C-9D02-4E72-91DF-8FDA54B37BD9" title="FTP存储功能将本机PC作为FTP的服务端，读码器作为FTP的客户端，通过FTP服务将读码器的图像或读码结果传输到本机PC上。通过菜单栏存图的FTP存储可设置本机PC作为FTP服务端的相关参数。">FTP存储</a>功能。</p>
+
+        </div>
+
+<p class="p">使用前，需先连接实际或虚拟读码器，再通过菜单栏<span class="ph uicontrol">存图</span>的<span class="ph uicontrol">相机存图</span>设置读码器与存图相关的参数。</p>
+
+        <div class="note note" id="GUID-4EFCB13F-13C4-4288-A2D0-9CD02A602E24__GUID-0CE522FD-B8EE-4FFF-BA34-2580F307DE7B"><span class="notetitle">说明</span> 
+            <p class="p">若未连接读码器，则无法使用此功能。</p>
+
+        </div>
+
+        <p class="p">设置具体参数前，需先将<span class="keyword parmname">运行模式</span>设置为工作模式并开启<span class="keyword parmname">触发模式</span>，方可进行以下<span class="ph uicontrol">相机存图</span>相关参数的设置。</p>
+
+        <dl class="dl parml">
+            
+                
+                <dt class="dt pt dlterm"><a name="GUID-4EFCB13F-13C4-4288-A2D0-9CD02A602E24__GUID-33DBE4A9-5D8E-4121-BC69-CAA623C10CC9"><!-- --></a>有码无读图片单独存储</dt>
+
+                <dd class="dd pd">
+                    <p class="p">该功能对<span class="ph uicontrol">客户端存图</span>、<span class="ph uicontrol">相机存图</span>及<span class="ph uicontrol">FTP存图</span>功能均有效。</p>
+
+                    <ul class="ul" id="GUID-4EFCB13F-13C4-4288-A2D0-9CD02A602E24__UL_Y2W_K3K_52C">
+                        
+                        <li class="li" id="GUID-4EFCB13F-13C4-4288-A2D0-9CD02A602E24__GUID-027A35CF-AD44-4ACB-BE58-1EBE0EC4AA0B">
+                            <p class="p">开启该功能时，存图时会将有码但未成功读取的图像和其他未成功读取图像区分文件夹存放。</p>
+
+                        </li>
+
+                        <li class="li" id="GUID-4EFCB13F-13C4-4288-A2D0-9CD02A602E24__GUID-4FC0439E-9C35-4E6E-A540-B43687EE607A">
+                            <p class="p">关闭该功能时，存图时会将所有未成功读取的图像存放在一个文件夹内。</p>
+
+                        </li>
+
+                    </ul>
+
+                </dd>
+
+            
+            
+                <dt class="dt pt dlterm"><a name="GUID-4EFCB13F-13C4-4288-A2D0-9CD02A602E24__GUID-DAA4BADE-D88B-4646-B01C-A7F181DBF8C5"><!-- --></a>相机存图</dt>
+
+                <dd class="dd pd">
+                    <p class="p">选择读码器存图模式。选择<span class="keyword parmname">关闭</span>时，则读码器不存图；选择<span class="keyword parmname">无读存图模式</span>时，读码失败的图像将根据以下参数的设置存储到读码器内。</p>
+
+                    <dl class="dl parml">
+                        
+                            <dt class="dt pt dlterm"><a name="GUID-4EFCB13F-13C4-4288-A2D0-9CD02A602E24__GUID-2C7AA43D-65A5-4A56-B727-44113DD761E5"><!-- --></a>无读存图格式</dt>
+
+                            <dd class="dd pd">
+                                <p class="p">可设置存储图像的格式，可选<span class="keyword parmname">JPEG</span>或<span class="keyword parmname">BMP</span>。其中<span class="keyword parmname">BMP</span>格式只在读码器Noread时保存图像。</p>
+
+                                <div class="note note" id="GUID-4EFCB13F-13C4-4288-A2D0-9CD02A602E24__GUID-D3CEF823-2E61-4C75-BFF6-316D8BB827ED"><span class="notetitle">说明</span> 
+                                    <p class="p">选择不同的存图格式，将影响每次触发存图的最大存图数量。可通过<span class="keyword parmname">触发存图最大数量</span>参数查看每次电平触发或Burst触发最多能存储多少张图像。</p>
+
+                                </div>
+
+                            </dd>
+
+                        
+                        
+                            <dt class="dt pt dlterm"><a name="GUID-4EFCB13F-13C4-4288-A2D0-9CD02A602E24__GUID-5628A752-D171-40BB-8E50-B37908D33EFD"><!-- --></a>相机存图覆盖策略</dt>
+
+                            <dd class="dd pd">
+                                <p class="p">可设置读码器存图达到上限时，如何覆盖的策略。可选<span class="keyword parmname">关闭</span>、<span class="keyword parmname">最大值模式</span>、<span class="keyword parmname">循环最大值模式</span>或<span class="keyword parmname">保留空间模式</span>。</p>
+
+                                <dl class="dl parml">
+                                    
+                                        <dt class="dt pt dlterm"><a name="GUID-4EFCB13F-13C4-4288-A2D0-9CD02A602E24__GUID-4250D94E-1B92-405C-B6FC-9EF373F70C77"><!-- --></a>关闭</dt>
+
+                                        <dd class="dd pd">
+                                            <p class="p">一直存图，直至将读码器内的存储空间用完，则停止存图。</p>
+
+                                        </dd>
+
+                                    
+                                    
+                                        <dt class="dt pt dlterm"><a name="GUID-4EFCB13F-13C4-4288-A2D0-9CD02A602E24__GUID-F0C44470-3D9B-4796-8931-07614535611E"><!-- --></a>最大值模式</dt>
+
+                                        <dd class="dd pd">
+                                            <p class="p">存储指定数量的图像后，停止存图。具体数量由<span class="keyword parmname">相机存图覆盖阈值</span>参数控制。</p>
+
+                                        </dd>
+
+                                    
+                                    
+                                        <dt class="dt pt dlterm"><a name="GUID-4EFCB13F-13C4-4288-A2D0-9CD02A602E24__GUID-4663FF51-B298-4EC4-941B-12FB441F04C1"><!-- --></a>循环最大值模式</dt>
+
+                                        <dd class="dd pd">
+                                            <p class="p">存储指定数量的图像后，通过覆盖最老图像的方式继续存储。具体数量由<span class="keyword parmname">相机存图覆盖阈值</span>参数控制。</p>
+
+                                        </dd>
+
+                                    
+                                    
+                                        <dt class="dt pt dlterm"><a name="GUID-4EFCB13F-13C4-4288-A2D0-9CD02A602E24__GUID-C29AE0B3-69A4-445B-B137-E46203C57162"><!-- --></a>保留空间模式</dt>
+
+                                        <dd class="dd pd">
+                                            <p class="p">保留一定空间的情况下，其他存储空间用于存图。可存图空间用完后，通过覆盖最老图像的方式继续存储。具体保留空间的大小由<span class="keyword parmname">存图保留空间（MB）</span>参数控制。</p>
+
+                                        </dd>
+
+                                    
+                                </dl>
+
+                            </dd>
+
+                        
+                        
+                            <dt class="dt pt dlterm"><a name="GUID-4EFCB13F-13C4-4288-A2D0-9CD02A602E24__GUID-1EB4AA2B-5BD9-478E-BA2A-091C97DC34E4"><!-- --></a>相机存图图片名称</dt>
+
+                            <dd class="dd pd">
+                                <p class="p">可设置所存储图像的命名调整。</p>
+
+                                <div class="note note" id="GUID-4EFCB13F-13C4-4288-A2D0-9CD02A602E24__GUID-D299688B-0583-4292-BF27-71A7A7716CCE"><span class="notetitle">说明</span> 
+                                    <p class="p">如需调整此命名规则，不推荐在此处自定义修改，建议通过<a class="xref" href="GUID-C3AE063C-E14B-4882-A14C-1A6B2F872C1E.html#GUID-C3AE063C-E14B-4882-A14C-1A6B2F872C1E" title="格式化配置功能支持通过通讯协议输出的数据按照特定的结构、样式或规则进行组织，包括添加或删除输出内容或字符、设置输出内容开始和结束部分等。">格式化配置</a>的FTP协议处修改。</p>
+
+                                </div>
+
+                            </dd>
+
+                        
+                        
+                            <dt class="dt pt dlterm"><a name="GUID-4EFCB13F-13C4-4288-A2D0-9CD02A602E24__GUID-74639986-522F-4E20-AD52-59F0564B0C23"><!-- --></a>相机存图时间格式</dt>
+
+                            <dd class="dd pd">
+                                <p class="p">当<span class="keyword parmname">相机存图图片名称</span>中有<span class="keyword parmname">帧时间</span>（即&lt;frame_time&gt;）时，可通过此参数控制时间的显示方式。</p>
+
+                                <p class="p">可选<span class="keyword parmname">YYYYMMDD_HHMMSSFFF</span>、<span class="keyword parmname">YYMMDD_HHMMSSFFF</span>、<span class="keyword parmname">DDMMYY_HHMMSSFFF</span>、<span class="keyword parmname">MM-DD-YY_HH.MM.SS.FFF</span>、<span class="keyword parmname">HHMMSSFFF</span>。</p>
+
+                                <div class="note note" id="GUID-4EFCB13F-13C4-4288-A2D0-9CD02A602E24__GUID-C3A0014C-0EFD-4727-BA1E-74C8D032C864"><span class="notetitle">说明</span> 
+                                    <p class="p">其中Y代表年，Y或D前后的M代表月，D代表日，H代表时，H后的M代表分，S代表秒，F代表毫秒。</p>
+
+                                </div>
+
+                            </dd>
+
+                        
+                        
+                            <dt class="dt pt dlterm"><a name="GUID-4EFCB13F-13C4-4288-A2D0-9CD02A602E24__GUID-950F9585-C3F2-42CE-90CA-47810F9DD60F"><!-- --></a>相机存图策略</dt>
+
+                            <dd class="dd pd">
+                                <p class="p">可设置读码器每次触发时，将哪些图像存储到读码器内。可选<span class="keyword parmname">最新帧</span>、<span class="keyword parmname">全部帧</span>、<span class="keyword parmname">指定范围帧</span>、<span class="keyword parmname">特定帧</span>。</p>
+
+                                <dl class="dl parml">
+                                    
+                                        <dt class="dt pt dlterm"><a name="GUID-4EFCB13F-13C4-4288-A2D0-9CD02A602E24__GUID-CEA22A58-DB4B-456D-843F-BB18CD2027B8"><!-- --></a>最新帧</dt>
+
+                                        <dd class="dd pd">
+                                            <p class="p">每次触发时，仅存储最新一帧的图像。</p>
+
+                                        </dd>
+
+                                    
+                                    
+                                        <dt class="dt pt dlterm"><a name="GUID-4EFCB13F-13C4-4288-A2D0-9CD02A602E24__GUID-2C7A77EB-CF53-4838-ACFA-A737B7D72E20"><!-- --></a>全部帧</dt>
+
+                                        <dd class="dd pd">
+                                            <p class="p">每次触发时，存储所有的图像。</p>
+
+                                        </dd>
+
+                                    
+                                    
+                                        <dt class="dt pt dlterm"><a name="GUID-4EFCB13F-13C4-4288-A2D0-9CD02A602E24__GUID-8F25DBB4-EA49-4A6C-8EF9-ECFF55031BB4"><!-- --></a>指定范围帧</dt>
+
+                                        <dd class="dd pd">
+                                            <p class="p">每次触发时，仅存储指定范围内的图像。具体范围由<span class="keyword parmname">帧起始索引</span>和<span class="keyword parmname">帧终止索引</span>参数控制。</p>
+
+                                            <div class="note note" id="GUID-4EFCB13F-13C4-4288-A2D0-9CD02A602E24__GUID-8A6AB674-9820-463F-A132-576BC413DB0A"><span class="notetitle">说明</span> 
+                                                <p class="p">帧索引范围应在“1 ~ 触发存图最大数量”范围内。</p>
+
+                                            </div>
+
+                                        </dd>
+
+                                    
+                                    
+                                        <dt class="dt pt dlterm"><a name="GUID-4EFCB13F-13C4-4288-A2D0-9CD02A602E24__GUID-156E5F7B-227D-4D10-9084-72426ED3FD99"><!-- --></a>特定帧</dt>
+
+                                        <dd class="dd pd">
+                                            <p class="p">每次触发时，仅存储特定那一帧的图像。具体是哪一帧，由<span class="keyword parmname">帧索引</span>参数控制。</p>
+
+                                            <div class="note note" id="GUID-4EFCB13F-13C4-4288-A2D0-9CD02A602E24__GUID-97841FBD-C3AD-47E7-A08C-52034E82C901"><span class="notetitle">说明</span> 
+                                                <p class="p">帧索引数值仅支持设置为“1 ~ 触发存图最大数量”范围内的数值。</p>
+
+                                            </div>
+
+                                        </dd>
+
+                                    
+                                </dl>
+
+                            </dd>
+
+                        
+                        
+                            <dt class="dt pt dlterm"><a name="GUID-4EFCB13F-13C4-4288-A2D0-9CD02A602E24__GUID-B931B41C-E335-47CE-9F55-ED743F34069B"><!-- --></a>查询相机存储空间</dt>
+
+                            <dd class="dd pd">
+                                <p class="p">单击右侧的<span class="ph uicontrol">执行</span>后，<span class="keyword parmname">相机总存储空间(MB)</span>和<span class="keyword parmname">相机可用存储空间(MB)</span>处将分别显示当前读码器总的存储空间大小和还可使用的存储空间大小。</p>
+
+                            </dd>
+
+                        
+                        
+                            <dt class="dt pt dlterm"><a name="GUID-4EFCB13F-13C4-4288-A2D0-9CD02A602E24__GUID-B4217D1B-7D9F-42C5-97D1-718338196796"><!-- --></a>查询已存图片数量</dt>
+
+                            <dd class="dd pd">
+                                <p class="p">单击右侧的<span class="ph uicontrol">执行</span>后，<span class="keyword parmname">已存图片数量</span>处将显示当前读码器内已存储图像的数量。</p>
+
+                            </dd>
+
+                        
+                        
+                            <dt class="dt pt dlterm"><a name="GUID-4EFCB13F-13C4-4288-A2D0-9CD02A602E24__GUID-10B0452C-68CE-4EF6-B3E5-D9372385DEA0"><!-- --></a>清空已存图片</dt>
+
+                            <dd class="dd pd">
+                                <p class="p">单击右侧的<span class="ph uicontrol">执行</span>可将读码器内已存储的图像清空。</p>
+
+                            </dd>
+
+                        
+                    </dl>
+
+                </dd>
+
+            
+        </dl>
+
+</div>
+
+
+</div>
+						<div class=" wt_topic_wpp_content wt_pc_only "><div class=" wt_topic_wpp_content_flex "><div class="wt_topic_wpp_item like"></div><div class="wt_topic_wpp_item view"></div><div class="wt_topic_wpp_item share">分享</div></div></div>
+						
+						
+						
+					</div>
+				</div><!-- container_body -->
+				
+				<div class=" body_footer "><div onclick="prevTopic()" class=" body_footer_left link_button "><span>上一页</span></div><div onclick="nextTopic()" class=" body_footer_right link_button "><span>下一页</span></div></div>
+				<div class=" body_wpp mobile_only"><div class="wt_body_mobile_like"></div><div class="wt_body_mobile_view"></div></div>
+				<!-- <whc:webhelp_side_toc /> -->
+				
+			</div> <!-- middle_view content_area -->
+			<div class=" right_content wt_pc_only "></div>
+		</div> <!-- content_box -->
+		
+		<!-- 置顶按钮 -->
+		<div class="body_to_top" onclick="scrollTopicTop()"></div> 
+		<!-- 评价反馈 -->
+		<div onclick="manualFeedback()" class=" body_feedback " data-href="https://wj.hikvision.com/#/public-survey?id=64c8b90d80e02e9e88feca2f"></div>
+		
+	</body>
+</html>

@@ -1,0 +1,1027 @@
+
+<!DOCTYPE html
+  PUBLIC "" "about:legacy-compat">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:whc="http://www.daksys.com/webhelp/components" xml:lang="zh-cn" lang="zh-cn">
+	<head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />        
+      <meta name="copyright" content="©  杭州海康威视数字技术股份有限公司。保留一切权利。" /><meta name="DC.Type" content="concept" /><meta name="DC.Title" content="成像配置" /><meta name="abstract" content="成像配置模块提供全面且精细的成像参数调整功能，可在此调整图像、光源、自适应、调焦等相关参数，以获得最佳的图像效果。" /><meta name="description" content="成像配置模块提供全面且精细的成像参数调整功能，可在此调整图像、光源、自适应、调焦等相关参数，以获得最佳的图像效果。" /><meta name="DC.Relation" scheme="URI" content="GUID-9ED8A60A-4358-4489-A0B0-005FA5B048B5.html" /><meta name="DC.Format" content="XHTML" /><meta name="DC.Identifier" content="GUID-2B44A318-9C5F-426A-9149-25867EDB0B14" /><meta name="DC.Language" content="zh-CN" /><title>成像配置</title><!-- Generated with dksgen version 1.0, build number 2023071300.  --><meta viewport="Content-Type" content="width=device-width, initial-scale=1.0" /><meta http-equiv="X-UA-Compatible" content="IE=edge,Chrome=1" /><meta name="wh-path2root" content="index.html" />
+		<!-- commonltr css -->
+		<link rel="stylesheet" type="text/css" href="daksys-webhelp/resources/css/commonltr.css" />
+		<!-- Bootstrap css -->
+		<link rel="stylesheet" type="text/css" href="daksys-webhelp/resources/bootstrap/css/bootstrap.min.css" />
+		<link rel="stylesheet" type="text/css" href="daksys-webhelp/resources/bootstrap/css/bootstrap-theme.min.css" />
+		<link rel="stylesheet" type="text/css" href="daksys-webhelp/resources/js/jquery-ui.min.css" />
+		
+		<!-- Template css  -->
+		<link href="daksys-webhelp/template/resources/css/HIKROBOT_color.css?buildId=2023071300" rel="stylesheet" type="text/css" />
+		<link rel="stylesheet" type="text/css" href="daksys-webhelp/template/resources/css/wt_topic.css?buildId=2023071300" />
+		<link rel="stylesheet" type="text/css" href="daksys-webhelp/template/resources/css/wt_topic_m.css?buildId=2023071300" />
+		<link rel="stylesheet" type="text/css" href="daksys-webhelp/template/resources/css/wt_expand.css?buildId=2023071300" />
+		<link rel="stylesheet" type="text/css" href="daksys-webhelp/template/resources/css/wt_note.css?buildId=2023071300" />
+		<link rel="stylesheet" type="text/css" href="daksys-webhelp/template/resources/css/wt_steps.css?buildId=2023071300" />
+		
+		<!-- jquery js  -->
+		<script type="text/javascript" src="daksys-webhelp/resources/js/jquery-3.6.2.min.js"></script>
+		<script type="text/javascript" src="daksys-webhelp/resources/js/jquery.cookie.js"></script>
+		<script type="text/javascript" src="daksys-webhelp/resources/js/jquery.highlight-3.js"></script>
+		<script type="text/javascript" src="daksys-webhelp/resources/js/jquery-ui.min.js"></script>
+		
+		<!-- common js  -->
+		<script type="text/javascript" src="daksys-webhelp/resources/bootstrap/js/bootstrap.min.js"></script>
+		<script type="text/javascript" src="daksys-webhelp/resources/js/base64.js"></script>
+		<script type="text/javascript" src="daksys-webhelp/resources/js/browserDetect.js"></script>
+		<script type="text/javascript" src="daksys-webhelp/resources/js/localization.js"></script>
+		<script type="text/javascript" src="daksys-webhelp/resources/js/parseuri.js"></script>
+		<script type="text/javascript" src="daksys-webhelp/resources/localization/strings.js"></script>
+		<!-- Template js -->
+		<script type="text/javascript" src="daksys-webhelp/template/resources/js/wt_topic.js?buildId=2023071300"></script>
+		<script type="text/javascript" src="daksys-webhelp/template/resources/js/wt_expand.js?buildId=2023071300"></script>
+	</head>
+	<body class="wt_topic_page frmBody" id="GUID-2B44A318-9C5F-426A-9149-25867EDB0B14" onload="topicOnload()">
+		<!-- get_lang -->
+		<div id="lang" style="display:none">zh-CN</div><div id="mapoutputclass" style="display:none"></div>
+		<input hidden="hidden" id="UDCode" value="UD12345B" /><input hidden="hidden" id="Trademark" value="海康机器人" />
+		
+		<div class="content_box">
+			<div class="middle_view content_area col-sm-9" id="content_area">
+				<div class=" wt_breadcrumb "><ol><li><span class="home topicref"><a href="javascript:void(0)" onclick="gotoFirstPage()">首页</a></span></li><li><span class="topicref"><a href="GUID-D8488278-18E0-41D0-91B9-35636662C53F.html" data-id="GUID-D8488278-18E0-41D0-91B9-35636662C53F">读码器常用配置</a></span></li><li><span class="topicref"><a href="GUID-9ED8A60A-4358-4489-A0B0-005FA5B048B5.html" data-id="GUID-9ED8A60A-4358-4489-A0B0-005FA5B048B5">调试图像及码制</a></span></li><li class="active"><span class="topicref">成像配置</span></li></ol><div class="wt_breadcrumb_ellipsis" onclick="expandBreadcrumbDiv()"></div><div class="wt_breadcrumb_collapse" style="display: none;"><div class="wt_breadcrumb_collapse_button" onclick="collapseBreadcrumbDiv()"></div></div></div>
+				
+				<div id="container_body" class="container">
+					<div id="contentArea">
+						<div class=" wt_topic_content body ">
+    <h1 class="title topictitle1">成像配置</h1>
+
+
+<div class="body conbody"><p class="shortdesc">成像配置模块提供全面且精细的成像参数调整功能，可在此调整图像、光源、自适应、调焦等相关参数，以获得最佳的图像效果。</p>
+
+<p class="p">在主界面单击<span class="ph menucascade"><span class="ph uicontrol">读取设置</span> &gt; <span class="ph uicontrol">成像配置</span></span>，进入<span class="ph uicontrol">成像配置</span>页签，配置相关参数。</p>
+
+        
+        <div class="note note" id="GUID-2B44A318-9C5F-426A-9149-25867EDB0B14__GUID-A6DAED83-A893-4D11-BACB-F474FBF3A2B3"><span class="notetitle">说明</span> 
+            <p class="p">不同型号和固件版本的读码器可配置参数可能会有所差异，请以实际显示为准。</p>
+
+        </div>
+
+        <div class="fig fignone" id="GUID-2B44A318-9C5F-426A-9149-25867EDB0B14__FIG_ZZC_XTK_W2C">
+            
+            <img class="image" style="display:none;" id="GUID-2B44A318-9C5F-426A-9149-25867EDB0B14__IMAGE_A1D_XTK_W2C" src="GUID-95CD9FAC-5BDA-4555-9D14-6F857618E6F0-high.png" width="2100" />
+        <div class="fig_caption"><span class="figcap">图 1 成像配置</span></div></div>
+
+        <div class="section" id="GUID-2B44A318-9C5F-426A-9149-25867EDB0B14__GUID-22A325E9-DFAE-4090-820D-77943B561815"><h2 class="title sectiontitle">图像配置</h2>
+            
+            <p class="p">图像配置部分可对曝光时间、增益、伽马、采集帧率、自动曝光模式等参数进行设置，根据实际使用需求进行设置。</p>
+
+            <dl class="dl parml">
+                
+                    <dt class="dt pt dlterm"><a name="GUID-2B44A318-9C5F-426A-9149-25867EDB0B14__GUID-3BD7D75C-A211-4EEA-9539-ED2EBCB6BFF9"><!-- --></a>常用参数</dt>
+
+                    <dd class="dd pd">
+                        <dl class="dl parml">
+                            
+                                <dt class="dt pt dlterm"><a name="GUID-2B44A318-9C5F-426A-9149-25867EDB0B14__GUID-27257DBB-B63E-461D-8DF1-50CD2C6E4A8C"><!-- --></a>曝光时间(μs)</dt>
+
+                                <dd class="dd pd">
+                                    <p class="p">此参数用于指定读码器感光元件在捕获图像时暴露于光线中的时间长度。增大曝光时间可提高图像亮度，但一定程度上会降低采集帧率，且如果曝光值过大拍摄运动物体时容易出现拖影。</p>
+
+                                    
+                                    <div class="note note" id="GUID-2B44A318-9C5F-426A-9149-25867EDB0B14__GUID-BE2C6CC4-0D54-4DC8-AAE9-D54636DD93F8"><span class="notetitle">说明</span> 
+                                        <p class="p">曝光时间计算公式为：曝光时间 = 视野 / 分辨率 / 传送带速度。 </p>
+
+                                        <p class="p">例如：读码器分辨率为5440×3648，视野有986mm×660mm，传送带速度1.5m/s，则计算的曝光时间=986
+                                            / 5440 /
+                                            1500=0.00012s=120μs，若此时画面亮度仍然较暗，可适当将曝光时间改大到150μs。</p>
+
+                                    </div>
+
+                                </dd>
+
+                            
+                            
+                                <dt class="dt pt dlterm"><a name="GUID-2B44A318-9C5F-426A-9149-25867EDB0B14__GUID-87A85F80-9736-47C2-8D7E-8A7629AC7F0E"><!-- --></a>增益类型</dt>
+
+                                <dd class="dd pd">
+                                    <p class="p">根据实际情况选择读码器的增益类型，可选择如下类型。</p>
+
+                                    <ul class="ul" id="GUID-2B44A318-9C5F-426A-9149-25867EDB0B14__UL_XNN_TTW_PFC">
+                                        <li class="li" id="GUID-2B44A318-9C5F-426A-9149-25867EDB0B14__GUID-231E3F3E-A52E-4201-9846-D02830F2FDD1">
+                                            <p class="p"><span class="ph uicontrol">Hcg增益</span>：高转换增益（High Conversion
+                                                Gain），能够在低光环境下捕获更清晰的 图像，适用于光线较弱环境。</p>
+
+                                        </li>
+
+                                        <li class="li" id="GUID-2B44A318-9C5F-426A-9149-25867EDB0B14__GUID-3CF4C4EC-25B4-4A98-9E18-C54083212BC3">
+                                            <p class="p"><span class="ph uicontrol">Lcg增益</span>：低转换增益（Low Conversion
+                                                Gain），能够处理明亮场景下的大信号， 减少过度曝光，适用于光线充足环境。</p>
+
+                                        </li>
+
+                                    </ul>
+
+                                    <div class="note note" id="GUID-2B44A318-9C5F-426A-9149-25867EDB0B14__GUID-F044A946-2779-4850-89C3-3672D7569D00"><span class="notetitle">说明</span> 
+                                        <p class="p">仅紧凑型(Mini)智能读码器支持配置此参数。</p>
+
+                                    </div>
+
+                                </dd>
+
+                            
+                            
+                                <dt class="dt pt dlterm"><a name="GUID-2B44A318-9C5F-426A-9149-25867EDB0B14__GUID-9677132B-1476-460C-888D-0D09826F5EC8"><!-- --></a>增益(dB)</dt>
+
+                                <dd class="dd pd">
+                                    <p class="p">增大增益可提高图像的亮度，但一定程度上图像的噪点会增加。</p>
+
+                                    <div class="note note" id="GUID-2B44A318-9C5F-426A-9149-25867EDB0B14__GUID-1E2428D7-2B28-42F1-AD85-6EA4D789A49A"><span class="notetitle">说明</span> 
+                                        <p class="p">读码场景算法对于增益适应性较强，可根据实际场景进行自定义。</p>
+
+                                    </div>
+
+                                </dd>
+
+                            
+                            
+                                <dt class="dt pt dlterm"><a name="GUID-2B44A318-9C5F-426A-9149-25867EDB0B14__GUID-89CAFD62-65F0-4DD9-A798-0A00E35EF3CA"><!-- --></a>伽马</dt>
+
+                                <dd class="dd pd">
+                                    <p class="p">伽马可调整图像的对比度。建议降低伽马的数值使暗处亮度提升，有助于条码的读取。</p>
+
+                                    <div class="note note" id="GUID-2B44A318-9C5F-426A-9149-25867EDB0B14__GUID-D0A5D1AA-A871-44B9-B2BB-17AECC4754A3"><span class="notetitle">说明</span> 
+                                        <ul class="ul" id="GUID-2B44A318-9C5F-426A-9149-25867EDB0B14__UL_H5D_4TB_5XB">
+                                            <li class="li" id="GUID-2B44A318-9C5F-426A-9149-25867EDB0B14__GUID-2E1E2AA1-6D19-4D38-A087-92F847F68CD9">
+                                                <p class="p"> 伽马值在0~1之间，图像暗处亮度提升； </p>
+
+                                            </li>
+
+                                            <li class="li" id="GUID-2B44A318-9C5F-426A-9149-25867EDB0B14__GUID-9491A0A8-7465-4EF7-ACD2-ABBA002C3136">
+                                                <p class="p"> 伽马值在1~4之间，图像暗处亮度下降。 </p>
+
+                                            </li>
+
+                                        </ul>
+
+                                    </div>
+
+                                </dd>
+
+                            
+                            
+                                <dt class="dt pt dlterm"><a name="GUID-2B44A318-9C5F-426A-9149-25867EDB0B14__GUID-AC616C14-91DC-4B4B-8300-635AB02A73EE"><!-- --></a>采集帧率(fps)</dt>
+
+                                <dd class="dd pd">
+                                    <p class="p">此参数为读码器每秒采集的图像帧数。
+                                        高帧率适合动态场景，可实时捕捉快速变化；低帧率适用于静态场景，可降低数据量与处理负担。</p>
+
+                                    <p class="p">采集帧率数值计算公式为：采集帧率=1秒内照明持续时间/(曝光时间+照明提前时间)。</p>
+
+                                </dd>
+
+                            
+                            
+                                <dt class="dt pt dlterm"><a name="GUID-2B44A318-9C5F-426A-9149-25867EDB0B14__GUID-DB395AC4-763A-4A0F-8F42-B8BEB7660B8E"><!-- --></a>自动曝光模式</dt>
+
+                                <dd class="dd pd">
+                                    <p class="p">设置读码器的自动曝光模式，可选如下模式：</p>
+
+                                    
+                                    <ul class="ul" id="GUID-2B44A318-9C5F-426A-9149-25867EDB0B14__UL_XVM_JZJ_P2C">
+                                        <li class="li" id="GUID-2B44A318-9C5F-426A-9149-25867EDB0B14__GUID-128A46F0-2D30-407E-899D-F914EF63009A">
+                                            <p class="p"><span class="ph uicontrol">关闭自动曝光</span>：手动设置曝光时间，适用于环境稳定、光线均匀且固定场景。</p>
+
+                                        </li>
+
+                                        <li class="li" id="GUID-2B44A318-9C5F-426A-9149-25867EDB0B14__GUID-B33514BF-FF3B-4E31-9733-A193F9868CFE">
+                                            <p class="p"><span class="ph uicontrol">单次自动曝光</span>：读码器根据当前环境亮度自动调整曝光时间一次，调整完成后自动切换为关闭模式，适合环境光线偶尔变化，需临时优化读码效果的情况。</p>
+
+                                        </li>
+
+                                        <li class="li" id="GUID-2B44A318-9C5F-426A-9149-25867EDB0B14__GUID-EC737E25-B1DD-4D33-8C5D-4E8D34F944DC">
+                                            <p class="p"><span class="ph uicontrol">连续自动曝光</span>：读码器持续根据环境亮度自动调整曝光时间，确保图像始终处于最佳亮度状态，适用于光线变化频繁场景。</p>
+
+                                        </li>
+
+                                    </ul>
+
+                                </dd>
+
+                            
+                            
+                                <dt class="dt pt dlterm"><a name="GUID-2B44A318-9C5F-426A-9149-25867EDB0B14__GUID-4DA49512-0EC5-416C-95C2-C8B11A3FF93F"><!-- --></a>自动增益模式</dt>
+
+                                <dd class="dd pd">
+                                    <p class="p">设置读码器的自动增益模式，可选如下模式：</p>
+
+                                    
+                                    <ul class="ul" id="GUID-2B44A318-9C5F-426A-9149-25867EDB0B14__UL_KYT_WZJ_P2C">
+                                        <li class="li" id="GUID-2B44A318-9C5F-426A-9149-25867EDB0B14__GUID-EECA6D86-5BBF-440B-ACFB-542D604BE1A6">
+                                            <p class="p"><span class="ph uicontrol">关闭自动增益</span>：手动设置增益，适用于环境稳定、光线均匀且固定场景。</p>
+
+                                        </li>
+
+                                        <li class="li" id="GUID-2B44A318-9C5F-426A-9149-25867EDB0B14__GUID-C902E593-3420-482B-93CE-87B42B463E9E">
+                                            <p class="p"><span class="ph uicontrol">单次自动增益</span>：读码器根据当前环境亮度自动调整增益一次，调整完成后自动切换为关闭模式，适合环境光线偶尔变化，需临时优化读码效果的情况。</p>
+
+                                        </li>
+
+                                        <li class="li" id="GUID-2B44A318-9C5F-426A-9149-25867EDB0B14__GUID-FF502BE7-45FE-479A-8A7D-ADDF0E1F7A4C">
+                                            <p class="p"><span class="ph uicontrol">连续自动增益</span>：读码器持续根据环境亮度自动调整增益，确保图像始终处于最佳亮度状态，适用于光线变化频繁场景。</p>
+
+                                        </li>
+
+                                    </ul>
+
+                                </dd>
+
+                            
+                        </dl>
+
+                    </dd>
+
+                
+                
+                    <dt class="dt pt dlterm"><a name="GUID-2B44A318-9C5F-426A-9149-25867EDB0B14__GUID-9F599059-0A96-4B00-A5D7-3483C84A76AA"><!-- --></a>高级参数</dt>
+
+                    <dd class="dd pd">
+                        <p class="p">单击<span class="ph uicontrol">高级参数</span>可显示并配置如下参数。</p>
+
+                        <dl class="dl parml">
+                            
+                                <dt class="dt pt dlterm"><a name="GUID-2B44A318-9C5F-426A-9149-25867EDB0B14__GUID-7B889EA1-2995-4B84-933A-EA45B823630E"><!-- --></a>算法识别帧率</dt>
+
+                                <dd class="dd pd">
+                                    <p class="p">设置读码器在单位时间内能够进行算法识别的图像帧数。</p>
+
+                                </dd>
+
+                            
+                            
+                                <dt class="dt pt dlterm"><a name="GUID-2B44A318-9C5F-426A-9149-25867EDB0B14__GUID-925CD1F2-CA96-4296-9FF5-72EB43C72CA4"><!-- --></a>单次触发帧计数</dt>
+
+                                <dd class="dd pd">
+                                    <p class="p">设置读码器触发一次采集的图像数。</p>
+
+                                    <div class="note note" id="GUID-2B44A318-9C5F-426A-9149-25867EDB0B14__GUID-6AEFA0A3-03D4-43E0-9A55-BE4FF95FA965"><span class="notetitle">说明</span> 
+                                        
+                                        <p class="p">此参数只有在沿触发模式（触发源为管脚0/1/2输入且触发极性为上升/下降沿、计数器0）或软件触发模式（触发源为TCP客户端、TCP服务端、串口触发、UDP触发）时生效，开启参数轮询后该参数不生效。</p>
+
+                                    </div>
+
+                                </dd>
+
+                            
+                            
+                                <dt class="dt pt dlterm"><a name="GUID-2B44A318-9C5F-426A-9149-25867EDB0B14__GUID-00491E4B-4C9A-429F-9B1F-8F6B422EEB5F"><!-- --></a>RAW模式</dt>
+
+                                <dd class="dd pd">
+                                    <p class="p">开启后读码器采集图像仅输出裸数据。</p>
+
+                                    <div class="note note" id="GUID-2B44A318-9C5F-426A-9149-25867EDB0B14__GUID-B6746E98-65BA-43AF-8CFF-2A842AA0A335"><span class="notetitle">说明</span> 
+                                        
+                                        <p class="p">此参数由<span class="ph uicontrol">客户端存图</span>中的<span class="keyword parmname">图像格式</span>参数控制，当<span class="keyword parmname">图像格式</span>参数选择BMP或RAW格式时，自动开启该开关；当<span class="keyword parmname">图像格式</span>参数选择JPG格式时，自动关闭该开关。</p>
+
+                                    </div>
+
+                                </dd>
+
+                            
+                            
+                                <dt class="dt pt dlterm"><a name="GUID-2B44A318-9C5F-426A-9149-25867EDB0B14__GUID-8A485C31-4EF3-4229-B6A2-74F8A36EC057"><!-- --></a>曝光区域</dt>
+
+                                <dd class="dd pd">
+                                    <p class="p">当<span class="ph uicontrol">自动曝光模式</span>参数选择<span class="keyword parmname">单次自动曝光</span>或<span class="keyword parmname">连续自动曝光</span>时，通过此参数设置读码器采集图像时的曝光模式，可选如下模式。</p>
+
+                                    <ul class="ul" id="GUID-2B44A318-9C5F-426A-9149-25867EDB0B14__UL_NZQ_VR3_MFC">
+                                        <li class="li" id="GUID-2B44A318-9C5F-426A-9149-25867EDB0B14__GUID-DE9A4C3A-AB5D-4C06-A168-A6FFDE8812C1">
+                                            <p class="p"><span class="ph uicontrol">全局曝光</span>：针对预览画面整体进行曝光。</p>
+
+                                        </li>
+
+                                        <li class="li" id="GUID-2B44A318-9C5F-426A-9149-25867EDB0B14__GUID-A36D17AC-0830-4ABE-92F0-5585C3B0854E">
+                                            <p class="p"><span class="ph uicontrol">局部曝光</span>：针对预览画面的特定范围进行曝光。选择此模式后支持通过如下参数设置曝光区域范围。</p>
+
+                                            <ul class="ul" id="GUID-2B44A318-9C5F-426A-9149-25867EDB0B14__UL_VLT_CS3_MFC">
+                                                <li class="li" id="GUID-2B44A318-9C5F-426A-9149-25867EDB0B14__GUID-DC0D9A9D-F2C4-49C4-A617-29CC472452DB">
+                                                  <p class="p"><span class="ph uicontrol">曝光区域宽度</span>：局部曝光区域横向的分辨率。
+                                                  </p>
+
+                                                </li>
+
+                                                <li class="li" id="GUID-2B44A318-9C5F-426A-9149-25867EDB0B14__GUID-1A34B91A-1836-4F1C-A421-11AF250A4DC4">
+                                                  <p class="p"><span class="ph uicontrol">曝光区域高度</span>：局部曝光区域纵向的分辨率。</p>
+
+                                                </li>
+
+                                                <li class="li" id="GUID-2B44A318-9C5F-426A-9149-25867EDB0B14__GUID-BF10B1F1-EF65-4104-AE55-ADF625663333">
+                                                  <p class="p"><span class="ph uicontrol">曝光区域X轴偏移</span>：局部曝光区域左上角起点位置的横坐标。</p>
+
+                                                </li>
+
+                                                <li class="li" id="GUID-2B44A318-9C5F-426A-9149-25867EDB0B14__GUID-CBE9100D-6798-467F-B8B5-1D2E95B6A72C">
+                                                  <p class="p"><span class="ph uicontrol">曝光区域Y
+                                                  轴偏移</span>：局部曝光区域左上角起点位置的纵坐标。</p>
+
+                                                </li>
+
+                                            </ul>
+
+                                        </li>
+
+                                        <li class="li" id="GUID-2B44A318-9C5F-426A-9149-25867EDB0B14__GUID-1A6C3E59-6B6A-4ABD-ABBF-731018D82772">
+                                            <p class="p"><span class="ph uicontrol">条码曝光</span>：针对预览画面中的条码区域进行曝光。</p>
+
+                                            <div class="note note" id="GUID-2B44A318-9C5F-426A-9149-25867EDB0B14__GUID-CA7B1605-5088-4E92-B046-9FA8CBE268C1"><span class="notetitle">说明</span> 
+                                                <p class="p">仅部分型号读码器支持选择条码曝光方式，实际支持情况请以界面显示为准。</p>
+
+                                            </div>
+
+                                        </li>
+
+                                    </ul>
+
+                                </dd>
+
+                            
+                            
+                                <dt class="dt pt dlterm"><a name="GUID-2B44A318-9C5F-426A-9149-25867EDB0B14__GUID-FAD97323-F5BF-49D3-B761-FA591AE3E8BA"><!-- --></a>交替曝光</dt>
+
+                                <dd class="dd pd">
+                                    <p class="p">选择是否启用交替曝光，开启后读码器按照开启的曝光组顺序依次曝光，以适应变化的环境光线，操作步骤如下。</p>
+
+                                    <div class="note note" id="GUID-2B44A318-9C5F-426A-9149-25867EDB0B14__GUID-45B2C0B2-F1F4-4332-ADC9-F12F329A7433"><span class="notetitle">说明</span> 
+                                        <p class="p">自动曝光和交替曝光功能只支持开启其中一个，即<span class="ph uicontrol">自动曝光模式</span>选择“关闭自动曝光”时，可打开<span class="ph uicontrol">交替曝光</span>开关。</p>
+
+                                    </div>
+
+                                    <ol class="ol" id="GUID-2B44A318-9C5F-426A-9149-25867EDB0B14__OL_I42_QT3_MFC">
+                                        <li class="li" id="GUID-2B44A318-9C5F-426A-9149-25867EDB0B14__GUID-2ABA4E0A-7B0C-4BFA-B4B1-6CF88DCBA23F">
+                                            <p class="p">打开<span class="ph uicontrol">交替曝光</span>开关，启用交替曝光功能。</p>
+
+                                        </li>
+
+                                        <li class="li" id="GUID-2B44A318-9C5F-426A-9149-25867EDB0B14__GUID-659962FB-761B-4794-B204-7942217CBA0A">
+                                            <p class="p">在<span class="ph uicontrol">交替曝光组</span>参数处，选择要配置的曝光组，例如<span class="keyword parmname">第一组曝光</span>。</p>
+
+                                        </li>
+
+                                        <li class="li" id="GUID-2B44A318-9C5F-426A-9149-25867EDB0B14__GUID-1725D420-1AB5-4001-9477-1C8F9978FFA5">打开<span class="ph uicontrol">特定组开启交替曝光</span>开关，启用当前<span class="ph uicontrol">交替曝光组</span>参数处选择的曝光组，即此曝光组参与交替曝光。</li>
+
+                                        <li class="li" id="GUID-2B44A318-9C5F-426A-9149-25867EDB0B14__GUID-672B6689-4EFA-49B7-943B-1910DD23D700">
+                                            <p class="p">在<span class="ph uicontrol">交替曝光时间(μs)</span>参数处，配置当前曝光组的曝光时间数值。</p>
+
+                                        </li>
+
+                                        <li class="li" id="GUID-2B44A318-9C5F-426A-9149-25867EDB0B14__GUID-1FEBB982-0CBE-453D-8430-018F7B9137B5">
+                                            <p class="p">重复步骤2~4，配置其他曝光组参与交替曝光并设置对应的曝光值。</p>
+
+                                        </li>
+
+                                    </ol>
+
+                                </dd>
+
+                            
+                            
+                                <dt class="dt pt dlterm"><a name="GUID-2B44A318-9C5F-426A-9149-25867EDB0B14__GUID-F982A79F-C2F9-4982-8566-AE394CEF9797"><!-- --></a>交替增益</dt>
+
+                                <dd class="dd pd">
+                                    <p class="p">选择是否开启交替增益，开启后读码器能够在不同增益组设置之间自动切换，以适应变化的环境光线，操作步骤如下。</p>
+
+                                    <div class="note note" id="GUID-2B44A318-9C5F-426A-9149-25867EDB0B14__GUID-42DF3DE3-FB42-4F6A-94BC-51CE2B797666"><span class="notetitle">说明</span> 
+                                        <p class="p">自动增益和交替增益功能只支持开启其中一个，即<span class="ph uicontrol">自动增益模式</span>选择“关闭自动增益”时，可打开<span class="ph uicontrol">交替增益</span>开关。</p>
+
+                                    </div>
+
+                                    <ol class="ol" id="GUID-2B44A318-9C5F-426A-9149-25867EDB0B14__OL_GDW_KX3_MFC">
+                                        <li class="li" id="GUID-2B44A318-9C5F-426A-9149-25867EDB0B14__GUID-6CF5677C-41BF-4A23-8EB7-A14692E102C3">
+                                            <p class="p">打开<span class="ph uicontrol">交替增益</span>开关，启用交替增益功能。</p>
+
+                                        </li>
+
+                                        <li class="li" id="GUID-2B44A318-9C5F-426A-9149-25867EDB0B14__GUID-4673468D-496E-4732-B049-5C281558BF04">
+                                            <p class="p">在<span class="ph uicontrol">交替增益组</span>参数处，选择要配置的增益组，例如<span class="keyword parmname">第一组增益</span>。</p>
+
+                                        </li>
+
+                                        <li class="li" id="GUID-2B44A318-9C5F-426A-9149-25867EDB0B14__GUID-1D874C70-B283-4AEC-AD98-5F177B0C0F36">打开<span class="ph uicontrol">特定组开启交替增益</span>开关，启用当前<span class="ph uicontrol">交替增益组</span>参数处选择的增益组，即此增益组参与交替曝光。</li>
+
+                                        <li class="li" id="GUID-2B44A318-9C5F-426A-9149-25867EDB0B14__GUID-06049394-EBDF-4288-8469-A88EE75A21E8">
+                                            <p class="p">在<span class="ph uicontrol">交替增益(dB)</span>参数处，配置当前增益组的增益数值。</p>
+
+                                        </li>
+
+                                        <li class="li" id="GUID-2B44A318-9C5F-426A-9149-25867EDB0B14__GUID-8CE1C9BE-2136-442E-BE87-2F6C69269643">
+                                            <p class="p">重复步骤2~4，配置其他增益组参与交替增益并设置对应的增益值。</p>
+
+                                        </li>
+
+                                    </ol>
+
+                                </dd>
+
+                            
+                            
+                                <dt class="dt pt dlterm"><a name="GUID-2B44A318-9C5F-426A-9149-25867EDB0B14__GUID-2FD6E9F6-0F4C-41A3-BD41-E4A1C833AF01"><!-- --></a>数字增益使能</dt>
+
+                                <dd class="dd pd">
+                                    <p class="p">选择是否开启在图像信号经过模数转换后，对数字信号进行放大。开启数字增益使能可以使图像亮度增加，但同时也会增加图像的噪声，影响图像质量</p>
+
+                                    <div class="note note" id="GUID-2B44A318-9C5F-426A-9149-25867EDB0B14__GUID-C44F3DD0-C62B-48AD-A28A-8646A2BE20C8"><span class="notetitle">说明</span> 
+                                        <p class="p">单击<span class="ph uicontrol">高级参数</span>可显示此参数。</p>
+
+                                    </div>
+
+                                </dd>
+
+                            
+                            
+                                <dt class="dt pt dlterm"><a name="GUID-2B44A318-9C5F-426A-9149-25867EDB0B14__GUID-4FE63447-F19D-46AD-A332-ED560734FF6F"><!-- --></a>图像亮度</dt>
+
+                                <dd class="dd pd">
+                                    <p class="p">设置图像的明暗程度。</p>
+
+                                    <div class="note note" id="GUID-2B44A318-9C5F-426A-9149-25867EDB0B14__GUID-0E4C1B04-6789-47B6-97B9-5E7270E47EDC"><span class="notetitle">说明</span> 
+                                        
+                                        <p class="p">当<span class="keyword parmname">触发模式</span>选择关闭、<span class="keyword parmname">自动曝光模式</span>选择“连续自动曝光”、<span class="keyword parmname">自动增益模式</span>选择“连续自动增益”时，可配置此参数。</p>
+
+                                    </div>
+
+                                </dd>
+
+                            
+                        </dl>
+
+                    </dd>
+
+                
+            </dl>
+
+        </div>
+
+        <div class="section" id="GUID-2B44A318-9C5F-426A-9149-25867EDB0B14__GUID-A1BBD537-4625-4728-9290-F7BCE6EBAE97"><h2 class="title sectiontitle">光源控制</h2>
+            
+            <p class="p">光源控制部分可对读码器自带光源的模式、光源通道和瞄准灯模式进行设置。</p>
+
+            <dl class="dl parml">
+                
+                    
+                    <dt class="dt pt dlterm"><a name="GUID-2B44A318-9C5F-426A-9149-25867EDB0B14__GUID-C765E2DA-74D4-44F8-B455-8F7D69CBF924"><!-- --></a>光源模式</dt>
+
+                    <dd class="dd pd">
+                        <p class="p">根据实际需求，选择光源模式，支持如下模式。</p>
+
+                        <dl class="dl parml">
+                            
+                                <dt class="dt pt dlterm"><a name="GUID-2B44A318-9C5F-426A-9149-25867EDB0B14__GUID-06216B56-76D1-4E14-A1B2-3B8164A88DD7"><!-- --></a>频闪模式</dt>
+
+                                <dd class="dd pd">
+                                    
+                                    <p class="p">光源按照一定频率或设置时间周期性进行开启和关闭，部分型号读码器选择频闪模式后可配置如下参数，实际支持情况请以界面显示为准。</p>
+
+                                    <dl class="dl parml">
+                                        
+                                            <dt class="dt pt dlterm"><a name="GUID-2B44A318-9C5F-426A-9149-25867EDB0B14__GUID-24ECFD21-FBCF-469D-9DA3-E5B6D61E610A"><!-- --></a>照明提前时间(μs)</dt>
+
+                                            <dd class="dd pd">
+                                                <p class="p">设置光源在读码器开始曝光前开启的提前量。</p>
+
+                                            </dd>
+
+                                        
+                                        
+                                            <dt class="dt pt dlterm"><a name="GUID-2B44A318-9C5F-426A-9149-25867EDB0B14__GUID-20CBB8A0-E791-4A61-943B-E55BE0107EAC"><!-- --></a>照明持续时间(μs)</dt>
+
+                                            <dd class="dd pd">
+                                                <p class="p">设置光源每次频闪时保持开启的时间。</p>
+
+                                            </dd>
+
+                                        
+                                        
+                                            <dt class="dt pt dlterm"><a name="GUID-2B44A318-9C5F-426A-9149-25867EDB0B14__GUID-997A418C-866F-45F1-B910-A73F48EB8A90"><!-- --></a>照明延迟时间(μs)</dt>
+
+                                            <dd class="dd pd">
+                                                <p class="p">设置光源在读码器开始曝光后开启的延后量。</p>
+
+                                            </dd>
+
+                                        
+                                    </dl>
+
+                                </dd>
+
+                            
+                            
+                                <dt class="dt pt dlterm"><a name="GUID-2B44A318-9C5F-426A-9149-25867EDB0B14__GUID-4CB4BB2E-8288-4214-9A47-D1E4A2B7A513"><!-- --></a>常亮模式</dt>
+
+                                <dd class="dd pd">
+                                    <p class="p">光源持续性开启。</p>
+
+                                </dd>
+
+                            
+                        </dl>
+
+                    </dd>
+
+                
+                
+                    <dt class="dt pt dlterm"><a name="GUID-2B44A318-9C5F-426A-9149-25867EDB0B14__GUID-297F1913-C0AD-41F4-B4E7-C35E347E5B7F"><!-- --></a>光源通道选择</dt>
+
+                    <dd class="dd pd">
+                        <p class="p">根据实际需求，选择需要开启的光源分路。</p>
+
+                        <ul class="ul" id="GUID-2B44A318-9C5F-426A-9149-25867EDB0B14__UL_N3G_XQW_P2C">
+                            <li class="li" id="GUID-2B44A318-9C5F-426A-9149-25867EDB0B14__GUID-8C96CD9A-9D99-42F8-BA91-3D0F34E754EC">
+                                
+                                <p class="p">当读码器为一路光源时，仅支持一路光源。可通过单击<span class="ph uicontrol">全开</span>或<span class="ph uicontrol">全关</span>按钮，开启或关闭光源。</p>
+
+                            </li>
+
+                            <li class="li" id="GUID-2B44A318-9C5F-426A-9149-25867EDB0B14__GUID-CD7DD919-EE6B-496F-BA20-139961C8C4EE">
+                                <p class="p">当读码器为四路光源时，可根据实际需要通过点击上、下、左、右的灯珠开启或关闭不同分路的光源。也可通过单击<span class="ph uicontrol">全开</span>或<span class="ph uicontrol">全关</span>按钮，开启或关闭所有分路的光源。</p>
+
+                            </li>
+
+                            <li class="li" id="GUID-2B44A318-9C5F-426A-9149-25867EDB0B14__GUID-0BBE306A-4CA7-45A9-99FA-34E9CD209E5A">
+                                <p class="p">当读码器为六路光源时，可根据实际需要通过点击左上、中上、右上、左下、中下、右下的灯珠来开启或关闭不同分路的光源。也可通过单击<span class="ph uicontrol">全开</span>或<span class="ph uicontrol">全关</span>，开启或关闭所有分路的光源。</p>
+
+                            </li>
+
+                        </ul>
+
+                    </dd>
+
+                
+                
+                    <dt class="dt pt dlterm"><a name="GUID-2B44A318-9C5F-426A-9149-25867EDB0B14__GUID-567477C8-0018-48A2-8D87-301EFA9BE360"><!-- --></a>瞄准灯模式</dt>
+
+                    <dd class="dd pd">
+                        <p class="p">选择瞄准灯模式，可选<span class="ph uicontrol">关闭</span>、<span class="ph uicontrol">取流时亮</span>或<span class="ph uicontrol">常亮模式</span>。</p>
+
+                        <div class="note note" id="GUID-2B44A318-9C5F-426A-9149-25867EDB0B14__GUID-C4CE9262-BD19-4F1A-8E64-D93BEE2EB0CE"><span class="notetitle">说明</span> 
+                            <p class="p">瞄准灯用于指示读码器视野，便于瞄准目标条码。</p>
+
+                        </div>
+
+                    </dd>
+
+                
+            </dl>
+
+        </div>
+
+        <div class="section" id="GUID-2B44A318-9C5F-426A-9149-25867EDB0B14__GUID-68FB9091-EBB4-48FB-84B5-0B539D1F9B57"><h2 class="title sectiontitle">Tof控制</h2>
+            
+            <p class="p">配备Tof（Time of Flight）传感器的读码器可设置Tof相关参数，实现对条码距离的精确测量。读码器可结合Tof
+                功能实现快速变焦，在移动场景下根据物体景深快速、精准、实时调整 焦距，适用于对调焦速度有要求的动态读码场景。</p>
+
+            <div class="note note" id="GUID-2B44A318-9C5F-426A-9149-25867EDB0B14__GUID-C6A510E1-8F41-4457-96D1-F770738E646D"><span class="notetitle">说明</span> 
+                <p class="p">液态镜头通过电压调整液体形状来实现无机械延迟的即时对焦。所以相比机械镜头设备，液态镜头设备结合Tof 功能可实现更快的变焦速度。</p>
+
+            </div>
+
+            <ol class="ol" id="GUID-2B44A318-9C5F-426A-9149-25867EDB0B14__OL_BFV_F4H_MFC">
+                <li class="li" id="GUID-2B44A318-9C5F-426A-9149-25867EDB0B14__GUID-8916F987-A4B1-4D67-BC2A-42CC23039704">
+                    <p class="p">在<span class="ph uicontrol">Tof控制</span>区域，打开<span class="ph uicontrol">Tof 测距使能</span>开关，读码器将通过Tof 进行条码距离测量。</p>
+
+                    
+                    <p class="p">可通过<span class="ph uicontrol">Tof 距离</span>参数查看条码至读码器的距离。</p>
+
+                </li>
+
+                <li class="li" id="GUID-2B44A318-9C5F-426A-9149-25867EDB0B14__GUID-5F5BB51F-B759-4E4D-823F-940F80F0C647">
+                    <p class="p">打开<span class="ph uicontrol">快速变焦使能</span>开关，读码器将通过Tof
+                        测距实现镜头快速变焦。</p>
+
+                </li>
+
+                <li class="li" id="GUID-2B44A318-9C5F-426A-9149-25867EDB0B14__GUID-0803C170-03FF-4D71-A3CD-928DD43DB65D">
+                    <p class="p">根据实际需求，通过如下参数设置快速变焦相关阈值。</p>
+
+                    <dl class="dl parml">
+                        
+                            <dt class="dt pt dlterm"><a name="GUID-2B44A318-9C5F-426A-9149-25867EDB0B14__GUID-1F0D0CB9-D452-495C-B393-2E2062DA0A17"><!-- --></a>Tof变焦阈值(mm)</dt>
+
+                            <dd class="dd pd">
+                                <p class="p">设置读码器通过Tof实现快速变焦的焦距最大值，当读码器焦距超过该阈值之后停止变焦。</p>
+
+                            </dd>
+
+                        
+                        
+                            <dt class="dt pt dlterm"><a name="GUID-2B44A318-9C5F-426A-9149-25867EDB0B14__GUID-1EAD97D9-C3BD-4926-B1AB-0A60F559E117"><!-- --></a>Tof 测量范围阈值(mm)</dt>
+
+                            <dd class="dd pd">
+                                <p class="p">设置Tof 变焦的测量距离最大值，当测量距离超过该阈值之后停止变焦。</p>
+
+                            </dd>
+
+                        
+                    </dl>
+
+                </li>
+
+            </ol>
+
+        </div>
+
+        <div class="section" id="GUID-2B44A318-9C5F-426A-9149-25867EDB0B14__GUID-29A1A36D-647F-4C56-9F3C-47F79D0A4AFE"><h2 class="title sectiontitle">调焦参数</h2>
+            
+            <p class="p">调焦参数部分可配置读码器镜头的调焦相关参数。</p>
+
+            <div class="note note" id="GUID-2B44A318-9C5F-426A-9149-25867EDB0B14__GUID-2D8D7ECC-EF5F-40B4-9BCF-1D6D9DB38379"><span class="notetitle">说明</span> 
+                
+                <p class="p">开启Tof快速变焦使能、参数轮询或输入触发源选择“亮度感应触发”后，此部分参数不支持配置。</p>
+
+            </div>
+
+            <dl class="dl parml">
+                
+                    <dt class="dt pt dlterm"><a name="GUID-2B44A318-9C5F-426A-9149-25867EDB0B14__GUID-B071B87E-7342-4711-B249-651ED1882A5F"><!-- --></a>调焦图像配置</dt>
+
+                    <dd class="dd pd">
+                        <p class="p">选择调焦时相关成像参数的处理方式，可选如下方式。</p>
+
+                        <ul class="ul" id="GUID-2B44A318-9C5F-426A-9149-25867EDB0B14__UL_RLX_WLY_P2C">
+                            <li class="li" id="GUID-2B44A318-9C5F-426A-9149-25867EDB0B14__GUID-3857CB89-4DC5-46E6-AAE7-0EAE47226243">
+                                <p class="p">同步调整：调焦时自动更改并保存聚焦位置、曝光、增益、伽马、光源等参数。</p>
+
+                            </li>
+
+                            <li class="li" id="GUID-2B44A318-9C5F-426A-9149-25867EDB0B14__GUID-ED67F61C-0992-4EB0-901B-BA024318854F">
+                                <p class="p">参数不变：调焦时只更改聚焦位置，不更改曝光、增益、伽马、光源等参数。</p>
+
+                            </li>
+
+                            <li class="li" id="GUID-2B44A318-9C5F-426A-9149-25867EDB0B14__GUID-9C68286E-64C8-4BB3-B55D-7FCF3B178BF2">
+                                <p class="p">调整但不保存：调焦时自动更改聚焦位置、曝光、增益、伽马、光源等参数，并在调焦完成后仅保留聚焦位置，恢复其他参数配置。</p>
+
+                            </li>
+
+                        </ul>
+
+                    </dd>
+
+                
+                
+                    <dt class="dt pt dlterm"><a name="GUID-2B44A318-9C5F-426A-9149-25867EDB0B14__GUID-6B82D273-2BCD-4DB4-BAC2-DFB7CF53C454"><!-- --></a>对焦模式</dt>
+
+                    <dd class="dd pd">
+                        <p class="p">选择调焦模式，可选如下模式。</p>
+
+                        <div class="note note" id="GUID-2B44A318-9C5F-426A-9149-25867EDB0B14__GUID-788A1D77-21DE-410E-82FD-662E9A34AC74"><span class="notetitle">说明</span> 
+                            <p class="p">当单击<span class="ph uicontrol">高级参数</span>时，可显示并配置此参数。</p>
+
+                        </div>
+
+                        <ul class="ul" id="GUID-2B44A318-9C5F-426A-9149-25867EDB0B14__UL_AXT_3DZ_P2C">
+                            <li class="li" id="GUID-2B44A318-9C5F-426A-9149-25867EDB0B14__GUID-71E39E66-67BE-43E1-861A-DD20942C69CC">
+                                <p class="p">全局聚焦：对整个视野范围进行一次性调焦，确保整个视野内的图像都清晰对焦。</p>
+
+                            </li>
+
+                            <li class="li" id="GUID-2B44A318-9C5F-426A-9149-25867EDB0B14__GUID-732322C9-BC92-486F-8877-9E2CF2810946">
+                                <p class="p">ROI区域自动聚焦：仅针对ROI区域进行自动聚焦，通过绘制ROI区域，实现该区域内的的图像清晰对焦。选择此模式可通过配置<span class="ph uicontrol">调焦区域左上角顶点X坐标</span>、<span class="ph uicontrol">调焦区域左上角顶点Y坐标</span>、<span class="ph uicontrol">调焦区域宽度(px)</span>、<span class="ph uicontrol">调焦区域高度(px)</span>参数绘制ROI区域。</p>
+
+                                <div class="note note" id="GUID-2B44A318-9C5F-426A-9149-25867EDB0B14__GUID-F35FB088-9C91-4EDD-ACB5-56E9A6BBE590"><span class="notetitle">说明</span> 
+                                    <p class="p">可通过对焦ROI工具快速绘制调焦区域，详情请参见<a class="xref" href="GUID-42AF9F7D-DB4E-4E3E-80F3-272D764FE5D8.html#GUID-42AF9F7D-DB4E-4E3E-80F3-272D764FE5D8" title="客户端支持通过图像预览区查看读码器采集的实时图像。">对焦ROI工具</a>。</p>
+
+                                </div>
+
+                            </li>
+
+                        </ul>
+
+                    </dd>
+
+                
+                
+                    <dt class="dt pt dlterm"><a name="GUID-2B44A318-9C5F-426A-9149-25867EDB0B14__GUID-754313D8-0B47-4389-BE13-CC7EC35BC6B4"><!-- --></a>电机归位</dt>
+
+                    <dd class="dd pd">
+                        <p class="p">单击<span class="ph uicontrol">电机归位</span>处的<span class="ph uicontrol">执行</span>可将电机位置恢复至初始值。</p>
+
+                    </dd>
+
+                
+                
+                    <dt class="dt pt dlterm"><a name="GUID-2B44A318-9C5F-426A-9149-25867EDB0B14__GUID-1F271F73-FAF5-466A-95D9-24B9E613F2AD"><!-- --></a>调焦步进</dt>
+
+                    <dd class="dd pd">
+                        <p class="p">设置调焦时镜头焦距的调整步长，每次调整会按照设定的步长值改变焦距。</p>
+
+                    </dd>
+
+                
+                
+                    <dt class="dt pt dlterm"><a name="GUID-2B44A318-9C5F-426A-9149-25867EDB0B14__GUID-11002358-A9B4-44C7-B683-B7A5EA9E1CB5"><!-- --></a>焦点位置参数</dt>
+
+                    <dd class="dd pd">
+                        <p class="p">显示当前读码器镜头的焦点位置。</p>
+
+                    </dd>
+
+                
+                
+                    <dt class="dt pt dlterm"><a name="GUID-2B44A318-9C5F-426A-9149-25867EDB0B14__GUID-B049133E-A763-4983-BC37-8747FF0B64A7"><!-- --></a>正向调焦/反向调焦</dt>
+
+                    <dd class="dd pd">
+                        <p class="p">单击<span class="ph uicontrol">正向调焦</span>或<span class="ph uicontrol">反向调焦</span>参数处的<span class="ph uicontrol">执行</span>，可对读码器镜头的焦点位置进行正向或反向调整。</p>
+
+                        <div class="note note" id="GUID-2B44A318-9C5F-426A-9149-25867EDB0B14__GUID-C3738F8D-5516-47C3-BF66-F444F112576D"><span class="notetitle">说明</span> 
+                            <p class="p">可根据实际预览画面的清晰程度选择调焦方向。当画面逐渐清晰时，可适当减小调焦的步进距离，以便更精确地调节焦距，达到最佳效果。</p>
+
+                        </div>
+
+                    </dd>
+
+                
+                
+                    <dt class="dt pt dlterm"><a name="GUID-2B44A318-9C5F-426A-9149-25867EDB0B14__GUID-7ED1A11F-18E9-4162-98B4-E98956AF80E8"><!-- --></a>当前焦点位置</dt>
+
+                    <dd class="dd pd">
+                        <p class="p">显示当前读码器镜头的焦点位置。</p>
+
+                    </dd>
+
+                
+            </dl>
+
+        </div>
+
+        <div class="section" id="GUID-2B44A318-9C5F-426A-9149-25867EDB0B14__GUID-704D4897-C0E1-4BC3-8878-C79DE1937ED6"><h2 class="title sectiontitle">自适应设置</h2>
+            
+            <p class="p">自适应设置部分可配置自适应调节时的相关参数，例如曝光、增益等参数。</p>
+
+            <div class="note note" id="GUID-2B44A318-9C5F-426A-9149-25867EDB0B14__GUID-C722AD83-7C2F-4FB7-8F37-0F49CBEB240E"><span class="notetitle">说明</span> 
+                
+                <p class="p">开启参数轮询或输入触发源选择“亮度感应触发”后，此部分参数不支持配置。</p>
+
+            </div>
+
+            <dl class="dl parml">
+                
+                    <dt class="dt pt dlterm"><a name="GUID-2B44A318-9C5F-426A-9149-25867EDB0B14__GUID-A10FFB26-B024-42F2-9398-5A331B018C2D"><!-- --></a>常用参数</dt>
+
+                    <dd class="dd pd">
+                        <dl class="dl parml">
+                            
+                                <dt class="dt pt dlterm"><a name="GUID-2B44A318-9C5F-426A-9149-25867EDB0B14__GUID-9A40FDB7-272C-402E-BD55-84860392C383"><!-- --></a>最大曝光(μs)</dt>
+
+                                <dd class="dd pd">
+                                    <p class="p">设置自适应调节时读码器的最大曝光值。</p>
+
+                                </dd>
+
+                            
+                            
+                                <dt class="dt pt dlterm"><a name="GUID-2B44A318-9C5F-426A-9149-25867EDB0B14__GUID-302EA944-295E-4A6B-85F3-84F61B0B89B1"><!-- --></a>最大增益(dB)</dt>
+
+                                <dd class="dd pd">
+                                    <p class="p">设置自适应调节时读码器的最大增益值。</p>
+
+                                </dd>
+
+                            
+                            
+                                <dt class="dt pt dlterm"><a name="GUID-2B44A318-9C5F-426A-9149-25867EDB0B14__GUID-E54C01D1-3422-4EFB-90E3-E3CEB7D8A9E9"><!-- --></a>超时时间(s)</dt>
+
+                                <dd class="dd pd">
+                                    <p class="p">设置自适应调节的持续时间，当超过设定时间后将自动停止，同时提示调节超时信息。</p>
+
+                                </dd>
+
+                            
+                        </dl>
+
+                    </dd>
+
+                
+                
+                    <dt class="dt pt dlterm"><a name="GUID-2B44A318-9C5F-426A-9149-25867EDB0B14__GUID-92582002-B50C-4E1B-8ADD-D54B49BB9BC3"><!-- --></a>高级参数</dt>
+
+                    <dd class="dd pd">
+                        <p class="p">单击<span class="ph uicontrol">高级参数</span>可显示并配置如下参数。</p>
+
+                        <dl class="dl parml">
+                            
+                                <dt class="dt pt dlterm"><a name="GUID-2B44A318-9C5F-426A-9149-25867EDB0B14__GUID-FA8D3EC6-CB12-49A6-9D9E-F0F2F6C70122"><!-- --></a>自适应模式</dt>
+
+                                <dd class="dd pd">
+                                    <p class="p">选择自适应调节模式，可选如下模式。</p>
+
+                                    <ul class="ul" id="GUID-2B44A318-9C5F-426A-9149-25867EDB0B14__UL_IPH_XHY_P2C">
+                                        <li class="li" id="GUID-2B44A318-9C5F-426A-9149-25867EDB0B14__GUID-A10BDFB2-C22F-42CB-ABCF-D42BF45A094A">
+                                            <p class="p">静态感知模式：此模式下优先调节曝光，增益小，噪点小，图片质量较高，适用于静态或传送带速度较慢场景。</p>
+
+                                        </li>
+
+                                        <li class="li" id="GUID-2B44A318-9C5F-426A-9149-25867EDB0B14__GUID-80534FE0-B9F6-4167-BAF0-4D93F89F8735">
+                                            <p class="p">动态感知模式：此模式下优先调节增益，曝光小、增益大，图像质量略差，适用于
+                                                传送带速度较快场景。</p>
+
+                                        </li>
+
+                                    </ul>
+
+                                </dd>
+
+                            
+                            
+                                <dt class="dt pt dlterm"><a name="GUID-2B44A318-9C5F-426A-9149-25867EDB0B14__GUID-A94FD5C0-742A-45D1-9C00-4C2418B46024"><!-- --></a>自适应光源</dt>
+
+                                <dd class="dd pd">
+                                    <p class="p">选择自适应调节时的光源配置，可选择如下配置。</p>
+
+                                    
+                                    <ul class="ul" id="GUID-2B44A318-9C5F-426A-9149-25867EDB0B14__UL_GBJ_BKY_P2C">
+                                        <li class="li" id="GUID-2B44A318-9C5F-426A-9149-25867EDB0B14__GUID-28756C30-E9BE-4B6C-9491-7D806EC8853D">
+                                            <p class="p">光源自适应：自适应调节开始时将遍历所有的常用光源组合方案，从中选择最优的一组应用。</p>
+
+                                        </li>
+
+                                        <li class="li" id="GUID-2B44A318-9C5F-426A-9149-25867EDB0B14__GUID-8BADE980-6C3D-4BED-AABC-67F467C841F5">
+                                            <p class="p">所有光源打开：自适应调节开始时将打开所有光源通道的光源。</p>
+
+                                        </li>
+
+                                        <li class="li" id="GUID-2B44A318-9C5F-426A-9149-25867EDB0B14__GUID-0A75553F-7679-4B13-8B19-5F09F37CD53D">
+                                            <p class="p">用户配置光源：自适应调节开始时将应用用户在<span class="ph uicontrol">光源控制</span>配置的相关光源参数。</p>
+
+                                        </li>
+
+                                        <li class="li" id="GUID-2B44A318-9C5F-426A-9149-25867EDB0B14__GUID-3F698ADA-CABF-40A9-AB5A-148311C9C6FE">
+                                            
+                                            <p class="p">光源自适应(特殊组合)：自适应调节开始时将遍历所有的不常用光源组合方案，从中选择最优的一组应用。</p>
+
+                                        </li>
+
+                                    </ul>
+
+                                </dd>
+
+                            
+                        </dl>
+
+                    </dd>
+
+                
+            </dl>
+
+        </div>
+
+        <div class="section" id="GUID-2B44A318-9C5F-426A-9149-25867EDB0B14__GUID-9B052B66-A97C-451B-91C9-2F79481F75BE"><h2 class="title sectiontitle">屏幕控制</h2>
+            
+            
+            <p class="p">配备显示屏的读码器可设置是否开启显示屏、显示屏亮度、显示语言及显示内容等参数。</p>
+
+            <dl class="dl parml">
+                
+                    <dt class="dt pt dlterm"><a name="GUID-2B44A318-9C5F-426A-9149-25867EDB0B14__GUID-D32B7000-6C71-4AFE-AF80-E4BFAF6A8D2E"><!-- --></a>屏幕使能</dt>
+
+                    <dd class="dd pd">
+                        <p class="p">选择是否开启读码器显示屏。开启后，可通过<span class="keyword parmname">屏幕亮度</span>参数，设置显示亮度。</p>
+
+                    </dd>
+
+                
+                
+                    <dt class="dt pt dlterm"><a name="GUID-2B44A318-9C5F-426A-9149-25867EDB0B14__GUID-33845CEE-8BDC-4AD4-A44B-72B4C98D0447"><!-- --></a>屏幕语言</dt>
+
+                    <dd class="dd pd">
+                        
+                        <p class="p">选择显示屏显示语言，可选<span class="ph uicontrol">汉语</span>或<span class="ph uicontrol">英语</span>。</p>
+
+                    </dd>
+
+                
+                
+                    <dt class="dt pt dlterm"><a name="GUID-2B44A318-9C5F-426A-9149-25867EDB0B14__GUID-1D51A7EB-8993-4165-884B-9FAD173BFBBA"><!-- --></a>屏幕首页选择</dt>
+
+                    <dd class="dd pd">
+                        <p class="p">选择显示屏首页显示的内容，可选<span class="keyword parmname">读码评分</span>、<span class="keyword parmname">条码数量</span>或<span class="keyword parmname">解码耗时</span>。</p>
+
+                    </dd>
+
+                
+            </dl>
+
+        </div>
+
+        <div class="section" id="GUID-2B44A318-9C5F-426A-9149-25867EDB0B14__GUID-F5E4CEEE-124A-48D4-B024-9DF5A566F8E2"><h2 class="title sectiontitle">其他</h2>
+            
+            <p class="p">其他参数部分可设置X/Y镜像、测试模式等。</p>
+
+            <dl class="dl parml">
+                
+                    <dt class="dt pt dlterm"><a name="GUID-2B44A318-9C5F-426A-9149-25867EDB0B14__GUID-453CA4AD-07DC-4F73-8D6C-B2F393F1EA41"><!-- --></a>X/Y轴镜像</dt>
+
+                    <dd class="dd pd">
+                        <p class="p">可设置是否开启设备图像水平/垂直镜像的功能，默认为关闭状态。</p>
+
+                    </dd>
+
+                
+                
+                    <dt class="dt pt dlterm"><a name="GUID-2B44A318-9C5F-426A-9149-25867EDB0B14__GUID-38E4D950-AA0D-42B4-8B8E-B1405FC3AF94"><!-- --></a>测试图模式</dt>
+
+                    <dd class="dd pd">
+                        <p class="p">当设备实时采集的图像存在异常时，可通过查看测试模式下的图像实时采集是否也有类似问题大致判断图像异常的原因，可选择如下模式。</p>
+
+                        <div class="note note" id="GUID-2B44A318-9C5F-426A-9149-25867EDB0B14__GUID-68400170-D76D-47B4-9D51-3B377AE1FA9C"><span class="notetitle">说明</span> 
+                            <p class="p">单击<span class="ph uicontrol">高级参数</span>可显示此参数。</p>
+
+                        </div>
+
+                        <dl class="dl">
+                            
+                                <dt class="dt dlterm"><a name="GUID-2B44A318-9C5F-426A-9149-25867EDB0B14__GUID-E8E48685-22BF-4107-9CFF-94FBF092D899"><!-- --></a>关闭测试图功能</dt>
+
+                                <dd class="dd">
+                                    <p class="p">关闭测试图，图像为读码器实时采集图像。</p>
+
+                                </dd>
+
+                            
+                            
+                                <dt class="dt dlterm"><a name="GUID-2B44A318-9C5F-426A-9149-25867EDB0B14__GUID-29A4CB7C-1B5B-4B41-97CC-1A0F3EB004B4"><!-- --></a>黑白条码</dt>
+
+                                <dd class="dd">
+                                    <p class="p">测试图像样式为黑白竖条。</p>
+
+                                </dd>
+
+                            
+                            
+                                <dt class="dt dlterm"><a name="GUID-2B44A318-9C5F-426A-9149-25867EDB0B14__GUID-13722789-C4C4-4B9F-90B3-75C0C418D90A"><!-- --></a>运行导入测试图</dt>
+
+                                <dd class="dd">
+                                    <p class="p">读码器使用的测试图像来源于其测试图文件夹，该文件夹中的图像均预先通过FTP存入，而非实时采集图像。</p>
+
+                                </dd>
+
+                            
+                        </dl>
+
+                    </dd>
+
+                
+                
+                    <dt class="dt pt dlterm"><a name="GUID-2B44A318-9C5F-426A-9149-25867EDB0B14__GUID-E39E50E8-6BAB-4F98-8D27-88A3043245D6"><!-- --></a>启用FTP测试图服务器</dt>
+
+                    <dd class="dd pd">
+                        <p class="p">选择是否启用FTP服务器，用于导入测试图。开启后主界面的<span class="ph uicontrol">历史记录&amp;图像管理区</span>增加<span class="ph uicontrol">测试图导入</span>页签，在此页签右上角可导入测试图或测试图文件夹、清空测试图，如下图所示。</p>
+
+                        
+                        <div class="note note" id="GUID-2B44A318-9C5F-426A-9149-25867EDB0B14__GUID-301DFA7A-E33B-49F3-BB18-5F2DD4C536AE"><span class="notetitle">说明</span> 
+                            <ul class="ul" id="GUID-2B44A318-9C5F-426A-9149-25867EDB0B14__UL_GMB_HFR_Z2C">
+                                <li class="li" id="GUID-2B44A318-9C5F-426A-9149-25867EDB0B14__GUID-9FAD04D5-D90B-43A5-A352-5947392CA19E">
+                                    <p class="p">单击<span class="ph uicontrol">高级参数</span>可显示此参数。</p>
+
+                                </li>
+
+                                <li class="li" id="GUID-2B44A318-9C5F-426A-9149-25867EDB0B14__GUID-4883BACB-7735-4C1B-9DAC-96EB0D1FCE45">
+                                    <p class="p">仅支持导入和当前读码器相同分辨率大小的BMP或RAW图，否则将导入失败。</p>
+
+                                </li>
+
+                            </ul>
+
+                        </div>
+
+                        <div class="fig fignone" id="GUID-2B44A318-9C5F-426A-9149-25867EDB0B14__FIG_VXL_ZDY_P2C">
+                            
+                            <img class="image" style="display:none;" id="GUID-2B44A318-9C5F-426A-9149-25867EDB0B14__IMAGE_WXL_ZDY_P2C" src="GUID-C2960969-7C93-4A35-B99E-9B1194CCB0C2-high.png" width="2100" />
+                        <div class="fig_caption"><span class="figcap">图 2 测试图导入</span></div></div>
+
+                    </dd>
+
+                
+            </dl>
+
+        </div>
+
+</div>
+
+
+</div>
+						<div class=" wt_topic_wpp_content wt_pc_only "><div class=" wt_topic_wpp_content_flex "><div class="wt_topic_wpp_item like"></div><div class="wt_topic_wpp_item view"></div><div class="wt_topic_wpp_item share">分享</div></div></div>
+						
+						
+						
+					</div>
+				</div><!-- container_body -->
+				
+				<div class=" body_footer "><div onclick="prevTopic()" class=" body_footer_left link_button "><span>上一页</span></div><div onclick="nextTopic()" class=" body_footer_right link_button "><span>下一页</span></div></div>
+				<div class=" body_wpp mobile_only"><div class="wt_body_mobile_like"></div><div class="wt_body_mobile_view"></div></div>
+				<!-- <whc:webhelp_side_toc /> -->
+				
+			</div> <!-- middle_view content_area -->
+			<div class=" right_content wt_pc_only "><div class=" right_fixed_container "><div class="right_guide"><div class="feature_guide"><div>本页导航</div><ul><li onclick="scrollToAnchor($(this))" data-id="GUID-2B44A318-9C5F-426A-9149-25867EDB0B14__GUID-22A325E9-DFAE-4090-820D-77943B561815" class="feature_guide_h2"><span class="link_button">图像配置</span></li><li onclick="scrollToAnchor($(this))" data-id="GUID-2B44A318-9C5F-426A-9149-25867EDB0B14__GUID-A1BBD537-4625-4728-9290-F7BCE6EBAE97" class="feature_guide_h2"><span class="link_button">光源控制</span></li><li onclick="scrollToAnchor($(this))" data-id="GUID-2B44A318-9C5F-426A-9149-25867EDB0B14__GUID-68FB9091-EBB4-48FB-84B5-0B539D1F9B57" class="feature_guide_h2"><span class="link_button">Tof控制</span></li><li onclick="scrollToAnchor($(this))" data-id="GUID-2B44A318-9C5F-426A-9149-25867EDB0B14__GUID-29A1A36D-647F-4C56-9F3C-47F79D0A4AFE" class="feature_guide_h2"><span class="link_button">调焦参数</span></li><li onclick="scrollToAnchor($(this))" data-id="GUID-2B44A318-9C5F-426A-9149-25867EDB0B14__GUID-704D4897-C0E1-4BC3-8878-C79DE1937ED6" class="feature_guide_h2"><span class="link_button">自适应设置</span></li><li onclick="scrollToAnchor($(this))" data-id="GUID-2B44A318-9C5F-426A-9149-25867EDB0B14__GUID-9B052B66-A97C-451B-91C9-2F79481F75BE" class="feature_guide_h2"><span class="link_button">屏幕控制</span></li><li onclick="scrollToAnchor($(this))" data-id="GUID-2B44A318-9C5F-426A-9149-25867EDB0B14__GUID-F5E4CEEE-124A-48D4-B024-9DF5A566F8E2" class="feature_guide_h2"><span class="link_button">其他</span></li></ul></div></div></div></div>
+		</div> <!-- content_box -->
+		
+		<!-- 置顶按钮 -->
+		<div class="body_to_top" onclick="scrollTopicTop()"></div> 
+		<!-- 评价反馈 -->
+		<div onclick="manualFeedback()" class=" body_feedback " data-href="https://wj.hikvision.com/#/public-survey?id=64c8b90d80e02e9e88feca2f"></div>
+		
+	</body>
+</html>

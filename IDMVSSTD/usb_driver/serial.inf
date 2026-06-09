@@ -1,0 +1,93 @@
+[Version]
+Signature           = "$Windows NT$"
+Class               =Ports
+ClassGuid           ={4D36E978-E325-11CE-BFC1-08002BE10318}
+Provider            =%Vendor%
+DriverVer           =02/26/2022,1.1.0
+CatalogFile.ntx86   =serialX86.cat
+CatalogFile.ntamd64 =serialX64.cat
+
+[Manufacturer]
+%Vendor%=DeviceList, NTx86,NTamd64
+
+[DestinationDirs]
+DefaultDestDir=12
+
+;------------------------------------------------------------------------------
+;  Windows 2000/XP/Vista-32bit Sections
+;------------------------------------------------------------------------------
+
+[DriverInstall.nt]
+include=mdmcpq.inf
+CopyFiles=FakeModemCopyFileSection
+AddReg=DriverInstall.nt.AddReg
+
+[DriverInstall.nt.AddReg]
+HKR,,DevLoader,,*ntkern
+HKR,,NTMPDriver,,usbser.sys
+HKR,,EnumPropPages32,,"MsPorts.dll,SerialPortPropPageProvider"
+
+[DriverInstall.nt.Services]
+AddService=usbser, 0x00000002, DriverService.nt
+
+[DriverService.nt]
+DisplayName=%SERVICE%
+ServiceType=1
+StartType=3
+ErrorControl=1
+ServiceBinary=%12%\usbser.sys
+
+[DriverInstall.nt.HW]
+include=mdmcpq.inf
+AddReg=LowerFilterAddReg
+
+;------------------------------------------------------------------------------
+;  Vista-64bit Sections
+;------------------------------------------------------------------------------
+
+[DriverInstall.NT]
+include=mdmcpq.inf
+CopyFiles=FakeModemCopyFileSection
+
+AddReg=DriverInstall.nt.AddReg
+
+[DriverInstall.NT.AddReg]
+HKR,,DevLoader,,*ntkern
+HKR,,NTMPDriver,,usbser.sys
+HKR,,EnumPropPages32,,"MsPorts.dll,SerialPortPropPageProvider"
+
+[DriverInstall.NT.Services]
+AddService=usbser, 0x00000002, DriverService.NT
+
+[DriverService.NT]
+DisplayName=%SERVICE%
+ServiceType=1
+StartType=3
+ErrorControl=1
+ServiceBinary=%12%\usbser.sys
+
+[DriverService.NT.HW]
+include=mdmcpq.inf
+AddReg=LowerFilterAddReg
+
+
+;------------------------------------------------------------------------------
+;  Vendor and Product ID Definitions
+;------------------------------------------------------------------------------
+
+[DeviceList]
+%DESCRIPTION%=DriverInstall, USB\VID_0525&PID_A4A7, USB\VID_2BDF&PID_0104&MI_02
+
+[DeviceList.NT]
+%DESCRIPTION%=DriverInstall, USB\VID_0525&PID_A4A7, USB\VID_2BDF&PID_0104&MI_02
+
+
+
+;------------------------------------------------------------------------------
+;  String Definitions
+;------------------------------------------------------------------------------
+
+[Strings]
+Vendor              = "ID_USB"
+DESCRIPTION         = "ID USB 100 Series COM Port"
+SERVICE             = "USB RS-232 Emulation Driver"

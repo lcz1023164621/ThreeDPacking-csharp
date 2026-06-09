@@ -1,0 +1,41 @@
+{
+    "ui_tabs": [
+        {
+            "ui_type": "tab",
+            "ui_param_name": "",
+            "ui_subset": [
+                {
+                    "ui_display_name": "Protocol_UDP",
+                    "ui_display_cn_name": "UDP协议",
+                    "ui_display_en_name": "UDP",
+                    "ui_usage_frequency": "Common",
+                    "ui_type": "category",
+                    "ui_param_name": "",
+                    "ui_param_display_type": "",
+                    "ui_subset": [
+                        {
+                            "ui_display_name": "UdpDestIp",
+                            "ui_display_cn_name": "UDP目的地址",
+                            "ui_display_en_name": "UDP Dest. Address",
+                            "ui_usage_frequency": "Common",
+                            "ui_type": "config_param",
+                            "ui_param_name": "UdpDestIp",
+                            "ui_param_display_type": "IPlineedit",
+                            "ui_subset": null
+                        },
+                        {
+                            "ui_display_name": "UdpDestPort",
+                            "ui_display_cn_name": "UDP目的端口号",
+                            "ui_display_en_name": "UDP Dest. Port",
+                            "ui_usage_frequency": "Common",
+                            "ui_type": "config_param",
+                            "ui_param_name": "UdpDestPort",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}

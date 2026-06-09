@@ -1,0 +1,1176 @@
+
+<!DOCTYPE html
+  PUBLIC "" "about:legacy-compat">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:whc="http://www.daksys.com/webhelp/components" xml:lang="zh-cn" lang="zh-cn">
+	<head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />        
+      <meta name="copyright" content="©  杭州海康威视数字技术股份有限公司。保留一切权利。" /><meta name="DC.Type" content="concept" /><meta name="DC.Title" content="脚本接口" /><meta name="abstract" content="IDMVS提供涵盖码数据、评级数据、统计数据、数据处理等模块的接口函数。通过调用接口函数，可以更加便捷、高效地实现读码器的功能扩展。" /><meta name="description" content="IDMVS提供涵盖码数据、评级数据、统计数据、数据处理等模块的接口函数。通过调用接口函数，可以更加便捷、高效地实现读码器的功能扩展。" /><meta name="DC.Relation" scheme="URI" content="GUID-1FD49EC0-F215-424C-9EE7-76B06BFD2B20.html" /><meta name="DC.Format" content="XHTML" /><meta name="DC.Identifier" content="GUID-3DB7E507-E5C7-4C2A-B240-161451642011" /><meta name="DC.Language" content="zh-CN" /><title>脚本接口</title><!-- Generated with dksgen version 1.0, build number 2023071300.  --><meta viewport="Content-Type" content="width=device-width, initial-scale=1.0" /><meta http-equiv="X-UA-Compatible" content="IE=edge,Chrome=1" /><meta name="wh-path2root" content="index.html" />
+		<!-- commonltr css -->
+		<link rel="stylesheet" type="text/css" href="daksys-webhelp/resources/css/commonltr.css" />
+		<!-- Bootstrap css -->
+		<link rel="stylesheet" type="text/css" href="daksys-webhelp/resources/bootstrap/css/bootstrap.min.css" />
+		<link rel="stylesheet" type="text/css" href="daksys-webhelp/resources/bootstrap/css/bootstrap-theme.min.css" />
+		<link rel="stylesheet" type="text/css" href="daksys-webhelp/resources/js/jquery-ui.min.css" />
+		
+		<!-- Template css  -->
+		<link href="daksys-webhelp/template/resources/css/HIKROBOT_color.css?buildId=2023071300" rel="stylesheet" type="text/css" />
+		<link rel="stylesheet" type="text/css" href="daksys-webhelp/template/resources/css/wt_topic.css?buildId=2023071300" />
+		<link rel="stylesheet" type="text/css" href="daksys-webhelp/template/resources/css/wt_topic_m.css?buildId=2023071300" />
+		<link rel="stylesheet" type="text/css" href="daksys-webhelp/template/resources/css/wt_expand.css?buildId=2023071300" />
+		<link rel="stylesheet" type="text/css" href="daksys-webhelp/template/resources/css/wt_note.css?buildId=2023071300" />
+		<link rel="stylesheet" type="text/css" href="daksys-webhelp/template/resources/css/wt_steps.css?buildId=2023071300" />
+		
+		<!-- jquery js  -->
+		<script type="text/javascript" src="daksys-webhelp/resources/js/jquery-3.6.2.min.js"></script>
+		<script type="text/javascript" src="daksys-webhelp/resources/js/jquery.cookie.js"></script>
+		<script type="text/javascript" src="daksys-webhelp/resources/js/jquery.highlight-3.js"></script>
+		<script type="text/javascript" src="daksys-webhelp/resources/js/jquery-ui.min.js"></script>
+		
+		<!-- common js  -->
+		<script type="text/javascript" src="daksys-webhelp/resources/bootstrap/js/bootstrap.min.js"></script>
+		<script type="text/javascript" src="daksys-webhelp/resources/js/base64.js"></script>
+		<script type="text/javascript" src="daksys-webhelp/resources/js/browserDetect.js"></script>
+		<script type="text/javascript" src="daksys-webhelp/resources/js/localization.js"></script>
+		<script type="text/javascript" src="daksys-webhelp/resources/js/parseuri.js"></script>
+		<script type="text/javascript" src="daksys-webhelp/resources/localization/strings.js"></script>
+		<!-- Template js -->
+		<script type="text/javascript" src="daksys-webhelp/template/resources/js/wt_topic.js?buildId=2023071300"></script>
+		<script type="text/javascript" src="daksys-webhelp/template/resources/js/wt_expand.js?buildId=2023071300"></script>
+	</head>
+	<body class="wt_topic_page frmBody" id="GUID-3DB7E507-E5C7-4C2A-B240-161451642011" onload="topicOnload()">
+		<!-- get_lang -->
+		<div id="lang" style="display:none">zh-CN</div><div id="mapoutputclass" style="display:none"></div>
+		<input hidden="hidden" id="UDCode" value="UD12345B" /><input hidden="hidden" id="Trademark" value="海康机器人" />
+		
+		<div class="content_box">
+			<div class="middle_view content_area col-sm-9" id="content_area">
+				<div class=" wt_breadcrumb "><ol><li><span class="home topicref"><a href="javascript:void(0)" onclick="gotoFirstPage()">首页</a></span></li><li><span class="topicref"><a href="GUID-3F138232-3CF2-4E3F-A3C0-3D677CF174B5.html" data-id="GUID-3F138232-3CF2-4E3F-A3C0-3D677CF174B5">读码器高级配置</a></span></li><li><span class="topicref"><a href="GUID-1FD49EC0-F215-424C-9EE7-76B06BFD2B20.html" data-id="GUID-1FD49EC0-F215-424C-9EE7-76B06BFD2B20">Lua脚本</a></span></li><li class="active"><span class="topicref">脚本接口</span></li></ol><div class="wt_breadcrumb_ellipsis" onclick="expandBreadcrumbDiv()"></div><div class="wt_breadcrumb_collapse" style="display: none;"><div class="wt_breadcrumb_collapse_button" onclick="collapseBreadcrumbDiv()"></div></div></div>
+				
+				<div id="container_body" class="container">
+					<div id="contentArea">
+						<div class=" wt_topic_content body ">
+    <h1 class="title topictitle1">脚本接口</h1>
+
+
+<div class="body conbody"><p class="shortdesc">IDMVS提供涵盖码数据、评级数据、统计数据、数据处理等模块的接口函数。通过调用接口函数，可以更加便捷、高效地实现读码器的功能扩展。</p>
+
+<p class="p">Lua脚本接口分为码数据、评级数据、统计数据、数据处理和其他5个类别，同时提供各个接口的示例代码。</p>
+
+        <div class="note note" id="GUID-3DB7E507-E5C7-4C2A-B240-161451642011__GUID-01E3E491-F590-475D-B7DF-7EFDD070B253"><span class="notetitle">说明</span> 
+            <p class="p">您可以在Lua脚本页面的接口列表对应接口区域，单击<span class="ph uicontrol">详情展开</span>查看示例代码，同时支持一键复制操作。</p>
+
+        </div>
+
+        <div class="section" id="GUID-3DB7E507-E5C7-4C2A-B240-161451642011__GUID-EDB16646-EDBA-4EA7-B4B5-273A6AAE7C6E"><h2 class="title sectiontitle">码数据</h2>
+            
+            <p class="p">码数据类接口用于获取条码相关属性信息。</p>
+
+            
+<div class="div_table"><table cellpadding="4" cellspacing="0" summary="" style="display:none;" id="tbl_rowfixed" class="table wt_table_rowfixed" frame="border" border="1" rules="all"></table><table cellpadding="4" cellspacing="0" summary="" id="GUID-3DB7E507-E5C7-4C2A-B240-161451642011__TABLE_ENS_VJV_Q2C" class="table" frame="border" border="1" rules="all"><caption><span class="tablecap">表 1 码数据接口</span></caption>
+                    
+                    
+                    
+                    <thead class="thead" align="left">
+                        <tr>
+                            <th class="entry" valign="top" width="21.276595744680854%" id="d18159e55">
+                                <p class="p">接口</p>
+
+                            </th>
+
+                            <th class="entry" valign="top" width="49.361702127659576%" id="d18159e61">
+                                <p class="p">说明</p>
+
+                            </th>
+
+                            <th class="entry" valign="top" width="29.361702127659576%" id="d18159e67">
+                                <p class="p">返回类型</p>
+
+                            </th>
+
+                        </tr>
+
+                    </thead>
+
+                    <tbody class="tbody">
+                        <tr>
+                            <td class="entry" valign="top" width="21.276595744680854%" headers="d18159e55 ">
+                                <p class="p">readData()</p>
+
+                            </td>
+
+                            <td class="entry" valign="top" width="49.361702127659576%" headers="d18159e61 ">
+                                <p class="p">获取条码内容。</p>
+
+                            </td>
+
+                            <td class="entry" valign="top" width="29.361702127659576%" headers="d18159e67 ">
+                                <p class="p">字符串</p>
+
+                            </td>
+
+                        </tr>
+
+                        <tr>
+                            <td class="entry" valign="top" width="21.276595744680854%" headers="d18159e55 ">
+                                <p class="p">symbolType()</p>
+
+                            </td>
+
+                            <td class="entry" valign="top" width="49.361702127659576%" headers="d18159e61 ">
+                                <p class="p">获取条码类型。</p>
+
+                            </td>
+
+                            <td class="entry" valign="top" width="29.361702127659576%" headers="d18159e67 ">
+                                <p class="p">整数</p>
+
+                            </td>
+
+                        </tr>
+
+                        <tr>
+                            <td class="entry" valign="top" width="21.276595744680854%" headers="d18159e55 ">
+                                <p class="p">angle() </p>
+
+                            </td>
+
+                            <td class="entry" valign="top" width="49.361702127659576%" headers="d18159e61 ">
+                                <p class="p">获取条码角度。</p>
+
+                            </td>
+
+                            <td class="entry" valign="top" width="29.361702127659576%" headers="d18159e67 ">
+                                <p class="p">整数</p>
+
+                            </td>
+
+                        </tr>
+
+                        <tr>
+                            <td class="entry" valign="top" width="21.276595744680854%" headers="d18159e55 ">
+                                <p class="p">cornerCoordinates()</p>
+
+                            </td>
+
+                            <td class="entry" valign="top" width="49.361702127659576%" headers="d18159e61 ">
+                                <p class="p">获取条码顶点坐标。</p>
+
+                            </td>
+
+                            <td class="entry" valign="top" width="29.361702127659576%" headers="d18159e67 ">
+                                <p class="p">字符串</p>
+
+                            </td>
+
+                        </tr>
+
+                        <tr>
+                            <td class="entry" valign="top" width="21.276595744680854%" headers="d18159e55 ">
+                                <p class="p">centerCoordinate() </p>
+
+                            </td>
+
+                            <td class="entry" valign="top" width="49.361702127659576%" headers="d18159e61 ">
+                                <p class="p">获取条码中心坐标。</p>
+
+                            </td>
+
+                            <td class="entry" valign="top" width="29.361702127659576%" headers="d18159e67 ">
+                                <p class="p">字符串</p>
+
+                            </td>
+
+                        </tr>
+
+                        <tr>
+                            <td class="entry" valign="top" width="21.276595744680854%" headers="d18159e55 ">
+                                <p class="p">mirrorFlag() </p>
+
+                            </td>
+
+                            <td class="entry" valign="top" width="49.361702127659576%" headers="d18159e61 ">
+                                <p class="p">获取条码镜像标志。</p>
+
+                            </td>
+
+                            <td class="entry" valign="top" width="29.361702127659576%" headers="d18159e67 ">
+                                <p class="p">整数</p>
+
+                            </td>
+
+                        </tr>
+
+                        <tr>
+                            <td class="entry" valign="top" width="21.276595744680854%" headers="d18159e55 ">
+                                <p class="p">ppm() </p>
+
+                            </td>
+
+                            <td class="entry" valign="top" width="49.361702127659576%" headers="d18159e61 ">
+                                <p class="p">获取条码ppm。</p>
+
+                            </td>
+
+                            <td class="entry" valign="top" width="29.361702127659576%" headers="d18159e67 ">
+                                <p class="p">浮点数</p>
+
+                            </td>
+
+                        </tr>
+
+                        <tr>
+                            <td class="entry" valign="top" width="21.276595744680854%" headers="d18159e55 ">
+                                <p class="p">regionNo()</p>
+
+                            </td>
+
+                            <td class="entry" valign="top" width="49.361702127659576%" headers="d18159e61 ">
+                                <p class="p">获取条码ROI号。</p>
+
+                            </td>
+
+                            <td class="entry" valign="top" width="29.361702127659576%" headers="d18159e67 ">
+                                <p class="p">整数</p>
+
+                            </td>
+
+                        </tr>
+
+                        <tr>
+                            <td class="entry" valign="top" width="21.276595744680854%" headers="d18159e55 ">
+                                <p class="p">algoTime() </p>
+
+                            </td>
+
+                            <td class="entry" valign="top" width="49.361702127659576%" headers="d18159e61 ">
+                                <p class="p">获取条码算法耗时。</p>
+
+                            </td>
+
+                            <td class="entry" valign="top" width="29.361702127659576%" headers="d18159e67 ">
+                                <p class="p">整数</p>
+
+                            </td>
+
+                        </tr>
+
+                        <tr>
+                            <td class="entry" valign="top" width="21.276595744680854%" headers="d18159e55 ">
+                                <p class="p">evalScore()</p>
+
+                            </td>
+
+                            <td class="entry" valign="top" width="49.361702127659576%" headers="d18159e61 ">
+                                <p class="p">获取读码评分。</p>
+
+                            </td>
+
+                            <td class="entry" valign="top" width="29.361702127659576%" headers="d18159e67 ">
+                                <p class="p">整数</p>
+
+                            </td>
+
+                        </tr>
+
+                        <tr>
+                            <td class="entry" valign="top" width="21.276595744680854%" headers="d18159e55 ">
+                                <p class="p">pollingGroupId()</p>
+
+                            </td>
+
+                            <td class="entry" valign="top" width="49.361702127659576%" headers="d18159e61 ">
+                                <p class="p">获取条码轮询最佳组数。</p>
+
+                            </td>
+
+                            <td class="entry" valign="top" width="29.361702127659576%" headers="d18159e67 ">
+                                <p class="p">整数</p>
+
+                            </td>
+
+                        </tr>
+
+                        <tr>
+                            <td class="entry" valign="top" width="21.276595744680854%" headers="d18159e55 ">
+                                <p class="p">codeQuality() </p>
+
+                            </td>
+
+                            <td class="entry" valign="top" width="49.361702127659576%" headers="d18159e61 ">
+                                <p class="p">获取条码打码评级。</p>
+
+                            </td>
+
+                            <td class="entry" valign="top" width="29.361702127659576%" headers="d18159e67 ">
+                                <p class="p">字符串</p>
+
+                            </td>
+
+                        </tr>
+
+                        <tr>
+                            <td class="entry" valign="top" width="21.276595744680854%" headers="d18159e55 ">
+                                <p class="p">triggerNum()</p>
+
+                            </td>
+
+                            <td class="entry" valign="top" width="49.361702127659576%" headers="d18159e61 ">
+                                <p class="p">获取条码触发号。</p>
+
+                            </td>
+
+                            <td class="entry" valign="top" width="29.361702127659576%" headers="d18159e67 ">
+                                <p class="p">整数</p>
+
+                            </td>
+
+                        </tr>
+
+                        <tr>
+                            <td class="entry" valign="top" width="21.276595744680854%" headers="d18159e55 ">
+                                <p class="p">frameNum()</p>
+
+                            </td>
+
+                            <td class="entry" valign="top" width="49.361702127659576%" headers="d18159e61 ">
+                                <p class="p">获取条码帧号。</p>
+
+                            </td>
+
+                            <td class="entry" valign="top" width="29.361702127659576%" headers="d18159e67 ">
+                                <p class="p">整数</p>
+
+                            </td>
+
+                        </tr>
+
+                        <tr>
+                            <td class="entry" valign="top" width="21.276595744680854%" headers="d18159e55 ">
+                                <p class="p">totalTime()</p>
+
+                            </td>
+
+                            <td class="entry" valign="top" width="49.361702127659576%" headers="d18159e61 ">
+                                <p class="p">获取触发总耗时。</p>
+
+                            </td>
+
+                            <td class="entry" valign="top" width="29.361702127659576%" headers="d18159e67 ">
+                                <p class="p">整数</p>
+
+                            </td>
+
+                        </tr>
+
+                        <tr>
+                            <td class="entry" valign="top" width="21.276595744680854%" headers="d18159e55 ">
+                                <p class="p">trigStartTime() </p>
+
+                            </td>
+
+                            <td class="entry" valign="top" width="49.361702127659576%" headers="d18159e61 ">
+                                <p class="p">获取触发开始时间。</p>
+
+                            </td>
+
+                            <td class="entry" valign="top" width="29.361702127659576%" headers="d18159e67 ">
+                                <p class="p">字符串</p>
+
+                            </td>
+
+                        </tr>
+
+                        <tr>
+                            <td class="entry" valign="top" width="21.276595744680854%" headers="d18159e55 ">
+                                <p class="p">frameCodeOutputTime() </p>
+
+                            </td>
+
+                            <td class="entry" valign="top" width="49.361702127659576%" headers="d18159e61 ">
+                                <p class="p">获取读码识图时间。</p>
+
+                            </td>
+
+                            <td class="entry" valign="top" width="29.361702127659576%" headers="d18159e67 ">
+                                <p class="p">字符串</p>
+
+                            </td>
+
+                        </tr>
+
+                        <tr>
+                            <td class="entry" valign="top" width="21.276595744680854%" headers="d18159e55 ">
+                                <p class="p">frameTime()</p>
+
+                            </td>
+
+                            <td class="entry" valign="top" width="49.361702127659576%" headers="d18159e61 ">
+                                <p class="p">获取帧时间。</p>
+
+                            </td>
+
+                            <td class="entry" valign="top" width="29.361702127659576%" headers="d18159e67 ">
+                                <p class="p">字符串</p>
+
+                            </td>
+
+                        </tr>
+
+                        <tr>
+                            <td class="entry" valign="top" width="21.276595744680854%" headers="d18159e55 ">
+                                <p class="p">stationName()</p>
+
+                            </td>
+
+                            <td class="entry" valign="top" width="49.361702127659576%" headers="d18159e61 ">
+                                <p class="p">获取主从站号。</p>
+
+                            </td>
+
+                            <td class="entry" valign="top" width="29.361702127659576%" headers="d18159e67 ">
+                                <p class="p">整数</p>
+
+                            </td>
+
+                        </tr>
+
+                        <tr>
+                            <td class="entry" valign="top" width="21.276595744680854%" headers="d18159e55 ">
+                                <p class="p">stationName()</p>
+
+                            </td>
+
+                            <td class="entry" valign="top" width="49.361702127659576%" headers="d18159e61 ">
+                                <p class="p">获取主从站名。</p>
+
+                            </td>
+
+                            <td class="entry" valign="top" width="29.361702127659576%" headers="d18159e67 ">
+                                <p class="p">字符串</p>
+
+                            </td>
+
+                        </tr>
+
+                    </tbody>
+
+                </table>
+</div>
+
+        </div>
+
+        <div class="section" id="GUID-3DB7E507-E5C7-4C2A-B240-161451642011__GUID-B9E8567E-17F6-412B-8E4F-5AD8AECFC8E3"><h2 class="title sectiontitle">评级数据</h2>
+            
+            <p class="p">评级数据类接口用于获取条码打码评级的评级和评分信息。</p>
+
+            
+<div class="div_table"><table cellpadding="4" cellspacing="0" summary="" style="display:none;" id="tbl_rowfixed" class="table wt_table_rowfixed" frame="border" border="1" rules="all"></table><table cellpadding="4" cellspacing="0" summary="" id="GUID-3DB7E507-E5C7-4C2A-B240-161451642011__TABLE_CNT_HKV_Q2C" class="table" frame="border" border="1" rules="all"><caption><span class="tablecap">表 2 评级数据接口</span></caption>
+                    
+                    
+                    
+                    <thead class="thead" align="left">
+                        <tr>
+                            <th class="entry" valign="top" width="21.276595744680854%" id="d18159e529">
+                                <p class="p">接口</p>
+
+                            </th>
+
+                            <th class="entry" valign="top" width="49.361702127659576%" id="d18159e535">
+                                <p class="p">说明</p>
+
+                            </th>
+
+                            <th class="entry" valign="top" width="29.361702127659576%" id="d18159e541">
+                                <p class="p">返回值</p>
+
+                            </th>
+
+                        </tr>
+
+                    </thead>
+
+                    <tbody class="tbody">
+                        <tr>
+                            <td class="entry" valign="top" width="21.276595744680854%" headers="d18159e529 ">
+                                <p class="p">subQualityScore() </p>
+
+                            </td>
+
+                            <td class="entry" valign="top" width="49.361702127659576%" headers="d18159e535 ">
+                                <p class="p">获取打码评级子项的评分。</p>
+
+                            </td>
+
+                            <td class="entry" valign="top" width="29.361702127659576%" headers="d18159e541 ">
+                                <p class="p">字符串</p>
+
+                            </td>
+
+                        </tr>
+
+                        <tr>
+                            <td class="entry" valign="top" width="21.276595744680854%" headers="d18159e529 ">
+                                <p class="p">subQualityGrade() </p>
+
+                            </td>
+
+                            <td class="entry" valign="top" width="49.361702127659576%" headers="d18159e535 ">
+                                <p class="p">获取打码评级子项的评级。</p>
+
+                            </td>
+
+                            <td class="entry" valign="top" width="29.361702127659576%" headers="d18159e541 ">
+                                <p class="p">字符串</p>
+
+                            </td>
+
+                        </tr>
+
+                    </tbody>
+
+                </table>
+</div>
+
+        </div>
+
+        <div class="section" id="GUID-3DB7E507-E5C7-4C2A-B240-161451642011__GUID-3A9CF98E-2BFC-4929-A337-B65AAC7067D3"><h2 class="title sectiontitle">统计数据</h2>
+            
+            <p class="p">统计数据类接口用于获取读码相关统计信息。</p>
+
+            
+<div class="div_table"><table cellpadding="4" cellspacing="0" summary="" style="display:none;" id="tbl_rowfixed" class="table wt_table_rowfixed" frame="border" border="1" rules="all"></table><table cellpadding="4" cellspacing="0" summary="" id="GUID-3DB7E507-E5C7-4C2A-B240-161451642011__TABLE_NTW_HKV_Q2C" class="table" frame="border" border="1" rules="all"><caption><span class="tablecap">表 3 统计数据接口</span></caption>
+                    
+                    
+                    
+                    <thead class="thead" align="left">
+                        <tr>
+                            <th class="entry" valign="top" width="21.276595744680854%" id="d18159e622">
+                                <p class="p">接口</p>
+
+                            </th>
+
+                            <th class="entry" valign="top" width="49.361702127659576%" id="d18159e628">
+                                <p class="p">说明</p>
+
+                            </th>
+
+                            <th class="entry" valign="top" width="29.361702127659576%" id="d18159e634">
+                                <p class="p">返回值</p>
+
+                            </th>
+
+                        </tr>
+
+                    </thead>
+
+                    <tbody class="tbody">
+                        <tr>
+                            <td class="entry" valign="top" width="21.276595744680854%" headers="d18159e622 ">
+                                <p class="p">readCount() </p>
+
+                            </td>
+
+                            <td class="entry" valign="top" width="49.361702127659576%" headers="d18159e628 ">
+                                <p class="p">获取条码数量。</p>
+
+                            </td>
+
+                            <td class="entry" valign="top" width="29.361702127659576%" headers="d18159e634 ">
+                                <p class="p">整数</p>
+
+                            </td>
+
+                        </tr>
+
+                        <tr>
+                            <td class="entry" valign="top" width="21.276595744680854%" headers="d18159e622 ">
+                                <p class="p"> totalFrameCnt()</p>
+
+                            </td>
+
+                            <td class="entry" valign="top" width="49.361702127659576%" headers="d18159e628 ">
+                                <p class="p">获取总图像数量。</p>
+
+                            </td>
+
+                            <td class="entry" valign="top" width="29.361702127659576%" headers="d18159e634 ">
+                                <p class="p">整数</p>
+
+                            </td>
+
+                        </tr>
+
+                        <tr>
+                            <td class="entry" valign="top" width="21.276595744680854%" headers="d18159e622 ">
+                                <p class="p">okFrameCnt()</p>
+
+                            </td>
+
+                            <td class="entry" valign="top" width="49.361702127659576%" headers="d18159e628 ">
+                                <p class="p">获取OK图像数量。</p>
+
+                            </td>
+
+                            <td class="entry" valign="top" width="29.361702127659576%" headers="d18159e634 ">
+                                <p class="p">整数</p>
+
+                            </td>
+
+                        </tr>
+
+                        <tr>
+                            <td class="entry" valign="top" width="21.276595744680854%" headers="d18159e622 ">
+                                <p class="p">ngFrameCnt()</p>
+
+                            </td>
+
+                            <td class="entry" valign="top" width="49.361702127659576%" headers="d18159e628 ">
+                                <p class="p">获取NG图像数量。</p>
+
+                            </td>
+
+                            <td class="entry" valign="top" width="29.361702127659576%" headers="d18159e634 ">
+                                <p class="p">整数</p>
+
+                            </td>
+
+                        </tr>
+
+                        <tr>
+                            <td class="entry" valign="top" width="21.276595744680854%" headers="d18159e622 ">
+                                <p class="p"> readingRate()</p>
+
+                            </td>
+
+                            <td class="entry" valign="top" width="49.361702127659576%" headers="d18159e628 ">
+                                <p class="p">获取读码率。</p>
+
+                            </td>
+
+                            <td class="entry" valign="top" width="29.361702127659576%" headers="d18159e634 ">
+                                <p class="p">整数</p>
+
+                            </td>
+
+                        </tr>
+
+                    </tbody>
+
+                </table>
+</div>
+
+        </div>
+
+        <div class="section" id="GUID-3DB7E507-E5C7-4C2A-B240-161451642011__GUID-439056A3-DE42-4DD5-BCD2-035EC9F158D1"><h2 class="title sectiontitle">数据处理</h2>
+            
+            <p class="p">数据处理类接口用于过滤、裁剪、替换读码结果字符串。</p>
+
+            
+<div class="div_table"><table cellpadding="4" cellspacing="0" summary="" style="display:none;" id="tbl_rowfixed" class="table wt_table_rowfixed" frame="border" border="1" rules="all"></table><table cellpadding="4" cellspacing="0" summary="" id="GUID-3DB7E507-E5C7-4C2A-B240-161451642011__TABLE_XC1_3KV_Q2C" class="table" frame="border" border="1" rules="all"><caption><span class="tablecap">表 4 数据处理接口</span></caption>
+                    
+                    
+                    
+                    <thead class="thead" align="left">
+                        <tr>
+                            <th class="entry" valign="top" width="21.276595744680854%" id="d18159e779">
+                                <p class="p">接口</p>
+
+                            </th>
+
+                            <th class="entry" valign="top" width="49.361702127659576%" id="d18159e785">
+                                <p class="p">说明</p>
+
+                            </th>
+
+                            <th class="entry" valign="top" width="29.361702127659576%" id="d18159e791">
+                                <p class="p">返回值</p>
+
+                            </th>
+
+                        </tr>
+
+                    </thead>
+
+                    <tbody class="tbody">
+                        <tr>
+                            <td class="entry" valign="top" width="21.276595744680854%" headers="d18159e779 ">
+                                <p class="p">historyFilter()</p>
+
+                            </td>
+
+                            <td class="entry" valign="top" width="49.361702127659576%" headers="d18159e785 ">
+                                <p class="p">条码历史过滤。</p>
+
+                            </td>
+
+                            <td class="entry" valign="top" width="29.361702127659576%" headers="d18159e791 ">
+                                <p class="p">整数</p>
+
+                            </td>
+
+                        </tr>
+
+                        <tr>
+                            <td class="entry" valign="top" width="21.276595744680854%" headers="d18159e779 ">
+                                <p class="p">cut() </p>
+
+                            </td>
+
+                            <td class="entry" valign="top" width="49.361702127659576%" headers="d18159e785 ">
+                                <p class="p">字符裁剪。</p>
+
+                            </td>
+
+                            <td class="entry" valign="top" width="29.361702127659576%" headers="d18159e791 ">
+                                <p class="p">整数</p>
+
+                            </td>
+
+                        </tr>
+
+                        <tr>
+                            <td class="entry" valign="top" width="21.276595744680854%" headers="d18159e779 ">
+                                <p class="p"> left(str, m)</p>
+
+                            </td>
+
+                            <td class="entry" valign="top" width="49.361702127659576%" headers="d18159e785 ">
+                                <p class="p">裁剪条码位数开始偏移量，从字符串（str）开头第m位的位置开始裁剪。其中：</p>
+
+                                <ul class="ul" id="GUID-3DB7E507-E5C7-4C2A-B240-161451642011__UL_OQR_4N1_R2C">
+                                    <li class="li" id="GUID-3DB7E507-E5C7-4C2A-B240-161451642011__GUID-EB44BF73-0455-46DF-9DD8-3ECFD0517CDF">
+                                        <p class="p">str：待裁剪的字符串。</p>
+
+                                    </li>
+
+                                    <li class="li" id="GUID-3DB7E507-E5C7-4C2A-B240-161451642011__GUID-B8DEE47B-189D-46FA-94CC-AF4B517ADB84">m：偏移位数，可设置范围为1~2048。</li>
+
+                                </ul>
+
+                            </td>
+
+                            <td class="entry" valign="top" width="29.361702127659576%" headers="d18159e791 ">
+                                <p class="p">字符串</p>
+
+                            </td>
+
+                        </tr>
+
+                        <tr>
+                            <td class="entry" valign="top" width="21.276595744680854%" headers="d18159e779 ">
+                                <p class="p">right(str, m)</p>
+
+                            </td>
+
+                            <td class="entry" valign="top" width="49.361702127659576%" headers="d18159e785 ">
+                                <p class="p">裁剪条码位数结束偏移量，从字符串（str）末尾往前第m位的位置开始裁剪。其中：</p>
+
+                                <ul class="ul" id="GUID-3DB7E507-E5C7-4C2A-B240-161451642011__UL_XKK_VN1_R2C">
+                                    <li class="li" id="GUID-3DB7E507-E5C7-4C2A-B240-161451642011__GUID-8B57865D-C142-4F7B-9B3C-27993794A372">
+                                        <p class="p">str：待裁剪的字符串。</p>
+
+                                    </li>
+
+                                    <li class="li" id="GUID-3DB7E507-E5C7-4C2A-B240-161451642011__GUID-D3DA6856-A769-404E-B715-18975A73CBDE">m：偏移位数，可设置范围为1~2048。</li>
+
+                                </ul>
+
+                            </td>
+
+                            <td class="entry" valign="top" width="29.361702127659576%" headers="d18159e791 ">
+                                <p class="p">字符串</p>
+
+                            </td>
+
+                        </tr>
+
+                        <tr>
+                            <td class="entry" valign="top" width="21.276595744680854%" headers="d18159e779 ">
+                                <p class="p">mid(str, s, m)</p>
+
+                            </td>
+
+                            <td class="entry" valign="top" width="49.361702127659576%" headers="d18159e785 ">
+                                <p class="p">裁剪条码位数中间偏移量，截取字符串（str）从开头第s位起至第m位的字符串。其中：</p>
+
+                                <ul class="ul" id="GUID-3DB7E507-E5C7-4C2A-B240-161451642011__UL_AL5_D41_R2C">
+                                    <li class="li" id="GUID-3DB7E507-E5C7-4C2A-B240-161451642011__GUID-CA714BB5-4DA6-4231-8C06-946618DC4810">
+                                        <p class="p">str：待裁剪的字符串。</p>
+
+                                    </li>
+
+                                    <li class="li" id="GUID-3DB7E507-E5C7-4C2A-B240-161451642011__GUID-720890C0-3E1F-4671-91E7-7613AF7C0030">
+                                        <p class="p">s：截取字符串开始偏移位数，可设置范围为1~2048。</p>
+
+                                    </li>
+
+                                    <li class="li" id="GUID-3DB7E507-E5C7-4C2A-B240-161451642011__GUID-D2211CC1-533F-4213-A05B-0EEB05901EB3">
+                                        <p class="p">m：截取字符串结束位数，可设置范围为1~2048。如果不指定m，即表示从开头第s位开始至末尾最后一位结束。</p>
+
+                                    </li>
+
+                                </ul>
+
+                            </td>
+
+                            <td class="entry" valign="top" width="29.361702127659576%" headers="d18159e791 ">
+                                <p class="p">字符串</p>
+
+                            </td>
+
+                        </tr>
+
+                        <tr>
+                            <td class="entry" valign="top" width="21.276595744680854%" headers="d18159e779 ">
+                                <p class="p">field(str, m, sep)</p>
+
+                            </td>
+
+                            <td class="entry" valign="top" width="49.361702127659576%" headers="d18159e785 ">
+                                <p class="p">通过分隔字符（sep）将字符串（str）分割，取第m个字符串。其中：</p>
+
+                                <ul class="ul" id="GUID-3DB7E507-E5C7-4C2A-B240-161451642011__UL_F53_2P1_R2C">
+                                    <li class="li" id="GUID-3DB7E507-E5C7-4C2A-B240-161451642011__GUID-FE644B26-1ABA-4959-B4E1-CDB3A1EC422D">
+                                        <p class="p">str：待分割的字符串。</p>
+
+                                    </li>
+
+                                    <li class="li" id="GUID-3DB7E507-E5C7-4C2A-B240-161451642011__GUID-1F4E4615-A5F6-4A28-8FE3-A1598F4118A6">
+                                        <p class="p">m：条码分割偏移量，可设置范围为1~2048。表示需要获取分割后的子字符串的序号。</p>
+
+                                    </li>
+
+                                    <li class="li" id="GUID-3DB7E507-E5C7-4C2A-B240-161451642011__GUID-6879F767-598D-4DB2-A03D-98A9AE8C3E8C">
+                                        <p class="p">sep：分隔字符串，在待分割字符串中从前往后
+                                                每遇到分隔字符串，将当前位置之前的字符串分割为一个单独的子字符串。使用时需添加半角双引号（""），示例：<samp class="ph codeph">field(code,
+                                                1, "4")</samp>。</p>
+
+                                    </li>
+
+                                </ul>
+
+                            </td>
+
+                            <td class="entry" valign="top" width="29.361702127659576%" headers="d18159e791 ">
+                                <p class="p">字符串</p>
+
+                            </td>
+
+                        </tr>
+
+                        <tr>
+                            <td class="entry" valign="top" width="21.276595744680854%" headers="d18159e779 ">
+                                <p class="p"> illegalCharTrans(str, replace_str)</p>
+
+                            </td>
+
+                            <td class="entry" valign="top" width="49.361702127659576%" headers="d18159e785 ">
+                                <p class="p">非法字符替换，将非法的源字符串（str）替换为replace_str。</p>
+
+                            </td>
+
+                            <td class="entry" valign="top" width="29.361702127659576%" headers="d18159e791 ">
+                                <p class="p">字符串</p>
+
+                            </td>
+
+                        </tr>
+
+                    </tbody>
+
+                </table>
+</div>
+
+        </div>
+
+        <div class="section" id="GUID-3DB7E507-E5C7-4C2A-B240-161451642011__GUID-DAE7992F-832D-44FC-8BA5-1ACE70DA3B88"><h2 class="title sectiontitle">其他</h2>
+            
+            
+<div class="div_table"><table cellpadding="4" cellspacing="0" summary="" style="display:none;" id="tbl_rowfixed" class="table wt_table_rowfixed" frame="border" border="1" rules="all"></table><table cellpadding="4" cellspacing="0" summary="" id="GUID-3DB7E507-E5C7-4C2A-B240-161451642011__TABLE_YXJ_3KV_Q2C" class="table" frame="border" border="1" rules="all"><caption><span class="tablecap">表 5 其他接口</span></caption>
+                    
+                    
+                    
+                    <thead class="thead" align="left">
+                        <tr>
+                            <th class="entry" valign="top" width="21.276595744680854%" id="d18159e1044">
+                                <p class="p">接口</p>
+
+                            </th>
+
+                            <th class="entry" valign="top" width="49.361702127659576%" id="d18159e1050">
+                                <p class="p">说明</p>
+
+                            </th>
+
+                            <th class="entry" valign="top" width="29.361702127659576%" id="d18159e1056">
+                                <p class="p">返回值</p>
+
+                            </th>
+
+                        </tr>
+
+                    </thead>
+
+                    <tbody class="tbody">
+                        <tr>
+                            <td class="entry" valign="top" width="21.276595744680854%" headers="d18159e1044 ">
+                                <p class="p">outonEvent(index)</p>
+
+                            </td>
+
+                            <td class="entry" valign="top" width="49.361702127659576%" headers="d18159e1050 ">
+                                <p class="p">控制IO输出，<span class="keyword parmname">index</span>用于指定IO通道号。</p>
+
+                            </td>
+
+                            <td class="entry" valign="top" width="29.361702127659576%" headers="d18159e1056 ">
+                                <p class="p">不涉及</p>
+
+                            </td>
+
+                        </tr>
+
+                        <tr>
+                            <td class="entry" valign="top" width="21.276595744680854%" headers="d18159e1044 ">
+                                <p class="p"> ipAddress()</p>
+
+                            </td>
+
+                            <td class="entry" valign="top" width="49.361702127659576%" headers="d18159e1050 ">
+                                <p class="p">获取IP地址。</p>
+
+                            </td>
+
+                            <td class="entry" valign="top" width="29.361702127659576%" headers="d18159e1056 ">
+                                <p class="p">字符串</p>
+
+                            </td>
+
+                        </tr>
+
+                        <tr>
+                            <td class="entry" valign="top" width="21.276595744680854%" headers="d18159e1044 ">
+                                <p class="p">time(type)</p>
+
+                            </td>
+
+                            <td class="entry" valign="top" width="49.361702127659576%" headers="d18159e1050 ">
+                                <p class="p">获取时间，<span class="keyword parmname">type</span>用于指定时间类型，可选如下类型。</p>
+
+                                <ul class="ul" id="GUID-3DB7E507-E5C7-4C2A-B240-161451642011__UL_L4X_NWZ_Q2C">
+                                    <li class="li" id="GUID-3DB7E507-E5C7-4C2A-B240-161451642011__GUID-75AACC21-1B69-4ABA-8A6D-FBE4C77E5422">
+                                        <p class="p">0：YYYYMMDD_HHMMSSFFF</p>
+
+                                    </li>
+
+                                    <li class="li" id="GUID-3DB7E507-E5C7-4C2A-B240-161451642011__GUID-ED67B4AC-25A8-431A-BBB1-31E9C7C2ACBE">
+                                        <p class="p">1：YYMMDD_HHMMSSFFF</p>
+
+                                    </li>
+
+                                    <li class="li" id="GUID-3DB7E507-E5C7-4C2A-B240-161451642011__GUID-4A63AD30-BB7F-4DB1-A127-637FF4795817">
+                                        <p class="p">2：DDMMYY_HHMMSSFFF</p>
+
+                                    </li>
+
+                                    <li class="li" id="GUID-3DB7E507-E5C7-4C2A-B240-161451642011__GUID-EFF0C0AD-0BA4-4485-8213-9F0988406760">
+                                        <p class="p">3：MM_DD_YY_HH_MM_SS_FFF</p>
+
+                                    </li>
+
+                                    <li class="li" id="GUID-3DB7E507-E5C7-4C2A-B240-161451642011__GUID-D138AE04-A6C3-4A24-9753-0C568C86F359">
+                                        <p class="p">4：HHMMSSFFF</p>
+
+                                    </li>
+
+                                    <li class="li" id="GUID-3DB7E507-E5C7-4C2A-B240-161451642011__GUID-7D7E9B28-D772-4C03-96BE-FD86C42DDF7E">
+                                        <p class="p">5：YYYYMMDD</p>
+
+                                    </li>
+
+                                    <li class="li" id="GUID-3DB7E507-E5C7-4C2A-B240-161451642011__GUID-9567A3DD-17DB-4CE0-B513-88507F1FA241">
+                                        <p class="p">6：YYYY_MM_DD</p>
+
+                                    </li>
+
+                                    <li class="li" id="GUID-3DB7E507-E5C7-4C2A-B240-161451642011__GUID-C8428DA0-59AE-4086-995D-470052527C68">
+                                        <p class="p">7：YYYY</p>
+
+                                    </li>
+
+                                    <li class="li" id="GUID-3DB7E507-E5C7-4C2A-B240-161451642011__GUID-F58630A1-AB31-401D-B171-3E5CAFB08E10">
+                                        <p class="p">8：MM</p>
+
+                                    </li>
+
+                                    <li class="li" id="GUID-3DB7E507-E5C7-4C2A-B240-161451642011__GUID-57810855-BB3E-4123-8B85-5779D1A63B54">
+                                        <p class="p">9：DD</p>
+
+                                    </li>
+
+                                </ul>
+
+                            </td>
+
+                            <td class="entry" valign="top" width="29.361702127659576%" headers="d18159e1056 ">
+                                <p class="p">字符串</p>
+
+                            </td>
+
+                        </tr>
+
+                        <tr>
+                            <td class="entry" valign="top" width="21.276595744680854%" headers="d18159e1044 ">
+                                <p class="p">getCommunicationProtocol()</p>
+
+                            </td>
+
+                            <td class="entry" valign="top" width="49.361702127659576%" headers="d18159e1050 ">
+                                
+                                <p class="p">获取读码器当前应用的通讯协议名称。</p>
+
+                            </td>
+
+                            <td class="entry" valign="top" width="29.361702127659576%" headers="d18159e1056 ">
+                                <p class="p">整数，返回值对应的协议名称如下。</p>
+
+                                <ul class="ul" id="GUID-3DB7E507-E5C7-4C2A-B240-161451642011__UL_S54_CK3_WFC">
+                                    <li class="li" id="GUID-3DB7E507-E5C7-4C2A-B240-161451642011__GUID-190B8D43-5A52-4A48-ACD0-3F615E050D82">
+                                        <p class="p">2：TCPCLIENT</p>
+
+                                    </li>
+
+                                    <li class="li" id="GUID-3DB7E507-E5C7-4C2A-B240-161451642011__GUID-FDEBD9FF-DD76-41B3-8DFF-5D821FF39EE7">
+                                        <p class="p">3：SERIAL</p>
+
+                                    </li>
+
+                                    <li class="li" id="GUID-3DB7E507-E5C7-4C2A-B240-161451642011__GUID-65426450-2F52-4640-B064-AC64670E270A">
+                                        <p class="p">4：FTP</p>
+
+                                    </li>
+
+                                    <li class="li" id="GUID-3DB7E507-E5C7-4C2A-B240-161451642011__GUID-8EAEF1C1-4E7A-4AEE-A132-64B26E986986">
+                                        <p class="p">5：HTTP</p>
+
+                                    </li>
+
+                                    <li class="li" id="GUID-3DB7E507-E5C7-4C2A-B240-161451642011__GUID-A27319F1-E048-47EB-BD3C-45216F60318A">
+                                        <p class="p">6：TCPSERVER</p>
+
+                                    </li>
+
+                                    <li class="li" id="GUID-3DB7E507-E5C7-4C2A-B240-161451642011__GUID-E749ECE9-8674-4367-A472-B01D4BBC67E1">
+                                        <p class="p">7：PROFINET</p>
+
+                                    </li>
+
+                                    <li class="li" id="GUID-3DB7E507-E5C7-4C2A-B240-161451642011__GUID-22C53859-ACA8-47F2-A974-19184737679A">
+                                        <p class="p">8：MELSEC</p>
+
+                                    </li>
+
+                                    <li class="li" id="GUID-3DB7E507-E5C7-4C2A-B240-161451642011__GUID-E9D1742A-7A0E-4168-B4B9-7A02559B8E31">
+                                        <p class="p">9：ETHERNETIP</p>
+
+                                    </li>
+
+                                    <li class="li" id="GUID-3DB7E507-E5C7-4C2A-B240-161451642011__GUID-E7669F53-3293-4DDD-AA0D-20779EC82F14">
+                                        <p class="p">10：MODBUS</p>
+
+                                    </li>
+
+                                    <li class="li" id="GUID-3DB7E507-E5C7-4C2A-B240-161451642011__GUID-55B24A67-AA7A-4BF2-9B27-BE70548B98C0">
+                                        <p class="p">11：UDP</p>
+
+                                    </li>
+
+                                    <li class="li" id="GUID-3DB7E507-E5C7-4C2A-B240-161451642011__GUID-E31D8A58-DD1A-48CA-91C8-303A58F10A27">
+                                        <p class="p">12：FINS</p>
+
+                                    </li>
+
+                                    <li class="li" id="GUID-3DB7E507-E5C7-4C2A-B240-161451642011__GUID-C9B8266E-2FEB-47A2-8FC1-F9A841126B84">
+                                        <p class="p">13：USB</p>
+
+                                    </li>
+
+                                    <li class="li" id="GUID-3DB7E507-E5C7-4C2A-B240-161451642011__GUID-4E21E02F-8AD8-4133-A511-3D36BFCE62F0">
+                                        <p class="p">14：KV</p>
+
+                                    </li>
+
+                                </ul>
+
+                            </td>
+
+                        </tr>
+
+                        <tr>
+                            <td class="entry" valign="top" width="21.276595744680854%" headers="d18159e1044 ">
+                                <p class="p">getFtpProcessPart()</p>
+
+                            </td>
+
+                            <td class="entry" valign="top" width="49.361702127659576%" headers="d18159e1050 ">
+                                <p class="p">获取读码器当前FTP的处理环节。</p>
+
+                            </td>
+
+                            <td class="entry" valign="top" width="29.361702127659576%" headers="d18159e1056 ">
+                                <p class="p">整数，返回值对应的处理环节如下。</p>
+
+                                <ul class="ul" id="GUID-3DB7E507-E5C7-4C2A-B240-161451642011__UL_BB1_2L3_WFC">
+                                    <li class="li" id="GUID-3DB7E507-E5C7-4C2A-B240-161451642011__GUID-1CE80196-7714-489A-868B-DBF0DA3E67AC">
+                                        <p class="p">1：FTP图片路径+名称</p>
+
+                                    </li>
+
+                                    <li class="li" id="GUID-3DB7E507-E5C7-4C2A-B240-161451642011__GUID-7FA347D2-E1A1-4B19-A143-497F211DB9FD">
+                                        <p class="p">2：FTP结果路径+名称</p>
+
+                                    </li>
+
+                                    <li class="li" id="GUID-3DB7E507-E5C7-4C2A-B240-161451642011__GUID-7A0ED3E4-78BD-40FA-A7D7-B3336D4BBC62">
+                                        <p class="p">3：FTP结果内容</p>
+
+                                    </li>
+
+                                </ul>
+
+                            </td>
+
+                        </tr>
+
+                    </tbody>
+
+                </table>
+</div>
+
+        </div>
+
+</div>
+
+
+</div>
+						<div class=" wt_topic_wpp_content wt_pc_only "><div class=" wt_topic_wpp_content_flex "><div class="wt_topic_wpp_item like"></div><div class="wt_topic_wpp_item view"></div><div class="wt_topic_wpp_item share">分享</div></div></div>
+						
+						
+						
+					</div>
+				</div><!-- container_body -->
+				
+				<div class=" body_footer "><div onclick="prevTopic()" class=" body_footer_left link_button "><span>上一页</span></div><div onclick="nextTopic()" class=" body_footer_right link_button "><span>下一页</span></div></div>
+				<div class=" body_wpp mobile_only"><div class="wt_body_mobile_like"></div><div class="wt_body_mobile_view"></div></div>
+				<!-- <whc:webhelp_side_toc /> -->
+				
+			</div> <!-- middle_view content_area -->
+			<div class=" right_content wt_pc_only "><div class=" right_fixed_container "><div class="right_guide"><div class="feature_guide"><div>本页导航</div><ul><li onclick="scrollToAnchor($(this))" data-id="GUID-3DB7E507-E5C7-4C2A-B240-161451642011__GUID-EDB16646-EDBA-4EA7-B4B5-273A6AAE7C6E" class="feature_guide_h2"><span class="link_button">码数据</span></li><li onclick="scrollToAnchor($(this))" data-id="GUID-3DB7E507-E5C7-4C2A-B240-161451642011__GUID-B9E8567E-17F6-412B-8E4F-5AD8AECFC8E3" class="feature_guide_h2"><span class="link_button">评级数据</span></li><li onclick="scrollToAnchor($(this))" data-id="GUID-3DB7E507-E5C7-4C2A-B240-161451642011__GUID-3A9CF98E-2BFC-4929-A337-B65AAC7067D3" class="feature_guide_h2"><span class="link_button">统计数据</span></li><li onclick="scrollToAnchor($(this))" data-id="GUID-3DB7E507-E5C7-4C2A-B240-161451642011__GUID-439056A3-DE42-4DD5-BCD2-035EC9F158D1" class="feature_guide_h2"><span class="link_button">数据处理</span></li><li onclick="scrollToAnchor($(this))" data-id="GUID-3DB7E507-E5C7-4C2A-B240-161451642011__GUID-DAE7992F-832D-44FC-8BA5-1ACE70DA3B88" class="feature_guide_h2"><span class="link_button">其他</span></li></ul></div></div></div></div>
+		</div> <!-- content_box -->
+		
+		<!-- 置顶按钮 -->
+		<div class="body_to_top" onclick="scrollTopicTop()"></div> 
+		<!-- 评价反馈 -->
+		<div onclick="manualFeedback()" class=" body_feedback " data-href="https://wj.hikvision.com/#/public-survey?id=64c8b90d80e02e9e88feca2f"></div>
+		
+	</body>
+</html>

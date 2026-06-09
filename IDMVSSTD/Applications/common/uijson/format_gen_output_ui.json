@@ -1,0 +1,51 @@
+{
+    "ui_tabs": [
+        {
+            "ui_type": "tab",
+            "ui_param_name": "",
+            "ui_subset": [
+                {
+                    "ui_display_name": "MirrorOutput_config",
+                    "ui_display_cn_name": "None",
+                    "ui_display_en_name": "None",
+                    "ui_usage_frequency": "Common",
+                    "ui_type": "category",
+                    "ui_param_name": "",
+                    "ui_param_display_type": "",
+                    "ui_subset": [
+                        {
+                            "ui_display_name": "OutputMirrorMarkTextEnable",
+                            "ui_display_cn_name": "镜像标记文本使能",
+                            "ui_display_en_name": "Output Mirror Mark Enable",
+                            "ui_usage_frequency": "Common",
+                            "ui_type": "config_param",
+                            "ui_param_name": "OutputMirrorMarkTextEnable",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        },
+                        {
+                            "ui_display_name": "MirrorText",
+                            "ui_display_cn_name": "镜像文本",
+                            "ui_display_en_name": "Mirror Text",
+                            "ui_usage_frequency": "Common",
+                            "ui_type": "config_param",
+                            "ui_param_name": "MirrorText",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        },
+                        {
+                            "ui_display_name": "NonMirrorText",
+                            "ui_display_cn_name": "非镜像文本",
+                            "ui_display_en_name": "NonMirror Text",
+                            "ui_usage_frequency": "Common",
+                            "ui_type": "config_param",
+                            "ui_param_name": "NonMirrorText",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}

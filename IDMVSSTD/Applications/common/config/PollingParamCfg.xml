@@ -1,0 +1,36 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<PollingConfig>
+	<PollingCategory Name="Settings" DisplayName_En="Settings Item" DisplayName_Cn="设置项">
+		<FeatureNode Name="PollingParam" DisplayName_En="" DisplayName_Cn="" DefaultValue="0"/>
+    </PollingCategory>
+    <PollingCategory Name="General" DisplayName_En="General" DisplayName_Cn="通用">
+		<FeatureNode Name="PollingParamName" DisplayName_En="Polling Param Name" DisplayName_Cn="库名称" DefaultValue="PollingParam" Desc_En="User-defined name for Polling Param" Desc_Cn="设置轮询库名称" />
+		<FeatureNode Name="PollingParamChgTime" DisplayName_En="Polling Param ChgTime" DisplayName_Cn="上次更新时间" DefaultValue="0" Desc_En="The last modification time of the current Polling parameter" Desc_Cn="当前库参数上一次修改的时间" />
+		<FeatureNode Name="PollingParamEnable" DisplayName_En="Polling Param Enable" DisplayName_Cn="是否启用" DefaultValue="0" Desc_En="Control the current group participate the polling process" Desc_Cn="使能该轮询组后，可以配置该轮询组的各项参数" />
+		<FeatureNode Name="PollingSingleParamTimeout" DisplayName_En="Polling SingleParam Timeout(ms)" DisplayName_Cn="单组轮询超时时间(ms)" DefaultValue="100" Desc_En="Polling Single Param timeout" Desc_Cn="配置当每一轮询组单组轮询超时时间（毫秒）" />
+		<FeatureNode Name="PollingSingleParamCodeNum" DisplayName_En="Polling SingleParam CodeNum" DisplayName_Cn="轮询码数量" DefaultValue="0" Desc_En="PollingStopCodeNum Specified polling stop code num." Desc_Cn="设置轮询所需要读到的最少条码个数" />
+		<FeatureNode Name="PollingSingleParamPeriod" DisplayName_En="Polling SingleParam Period" DisplayName_Cn="单组轮询重复次数" DefaultValue="1" Desc_En="Polling Single Param Frame Cnt" Desc_Cn="配置每一轮询组单组重复轮询次数" />
+		<FeatureNode Name="PollingAlgoROIRegionIndex" DisplayName_En="Polling ROI Region Index" DisplayName_Cn="轮询关注区域（ROI）" DefaultValue="0" Desc_En="Polling Single Param Algo ROI Region" Desc_Cn="配置每一轮询组关注的ROI区域" />
+    </PollingCategory>
+	
+	 <PollingCategory Name="ReadSetting" DisplayName_En="Code Settings" DisplayName_Cn="条码配置">
+		<FeatureNode Name="CodeInfoSettings" DisplayName_En="Code Info Settings" DisplayName_Cn="条码详细信息设置" DefaultValue="0" Desc_En="Code types identified during configuration polling" Desc_Cn="配置轮询时识别的码制" />
+    </PollingCategory>
+	
+	<PollingCategory Name="LightInfo" DisplayName_En="Lighting" DisplayName_Cn="照明">
+		<FeatureNode Name="PollingLightColor" DisplayName_En="Light Color" DisplayName_Cn="光源颜色" DefaultValue="3" Desc_En="Select the source of light color" Desc_Cn="配置补光灯颜色" />
+		<FeatureNode Name="PollingLightSelector" DisplayName_En="Light Source Config" DisplayName_Cn="光源配置" DefaultValue="1" Desc_En="Select the source of Light" Desc_Cn="配置每一轮询组对应的各路补光灯" />
+		<FeatureNode Name="PollingLightEnable" DisplayName_En="Light Source Config" DisplayName_Cn="光源配置" DefaultValue="0" Desc_En="PollingLightEnable" Desc_Cn="配置每一轮询组对应的轮询补光灯某一路是否使能" />
+		<FeatureNode Name="PollingIOSelector" DisplayName_En="IO Config" DisplayName_Cn="IO配置" DefaultValue="0" Desc_En="Selects the physical line (or pin) of the external device connector to configure(Polling)." Desc_Cn="选择要配置（轮询）的外部设备的连接线路（或引脚）" />
+		<FeatureNode Name="PollingIOAction" DisplayName_En="IO Config" DisplayName_Cn="IO配置" DefaultValue="0" Desc_En="Selects which internal acquisition or I/O source signal to output on the selected line." Desc_Cn="选择线路上输出内部采集信号" />
+    </PollingCategory>
+	
+	<PollingCategory Name="ImageSetting" DisplayName_En="Image Setting" DisplayName_Cn="图像配置">
+        		<FeatureNode Name="PollingExposureTime" DisplayName_En="Polling Exposure Time(us)" DisplayName_Cn="曝光时间(us)" DefaultValue="799" Desc_En="Configure each polling param PollingExposureTime" Desc_Cn="配置每一轮询组对应的轮询曝光时间" />
+		<FeatureNode Name="PollingGain" DisplayName_En="Polling Gain(dB)" DisplayName_Cn="增益(dB)" DefaultValue="0" Desc_En="Configure each polling param PollingGain" Desc_Cn="配置每一轮询组对应的轮询增益" />
+		<FeatureNode Name="PollingGamma" DisplayName_En="Polling Gamma" DisplayName_Cn="伽马" DefaultValue="1" Desc_En="Configure each polling param PollingGamma" Desc_Cn="配置每一轮询组对应的轮询Gamma" />
+		<FeatureNode Name="PollingLensType" DisplayName_En="Polling Lens Type" DisplayName_Cn="轮询镜头类型" DefaultValue="1"/>
+		<FeatureNode Name="PollingFocusEnable" DisplayName_En="Polling Focus Pos Enable" DisplayName_Cn="轮询调焦位置使能" DefaultValue="0" Desc_En="Configure each polling param PollingFocusEnable" Desc_Cn="配置每一轮询组轮询调焦位置使能" />
+		<FeatureNode Name="PollingFocusPos" DisplayName_En="Polling Focus Pos" DisplayName_Cn="轮询调焦位置" DefaultValue="0" Desc_En="Configure each polling param PollingFocusPos" Desc_Cn="配置每一轮询组轮询调焦位置" />
+    </PollingCategory>
+</PollingConfig>

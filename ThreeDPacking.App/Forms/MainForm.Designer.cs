@@ -34,6 +34,8 @@ namespace ThreeDPacking.App.Forms
             this.panelAlgorithmContent = new System.Windows.Forms.Panel();
             this.tabPageActualPacking = new System.Windows.Forms.TabPage();
             this.panelActualPacking = new System.Windows.Forms.Panel();
+            this.tabPageScanTest = new System.Windows.Forms.TabPage();
+            this.panelScanTest = new System.Windows.Forms.Panel();
             this.lblContainers = new System.Windows.Forms.Label();
             this.dgvContainers = new System.Windows.Forms.DataGridView();
             this.colContName = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -77,6 +79,7 @@ namespace ThreeDPacking.App.Forms
             this.tabPageAlgorithm.SuspendLayout();
             this.panelAlgorithmContent.SuspendLayout();
             this.tabPageActualPacking.SuspendLayout();
+            this.tabPageScanTest.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvContainers)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dgvItems)).BeginInit();
             this.grpRandomSelect.SuspendLayout();
@@ -214,6 +217,7 @@ namespace ThreeDPacking.App.Forms
             // 
             this.tabLeftFunctions.Controls.Add(this.tabPageAlgorithm);
             this.tabLeftFunctions.Controls.Add(this.tabPageActualPacking);
+            this.tabLeftFunctions.Controls.Add(this.tabPageScanTest);
             this.tabLeftFunctions.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tabLeftFunctions.Location = new System.Drawing.Point(0, 0);
             this.tabLeftFunctions.Name = "tabLeftFunctions";
@@ -274,6 +278,25 @@ namespace ThreeDPacking.App.Forms
             this.panelActualPacking.Name = "panelActualPacking";
             this.panelActualPacking.Size = new System.Drawing.Size(357, 633);
             this.panelActualPacking.TabIndex = 0;
+            // 
+            // tabPageScanTest
+            // 
+            this.tabPageScanTest.Controls.Add(this.panelScanTest);
+            this.tabPageScanTest.Location = new System.Drawing.Point(4, 22);
+            this.tabPageScanTest.Name = "tabPageScanTest";
+            this.tabPageScanTest.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPageScanTest.Size = new System.Drawing.Size(363, 639);
+            this.tabPageScanTest.TabIndex = 2;
+            this.tabPageScanTest.Text = "扫码测试";
+            this.tabPageScanTest.UseVisualStyleBackColor = true;
+            // 
+            // panelScanTest
+            // 
+            this.panelScanTest.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.panelScanTest.Location = new System.Drawing.Point(3, 3);
+            this.panelScanTest.Name = "panelScanTest";
+            this.panelScanTest.Size = new System.Drawing.Size(357, 633);
+            this.panelScanTest.TabIndex = 0;
             // 
             // lblContainers
             // 
@@ -618,6 +641,7 @@ namespace ThreeDPacking.App.Forms
             this.panelAlgorithmContent.ResumeLayout(false);
             this.panelAlgorithmContent.PerformLayout();
             this.tabPageActualPacking.ResumeLayout(false);
+            this.tabPageScanTest.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.dgvContainers)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.dgvItems)).EndInit();
             this.grpRandomSelect.ResumeLayout(false);
@@ -654,6 +678,8 @@ namespace ThreeDPacking.App.Forms
         private System.Windows.Forms.Panel panelAlgorithmContent;
         private System.Windows.Forms.TabPage tabPageActualPacking;
         private System.Windows.Forms.Panel panelActualPacking;
+        private System.Windows.Forms.TabPage tabPageScanTest;
+        private System.Windows.Forms.Panel panelScanTest;
 
         private System.Windows.Forms.Label lblContainers;
         private System.Windows.Forms.DataGridView dgvContainers;

@@ -1,0 +1,1069 @@
+
+<!DOCTYPE html
+  PUBLIC "" "about:legacy-compat">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:whc="http://www.daksys.com/webhelp/components" xml:lang="zh-cn" lang="zh-cn">
+	<head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />        
+      <meta name="copyright" content="©  杭州海康威视数字技术股份有限公司。保留一切权利。" /><meta name="DC.Type" content="concept" /><meta name="DC.Title" content="触发设置" /><meta name="abstract" content="当需要根据外部信号或特定条件触发读码器进行图像采集和读码时，需在触发设置部分开启读码器触发模式、选择触发源并配置相关参数。" /><meta name="description" content="当需要根据外部信号或特定条件触发读码器进行图像采集和读码时，需在触发设置部分开启读码器触发模式、选择触发源并配置相关参数。" /><meta name="DC.Relation" scheme="URI" content="GUID-1EEE9544-2504-4B35-8C81-8F6D103660EA.html" /><meta name="DC.Format" content="XHTML" /><meta name="DC.Identifier" content="GUID-F29F09A1-B197-460B-9FAC-18C9A132264B" /><meta name="DC.Language" content="zh-CN" /><title>触发设置</title><!-- Generated with dksgen version 1.0, build number 2023071300.  --><meta viewport="Content-Type" content="width=device-width, initial-scale=1.0" /><meta http-equiv="X-UA-Compatible" content="IE=edge,Chrome=1" /><meta name="wh-path2root" content="index.html" />
+		<!-- commonltr css -->
+		<link rel="stylesheet" type="text/css" href="daksys-webhelp/resources/css/commonltr.css" />
+		<!-- Bootstrap css -->
+		<link rel="stylesheet" type="text/css" href="daksys-webhelp/resources/bootstrap/css/bootstrap.min.css" />
+		<link rel="stylesheet" type="text/css" href="daksys-webhelp/resources/bootstrap/css/bootstrap-theme.min.css" />
+		<link rel="stylesheet" type="text/css" href="daksys-webhelp/resources/js/jquery-ui.min.css" />
+		
+		<!-- Template css  -->
+		<link href="daksys-webhelp/template/resources/css/HIKROBOT_color.css?buildId=2023071300" rel="stylesheet" type="text/css" />
+		<link rel="stylesheet" type="text/css" href="daksys-webhelp/template/resources/css/wt_topic.css?buildId=2023071300" />
+		<link rel="stylesheet" type="text/css" href="daksys-webhelp/template/resources/css/wt_topic_m.css?buildId=2023071300" />
+		<link rel="stylesheet" type="text/css" href="daksys-webhelp/template/resources/css/wt_expand.css?buildId=2023071300" />
+		<link rel="stylesheet" type="text/css" href="daksys-webhelp/template/resources/css/wt_note.css?buildId=2023071300" />
+		<link rel="stylesheet" type="text/css" href="daksys-webhelp/template/resources/css/wt_steps.css?buildId=2023071300" />
+		
+		<!-- jquery js  -->
+		<script type="text/javascript" src="daksys-webhelp/resources/js/jquery-3.6.2.min.js"></script>
+		<script type="text/javascript" src="daksys-webhelp/resources/js/jquery.cookie.js"></script>
+		<script type="text/javascript" src="daksys-webhelp/resources/js/jquery.highlight-3.js"></script>
+		<script type="text/javascript" src="daksys-webhelp/resources/js/jquery-ui.min.js"></script>
+		
+		<!-- common js  -->
+		<script type="text/javascript" src="daksys-webhelp/resources/bootstrap/js/bootstrap.min.js"></script>
+		<script type="text/javascript" src="daksys-webhelp/resources/js/base64.js"></script>
+		<script type="text/javascript" src="daksys-webhelp/resources/js/browserDetect.js"></script>
+		<script type="text/javascript" src="daksys-webhelp/resources/js/localization.js"></script>
+		<script type="text/javascript" src="daksys-webhelp/resources/js/parseuri.js"></script>
+		<script type="text/javascript" src="daksys-webhelp/resources/localization/strings.js"></script>
+		<!-- Template js -->
+		<script type="text/javascript" src="daksys-webhelp/template/resources/js/wt_topic.js?buildId=2023071300"></script>
+		<script type="text/javascript" src="daksys-webhelp/template/resources/js/wt_expand.js?buildId=2023071300"></script>
+	</head>
+	<body class="wt_topic_page frmBody" id="GUID-F29F09A1-B197-460B-9FAC-18C9A132264B" onload="topicOnload()">
+		<!-- get_lang -->
+		<div id="lang" style="display:none">zh-CN</div><div id="mapoutputclass" style="display:none"></div>
+		<input hidden="hidden" id="UDCode" value="UD12345B" /><input hidden="hidden" id="Trademark" value="海康机器人" />
+		
+		<div class="content_box">
+			<div class="middle_view content_area col-sm-9" id="content_area">
+				<div class=" wt_breadcrumb "><ol><li><span class="home topicref"><a href="javascript:void(0)" onclick="gotoFirstPage()">首页</a></span></li><li><span class="topicref"><a href="GUID-D8488278-18E0-41D0-91B9-35636662C53F.html" data-id="GUID-D8488278-18E0-41D0-91B9-35636662C53F">读码器常用配置</a></span></li><li><span class="topicref"><a href="GUID-E651848B-CCFF-43E5-9A3F-6784124967A8.html" data-id="GUID-E651848B-CCFF-43E5-9A3F-6784124967A8">配置输入/输出</a></span></li><li><span class="topicref"><a href="GUID-1EEE9544-2504-4B35-8C81-8F6D103660EA.html" data-id="GUID-1EEE9544-2504-4B35-8C81-8F6D103660EA">输入</a></span></li><li class="active"><span class="topicref">触发设置</span></li></ol><div class="wt_breadcrumb_ellipsis" onclick="expandBreadcrumbDiv()"></div><div class="wt_breadcrumb_collapse" style="display: none;"><div class="wt_breadcrumb_collapse_button" onclick="collapseBreadcrumbDiv()"></div></div></div>
+				
+				<div id="container_body" class="container">
+					<div id="contentArea">
+						<div class=" wt_topic_content body ">
+    <h1 class="title topictitle1">触发设置</h1>
+
+
+<div class="body conbody"><p class="shortdesc">当需要根据外部信号或特定条件触发读码器进行图像采集和读码时，需在触发设置部分开启读码器触发模式、选择触发源并配置相关参数。</p>
+
+        <div class="fig fignone" id="GUID-F29F09A1-B197-460B-9FAC-18C9A132264B__FIG_AQK_QBH_4FC">
+            
+            <img class="image" style="display:none;" id="GUID-F29F09A1-B197-460B-9FAC-18C9A132264B__IMAGE_BQK_QBH_4FC" src="GUID-29E56C42-BE87-4B9C-BF87-C1CBD63D7FD1-high.png" width="1400" />
+        <div class="fig_caption"><span class="figcap">图 1 触发设置</span></div></div>
+
+        <ol class="ol" id="GUID-F29F09A1-B197-460B-9FAC-18C9A132264B__OL_KGY_4YC_S2C">
+            <li class="li" id="GUID-F29F09A1-B197-460B-9FAC-18C9A132264B__GUID-46724C3E-F1FE-49E1-B5DD-E9A59714D6C3">
+                <p class="p">在IDMVS主界面功能导航栏，选择<span class="ph menucascade"><span class="ph uicontrol">输入输出</span> &gt; <span class="ph uicontrol">输入</span></span>，进入<span class="ph uicontrol">输入</span>配置页签。</p>
+
+            </li>
+
+            <li class="li" id="GUID-F29F09A1-B197-460B-9FAC-18C9A132264B__GUID-22338B69-BB57-476D-B184-DD496CE4718B">
+                <p class="p">在<span class="ph uicontrol">触发设置</span>区域的<span class="keyword parmname">触发模式</span>参数处下拉选择<span class="ph uicontrol">开启</span>。</p>
+
+            </li>
+
+            <li class="li" id="GUID-F29F09A1-B197-460B-9FAC-18C9A132264B__GUID-3BDB8078-746C-48A8-BDED-ED10F3C05DE6">
+                <p class="p">根据实际需求在<span class="keyword parmname">触发源</span>处下拉选择对应的触发源，可配置触发源及说明如下表所示。</p>
+
+                <div class="note_noline" id="GUID-F29F09A1-B197-460B-9FAC-18C9A132264B__GUID-A536854D-3662-48B0-8961-84B2825D544C"><span class="notetitle">说明</span> 
+                    <ul class="ul" id="GUID-F29F09A1-B197-460B-9FAC-18C9A132264B__UL_T3Z_DCH_4FC">
+                        <li class="li" id="GUID-F29F09A1-B197-460B-9FAC-18C9A132264B__GUID-9F85E5A3-94C8-4DA1-9F2E-76F48841F948">
+                            <p class="p">U口读码器支持的触发源为<span class="ph uicontrol">USB触发</span>及<span class="ph uicontrol">软触发</span>，网口读码器支持<span class="ph uicontrol">USB触发</span>以外的其他触发源。根据型号不同，网口读码器可设置的触发源有所不同，具体请以实际参数为准。</p>
+
+                        </li>
+
+                        <li class="li" id="GUID-F29F09A1-B197-460B-9FAC-18C9A132264B__GUID-3CBBA851-8BD4-4FAF-939F-45B0931ABD35">
+                            <p class="p">在右侧单击<img class="image icon" style="display:none;" id="GUID-F29F09A1-B197-460B-9FAC-18C9A132264B__IMAGE_D3X_BWH_4FC" src="GUID-3234B8FD-1D66-49F3-A51F-0FB83A77A4DA-high.png" />，可跳转至硬件用户手册文件夹，打开读码器对应的硬件用户手册查看硬件接线图及说明。</p>
+
+                        </li>
+
+                    </ul>
+
+                </div>
+
+                
+<div class="div_table"><table cellpadding="4" cellspacing="0" summary="" style="display:none;" id="tbl_rowfixed" class="table wt_table_rowfixed" frame="border" border="1" rules="all"></table><table cellpadding="4" cellspacing="0" summary="" id="GUID-F29F09A1-B197-460B-9FAC-18C9A132264B__TABLE_FKG_HKB_F3B" class="table" frame="border" border="1" rules="all"><caption><span class="tablecap">表 1 触发源及工作原理</span></caption>
+                        
+                        
+                        <thead class="thead" align="left">
+                            <tr>
+                                <th class="entry" valign="top" width="24.213075060532688%" id="d84352e133">
+                                    <p class="p">触发源</p>
+
+                                </th>
+
+                                <th class="entry" valign="top" width="75.78692493946731%" id="d84352e139">
+                                    <p class="p">说明</p>
+
+                                </th>
+
+                            </tr>
+
+                        </thead>
+
+                        <tbody class="tbody">
+                            <tr>
+                                <td class="entry" valign="top" width="24.213075060532688%" headers="d84352e133 ">
+                                    <p class="p">软触发</p>
+
+                                </td>
+
+                                <td class="entry" valign="top" width="75.78692493946731%" headers="d84352e139 ">
+                                    <p class="p">触发信号由软件发出，通过千兆或万兆网传输给读码器进行采图。</p>
+
+                                </td>
+
+                            </tr>
+
+                            <tr>
+                                <td class="entry" valign="top" width="24.213075060532688%" headers="d84352e133 ">
+                                    <p class="p">管脚0/1/2输入（硬件触发）</p>
+
+                                </td>
+
+                                <td class="entry" valign="top" width="75.78692493946731%" headers="d84352e139 ">
+                                    <p class="p">外部设备通过I/O接口与读码器进行连接，触发信号由外部设备发出，传输给读码器进行采图。</p>
+
+                                </td>
+
+                            </tr>
+
+                            <tr>
+                                <td class="entry" valign="top" width="24.213075060532688%" headers="d84352e133 ">
+                                    <p class="p">计数器0</p>
+
+                                </td>
+
+                                <td class="entry" valign="top" width="75.78692493946731%" headers="d84352e139 ">
+                                    <p class="p">通过计数器的方式给读码器信号进行采图。</p>
+
+                                </td>
+
+                            </tr>
+
+                            <tr>
+                                <td class="entry" valign="top" width="24.213075060532688%" headers="d84352e133 ">
+                                    <p class="p">TCP服务端</p>
+
+                                </td>
+
+                                <td class="entry" valign="top" width="75.78692493946731%" headers="d84352e139 ">
+                                    <p class="p">读码器作为TCP服务器，接收外部设备发送的TCP指令触发采图。</p>
+
+                                </td>
+
+                            </tr>
+
+                            <tr>
+                                <td class="entry" valign="top" width="24.213075060532688%" headers="d84352e133 ">
+                                    <p class="p">UDP触发</p>
+
+                                </td>
+
+                                <td class="entry" valign="top" width="75.78692493946731%" headers="d84352e139 ">
+                                    <p class="p">外部设备通过发送的UDP指令，给读码器信号进行采图。</p>
+
+                                </td>
+
+                            </tr>
+
+                            <tr>
+                                <td class="entry" valign="top" width="24.213075060532688%" headers="d84352e133 ">
+                                    <p class="p">串口触发</p>
+
+                                </td>
+
+                                <td class="entry" valign="top" width="75.78692493946731%" headers="d84352e139 ">
+                                    <p class="p">外部设备通过发送串口指令，给读码器信号进行采图。</p>
+
+                                </td>
+
+                            </tr>
+
+                            <tr>
+                                <td class="entry" valign="top" width="24.213075060532688%" headers="d84352e133 ">
+                                    <p class="p">自触发</p>
+
+                                </td>
+
+                                <td class="entry" valign="top" width="75.78692493946731%" headers="d84352e139 ">
+                                    <p class="p">根据配置的触发时间间隔和次数自行执行采图。</p>
+
+                                </td>
+
+                            </tr>
+
+                            <tr>
+                                <td class="entry" valign="top" width="24.213075060532688%" headers="d84352e133 ">
+                                    <p class="p">主从触发</p>
+
+                                </td>
+
+                                <td class="entry" valign="top" width="75.78692493946731%" headers="d84352e139 ">
+                                    <p class="p">当主读码器被触发时，触发信号将被发送到从读码器。</p>
+
+                                    <div class="note_noline" id="GUID-F29F09A1-B197-460B-9FAC-18C9A132264B__GUID-74339D22-0B66-4769-8EAE-7DC47C9FEA6B"><span class="notetitle">说明</span> 
+                                        <p class="p">触发源选择<span class="ph uicontrol">主从触发</span>时，要开启主从工作模式，并将从读码器的触发源设置为主设备，同时启用主读码器命令触发模式。</p>
+
+                                    </div>
+
+                                </td>
+
+                            </tr>
+
+                            <tr>
+                                <td class="entry" valign="top" width="24.213075060532688%" headers="d84352e133 ">
+                                    <p class="p">TCP客户端</p>
+
+                                </td>
+
+                                <td class="entry" valign="top" width="75.78692493946731%" headers="d84352e139 ">
+                                    <p class="p">读码器作为TCP客户端，接收外部设备发送的TCP指令触发采图。</p>
+
+                                </td>
+
+                            </tr>
+
+                            <tr>
+                                <td class="entry" valign="top" width="24.213075060532688%" headers="d84352e133 ">
+                                    <p class="p">亮度感应触发</p>
+
+                                </td>
+
+                                <td class="entry" valign="top" width="75.78692493946731%" headers="d84352e139 ">
+                                    <p class="p">当视野亮度发生变化时自动触发读码和条码输出。相机实时监测图像亮度值变化情况，当变化超过配置的灵敏度阈值时启动读码。</p>
+
+                                </td>
+
+                            </tr>
+
+                            <tr>
+                                <td class="entry" valign="top" width="24.213075060532688%" headers="d84352e133 ">
+                                    <p class="p">TOF触发</p>
+
+                                </td>
+
+                                <td class="entry" valign="top" width="75.78692493946731%" headers="d84352e139 ">
+                                    <p class="p">当达到TOF触发阈值时，将发送触发信号给读码器进行采图。</p>
+
+                                    <div class="note note" id="GUID-F29F09A1-B197-460B-9FAC-18C9A132264B__GUID-477E0835-3B55-43D3-8534-E759E044FC1C"><span class="notetitle">说明</span> 
+                                        <p class="p">仅配备TOF传感器的读码器支持选择此触发源。</p>
+
+                                    </div>
+
+                                </td>
+
+                            </tr>
+
+                            <tr>
+                                <td class="entry" valign="top" width="24.213075060532688%" headers="d84352e133 ">
+                                    <p class="p">USB触发</p>
+
+                                </td>
+
+                                <td class="entry" valign="top" width="75.78692493946731%" headers="d84352e139 ">
+                                    <p class="p">外部设备通过发送USB指令，给读码器信号进行采图。</p>
+
+                                    <div class="note note" id="GUID-F29F09A1-B197-460B-9FAC-18C9A132264B__GUID-8F9D5DC2-6152-4A43-8B3A-C155B55FB18F"><span class="notetitle">说明</span> 
+                                        <p class="p">仅U口设备支持此触发方式。</p>
+
+                                    </div>
+
+                                </td>
+
+                            </tr>
+
+                        </tbody>
+
+                    </table>
+</div>
+
+            </li>
+
+            <li class="li" id="GUID-F29F09A1-B197-460B-9FAC-18C9A132264B__GUID-3F6DF9C6-97ED-4021-8E72-E5C1E3518D3F">
+                <p class="p">根据选择的触发源配置对应参数，参数说明见下文对应章节。</p>
+
+            </li>
+
+        </ol>
+
+        <div class="section" id="GUID-F29F09A1-B197-460B-9FAC-18C9A132264B__GUID-A628E0D0-5739-44D3-BC27-DEE1623BA6E8"><h2 class="title sectiontitle">共用参数</h2>
+            
+            <p class="p">每个触发源都可配置参数说明如下。</p>
+
+            <dl class="dl parml">
+                
+                    <dt class="dt pt dlterm"><a name="GUID-F29F09A1-B197-460B-9FAC-18C9A132264B__GUID-B7D35426-8EAC-4D58-AE18-8358918888D3"><!-- --></a>触发延时</dt>
+
+                    <dd class="dd pd">
+                        <p class="p">根据实际需求设置读码器接收输入信号后到触发采图的等待时间。当开启<span class="keyword parmname">命令持续触发</span>时，此参数不可配置。关于触发延迟的原理，如下图所示。</p>
+
+                        <div class="fig fignone" id="GUID-F29F09A1-B197-460B-9FAC-18C9A132264B__FIG_DFD_YQS_FRB">
+                            
+                            <img class="image" style="display:none;" id="GUID-F29F09A1-B197-460B-9FAC-18C9A132264B__IMAGE_EFD_YQS_FRB" src="GUID-D6D44F6C-4947-445E-8576-E5B05A8F6EEC-high.png" width="1500" />
+                        <div class="fig_caption"><span class="figcap">图 2 信号延迟原理</span></div></div>
+
+                    </dd>
+
+                
+                
+                    <dt class="dt pt dlterm"><a name="GUID-F29F09A1-B197-460B-9FAC-18C9A132264B__GUID-B94B831C-A873-4ABB-A27C-5A9ADD071427"><!-- --></a>触发缓存</dt>
+
+                    <dd class="dd pd">
+                        <p class="p">选择是否启用触发缓存功能。当开启触发缓存时，读码器会在处理当前触发信号的同时保留新的触发信号，将新的触发信号排队等待处理。可以确保读码器在处理多个触发信号时不会丢失任何信号。</p>
+
+                    </dd>
+
+                
+                
+                    <dt class="dt pt dlterm"><a name="GUID-F29F09A1-B197-460B-9FAC-18C9A132264B__GUID-4AE27E10-F256-4A9D-881D-120EBC0A2EC9"><!-- --></a>按键触发</dt>
+
+                    <dd class="dd pd">
+                        <p class="p">仅配备了物理触发按钮的读码器可配置此参数，用于设置当按压读码器机身上的按钮时，是否触发当前读码器采集图像。</p>
+
+                    </dd>
+
+                
+            </dl>
+
+        </div>
+
+        <div class="section" id="GUID-F29F09A1-B197-460B-9FAC-18C9A132264B__GUID-D6D5B348-0AF7-42A6-91F5-CC79AFEC3E6D"><h2 class="title sectiontitle">软触发</h2>
+            
+            <p class="p"><span class="ph uicontrol">触发源</span>选择软触发时，可以通过单击<span class="ph uicontrol">软触发</span>参数处的<span class="ph uicontrol">执行</span>，手动控制进行触发。</p>
+
+            <dl class="dl parml">
+                
+                    <dt class="dt pt dlterm"><a name="GUID-F29F09A1-B197-460B-9FAC-18C9A132264B__GUID-863313CC-A117-4565-B3DC-E8312037163A"><!-- --></a>命令持续触发</dt>
+
+                    <dd class="dd pd">
+                        <p class="p">设置读码器是否持续保持触发状态，直到接收到相应的停止触发命令。</p>
+
+                        <div class="note note" id="GUID-F29F09A1-B197-460B-9FAC-18C9A132264B__GUID-21B7918C-10D5-4358-B1D8-68F46805CF8D"><span class="notetitle">说明</span> 
+                            <p class="p">停止触发命令需通过停止触发配置模块配置对应触发源的结束触发条件。</p>
+
+                        </div>
+
+                    </dd>
+
+                
+            </dl>
+
+        </div>
+
+        <div class="section" id="GUID-F29F09A1-B197-460B-9FAC-18C9A132264B__GUID-35CA36DF-D4C1-4838-B05D-7DF283C63A07"><h2 class="title sectiontitle">管脚0/1/2输入</h2>
+            
+            <p class="p">当<span class="ph uicontrol">触发源</span>选择为管脚0/1/2输入时，读码器会根据管脚0/1/2的信号来进行图像采集和读码。</p>
+
+            <dl class="dl parml">
+                
+                    <dt class="dt pt dlterm"><a name="GUID-F29F09A1-B197-460B-9FAC-18C9A132264B__GUID-1F0BF91C-4204-4929-97C0-365C4E7A2439"><!-- --></a>触发极性</dt>
+
+                    <dd class="dd pd">
+                        <p class="p">用于设置触发信号的有效电平类型，可选如下类型。</p>
+
+                        <ul class="ul" id="GUID-F29F09A1-B197-460B-9FAC-18C9A132264B__UL_BQX_VYF_S2C">
+                            <li class="li" id="GUID-F29F09A1-B197-460B-9FAC-18C9A132264B__GUID-0D45D86A-E8B7-4D4D-8F7C-3867788F2E68">
+                                <p class="p">上升沿：当信号从低电平变为高电平时触发。</p>
+
+                            </li>
+
+                            <li class="li" id="GUID-F29F09A1-B197-460B-9FAC-18C9A132264B__GUID-DD9097BA-0DB6-4206-B96F-918A84E20D1F">
+                                <p class="p">下降沿：当信号从高电平变为低电平时触发。</p>
+
+                            </li>
+
+                            <li class="li" id="GUID-F29F09A1-B197-460B-9FAC-18C9A132264B__GUID-1BD216D0-3C1B-42C3-800C-D778024A6A9A">
+                                <p class="p">高电平：当信号保持高电平时持续触发。</p>
+
+                            </li>
+
+                            <li class="li" id="GUID-F29F09A1-B197-460B-9FAC-18C9A132264B__GUID-F46FF934-FD58-4772-B301-7D745CA0120D">
+                                <p class="p">低电平：当信号保持低电平时持续触发。</p>
+
+                            </li>
+
+                        </ul>
+
+                    </dd>
+
+                
+                
+                    <dt class="dt pt dlterm"><a name="GUID-F29F09A1-B197-460B-9FAC-18C9A132264B__GUID-62A59800-5C12-4A76-AD20-999BBC9AB2A7"><!-- --></a>去抖时间(μs)</dt>
+
+                    <dd class="dd pd">
+                        <p class="p">设置在检测到触发信号变化后，系统等待信号稳定的时间。用于消除信号因机械或电气原因产生的短暂不稳定现象（即抖动），确保触发信号的稳定性。</p>
+
+                    </dd>
+
+                
+                
+                    <dt class="dt pt dlterm"><a name="GUID-F29F09A1-B197-460B-9FAC-18C9A132264B__GUID-E5F837EC-FDEF-4DAD-8C24-E17BE671B258"><!-- --></a>通信协议触发使能</dt>
+
+                    <dd class="dd pd">
+                        <p class="p">在根据管脚0/1/2的信号进行触发读码器的同时，选择是否允许使用已经配置的TCP、UDP、串口等通信协议触发读码器。</p>
+
+                    </dd>
+
+                
+                
+                    <dt class="dt pt dlterm"><a name="GUID-F29F09A1-B197-460B-9FAC-18C9A132264B__GUID-D74B3D2C-C26F-4E9F-A538-5E34875C95FE"><!-- --></a>触发屏蔽</dt>
+
+                    <dd class="dd pd">
+                        <p class="p">选择是否对一段时间内的新触发进行屏蔽，开启后通过<span class="keyword parmname">触发屏蔽时间(ms)</span>参数设置时间段，读码器一次触发后将不响应此段时间内的触发信号。</p>
+
+                        <div class="note note" id="GUID-F29F09A1-B197-460B-9FAC-18C9A132264B__GUID-DDC7576C-349B-437F-8241-49142B50B256"><span class="notetitle">说明</span> 
+                            <p class="p">当开启<span class="ph uicontrol">触发屏蔽</span>开关后，不支持开启<span class="ph uicontrol">触发缓存</span>。</p>
+
+                        </div>
+
+                    </dd>
+
+                
+                
+                    <dt class="dt pt dlterm"><a name="GUID-F29F09A1-B197-460B-9FAC-18C9A132264B__GUID-25E6BDE9-72EB-4BAB-9BAB-54ACDD5F921D"><!-- --></a>触发开始/结束延迟(μs)</dt>
+
+                    <dd class="dd pd">
+                        <div class="note note" id="GUID-F29F09A1-B197-460B-9FAC-18C9A132264B__GUID-D596B4FA-BA59-43CD-AD3F-0CF1A7DCF679"><span class="notetitle">说明</span> 
+                            <ul class="ul" id="GUID-F29F09A1-B197-460B-9FAC-18C9A132264B__UL_VK4_WJK_S2C">
+                                <li class="li" id="GUID-F29F09A1-B197-460B-9FAC-18C9A132264B__GUID-42A52C09-605D-4EED-9862-2CC42D2A9713">
+                                    <p class="p">当<span class="ph uicontrol">触发极性</span>选择“高电平”或“低电平”时可配置这两个参数。</p>
+
+                                </li>
+
+                                <li class="li" id="GUID-F29F09A1-B197-460B-9FAC-18C9A132264B__GUID-D75F6F66-754C-4311-B4BF-3AAD1B100E58">
+                                    <p class="p"><span class="keyword parmname">触发开始延迟</span>参数值需不大于<span class="keyword parmname">触发结束延迟</span>参数值。</p>
+
+                                </li>
+
+                            </ul>
+
+                        </div>
+
+                        <p class="p">根据实际需求设置读码器接收触发信号后到开始或结束触发采图的等待时间。 </p>
+
+                        <p class="p">配置参数后可在右侧区域查看对应的时序图，如下图所示。</p>
+
+                        <div class="note note" id="GUID-F29F09A1-B197-460B-9FAC-18C9A132264B__GUID-43DDD970-C4CB-41A9-A7DD-E3753B1C39B4"><span class="notetitle">说明</span> 
+                            <p class="p">在时序图上双击<span class="ph uicontrol">算法等待时间</span>，可跳转至<span class="keyword parmname">算法等待时间(ms)</span>参数处调整参数值。</p>
+
+                        </div>
+
+                        <div class="fig fignone" id="GUID-F29F09A1-B197-460B-9FAC-18C9A132264B__FIG_FLR_YXQ_PFC">
+                            
+                            <img class="image" style="display:none;" id="GUID-F29F09A1-B197-460B-9FAC-18C9A132264B__IMAGE_GLR_YXQ_PFC" src="GUID-57770081-8379-41C4-9DC5-75299110D7F7-high.png" width="1400" />
+                        <div class="fig_caption"><span class="figcap">图 3 管脚0输入触发时序图示例</span></div></div>
+
+                    </dd>
+
+                
+            </dl>
+
+        </div>
+
+        <div class="section" id="GUID-F29F09A1-B197-460B-9FAC-18C9A132264B__GUID-E9AEC3B9-CCDA-4E67-95EF-2D410A6550E2"><h2 class="title sectiontitle">计数器0</h2>
+            
+            <p class="p">当<span class="ph uicontrol">触发源</span>选择为计数器0时，读码器将在累计接收至预设计数值的脉冲信号后，自动触发图像采集和读码。</p>
+
+            <dl class="dl parml">
+                
+                    <dt class="dt pt dlterm"><a name="GUID-F29F09A1-B197-460B-9FAC-18C9A132264B__GUID-F211C4FB-A75E-4575-87BE-7B01AD41DF88"><!-- --></a>触发极性</dt>
+
+                    <dd class="dd pd">
+                        <p class="p">用于设置计数触发信号的有效电平类型，可选如下类型。</p>
+
+                        <ul class="ul" id="GUID-F29F09A1-B197-460B-9FAC-18C9A132264B__UL_PYF_YJL_S2C">
+                            <li class="li" id="GUID-F29F09A1-B197-460B-9FAC-18C9A132264B__GUID-0F0E2706-1946-4112-9C56-0ECC053CA40A">
+                                <p class="p">上升沿：当信号从低电平变为高电平时，计为一个有效信号。</p>
+
+                            </li>
+
+                            <li class="li" id="GUID-F29F09A1-B197-460B-9FAC-18C9A132264B__GUID-04CFE549-A6C9-4381-A07C-2BC63E30A7F7">
+                                <p class="p">下降沿：当信号从高电平变为低电平时，计为一个有效信号。</p>
+
+                            </li>
+
+                        </ul>
+
+                    </dd>
+
+                
+                
+                    <dt class="dt pt dlterm"><a name="GUID-F29F09A1-B197-460B-9FAC-18C9A132264B__GUID-4B020FF4-B9D8-4B80-B03E-416D576D5C45"><!-- --></a>计数值</dt>
+
+                    <dd class="dd pd">
+                        <p class="p">设置触发图像采集和读码的脉冲信号的数量。</p>
+
+                    </dd>
+
+                
+                
+                    <dt class="dt pt dlterm"><a name="GUID-F29F09A1-B197-460B-9FAC-18C9A132264B__GUID-FA07CD8E-71BB-4769-A4A3-5EE99DFB113A"><!-- --></a>计数源</dt>
+
+                    <dd class="dd pd">
+                        <p class="p">设置计数器所监听外部脉冲信号的来源，可选“管脚0/1/2输入”或关闭。当选择管脚0/1/2输入时，可配置<span class="keyword parmname">去抖时间(μs)</span>参数。</p>
+
+                    </dd>
+
+                
+            </dl>
+
+        </div>
+
+        <div class="section" id="GUID-F29F09A1-B197-460B-9FAC-18C9A132264B__GUID-BEBE7023-7886-487F-879F-1D479BA7F922"><h2 class="title sectiontitle">TCP服务端</h2>
+            
+            <p class="p">当<span class="ph uicontrol">触发源</span>选择为TCP服务端时，读码器会通过TCP服务端的方式与外部设备进行通信，以实现触发图像采集和读码。</p>
+
+            <dl class="dl parml">
+                
+                    <dt class="dt pt dlterm"><a name="GUID-F29F09A1-B197-460B-9FAC-18C9A132264B__GUID-C062D33B-4730-4370-8C4D-B621FA3F1B6E"><!-- --></a>模糊触发</dt>
+
+                    <dd class="dd pd">
+                        <p class="p">选择是否模糊匹配触发文本和停止触发命令字符串，开启此开关后，发送文本只要包含开始触发文本，就启动触发；发送文本只要包含停止停止触发命令字符串，就停止触发。开始触发文本和停止停止触发命令字符串相互包含时，开始触发和停止触发只能进行精准匹配，不再支持模糊触发。</p>
+
+                    </dd>
+
+                
+                
+                    <dt class="dt pt dlterm"><a name="GUID-F29F09A1-B197-460B-9FAC-18C9A132264B__GUID-7F9E028D-46D6-4D4D-8DEC-32B89FDFCF08"><!-- --></a>命令持续触发</dt>
+
+                    <dd class="dd pd">
+                        <p class="p">设置读码器是否持续保持触发状态，直到接收到相应的停止触发命令。</p>
+
+                        <div class="note note" id="GUID-F29F09A1-B197-460B-9FAC-18C9A132264B__GUID-EBCCFA3E-A604-49E1-9F8A-1C011A17F1B0"><span class="notetitle">说明</span> 
+                            <p class="p">停止触发命令需通过停止触发配置模块配置对应触发源的结束触发条件。</p>
+
+                        </div>
+
+                    </dd>
+
+                
+                
+                    <dt class="dt pt dlterm"><a name="GUID-F29F09A1-B197-460B-9FAC-18C9A132264B__GUID-FE21CB5E-7BE0-465D-BE5D-DFD745EF7613"><!-- --></a>TCP服务器触发端口</dt>
+
+                    <dd class="dd pd">
+                        <p class="p">设置接收TCP触发指令的TCP服务器端口号。</p>
+
+                    </dd>
+
+                
+                
+                    <dt class="dt pt dlterm"><a name="GUID-F29F09A1-B197-460B-9FAC-18C9A132264B__GUID-6A18F611-A95D-4B76-A838-7589398110E1"><!-- --></a>TCP服务端触发文本格式</dt>
+
+                    <dd class="dd pd">
+                        <p class="p">设置TCP触发字符格式，可选择<span class="ph uicontrol">字符串</span>或<span class="ph uicontrol">十六进制</span>。</p>
+
+                    </dd>
+
+                
+                
+                    <dt class="dt pt dlterm"><a name="GUID-F29F09A1-B197-460B-9FAC-18C9A132264B__GUID-E6A23548-28F4-457F-AE9C-0AB523F6A3A0"><!-- --></a>TCP服务端触发文本/十六进制命令</dt>
+
+                    <dd class="dd pd">
+                        <p class="p">设置TCP触发指令，根据所选<span class="ph uicontrol">TCP服务端触发文本格式</span>参数值，自定义对应格式的触发指令。当文本格式选择<span class="ph uicontrol">十六进制</span>时，可单击参数右侧<img class="image icon" style="display:none;" id="GUID-F29F09A1-B197-460B-9FAC-18C9A132264B__IMAGE_NWP_BPL_S2C" src="GUID-ECAC2D8F-07A4-480D-9E53-680CDED921C7-high.png" />，将弹出16进制ASCII对照表供选择。</p>
+
+                    </dd>
+
+                
+                
+                    <dt class="dt pt dlterm"><a name="GUID-F29F09A1-B197-460B-9FAC-18C9A132264B__GUID-7997C33B-E03E-4031-826B-DCE45FA21E8C"><!-- --></a>TCP服务端交互请求文本</dt>
+
+                    <dd class="dd pd">
+                        <p class="p">自定义TCP协议下的握手请求指令。</p>
+
+                    </dd>
+
+                
+                
+                    <dt class="dt pt dlterm"><a name="GUID-F29F09A1-B197-460B-9FAC-18C9A132264B__GUID-02FABFEF-BB31-4A6F-BE0F-7E1F06B213EC"><!-- --></a>TCP服务端交互回复文本</dt>
+
+                    <dd class="dd pd">
+                        <p class="p">自定义TCP协议下的握手应答指令。</p>
+
+                    </dd>
+
+                
+                
+                    <dt class="dt pt dlterm"><a name="GUID-F29F09A1-B197-460B-9FAC-18C9A132264B__GUID-B03AA7C9-8F12-4477-A411-B4595C4B2A89"><!-- --></a>TCP服务器返回数据到触发端口</dt>
+
+                    <dd class="dd pd">
+                        <p class="p">选择是否原路返回输出结果至触发端口处。</p>
+
+                    </dd>
+
+                
+                
+                    <dt class="dt pt dlterm"><a name="GUID-F29F09A1-B197-460B-9FAC-18C9A132264B__GUID-7281592B-8292-49CF-9F0A-5CD33040AAA2"><!-- --></a>TCP服务端自动重连</dt>
+
+                    <dd class="dd pd">
+                        <p class="p">设置是否开启在网络连接中断后自动尝试重新连接到客户端。</p>
+
+                    </dd>
+
+                
+            </dl>
+
+        </div>
+
+        <div class="section" id="GUID-F29F09A1-B197-460B-9FAC-18C9A132264B__GUID-215D0F16-5F23-4D25-ACAC-1A9C32ED3AF2"><h2 class="title sectiontitle">UDP触发</h2>
+            
+            <p class="p">当<span class="ph uicontrol">触发源</span>选择为UDP触发时，读码器会通过UDP协议接收外部指令触发图像采集和读码。</p>
+
+            <dl class="dl parml">
+                
+                    <dt class="dt pt dlterm"><a name="GUID-F29F09A1-B197-460B-9FAC-18C9A132264B__GUID-2BFF675A-A81C-4960-A1B6-08AB3BF76848"><!-- --></a>模糊触发</dt>
+
+                    <dd class="dd pd">
+                        <p class="p">选择是否模糊匹配触发文本和停止触发命令字符串，开启此开关后，发送文本只要包含开始触发文本，就启动触发；发送文本只要包含停止停止触发命令字符串，就停止触发。开始触发文本和停止停止触发命令字符串相互包含时，开始触发和停止触发只能进行精准匹配，不再支持模糊触发。</p>
+
+                    </dd>
+
+                
+                
+                    <dt class="dt pt dlterm"><a name="GUID-F29F09A1-B197-460B-9FAC-18C9A132264B__GUID-8EBE89F1-B5B8-4A8B-9633-724BFF15AA01"><!-- --></a>命令持续触发</dt>
+
+                    <dd class="dd pd">
+                        <p class="p">设置读码器是否持续保持触发状态，直到接收到相应的停止触发命令。</p>
+
+                        <div class="note note" id="GUID-F29F09A1-B197-460B-9FAC-18C9A132264B__GUID-0805CA4F-217E-4BA5-953A-CCE65A54345A"><span class="notetitle">说明</span> 
+                            <p class="p">停止触发命令需通过停止触发配置模块配置对应触发源的结束触发条件。</p>
+
+                        </div>
+
+                    </dd>
+
+                
+                
+                    <dt class="dt pt dlterm"><a name="GUID-F29F09A1-B197-460B-9FAC-18C9A132264B__GUID-CFC17891-E92F-4666-A1CB-B1AF7397066A"><!-- --></a>UDP触发端口</dt>
+
+                    <dd class="dd pd">
+                        <p class="p">设置UDP触发的端口号。</p>
+
+                    </dd>
+
+                
+                
+                    <dt class="dt pt dlterm"><a name="GUID-F29F09A1-B197-460B-9FAC-18C9A132264B__GUID-96E48520-5D0B-4B45-9858-A2F3ED4051C6"><!-- --></a>UDP触发文本格式</dt>
+
+                    <dd class="dd pd">
+                        <p class="p">设置UDP触发字符格式，可选择<span class="ph uicontrol">字符串</span>或<span class="ph uicontrol">十六进制</span>。</p>
+
+                    </dd>
+
+                
+                
+                    <dt class="dt pt dlterm"><a name="GUID-F29F09A1-B197-460B-9FAC-18C9A132264B__GUID-48CF3BAD-FCD2-4ABE-8310-D4C8F441F4CF"><!-- --></a>UDP触发文本/十六进制命令</dt>
+
+                    <dd class="dd pd">
+                        <p class="p">设置UDP触发指令，根据所选<span class="ph uicontrol">UDP触发文本格式</span>参数值，自定义对应格式的触发指令。当文本格式选择<span class="ph uicontrol">十六进制</span>时，可单击参数右侧<img class="image icon" style="display:none;" id="GUID-F29F09A1-B197-460B-9FAC-18C9A132264B__IMAGE_OHW_1LM_S2C" src="GUID-ECAC2D8F-07A4-480D-9E53-680CDED921C7-high.png" />，将弹出16进制ASCII对照表供选择。</p>
+
+                    </dd>
+
+                
+                
+                    <dt class="dt pt dlterm"><a name="GUID-F29F09A1-B197-460B-9FAC-18C9A132264B__GUID-B8BE56A7-683D-4E5A-AB92-2C418EEC1487"><!-- --></a>UDP服务端交互请求文本</dt>
+
+                    <dd class="dd pd">
+                        <p class="p">自定义UDP协议下的请求指令。</p>
+
+                    </dd>
+
+                
+                
+                    <dt class="dt pt dlterm"><a name="GUID-F29F09A1-B197-460B-9FAC-18C9A132264B__GUID-0285E681-EB14-44C0-803D-7BC43A093644"><!-- --></a>UDP交互回复文本</dt>
+
+                    <dd class="dd pd">
+                        <p class="p">自定义UDP协议下的应答指令。</p>
+
+                    </dd>
+
+                
+            </dl>
+
+        </div>
+
+        <div class="section" id="GUID-F29F09A1-B197-460B-9FAC-18C9A132264B__GUID-26B47527-A3FD-4B5B-92F5-F78F693D272C"><h2 class="title sectiontitle">串口触发</h2>
+            
+            <p class="p">当<span class="ph uicontrol">触发源</span>选择为串口触发时，读码器会通过串口接收的特定指令来触发图像采集和读码。</p>
+
+            <dl class="dl parml">
+                
+                    <dt class="dt pt dlterm"><a name="GUID-F29F09A1-B197-460B-9FAC-18C9A132264B__GUID-D5B0191F-C1C0-4981-AABE-0B51153CCD1E"><!-- --></a>模糊触发</dt>
+
+                    <dd class="dd pd">
+                        <p class="p">选择是否模糊匹配触发文本和停止触发命令字符串，开启此开关后，发送文本只要包含开始触发文本，就启动触发；发送文本只要包含停止停止触发命令字符串，就停止触发。开始触发文本和停止停止触发命令字符串相互包含时，开始触发和停止触发只能进行精准匹配，不再支持模糊触发。</p>
+
+                    </dd>
+
+                
+                
+                    <dt class="dt pt dlterm"><a name="GUID-F29F09A1-B197-460B-9FAC-18C9A132264B__GUID-8195901C-968F-473A-B2B5-B9AF446D9F53"><!-- --></a>命令持续触发</dt>
+
+                    <dd class="dd pd">
+                        <p class="p">设置读码器是否持续保持触发状态，直到接收到相应的停止触发命令。</p>
+
+                        <div class="note note" id="GUID-F29F09A1-B197-460B-9FAC-18C9A132264B__GUID-2FB0E2A9-5024-46C6-A89F-B1A9DCDCEFD8"><span class="notetitle">说明</span> 
+                            <p class="p">停止触发命令需通过停止触发配置模块配置对应触发源的结束触发条件。</p>
+
+                        </div>
+
+                    </dd>
+
+                
+                
+                    <dt class="dt pt dlterm"><a name="GUID-F29F09A1-B197-460B-9FAC-18C9A132264B__GUID-92B89A6B-F51F-42DF-A8CE-A50A99ADCE17"><!-- --></a>串口波特率</dt>
+
+                    <dd class="dd pd">
+                        <p class="p">选择读码器的串口波特率，代表串口每秒传输的位数（bit/s）。</p>
+
+                        <div class="note note" id="GUID-F29F09A1-B197-460B-9FAC-18C9A132264B__d988e172"><span class="notetitle">说明</span> 
+                            <p class="p">请确保读码器和目标设备的串口波特率一致，以避免数据丢失或错误。</p>
+
+                        </div>
+
+                    </dd>
+
+                
+                
+                    <dt class="dt pt dlterm"><a name="GUID-F29F09A1-B197-460B-9FAC-18C9A132264B__GUID-CAC510CE-BDC5-4FCA-8B41-F4EAA8F99694"><!-- --></a>串口数据位</dt>
+
+                    <dd class="dd pd">
+                        <p class="p">选择数据传输过程中每个字符的位数。可选择<span class="ph uicontrol">7</span>或<span class="ph uicontrol">8</span>，通常设置为
+                            8 位。</p>
+
+                        <div class="note_noline" id="GUID-F29F09A1-B197-460B-9FAC-18C9A132264B__d988e199"><span class="notetitle">说明</span> 
+                            <p class="p">仅串口数据位选择为8时，支持16进制触发方式。</p>
+
+                        </div>
+
+                    </dd>
+
+                
+                
+                    <dt class="dt pt dlterm"><a name="GUID-F29F09A1-B197-460B-9FAC-18C9A132264B__GUID-14A9B2EA-10FF-400A-9F7E-25D4A698C3F8"><!-- --></a>串口停止位</dt>
+
+                    <dd class="dd pd">
+                        <p class="p">设置在字符传输后用于标识字符结束的位数，可选择<span class="ph uicontrol">1</span>或<span class="ph uicontrol">2</span>。</p>
+
+                    </dd>
+
+                
+                
+                    <dt class="dt pt dlterm"><a name="GUID-F29F09A1-B197-460B-9FAC-18C9A132264B__GUID-9EC3221E-1612-40BE-83EC-A0F7CF4DA0D0"><!-- --></a>串口奇偶校验</dt>
+
+                    <dd class="dd pd">
+                        <p class="p">设置用于检测传输错误的位，可选择如下三种方式：</p>
+
+                        <ul class="ul" id="GUID-F29F09A1-B197-460B-9FAC-18C9A132264B__d988e217">
+                            <li class="li" id="GUID-F29F09A1-B197-460B-9FAC-18C9A132264B__d988e219">
+                                <p class="p"><span class="ph uicontrol">不校验</span>：不使用校验位。</p>
+
+                            </li>
+
+                            <li class="li" id="GUID-F29F09A1-B197-460B-9FAC-18C9A132264B__d988e227">
+                                <p class="p"><span class="ph uicontrol">奇校验</span>：在数据的最后添加一个校验位，使得数据中1的个数为奇数。接收方收到数据后，检查数据中1的个数是否为奇数，如果不符，则认为数据传输有误。</p>
+
+                            </li>
+
+                            <li class="li" id="GUID-F29F09A1-B197-460B-9FAC-18C9A132264B__d988e235">
+                                <p class="p"><span class="ph uicontrol">偶校验</span>：在数据的最后添加一个校验位，使得数据中1的个数为偶数。接收方收到数据后，检查数据中1的个数是否为偶数，如果不符，则认为数据传输有误。</p>
+
+                            </li>
+
+                        </ul>
+
+                    </dd>
+
+                
+                
+                    <dt class="dt pt dlterm"><a name="GUID-F29F09A1-B197-460B-9FAC-18C9A132264B__GUID-153E9FCD-96B4-45A7-BABE-8FF3A54C61FC"><!-- --></a>串口触发文本格式</dt>
+
+                    <dd class="dd pd">
+                        <p class="p">设置串口触发字符格式，可选择<span class="ph uicontrol">字符串</span>或<span class="ph uicontrol">十六进制</span>。</p>
+
+                    </dd>
+
+                
+                
+                    <dt class="dt pt dlterm"><a name="GUID-F29F09A1-B197-460B-9FAC-18C9A132264B__GUID-5C58762F-DE46-4B16-8333-588B9C22A943"><!-- --></a>串口触发文本/十六进制命令</dt>
+
+                    <dd class="dd pd">
+                        <p class="p">设置串口触发指令，根据所选<span class="ph uicontrol">串口触发文本格式</span>参数值，自定义对应格式的触发指令。当文本格式选择<span class="ph uicontrol">十六进制</span>时，可单击参数右侧<img class="image icon" style="display:none;" id="GUID-F29F09A1-B197-460B-9FAC-18C9A132264B__IMAGE_XV1_1DM_S2C" src="GUID-ECAC2D8F-07A4-480D-9E53-680CDED921C7-high.png" />，将弹出16进制ASCII对照表供选择。</p>
+
+                    </dd>
+
+                
+                
+                    <dt class="dt pt dlterm"><a name="GUID-F29F09A1-B197-460B-9FAC-18C9A132264B__GUID-AC087220-E451-4E32-91EA-93E48B107E29"><!-- --></a>串口交互请求文本</dt>
+
+                    <dd class="dd pd">
+                        <p class="p">自定义串口协议下的握手请求指令。</p>
+
+                        <div class="note note" id="GUID-F29F09A1-B197-460B-9FAC-18C9A132264B__GUID-6DC4BFCC-0F28-4469-BD59-ECD07185317C"><span class="notetitle">说明</span> 
+                            <p class="p">当<span class="ph uicontrol">通讯配置</span>处开启“串口协议”时，可配置<span class="keyword parmname">串口交互请求文本</span>和<span class="keyword parmname">串口交互回复文本</span>。</p>
+
+                        </div>
+
+                    </dd>
+
+                
+                
+                    <dt class="dt pt dlterm"><a name="GUID-F29F09A1-B197-460B-9FAC-18C9A132264B__GUID-2ACAC996-7C38-4847-8499-9D1EDC98296D"><!-- --></a>串口交互回复文本</dt>
+
+                    <dd class="dd pd">
+                        <p class="p">自定义串口协议下的握手应答指令。</p>
+
+                    </dd>
+
+                
+            </dl>
+
+        </div>
+
+        <div class="section" id="GUID-F29F09A1-B197-460B-9FAC-18C9A132264B__GUID-23C089A1-F7F9-405D-B2C3-E0CDDD80A23C"><h2 class="title sectiontitle">自触发</h2>
+            
+            <p class="p">当<span class="ph uicontrol">触发源</span>选择为自触发时，读码器会根据内部设定的参数自行生成触发信号，以实现触发图像采集和读码。</p>
+
+            <dl class="dl parml">
+                
+                    <dt class="dt pt dlterm"><a name="GUID-F29F09A1-B197-460B-9FAC-18C9A132264B__GUID-4BC586BD-4AA4-432F-9B0E-67BE1F2A7371"><!-- --></a>自触发周期(ms)</dt>
+
+                    <dd class="dd pd">
+                        <p class="p">设置读码器在自触发模式下连续两次触发之间的时间间隔。</p>
+
+                    </dd>
+
+                
+                
+                    <dt class="dt pt dlterm"><a name="GUID-F29F09A1-B197-460B-9FAC-18C9A132264B__GUID-98B66E89-9B5C-4DE7-91CE-8CFF5172956F"><!-- --></a>自触发计数</dt>
+
+                    <dd class="dd pd">
+                        <p class="p">设置自触发的次数，即设备在自触发模式下执行触发动作的总次数。</p>
+
+                    </dd>
+
+                
+            </dl>
+
+        </div>
+
+        <div class="section" id="GUID-F29F09A1-B197-460B-9FAC-18C9A132264B__GUID-DA7390FF-F261-4038-BD45-8A5EC7C2A4B3"><h2 class="title sectiontitle">主从触发</h2>
+            
+            <p class="p">当<span class="ph uicontrol">触发源</span>选择为主从触发时，读码器会通过主从模式与其他设备协同工作，实现同步触发图像采集。</p>
+
+        </div>
+
+        <div class="section" id="GUID-F29F09A1-B197-460B-9FAC-18C9A132264B__GUID-E8920115-E99D-42A1-A12A-A24A2078635D"><h2 class="title sectiontitle">TCP客户端</h2>
+            
+            <p class="p">当<span class="ph uicontrol">触发源</span>选择为TCP客户端时，读码器会通过TCP客户端的方式与外部设备进行通信，以实现触发图像采集和读码。</p>
+
+            <dl class="dl parml">
+                
+                    <dt class="dt pt dlterm"><a name="GUID-F29F09A1-B197-460B-9FAC-18C9A132264B__GUID-C9CE3752-A8E7-4755-BEAA-525A38366B0A"><!-- --></a>模糊触发</dt>
+
+                    <dd class="dd pd">
+                        <p class="p">选择是否模糊匹配触发文本和停止触发命令字符串，开启此开关后，发送文本只要包含开始触发文本，就启动触发；发送文本只要包含停止停止触发命令字符串，就停止触发。开始触发文本和停止停止触发命令字符串相互包含时，开始触发和停止触发只能进行精准匹配，不再支持模糊触发。</p>
+
+                    </dd>
+
+                
+                
+                    <dt class="dt pt dlterm"><a name="GUID-F29F09A1-B197-460B-9FAC-18C9A132264B__GUID-EAA9FF70-40A6-405D-BD32-C0649E7C8C7D"><!-- --></a>命令持续触发</dt>
+
+                    <dd class="dd pd">
+                        <p class="p">设置读码器是否持续保持触发状态，直到接收到相应的停止触发命令。</p>
+
+                        <div class="note note" id="GUID-F29F09A1-B197-460B-9FAC-18C9A132264B__GUID-C06619A4-F2A9-4209-AA10-2631B0CB501C"><span class="notetitle">说明</span> 
+                            <p class="p">停止触发命令需通过停止触发配置模块配置对应触发源的结束触发条件。</p>
+
+                        </div>
+
+                    </dd>
+
+                
+                
+                    <dt class="dt pt dlterm"><a name="GUID-F29F09A1-B197-460B-9FAC-18C9A132264B__GUID-E1AE53BA-81A1-43BA-A767-6B862A4AF625"><!-- --></a>TCP客户端触发IP地址</dt>
+
+                    <dd class="dd pd">
+                        <p class="p">设置TCP触发的主机IP。</p>
+
+                    </dd>
+
+                
+                
+                    <dt class="dt pt dlterm"><a name="GUID-F29F09A1-B197-460B-9FAC-18C9A132264B__GUID-95C6B9C2-678B-47D6-8542-16EF123C9B3D"><!-- --></a>TCP客户端触发端口</dt>
+
+                    <dd class="dd pd">
+                        <p class="p">设置TCP触发的主机端口号。</p>
+
+                    </dd>
+
+                
+                
+                    <dt class="dt pt dlterm"><a name="GUID-F29F09A1-B197-460B-9FAC-18C9A132264B__GUID-0043E8CC-B1D6-427C-B8D3-93A948FC1E89"><!-- --></a>TCP客户端触发文本格式</dt>
+
+                    <dd class="dd pd">
+                        <p class="p">设置TCP触发字符格式，可选择<span class="ph uicontrol">字符串</span>或<span class="ph uicontrol">十六进制</span>。</p>
+
+                    </dd>
+
+                
+                
+                    <dt class="dt pt dlterm"><a name="GUID-F29F09A1-B197-460B-9FAC-18C9A132264B__GUID-8EB94340-537A-492E-8185-2CABF18382CA"><!-- --></a>TCP客户端触发文本/十六进制命令</dt>
+
+                    <dd class="dd pd">
+                        <p class="p">设置TCP触发指令，根据所选<span class="ph uicontrol">TCP客户端触发文本格式</span>参数值，自定义对应格式的触发指令。当文本格式选择<span class="ph uicontrol">十六进制</span>时，可单击参数右侧<img class="image icon" style="display:none;" id="GUID-F29F09A1-B197-460B-9FAC-18C9A132264B__IMAGE_X5T_RGM_S2C" src="GUID-ECAC2D8F-07A4-480D-9E53-680CDED921C7-high.png" />，将弹出16进制ASCII对照表供选择。</p>
+
+                    </dd>
+
+                
+                
+                    <dt class="dt pt dlterm"><a name="GUID-F29F09A1-B197-460B-9FAC-18C9A132264B__GUID-BA24A206-02A4-45E7-9DD8-06333603C531"><!-- --></a>TCP客户端交互请求文本</dt>
+
+                    <dd class="dd pd">
+                        <p class="p">自定义TCP协议下的握手请求指令。</p>
+
+                    </dd>
+
+                
+                
+                    <dt class="dt pt dlterm"><a name="GUID-F29F09A1-B197-460B-9FAC-18C9A132264B__GUID-714FD99C-3C2F-4AFA-B603-679FBD28E493"><!-- --></a>TCP客户端交互回复文本</dt>
+
+                    <dd class="dd pd">
+                        <p class="p">自定义TCP协议下的握手应答指令。</p>
+
+                    </dd>
+
+                
+                
+                    <dt class="dt pt dlterm"><a name="GUID-F29F09A1-B197-460B-9FAC-18C9A132264B__GUID-B92FD235-94BF-4569-9CB4-4AD0127F3543"><!-- --></a>TCP客户端返回数据到触发端口</dt>
+
+                    <dd class="dd pd">
+                        <p class="p">选择是否原路返回输出结果至触发端口处。</p>
+
+                    </dd>
+
+                
+            </dl>
+
+        </div>
+
+        <div class="section" id="GUID-F29F09A1-B197-460B-9FAC-18C9A132264B__GUID-09D4F1F4-2AA0-47B2-91E1-B7A645EB8B3D"><h2 class="title sectiontitle">亮度感应触发</h2>
+            
+            <p class="p">当<span class="ph uicontrol">触发源</span>选择为亮度感应触发时，读码器会根据视野内亮度的变化自动触发图像采集和读码。</p>
+
+            <dl class="dl parml">
+                
+                    <dt class="dt pt dlterm"><a name="GUID-F29F09A1-B197-460B-9FAC-18C9A132264B__GUID-47D392CD-E56A-48C1-B620-B4DB2B4E7997"><!-- --></a>亮度感应触发灵敏度</dt>
+
+                    <dd class="dd pd">
+                        <p class="p">设置读码器对亮度变化的敏感程度，参数值越大越敏感。</p>
+
+                    </dd>
+
+                
+                
+                    <dt class="dt pt dlterm"><a name="GUID-F29F09A1-B197-460B-9FAC-18C9A132264B__GUID-BC2C8413-86B9-44C4-99C0-93877E7EDAC9"><!-- --></a>亮度感应消隐时间(ms)</dt>
+
+                    <dd class="dd pd">
+                        <p class="p">设置读码器检测到亮度变化并触发读码后不再响应触发的持续时间，在此期间读码器不会响应新的亮度变化，避免因短暂的光线波动而产生重复触发。</p>
+
+                    </dd>
+
+                
+                
+                    <dt class="dt pt dlterm"><a name="GUID-F29F09A1-B197-460B-9FAC-18C9A132264B__GUID-12CC1F44-39D9-4360-9B52-EB0B5BC72C26"><!-- --></a>亮度感应超时时间(ms)</dt>
+
+                    <dd class="dd pd">
+                        <p class="p">设置读码器在检测到亮度变化后的等待读码最长时间，若在此时间未完成读码操作，将自动停止等待。</p>
+
+                    </dd>
+
+                
+                
+                    <dt class="dt pt dlterm"><a name="GUID-F29F09A1-B197-460B-9FAC-18C9A132264B__GUID-BCD2FDB7-47B6-4C2F-9A87-9157B13E61B3"><!-- --></a>感应触发自动增益</dt>
+
+                    <dd class="dd pd">
+                        <p class="p">设置在亮度感应触发时，是否自动调整增益值。</p>
+
+                    </dd>
+
+                
+                
+                    <dt class="dt pt dlterm"><a name="GUID-F29F09A1-B197-460B-9FAC-18C9A132264B__GUID-EE0089CA-1A77-4D75-8A08-25FB2EC2E513"><!-- --></a>感应触发自动曝光</dt>
+
+                    <dd class="dd pd">
+                        <p class="p">设置在亮度感应触发时，是否自动调整曝光值。</p>
+
+                    </dd>
+
+                
+            </dl>
+
+        </div>
+
+        <div class="section" id="GUID-F29F09A1-B197-460B-9FAC-18C9A132264B__GUID-8BEAC0A7-7F90-4FAA-BBBD-5F7EEAFCACC4"><h2 class="title sectiontitle">TOF触发</h2>
+            
+            <p class="p">当<span class="ph uicontrol">触发源</span>选择为TOF触发时，读码器会会根据TOF传感器检测到的距离变化来触发图像采集和读码。</p>
+
+            <div class="note note" id="GUID-F29F09A1-B197-460B-9FAC-18C9A132264B__GUID-BECDB144-0559-479F-B36E-D00360E7DA26"><span class="notetitle">说明</span> 
+                <p class="p">仅配备TOF传感器的读码器支持选择此触发源。</p>
+
+            </div>
+
+            <dl class="dl parml">
+                
+                    <dt class="dt pt dlterm"><a name="GUID-F29F09A1-B197-460B-9FAC-18C9A132264B__GUID-16E062A5-EAA9-40F1-B405-CC7F0E4CA8FA"><!-- --></a>TOF触发灵敏度</dt>
+
+                    <dd class="dd pd">
+                        <p class="p">设置读码器对距离变化的敏感度等级，可选择高、中、低。</p>
+
+                    </dd>
+
+                
+                
+                    <dt class="dt pt dlterm"><a name="GUID-F29F09A1-B197-460B-9FAC-18C9A132264B__GUID-3176D5C0-64ED-495C-8A42-E9A5996F4269"><!-- --></a>TOF触发阈值</dt>
+
+                    <dd class="dd pd">
+                        <p class="p">设置进行TOF触发的距离变化最小值，当检测到目标物体与传感器之间的距离变化达到或超过此值时触发读码操作。</p>
+
+                    </dd>
+
+                
+            </dl>
+
+        </div>
+
+</div>
+
+
+</div>
+						<div class=" wt_topic_wpp_content wt_pc_only "><div class=" wt_topic_wpp_content_flex "><div class="wt_topic_wpp_item like"></div><div class="wt_topic_wpp_item view"></div><div class="wt_topic_wpp_item share">分享</div></div></div>
+						
+						
+						
+					</div>
+				</div><!-- container_body -->
+				
+				<div class=" body_footer "><div onclick="prevTopic()" class=" body_footer_left link_button "><span>上一页</span></div><div onclick="nextTopic()" class=" body_footer_right link_button "><span>下一页</span></div></div>
+				<div class=" body_wpp mobile_only"><div class="wt_body_mobile_like"></div><div class="wt_body_mobile_view"></div></div>
+				<!-- <whc:webhelp_side_toc /> -->
+				
+			</div> <!-- middle_view content_area -->
+			<div class=" right_content wt_pc_only "><div class=" right_fixed_container "><div class="right_guide"><div class="feature_guide"><div>本页导航</div><ul><li onclick="scrollToAnchor($(this))" data-id="GUID-F29F09A1-B197-460B-9FAC-18C9A132264B__GUID-A628E0D0-5739-44D3-BC27-DEE1623BA6E8" class="feature_guide_h2"><span class="link_button">共用参数</span></li><li onclick="scrollToAnchor($(this))" data-id="GUID-F29F09A1-B197-460B-9FAC-18C9A132264B__GUID-D6D5B348-0AF7-42A6-91F5-CC79AFEC3E6D" class="feature_guide_h2"><span class="link_button">软触发</span></li><li onclick="scrollToAnchor($(this))" data-id="GUID-F29F09A1-B197-460B-9FAC-18C9A132264B__GUID-35CA36DF-D4C1-4838-B05D-7DF283C63A07" class="feature_guide_h2"><span class="link_button">管脚0/1/2输入</span></li><li onclick="scrollToAnchor($(this))" data-id="GUID-F29F09A1-B197-460B-9FAC-18C9A132264B__GUID-E9AEC3B9-CCDA-4E67-95EF-2D410A6550E2" class="feature_guide_h2"><span class="link_button">计数器0</span></li><li onclick="scrollToAnchor($(this))" data-id="GUID-F29F09A1-B197-460B-9FAC-18C9A132264B__GUID-BEBE7023-7886-487F-879F-1D479BA7F922" class="feature_guide_h2"><span class="link_button">TCP服务端</span></li><li onclick="scrollToAnchor($(this))" data-id="GUID-F29F09A1-B197-460B-9FAC-18C9A132264B__GUID-215D0F16-5F23-4D25-ACAC-1A9C32ED3AF2" class="feature_guide_h2"><span class="link_button">UDP触发</span></li><li onclick="scrollToAnchor($(this))" data-id="GUID-F29F09A1-B197-460B-9FAC-18C9A132264B__GUID-26B47527-A3FD-4B5B-92F5-F78F693D272C" class="feature_guide_h2"><span class="link_button">串口触发</span></li><li onclick="scrollToAnchor($(this))" data-id="GUID-F29F09A1-B197-460B-9FAC-18C9A132264B__GUID-23C089A1-F7F9-405D-B2C3-E0CDDD80A23C" class="feature_guide_h2"><span class="link_button">自触发</span></li><li onclick="scrollToAnchor($(this))" data-id="GUID-F29F09A1-B197-460B-9FAC-18C9A132264B__GUID-DA7390FF-F261-4038-BD45-8A5EC7C2A4B3" class="feature_guide_h2"><span class="link_button">主从触发</span></li><li onclick="scrollToAnchor($(this))" data-id="GUID-F29F09A1-B197-460B-9FAC-18C9A132264B__GUID-E8920115-E99D-42A1-A12A-A24A2078635D" class="feature_guide_h2"><span class="link_button">TCP客户端</span></li><li onclick="scrollToAnchor($(this))" data-id="GUID-F29F09A1-B197-460B-9FAC-18C9A132264B__GUID-09D4F1F4-2AA0-47B2-91E1-B7A645EB8B3D" class="feature_guide_h2"><span class="link_button">亮度感应触发</span></li><li onclick="scrollToAnchor($(this))" data-id="GUID-F29F09A1-B197-460B-9FAC-18C9A132264B__GUID-8BEAC0A7-7F90-4FAA-BBBD-5F7EEAFCACC4" class="feature_guide_h2"><span class="link_button">TOF触发</span></li></ul></div></div></div></div>
+		</div> <!-- content_box -->
+		
+		<!-- 置顶按钮 -->
+		<div class="body_to_top" onclick="scrollTopicTop()"></div> 
+		<!-- 评价反馈 -->
+		<div onclick="manualFeedback()" class=" body_feedback " data-href="https://wj.hikvision.com/#/public-survey?id=64c8b90d80e02e9e88feca2f"></div>
+		
+	</body>
+</html>

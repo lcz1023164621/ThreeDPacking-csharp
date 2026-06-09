@@ -1,0 +1,91 @@
+{
+    "ui_tabs": [
+        {
+            "ui_type": "tab",
+            "ui_param_name": "",
+            "ui_subset": [
+                {
+                    "ui_display_name": "Protocol_TcpClient",
+                    "ui_display_cn_name": "TCP客户端协议",
+                    "ui_display_en_name": "TCP Client",
+                    "ui_usage_frequency": "Common",
+                    "ui_type": "category",
+                    "ui_param_name": "",
+                    "ui_param_display_type": "",
+                    "ui_subset": [
+                        {
+                            "ui_display_name": "TCPReturnFromIoCtrl",
+                            "ui_display_cn_name": "TCP客户端返回数据到触发端口",
+                            "ui_display_en_name": "TCP Client Return Data to Trigger Port",
+                            "ui_usage_frequency": "Common",
+                            "ui_type": "config_param",
+                            "ui_param_name": "TCPReturnFromIoCtrl",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        },
+                        {
+                            "ui_display_name": "TCPDestIp",
+                            "ui_display_cn_name": "TCP目的地址",
+                            "ui_display_en_name": "TCP Dest. Address",
+                            "ui_usage_frequency": "Common",
+                            "ui_type": "config_param",
+                            "ui_param_name": "TCPDestIp",
+                            "ui_param_display_type": "IPlineedit",
+                            "ui_subset": null
+                        },
+                        {
+                            "ui_display_name": "TCPDestPort",
+                            "ui_display_cn_name": "TCP目的端口号",
+                            "ui_display_en_name": "TCP Dest. Port",
+                            "ui_usage_frequency": "Common",
+                            "ui_type": "config_param",
+                            "ui_param_name": "TCPDestPort",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        },
+                        {
+                            "ui_display_name": "HeartbeatEnable",
+                            "ui_display_cn_name": "心跳保护",
+                            "ui_display_en_name": "Heartbeat Protection",
+                            "ui_usage_frequency": "Common",
+                            "ui_type": "config_param",
+                            "ui_param_name": "HeartbeatEnable",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        },
+                        {
+                            "ui_display_name": "BarcodeAsHeartbeat",
+                            "ui_display_cn_name": "条码数据作为心跳包",
+                            "ui_display_en_name": "Barcode as Heartbeat",
+                            "ui_usage_frequency": "Common",
+                            "ui_type": "config_param",
+                            "ui_param_name": "BarcodeAsHeartbeat",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        },
+                        {
+                            "ui_display_name": "HeartbeatText",
+                            "ui_display_cn_name": "心跳字符串",
+                            "ui_display_en_name": "Heartbeat Text",
+                            "ui_usage_frequency": "Common",
+                            "ui_type": "config_param",
+                            "ui_param_name": "HeartbeatText",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        },
+                        {
+                            "ui_display_name": "HeartbeatTime",
+                            "ui_display_cn_name": "心跳包发送周期(s)",
+                            "ui_display_en_name": "Heartbeat Packet Sending Interval(s)",
+                            "ui_usage_frequency": "Common",
+                            "ui_type": "config_param",
+                            "ui_param_name": "HeartbeatTime",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}

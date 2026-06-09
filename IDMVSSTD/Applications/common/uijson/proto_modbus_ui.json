@@ -1,0 +1,151 @@
+{
+    "ui_tabs": [
+        {
+            "ui_type": "tab",
+            "ui_param_name": "",
+            "ui_subset": [
+                {
+                    "ui_display_name": "Protocol_Modbus",
+                    "ui_display_cn_name": "Modbus协议",
+                    "ui_display_en_name": "Modbus",
+                    "ui_usage_frequency": "Common",
+                    "ui_type": "category",
+                    "ui_param_name": "",
+                    "ui_param_display_type": "",
+                    "ui_subset": [
+                        {
+                            "ui_display_name": "ModBusMode",
+                            "ui_display_cn_name": "输出模式",
+                            "ui_display_en_name": "Output Mode",
+                            "ui_usage_frequency": "Common",
+                            "ui_type": "config_param",
+                            "ui_param_name": "ModBusMode",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        },
+                        {
+                            "ui_display_name": "ModBusServerIP",
+                            "ui_display_cn_name": "服务器地址",
+                            "ui_display_en_name": "Server IP",
+                            "ui_usage_frequency": "Common",
+                            "ui_type": "config_param",
+                            "ui_param_name": "ModBusServerIP",
+                            "ui_param_display_type": "IPlineedit",
+                            "ui_subset": null
+                        },
+                        {
+                            "ui_display_name": "ModBusServerPort",
+                            "ui_display_cn_name": "服务器端口号",
+                            "ui_display_en_name": "Server Port",
+                            "ui_usage_frequency": "Common",
+                            "ui_type": "config_param",
+                            "ui_param_name": "ModBusServerPort",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        },
+                        {
+                            "ui_display_name": "ModBusControlPollInterval",
+                            "ui_display_cn_name": "刷新速率(ms)",
+                            "ui_display_en_name": "Refresh Rate(ms)",
+                            "ui_usage_frequency": "Common",
+                            "ui_type": "config_param",
+                            "ui_param_name": "ModBusControlPollInterval",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        },
+                        {
+                            "ui_display_name": "ModBusSlaveId",
+                            "ui_display_cn_name": "从机地址",
+                            "ui_display_en_name": "Sub Station Address",
+                            "ui_usage_frequency": "Common",
+                            "ui_type": "config_param",
+                            "ui_param_name": "ModBusSlaveId",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        },
+                        {
+                            "ui_display_name": "ModBusControlOffset",
+                            "ui_display_cn_name": "控制区域地址偏移",
+                            "ui_display_en_name": "Control Region Address Offset",
+                            "ui_usage_frequency": "Common",
+                            "ui_type": "config_param",
+                            "ui_param_name": "ModBusControlOffset",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        },
+                        {
+                            "ui_display_name": "ModBusControlSize",
+                            "ui_display_cn_name": "控制区域大小(word)",
+                            "ui_display_en_name": "Control Region Size(word)",
+                            "ui_usage_frequency": "Common",
+                            "ui_type": "config_param",
+                            "ui_param_name": "ModBusControlSize",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        },
+                        {
+                            "ui_display_name": "ModBusStatusOffset",
+                            "ui_display_cn_name": "状态区域地址偏移",
+                            "ui_display_en_name": "Status Region Address Offset",
+                            "ui_usage_frequency": "Common",
+                            "ui_type": "config_param",
+                            "ui_param_name": "ModBusStatusOffset",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        },
+                        {
+                            "ui_display_name": "ModBusStatusSize",
+                            "ui_display_cn_name": "状态区域大小(word)",
+                            "ui_display_en_name": "Status Region Size(word)",
+                            "ui_usage_frequency": "Common",
+                            "ui_type": "config_param",
+                            "ui_param_name": "ModBusStatusSize",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        },
+                        {
+                            "ui_display_name": "ModBusResultOffset",
+                            "ui_display_cn_name": "结果区域地址偏移",
+                            "ui_display_en_name": "Result Region Address Offset",
+                            "ui_usage_frequency": "Common",
+                            "ui_type": "config_param",
+                            "ui_param_name": "ModBusResultOffset",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        },
+                        {
+                            "ui_display_name": "ModBusResultSize",
+                            "ui_display_cn_name": "结果区域大小(word)",
+                            "ui_display_en_name": "Result Region Size(word)",
+                            "ui_usage_frequency": "Common",
+                            "ui_type": "config_param",
+                            "ui_param_name": "ModBusResultSize",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        },
+                        {
+                            "ui_display_name": "ModBusResultByteSwap",
+                            "ui_display_cn_name": "字节交换大小端",
+                            "ui_display_en_name": "Byte Swap Endianness",
+                            "ui_usage_frequency": "Common",
+                            "ui_type": "config_param",
+                            "ui_param_name": "ModBusResultByteSwap",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        },
+                        {
+                            "ui_display_name": "ModBusResultTimeout",
+                            "ui_display_cn_name": "响应等待时间(s)",
+                            "ui_display_en_name": "Response Wait Time(s)",
+                            "ui_usage_frequency": "Common",
+                            "ui_type": "config_param",
+                            "ui_param_name": "ModBusResultTimeout",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}

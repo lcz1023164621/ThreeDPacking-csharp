@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CtrlConfig>
+    <OutputMode help="1:按条码,2:按包裹开始,3:按包裹结束" hide="0" value="2" type="4" valuelist="按条码,按包裹开始,按包裹结束" index="1" name="输出模式"/>
+    <MinWaitTime help="当读到的条码达到设置的最大条码个数时，同时达到该时间则立即输出" hide="0" value="401" type="3" valuelist="1" name="最小处理时间"/>
+    <MaxWaitTime help="当读到的条码未达到设置的最大条码个数时，到达该时间时输出" hide="0" value="500" type="3" valuelist="1" name="最大处理时间"/>
+    <MaxProcWaitTime help="匹配最大等待时间，取值范围[0-5000ms]" hide="0" value="1500" type="3" valuelist="1" name="匹配重量最大等待时间"/>
+    <FilterNum help="过滤模式,按条码输出下有效取值范围[0-100]，软件将读到的条码保存在内部列表中，新读到的条码若和列表中条码重复，则过滤掉" hide="0" value="2" type="3" valuelist="1" name="按条码输出重复过滤个数"/>
+    <DelSameCodeEnable help="删除重复条码使能" hide="0" value="1" type="2" name="运动检测使能"/>
+    <CustomFilterRule>
+        <RuleEnable help="自定义规则使能" hide="0" value="0" type="2" name="自定义规则使能"/>
+        <FilterName help="生成规则名" hide="0" value="default.rule" type="3" valuelist="3" name="规则名"/>
+		<FilterRuler help="过滤规则" hide="0" value="^(YT)[0-9]{13}$" type="3" valuelist="3" name="过滤规则"/>
+    </CustomFilterRule>
+    <MaxLabelCodeNum help="标签最大条码个数(按包裹结束、定点输出时有效)" hide="0" value="2" type="3" valuelist="1" name="最大条码个数"/>
+    <MatchVolumeEnable help="体积匹配输出使能" hide="0" value="0" type="2" name="匹配体积"/>
+    <MatchWeightEnable help="重量匹配输出使能" hide="0" value="0" type="2" name="匹配重量"/>
+	<NeedCodeFirstOut help="是否需要条码先发" hide="0" value="0" type="2" name="是否需要条码先发 0不需要 1需要"/>
+</CtrlConfig>

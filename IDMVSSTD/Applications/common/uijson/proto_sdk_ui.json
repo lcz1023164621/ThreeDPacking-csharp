@@ -1,0 +1,101 @@
+{
+    "ui_tabs": [
+        {
+            "ui_type": "tab",
+            "ui_param_name": "",
+            "ui_subset": [
+                {
+                    "ui_display_name": "Protocol_SDK",
+                    "ui_display_cn_name": "客户端SDK协议",
+                    "ui_display_en_name": "Smart SDK",
+                    "ui_usage_frequency": "Common",
+                    "ui_type": "category",
+                    "ui_param_name": "",
+                    "ui_param_display_type": "",
+                    "ui_subset": [
+                        {
+                            "ui_display_name": "SmartSdkVersion",
+                            "ui_display_cn_name": "客户端SDK版本",
+                            "ui_display_en_name": "Smart SDK Version",
+                            "ui_usage_frequency": "Common",
+                            "ui_type": "config_param",
+                            "ui_param_name": "SmartSdkVersion",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        },
+                        {
+                            "ui_display_name": "EncodeJpgFlag",
+                            "ui_display_cn_name": "SDK输出图像",
+                            "ui_display_en_name": "SDK Output Image",
+                            "ui_usage_frequency": "Common",
+                            "ui_type": "config_param",
+                            "ui_param_name": "EncodeJpgFlag",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        },
+                        {
+                            "ui_display_name": "JpgQuality",
+                            "ui_display_cn_name": "SDK输出图像质量",
+                            "ui_display_en_name": "SDK Output Image Quality",
+                            "ui_usage_frequency": "Common",
+                            "ui_type": "config_param",
+                            "ui_param_name": "JpgQuality",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        },
+                        {
+                            "ui_display_name": "WithCodeButNoRead_Save",
+                            "ui_display_cn_name": "有码无读存图使能",
+                            "ui_display_en_name": "With Code But NoRead Save Enable",
+                            "ui_usage_frequency": "Common",
+                            "ui_type": "config_param",
+                            "ui_param_name": "WithCodeButNoRead_Save",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        },
+                        {
+                            "ui_display_name": "SendTriggerID",
+                            "ui_display_cn_name": "发送触发ID",
+                            "ui_display_en_name": "Send Trigger ID",
+                            "ui_usage_frequency": "Common",
+                            "ui_type": "config_param",
+                            "ui_param_name": "SendTriggerID",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        },
+                        {
+                            "ui_display_name": "WholeImageTransResultContain",
+                            "ui_display_cn_name": "输出整图和结果",
+                            "ui_display_en_name": "Output Full Image and Results",
+                            "ui_usage_frequency": "Common",
+                            "ui_type": "config_param",
+                            "ui_param_name": "WholeImageTransResultContain",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        },
+                        {
+                            "ui_display_name": "ResSet_Output_IS_Stra",
+                            "ui_display_cn_name": "图片输出策略",
+                            "ui_display_en_name": "Image Output Strategy",
+                            "ui_usage_frequency": "Common",
+                            "ui_type": "config_param",
+                            "ui_param_name": "ResSet_Output_IS_Stra",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        },
+                        {
+                            "ui_display_name": "ResSet_Output_IS_Index",
+                            "ui_display_cn_name": "帧索引",
+                            "ui_display_en_name": "Frame Index",
+                            "ui_usage_frequency": "Common",
+                            "ui_type": "config_param",
+                            "ui_param_name": "ResSet_Output_IS_Index",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}

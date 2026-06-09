@@ -1,0 +1,318 @@
+
+<!DOCTYPE html
+  PUBLIC "" "about:legacy-compat">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:whc="http://www.daksys.com/webhelp/components" xml:lang="zh-cn" lang="zh-cn">
+	<head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />        
+      <meta name="copyright" content="©  杭州海康威视数字技术股份有限公司。保留一切权利。" /><meta name="DC.Type" content="concept" /><meta name="DC.Title" content="普通过滤" /><meta name="abstract" content="过滤规则模块支持设置普通规则对条码进行简单的过滤操作，适用于基本的筛选需求，例如只需要根据条码长度或固定位置的字符进行过滤的情况。" /><meta name="description" content="过滤规则模块支持设置普通规则对条码进行简单的过滤操作，适用于基本的筛选需求，例如只需要根据条码长度或固定位置的字符进行过滤的情况。" /><meta name="DC.Relation" scheme="URI" content="GUID-95AB18A5-4B46-4D79-8DE4-F398D813DEF6.html" /><meta name="DC.Format" content="XHTML" /><meta name="DC.Identifier" content="GUID-276CE1BF-C371-4B01-BECD-22E11EBF00D8" /><meta name="DC.Language" content="zh-CN" /><title>普通过滤</title><!-- Generated with dksgen version 1.0, build number 2023071300.  --><meta viewport="Content-Type" content="width=device-width, initial-scale=1.0" /><meta http-equiv="X-UA-Compatible" content="IE=edge,Chrome=1" /><meta name="wh-path2root" content="index.html" />
+		<!-- commonltr css -->
+		<link rel="stylesheet" type="text/css" href="daksys-webhelp/resources/css/commonltr.css" />
+		<!-- Bootstrap css -->
+		<link rel="stylesheet" type="text/css" href="daksys-webhelp/resources/bootstrap/css/bootstrap.min.css" />
+		<link rel="stylesheet" type="text/css" href="daksys-webhelp/resources/bootstrap/css/bootstrap-theme.min.css" />
+		<link rel="stylesheet" type="text/css" href="daksys-webhelp/resources/js/jquery-ui.min.css" />
+		
+		<!-- Template css  -->
+		<link href="daksys-webhelp/template/resources/css/HIKROBOT_color.css?buildId=2023071300" rel="stylesheet" type="text/css" />
+		<link rel="stylesheet" type="text/css" href="daksys-webhelp/template/resources/css/wt_topic.css?buildId=2023071300" />
+		<link rel="stylesheet" type="text/css" href="daksys-webhelp/template/resources/css/wt_topic_m.css?buildId=2023071300" />
+		<link rel="stylesheet" type="text/css" href="daksys-webhelp/template/resources/css/wt_expand.css?buildId=2023071300" />
+		<link rel="stylesheet" type="text/css" href="daksys-webhelp/template/resources/css/wt_note.css?buildId=2023071300" />
+		<link rel="stylesheet" type="text/css" href="daksys-webhelp/template/resources/css/wt_steps.css?buildId=2023071300" />
+		
+		<!-- jquery js  -->
+		<script type="text/javascript" src="daksys-webhelp/resources/js/jquery-3.6.2.min.js"></script>
+		<script type="text/javascript" src="daksys-webhelp/resources/js/jquery.cookie.js"></script>
+		<script type="text/javascript" src="daksys-webhelp/resources/js/jquery.highlight-3.js"></script>
+		<script type="text/javascript" src="daksys-webhelp/resources/js/jquery-ui.min.js"></script>
+		
+		<!-- common js  -->
+		<script type="text/javascript" src="daksys-webhelp/resources/bootstrap/js/bootstrap.min.js"></script>
+		<script type="text/javascript" src="daksys-webhelp/resources/js/base64.js"></script>
+		<script type="text/javascript" src="daksys-webhelp/resources/js/browserDetect.js"></script>
+		<script type="text/javascript" src="daksys-webhelp/resources/js/localization.js"></script>
+		<script type="text/javascript" src="daksys-webhelp/resources/js/parseuri.js"></script>
+		<script type="text/javascript" src="daksys-webhelp/resources/localization/strings.js"></script>
+		<!-- Template js -->
+		<script type="text/javascript" src="daksys-webhelp/template/resources/js/wt_topic.js?buildId=2023071300"></script>
+		<script type="text/javascript" src="daksys-webhelp/template/resources/js/wt_expand.js?buildId=2023071300"></script>
+	</head>
+	<body class="wt_topic_page frmBody" id="GUID-276CE1BF-C371-4B01-BECD-22E11EBF00D8" onload="topicOnload()">
+		<!-- get_lang -->
+		<div id="lang" style="display:none">zh-CN</div><div id="mapoutputclass" style="display:none"></div>
+		<input hidden="hidden" id="UDCode" value="UD12345B" /><input hidden="hidden" id="Trademark" value="海康机器人" />
+		
+		<div class="content_box">
+			<div class="middle_view content_area col-sm-9" id="content_area">
+				<div class=" wt_breadcrumb "><ol><li><span class="home topicref"><a href="javascript:void(0)" onclick="gotoFirstPage()">首页</a></span></li><li><span class="topicref"><a href="GUID-D8488278-18E0-41D0-91B9-35636662C53F.html" data-id="GUID-D8488278-18E0-41D0-91B9-35636662C53F">读码器常用配置</a></span></li><li><span class="topicref"><a href="GUID-18029E9E-3083-437A-B970-24EE067E6132.html" data-id="GUID-18029E9E-3083-437A-B970-24EE067E6132">处理输出数据</a></span></li><li><span class="topicref"><a href="GUID-95AB18A5-4B46-4D79-8DE4-F398D813DEF6.html" data-id="GUID-95AB18A5-4B46-4D79-8DE4-F398D813DEF6">过滤排序</a></span></li><li class="active"><span class="topicref">普通过滤</span></li></ol><div class="wt_breadcrumb_ellipsis" onclick="expandBreadcrumbDiv()"></div><div class="wt_breadcrumb_collapse" style="display: none;"><div class="wt_breadcrumb_collapse_button" onclick="collapseBreadcrumbDiv()"></div></div></div>
+				
+				<div id="container_body" class="container">
+					<div id="contentArea">
+						<div class=" wt_topic_content body ">
+    <h1 class="title topictitle1">普通过滤</h1>
+
+    
+<div class="body conbody"><p class="shortdesc">过滤规则模块支持设置普通规则对条码进行简单的过滤操作，适用于基本的筛选需求，例如只需要根据条码长度或固定位置的字符进行过滤的情况。</p>
+
+        <div class="fig fignone" id="GUID-276CE1BF-C371-4B01-BECD-22E11EBF00D8__FIG_ENK_PVG_4FC">
+            
+            <img class="image" style="display:none;" id="GUID-276CE1BF-C371-4B01-BECD-22E11EBF00D8__IMAGE_FNK_PVG_4FC" src="GUID-081C53AD-CB63-45A6-A5D4-F16C05EE42AC-high.png" width="1400" />
+        <div class="fig_caption"><span class="figcap">图 1 普通过滤</span></div></div>
+
+        <p class="p">可配置的参数说明如下。</p>
+
+        <dl class="dl parml">
+            
+                <dt class="dt pt dlterm"><a name="GUID-276CE1BF-C371-4B01-BECD-22E11EBF00D8__GUID-755CBF5F-B913-4CFC-96CF-F6DDA9DD9C95"><!-- --></a>普通过滤模式特有参数</dt>
+
+                <dd class="dd pd">
+                    <dl class="dl parml">
+                        
+                            <dt class="dt pt dlterm"><a name="GUID-276CE1BF-C371-4B01-BECD-22E11EBF00D8__GUID-F97E1125-B32E-46C5-B623-FE83122CB624"><!-- --></a>仅输出数字</dt>
+
+                            <dd class="dd pd">
+                                <p class="p">启用该功能则输出的条码信息为纯数字信息，非数字类信息会被过滤。</p>
+
+                            </dd>
+
+                        
+                        
+                            <dt class="dt pt dlterm"><a name="GUID-276CE1BF-C371-4B01-BECD-22E11EBF00D8__GUID-5F39E0B4-1DB3-4DC8-976F-3579B2B8ACF4"><!-- --></a>仅输出以特定字符串开始</dt>
+
+                            <dd class="dd pd">
+                                <p class="p">启用该功能时，只输出起始位为特定字符的条码信息。若不一致，则条码信息被过滤。启用时，需要在<span class="ph uicontrol">以..开始</span>参数中输入特定字符的内容。</p>
+
+                            </dd>
+
+                        
+                        
+                            <dt class="dt pt dlterm"><a name="GUID-276CE1BF-C371-4B01-BECD-22E11EBF00D8__GUID-DA1E254D-CE73-42ED-815D-8AD595754D17"><!-- --></a>仅输出包含特定字符串</dt>
+
+                            <dd class="dd pd">
+                                <p class="p">启用该功能时，只输出包含特定字符的条码信息。若不包含，则条码信息被过滤。启用时，需要在<span class="ph uicontrol">特征字符串</span>参数中输入特定字符的内容。通过<span class="ph uicontrol">字符串搜索区域起始位置</span>和<span class="ph uicontrol">字符串搜索区域结束位置</span>参数设置在条码中搜索<span class="ph uicontrol">特征字符串</span>起始和结束位置的序号。</p>
+
+                            </dd>
+
+                        
+                        
+                            <dt class="dt pt dlterm"><a name="GUID-276CE1BF-C371-4B01-BECD-22E11EBF00D8__GUID-F8710577-EB16-4044-9F49-E45F8902E0A1"><!-- --></a>排除条形码中的特殊字符</dt>
+
+                            <dd class="dd pd">
+                                <p class="p">启用该功能时，只输出不包含特定字符的条码信息。若包含，则条码信息被过滤。启用时，需要在<span class="ph uicontrol">排除特定字符串</span>参数中输入特定字符的内容。通过<span class="ph uicontrol">排除字符串搜索区域起始位置</span>和<span class="ph uicontrol">排除字符串搜索区域结束位置</span>参数设置在条码中搜索<span class="ph uicontrol">排除特定字符串</span>起始和结束位置的序号。
+                                </p>
+
+                            </dd>
+
+                        
+                    </dl>
+
+                </dd>
+
+            
+            
+                <dt class="dt pt dlterm"><a name="GUID-276CE1BF-C371-4B01-BECD-22E11EBF00D8__GUID-84AF74B8-185E-48FE-8708-911E1CAEFA5A"><!-- --></a>所有过滤模式共有参数</dt>
+
+                <dd class="dd pd">
+                    <dl class="dl parml">
+                        
+                            <dt class="dt pt dlterm"><a name="GUID-276CE1BF-C371-4B01-BECD-22E11EBF00D8__GUID-0159266B-1DE2-44FD-9E37-77D7C89C1F39"><!-- --></a>数据输出模式</dt>
+
+                            <dd class="dd pd">
+                                <p class="p">此参数用于控制在触发过程中是否实时输出条码读取结果。可选择如下模式：</p>
+
+                                <ul class="ul" id="GUID-276CE1BF-C371-4B01-BECD-22E11EBF00D8__UL_RZZ_NLG_4FC">
+                                    <li class="li" id="GUID-276CE1BF-C371-4B01-BECD-22E11EBF00D8__GUID-2CF2CAB2-CF8F-48A3-A788-3C8ADFBD025C">
+                                        <p class="p"><span class="ph uicontrol">立即输出</span>：在触发过程中识别到条码时会立即输出读取结果。</p>
+
+                                    </li>
+
+                                    <li class="li" id="GUID-276CE1BF-C371-4B01-BECD-22E11EBF00D8__GUID-E8F010D8-AB14-4331-ADD5-8158D16506C6">
+                                        <p class="p"><span class="ph uicontrol">整包输出</span>：在触发过程中不输出任何条码读取结果，而是在触发结束后一次性输出所有融合后的条码读取结果。</p>
+
+                                    </li>
+
+                                </ul>
+
+                                <div class="note note" id="GUID-276CE1BF-C371-4B01-BECD-22E11EBF00D8__GUID-8EE84E35-D4B3-47CF-8A2B-0E7316FE1859"><span class="notetitle">说明</span> 
+                                    <p class="p">仅<span class="keyword parmname">触发模式</span>选择“开启”后，可配置此参数。</p>
+
+                                </div>
+
+                            </dd>
+
+                        
+                        
+                            <dt class="dt pt dlterm"><a name="GUID-276CE1BF-C371-4B01-BECD-22E11EBF00D8__GUID-1FFEB7B1-533E-4A1E-8A63-3BDBD88396B4"><!-- --></a>过滤触发次数内重复条码</dt>
+
+                            <dd class="dd pd">
+                                <p class="p">此参数用于控制在连续触发过程中，是否对重复读取的条码进行过滤。如果启用此功能，系统会在指定的触发次数内自动去除重复的条码结果，仅保留唯一的条码数据，从而避免重复数据的输出。开启后可通过<span class="keyword parmname">过滤触发计数</span>参数指定进行重复条码过滤连续触发的次数。</p>
+
+                                <div class="note note" id="GUID-276CE1BF-C371-4B01-BECD-22E11EBF00D8__GUID-0969269E-F1E0-4606-96FB-32E62D62CE66"><span class="notetitle">说明</span> 
+                                    <p class="p">仅<span class="keyword parmname">触发模式</span>选择“开启”后，可配置此参数。</p>
+
+                                </div>
+
+                            </dd>
+
+                        
+                        
+                            <dt class="dt pt dlterm"><a name="GUID-276CE1BF-C371-4B01-BECD-22E11EBF00D8__GUID-A4F6059D-EDEF-47DF-9830-EBD6192B9F4A"><!-- --></a>UPCA自动补0</dt>
+
+                            <dd class="dd pd">
+                                <p class="p">开启该开关时，通过自动补0，可以确保UPC-A条形码的长度始终为13位。</p>
+
+                            </dd>
+
+                        
+                        
+                            <dt class="dt pt dlterm"><a name="GUID-276CE1BF-C371-4B01-BECD-22E11EBF00D8__GUID-12813379-CFE7-42B6-9D4E-3070BBB02E99"><!-- --></a>过滤ROI内重复条码</dt>
+
+                            <dd class="dd pd">
+                                <p class="p">开启该开关时，对ROI内的条码进行识别和处理时可以去除重复的条码，确保每个条码只被识别一次。</p>
+
+                                <div class="note note" id="GUID-276CE1BF-C371-4B01-BECD-22E11EBF00D8__GUID-E2D3493B-8562-4914-8595-5B6CE476048B"><span class="notetitle">说明</span> 
+                                    <p class="p">当<span class="ph menucascade"><span class="ph uicontrol">读取设置</span> &gt; <span class="ph uicontrol">码制选择</span> &gt; <span class="ph uicontrol">ROI设置</span></span>处的<span class="keyword parmname">ROI使能</span>开关开启后，可配置此参数。</p>
+
+                                </div>
+
+                            </dd>
+
+                        
+                        
+                            <dt class="dt pt dlterm"><a name="GUID-276CE1BF-C371-4B01-BECD-22E11EBF00D8__GUID-5E8C4D7C-58E6-46A7-9A12-B4CFBC3027ED"><!-- --></a>最小输出时间(ms)</dt>
+
+                            <dd class="dd pd">
+                                <p class="p">此参数用于定义读码器从触发开始到输出读码融合结果的最短时间。如果到达设置时间，读码器还未触发结束，则触发结束后输出读码融合结果。</p>
+
+                                <div class="note note" id="GUID-276CE1BF-C371-4B01-BECD-22E11EBF00D8__GUID-B48AA0C0-3D3E-42A3-B699-9D1A1EF8384D"><span class="notetitle">说明</span> 
+                                    <p class="p">仅<span class="keyword parmname">触发模式</span>选择“开启”后，且<span class="ph uicontrol">立即输出模式</span>为关闭时，可配置此参数。</p>
+
+                                </div>
+
+                            </dd>
+
+                        
+                        
+                            <dt class="dt pt dlterm"><a name="GUID-276CE1BF-C371-4B01-BECD-22E11EBF00D8__GUID-DC046665-4DE8-4943-8C54-7B0604073461"><!-- --></a>条码最大解析长度</dt>
+
+                            <dd class="dd pd">
+                                <p class="p">设置单个条码最大长度，若条码长度高于该参数的数值，则不能解析条码的内容。</p>
+
+                                <div class="note note" id="GUID-276CE1BF-C371-4B01-BECD-22E11EBF00D8__GUID-9510A899-8828-4208-881D-A2260EEB49FF"><span class="notetitle">说明</span> 
+                                    <ul class="ul" id="GUID-276CE1BF-C371-4B01-BECD-22E11EBF00D8__UL_XYK_4WG_4FC">
+                                        <li class="li" id="GUID-276CE1BF-C371-4B01-BECD-22E11EBF00D8__GUID-987658C2-842D-4118-A3B3-EA20B3AC9133">
+                                            <p class="p">当一张图中有N个条码，最大输出长度为N*<span class="keyword parmname">条码最大解析长度</span>。</p>
+
+                                        </li>
+
+                                        <li class="li" id="GUID-276CE1BF-C371-4B01-BECD-22E11EBF00D8__GUID-C81E6F72-44B9-4DE1-B62E-62A4B223CCF5">
+                                            <p class="p"><span class="keyword parmname">条码最大解析长度</span>参数不限制格式化字符，当一张图中有N个条码且每个条码含有格式化字符时，最大输出长度为“N*（条码长度+格式化字符长度）”。</p>
+
+                                        </li>
+
+                                    </ul>
+
+                                </div>
+
+                            </dd>
+
+                        
+                        
+                            <dt class="dt pt dlterm"><a name="GUID-276CE1BF-C371-4B01-BECD-22E11EBF00D8__GUID-AD4A6297-63FE-43D6-BF53-ABAA5099AC05"><!-- --></a>条码最小解析长度</dt>
+
+                            <dd class="dd pd">
+                                <p class="p">设置单个条码最小长度，若条码长度低于该参数的数值，则不能解析条码的内容。</p>
+
+                            </dd>
+
+                        
+                        
+                            <dt class="dt pt dlterm"><a name="GUID-276CE1BF-C371-4B01-BECD-22E11EBF00D8__GUID-ED085E91-4DED-4996-B7DD-5A0A2EA4A6CC"><!-- --></a>历史过滤模式</dt>
+
+                            <dd class="dd pd">
+                                <p class="p">根据读码器的历史记录对条码进行过滤，可选择如下模式：</p>
+
+                                <ul class="ul" id="GUID-276CE1BF-C371-4B01-BECD-22E11EBF00D8__UL_PC2_NVH_T2C">
+                                    <li class="li" id="GUID-276CE1BF-C371-4B01-BECD-22E11EBF00D8__GUID-21FD1831-D111-4003-9C23-A5DDE58B55B3">
+                                        <p class="p"><span class="ph uicontrol">基于时间过滤</span>：设置一个时间间隔，在此时间间隔内只读取新的条码，对再次读取的条码进行忽略。选择此模式可通过<span class="keyword parmname">时间过滤模式</span>参数设置时间间隔的起点，可选“首次读码时间过滤”或“最新读码时间过滤”，通过<span class="keyword parmname">过滤时间(ms)</span>参数设置时间间隔。</p>
+
+                                    </li>
+
+                                    <li class="li" id="GUID-276CE1BF-C371-4B01-BECD-22E11EBF00D8__GUID-3C755A18-2E1C-4DDB-997A-4037D9379E9E">
+                                        <p class="p"><span class="ph uicontrol">基于数量过滤</span>：设置一个历史读码数量范围，在此数量范围内只读取新的条码，对再次读取的条码进行忽略。选择此模式可通过配置<span class="keyword parmname">历史编码最大值</span>参数设置读码数量范围。</p>
+
+                                    </li>
+
+                                </ul>
+
+                            </dd>
+
+                        
+                        
+                            <dt class="dt pt dlterm"><a name="GUID-276CE1BF-C371-4B01-BECD-22E11EBF00D8__GUID-FD52A300-836E-4212-89E3-89A644C055B3"><!-- --></a>读取次数阈值</dt>
+
+                            <dd class="dd pd">
+                                <p class="p">设置读码次数阈值，当同一个条码读取结果相同的次数超过该数值时，认为此为有效条码并输出结果；当低于该数值时，则认为此为无效条码且不输出结果。</p>
+
+                            </dd>
+
+                        
+                        
+                            <dt class="dt pt dlterm"><a name="GUID-276CE1BF-C371-4B01-BECD-22E11EBF00D8__GUID-2B0E610F-98BC-450A-8E9B-70C88A7244EC"><!-- --></a>JPEG传输条件</dt>
+
+                            <dd class="dd pd">
+                                <p class="p">设置在何种条件下传输JPEG格式的图像数据，可选择如下条件：</p>
+
+                                <ul class="ul" id="GUID-276CE1BF-C371-4B01-BECD-22E11EBF00D8__UL_HB5_VVH_T2C">
+                                    <li class="li" id="GUID-276CE1BF-C371-4B01-BECD-22E11EBF00D8__GUID-5FEF9A3E-4C60-4D45-B316-C8D75CF552AA">
+                                        <p class="p"><span class="keyword parmname">所有条件</span>：无论读码结果如何，读码器都会传输JPEG格式的图像数据。</p>
+
+                                    </li>
+
+                                    <li class="li" id="GUID-276CE1BF-C371-4B01-BECD-22E11EBF00D8__GUID-98F5268C-62FE-4FCC-B055-C7ABB4571A24">
+                                        <p class="p"><span class="keyword parmname">读取条码</span>：当成功读取到条码时，读码器传输JPEG格式的图像数据。</p>
+
+                                    </li>
+
+                                    <li class="li" id="GUID-276CE1BF-C371-4B01-BECD-22E11EBF00D8__GUID-58D23F6A-2640-4153-99ED-6BB5A2DED3AA">
+                                        <p class="p"><span class="keyword parmname">无读取条码</span>：当未读取到条码时，读码器传输JPEG格式的图像数据。</p>
+
+                                    </li>
+
+                                </ul>
+
+                            </dd>
+
+                        
+                    </dl>
+
+                </dd>
+
+            
+        </dl>
+
+</div>
+
+
+</div>
+						<div class=" wt_topic_wpp_content wt_pc_only "><div class=" wt_topic_wpp_content_flex "><div class="wt_topic_wpp_item like"></div><div class="wt_topic_wpp_item view"></div><div class="wt_topic_wpp_item share">分享</div></div></div>
+						
+						
+						
+					</div>
+				</div><!-- container_body -->
+				
+				<div class=" body_footer "><div onclick="prevTopic()" class=" body_footer_left link_button "><span>上一页</span></div><div onclick="nextTopic()" class=" body_footer_right link_button "><span>下一页</span></div></div>
+				<div class=" body_wpp mobile_only"><div class="wt_body_mobile_like"></div><div class="wt_body_mobile_view"></div></div>
+				<!-- <whc:webhelp_side_toc /> -->
+				
+			</div> <!-- middle_view content_area -->
+			<div class=" right_content wt_pc_only "></div>
+		</div> <!-- content_box -->
+		
+		<!-- 置顶按钮 -->
+		<div class="body_to_top" onclick="scrollTopicTop()"></div> 
+		<!-- 评价反馈 -->
+		<div onclick="manualFeedback()" class=" body_feedback " data-href="https://wj.hikvision.com/#/public-survey?id=64c8b90d80e02e9e88feca2f"></div>
+		
+	</body>
+</html>

@@ -1,0 +1,542 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<MvLogisticsRoot>
+  <String Name="MvLogisticsSDKVersion">
+    <Description>物流SDK版本号</Description>
+    <Value>01030003</Value>
+  </String>
+  <!--相机线程优先级（MV_THREAD_PRIORITY_LOWEST[0],
+					MV_THREAD_PRIORITY_BELOW_NORMAL[1],
+					MV_THREAD_PRIORITY_NORMAL[2],
+					MV_THREAD_PRIORITY_ABOVE_NORMAL[3],
+					MV_THREAD_PRIORITY_HIGHEST[4],
+					MV_THREAD_PRIORITY_TIME_CRITICAL[5]）-->
+  <Integer Name="CameraNumInOneThreadProperty">
+    <Description>相机线程优先级</Description>
+    <Value>5</Value>
+  </Integer>
+  <!--工业相机配置-->
+  <Category Name="IndustrialCamera">
+    <Integer Name="IDCameraNum">
+      <Description>相机个数，最多不超过256</Description>
+      <Value>0</Value>
+    </Integer>
+    <!--当填写的相机个数大于0时，必须填写足够的相机信息-->
+    <String Name="IDCamera1">
+      <Description>相机1的序列号</Description>
+      <Value>21880742</Value>
+    </String>
+    <!--工业相机单个线程轮询数量-->
+    <Integer Name="IDCameraNumInOneThread">
+      <Description>相机单个线程轮询数量</Description>
+      <Value>1</Value>
+    </Integer>
+    <!--工业相机重连机制使能（0禁用；1启用）-->
+    <Integer Name="IDCameraResetEnable">
+      <Description>相机重连使能</Description>
+      <Value>1</Value>
+    </Integer>
+    <!--工业相机重连间隔（以ms为单位）-->
+    <Integer Name="IDCameraResetInterval">
+      <Description>相机重连间隔</Description>
+      <Value>1000</Value>
+    </Integer>
+  </Category>
+  <!--智能读码相机配置-->
+  <Category Name="CodeReadCamera">
+    <Integer Name="CRCameraNum">
+      <Description>相机个数，最多不超过256</Description>
+      <Value>0</Value>
+    </Integer>
+    <!--当填写的相机个数大于0时，必须填写足够的相机信息-->
+    <String Name="CRCamera1">
+      <Description>相机1的序列号</Description>
+      <Value>00239182737</Value>
+    </String>
+    <!--智能读码相机单个线程轮询数量-->
+    <Integer Name="CRCameraNumInOneThread">
+      <Description>相机单个线程轮询数量(暂不支持)</Description>
+      <Value>1</Value>
+    </Integer>
+    <!--智能读码相机是否主从模式（0开启；1禁用）-->
+    <Integer Name="CRCameraMasterSlaveMode">
+      <Description>相机是否主从模式</Description>
+      <Value>1</Value>
+    </Integer>
+    <!--智能读码相机重连机制使能（0禁用；1启用）-->
+    <Integer Name="CRCameraResetEnable">
+      <Description>相机重连使能</Description>
+      <Value>1</Value>
+    </Integer>
+    <!--智能读码相机重连间隔（以ms为单位）-->
+    <Integer Name="CRCameraResetInterval">
+      <Description>相机重连间隔</Description>
+      <Value>1000</Value>
+    </Integer>
+  </Category>
+  <!--全景（面阵）相机，当前最多支持1个。如果没有，则填0-->
+  <Category Name="PanoramicCamera">
+    <Integer Name="PRMCameraNum">
+      <Description>相机个数</Description>
+      <Value>0</Value>
+    </Integer>
+    <!--当填写的相机个数大于0时，必须填写足够的相机信息-->
+    <String Name="PRMCamera1">
+      <Description>相机1的序列号</Description>
+      <Value>670094111</Value>
+    </String>
+    <!--全景相机重连机制使能（0禁用；1启用）-->
+    <Integer Name="PRMCameraResetEnable">
+      <Description>相机重连使能</Description>
+      <Value>1</Value>
+    </Integer>
+    <!--全景相机重连间隔（以ms为单位）-->
+    <Integer Name="PRMCameraResetInterval">
+      <Description>相机重连间隔</Description>
+      <Value>1000</Value>
+    </Integer>
+  </Category>
+  <!--线扫相机，当前最多支持1个。如果没有，则填0-->
+  <Category Name="LineScanCamera">
+    <Integer Name="LSCameraNum">
+      <Description>相机个数</Description>
+      <Value>0</Value>
+    </Integer>
+    <!--当填写的相机个数大于0时，必须填写足够的相机信息-->
+    <String Name="LSCamera1">
+      <Description>相机1的序列号</Description>
+      <Value>670094111</Value>
+    </String>
+    <!--线扫相机重连机制使能（0禁用；1启用）-->
+    <Integer Name="LSCameraResetEnable">
+      <Description>相机重连使能</Description>
+      <Value>1</Value>
+    </Integer>
+    <!--线扫相机重连间隔（以ms为单位）-->
+    <Integer Name="LSCameraResetInterval">
+      <Description>相机重连间隔</Description>
+      <Value>1000</Value>
+    </Integer>
+  </Category>
+  <!--体积相机，当前最多支持1个。如果没有，则填0-->
+  <Category Name="VolumeCamera">
+    <Integer Name="VOLCameraNum">
+      <Description>相机个数</Description>
+      <Value>0</Value>
+    </Integer>
+    <!--当填写的相机个数大于0时，必须填写足够的相机信息-->
+    <String Name="VOLCamera1">
+      <Description>工作模式13时，此处为默认值“1”，其余均为Mac地址</Description>
+      <Value>0030531cb2a6</Value>
+    </String>
+    <!--体积相机工作模式-->
+    <Integer Name="VOLAlgorithmType">
+      <Description>工作模式:7-13</Description>
+      <Value>9</Value>
+    </Integer>
+    <!--体积相机重连机制使能（0禁用；1启用）-->
+    <Integer Name="VOLCameraResetEnable">
+      <Description>相机重连使能</Description>
+      <Value>1</Value>
+    </Integer>
+    <!--体积相机重连间隔（以ms为单位）-->
+    <Integer Name="VOLCameraResetInterval">
+      <Description>相机重连间隔</Description>
+      <Value>1000</Value>
+    </Integer>
+  </Category>
+  <!--一维码参数配置-->
+  <Category Name="BarcodeParam">
+    <Integer Name="BCR_Enable">
+      <Description>是否启用（0禁用；1启用）</Description>
+      <Value>1</Value>
+    </Integer>
+    <Integer Name="BCR_Ability">
+      <Description>算法能力集，含Code39[1]，Code128[2]，CodeBar[4]，EAN[8]，ITF25[16]，CODE93[32]，范围[1,63]</Description>
+      <Value>63</Value>
+    </Integer>
+    <Integer Name="BCR_PositionXROI">
+      <Description>图像ROI X方向偏移，默认值0，范围[0,65535]</Description>
+      <Value>0</Value>
+    </Integer>
+    <Integer Name="BCR_PositionYROI">
+      <Description>图像ROI Y方向偏移，默认值0，范围[0,65535]</Description>
+      <Value>0</Value>
+    </Integer>
+    <Integer Name="BCR_WidthROI">
+      <Description>图像ROI宽度，默认值65535，范围[100,65535]</Description>
+      <Value>65535</Value>
+    </Integer>
+    <Integer Name="BCR_HeightROI">
+      <Description>图像ROI高度，默认值65535，范围[100,65535]</Description>
+      <Value>65535</Value>
+    </Integer>
+    <Integer Name="BCR_MaxWidth">
+      <Description>算法最大宽度，默认3840，范围[0,65535]，此参数无效</Description>
+      <Value>3840</Value>
+    </Integer>
+    <Integer Name="BCR_MaxHeight">
+      <Description>算法最大高度，默认2748，范围[0,65535]，此参数无效</Description>
+      <Value>2748</Value>
+    </Integer>
+    <Integer Name="BCR_LocBarNum">
+      <Description>条形码区域定位模块条码区域个数,默认值4，范围[1,200]</Description>
+      <Value>4</Value>
+    </Integer>
+    <Integer Name="BCR_LocWinSize">
+      <Description>条形码区域定位模块窗口大小，默认值4，范围[4,65]</Description>
+      <Value>4</Value>
+    </Integer>
+    <Integer Name="BCR_WaitingTime">
+      <Description>算法库Process最大运行时间(ms)，超过限定时间强行return，默认值500，范围[0,5000]</Description>
+      <Value>500</Value>
+    </Integer>
+    <Integer Name="BCR_SegQuietW">
+      <Description>条码静区宽度，默认值30，范围[0,200]</Description>
+      <Value>30</Value>
+    </Integer>
+    <Integer Name="BCR_DfkSizeLowerLimit">
+      <Description>去伪过滤尺寸下限（宽不足此数的条码删掉），默认值30，范围[0,4000]</Description>
+      <Value>30</Value>
+    </Integer>
+    <Integer Name="BCR_DfkSizeUpperLimit">
+      <Description>去伪过滤尺寸上限（宽超过此数的条码删掉），默认值2400，范围[0,4000]</Description>
+      <Value>2400</Value>
+    </Integer>
+    <Integer Name="BCR_SaveImageLevel">
+      <Description>保存未译出图片的灵敏度，默认值1，范围[1,3]</Description>
+      <Value>1</Value>
+    </Integer>
+    <Integer Name="BCR_AppMode">
+      <Description>算法库运行模式（专业模式/普通模式），默认值1，范围[0,1]</Description>
+      <Value>0</Value>
+    </Integer>
+    <Integer Name="BCR_Distortion">
+      <Description>专业模式下，透视畸变开关，默认值0，范围[0,1]</Description>
+      <Value>0</Value>
+    </Integer>
+    <Integer Name="BCR_WhiteGap">
+      <Description>专业模式下，印刷质量开关，默认值0，范围[0,1]</Description>
+      <Value>0</Value>
+    </Integer>
+    <Integer Name="BCR_Spot">
+      <Description>专业模式下，镜头反光开关，默认值0，范围[0,1]</Description>
+      <Value>0</Value>
+    </Integer>
+    <Integer Name="BCR_SampleLevel">
+      <Description>图像采样尺度，默认值1，范围[1,8]</Description>
+      <Value>1</Value>
+    </Integer>
+    <Integer Name="BCR_ImageMorph">
+      <Description>图像形态学预处理，默认值0，范围[0，2]</Description>
+      <Value>0</Value>
+    </Integer>
+    <Integer Name="BCR_DelErrFlag">
+      <Description>降错识开关，默认值1，范围[0,1]</Description>
+      <Value>1</Value>
+    </Integer>
+  </Category>
+  <!--二维码参数配置-->
+  <Category Name="2DCodeParam">
+    <Integer Name="TDCR_Enable">
+      <Description>是否启用（0禁用；1启用）</Description>
+      <Value>1</Value>
+    </Integer>
+    <Integer Name="TDCR_Ability">
+      <Description>算法能力集，含QR[1]，DM[2]，范围[1,3]</Description>
+      <Value>3</Value>
+    </Integer>
+    <Integer Name="TDCR_PositionXROI">
+      <Description>图像ROI X方向偏移，默认值0，范围[0,65535]</Description>
+      <Value>0</Value>
+    </Integer>
+    <Integer Name="TDCR_PositionYROI">
+      <Description>图像ROI Y方向偏移，默认值0，范围[0,65535]</Description>
+      <Value>0</Value>
+    </Integer>
+    <Integer Name="TDCR_WidthROI">
+      <Description>图像ROI宽度，默认值65535，范围[128,65535]</Description>
+      <Value>65535</Value>
+    </Integer>
+    <Integer Name="TDCR_HeightROI">
+      <Description>图像ROI高度，默认值65535，范围[128,65535]</Description>
+      <Value>65535</Value>
+    </Integer>
+    <Integer Name="TDCR_MaxWidth">
+      <Description>算法最大宽度，默认3840，范围[0,65535]，此参数无效</Description>
+      <Value>3840</Value>
+    </Integer>
+    <Integer Name="TDCR_MaxHeight">
+      <Description>算法最大高度，默认2748，范围[0,65535]，此参数无效</Description>
+      <Value>2748</Value>
+    </Integer>
+    <Integer Name="TDCR_LocCodeNum">
+      <Description>检测模块输出ROI个数,默认值5，范围[1,1000]</Description>
+      <Value>5</Value>
+    </Integer>
+    <Integer Name="TDCR_MinBarSize">
+      <Description>blob筛选时，最小宽高，默认值40，范围[20,1000]</Description>
+      <Value>40</Value>
+    </Integer>
+    <Integer Name="TDCR_MaxBarSize">
+      <Description>blob筛选时，最大宽高，默认值300，范围[20,1000]</Description>
+      <Value>300</Value>
+    </Integer>
+    <Integer Name="TDCR_MirrorMode">
+      <Description>镜像模式是否打开; 0(关闭), 1(打开), 2(兼容模式) </Description>
+      <Value>0</Value>
+    </Integer>
+    <Integer Name="TDCR_SampleLevel">
+      <Description>图像降采样倍数，默认值1，范围[1,8]</Description>
+      <Value>1</Value>
+    </Integer>
+    <Integer Name="TDCR_CodeColor">
+      <Description>白底黒码标识; 0(白底黒码), 1(黑底白码), 2(兼容模式)</Description>
+      <Value>0</Value>
+    </Integer>
+    <Integer Name="TDCR_DiscreteFlag">
+      <Description>连续与离散码标志; 0(连续码), 1(离散码), 2(兼容模式)</Description>
+      <Value>0</Value>
+    </Integer>
+    <Integer Name="TDCR_DistortionFlag">
+      <Description>QR畸变配置参数; 0(关闭), 1(开启)</Description>
+      <Value>0</Value>
+    </Integer>
+    <Integer Name="TDCR_AdvanceParam">
+      <Description>高级参数1，默认值0，范围[0,2147483640]</Description>
+      <Value>0</Value>
+    </Integer>
+    <Integer Name="TDCR_WaitingTime">
+      <Description>超时退出时间(ms)，默认值1000，范围[0,5000]</Description>
+      <Value>1000</Value>
+    </Integer>
+    <Integer Name="TDCR_DebugFlag">
+      <Description>bug信息是否打开. 0(关闭), 1(开启)</Description>
+      <Value>0</Value>
+    </Integer>
+    <Integer Name="TDCR_AdvanceParam2">
+      <Description>高级参数2，默认值0，范围[0,2147483640]</Description>
+      <Value>0</Value>
+    </Integer>
+    <Integer Name="TDCR_Rectangle">
+      <Description>dm正方形长方形码类型: 0(正方形), 1(长方形), 2(兼容模式)</Description>
+      <Value>0</Value>
+    </Integer>
+    <Integer Name="TDCR_AppMode">
+      <Description>算法库运行模式: 0(普通模式), 1(专业模式), 2(极速模式)</Description>
+      <Value>0</Value>
+    </Integer>
+  </Category>
+  <!--抠图参数配置-->
+  <Category Name="WayBillParam">
+    <Integer Name="WAYBILL_Enable">
+      <Description>是否启用（0禁用；1启用）</Description>
+      <Value>1</Value>
+    </Integer>
+    <Integer Name="WAYBILL_Ability">
+      <Description>算法能力集，含面单提取[1]，图像增强[2]，码提取[4]，范围[1,7]</Description>
+      <Value>7</Value>
+    </Integer>
+    <Integer Name="WAYBILL_Max_Width">
+      <Description>算法最大宽度，默认3840，范围[0,65535]</Description>
+      <Value>3840</Value>
+    </Integer>
+    <Integer Name="WAYBILL_Max_Height">
+      <Description>算法最大高度，默认2748，范围[0,65535]</Description>
+      <Value>2748</Value>
+    </Integer>
+    <Integer Name="WAYBILL_OutputImageType">
+      <Description>面单抠图输出的图片格式，1为Mono8，2为Jpg，3为BMP</Description>
+      <Value>2</Value>
+    </Integer>
+    <Integer Name="WAYBILL_JpgQuality">
+      <Description>编码质量，默认80，范围[1,100]</Description>
+      <Value>80</Value>
+    </Integer>
+    <Integer Name="WAYBILL_MinWidth">
+      <Description>waybill最小宽, 宽是长边, 高是短边，默认100，范围[15,2592]</Description>
+      <Value>100</Value>
+    </Integer>
+    <Integer Name="WAYBILL_MinHeight">
+      <Description>waybill最小高，默认100，范围[10,2048]</Description>
+      <Value>100</Value>
+    </Integer>
+    <Integer Name="WAYBILL_MaxWidth">
+      <Description>waybill最大宽，默认3072，范围[15,3072]</Description>
+      <Value>3072</Value>
+    </Integer>
+    <Integer Name="WAYBILL_MaxHeight">
+      <Description>waybill最大高，默认2048，范围[10,2048]</Description>
+      <Value>2048</Value>
+    </Integer>
+    <Integer Name="WAYBILL_MorphTimes">
+      <Description>膨胀次数，默认0，范围[0,10]</Description>
+      <Value>0</Value>
+    </Integer>
+    <Integer Name="WAYBILL_GrayLow">
+      <Description>面单上条码和字符灰度最小值，默认0，范围[0,255]</Description>
+      <Value>0</Value>
+    </Integer>
+    <Integer Name="WAYBILL_GrayMid">
+      <Description>面单上灰度中间值，默认70，范围[0,255]</Description>
+      <Value>70</Value>
+    </Integer>
+    <Integer Name="WAYBILL_GrayHigh">
+      <Description>面单上背景灰度最大值，默认130，范围[0,255]</Description>
+      <Value>130</Value>
+    </Integer>
+    <Integer Name="WAYBILL_BinaryAdaptive">
+      <Description>自适应二值化，默认1，范围[0,1]</Description>
+      <Value>1</Value>
+    </Integer>
+    <Integer Name="WAYBILL_MaxBillBarHightRatio">
+      <Description>最大面单和条码高度比例，默认20，范围[1,100]</Description>
+      <Value>20</Value>
+    </Integer>
+    <Integer Name="WAYBILL_MaxBillBarWidthRatio">
+      <Description>最大面单和条码宽度比例，默认5，范围[1,100]</Description>
+      <Value>5</Value>
+    </Integer>
+    <Integer Name="WAYBILL_MinBillBarHightRatio">
+      <Description>最小面单和条码高度比例，默认5，范围[1,100]</Description>
+      <Value>5</Value>
+    </Integer>
+    <Integer Name="WAYBILL_MinBillBarWidthRatio">
+      <Description>最小面单和条码宽度比例，默认2，范围[1,100]</Description>
+      <Value>2</Value>
+    </Integer>
+    <Integer Name="WAYBILL_EnhanceMethod">
+      <Description>增强方法，默认2，范围[1,4]</Description>
+      <Value>2</Value>
+    </Integer>
+    <Integer Name="WAYBILL_ClipRatioLow">
+      <Description>增强拉伸低阈值比例，默认1，范围[0,100]</Description>
+      <Value>1</Value>
+    </Integer>
+    <Integer Name="WAYBILL_ClipRatioHigh">
+      <Description>增强拉伸高阈值比例，默认99，范围[0,100]</Description>
+      <Value>99</Value>
+    </Integer>
+    <Integer Name="WAYBILL_ContrastFactor">
+      <Description>对比度系数，默认100，范围[1,10000]</Description>
+      <Value>100</Value>
+    </Integer>
+    <Integer Name="WAYBILL_SharpenFactor">
+      <Description>锐化系数，默认0，范围[0,10000]</Description>
+      <Value>0</Value>
+    </Integer>
+    <Integer Name="WAYBILL_KernelSize">
+      <Description>锐化滤波核大小，默认3，范围[3,15]</Description>
+      <Value>3</Value>
+    </Integer>
+    <Integer Name="WAYBILL_CodeBoundaryRow">
+      <Description>码单抠图行方向扩边，默认0，范围[0,2000]</Description>
+      <Value>0</Value>
+    </Integer>
+    <Integer Name="WAYBILL_CodeBoundaryCol">
+      <Description>码单抠图列方向扩边，默认0，范围[0,2000]</Description>
+      <Value>0</Value>
+    </Integer>
+  </Category>
+  <!--称重参数配置-->
+  <Category Name="WeightParam">
+    <Integer Name="WEIGHT_Enable">
+      <Description>是否启用（0禁用；1启用）</Description>
+      <Value>0</Value>
+    </Integer>
+    <Integer Name="WEIGHT_DataSource">
+      <Description>设置重量数据来的方式. 1-物理串口方式，2-串口驱动方式(暂不支持)</Description>
+      <Value>1</Value>
+    </Integer>
+    <!--COM口配置-->
+    <Integer Name="WEIGHT_ComIndex">
+      <Description>串口号[1, 65535]</Description>
+      <Value>3</Value>
+    </Integer>
+    <Integer Name="WEIGHT_Baudrate">
+      <Description>波特率[0, 0xffffffff]</Description>
+      <Value>9600</Value>
+    </Integer>
+    <Integer Name="WEIGHT_DataBits">
+      <Description>数据位[5, 8]</Description>
+      <Value>8</Value>
+    </Integer>
+    <Integer Name="WEIGHT_Parity">
+      <Description>No-0;Odd-1;Even-2;Mark-3;Space-4</Description>
+      <Value>0</Value>
+    </Integer>
+    <Integer Name="WEIGHT_StopBits">
+      <Description>停止位 1-0;1.5-1;2-2</Description>
+      <Value>0</Value>
+    </Integer>
+    <Integer Name="WEIGHT_Event">
+      <Description>是否利用事件打开 0-禁用 1-使能</Description>
+      <Value>0</Value>
+    </Integer>
+    <Integer Name="WEIGHT_DtrControl">
+      <Description>Dtr流控使能 0-禁用 1-使能</Description>
+      <Value>0</Value>
+    </Integer>
+    <Integer Name="WEIGHT_RtsControl">
+      <Description>Rts流控使能 0-禁用 1-使能</Description>
+      <Value>0</Value>
+    </Integer>
+    <!--重量解析预置条件-->
+    <Integer Name="WEIGHT_StableCount">
+      <Description>称重时对比样本的计数范围[0, 1000]</Description>
+      <Value>5</Value>
+    </Integer>
+    <Integer Name="WEIGHT_StablePrecision">
+      <Description>稳定中对比的误差范围以克为单位[0, 1000000]</Description>
+      <Value>20</Value>
+    </Integer>
+    <Integer Name="WEIGHT_StableFormat">
+      <Description>是否按需要按照精度设置格式化 0-禁用 1-使能</Description>
+      <Value>0</Value>
+    </Integer>
+    <!--重量解析提取的结构体，描述了如何从一个字符串中解析重量值-->
+    <Integer Name="WEIGHT_WeighType">
+      <Description>称重获取方式，0-只读式 1-回显式</Description>
+      <Value>0</Value>
+    </Integer>
+    <String Name="WEIGHT_InString">
+      <Description>回显式输入字符串</Description>
+      <Value>a</Value>
+    </String>
+    <Integer Name="WEIGHT_SampleRate">
+      <Description>回显式采样频率，1000除以采样频率就是单次读取重量的间隔时间</Description>
+      <Value>20</Value>
+    </Integer>
+    <Integer Name="WEIGHT_Strlen">
+      <Description>重量数据所占字节数。默认8，范围[1,32]</Description>
+      <Value>8</Value>
+    </Integer>
+    <String Name="WEIGHT_IDentifier">
+      <Description>重量数据起始标识符</Description>
+      <Value>=</Value>
+    </String>
+    <Integer Name="WEIGHT_IDentifierPos">
+      <Description>标识符在重量字符串中的起始位置。范围[0,32]</Description>
+      <Value>0</Value>
+    </Integer>
+    <Integer Name="WEIGHT_IntegerBegin">
+      <Description>重量整数部分在重量字符串中的起始位置。范围[0,32]</Description>
+      <Value>4</Value>
+    </Integer>
+    <Integer Name="WEIGHT_IntegerEnd">
+      <Description>重量整数部分在重量字符串中的结束位置。范围[0,32]</Description>
+      <Value>7</Value>
+    </Integer>
+    <Integer Name="WEIGHT_DecimalsBegin">
+      <Description>重量小数点部分在重量字符串中的起始位置。范围[0,32]</Description>
+      <Value>1</Value>
+    </Integer>
+    <Integer Name="WEIGHT_DecimalsEnd">
+      <Description>重量小数点部分在重量字符串中的结束位置。范围[0,32]</Description>
+      <Value>2</Value>
+    </Integer>
+    <Integer Name="WEIGHT_Reversal">
+      <Description>重量结果是否需要反转 0-不反转 1-反转。</Description>
+      <Value>1</Value>
+    </Integer>
+  </Category>
+</MvLogisticsRoot>

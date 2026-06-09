@@ -1,0 +1,19 @@
+{
+    "IgnoreNodes": [
+	    "CodeQuality",
+		"Quality",
+	    "ODCode_Int",
+        "DeviceReset_Reg",
+		"TDCR",
+		"MirrorMode",
+		"Http",
+		"Magnification",
+		"OnlyType2_Ava",
+		"Ocr",
+		"Bill",
+		"Lens",
+		"Tune",
+		"Focus",
+		"Self"
+    ]
+}

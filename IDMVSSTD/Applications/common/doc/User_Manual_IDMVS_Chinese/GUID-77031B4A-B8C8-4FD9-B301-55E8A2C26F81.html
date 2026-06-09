@@ -1,0 +1,1212 @@
+
+<!DOCTYPE html
+  PUBLIC "" "about:legacy-compat">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:whc="http://www.daksys.com/webhelp/components" xml:lang="zh-cn" lang="zh-cn">
+	<head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />        
+      <meta name="copyright" content="©  杭州海康威视数字技术股份有限公司。保留一切权利。" /><meta name="DC.Type" content="concept" /><meta name="DC.Title" content="配置通讯协议" /><meta name="abstract" content="当读码器需要与PLC等外部设备或控制系统进行通信时，IDMVS支持通过配置通讯协议自定义读码器的数据传输方式，确保数据能够按照指定的协议和格式发送到目标设备或系统。" /><meta name="description" content="当读码器需要与PLC等外部设备或控制系统进行通信时，IDMVS支持通过配置通讯协议自定义读码器的数据传输方式，确保数据能够按照指定的协议和格式发送到目标设备或系统。" /><meta name="DC.Relation" scheme="URI" content="GUID-D8488278-18E0-41D0-91B9-35636662C53F.html" /><meta name="DC.Format" content="XHTML" /><meta name="DC.Identifier" content="GUID-77031B4A-B8C8-4FD9-B301-55E8A2C26F81" /><meta name="DC.Language" content="zh-CN" /><title>配置通讯协议</title><!-- Generated with dksgen version 1.0, build number 2023071300.  --><meta viewport="Content-Type" content="width=device-width, initial-scale=1.0" /><meta http-equiv="X-UA-Compatible" content="IE=edge,Chrome=1" /><meta name="wh-path2root" content="index.html" />
+		<!-- commonltr css -->
+		<link rel="stylesheet" type="text/css" href="daksys-webhelp/resources/css/commonltr.css" />
+		<!-- Bootstrap css -->
+		<link rel="stylesheet" type="text/css" href="daksys-webhelp/resources/bootstrap/css/bootstrap.min.css" />
+		<link rel="stylesheet" type="text/css" href="daksys-webhelp/resources/bootstrap/css/bootstrap-theme.min.css" />
+		<link rel="stylesheet" type="text/css" href="daksys-webhelp/resources/js/jquery-ui.min.css" />
+		
+		<!-- Template css  -->
+		<link href="daksys-webhelp/template/resources/css/HIKROBOT_color.css?buildId=2023071300" rel="stylesheet" type="text/css" />
+		<link rel="stylesheet" type="text/css" href="daksys-webhelp/template/resources/css/wt_topic.css?buildId=2023071300" />
+		<link rel="stylesheet" type="text/css" href="daksys-webhelp/template/resources/css/wt_topic_m.css?buildId=2023071300" />
+		<link rel="stylesheet" type="text/css" href="daksys-webhelp/template/resources/css/wt_expand.css?buildId=2023071300" />
+		<link rel="stylesheet" type="text/css" href="daksys-webhelp/template/resources/css/wt_note.css?buildId=2023071300" />
+		<link rel="stylesheet" type="text/css" href="daksys-webhelp/template/resources/css/wt_steps.css?buildId=2023071300" />
+		
+		<!-- jquery js  -->
+		<script type="text/javascript" src="daksys-webhelp/resources/js/jquery-3.6.2.min.js"></script>
+		<script type="text/javascript" src="daksys-webhelp/resources/js/jquery.cookie.js"></script>
+		<script type="text/javascript" src="daksys-webhelp/resources/js/jquery.highlight-3.js"></script>
+		<script type="text/javascript" src="daksys-webhelp/resources/js/jquery-ui.min.js"></script>
+		
+		<!-- common js  -->
+		<script type="text/javascript" src="daksys-webhelp/resources/bootstrap/js/bootstrap.min.js"></script>
+		<script type="text/javascript" src="daksys-webhelp/resources/js/base64.js"></script>
+		<script type="text/javascript" src="daksys-webhelp/resources/js/browserDetect.js"></script>
+		<script type="text/javascript" src="daksys-webhelp/resources/js/localization.js"></script>
+		<script type="text/javascript" src="daksys-webhelp/resources/js/parseuri.js"></script>
+		<script type="text/javascript" src="daksys-webhelp/resources/localization/strings.js"></script>
+		<!-- Template js -->
+		<script type="text/javascript" src="daksys-webhelp/template/resources/js/wt_topic.js?buildId=2023071300"></script>
+		<script type="text/javascript" src="daksys-webhelp/template/resources/js/wt_expand.js?buildId=2023071300"></script>
+	</head>
+	<body class="wt_topic_page frmBody" id="GUID-77031B4A-B8C8-4FD9-B301-55E8A2C26F81" onload="topicOnload()">
+		<!-- get_lang -->
+		<div id="lang" style="display:none">zh-CN</div><div id="mapoutputclass" style="display:none"></div>
+		<input hidden="hidden" id="UDCode" value="UD12345B" /><input hidden="hidden" id="Trademark" value="海康机器人" />
+		
+		<div class="content_box">
+			<div class="middle_view content_area col-sm-9" id="content_area">
+				<div class=" wt_breadcrumb "><ol><li><span class="home topicref"><a href="javascript:void(0)" onclick="gotoFirstPage()">首页</a></span></li><li><span class="topicref"><a href="GUID-D8488278-18E0-41D0-91B9-35636662C53F.html" data-id="GUID-D8488278-18E0-41D0-91B9-35636662C53F">读码器常用配置</a></span></li><li class="active"><span class="topicref">配置通讯协议</span></li></ol><div class="wt_breadcrumb_ellipsis" onclick="expandBreadcrumbDiv()"></div><div class="wt_breadcrumb_collapse" style="display: none;"><div class="wt_breadcrumb_collapse_button" onclick="collapseBreadcrumbDiv()"></div></div></div>
+				
+				<div id="container_body" class="container">
+					<div id="contentArea">
+						<div class=" wt_topic_content body ">
+    <h1 class="title topictitle1">配置通讯协议</h1>
+
+
+<div class="body conbody"><p class="shortdesc">当读码器需要与PLC等外部设备或控制系统进行通信时，IDMVS支持通过配置通讯协议自定义读码器的数据传输方式，确保数据能够按照指定的协议和格式发送到目标设备或系统。</p>
+
+        <p class="p">IDMVS的通讯配置功能支持多种协议，适用于不同的应用场景，请根据实际情况选择合适的通信协议并设置相关参数，配置通讯协议操作步骤如下。</p>
+
+        <div class="fig fignone" id="GUID-77031B4A-B8C8-4FD9-B301-55E8A2C26F81__GUID-F4EE71A8-8893-4A15-A93B-3E93F12CC6C3">
+            
+            <img class="image" style="display:none;" src="GUID-BED44DC1-4B11-477C-B592-AFA751E8FCB7-high.gif" width="1400" />
+        <div class="fig_caption"><span class="figcap">图 1 配置通讯协议</span></div></div>
+
+        <ol class="ol" id="GUID-77031B4A-B8C8-4FD9-B301-55E8A2C26F81__OL_O44_RJW_42C">
+            <li class="li" id="GUID-77031B4A-B8C8-4FD9-B301-55E8A2C26F81__GUID-F11A75EB-8694-45F3-96FB-8D1664E78C1A">
+                <p class="p">在IDMVS主界面的功能导航栏单击<span class="ph uicontrol">通讯配置</span>，进入通讯配置页面。</p>
+
+            </li>
+
+            <li class="li" id="GUID-77031B4A-B8C8-4FD9-B301-55E8A2C26F81__GUID-09540EB7-A330-4EF0-B539-63E188F956A0">
+                <p class="p">在通讯协议选择区域勾选需要开启的通讯协议，勾选后协议配置区域显示对应协议页签。</p>
+
+            </li>
+
+            <li class="li" id="GUID-77031B4A-B8C8-4FD9-B301-55E8A2C26F81__GUID-8E1F45CD-A4DB-4EF1-AE2D-14A88F7FE13B">
+                <p class="p">在协议配置区域单击协议名称，设置对应通讯协议的相关参数。</p>
+
+                <div class="note note" id="GUID-77031B4A-B8C8-4FD9-B301-55E8A2C26F81__GUID-12A58005-6DCF-42CF-AD74-B2BD5C08825B"><span class="notetitle">说明</span> 
+                    <ul class="ul" id="GUID-77031B4A-B8C8-4FD9-B301-55E8A2C26F81__UL_N12_5LW_42C">
+                        <li class="li" id="GUID-77031B4A-B8C8-4FD9-B301-55E8A2C26F81__GUID-F71FDE20-3039-432C-9DF3-912DE1F4051D">
+                            <p class="p">支持的通讯协议及参数说明详情请参见下文。</p>
+
+                        </li>
+
+                        <li class="li" id="GUID-77031B4A-B8C8-4FD9-B301-55E8A2C26F81__GUID-A19CDF4F-2B26-4FA8-9289-FE8BA7144461">
+                            <p class="p">不同类型及固件版本读码器通信协议配置参数有所差别，具体请以实际参数为准。</p>
+
+                        </li>
+
+                    </ul>
+
+                </div>
+
+            </li>
+
+        </ol>
+
+        <div class="section" id="GUID-77031B4A-B8C8-4FD9-B301-55E8A2C26F81__GUID-828DD841-55C1-411F-84EB-36573938B0E1"><h2 class="title sectiontitle">客户端SDK协议</h2>
+            
+            <p class="p">通过软件开发工具包（SDK）与读码器进行数据交互时，需启用客户端SDK协议并配置参数。</p>
+
+            <p class="p">可配置参数说明如下：</p>
+
+            <dl class="dl parml">
+                
+                    <dt class="dt pt dlterm"><a name="GUID-77031B4A-B8C8-4FD9-B301-55E8A2C26F81__GUID-8BD79AB5-BA9E-4D05-8277-2CB67E8100D2"><!-- --></a>SDK输出图像</dt>
+
+                    <dd class="dd pd">
+                        <p class="p">设置是否开启通过SDK输出图像数据。</p>
+
+                    </dd>
+
+                
+                
+                    <dt class="dt pt dlterm"><a name="GUID-77031B4A-B8C8-4FD9-B301-55E8A2C26F81__GUID-470915EF-BC68-4B46-B881-E5F505FCC449"><!-- --></a>SDK输出图像质量</dt>
+
+                    <dd class="dd pd">
+                        <p class="p">开启<span class="keyword parmname">SDK输出图像</span>开关后可配置此参数，用于设置输出图像的压缩质量，设置范围为20~99。设置数值越高图像清晰度越高，图像占用存储空间也越大。</p>
+
+                    </dd>
+
+                
+                
+                    <dt class="dt pt dlterm"><a name="GUID-77031B4A-B8C8-4FD9-B301-55E8A2C26F81__GUID-4F9F4E34-AC72-4A12-83AA-1643715801AC"><!-- --></a>发送触发ID</dt>
+
+                    <dd class="dd pd">
+                        <p class="p">设置是否开启通过SDK输出触发ID数据。</p>
+
+                    </dd>
+
+                
+            </dl>
+
+        </div>
+
+        <div class="section" id="GUID-77031B4A-B8C8-4FD9-B301-55E8A2C26F81__GUID-884339DD-7A2D-42A5-AE58-0BF3CD4BAED8"><h2 class="title sectiontitle">串口协议</h2>
+            
+            <p class="p">使用读码器串口进行数据传输时，需启用串口协议并配置参数。串口通信常用于短距离、低速和抗电磁干扰场景，如连接老式PLC、传感器等设备。</p>
+
+            <p class="p">可配置参数说明如下：</p>
+
+            <dl class="dl parml">
+                
+                    <dt class="dt pt dlterm"><a name="GUID-77031B4A-B8C8-4FD9-B301-55E8A2C26F81__GUID-22B08C2E-B4DA-48DC-A86E-BD049AC8E16E"><!-- --></a>串口波特率</dt>
+
+                    <dd class="dd pd">
+                        <p class="p">选择读码器的串口波特率，代表串口每秒传输的位数（bit/s）。</p>
+
+                        <div class="note note" id="GUID-77031B4A-B8C8-4FD9-B301-55E8A2C26F81__GUID-E62090E3-D41C-4328-B337-17CAC703AEA2"><span class="notetitle">说明</span> 
+                            <p class="p">请确保读码器和目标设备的串口波特率一致，以避免数据丢失或错误。</p>
+
+                        </div>
+
+                    </dd>
+
+                
+                
+                    <dt class="dt pt dlterm"><a name="GUID-77031B4A-B8C8-4FD9-B301-55E8A2C26F81__GUID-B3456706-92A0-4047-B755-FCF7AF58DE86"><!-- --></a>串口数据位</dt>
+
+                    <dd class="dd pd">
+                        <p class="p">选择数据传输过程中每个字符的位数。可选择<span class="ph uicontrol">7</span>或<span class="ph uicontrol">8</span>，通常设置为
+                            8 位。</p>
+
+                        <div class="note_noline" id="GUID-77031B4A-B8C8-4FD9-B301-55E8A2C26F81__GUID-0A3BDE72-0BEA-4712-8825-5F5B3346414A"><span class="notetitle">说明</span> 
+                            <p class="p">仅串口数据位选择为8时，支持16进制触发方式。</p>
+
+                        </div>
+
+                    </dd>
+
+                
+                
+                    <dt class="dt pt dlterm"><a name="GUID-77031B4A-B8C8-4FD9-B301-55E8A2C26F81__GUID-54868D97-B3BA-4DB4-877E-1B65A98DEFD3"><!-- --></a>串口奇偶校验</dt>
+
+                    <dd class="dd pd">
+                        <p class="p">设置用于检测传输错误的位，可选择如下三种方式：</p>
+
+                        <ul class="ul" id="GUID-77031B4A-B8C8-4FD9-B301-55E8A2C26F81__UL_ODK_HBC_P2C">
+                            <li class="li" id="GUID-77031B4A-B8C8-4FD9-B301-55E8A2C26F81__GUID-B21201D0-F594-428E-8040-AB720546FE79">
+                                <p class="p"><span class="ph uicontrol">不校验</span>：不使用校验位。</p>
+
+                            </li>
+
+                            <li class="li" id="GUID-77031B4A-B8C8-4FD9-B301-55E8A2C26F81__GUID-4A661892-2FDC-487E-B399-7A9BFAADB431">
+                                <p class="p"><span class="ph uicontrol">奇校验</span>：在数据的最后添加一个校验位，使得数据中1的个数为奇数。接收方收到数据后，检查数据中1的个数是否为奇数，如果不符，则认为数据传输有误。</p>
+
+                            </li>
+
+                            <li class="li" id="GUID-77031B4A-B8C8-4FD9-B301-55E8A2C26F81__GUID-75D5F547-9739-4A50-A9A6-AD1B0D5B1DF5">
+                                <p class="p"><span class="ph uicontrol">偶校验</span>：在数据的最后添加一个校验位，使得数据中1的个数为偶数。接收方收到数据后，检查数据中1的个数是否为偶数，如果不符，则认为数据传输有误。</p>
+
+                            </li>
+
+                        </ul>
+
+                    </dd>
+
+                
+                
+                    <dt class="dt pt dlterm"><a name="GUID-77031B4A-B8C8-4FD9-B301-55E8A2C26F81__GUID-5B5A9E3D-D223-426D-9CF0-5E47A9E5F36A"><!-- --></a>串口停止位</dt>
+
+                    <dd class="dd pd">
+                        <p class="p">设置在字符传输后用于标识字符结束的位数，可选择<span class="ph uicontrol">1</span>或<span class="ph uicontrol">2</span>。</p>
+
+                    </dd>
+
+                
+            </dl>
+
+        </div>
+
+        <div class="section" id="GUID-77031B4A-B8C8-4FD9-B301-55E8A2C26F81__GUID-0695B869-61FA-467D-A039-1D7760ACA06B"><h2 class="title sectiontitle">TCP 客户端协议</h2>
+            
+            <p class="p">当需要读码器作为客户端主动连接外部设备进行数据传输时，需启用TCP
+                客户端协议并配置参数。TCP 客户端协议常用于需要可靠数据传输的场景。</p>
+
+            <p class="p">可配置参数说明如下：</p>
+
+            
+            <dl class="dl parml">
+                
+                    <dt class="dt pt dlterm"><a name="GUID-77031B4A-B8C8-4FD9-B301-55E8A2C26F81__GUID-DE488596-CC21-4A3D-97C4-65F19BE73B90"><!-- --></a>TCP目的地址</dt>
+
+                    <dd class="dd pd">
+                        <p class="p">设置读码器需要访问的服务器的IP地址。</p>
+
+                    </dd>
+
+                
+                
+                    <dt class="dt pt dlterm"><a name="GUID-77031B4A-B8C8-4FD9-B301-55E8A2C26F81__GUID-E8BEA947-299E-4C70-BB84-678172081501"><!-- --></a>TCP目的端口号</dt>
+
+                    <dd class="dd pd">
+                        <p class="p">设置读码器需要访问的服务器的端口号。</p>
+
+                    </dd>
+
+                
+                
+                    <dt class="dt pt dlterm"><a name="GUID-77031B4A-B8C8-4FD9-B301-55E8A2C26F81__GUID-5936B009-E8AE-4CD1-A369-8321911D34AE"><!-- --></a>TCP客户端指定端口</dt>
+
+                    <dd class="dd pd">
+                        <p class="p">开启后，可设置读码器传输数据的端口号。</p>
+
+                    </dd>
+
+                
+                
+                    <dt class="dt pt dlterm"><a name="GUID-77031B4A-B8C8-4FD9-B301-55E8A2C26F81__GUID-E828C410-B6F2-4E1D-9628-F822D7906846"><!-- --></a>心跳保护</dt>
+
+                    <dd class="dd pd">
+                        <p class="p">选择是否开启心跳保护，心跳保护用于检测客户端与服务器之间的连接状态，确保通信的可靠性和稳定性。如果选择开启可配置以下参数。</p>
+
+                        <dl class="dl parml">
+                            
+                                <dt class="dt pt dlterm"><a name="GUID-77031B4A-B8C8-4FD9-B301-55E8A2C26F81__d1058e35"><!-- --></a>条码数据作为心跳包</dt>
+
+                                <dd class="dd pd">
+                                    <p class="p">选择是否将读取的条码数据作为心跳包发送。</p>
+
+                                    <div class="note note" id="GUID-77031B4A-B8C8-4FD9-B301-55E8A2C26F81__d1058e45"><span class="notetitle">说明</span> 
+                                        <p class="p">同时开启<span class="ph uicontrol">条码数据作为心跳包</span>和配置<span class="keyword parmname">心跳字符串</span>时，优先发送条码数据作为心跳字符串，读码器未读码时，发送<span class="keyword parmname">心跳字符串</span>参数配置的内容。</p>
+
+                                    </div>
+
+                                </dd>
+
+                            
+                            
+                                <dt class="dt pt dlterm"><a name="GUID-77031B4A-B8C8-4FD9-B301-55E8A2C26F81__d1058e65"><!-- --></a>心跳字符串</dt>
+
+                                <dd class="dd pd">
+                                    <p class="p">自定义编辑心跳包发送内容。</p>
+
+                                </dd>
+
+                            
+                            
+                                <dt class="dt pt dlterm"><a name="GUID-77031B4A-B8C8-4FD9-B301-55E8A2C26F81__d1058e77"><!-- --></a>心跳包发送周期(s)</dt>
+
+                                <dd class="dd pd">
+                                    <p class="p">指定发送心跳包的时间间隔，单位为秒。</p>
+
+                                </dd>
+
+                            
+                        </dl>
+
+                    </dd>
+
+                
+            </dl>
+
+        </div>
+
+        <div class="section" id="GUID-77031B4A-B8C8-4FD9-B301-55E8A2C26F81__GUID-0E560F7C-CDF7-4BD4-9E92-0C003BC22BE9"><h2 class="title sectiontitle">FTP协议</h2>
+            
+            <p class="p">当需要将读码器生成的文件（如图片、读码结果文件）传输到服务器时，可启用FTP协议并配置参数。FTP协议常用于文件传输场景。</p>
+
+            <p class="p">可配置参数说明如下：</p>
+
+            <dl class="dl parml">
+                
+                    <dt class="dt pt dlterm"><a name="GUID-77031B4A-B8C8-4FD9-B301-55E8A2C26F81__GUID-BCF3F623-7DED-4DD5-AC0B-44FDD561DCD5"><!-- --></a>主机地址</dt>
+
+                    <dd class="dd pd">
+                        <p class="p">输入接收数据的FTP服务器IP地址。</p>
+
+                    </dd>
+
+                
+                
+                    <dt class="dt pt dlterm"><a name="GUID-77031B4A-B8C8-4FD9-B301-55E8A2C26F81__GUID-0F43B38B-F6C9-42C7-B265-C34C4CC3C06B"><!-- --></a>主机端口号</dt>
+
+                    <dd class="dd pd">
+                        <p class="p">设置接收数据的FTP服务器端口号。</p>
+
+                    </dd>
+
+                
+                
+                    <dt class="dt pt dlterm"><a name="GUID-77031B4A-B8C8-4FD9-B301-55E8A2C26F81__GUID-3BAAB84F-E9F6-4E4D-9A9E-CD49DC174EC9"><!-- --></a>用户名</dt>
+
+                    <dd class="dd pd">
+                        <p class="p">输入用于登录FTP服务器的用户名。</p>
+
+                    </dd>
+
+                
+                
+                    <dt class="dt pt dlterm"><a name="GUID-77031B4A-B8C8-4FD9-B301-55E8A2C26F81__GUID-16E9DCF6-EF90-4088-A1F0-4ABDFB96B909"><!-- --></a>用户密码</dt>
+
+                    <dd class="dd pd">
+                        <p class="p">输入用于登录FTP服务器的用户密码。</p>
+
+                    </dd>
+
+                
+                
+                    <dt class="dt pt dlterm"><a name="GUID-77031B4A-B8C8-4FD9-B301-55E8A2C26F81__GUID-D5187410-87F1-42CC-9E4D-F50ACCDF8114"><!-- --></a>无读存图格式</dt>
+
+                    <dd class="dd pd">
+                        <p class="p">读码器未读到码时存储到FTP服务器的图片格式。可选<span class="keyword parmname">JPGE</span>和<span class="keyword parmname">BMP</span>两种格式。</p>
+
+                        <div class="note note" id="GUID-77031B4A-B8C8-4FD9-B301-55E8A2C26F81__GUID-75BDD85E-A30F-46D1-AA6B-75D789CA9B49"><span class="notetitle">说明</span> 
+                            
+                            
+                            
+                            <p class="p"><span class="keyword parmname">FTP传输条件</span>选择<span class="keyword parmname">所有</span>或<span class="keyword parmname">没有读取条码</span>，且<span class="keyword parmname">传输内容</span>含有条码图片时可配置此参数。</p>
+
+                        </div>
+
+                    </dd>
+
+                
+                
+                    <dt class="dt pt dlterm"><a name="GUID-77031B4A-B8C8-4FD9-B301-55E8A2C26F81__GUID-4F8D4049-5AC4-41DE-A968-C788E4E79A66"><!-- --></a>输出选图策略</dt>
+
+                    <dd class="dd pd">
+                        <p class="p">用于选择读码结果对应图像的来源。可选<span class="keyword parmname">最新帧</span>和<span class="keyword parmname">特定帧</span>。</p>
+
+                        <div class="note note" id="GUID-77031B4A-B8C8-4FD9-B301-55E8A2C26F81__GUID-A0AAD84A-0A3E-4A04-8E4F-825EE5226404"><span class="notetitle">说明</span> 
+                            
+                            
+                            
+                            <p class="p">在<span class="ph menucascade"><span class="ph uicontrol">读取设置</span> &gt; <span class="ph uicontrol">快速配置</span></span>界面开启触发情况下可配置此参数。</p>
+
+                        </div>
+
+                    </dd>
+
+                
+                
+                    <dt class="dt pt dlterm"><a name="GUID-77031B4A-B8C8-4FD9-B301-55E8A2C26F81__GUID-C8D6EA2F-873D-49C4-A1A0-4DC3EB70B888"><!-- --></a>文件名编码格式</dt>
+
+                    <dd class="dd pd">
+                        <p class="p">选择存储到FTP服务器的文件名称编码格式。可选<span class="keyword parmname">UTF8</span>和<span class="keyword parmname">GB2312</span>。</p>
+
+                    </dd>
+
+                
+                
+                    <dt class="dt pt dlterm"><a name="GUID-77031B4A-B8C8-4FD9-B301-55E8A2C26F81__GUID-607AA0D6-4136-494A-95CE-AEFA71668938"><!-- --></a>FTP重传</dt>
+
+                    <dd class="dd pd">
+                        <p class="p">如果传输失败，选择是否自动尝试重新传输。</p>
+
+                    </dd>
+
+                
+                
+                    <dt class="dt pt dlterm"><a name="GUID-77031B4A-B8C8-4FD9-B301-55E8A2C26F81__GUID-4DE50BDD-293B-46B1-B7F0-2138FC5E7B15"><!-- --></a>FTP传输条件</dt>
+
+                    <dd class="dd pd">
+                        <p class="p">选择触发FTP传输文件的条件，可选如下条件。</p>
+
+                        <ul class="ul" id="GUID-77031B4A-B8C8-4FD9-B301-55E8A2C26F81__GUID-1EA1BF69-3939-4CF5-98D0-02D0B7327BBF">
+                            <li class="li" id="GUID-77031B4A-B8C8-4FD9-B301-55E8A2C26F81__GUID-B1142309-2BAA-43B3-B5AE-C02249B07BBF">
+                                <p class="p"><span class="ph uicontrol">所有</span>：无论读码结果如何，都进行传输。</p>
+
+                            </li>
+
+                            <li class="li" id="GUID-77031B4A-B8C8-4FD9-B301-55E8A2C26F81__GUID-FC7FF290-A79C-4705-AECD-FF91376AA4E3">
+                                <p class="p"><span class="ph uicontrol">读取条码</span>：成功读取到条码时，进行FTP传输。</p>
+
+                            </li>
+
+                            <li class="li" id="GUID-77031B4A-B8C8-4FD9-B301-55E8A2C26F81__GUID-E043ADC4-AB7F-4EBA-8F05-29BE64873535">
+                                <p class="p"><span class="ph uicontrol">没有读取条码</span>：未读取到条码时，进行FTP传输。</p>
+
+                            </li>
+
+                        </ul>
+
+                    </dd>
+
+                
+                
+                    <dt class="dt pt dlterm"><a name="GUID-77031B4A-B8C8-4FD9-B301-55E8A2C26F81__GUID-EDC6994F-22AD-4709-B4FE-2BE2B8B32E38"><!-- --></a>传输内容</dt>
+
+                    <dd class="dd pd">
+                        <p class="p">设置FTP传输文件时所包含的具体内容，可选择如下内容。</p>
+
+                        <ul class="ul" id="GUID-77031B4A-B8C8-4FD9-B301-55E8A2C26F81__GUID-89D1FE8A-7716-4208-B501-43D40F0D56C7">
+                            <li class="li" id="GUID-77031B4A-B8C8-4FD9-B301-55E8A2C26F81__GUID-520F5067-DBF0-418D-88D5-4B7D9A287D70">
+                                <p class="p"><span class="keyword parmname">仅包含结果</span>：仅传输条码的读取结果，以文件形式传输。</p>
+
+                            </li>
+
+                            <li class="li" id="GUID-77031B4A-B8C8-4FD9-B301-55E8A2C26F81__GUID-7676E1DE-19F5-4327-AFCC-FE136AE404E7">
+                                <p class="p"><span class="keyword parmname">仅包含图片</span>：仅传输条码的图像。</p>
+
+                            </li>
+
+                            <li class="li" id="GUID-77031B4A-B8C8-4FD9-B301-55E8A2C26F81__GUID-48B04883-238B-451F-8D03-F9FDDAC40B08">
+                                <p class="p"><span class="keyword parmname">结果和图片</span>：同时传输条码读取结果和图像文件。</p>
+
+                            </li>
+
+                        </ul>
+
+                    </dd>
+
+                
+                
+                    
+                    <dt class="dt pt dlterm"><a name="GUID-77031B4A-B8C8-4FD9-B301-55E8A2C26F81__GUID-EE72AECB-E1B3-4F4F-969F-707285475724"><!-- --></a>传输文件类型</dt>
+
+                    <dd class="dd pd">
+                        <p class="p">选择传输文件的类型，可选<span class="keyword parmname">csv文件</span>、<span class="keyword parmname">xls文件</span>、<span class="keyword parmname">txt文件</span>。</p>
+
+                        <div class="note note" id="GUID-77031B4A-B8C8-4FD9-B301-55E8A2C26F81__GUID-DA2654E4-2CFD-4633-ADC3-5F4F56BE0CA0"><span class="notetitle">说明</span> 
+                            <p class="p"><span class="keyword parmname">传输内容</span>选择<span class="keyword parmname">仅包含结果</span>或<span class="keyword parmname">结果和图片</span>时可配置此参数。</p>
+
+                        </div>
+
+                    </dd>
+
+                
+                
+                    
+                    <dt class="dt pt dlterm"><a name="GUID-77031B4A-B8C8-4FD9-B301-55E8A2C26F81__GUID-59E52374-3FD7-4A9F-98DF-6F68FA245577"><!-- --></a>FTP结果文件内容设置</dt>
+
+                    <dd class="dd pd">
+                        <p class="p">可对条码结果进行格式化配置。在<span class="ph menucascade"><span class="ph uicontrol">操作配置</span> &gt; <span class="ph uicontrol">数据处理</span> &gt; <span class="ph uicontrol">格式化配置</span></span>界面可自主勾选内容，勾选的内容将在此参数内容框中显示。具体操作可见<a class="xref" href="GUID-C3AE063C-E14B-4882-A14C-1A6B2F872C1E.html#GUID-C3AE063C-E14B-4882-A14C-1A6B2F872C1E" title="格式化配置功能支持通过通讯协议输出的数据按照特定的结构、样式或规则进行组织，包括添加或删除输出内容或字符、设置输出内容开始和结束部分等。">格式化配置</a>。</p>
+
+                        <div class="note note" id="GUID-77031B4A-B8C8-4FD9-B301-55E8A2C26F81__GUID-1B0574CE-5AFB-4F58-A816-8C462482906B"><span class="notetitle">说明</span> 
+                            <p class="p"><span class="keyword parmname">传输内容</span>选择<span class="keyword parmname">仅包含结果</span>或<span class="keyword parmname">结果和图片</span>时可配置此参数。</p>
+
+                        </div>
+
+                    </dd>
+
+                
+                
+                    
+                    <dt class="dt pt dlterm"><a name="GUID-77031B4A-B8C8-4FD9-B301-55E8A2C26F81__GUID-1F4EC679-9169-4233-93F2-45D44916C4DD"><!-- --></a>无读字符串</dt>
+
+                    <dd class="dd pd">
+                        <p class="p">可自定义未读取到条码时输出的内容。默认为“None”。</p>
+
+                        <div class="note note" id="GUID-77031B4A-B8C8-4FD9-B301-55E8A2C26F81__GUID-9D09997C-A435-4184-BB7E-F04A7108CA60"><span class="notetitle">说明</span> 
+                            <p class="p"><span class="keyword parmname">传输内容</span>选择<span class="keyword parmname">仅包含结果</span>或<span class="keyword parmname">结果和图片</span>时可配置此参数。</p>
+
+                        </div>
+
+                    </dd>
+
+                
+                
+                    <dt class="dt pt dlterm"><a name="GUID-77031B4A-B8C8-4FD9-B301-55E8A2C26F81__GUID-B731FC17-2932-4BD1-8618-DA80FE551377"><!-- --></a>传输无读选图策略</dt>
+
+                    <dd class="dd pd">
+                        <p class="p">在未读取到条码进行FTP传输（NoReadBarcode）时，设置传输哪些图像，可选择如下策略。</p>
+
+                        <div class="note note" id="GUID-77031B4A-B8C8-4FD9-B301-55E8A2C26F81__GUID-FAD394E2-5C57-4E19-B354-251A7172D60B"><span class="notetitle">说明</span> 
+                            
+                            <p class="p"><span class="ph uicontrol">传输条件</span>选择<span class="ph uicontrol">所有</span>或<span class="ph uicontrol">没有读取条码</span>，且<span class="keyword parmname">传出内容</span>选择<span class="keyword parmname">仅包含图片</span>或<span class="keyword parmname">结果和图片</span>时可配置此参数。</p>
+
+                        </div>
+
+                        <ul class="ul" id="GUID-77031B4A-B8C8-4FD9-B301-55E8A2C26F81__GUID-B18521CA-0274-4F46-8ABE-C571195AF371">
+                            <li class="li" id="GUID-77031B4A-B8C8-4FD9-B301-55E8A2C26F81__GUID-4E98AD78-8AC7-47A6-ABEF-508067CBF3F9">
+                                <p class="p"><span class="ph uicontrol">最新帧</span>：传输当前最新的图像帧。</p>
+
+                            </li>
+
+                            <li class="li" id="GUID-77031B4A-B8C8-4FD9-B301-55E8A2C26F81__GUID-838B044A-AE2D-4B1B-A6DF-1E35B44711EE">
+                                <p class="p"><span class="ph uicontrol">全部帧</span>：传输采集到的所有图像帧。</p>
+
+                            </li>
+
+                            <li class="li" id="GUID-77031B4A-B8C8-4FD9-B301-55E8A2C26F81__GUID-546F90AF-64C3-4055-863A-4D234B3218CE">
+                                <p class="p"><span class="ph uicontrol">指定范围帧</span>：传输指定范围内的图像帧，选择此策略需指定图像帧范围。</p>
+
+                            </li>
+
+                            <li class="li" id="GUID-77031B4A-B8C8-4FD9-B301-55E8A2C26F81__GUID-2BD43945-3106-4970-82A2-CF1F4E63CB47">
+                                <p class="p"><span class="ph uicontrol">特定帧</span>：传输指定的图像帧，选择此策略需通过<span class="ph uicontrol">帧索引</span>参数指定图像帧序号。</p>
+
+                            </li>
+
+                        </ul>
+
+                    </dd>
+
+                
+                
+                    
+                    <dt class="dt pt dlterm"><a name="GUID-77031B4A-B8C8-4FD9-B301-55E8A2C26F81__GUID-D64B7A49-E890-4BE0-A2FF-DD11ED9F198F"><!-- --></a>帧索引</dt>
+
+                    <dd class="dd pd">
+                        <p class="p">可通过输入数字精准选择需要处理或输出的特定帧画面。</p>
+
+                        <div class="note note" id="GUID-77031B4A-B8C8-4FD9-B301-55E8A2C26F81__GUID-FD9E2D29-5838-4494-9857-0309846225C5"><span class="notetitle">说明</span> <p class="p"><span class="keyword parmname">FTP传输条件</span>选择</p>
+<span class="keyword parmname">所有</span>或<span class="keyword parmname">没有读取条码</span>时可配置此参数。</div>
+
+                    </dd>
+
+                
+                
+                    <dt class="dt pt dlterm"><a name="GUID-77031B4A-B8C8-4FD9-B301-55E8A2C26F81__GUID-EE605DBA-3AA5-4A06-A3AD-3F2344461765"><!-- --></a>OK/NG存图目录</dt>
+
+                    <dd class="dd pd">
+                        <p class="p">选择是否根据读码结果（OK或NG）将文件分别存储到不同的目录中。</p>
+
+                    </dd>
+
+                
+                
+                    <dt class="dt pt dlterm"><a name="GUID-77031B4A-B8C8-4FD9-B301-55E8A2C26F81__GUID-68199727-979D-4BAF-8337-E0C7D625E800"><!-- --></a>传输时间格式</dt>
+
+                    <dd class="dd pd">
+                        <p class="p">选择FTP传输时文件所附带的时间戳的格式。</p>
+
+                    </dd>
+
+                
+                
+                    <dt class="dt pt dlterm"><a name="GUID-77031B4A-B8C8-4FD9-B301-55E8A2C26F81__GUID-3FCDDF7F-9189-43A2-94E9-0B0726950192"><!-- --></a>FTP上传路径</dt>
+
+                    <dd class="dd pd">
+                        <p class="p">自定义FTP传输时的文件路径。</p>
+
+                        <div class="note note" id="GUID-77031B4A-B8C8-4FD9-B301-55E8A2C26F81__GUID-F8D9E7BE-215C-4C0F-BA2D-E1B5420B3A07"><span class="notetitle">说明</span> 
+                            <p class="p">可通过格式化配置功能定义，详情请参见<a class="xref" href="GUID-C3AE063C-E14B-4882-A14C-1A6B2F872C1E.html#GUID-C3AE063C-E14B-4882-A14C-1A6B2F872C1E" title="格式化配置功能支持通过通讯协议输出的数据按照特定的结构、样式或规则进行组织，包括添加或删除输出内容或字符、设置输出内容开始和结束部分等。">格式化配置</a>。</p>
+
+                        </div>
+
+                    </dd>
+
+                
+                
+                    <dt class="dt pt dlterm"><a name="GUID-77031B4A-B8C8-4FD9-B301-55E8A2C26F81__GUID-7BC80223-A6C7-4291-AD0A-857CCCBE07C5"><!-- --></a>FTP传输图片名称</dt>
+
+                    <dd class="dd pd">
+                        <p class="p">自定义FTP传输时的图片名称。</p>
+
+                        <div class="note note" id="GUID-77031B4A-B8C8-4FD9-B301-55E8A2C26F81__GUID-CCD0A700-D0F3-4CFB-96A2-2EDA50101567"><span class="notetitle">说明</span> 
+                            <p class="p">可通过格式化配置功能定义，详情请参见<a class="xref" href="GUID-C3AE063C-E14B-4882-A14C-1A6B2F872C1E.html#GUID-C3AE063C-E14B-4882-A14C-1A6B2F872C1E" title="格式化配置功能支持通过通讯协议输出的数据按照特定的结构、样式或规则进行组织，包括添加或删除输出内容或字符、设置输出内容开始和结束部分等。">格式化配置</a>。</p>
+
+                        </div>
+
+                    </dd>
+
+                
+                
+                    <dt class="dt pt dlterm"><a name="GUID-77031B4A-B8C8-4FD9-B301-55E8A2C26F81__GUID-58E0B3EA-0E93-4EE1-80B6-BB64110B0CF6"><!-- --></a>有码无读存图使能</dt>
+
+                    <dd class="dd pd">
+                        <p class="p">开启后，IDMVS会保存读码器检测到但未成功解码的图像。</p>
+
+                        <div class="note note" id="GUID-77031B4A-B8C8-4FD9-B301-55E8A2C26F81__GUID-623C1929-2DFE-42A6-A1A9-46F19E89E5D4"><span class="notetitle">说明</span> 
+                            
+                            
+                            
+                            <p class="p">在<span class="ph menucascade"><span class="ph uicontrol">读取设置</span> &gt; <span class="ph uicontrol">快速配置</span></span>界面开启触发时可配置此参数。</p>
+
+                        </div>
+
+                    </dd>
+
+                
+            </dl>
+
+        </div>
+
+        <div class="section" id="GUID-77031B4A-B8C8-4FD9-B301-55E8A2C26F81__GUID-23349023-CE4D-4468-81BE-572A6F0224BE"><h2 class="title sectiontitle">TCP 服务端协议</h2>
+            
+            
+            <p class="p">当需要读码器作为服务器，响应客户端的请求进行数据传输时，需启用TCP
+                服务端协议并配置参数。</p>
+
+            <p class="p">可配置参数说明如下：</p>
+
+            <dl class="dl parml">
+                
+                    <dt class="dt pt dlterm"><a name="GUID-77031B4A-B8C8-4FD9-B301-55E8A2C26F81__GUID-66D5F6AF-0609-48B9-A8DE-F88583897923"><!-- --></a>TCP服务器端口号</dt>
+
+                    <dd class="dd pd">
+                        <p class="p">设置读码器作为TCP服务器进行数据传输的端口号。</p>
+
+                    </dd>
+
+                
+                
+                    <dt class="dt pt dlterm"><a name="GUID-77031B4A-B8C8-4FD9-B301-55E8A2C26F81__GUID-2D28FA94-7932-43FE-AAB4-DE4F714D56B5"><!-- --></a>TCP服务端自动重连</dt>
+
+                    <dd class="dd pd">
+                        <p class="p">当与客户端连接中断后，设置是否自动尝试重新连接。</p>
+
+                    </dd>
+
+                
+                
+                    <dt class="dt pt dlterm"><a name="GUID-77031B4A-B8C8-4FD9-B301-55E8A2C26F81__GUID-4136A214-1E51-4B01-9A2E-D2BFA334F673"><!-- --></a>心跳保护</dt>
+
+                    <dd class="dd pd">
+                        <p class="p">选择是否开启心跳保护，心跳保护用于检测客户端与服务器之间的连接状态，确保通信的可靠性和稳定性。如果选择开启可配置以下参数。</p>
+
+                        <dl class="dl parml">
+                            
+                                <dt class="dt pt dlterm"><a name="GUID-77031B4A-B8C8-4FD9-B301-55E8A2C26F81__d1058e35"><!-- --></a>条码数据作为心跳包</dt>
+
+                                <dd class="dd pd">
+                                    <p class="p">选择是否将读取的条码数据作为心跳包发送。</p>
+
+                                    <div class="note note" id="GUID-77031B4A-B8C8-4FD9-B301-55E8A2C26F81__d1058e45"><span class="notetitle">说明</span> 
+                                        <p class="p">同时开启<span class="ph uicontrol">条码数据作为心跳包</span>和配置<span class="keyword parmname">心跳字符串</span>时，优先发送条码数据作为心跳字符串，读码器未读码时，发送<span class="keyword parmname">心跳字符串</span>参数配置的内容。</p>
+
+                                    </div>
+
+                                </dd>
+
+                            
+                            
+                                <dt class="dt pt dlterm"><a name="GUID-77031B4A-B8C8-4FD9-B301-55E8A2C26F81__d1058e65"><!-- --></a>心跳字符串</dt>
+
+                                <dd class="dd pd">
+                                    <p class="p">自定义编辑心跳包发送内容。</p>
+
+                                </dd>
+
+                            
+                            
+                                <dt class="dt pt dlterm"><a name="GUID-77031B4A-B8C8-4FD9-B301-55E8A2C26F81__d1058e77"><!-- --></a>心跳包发送周期(s)</dt>
+
+                                <dd class="dd pd">
+                                    <p class="p">指定发送心跳包的时间间隔，单位为秒。</p>
+
+                                </dd>
+
+                            
+                        </dl>
+
+                    </dd>
+
+                
+            </dl>
+
+        </div>
+
+        <div class="section" id="GUID-77031B4A-B8C8-4FD9-B301-55E8A2C26F81__GUID-005B1555-3D04-4C61-A12B-6BA401C87AFE"><h2 class="title sectiontitle">Profinet协议</h2>
+            
+            <p class="p">Profinet是一种用于工业自动化的以太网通信协议，支持高速、实时的数据传输。当需要与支持Profinet协议的PLC或其他工业设备进行通信时，可以启用Profinet协议并配置参数。</p>
+
+            <div class="note note" id="GUID-77031B4A-B8C8-4FD9-B301-55E8A2C26F81__GUID-F08EF565-3109-44AA-A4A8-79674BCE0351"><span class="notetitle">说明</span> 
+                
+                <p class="p">PLC配置中的设备IP地址必须和IDMVS中读码器的IP地址不相同，否则会导致通信异常。</p>
+
+            </div>
+
+            <p class="p">可配置参数说明如下：</p>
+
+            <dl class="dl parml">
+                
+                    <dt class="dt pt dlterm"><a name="GUID-77031B4A-B8C8-4FD9-B301-55E8A2C26F81__GUID-E5A00D6E-93CD-4296-99E1-6B41510DAB08"><!-- --></a>Profinet设备名称</dt>
+
+                    <dd class="dd pd">
+                        <p class="p">自定义读码器在Profinet网络中的设备名称，此名称用于在Profinet网络中区分不同的设备，所以请确保设备名称唯一。</p>
+
+                    </dd>
+
+                
+                
+                    <dt class="dt pt dlterm"><a name="GUID-77031B4A-B8C8-4FD9-B301-55E8A2C26F81__GUID-E5A8B9F7-FF31-4A31-A057-E8F05B6DA00F"><!-- --></a>结果区域大小</dt>
+
+                    <dd class="dd pd">
+                        <p class="p">选择读码器在Profinet通信中用于数据交换的缓冲区大小，请根据实际情况合理选择结果区域大小。</p>
+
+                        <ul class="ul" id="GUID-77031B4A-B8C8-4FD9-B301-55E8A2C26F81__GUID-D74B2037-80B9-4161-BFBD-3E006EAF2922">
+                            <li class="li" id="GUID-77031B4A-B8C8-4FD9-B301-55E8A2C26F81__GUID-B62DD669-1D6F-4738-BF17-B16195B74940">
+                                <p class="p">过小的结果区域可能导致缓冲区不足以存储所有需要传输的数据，从而导致数据丢失或不完整的数据传输。</p>
+
+                            </li>
+
+                            <li class="li" id="GUID-77031B4A-B8C8-4FD9-B301-55E8A2C26F81__GUID-47D6EAA3-C579-40D4-9C07-AC21F991490C">
+                                <p class="p">过大的结果区域会占用更多的内存资源，可能导致设备内存不足，影响其他功能的运行。</p>
+
+                            </li>
+
+                        </ul>
+
+                    </dd>
+
+                
+                
+                    <dt class="dt pt dlterm"><a name="GUID-77031B4A-B8C8-4FD9-B301-55E8A2C26F81__GUID-8B84BEE7-210B-43F1-9748-A8C33EA0D119"><!-- --></a>响应等待时间(s)</dt>
+
+                    <dd class="dd pd">
+                        <p class="p">设置读码器在发送请求后等待响应的时间。如果在此时间内未收到响应，读码器将认为通信超时。</p>
+
+                    </dd>
+
+                
+            </dl>
+
+        </div>
+
+        <div class="section" id="GUID-77031B4A-B8C8-4FD9-B301-55E8A2C26F81__GUID-BD11604D-E07B-4FB9-ACBB-F0BA6E95415F"><h2 class="title sectiontitle">Melsec/SLMP协议</h2>
+            
+            <p class="p">Melsec/SLMP协议是三菱电机开发的一种用于PLC通信的协议，支持高速数据传输和设备控制。当需要与三菱PLC进行通信时，可以启用Melsec/SLMP协议并配置参数。</p>
+
+            <p class="p">可配置参数说明如下：</p>
+
+            <dl class="dl parml">
+                
+                    <dt class="dt pt dlterm"><a name="GUID-77031B4A-B8C8-4FD9-B301-55E8A2C26F81__GUID-45A91555-AC1A-4686-8264-4D634F38D0CC"><!-- --></a>PLC地址</dt>
+
+                    <dd class="dd pd">
+                        <p class="p">设置读码器连接PLC的IP地址。</p>
+
+                    </dd>
+
+                
+                
+                    <dt class="dt pt dlterm"><a name="GUID-77031B4A-B8C8-4FD9-B301-55E8A2C26F81__GUID-71B2ADC2-7237-4278-A7B6-7E2F6A3D1D71"><!-- --></a>服务器端口号</dt>
+
+                    <dd class="dd pd">
+                        <p class="p">设置读码器连接PLC的端口。</p>
+
+                    </dd>
+
+                
+                
+                    <dt class="dt pt dlterm"><a name="GUID-77031B4A-B8C8-4FD9-B301-55E8A2C26F81__GUID-96C46B6D-8FAE-4AC2-9B95-700A032D3AF9"><!-- --></a>消息帧类型</dt>
+
+                    <dd class="dd pd">
+                        <p class="p">设置读码器在Melsec/SLMP协议中使用的通信帧格式。</p>
+
+                    </dd>
+
+                
+                
+                    <dt class="dt pt dlterm"><a name="GUID-77031B4A-B8C8-4FD9-B301-55E8A2C26F81__GUID-9A986F4A-C846-4BAC-B35A-34E103156881"><!-- --></a>网络编号</dt>
+
+                    <dd class="dd pd">
+                        <p class="p">设置读码器在Melsec/SLMP网络中的网络标识。</p>
+
+                    </dd>
+
+                
+                
+                    <dt class="dt pt dlterm"><a name="GUID-77031B4A-B8C8-4FD9-B301-55E8A2C26F81__GUID-9C2AD698-08C8-443F-9856-CB3F292E9B87"><!-- --></a>PLC编号</dt>
+
+                    <dd class="dd pd">
+                        <p class="p">设置目标PLC的唯一标识符，以确保读码器能够正确地寻址和通信。</p>
+
+                    </dd>
+
+                
+                
+                    <dt class="dt pt dlterm"><a name="GUID-77031B4A-B8C8-4FD9-B301-55E8A2C26F81__GUID-E14C3907-C9A6-4E92-8DD6-5E951C9A6A34"><!-- --></a>PLC目标IO编号</dt>
+
+                    <dd class="dd pd">
+                        <p class="p">设置读码器在Melsec/SLMP协议中用于数据交换的输入/输出寄存器的起始编号。</p>
+
+                    </dd>
+
+                
+                
+                    <dt class="dt pt dlterm"><a name="GUID-77031B4A-B8C8-4FD9-B301-55E8A2C26F81__GUID-0978F817-C962-4D4E-B379-66F47E5D39AC"><!-- --></a>刷新速率</dt>
+
+                    <dd class="dd pd">
+                        <p class="p">设置读码器与PLC等外部设备之间数据同步的频率。</p>
+
+                    </dd>
+
+                
+                
+                    <dt class="dt pt dlterm"><a name="GUID-77031B4A-B8C8-4FD9-B301-55E8A2C26F81__GUID-C845DC0D-FA43-47A3-BBDD-FF30BA12A9F7"><!-- --></a>控制区域地址偏移</dt>
+
+                    <dd class="dd pd">
+                        <p class="p">设置读码器在对应通讯协议网络中的控制数据寄存器地址偏移，即定义在网络中的控制数据起始位置，以确保能够正确地与外部设备进行通信。</p>
+
+                    </dd>
+
+                
+                
+                    <dt class="dt pt dlterm"><a name="GUID-77031B4A-B8C8-4FD9-B301-55E8A2C26F81__GUID-41A7E8D3-94E0-42B2-B265-B9E43C408645"><!-- --></a>状态区域地址偏移</dt>
+
+                    <dd class="dd pd">
+                        <p class="p">设置读码器在对应通讯协议网络中的状态数据寄存器地址偏移，即定义在网络中的状态数据起始位置，确保状态数据能够被正确地读取和写入。</p>
+
+                    </dd>
+
+                
+                
+                    <dt class="dt pt dlterm"><a name="GUID-77031B4A-B8C8-4FD9-B301-55E8A2C26F81__GUID-1CF2D24A-197C-4276-ACDC-39A788ADE2DA"><!-- --></a>结果区域地址偏移</dt>
+
+                    <dd class="dd pd">
+                        <p class="p">设置读码器在对应通讯协议网络中的结果数据寄存器地址偏移，即定义在网络中的结果数据起始位置，确保读码结果或其他输出数据能够被正确地读取。</p>
+
+                    </dd>
+
+                
+                
+                    <dt class="dt pt dlterm"><a name="GUID-77031B4A-B8C8-4FD9-B301-55E8A2C26F81__GUID-5095683E-C6DB-4349-8A0F-A3B58ED3D413"><!-- --></a>结果区域大小(word)</dt>
+
+                    <dd class="dd pd">
+                        <p class="p">设置读码器在对应通讯协议网络中用于结果数据的寄存器数量，以word为单位。此参数决定可以输出的结果数据的容量。</p>
+
+                    </dd>
+
+                
+                
+                    <dt class="dt pt dlterm"><a name="GUID-77031B4A-B8C8-4FD9-B301-55E8A2C26F81__GUID-7D727086-2BB7-442D-B76F-BB88D802CF27"><!-- --></a>字节交换大小端</dt>
+
+                    <dd class="dd pd">
+                        <p class="p">选择数据传输时是否交互字节传输顺序。开启后，字节按大端模式（Big Endian）传输，即高位字节先传输，低位字节后传输；小端模式（Little
+                            Endian）则相反。</p>
+
+                    </dd>
+
+                
+                
+                    <dt class="dt pt dlterm"><a name="GUID-77031B4A-B8C8-4FD9-B301-55E8A2C26F81__GUID-E377AE4D-BE30-46D3-9472-03CEDD97A9BA"><!-- --></a>响应等待时间(s)</dt>
+
+                    <dd class="dd pd">
+                        <p class="p">设置读码器在发送请求后等待响应的时间。如果在此时间内未收到响应，读码器将认为通信超时。</p>
+
+                    </dd>
+
+                
+            </dl>
+
+        </div>
+
+        <div class="section" id="GUID-77031B4A-B8C8-4FD9-B301-55E8A2C26F81__GUID-EE795607-CF99-40C2-B8EA-954BC7969BAD"><h2 class="title sectiontitle">EthernetIP协议</h2>
+            
+            <p class="p">EthernetIP协议是一种用于工业自动化的以太网通信协议，支持高速、实时的数据传输和设备控制。当需要与支持EthernetIP协议的PLC或其他工业设备进行通信，可以启用EthernetIP协议并配置参数。</p>
+
+            <p class="p">可配置参数说明如下：</p>
+
+            <dl class="dl parml">
+                
+                    <dt class="dt pt dlterm"><a name="GUID-77031B4A-B8C8-4FD9-B301-55E8A2C26F81__GUID-C627632D-78F6-46F0-832E-5E67CA73B18A"><!-- --></a>输入数据大小(Byte)</dt>
+
+                    <dd class="dd pd">
+                        <p class="p">设置读码器从PLC或其他设备接收数据时的缓冲区大小，以字节为单位。此参数决定了能够接收的最大数据量。</p>
+
+                    </dd>
+
+                
+                
+                    <dt class="dt pt dlterm"><a name="GUID-77031B4A-B8C8-4FD9-B301-55E8A2C26F81__GUID-58607B4E-EFE9-40C6-B2D5-15E47D35687E"><!-- --></a>输出数据大小(Byte)</dt>
+
+                    <dd class="dd pd">
+                        <p class="p">设置读码器发送数据到PLC或其他设备时的缓冲区大小，以字节为单位。此参数决定了能够发送的最大数据量。</p>
+
+                    </dd>
+
+                
+                
+                    <dt class="dt pt dlterm"><a name="GUID-77031B4A-B8C8-4FD9-B301-55E8A2C26F81__GUID-75B7B2EF-D827-4EC6-9273-6A85DF89DC11"><!-- --></a>字节交换大小端</dt>
+
+                    <dd class="dd pd">
+                        <p class="p">选择数据传输时是否交互字节传输顺序。开启后，字节按大端模式（Big Endian）传输，即高位字节先传输，低位字节后传输；小端模式（Little
+                            Endian）则相反。</p>
+
+                    </dd>
+
+                
+                
+                    <dt class="dt pt dlterm"><a name="GUID-77031B4A-B8C8-4FD9-B301-55E8A2C26F81__GUID-2798C666-990F-4E6B-8E43-287B4DC9C903"><!-- --></a>响应等待时间(s)</dt>
+
+                    <dd class="dd pd">
+                        <p class="p">设置读码器在发送请求后等待响应的时间。如果在此时间内未收到响应，读码器将认为通信超时。</p>
+
+                    </dd>
+
+                
+            </dl>
+
+        </div>
+
+        <div class="section" id="GUID-77031B4A-B8C8-4FD9-B301-55E8A2C26F81__GUID-89BEF611-490E-48C1-9D26-09D4539C95B8"><h2 class="title sectiontitle">ModBus协议</h2>
+            
+            <p class="p">ModBus协议是一种常用的工业通信协议。当需要与支持ModBus协议的PLC或其他工业设备进行通信，可以启用ModBus协议并配置参数。</p>
+
+            <p class="p">可配置参数说明如下：</p>
+
+            <dl class="dl parml">
+                
+                    <dt class="dt pt dlterm"><a name="GUID-77031B4A-B8C8-4FD9-B301-55E8A2C26F81__GUID-386BE22D-765C-4722-B5B7-574FA18584A4"><!-- --></a>输出模式</dt>
+
+                    <dd class="dd pd">
+                        <p class="p">设置读码器在ModBus协议下的模式，可选择<span class="ph uicontrol">服务端</span>或<span class="ph uicontrol">客户端</span>。</p>
+
+                        <ul class="ul" id="GUID-77031B4A-B8C8-4FD9-B301-55E8A2C26F81__GUID-B8D94745-F36F-4C90-A2F0-9132AF9BADD4">
+                            <li class="li" id="GUID-77031B4A-B8C8-4FD9-B301-55E8A2C26F81__GUID-3EF826EB-94BC-42D4-B8AF-E68A9F137B59">
+                                <p class="p"><span class="ph uicontrol">服务端</span>：响应外部设备的请求。</p>
+
+                            </li>
+
+                            <li class="li" id="GUID-77031B4A-B8C8-4FD9-B301-55E8A2C26F81__GUID-20968412-016E-4BF2-8A35-3EDB6FC79366">
+                                <p class="p"><span class="ph uicontrol">客户端</span>：主动发起连接请求，向服务端发送读取或写入的请求，并处理接收到的响应数据。选择客户端模式后，可配置如下参数。</p>
+
+                                <dl class="dl parml">
+                                    
+                                        <dt class="dt pt dlterm"><a name="GUID-77031B4A-B8C8-4FD9-B301-55E8A2C26F81__GUID-89ED5A0B-CE58-498E-8167-6EDB4463AD19"><!-- --></a>服务器地址</dt>
+
+                                        <dd class="dd pd">
+                                            <p class="p">输入ModBus服务器（即PLC或其他设备）的IP地址。</p>
+
+                                        </dd>
+
+                                    
+                                    
+                                        <dt class="dt pt dlterm"><a name="GUID-77031B4A-B8C8-4FD9-B301-55E8A2C26F81__GUID-EBF791CC-C0F5-4023-8B35-00747D684B5E"><!-- --></a>服务器端口号</dt>
+
+                                        <dd class="dd pd">
+                                            <p class="p">设置ModBus服务器端口号。</p>
+
+                                        </dd>
+
+                                    
+                                    
+                                        <dt class="dt pt dlterm"><a name="GUID-77031B4A-B8C8-4FD9-B301-55E8A2C26F81__GUID-7BAA1450-2A6A-4AFD-85AA-69985D61E61D"><!-- --></a>刷新速率(ms)</dt>
+
+                                        <dd class="dd pd">
+                                            <p class="p">设置读码器与服务器之间数据同步的频率。</p>
+
+                                        </dd>
+
+                                    
+                                    
+                                        <dt class="dt pt dlterm"><a name="GUID-77031B4A-B8C8-4FD9-B301-55E8A2C26F81__GUID-698745CE-30A9-4B0D-B138-9F81A0DED62A"><!-- --></a>从机地址</dt>
+
+                                        <dd class="dd pd">
+                                            <p class="p">设置读码器在ModBus网络中的标识号。在ModBus通信中，每个客户端都有一个唯一的标识号，用于区分不同的设备。</p>
+
+                                        </dd>
+
+                                    
+                                    
+                    <dt class="dt pt dlterm"><a name="GUID-77031B4A-B8C8-4FD9-B301-55E8A2C26F81__GUID-A55BEEAB-1D4E-40D0-AF8B-4DB45D0878B9"><!-- --></a>控制区域地址偏移</dt>
+
+                    <dd class="dd pd">
+                        <p class="p">设置读码器在对应通讯协议网络中的控制数据寄存器地址偏移，即定义在网络中的控制数据起始位置，以确保能够正确地与外部设备进行通信。</p>
+
+                    </dd>
+
+                
+                                    
+                    <dt class="dt pt dlterm"><a name="GUID-77031B4A-B8C8-4FD9-B301-55E8A2C26F81__GUID-A040D1C5-3D8C-4E08-82DF-2517BC561E39"><!-- --></a>状态区域地址偏移</dt>
+
+                    <dd class="dd pd">
+                        <p class="p">设置读码器在对应通讯协议网络中的状态数据寄存器地址偏移，即定义在网络中的状态数据起始位置，确保状态数据能够被正确地读取和写入。</p>
+
+                    </dd>
+
+                
+                                    
+                    <dt class="dt pt dlterm"><a name="GUID-77031B4A-B8C8-4FD9-B301-55E8A2C26F81__GUID-66762641-C98B-48DD-933A-334BD8183243"><!-- --></a>结果区域地址偏移</dt>
+
+                    <dd class="dd pd">
+                        <p class="p">设置读码器在对应通讯协议网络中的结果数据寄存器地址偏移，即定义在网络中的结果数据起始位置，确保读码结果或其他输出数据能够被正确地读取。</p>
+
+                    </dd>
+
+                
+                                </dl>
+
+                            </li>
+
+                        </ul>
+
+                    </dd>
+
+                
+                
+                    <dt class="dt pt dlterm"><a name="GUID-77031B4A-B8C8-4FD9-B301-55E8A2C26F81__GUID-FC0E55B5-118B-43F4-A0F3-4115E283B779"><!-- --></a>结果区域大小(word)</dt>
+
+                    <dd class="dd pd">
+                        <p class="p">设置读码器在对应通讯协议网络中用于结果数据的寄存器数量，以word为单位。此参数决定可以输出的结果数据的容量。</p>
+
+                    </dd>
+
+                
+                
+                    <dt class="dt pt dlterm"><a name="GUID-77031B4A-B8C8-4FD9-B301-55E8A2C26F81__GUID-4CBDD22D-FDE3-4A20-BB69-03685CF4FC02"><!-- --></a>字节交换大小端</dt>
+
+                    <dd class="dd pd">
+                        <p class="p">选择数据传输时是否交互字节传输顺序。开启后，字节按大端模式（Big Endian）传输，即高位字节先传输，低位字节后传输；小端模式（Little
+                            Endian）则相反。</p>
+
+                    </dd>
+
+                
+                
+                    <dt class="dt pt dlterm"><a name="GUID-77031B4A-B8C8-4FD9-B301-55E8A2C26F81__GUID-E475B80E-36BF-419D-AB42-940B19D59714"><!-- --></a>响应等待时间(s)</dt>
+
+                    <dd class="dd pd">
+                        <p class="p">设置读码器在发送请求后等待响应的时间。如果在此时间内未收到响应，读码器将认为通信超时。</p>
+
+                    </dd>
+
+                
+            </dl>
+
+        </div>
+
+        <div class="section" id="GUID-77031B4A-B8C8-4FD9-B301-55E8A2C26F81__GUID-F7828674-291F-4919-8468-DB6BA1AADDFF"><h2 class="title sectiontitle">UDP协议</h2>
+            
+            <p class="p">UDP协议是一种无连接的网络传输协议，当需要快速传输数据且对数据丢失不敏感时，可以启用UDP协议并配置参数。</p>
+
+            <p class="p">可配置参数说明如下：</p>
+
+            <dl class="dl parml">
+                
+                    <dt class="dt pt dlterm"><a name="GUID-77031B4A-B8C8-4FD9-B301-55E8A2C26F81__GUID-0B5C917F-9309-4852-BE57-5717FB4E5DA9"><!-- --></a>UDP目的地址</dt>
+
+                    <dd class="dd pd">
+                        <p class="p">设置接收数据的外部设备IP，读码器将通过UDP协议将数据发送到此IP地址对应的设备。</p>
+
+                    </dd>
+
+                
+                
+                    <dt class="dt pt dlterm"><a name="GUID-77031B4A-B8C8-4FD9-B301-55E8A2C26F81__GUID-5AF1DCCF-491D-4C71-B8ED-EC7994C68FC9"><!-- --></a>UDP目的端口号</dt>
+
+                    <dd class="dd pd">
+                        <p class="p">设置接收数据的外部设备端口号，读码器将通过UDP协议将数据发送到此端口。</p>
+
+                    </dd>
+
+                
+            </dl>
+
+        </div>
+
+        <div class="section" id="GUID-77031B4A-B8C8-4FD9-B301-55E8A2C26F81__GUID-648D70E2-55BB-43E8-BDAC-C898BB759C51"><h2 class="title sectiontitle">Fins协议</h2>
+            
+            <p class="p">Fins协议是富士电机开发的一种用于PLC通信的协议，支持高速数据传输和设备控制。当需要与富士PLC进行通信时，可以启用Fins协议并配置参数。</p>
+
+            <p class="p">可配置参数说明如下：</p>
+
+            <dl class="dl parml">
+                
+                    <dt class="dt pt dlterm"><a name="GUID-77031B4A-B8C8-4FD9-B301-55E8A2C26F81__GUID-DAC57727-B8C9-43DD-95A5-D1F580A2B1C6"><!-- --></a>Fins通信方式</dt>
+
+                    <dd class="dd pd">
+                        <p class="p">选择使用Fins通讯协议时的通信方式，可选如下方式。</p>
+
+                        <ul class="ul" id="GUID-77031B4A-B8C8-4FD9-B301-55E8A2C26F81__UL_JPM_1TB_52C">
+                            <li class="li" id="GUID-77031B4A-B8C8-4FD9-B301-55E8A2C26F81__GUID-FE4D69CB-29CA-403F-8CEF-BA2F820B1AC3">
+                                <p class="p"><span class="ph uicontrol">UDP</span>：UDP通信方式具有较快的传输速度，但数据通信的可靠性没有TCP协议高。适用于对实时性要求较高，可以容忍一些数据丢失的场景。</p>
+
+                            </li>
+
+                            <li class="li" id="GUID-77031B4A-B8C8-4FD9-B301-55E8A2C26F81__GUID-B0108FCE-BED6-4D3D-BBE5-F61949111EEE">
+                                <p class="p"><span class="ph uicontrol">TCP</span>：TCP通信方式的可靠性比UDP高，适用于对数据完整性和传输顺序有要求的场景。</p>
+
+                            </li>
+
+                        </ul>
+
+                    </dd>
+
+                
+                
+                    <dt class="dt pt dlterm"><a name="GUID-77031B4A-B8C8-4FD9-B301-55E8A2C26F81__GUID-1DAAA171-8996-4C5E-86CA-168B43DB7068"><!-- --></a>服务器地址</dt>
+
+                    <dd class="dd pd">
+                        <p class="p">输入读码器连接目标服务器（即PLC或其他设备）的IP地址。</p>
+
+                    </dd>
+
+                
+                
+                    <dt class="dt pt dlterm"><a name="GUID-77031B4A-B8C8-4FD9-B301-55E8A2C26F81__GUID-7EFD0E88-6991-4896-B906-7D21B02B53D0"><!-- --></a>服务器端口号</dt>
+
+                    <dd class="dd pd">
+                        <p class="p">设置读码器连接目标服务器的端口号。</p>
+
+                    </dd>
+
+                
+                
+                    <dt class="dt pt dlterm"><a name="GUID-77031B4A-B8C8-4FD9-B301-55E8A2C26F81__GUID-7F6070A8-EB6D-4E04-BCFA-00EDDC2D8BFA"><!-- --></a>刷新速率(ms)</dt>
+
+                    <dd class="dd pd">
+                        <p class="p">设置读码器与服务器之间数据同步的频率。</p>
+
+                    </dd>
+
+                
+                
+                    <dt class="dt pt dlterm"><a name="GUID-77031B4A-B8C8-4FD9-B301-55E8A2C26F81__GUID-03FCB74A-8818-41E7-9CEC-B1729BA1DB6D"><!-- --></a>控制区域地址偏移</dt>
+
+                    <dd class="dd pd">
+                        <p class="p">设置读码器在对应通讯协议网络中的控制数据寄存器地址偏移，即定义在网络中的控制数据起始位置，以确保能够正确地与外部设备进行通信。</p>
+
+                    </dd>
+
+                
+                
+                    <dt class="dt pt dlterm"><a name="GUID-77031B4A-B8C8-4FD9-B301-55E8A2C26F81__GUID-4DD9646A-4266-4FB2-955E-C4D498D687EB"><!-- --></a>状态区域地址偏移</dt>
+
+                    <dd class="dd pd">
+                        <p class="p">设置读码器在对应通讯协议网络中的状态数据寄存器地址偏移，即定义在网络中的状态数据起始位置，确保状态数据能够被正确地读取和写入。</p>
+
+                    </dd>
+
+                
+                
+                    <dt class="dt pt dlterm"><a name="GUID-77031B4A-B8C8-4FD9-B301-55E8A2C26F81__GUID-789FCEEC-4CE2-4EB1-B188-CB1DFE699230"><!-- --></a>结果区域地址偏移</dt>
+
+                    <dd class="dd pd">
+                        <p class="p">设置读码器在对应通讯协议网络中的结果数据寄存器地址偏移，即定义在网络中的结果数据起始位置，确保读码结果或其他输出数据能够被正确地读取。</p>
+
+                    </dd>
+
+                
+                
+                    <dt class="dt pt dlterm"><a name="GUID-77031B4A-B8C8-4FD9-B301-55E8A2C26F81__GUID-9F2F79B0-3926-44EE-9CDB-F6A9F0B4DA86"><!-- --></a>结果区域大小(word)</dt>
+
+                    <dd class="dd pd">
+                        <p class="p">设置读码器在对应通讯协议网络中用于结果数据的寄存器数量，以word为单位。此参数决定可以输出的结果数据的容量。</p>
+
+                    </dd>
+
+                
+                
+                    <dt class="dt pt dlterm"><a name="GUID-77031B4A-B8C8-4FD9-B301-55E8A2C26F81__GUID-6BEB3909-C2F4-48A9-8539-D24783F59995"><!-- --></a>字节交换大小端</dt>
+
+                    <dd class="dd pd">
+                        <p class="p">选择数据传输时是否交互字节传输顺序。开启后，字节按大端模式（Big Endian）传输，即高位字节先传输，低位字节后传输；小端模式（Little
+                            Endian）则相反。</p>
+
+                    </dd>
+
+                
+                
+                    <dt class="dt pt dlterm"><a name="GUID-77031B4A-B8C8-4FD9-B301-55E8A2C26F81__GUID-31475495-098E-42D2-A926-DE706EABEBA8"><!-- --></a>响应等待时间(s)</dt>
+
+                    <dd class="dd pd">
+                        <p class="p">设置读码器在发送请求后等待响应的时间。如果在此时间内未收到响应，读码器将认为通信超时。</p>
+
+                    </dd>
+
+                
+            </dl>
+
+        </div>
+
+    </div>
+
+
+</div>
+						<div class=" wt_topic_wpp_content wt_pc_only "><div class=" wt_topic_wpp_content_flex "><div class="wt_topic_wpp_item like"></div><div class="wt_topic_wpp_item view"></div><div class="wt_topic_wpp_item share">分享</div></div></div>
+						
+						
+						
+					</div>
+				</div><!-- container_body -->
+				
+				<div class=" body_footer "><div onclick="prevTopic()" class=" body_footer_left link_button "><span>上一页</span></div><div onclick="nextTopic()" class=" body_footer_right link_button "><span>下一页</span></div></div>
+				<div class=" body_wpp mobile_only"><div class="wt_body_mobile_like"></div><div class="wt_body_mobile_view"></div></div>
+				<!-- <whc:webhelp_side_toc /> -->
+				
+			</div> <!-- middle_view content_area -->
+			<div class=" right_content wt_pc_only "><div class=" right_fixed_container "><div class="right_guide"><div class="feature_guide"><div>本页导航</div><ul><li onclick="scrollToAnchor($(this))" data-id="GUID-77031B4A-B8C8-4FD9-B301-55E8A2C26F81__GUID-828DD841-55C1-411F-84EB-36573938B0E1" class="feature_guide_h2"><span class="link_button">客户端SDK协议</span></li><li onclick="scrollToAnchor($(this))" data-id="GUID-77031B4A-B8C8-4FD9-B301-55E8A2C26F81__GUID-884339DD-7A2D-42A5-AE58-0BF3CD4BAED8" class="feature_guide_h2"><span class="link_button">串口协议</span></li><li onclick="scrollToAnchor($(this))" data-id="GUID-77031B4A-B8C8-4FD9-B301-55E8A2C26F81__GUID-0695B869-61FA-467D-A039-1D7760ACA06B" class="feature_guide_h2"><span class="link_button">TCP 客户端协议</span></li><li onclick="scrollToAnchor($(this))" data-id="GUID-77031B4A-B8C8-4FD9-B301-55E8A2C26F81__GUID-0E560F7C-CDF7-4BD4-9E92-0C003BC22BE9" class="feature_guide_h2"><span class="link_button">FTP协议</span></li><li onclick="scrollToAnchor($(this))" data-id="GUID-77031B4A-B8C8-4FD9-B301-55E8A2C26F81__GUID-23349023-CE4D-4468-81BE-572A6F0224BE" class="feature_guide_h2"><span class="link_button">TCP 服务端协议</span></li><li onclick="scrollToAnchor($(this))" data-id="GUID-77031B4A-B8C8-4FD9-B301-55E8A2C26F81__GUID-005B1555-3D04-4C61-A12B-6BA401C87AFE" class="feature_guide_h2"><span class="link_button">Profinet协议</span></li><li onclick="scrollToAnchor($(this))" data-id="GUID-77031B4A-B8C8-4FD9-B301-55E8A2C26F81__GUID-BD11604D-E07B-4FB9-ACBB-F0BA6E95415F" class="feature_guide_h2"><span class="link_button">Melsec/SLMP协议</span></li><li onclick="scrollToAnchor($(this))" data-id="GUID-77031B4A-B8C8-4FD9-B301-55E8A2C26F81__GUID-EE795607-CF99-40C2-B8EA-954BC7969BAD" class="feature_guide_h2"><span class="link_button">EthernetIP协议</span></li><li onclick="scrollToAnchor($(this))" data-id="GUID-77031B4A-B8C8-4FD9-B301-55E8A2C26F81__GUID-89BEF611-490E-48C1-9D26-09D4539C95B8" class="feature_guide_h2"><span class="link_button">ModBus协议</span></li><li onclick="scrollToAnchor($(this))" data-id="GUID-77031B4A-B8C8-4FD9-B301-55E8A2C26F81__GUID-F7828674-291F-4919-8468-DB6BA1AADDFF" class="feature_guide_h2"><span class="link_button">UDP协议</span></li><li onclick="scrollToAnchor($(this))" data-id="GUID-77031B4A-B8C8-4FD9-B301-55E8A2C26F81__GUID-648D70E2-55BB-43E8-BDAC-C898BB759C51" class="feature_guide_h2"><span class="link_button">Fins协议</span></li></ul></div></div></div></div>
+		</div> <!-- content_box -->
+		
+		<!-- 置顶按钮 -->
+		<div class="body_to_top" onclick="scrollTopicTop()"></div> 
+		<!-- 评价反馈 -->
+		<div onclick="manualFeedback()" class=" body_feedback " data-href="https://wj.hikvision.com/#/public-survey?id=64c8b90d80e02e9e88feca2f"></div>
+		
+	</body>
+</html>

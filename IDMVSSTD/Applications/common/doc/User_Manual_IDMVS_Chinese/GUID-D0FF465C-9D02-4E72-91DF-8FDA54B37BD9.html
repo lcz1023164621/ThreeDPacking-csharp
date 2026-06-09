@@ -1,0 +1,349 @@
+
+<!DOCTYPE html
+  PUBLIC "" "about:legacy-compat">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:whc="http://www.daksys.com/webhelp/components" xml:lang="zh-cn" lang="zh-cn">
+	<head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />        
+      <meta name="copyright" content="©  杭州海康威视数字技术股份有限公司。保留一切权利。" /><meta name="DC.Type" content="concept" /><meta name="DC.Title" content="FTP存储" /><meta name="abstract" content="FTP存储功能将本机PC作为FTP的服务端，读码器作为FTP的客户端，通过FTP服务将读码器的图像或读码结果传输到本机PC上。通过菜单栏存图的FTP存储可设置本机PC作为FTP服务端的相关参数。" /><meta name="description" content="FTP存储功能将本机PC作为FTP的服务端，读码器作为FTP的客户端，通过FTP服务将读码器的图像或读码结果传输到本机PC上。通过菜单栏存图的FTP存储可设置本机PC作为FTP服务端的相关参数。" /><meta name="DC.Relation" scheme="URI" content="GUID-7B2CB895-8384-44F3-A0F3-3788E6D7ADD5.html" /><meta name="DC.Format" content="XHTML" /><meta name="DC.Identifier" content="GUID-D0FF465C-9D02-4E72-91DF-8FDA54B37BD9" /><meta name="DC.Language" content="zh-CN" /><title>FTP存储</title><!-- Generated with dksgen version 1.0, build number 2023071300.  --><meta viewport="Content-Type" content="width=device-width, initial-scale=1.0" /><meta http-equiv="X-UA-Compatible" content="IE=edge,Chrome=1" /><meta name="wh-path2root" content="index.html" />
+		<!-- commonltr css -->
+		<link rel="stylesheet" type="text/css" href="daksys-webhelp/resources/css/commonltr.css" />
+		<!-- Bootstrap css -->
+		<link rel="stylesheet" type="text/css" href="daksys-webhelp/resources/bootstrap/css/bootstrap.min.css" />
+		<link rel="stylesheet" type="text/css" href="daksys-webhelp/resources/bootstrap/css/bootstrap-theme.min.css" />
+		<link rel="stylesheet" type="text/css" href="daksys-webhelp/resources/js/jquery-ui.min.css" />
+		
+		<!-- Template css  -->
+		<link href="daksys-webhelp/template/resources/css/HIKROBOT_color.css?buildId=2023071300" rel="stylesheet" type="text/css" />
+		<link rel="stylesheet" type="text/css" href="daksys-webhelp/template/resources/css/wt_topic.css?buildId=2023071300" />
+		<link rel="stylesheet" type="text/css" href="daksys-webhelp/template/resources/css/wt_topic_m.css?buildId=2023071300" />
+		<link rel="stylesheet" type="text/css" href="daksys-webhelp/template/resources/css/wt_expand.css?buildId=2023071300" />
+		<link rel="stylesheet" type="text/css" href="daksys-webhelp/template/resources/css/wt_note.css?buildId=2023071300" />
+		<link rel="stylesheet" type="text/css" href="daksys-webhelp/template/resources/css/wt_steps.css?buildId=2023071300" />
+		
+		<!-- jquery js  -->
+		<script type="text/javascript" src="daksys-webhelp/resources/js/jquery-3.6.2.min.js"></script>
+		<script type="text/javascript" src="daksys-webhelp/resources/js/jquery.cookie.js"></script>
+		<script type="text/javascript" src="daksys-webhelp/resources/js/jquery.highlight-3.js"></script>
+		<script type="text/javascript" src="daksys-webhelp/resources/js/jquery-ui.min.js"></script>
+		
+		<!-- common js  -->
+		<script type="text/javascript" src="daksys-webhelp/resources/bootstrap/js/bootstrap.min.js"></script>
+		<script type="text/javascript" src="daksys-webhelp/resources/js/base64.js"></script>
+		<script type="text/javascript" src="daksys-webhelp/resources/js/browserDetect.js"></script>
+		<script type="text/javascript" src="daksys-webhelp/resources/js/localization.js"></script>
+		<script type="text/javascript" src="daksys-webhelp/resources/js/parseuri.js"></script>
+		<script type="text/javascript" src="daksys-webhelp/resources/localization/strings.js"></script>
+		<!-- Template js -->
+		<script type="text/javascript" src="daksys-webhelp/template/resources/js/wt_topic.js?buildId=2023071300"></script>
+		<script type="text/javascript" src="daksys-webhelp/template/resources/js/wt_expand.js?buildId=2023071300"></script>
+	</head>
+	<body class="wt_topic_page frmBody" id="GUID-D0FF465C-9D02-4E72-91DF-8FDA54B37BD9" onload="topicOnload()">
+		<!-- get_lang -->
+		<div id="lang" style="display:none">zh-CN</div><div id="mapoutputclass" style="display:none"></div>
+		<input hidden="hidden" id="UDCode" value="UD12345B" /><input hidden="hidden" id="Trademark" value="海康机器人" />
+		
+		<div class="content_box">
+			<div class="middle_view content_area col-sm-9" id="content_area">
+				<div class=" wt_breadcrumb "><ol><li><span class="home topicref"><a href="javascript:void(0)" onclick="gotoFirstPage()">首页</a></span></li><li><span class="topicref"><a href="GUID-5264E9B3-93FE-419C-B2B2-36AFEF98E781.html" data-id="GUID-5264E9B3-93FE-419C-B2B2-36AFEF98E781">读码器采图及读码</a></span></li><li><span class="topicref"><a href="GUID-7B2CB895-8384-44F3-A0F3-3788E6D7ADD5.html" data-id="GUID-7B2CB895-8384-44F3-A0F3-3788E6D7ADD5">保存图像</a></span></li><li class="active"><span class="topicref">FTP存储</span></li></ol><div class="wt_breadcrumb_ellipsis" onclick="expandBreadcrumbDiv()"></div><div class="wt_breadcrumb_collapse" style="display: none;"><div class="wt_breadcrumb_collapse_button" onclick="collapseBreadcrumbDiv()"></div></div></div>
+				
+				<div id="container_body" class="container">
+					<div id="contentArea">
+						<div class=" wt_topic_content body ">
+    
+    <h1 class="title topictitle1">FTP存储</h1>
+
+    
+    <div class="body conbody"><p class="shortdesc"><span class="ph uicontrol">FTP存储</span>功能将本机PC作为FTP的服务端，读码器作为FTP的客户端，通过FTP服务将读码器的图像或读码结果传输到本机PC上。通过菜单栏<span class="ph uicontrol">存图</span>的<span class="ph uicontrol">FTP存储</span>可设置本机PC作为FTP服务端的相关参数。</p>
+
+        <p class="p">如需使用FTP存储功能存储读码器的图像或读码结果，需先完成本机PC和读码器的参数配置，再开启FTP服务。</p>
+
+        <div class="fig fignone" id="GUID-D0FF465C-9D02-4E72-91DF-8FDA54B37BD9__FIG_CX4_XCK_52C">
+            
+            <img class="image" style="display:none;" id="GUID-D0FF465C-9D02-4E72-91DF-8FDA54B37BD9__IMAGE_DX4_XCK_52C" src="GUID-E142A1E8-2EBB-4C09-B2E4-2E4822D4E6B9-high.png" width="2100" />
+        <div class="fig_caption"><span class="figcap">图 1 FTP存储配置</span></div></div>
+
+        <div class="section" id="GUID-D0FF465C-9D02-4E72-91DF-8FDA54B37BD9__GUID-401B82B0-419C-4911-9693-C7A24AC51B1C"><h2 class="title sectiontitle">本机PC的参数配置</h2>
+            
+            <p class="p">本机PC的参数设置通过菜单栏<span class="ph uicontrol">存图</span>的<span class="ph uicontrol">FTP存储</span>完成。</p>
+
+            <dl class="dl parml">
+                
+                    <dt class="dt pt dlterm"><a name="GUID-D0FF465C-9D02-4E72-91DF-8FDA54B37BD9__GUID-A0BCCE3D-1802-42BF-B5C5-A1425354F0D7"><!-- --></a>服务端口</dt>
+
+                    <dd class="dd pd">
+                        <p class="p">即FTP服务端的端口号。可自定义设置，未被其他主机端口占用即可。</p>
+
+                        <div class="note note" id="GUID-D0FF465C-9D02-4E72-91DF-8FDA54B37BD9__GUID-89D6953C-7185-498A-A690-AC9A982D5EC9"><span class="notetitle">说明</span> 
+                            
+                            <p class="p">端口请务必保证未被其他服务占用，当FTP建立失败时，可优先排查是否端口冲突，建议修改端口号再次尝试，例如修改为9000等。</p>
+
+                        </div>
+
+                    </dd>
+
+                
+                
+                    <dt class="dt pt dlterm"><a name="GUID-D0FF465C-9D02-4E72-91DF-8FDA54B37BD9__GUID-E0193BCA-39CB-46B5-8DE1-D8404B92396A"><!-- --></a>用户名</dt>
+
+                    <dd class="dd pd">
+                        <p class="p">即FTP服务端的用户名称。可自定义设置。</p>
+
+                        <div class="note note" id="GUID-D0FF465C-9D02-4E72-91DF-8FDA54B37BD9__GUID-75CC3A9D-D9AC-4969-8906-BEFFAC84530F"><span class="notetitle">说明</span> 
+                            <p class="p">不支持中文字符。</p>
+
+                        </div>
+
+                    </dd>
+
+                
+                
+                    <dt class="dt pt dlterm"><a name="GUID-D0FF465C-9D02-4E72-91DF-8FDA54B37BD9__GUID-BF457315-105A-4D2C-B503-89196823CCBC"><!-- --></a>密码</dt>
+
+                    <dd class="dd pd">
+                        <p class="p">即FTP服务端的登录密码。可自定义设置。</p>
+
+                        <div class="note note" id="GUID-D0FF465C-9D02-4E72-91DF-8FDA54B37BD9__GUID-13936485-45A3-4244-B7E2-B25A279594AB"><span class="notetitle">说明</span> 
+                            <p class="p">不支持中文字符，且密码长度需控制在16个字符以内。</p>
+
+                        </div>
+
+                    </dd>
+
+                
+                
+                    <dt class="dt pt dlterm"><a name="GUID-D0FF465C-9D02-4E72-91DF-8FDA54B37BD9__GUID-CC74E70D-4A71-4C92-BE2B-F2D4219DEE32"><!-- --></a>保存路径</dt>
+
+                    <dd class="dd pd">
+                        <p class="p">单击右侧的<img class="image icon" style="display:none;" id="GUID-D0FF465C-9D02-4E72-91DF-8FDA54B37BD9__IMAGE_O3C_QGJ_52C" src="GUID-81C2118E-146C-4BE3-B8A3-7F8693566CBE-high.png" />可选择存储数据的路径。</p>
+
+                        <div class="note note" id="GUID-D0FF465C-9D02-4E72-91DF-8FDA54B37BD9__GUID-3926EDD8-81B5-4314-A473-F3F17384733B"><span class="notetitle">说明</span> 
+                            <p class="p">请确保选择的路径，您具有操作权限且存储空间充足。</p>
+
+                        </div>
+
+                    </dd>
+
+                
+                
+                    <dt class="dt pt dlterm"><a name="GUID-D0FF465C-9D02-4E72-91DF-8FDA54B37BD9__GUID-206E2F12-FF80-41A3-B0EC-B604121ABB5A"><!-- --></a>自动清图</dt>
+
+                    <dd class="dd pd">
+                        <p class="p">打开此参数后，图像达到设置时间或数目时，IDMVS将根据<span class="keyword parmname">清图模式</span>参数的设置自动清除保存路径下的图像。否则，<span class="keyword parmname">清图模式</span>参数设置无效。</p>
+
+                        <dl class="dl parml">
+                            
+                                <dt class="dt pt dlterm"><a name="GUID-D0FF465C-9D02-4E72-91DF-8FDA54B37BD9__GUID-DA66E9C7-1A23-4725-96A8-53218F911120"><!-- --></a>清图模式</dt>
+
+                                <dd class="dd pd">
+                                    <p class="p">可设置清除图像的模式，可选<span class="ph uicontrol">按时间清图</span>或<span class="ph uicontrol">按数目清图</span>。</p>
+
+                                    <dl class="dl parml">
+                                        
+                                            <dt class="dt pt dlterm"><a name="GUID-D0FF465C-9D02-4E72-91DF-8FDA54B37BD9__GUID-6CEC2E6A-6C51-40E0-8905-0EA5D6ABAA60"><!-- --></a>按时间清图</dt>
+
+                                            <dd class="dd pd">
+                                                <p class="p">超过一定时间限制的图像将被自动清除。具体时间通过<span class="keyword parmname">图片保存时间</span>参数设置。 </p>
+
+                                            </dd>
+
+                                        
+                                        
+                                            <dt class="dt pt dlterm"><a name="GUID-D0FF465C-9D02-4E72-91DF-8FDA54B37BD9__GUID-F8444881-0E68-4A22-B8BD-9C3963CAC37E"><!-- --></a>按数目清图</dt>
+
+                                            <dd class="dd pd">
+                                                <p class="p">图像数量超过一定数量限制时，仅保留最新的指定数量图像，其他图像将被自动清除。具体数量通过<span class="keyword parmname">图片保存数目</span>参数设置。 </p>
+
+                                            </dd>
+
+                                        
+                                    </dl>
+
+                                </dd>
+
+                            
+                        </dl>
+
+                    </dd>
+
+                
+            </dl>
+
+        </div>
+
+        <div class="section" id="GUID-D0FF465C-9D02-4E72-91DF-8FDA54B37BD9__GUID-D51D7A34-E471-4175-AFA4-FE23F221F608"><h2 class="title sectiontitle">读码器的参数配置</h2>
+            
+            <p class="p">用FTP服务存图时，完成本机PC的参数设置后，读码器作为FTP客户端，还需通过<span class="ph uicontrol">通讯配置</span>启用<span class="keyword parmname">FTP协议</span>并完成相关参数设置。</p>
+
+            <p class="p">此处仅介绍读码器如何使用该功能的部分较重要参数应如何填写。</p>
+
+            <dl class="dl parml">
+                
+                    <dt class="dt pt dlterm"><a name="GUID-D0FF465C-9D02-4E72-91DF-8FDA54B37BD9__GUID-1BDD0143-592A-44C8-982F-7C81CEACF15D"><!-- --></a>主机地址</dt>
+
+                    <dd class="dd pd">
+                        <p class="p">此时应填写本机PC的IP地址，快速获取本机PC的IP地址方法如下。</p>
+
+                        
+                        <ol class="ol" id="GUID-D0FF465C-9D02-4E72-91DF-8FDA54B37BD9__OL_VYP_B1L_DGC">
+                            <li class="li" id="GUID-D0FF465C-9D02-4E72-91DF-8FDA54B37BD9__GUID-00801335-2884-4067-A390-BF2DDF1089B2">
+                                <p class="p">在IDMVS主界面右上角，单击<span class="ph uicontrol">切换设备</span>。</p>
+
+                            </li>
+
+                            <li class="li" id="GUID-D0FF465C-9D02-4E72-91DF-8FDA54B37BD9__GUID-71D58EA4-C391-437D-8555-04902A091B56">
+                                <p class="p">在设备列表最下方处的<span class="ph uicontrol">本地网卡</span>处查看本机PC的IP地址，在IP地址上可通过右键单击复制IP地址。</p>
+
+                            </li>
+
+                        </ol>
+
+                    </dd>
+
+                
+                
+                    <dt class="dt pt dlterm"><a name="GUID-D0FF465C-9D02-4E72-91DF-8FDA54B37BD9__GUID-E31372EC-1463-465E-9F77-34FECE641665"><!-- --></a>主机端口号</dt>
+
+                    <dd class="dd pd">
+                        <p class="p">此时应填写<span class="ph uicontrol">FTP存储</span>中<span class="keyword parmname">服务端口</span>的数值。</p>
+
+                    </dd>
+
+                
+                
+                    <dt class="dt pt dlterm"><a name="GUID-D0FF465C-9D02-4E72-91DF-8FDA54B37BD9__GUID-66D57851-F9ED-4DBF-A2C0-225C029B9350"><!-- --></a>用户名</dt>
+
+                    <dd class="dd pd">
+                        <p class="p">此时应填写<span class="ph uicontrol">FTP存储</span>中<span class="keyword parmname">用户名</span>的内容。</p>
+
+                    </dd>
+
+                
+                
+                    <dt class="dt pt dlterm"><a name="GUID-D0FF465C-9D02-4E72-91DF-8FDA54B37BD9__GUID-251B0452-2E66-4027-8C08-2E2F529D56B1"><!-- --></a>用户密码</dt>
+
+                    <dd class="dd pd">
+                        <p class="p">此时应填写<span class="ph uicontrol">FTP存储</span>中<span class="keyword parmname">密码</span>的内容。</p>
+
+                    </dd>
+
+                
+                
+                    <dt class="dt pt dlterm"><a name="GUID-D0FF465C-9D02-4E72-91DF-8FDA54B37BD9__GUID-3DBA12B7-CF03-4344-A01E-2E460CC4C4FC"><!-- --></a>传输条件</dt>
+
+                    <dd class="dd pd">
+                        <p class="p">可设置何时传输数据，可选<span class="keyword parmname">所有</span>、<span class="keyword parmname">读取条码</span>和<span class="keyword parmname">没有读取条码</span>。</p>
+
+                    </dd>
+
+                
+                
+                    <dt class="dt pt dlterm"><a name="GUID-D0FF465C-9D02-4E72-91DF-8FDA54B37BD9__GUID-ED19B5E3-D615-4BAD-87A0-DCC83327AF78"><!-- --></a>传输内容</dt>
+
+                    <dd class="dd pd">
+                        <p class="p">可设置传输数据中所包含的内容，可选<span class="keyword parmname">仅包含结果</span>、<span class="keyword parmname">仅包含图片</span>或<span class="keyword parmname">结果和图片</span>。</p>
+
+                        <ul class="ul" id="GUID-D0FF465C-9D02-4E72-91DF-8FDA54B37BD9__UL_KPS_1ZJ_52C">
+                            <li class="li" id="GUID-D0FF465C-9D02-4E72-91DF-8FDA54B37BD9__GUID-445396EB-8198-491D-A41B-95E72846FF30">
+                                <p class="p">选择<span class="keyword parmname">仅包含结果</span>或<span class="keyword parmname">结果和图片</span>时，需通过<span class="keyword parmname">传输文件类型</span>设置输出的文件类型，可选<span class="keyword parmname">csv文件</span>、<span class="keyword parmname">xls文件</span>或<span class="keyword parmname">txt文件</span>3种。</p>
+
+                            </li>
+
+                            <li class="li" id="GUID-D0FF465C-9D02-4E72-91DF-8FDA54B37BD9__GUID-FBC5125E-59E8-4FB6-948D-05C734B673F3">
+                                <p class="p">选择<span class="keyword parmname">仅包含图片</span>或<span class="keyword parmname">结果和图片</span>时，需通过<span class="keyword parmname">存图格式</span>设置输出的图像格式，可选<span class="keyword parmname">JPEG</span>或<span class="keyword parmname">BMP</span>2种。</p>
+
+                            </li>
+
+                        </ul>
+
+                    </dd>
+
+                
+            </dl>
+
+            <div class="note note" id="GUID-D0FF465C-9D02-4E72-91DF-8FDA54B37BD9__GUID-EFD40A83-D7F8-4382-BC56-A6C789E7D94B"><span class="notetitle">说明</span> 
+                <p class="p">关于读码器的FTP协议如何使用以及参数如何设置，详情参见<a class="xref" href="GUID-77031B4A-B8C8-4FD9-B301-55E8A2C26F81.html#GUID-77031B4A-B8C8-4FD9-B301-55E8A2C26F81" title="当读码器需要与PLC等外部设备或控制系统进行通信时，IDMVS支持通过配置通讯协议自定义读码器的数据传输方式，确保数据能够按照指定的协议和格式发送到目标设备或系统。">配置通讯协议</a>章节的FTP协议。</p>
+
+            </div>
+
+        </div>
+
+        <div class="section" id="GUID-D0FF465C-9D02-4E72-91DF-8FDA54B37BD9__GUID-820F6CE9-3D8C-44F3-BE23-4A706CD998D7"><h2 class="title sectiontitle">开启FTP存储</h2>
+            
+            <p class="p">完成本机PC和读码器的参数设置后，再通过菜单栏<span class="ph uicontrol">存图</span>的<span class="ph uicontrol">FTP存储</span>开启FTP服务，则读码器取流时的图像将根据设置的参数存储在本机PC上。</p>
+
+            <dl class="dl parml">
+                
+                    <dt class="dt pt dlterm"><a name="GUID-D0FF465C-9D02-4E72-91DF-8FDA54B37BD9__GUID-2BA0F16F-B186-4837-B060-E14FBB900521"><!-- --></a>启动</dt>
+
+                    <dd class="dd pd">
+                        <p class="p">单击<span class="ph uicontrol">启动</span>即可直接启动FTP服务。</p>
+
+                    </dd>
+
+                
+                
+                    <dt class="dt pt dlterm"><a name="GUID-D0FF465C-9D02-4E72-91DF-8FDA54B37BD9__GUID-EE898219-C861-48BA-971B-7E95B47EE5F3"><!-- --></a>停止</dt>
+
+                    <dd class="dd pd">
+                        <p class="p">单击<span class="ph uicontrol">停止</span>即可直接停止FTP服务。</p>
+
+                    </dd>
+
+                
+                
+                    <dt class="dt pt dlterm"><a name="GUID-D0FF465C-9D02-4E72-91DF-8FDA54B37BD9__GUID-AF72925F-AAE3-485E-8FF6-5BD5ACBEF6D2"><!-- --></a>注册开机启动</dt>
+
+                    <dd class="dd pd">
+                        <p class="p">单击<span class="ph uicontrol">注册开机启动</span>后，本机PC开机时，FTP服务会自动启动。</p>
+
+                    </dd>
+
+                
+                
+                    <dt class="dt pt dlterm"><a name="GUID-D0FF465C-9D02-4E72-91DF-8FDA54B37BD9__GUID-A78C8728-F225-446A-8A7E-25FD7C6899F2"><!-- --></a>注销开机启动</dt>
+
+                    <dd class="dd pd">
+                        <p class="p">单击<span class="ph uicontrol">注销开机启动</span>则关闭FTP服务开机自启动功能。</p>
+
+                    </dd>
+
+                
+            </dl>
+
+            <p class="p">开启FTP服务后，不可退出<span class="ph uicontrol">FTP存储</span>，应将<span class="ph uicontrol">FTP存储</span>最小化，使其一直在后台运行。此时，即使关闭IDMVS，<span class="ph uicontrol">FTP存储</span>也不会关闭。</p>
+
+            <div class="note note" id="GUID-D0FF465C-9D02-4E72-91DF-8FDA54B37BD9__GUID-1320E5EE-B59A-4680-A797-E9F2E0B3EBD7"><span class="notetitle">说明</span> 
+                <p class="p">若此时退出<span class="ph uicontrol">FTP存储</span>，则FTP服务将会停止。</p>
+
+            </div>
+
+            
+            <p class="p">当开启FTP存储后，读码器运行过程中触发了传输条件，但指定文件夹内未生成对应内容，请检查电脑防火墙是否关闭，如果未关闭防火墙，请关闭防火墙；如果关闭防火墙后仍有问题，请联系本公司技术支持。</p>
+
+        </div>
+
+    </div>
+
+
+</div>
+						<div class=" wt_topic_wpp_content wt_pc_only "><div class=" wt_topic_wpp_content_flex "><div class="wt_topic_wpp_item like"></div><div class="wt_topic_wpp_item view"></div><div class="wt_topic_wpp_item share">分享</div></div></div>
+						
+						
+						
+					</div>
+				</div><!-- container_body -->
+				
+				<div class=" body_footer "><div onclick="prevTopic()" class=" body_footer_left link_button "><span>上一页</span></div><div onclick="nextTopic()" class=" body_footer_right link_button "><span>下一页</span></div></div>
+				<div class=" body_wpp mobile_only"><div class="wt_body_mobile_like"></div><div class="wt_body_mobile_view"></div></div>
+				<!-- <whc:webhelp_side_toc /> -->
+				
+			</div> <!-- middle_view content_area -->
+			<div class=" right_content wt_pc_only "><div class=" right_fixed_container "><div class="right_guide"><div class="feature_guide"><div>本页导航</div><ul><li onclick="scrollToAnchor($(this))" data-id="GUID-D0FF465C-9D02-4E72-91DF-8FDA54B37BD9__GUID-401B82B0-419C-4911-9693-C7A24AC51B1C" class="feature_guide_h2"><span class="link_button">本机PC的参数配置</span></li><li onclick="scrollToAnchor($(this))" data-id="GUID-D0FF465C-9D02-4E72-91DF-8FDA54B37BD9__GUID-D51D7A34-E471-4175-AFA4-FE23F221F608" class="feature_guide_h2"><span class="link_button">读码器的参数配置</span></li><li onclick="scrollToAnchor($(this))" data-id="GUID-D0FF465C-9D02-4E72-91DF-8FDA54B37BD9__GUID-820F6CE9-3D8C-44F3-BE23-4A706CD998D7" class="feature_guide_h2"><span class="link_button">开启FTP存储</span></li></ul></div></div></div></div>
+		</div> <!-- content_box -->
+		
+		<!-- 置顶按钮 -->
+		<div class="body_to_top" onclick="scrollTopicTop()"></div> 
+		<!-- 评价反馈 -->
+		<div onclick="manualFeedback()" class=" body_feedback " data-href="https://wj.hikvision.com/#/public-survey?id=64c8b90d80e02e9e88feca2f"></div>
+		
+	</body>
+</html>

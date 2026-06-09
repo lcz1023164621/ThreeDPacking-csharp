@@ -1,0 +1,4 @@
+该dmeo是针对Linux平台下的QT示例程序：
+1、将MvCodeCameraSDK_common安装包下MvCodeCameraSDK目录下SDK/linux64依赖的so动态库拷贝到当前bin目录下
+2、将安装包下MvCodeCameraSDK目录下Include头文件拷到当前inc目录下
+3、用Qt Creator打开项目文件ForceIpDemo.pro，进行编译

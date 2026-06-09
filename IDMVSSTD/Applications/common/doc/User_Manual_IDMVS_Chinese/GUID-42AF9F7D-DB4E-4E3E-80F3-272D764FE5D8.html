@@ -1,0 +1,468 @@
+
+<!DOCTYPE html
+  PUBLIC "" "about:legacy-compat">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:whc="http://www.daksys.com/webhelp/components" xml:lang="zh-cn" lang="zh-cn">
+	<head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />        
+      <meta name="copyright" content="©  杭州海康威视数字技术股份有限公司。保留一切权利。" /><meta name="DC.Type" content="concept" /><meta name="DC.Title" content="预览图像" /><meta name="abstract" content="客户端支持通过图像预览区查看读码器采集的实时图像。" /><meta name="description" content="客户端支持通过图像预览区查看读码器采集的实时图像。" /><meta name="DC.Relation" scheme="URI" content="GUID-5264E9B3-93FE-419C-B2B2-36AFEF98E781.html" /><meta name="DC.Format" content="XHTML" /><meta name="DC.Identifier" content="GUID-42AF9F7D-DB4E-4E3E-80F3-272D764FE5D8" /><meta name="DC.Language" content="zh-CN" /><title>预览图像</title><!-- Generated with dksgen version 1.0, build number 2023071300.  --><meta viewport="Content-Type" content="width=device-width, initial-scale=1.0" /><meta http-equiv="X-UA-Compatible" content="IE=edge,Chrome=1" /><meta name="wh-path2root" content="index.html" />
+		<!-- commonltr css -->
+		<link rel="stylesheet" type="text/css" href="daksys-webhelp/resources/css/commonltr.css" />
+		<!-- Bootstrap css -->
+		<link rel="stylesheet" type="text/css" href="daksys-webhelp/resources/bootstrap/css/bootstrap.min.css" />
+		<link rel="stylesheet" type="text/css" href="daksys-webhelp/resources/bootstrap/css/bootstrap-theme.min.css" />
+		<link rel="stylesheet" type="text/css" href="daksys-webhelp/resources/js/jquery-ui.min.css" />
+		
+		<!-- Template css  -->
+		<link href="daksys-webhelp/template/resources/css/HIKROBOT_color.css?buildId=2023071300" rel="stylesheet" type="text/css" />
+		<link rel="stylesheet" type="text/css" href="daksys-webhelp/template/resources/css/wt_topic.css?buildId=2023071300" />
+		<link rel="stylesheet" type="text/css" href="daksys-webhelp/template/resources/css/wt_topic_m.css?buildId=2023071300" />
+		<link rel="stylesheet" type="text/css" href="daksys-webhelp/template/resources/css/wt_expand.css?buildId=2023071300" />
+		<link rel="stylesheet" type="text/css" href="daksys-webhelp/template/resources/css/wt_note.css?buildId=2023071300" />
+		<link rel="stylesheet" type="text/css" href="daksys-webhelp/template/resources/css/wt_steps.css?buildId=2023071300" />
+		
+		<!-- jquery js  -->
+		<script type="text/javascript" src="daksys-webhelp/resources/js/jquery-3.6.2.min.js"></script>
+		<script type="text/javascript" src="daksys-webhelp/resources/js/jquery.cookie.js"></script>
+		<script type="text/javascript" src="daksys-webhelp/resources/js/jquery.highlight-3.js"></script>
+		<script type="text/javascript" src="daksys-webhelp/resources/js/jquery-ui.min.js"></script>
+		
+		<!-- common js  -->
+		<script type="text/javascript" src="daksys-webhelp/resources/bootstrap/js/bootstrap.min.js"></script>
+		<script type="text/javascript" src="daksys-webhelp/resources/js/base64.js"></script>
+		<script type="text/javascript" src="daksys-webhelp/resources/js/browserDetect.js"></script>
+		<script type="text/javascript" src="daksys-webhelp/resources/js/localization.js"></script>
+		<script type="text/javascript" src="daksys-webhelp/resources/js/parseuri.js"></script>
+		<script type="text/javascript" src="daksys-webhelp/resources/localization/strings.js"></script>
+		<!-- Template js -->
+		<script type="text/javascript" src="daksys-webhelp/template/resources/js/wt_topic.js?buildId=2023071300"></script>
+		<script type="text/javascript" src="daksys-webhelp/template/resources/js/wt_expand.js?buildId=2023071300"></script>
+	</head>
+	<body class="wt_topic_page frmBody" id="GUID-42AF9F7D-DB4E-4E3E-80F3-272D764FE5D8" onload="topicOnload()">
+		<!-- get_lang -->
+		<div id="lang" style="display:none">zh-CN</div><div id="mapoutputclass" style="display:none"></div>
+		<input hidden="hidden" id="UDCode" value="UD12345B" /><input hidden="hidden" id="Trademark" value="海康机器人" />
+		
+		<div class="content_box">
+			<div class="middle_view content_area col-sm-9" id="content_area">
+				<div class=" wt_breadcrumb "><ol><li><span class="home topicref"><a href="javascript:void(0)" onclick="gotoFirstPage()">首页</a></span></li><li><span class="topicref"><a href="GUID-5264E9B3-93FE-419C-B2B2-36AFEF98E781.html" data-id="GUID-5264E9B3-93FE-419C-B2B2-36AFEF98E781">读码器采图及读码</a></span></li><li class="active"><span class="topicref">预览图像</span></li></ol><div class="wt_breadcrumb_ellipsis" onclick="expandBreadcrumbDiv()"></div><div class="wt_breadcrumb_collapse" style="display: none;"><div class="wt_breadcrumb_collapse_button" onclick="collapseBreadcrumbDiv()"></div></div></div>
+				
+				<div id="container_body" class="container">
+					<div id="contentArea">
+						<div class=" wt_topic_content body ">
+    <h1 class="title topictitle1">预览图像</h1>
+
+
+<div class="body conbody"><p class="shortdesc">客户端支持通过图像预览区查看读码器采集的实时图像。</p>
+
+        <p class="p">图像预览窗口分为以下3个部分。</p>
+
+        <div class="fig fignone" id="GUID-42AF9F7D-DB4E-4E3E-80F3-272D764FE5D8__FIG_YH3_RKK_52C">
+            
+            
+            <img class="image" style="display:none;" id="GUID-42AF9F7D-DB4E-4E3E-80F3-272D764FE5D8__IMAGE_ZH3_RKK_52C" src="GUID-26DE7DBD-E962-4FFE-99AC-E8CF116EEB5C-high.png" width="1200" />
+        <div class="fig_caption"><span class="figcap">图 1 图像预览区介绍</span></div></div>
+
+        <ul class="ul" id="GUID-42AF9F7D-DB4E-4E3E-80F3-272D764FE5D8__UL_U1T_SKK_52C">
+            <li class="li" id="GUID-42AF9F7D-DB4E-4E3E-80F3-272D764FE5D8__GUID-99A450FC-C04C-4106-969B-7FC600F21F65">
+                <p class="p">预览区工具栏：主要包括采图工具、ROI工具、辅助工具三类，具体功能请见本章节介绍。</p>
+
+            </li>
+
+            <li class="li" id="GUID-42AF9F7D-DB4E-4E3E-80F3-272D764FE5D8__GUID-6AF854C5-25CF-4135-9BA2-B24918A75A76">
+                <p class="p">图像显示区：预览读码器采集的图像。若使用多读码器工作，可通过<a class="xref" href="GUID-6E0BF4EA-60AA-4F9A-9ED8-9438F85F3A60.html#GUID-6E0BF4EA-60AA-4F9A-9ED8-9438F85F3A60" title="客户端支持预览单个或多个画面，您可根据使用的读码器数量或其它读码需求灵活调整。当前客户端提供单画面、四画面、九画面3种布局模板，若不满足实际需求，也可以自定义画面布局。">设置画面布局</a>同时预览多设备的图像采集效果。</p>
+
+            </li>
+
+            <li class="li" id="GUID-42AF9F7D-DB4E-4E3E-80F3-272D764FE5D8__GUID-4E41A9A9-7BBD-42AD-8476-4C369AACEC8F">
+                <p class="p">采图数据栏：可通过左下角<img class="image icon" style="display:none;" id="GUID-42AF9F7D-DB4E-4E3E-80F3-272D764FE5D8__IMAGE_BJK_TMK_52C" src="GUID-9E3CE4FA-F2B2-4E4D-B44A-BEEFBB50DEEE-high.png" />勾选需显示在图像预览区底部的采图数据，包括图像采集速度、算法识别速度、网络传输速度、图像数、分辨率、序列号等。</p>
+
+            </li>
+
+        </ul>
+
+        <div class="note note" id="GUID-42AF9F7D-DB4E-4E3E-80F3-272D764FE5D8__GUID-A6834DA7-4FC2-4544-91FF-A2B2FB8CCD7E"><span class="notetitle">说明</span> 
+            
+            <ul class="ul" id="GUID-42AF9F7D-DB4E-4E3E-80F3-272D764FE5D8__UL_QDJ_SR4_VFC">
+                <li class="li" id="GUID-42AF9F7D-DB4E-4E3E-80F3-272D764FE5D8__GUID-1FF796B3-C505-438B-812F-0D0E859818CF">
+                    <p class="p">开启<span class="ph uicontrol">自适应调谐</span>功能后，采图数据栏将显示自适应调谐中的进度。</p>
+
+                </li>
+
+                <li class="li" id="GUID-42AF9F7D-DB4E-4E3E-80F3-272D764FE5D8__GUID-7E869EEC-9B5F-456F-986E-436DAE66E214">
+                    <p class="p">若选择多画面布局，每个画面窗格上的悬浮工具栏仅包含部分工具。若需使用所有功能，可单击单画面窗格右上角的<img class="image icon" style="display:none;" id="GUID-42AF9F7D-DB4E-4E3E-80F3-272D764FE5D8__IMAGE_EJF_PNK_52C" src="GUID-9FE9B0C5-CFE1-43D5-8C02-E521C621C1BD-high.png" />放大该窗格。</p>
+
+                </li>
+
+            </ul>
+
+        </div>
+
+        <p class="p">以下为预览区工具栏的各功能介绍。</p>
+
+    </div>
+
+    
+<div class="topic concept nested1" id="CONCEPT_ERG_SMG_4FC">
+        <h2 class="title topictitle2">采图工具</h2>
+
+        <div class="body conbody">
+            <dl class="dl parml">
+                
+                    <dt class="dt pt dlterm"><a name="CONCEPT_ERG_SMG_4FC__GUID-5BCF9587-F825-4EE6-9672-25AEDC8F67AF"><!-- --></a><img class="image icon" style="display:none;" id="CONCEPT_ERG_SMG_4FC__IMAGE_M3V_MNG_4FC" src="GUID-4BB2F4ED-4AE8-42CD-B6A7-2FC6E09D420B-high.png" />/<img class="image icon" style="display:none;" id="CONCEPT_ERG_SMG_4FC__IMAGE_N3V_MNG_4FC" src="GUID-82C0151E-40F4-4C70-9088-056138B889A6-high.png" /></dt>
+
+                    <dd class="dd pd">
+                        <p class="p">开始或停止采集图像。该操作默认可通过快捷键F2实现，也可在主界面菜单栏的<span class="ph menucascade"><span class="ph uicontrol">设置</span> &gt; <span class="ph uicontrol">快捷键</span></span>中自定义快捷键。</p>
+
+                        
+                        <div class="note note" id="CONCEPT_ERG_SMG_4FC__GUID-DC3EFFBA-4276-47CD-A4E4-F8BC822B8BDA"><span class="notetitle">说明</span> 
+                            <p class="p">该功能和快捷工具栏的<img class="image icon" style="display:none;" id="CONCEPT_ERG_SMG_4FC__IMAGE_E53_HQT_VFC" src="GUID-D51AAD6E-F0ED-49FE-AA43-CADAB1C732EB-high.png" />/<img class="image icon" style="display:none;" id="CONCEPT_ERG_SMG_4FC__IMAGE_CHK_JQT_VFC" src="GUID-59326C81-8180-4DFB-A0BA-B94D3D2DA7F0-high.png" />功能一致。</p>
+
+                        </div>
+
+                    </dd>
+
+                
+                
+                    <dt class="dt pt dlterm"><a name="CONCEPT_ERG_SMG_4FC__GUID-3AD2C556-BE4E-4911-8C91-9B97F2CA347F"><!-- --></a><img class="image icon" style="display:none;" id="CONCEPT_ERG_SMG_4FC__IMAGE_O3V_MNG_4FC" src="GUID-A4BACC9F-6281-4A10-95D7-AB54091370FB-high.png" />/<img class="image icon" style="display:none;" id="CONCEPT_ERG_SMG_4FC__IMAGE_P3V_MNG_4FC" src="GUID-83C8FB41-6B0C-4B32-82BA-6610E4EF8054-high.png" /></dt>
+
+                    <dd class="dd pd">
+                        <p class="p">开始预览或结束预览实时图像。若结束预览，仅关闭实时画面，不会影响读码器正常取流。</p>
+
+                    </dd>
+
+                
+                
+                    <dt class="dt pt dlterm"><a name="CONCEPT_ERG_SMG_4FC__GUID-52EED996-9AB2-46D8-98AC-708209D3C704"><!-- --></a><img class="image icon" style="display:none;" id="CONCEPT_ERG_SMG_4FC__IMAGE_Q3V_MNG_4FC" src="GUID-9682851B-DC95-407E-9CF8-AF9A51EF49A2-high.png" />/<img class="image icon" style="display:none;" id="CONCEPT_ERG_SMG_4FC__IMAGE_R3V_MNG_4FC" src="GUID-32CF257F-F445-4361-9EAC-A989EBB31F97-high.png" /></dt>
+
+                    <dd class="dd pd">
+                        <p class="p">抓取当前图像或连续抓取多张图像。若选择连续抓图，图像右侧会提示已抓取的图像数量，再次单击<img class="image icon" style="display:none;" id="CONCEPT_ERG_SMG_4FC__IMAGE_S3V_MNG_4FC" src="GUID-32CF257F-F445-4361-9EAC-A989EBB31F97-high.png" />可停止抓图，并支持快速跳转到本地保存图像的位置。</p>
+
+                        <div class="note note" id="CONCEPT_ERG_SMG_4FC__GUID-50479E6F-3EE5-4B99-845D-DDBE28A9AD43"><span class="notetitle">说明</span> 
+                            <p class="p">可通过菜单栏<span class="ph menucascade"><span class="ph uicontrol">存图</span> &gt; <span class="ph uicontrol">客户端存图</span></span>设置抓图和连续抓图的保存路径、图像格式、保存策略、图像命名规则等，具体操作可参考<a class="xref" href="GUID-9B65ABDB-62FE-4C22-8E46-750F094B35FD.html#GUID-9B65ABDB-62FE-4C22-8E46-750F094B35FD" title="客户端存图是通过IDMVS层面将读码器图像存储到本机PC上。通过菜单栏存图的客户端存图可设置存图规则。">客户端存图</a>。</p>
+
+                        </div>
+
+                    </dd>
+
+                
+            </dl>
+
+        </div>
+
+    </div>
+
+    <div class="topic concept nested1" id="CONCEPT_QVL_4NG_4FC">
+        <h2 class="title topictitle2">ROI工具</h2>
+
+        
+        <div class="body conbody"><p class="shortdesc">ROI工具包含算法ROI和对焦ROI两类，支持控制软件仅对特定区域执行算法识别或对焦操作。您可使用ROI工具灵活划定区域，排除背景干扰，提升读码准确性和对焦效率。</p>
+
+            
+<div class="div_table"><table cellpadding="4" cellspacing="0" summary="" style="display:none;" id="tbl_rowfixed" class="table wt_table_rowfixed" frame="border" border="1" rules="all"></table><table cellpadding="4" cellspacing="0" summary="" id="CONCEPT_QVL_4NG_4FC__TABLE_GC2_WNG_4FC" class="table" frame="border" border="1" rules="all"><caption><span class="tablecap">表 1 ROI功能对比</span></caption>
+                    
+                    
+                    
+                    <thead class="thead" align="left">
+                        <tr>
+                            <th class="entry" valign="top" width="25.64102564102564%" id="d21842e280">
+                                <p class="p">对比项</p>
+
+                            </th>
+
+                            <th class="entry" valign="top" width="32.82051282051282%" id="d21842e286">
+                                <p class="p">算法ROI</p>
+
+                            </th>
+
+                            <th class="entry" valign="top" width="41.53846153846153%" id="d21842e292">
+                                <p class="p">对焦ROI</p>
+
+                            </th>
+
+                        </tr>
+
+                    </thead>
+
+                    <tbody class="tbody">
+                        <tr>
+                            <td class="entry" valign="top" width="25.64102564102564%" headers="d21842e280 ">
+                                <p class="p">功能介绍</p>
+
+                            </td>
+
+                            <td class="entry" valign="top" width="32.82051282051282%" headers="d21842e286 ">
+                                <p class="p">算法ROI功能支持仅在选定的感兴趣区域内读码，其它区域不做算法处理，以提高读码效率。</p>
+
+                            </td>
+
+                            <td class="entry" valign="top" width="41.53846153846153%" headers="d21842e292 ">
+                                <p class="p">对焦ROI支持仅对选定的感兴趣区域内图像进行清晰对焦。</p>
+
+                                <div class="note note" id="CONCEPT_QVL_4NG_4FC__GUID-63AA5827-CDC4-4C6A-87FC-5C11806170FE"><span class="notetitle">说明</span> 
+                                    <p class="p">该调焦区域对<span class="ph menucascade"><span class="ph uicontrol">快速配置</span> &gt; <span class="ph uicontrol">自动对焦</span></span>功能同样生效。</p>
+
+                                </div>
+
+                            </td>
+
+                        </tr>
+
+                        <tr>
+                            <td class="entry" valign="top" width="25.64102564102564%" headers="d21842e280 ">
+                                <p class="p">适用场景</p>
+
+                            </td>
+
+                            <td class="entry" valign="top" width="32.82051282051282%" headers="d21842e286 ">
+                                <p class="p">存在多余条码干扰，只需要读取特定区域内条码</p>
+
+                            </td>
+
+                            <td class="entry" valign="top" width="41.53846153846153%" headers="d21842e292 ">
+                                <p class="p">待测条码和背景的颜色、对比度差异大等</p>
+
+                            </td>
+
+                        </tr>
+
+                        <tr>
+                            <td class="entry" valign="top" width="25.64102564102564%" headers="d21842e280 ">
+                                <p class="p">绘制方法</p>
+
+                            </td>
+
+                            <td class="entry" valign="top" width="32.82051282051282%" headers="d21842e286 ">
+                                <p class="p">支持手动绘制单个或多个ROI、快速绘制棋盘格ROI。具体操作请见表格下方介绍</p>
+
+                            </td>
+
+                            <td class="entry" valign="top" width="41.53846153846153%" headers="d21842e292 ">
+                                <p class="p">支持手动绘制单个ROI。具体操作请见表格下方介绍</p>
+
+                            </td>
+
+                        </tr>
+
+                        <tr>
+                            <td class="entry" valign="top" width="25.64102564102564%" headers="d21842e280 ">
+                                <p class="p">其它功能</p>
+
+                            </td>
+
+                            <td class="entry" valign="top" width="32.82051282051282%" headers="d21842e286 ">
+                                <ul class="ul" id="CONCEPT_QVL_4NG_4FC__UL_WC2_WNG_4FC">
+                                    <li class="li" id="CONCEPT_QVL_4NG_4FC__GUID-795C2A93-848D-4C70-9A03-6CA0C5DB855A">
+                                        <p class="p"><img class="image icon" style="display:none;" id="CONCEPT_QVL_4NG_4FC__IMAGE_XC2_WNG_4FC" src="GUID-31D27300-897F-42B4-9F3F-3FAB431559C1-high.png" />：最大化ROI，即将整个图像作为1个算法ROI。</p>
+
+                                    </li>
+
+                                    <li class="li" id="CONCEPT_QVL_4NG_4FC__GUID-30B52ED2-6CB2-431A-9EA5-8E79CD416862">
+                                        <p class="p"><img class="image icon" style="display:none;" id="CONCEPT_QVL_4NG_4FC__IMAGE_YC2_WNG_4FC" src="GUID-FC821B88-2A2F-4056-8DAB-F16707B43585-high.png" />：隐藏/显示所有ROI或清空ROI。</p>
+
+                                    </li>
+
+                                </ul>
+
+                            </td>
+
+                            <td class="entry" valign="top" width="41.53846153846153%" headers="d21842e292 ">
+                                <p class="p">暂无其它功能</p>
+
+                            </td>
+
+                        </tr>
+
+                    </tbody>
+
+                </table>
+</div>
+
+            <p class="p">ROI的绘制方法共有三种：绘制对焦ROI、手动绘制算法ROI、快速绘制棋盘格ROI。</p>
+
+            <div class="note note" id="CONCEPT_QVL_4NG_4FC__GUID-DD75DE98-B396-4568-90DE-C4D91740688A"><span class="notetitle">说明</span> 
+                <p class="p">调整单个ROI位置和大小的方法有以下3种：（1）直接拖动绘制好的ROI边框进行调整；（2）右键单击ROI并选择<span class="ph uicontrol">ROI设置</span>调整ROI的顶点X/Y坐标和高度/宽度；（3）在<span class="ph menucascade"><span class="ph uicontrol">读取设置</span> &gt; <span class="ph uicontrol">码制选择</span> &gt; <span class="ph uicontrol">ROI设置</span></span>中调整ROI大小和位置参数，具体参数释义请参考<a class="xref" href="GUID-CD0A67A0-A5F1-42E4-BCC6-C4DA9B21C28D.html#GUID-CD0A67A0-A5F1-42E4-BCC6-C4DA9B21C28D" title="IDMVS码制选择模块支持配置读码器可读取的条码类型、条码个数、读码算法和ROI，适配不同读码场景，方便按需优化读码效果。">码制选择</a>。</p>
+
+            </div>
+
+            <div class="p">绘制好的ROI会根据绘制顺序排序，索引号如1,2,3,...直接显示在ROI内。输出条码数据时，可设置根据条码对应的ROI升序或降序输出读码结果。具体操作请参考<a class="xref" href="GUID-F3AB809B-5364-45D7-A6E6-172F562F6A1B.html#GUID-F3AB809B-5364-45D7-A6E6-172F562F6A1B" title="排序方式模块支持设置规则对条码数据进行排序，适用于需要对读取条码数据进行有序处理场景。">输出数据排序</a>。<div class="note note" id="CONCEPT_QVL_4NG_4FC__GUID-1DC4DCDB-504B-4CA7-9247-D107E51F5B35"><span class="notetitle">说明</span> 
+                    <p class="p">若删除某个ROI，剩余ROI的索引号不会自动递补。例如，若当前存在3个ROI，索引号分别为1,2,3。假设删除2号ROI，3号ROI仍保持原索引号3，后续新绘制的ROI将填补空缺索引号（即成为新的2号ROI）。</p>
+
+                </div>
+</div>
+
+            <div class="section" id="CONCEPT_QVL_4NG_4FC__GUID-DC8F1823-A76E-41C3-9103-105DBACD1245"><h3 class="title sectiontitle">对焦ROI绘制</h3>
+                
+                <p class="p">若需绘制对焦ROI，可参考以下步骤。</p>
+
+                <ol class="ol" id="CONCEPT_QVL_4NG_4FC__OL_UD2_FPG_4FC">
+                    <li class="li" id="CONCEPT_QVL_4NG_4FC__GUID-6051BDB8-C9F0-447E-9ADC-A4E70EE5FAFC">
+                        <p class="p">单击<img class="image icon" style="display:none;" id="CONCEPT_QVL_4NG_4FC__IMAGE_VD2_FPG_4FC" src="GUID-CAE3AB92-6AE7-48F7-8009-7BD59B695D08-high.png" />右下角的小三角，选择<span class="ph uicontrol">对焦ROI</span>。</p>
+
+                    </li>
+
+                    <li class="li" id="CONCEPT_QVL_4NG_4FC__GUID-D624239F-F8F0-4271-B092-0CD9642EAFCC">
+                        <p class="p">单击<img class="image icon" style="display:none;" id="CONCEPT_QVL_4NG_4FC__IMAGE_WD2_FPG_4FC" src="GUID-CAE3AB92-6AE7-48F7-8009-7BD59B695D08-high.png" />，鼠标在实时图像区变为绘制状态，即“＋”。</p>
+
+                    </li>
+
+                    <li class="li" id="CONCEPT_QVL_4NG_4FC__GUID-69D1EBE8-274A-470C-B0D0-466F2D64DF50">
+                        <p class="p">长按鼠标左键框选调焦区域，松开鼠标则绘制完成。</p>
+
+                        <p class="p">此时实时图像区不会显示绘制区域，可通过<span class="ph menucascade"><span class="ph uicontrol">成像配置</span> &gt; <span class="ph uicontrol">调焦参数</span></span>确定调焦区域的顶点坐标和宽度/高度已同步修改。</p>
+
+                    </li>
+
+                </ol>
+
+            </div>
+
+            <div class="section" id="CONCEPT_QVL_4NG_4FC__GUID-6F57E57C-93F3-4355-A235-49EE1AF785CB"><h3 class="title sectiontitle">算法ROI手动绘制</h3><p class="p">若需手动绘制算法ROI，可参考以下步骤。</p>
+<ol class="ol" id="CONCEPT_QVL_4NG_4FC__OL_CHQ_JPG_4FC">
+                    <li class="li" id="CONCEPT_QVL_4NG_4FC__GUID-7E313859-7EF1-4F4F-93F1-3031BD2D1256">
+                        <p class="p">单击<img class="image icon" style="display:none;" id="CONCEPT_QVL_4NG_4FC__IMAGE_DHQ_JPG_4FC" src="GUID-CAE3AB92-6AE7-48F7-8009-7BD59B695D08-high.png" />右下角小三角，选择<span class="ph uicontrol">算法ROI</span>。</p>
+
+                    </li>
+
+                    <li class="li" id="CONCEPT_QVL_4NG_4FC__GUID-3DA01835-2A5E-4AF0-B1D6-38607E4D3F73">
+                        <p class="p">单击<img class="image icon" style="display:none;" id="CONCEPT_QVL_4NG_4FC__IMAGE_EHQ_JPG_4FC" src="GUID-CAE3AB92-6AE7-48F7-8009-7BD59B695D08-high.png" />，鼠标在实时图像区变为绘制状态，即“＋”。</p>
+
+                    </li>
+
+                    <li class="li" id="CONCEPT_QVL_4NG_4FC__GUID-E8900218-9FDE-47D2-B100-0DFE569F6B00">
+                        <p class="p">长按鼠标左键框选需要绘制算法ROI的区域，松开鼠标则绘制完成。</p>
+
+                    </li>
+
+                    <li class="li" id="CONCEPT_QVL_4NG_4FC__GUID-66D2FCCE-192A-4276-9A19-FC8A2C9C18ED">
+                        <p class="p">（可选）再次单击<img class="image icon" style="display:none;" id="CONCEPT_QVL_4NG_4FC__IMAGE_FHQ_JPG_4FC" src="GUID-CAE3AB92-6AE7-48F7-8009-7BD59B695D08-high.png" />可绘制多个ROI。</p>
+
+                    </li>
+
+                </ol>
+<div style="overflow:auto;text-align: center;"><video controls="controls" muted="true" width="900px"><source src="GUID-C72D7066-C857-4A2B-BFCD-3C98E73EBC69-high.mp4" type="video/mp4" id="GUID-6305FC23-7695-47F9-A9D5-78241C002F22"></source></video></div></div>
+
+            <div class="section" id="CONCEPT_QVL_4NG_4FC__GUID-54E3551D-9692-4702-89BC-32825EF74E8A"><h3 class="title sectiontitle">算法ROI棋盘格绘制</h3><p class="p">若需快速绘制棋盘格ROI，可参考以下步骤。</p>
+<ol class="ol" id="CONCEPT_QVL_4NG_4FC__OL_XMK_NPG_4FC">
+                    <li class="li" id="CONCEPT_QVL_4NG_4FC__GUID-CB7F98C5-46B8-4FBB-B586-C3E4158D5A51">
+                        <p class="p">单击<img class="image icon" style="display:none;" id="CONCEPT_QVL_4NG_4FC__IMAGE_YMK_NPG_4FC" src="GUID-6A51178E-A970-435E-A275-03501EFF98F9-high.png" />，打开<span class="ph uicontrol">创建棋盘格ROI</span>窗口。</p>
+
+                    </li>
+
+                    <li class="li" id="CONCEPT_QVL_4NG_4FC__GUID-14A5D267-E2B3-4F21-A44E-FA005142E831">
+                        <p class="p">填写待绘制ROI的行数和列数，并单击<span class="ph uicontrol">确定</span>。</p>
+
+                    </li>
+
+                    <li class="li" id="CONCEPT_QVL_4NG_4FC__GUID-AC971AB1-A086-4DD4-B42A-F597D2275BCE">
+                        <p class="p">（可选）鼠标置于算法ROI区域的外边框，根据需求调整棋盘格ROI整体的大小和位置。若效果不满足需求，可单击<img class="image icon" style="display:none;" id="CONCEPT_QVL_4NG_4FC__IMAGE_ZMK_NPG_4FC" src="GUID-65557AF9-163D-4353-B017-FBD90D5669BB-high.png" />将棋盘格ROI最大化后重新调整；或单击<img class="image icon" style="display:none;" id="CONCEPT_QVL_4NG_4FC__IMAGE_ANK_NPG_4FC" src="GUID-FFB7A7DD-6D0F-4D18-ACAD-75AF7034D48A-high.png" />清除该棋盘格ROI。</p>
+
+                    </li>
+
+                    <li class="li" id="CONCEPT_QVL_4NG_4FC__GUID-561D0D04-3FFB-4550-88F1-F9B5E98C58E6">
+                        <p class="p">单击<img class="image icon" style="display:none;" id="CONCEPT_QVL_4NG_4FC__IMAGE_BNK_NPG_4FC" src="GUID-92E2F06D-BEF4-46E6-9723-F91E7FAC8629-high.png" />生成棋盘格ROI。</p>
+
+                    </li>
+
+                </ol>
+<div style="overflow:auto;text-align: center;"><video controls="controls" muted="true" width="900px"><source src="GUID-C72D7066-C857-4A2B-BFCD-3C98E73EBC69-high.mp4" type="video/mp4" id="GUID-1BEBF019-F2B3-4566-BE76-2711751ABCAB"></source></video></div></div>
+
+        </div>
+
+    </div>
+
+    <div class="topic concept nested1" id="CONCEPT_WZM_4PG_4FC">
+        <h2 class="title topictitle2">辅助工具</h2>
+
+        <div class="body conbody">
+            <dl class="dl parml">
+                
+                    <dt class="dt pt dlterm"><a name="CONCEPT_WZM_4PG_4FC__GUID-0C567393-A4CC-4E59-A551-EF62FD37C5EF"><!-- --></a><img class="image icon" style="display:none;" id="CONCEPT_WZM_4PG_4FC__IMAGE_YKX_QPG_4FC" src="GUID-19B6731E-8835-466B-B1E8-69BF7C314B94-high.png" /></dt>
+
+                    <dd class="dd pd"><p class="p">设置十字辅助线可帮助标注视野中心。</p>
+<ol class="ol" id="CONCEPT_WZM_4PG_4FC__OL_ZKX_QPG_4FC">
+                            <li class="li" id="CONCEPT_WZM_4PG_4FC__GUID-B9027F94-FFA2-4D1C-B796-19210C73BCB1">
+                                <p class="p">单击<img class="image icon" style="display:none;" id="CONCEPT_WZM_4PG_4FC__IMAGE_ALX_QPG_4FC" src="GUID-19B6731E-8835-466B-B1E8-69BF7C314B94-high.png" />打开十字辅助线。</p>
+
+                            </li>
+
+                            <li class="li" id="CONCEPT_WZM_4PG_4FC__GUID-B8EF23DE-1D51-4285-B56D-2B842A5E637E">
+                                <p class="p">单击图标右下角小三角打开辅助线设置窗口，并设置相关参数。</p>
+
+                                <dl class="dl parml">
+                                    
+                                        <dt class="dt pt dlterm"><a name="CONCEPT_WZM_4PG_4FC__GUID-E4062A14-CAC9-4817-9570-F0215FBC5EC0"><!-- --></a>宽度/高度</dt>
+
+                                        <dd class="dd pd">
+                                            <p class="p">可分别设置水平/垂直辅助线在预览窗口的长度。</p>
+
+                                        </dd>
+
+                                    
+                                    
+                                        <dt class="dt pt dlterm"><a name="CONCEPT_WZM_4PG_4FC__GUID-E44818E8-2FC3-4022-8E92-F1F56B6B074A"><!-- --></a>X/Y偏移</dt>
+
+                                        <dd class="dd pd">
+                                            <p class="p">可分别设置辅助线原点水平和垂直方向的偏移。辅助线原点默认为图像的中点。</p>
+
+                                        </dd>
+
+                                    
+                                    
+                                        <dt class="dt pt dlterm"><a name="CONCEPT_WZM_4PG_4FC__GUID-FCB53200-6BC0-4A76-BB44-69AB45C2043C"><!-- --></a>颜色/粗细</dt>
+
+                                        <dd class="dd pd">
+                                            <p class="p">可设置辅助线的颜色和线条粗细。</p>
+
+                                        </dd>
+
+                                    
+                                </dl>
+
+                            </li>
+
+                        </ol>
+<div style="overflow:auto;text-align: center;"><video controls="controls" muted="true" width="900px"><source src="GUID-0946FD1C-1E4E-4164-A337-2740679956CC-high.mp4" type="video/mp4" id="GUID-73A7DD52-1665-4A27-9D87-4922C19212A8"></source></video></div></dd>
+
+                
+                
+                    <dt class="dt pt dlterm"><a name="CONCEPT_WZM_4PG_4FC__GUID-8C310B87-2553-4852-B740-2BAB6EA5D2D2"><!-- --></a>画面百分比（图像预览区工具栏的最右侧）</dt>
+
+                    <dd class="dd pd">
+                        <p class="p">可通过下拉框设置画面放大、缩小、自适应大小、全屏显示、旋转画面等。也可通过右键单击实时画面区实现该类功能。</p>
+
+                        <div class="note note" id="CONCEPT_WZM_4PG_4FC__GUID-E699594C-8809-4058-A8B1-77C23B4D31EF"><span class="notetitle">说明</span> 
+                            <p class="p">若需旋转图像，请先开启读码器取流。</p>
+
+                        </div>
+
+                    </dd>
+
+                
+            </dl>
+
+        </div>
+
+    </div>
+
+</div>
+						<div class=" wt_topic_wpp_content wt_pc_only "><div class=" wt_topic_wpp_content_flex "><div class="wt_topic_wpp_item like"></div><div class="wt_topic_wpp_item view"></div><div class="wt_topic_wpp_item share">分享</div></div></div>
+						
+						
+						
+					</div>
+				</div><!-- container_body -->
+				
+				<div class=" body_footer "><div onclick="prevTopic()" class=" body_footer_left link_button "><span>上一页</span></div><div onclick="nextTopic()" class=" body_footer_right link_button "><span>下一页</span></div></div>
+				<div class=" body_wpp mobile_only"><div class="wt_body_mobile_like"></div><div class="wt_body_mobile_view"></div></div>
+				<!-- <whc:webhelp_side_toc /> -->
+				
+			</div> <!-- middle_view content_area -->
+			<div class=" right_content wt_pc_only "><div class=" right_fixed_container "><div class="right_guide"><div class="feature_guide"><div>本页导航</div><ul><li onclick="scrollToAnchor($(this))" data-id="CONCEPT_ERG_SMG_4FC" class="feature_guide_h2"><span class="link_button">采图工具</span></li><li onclick="scrollToAnchor($(this))" data-id="CONCEPT_QVL_4NG_4FC" class="feature_guide_h2"><span class="link_button">ROI工具</span></li><li onclick="scrollToAnchor($(this))" data-id="CONCEPT_QVL_4NG_4FC__GUID-DC8F1823-A76E-41C3-9103-105DBACD1245" class="feature_guide_h3"><span class="link_button">对焦ROI绘制</span></li><li onclick="scrollToAnchor($(this))" data-id="CONCEPT_QVL_4NG_4FC__GUID-6F57E57C-93F3-4355-A235-49EE1AF785CB" class="feature_guide_h3"><span class="link_button">算法ROI手动绘制</span></li><li onclick="scrollToAnchor($(this))" data-id="CONCEPT_QVL_4NG_4FC__GUID-54E3551D-9692-4702-89BC-32825EF74E8A" class="feature_guide_h3"><span class="link_button">算法ROI棋盘格绘制</span></li><li onclick="scrollToAnchor($(this))" data-id="CONCEPT_WZM_4PG_4FC" class="feature_guide_h2"><span class="link_button">辅助工具</span></li></ul></div></div></div></div>
+		</div> <!-- content_box -->
+		
+		<!-- 置顶按钮 -->
+		<div class="body_to_top" onclick="scrollTopicTop()"></div> 
+		<!-- 评价反馈 -->
+		<div onclick="manualFeedback()" class=" body_feedback " data-href="https://wj.hikvision.com/#/public-survey?id=64c8b90d80e02e9e88feca2f"></div>
+		
+	</body>
+</html>

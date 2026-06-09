@@ -1,0 +1,368 @@
+// Microsoft Visual C++ generated resource script.
+//
+#include "resource.h"
+
+#define APSTUDIO_READONLY_SYMBOLS
+/////////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 2 resource.
+//
+#ifndef APSTUDIO_INVOKED
+#include "targetver.h"
+#endif
+#include "afxres.h"
+
+/////////////////////////////////////////////////////////////////////////////
+#undef APSTUDIO_READONLY_SYMBOLS
+
+/////////////////////////////////////////////////////////////////////////////
+// Chinese (P.R.C.) resources
+
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_CHS)
+#ifdef _WIN32
+LANGUAGE LANG_CHINESE, SUBLANG_CHINESE_SIMPLIFIED
+#pragma code_page(936)
+#endif //_WIN32
+
+#ifdef APSTUDIO_INVOKED
+/////////////////////////////////////////////////////////////////////////////
+//
+// TEXTINCLUDE
+//
+
+1 TEXTINCLUDE 
+BEGIN
+    "resource.h\0"
+END
+
+2 TEXTINCLUDE 
+BEGIN
+    "#ifndef APSTUDIO_INVOKED\r\n"
+    "#include ""targetver.h""\r\n"
+    "#endif\r\n"
+    "#include ""afxres.h""\r\n"
+    "\0"
+END
+
+3 TEXTINCLUDE 
+BEGIN
+    "#define _AFX_NO_SPLITTER_RESOURCES\r\n"
+    "#define _AFX_NO_OLE_RESOURCES\r\n"
+    "#define _AFX_NO_TRACKER_RESOURCES\r\n"
+    "#define _AFX_NO_PROPERTY_RESOURCES\r\n"
+    "\r\n"
+    "#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_CHS)\r\n"
+    "LANGUAGE 4, 2\r\n"
+    "#pragma code_page(936)\r\n"
+    "#include ""res\\MVIDCodeReaderDemo.rc2""  // 非 Microsoft Visual C++ 编辑的资源\r\n"
+    "#include ""l.CHS\\afxres.rc""      // 标准组件\r\n"
+    "#endif\r\n"
+    "\0"
+END
+
+#endif    // APSTUDIO_INVOKED
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Icon
+//
+
+// Icon with lowest ID value placed first to ensure application icon
+// remains consistent on all systems.
+IDR_MAINFRAME           ICON                    "res\\MVIDCodeReaderDemo.ico"
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Dialog
+//
+
+IDD_ABOUTBOX DIALOGEX 0, 0, 170, 62
+STYLE DS_SETFONT | DS_MODALFRAME | DS_FIXEDSYS | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "关于 MVIDCodeReaderDemo"
+FONT 9, "MS Shell Dlg", 0, 0, 0x1
+BEGIN
+    ICON            IDR_MAINFRAME,IDC_STATIC,14,14,21,20
+    LTEXT           "MVIDCodeReaderDemo，1.0 版",IDC_STATIC,42,14,114,8,SS_NOPREFIX
+    LTEXT           "Copyright (C) 2018",IDC_STATIC,42,26,114,8
+    DEFPUSHBUTTON   "确定",IDOK,113,41,50,14,WS_GROUP
+END
+
+IDD_MVIDCODEREADERDEMO_DIALOG DIALOGEX 0, 0, 578, 373
+STYLE DS_SETFONT | DS_MODALFRAME | DS_FIXEDSYS | WS_MINIMIZEBOX | WS_POPUP | WS_VISIBLE | WS_CAPTION | WS_SYSMENU
+EXSTYLE WS_EX_APPWINDOW
+CAPTION "MVIDCodeReaderDemo"
+FONT 9, "MS Shell Dlg", 0, 0, 0x1
+BEGIN
+    PUSHBUTTON      "搜索相机",IDC_BTN_Enum,16,22,50,14
+    COMBOBOX        IDC_COMBO_CamList,73,24,246,30,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
+    PUSHBUTTON      "开始读码",IDC_BTN_Start,16,42,50,14
+    PUSHBUTTON      "停止读码",IDC_BTN_Stop,73,42,50,14
+    LISTBOX         IDC_LIST_Result,16,122,274,158,LBS_NOINTEGRALHEIGHT | WS_VSCROLL | WS_HSCROLL | WS_TABSTOP
+    CONTROL         "",IDC_LIST_Param,"SysListView32",LVS_ALIGNLEFT | WS_BORDER | WS_TABSTOP,340,25,224,107
+    PUSHBUTTON      "选择图片",IDC_BTN_Load,16,81,50,14
+    EDITTEXT        IDC_EDIT_ImagePath,75,81,243,14,ES_AUTOHSCROLL | ES_READONLY
+    PUSHBUTTON      "识别",IDC_BTN_Proc,74,100,50,14
+    PUSHBUTTON      "初始化资源",IDC_BTN_Init,16,100,50,14
+    GROUPBOX        "连接相机",IDC_STATIC,7,7,322,58
+    GROUPBOX        "本地图片",IDC_STATIC,7,70,320,49
+    PUSHBUTTON      "清空消息",IDC_BTN_Clear,295,187,32,35
+    PUSHBUTTON      "抠图",IDC_BTN_CUTOUT,133,100,50,14
+    CONTROL         "",IDC_IMAGE_STATIC,"Static",SS_BLACKFRAME,333,144,238,222
+    PUSHBUTTON      "参数获取",IDC_GET_PARAMETER_BUTTON,225,313,50,14
+    PUSHBUTTON      "参数设置",IDC_SET_PARAMETER_BUTTON,225,339,50,14
+    GROUPBOX        "算法参数设置",IDC_STATIC,332,7,239,131
+    GROUPBOX        "相机参数设置",IDC_STATIC,7,292,295,74
+    LTEXT           "曝光",IDC_STATIC,31,307,15,8
+    LTEXT           "增益",IDC_STATIC,31,329,15,8
+    LTEXT           "帧率",IDC_STATIC,31,349,15,8
+    EDITTEXT        IDC_EXPOSURE_EDIT,57,305,139,14,ES_AUTOHSCROLL
+    EDITTEXT        IDC_GAIN_EDIT,57,326,139,14,ES_AUTOHSCROLL
+    EDITTEXT        IDC_FRAME_RATE_EDIT,57,347,139,14,ES_AUTOHSCROLL
+END
+
+IDD_MVIDCODEREADERDEMO_RAWDIALOG DIALOGEX 0, 0, 222, 126
+STYLE DS_SETFONT | DS_MODALFRAME | DS_FIXEDSYS | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "Dialog"
+FONT 8, "MS Shell Dlg", 400, 0, 0x1
+BEGIN
+    LTEXT           "图像宽度",IDC_STATIC,36,19,40,8
+    LTEXT           "图像高度",IDC_STATIC,36,44,40,8
+    EDITTEXT        IDC_IMAGE_WIDTH,118,16,69,14,ES_AUTOHSCROLL
+    EDITTEXT        IDC_IMAGE_HEIGHT,118,41,69,14,ES_AUTOHSCROLL
+    PUSHBUTTON      "确定",IDC_BUTTON1,71,98,50,14
+    COMBOBOX        IDC_COMBO_CONVERTTYPE,118,70,69,30,CBS_DROPDOWN | WS_VSCROLL | WS_TABSTOP
+    LTEXT           "图像格式",IDC_STATIC,35,74,40,8
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Version
+//
+
+VS_VERSION_INFO VERSIONINFO
+ FILEVERSION 1,0,0,1
+ PRODUCTVERSION 1,0,0,1
+ FILEFLAGSMASK 0x3fL
+#ifdef _DEBUG
+ FILEFLAGS 0x1L
+#else
+ FILEFLAGS 0x0L
+#endif
+ FILEOS 0x4L
+ FILETYPE 0x1L
+ FILESUBTYPE 0x0L
+BEGIN
+    BLOCK "StringFileInfo"
+    BEGIN
+        BLOCK "080403a8"
+        BEGIN
+            VALUE "CompanyName", "TODO: <公司名>"
+            VALUE "FileDescription", "TODO: <文件说明>"
+            VALUE "FileVersion", "1.0.0.1"
+            VALUE "InternalName", "MVIDCodeReaderDemo.exe"
+            VALUE "LegalCopyright", "TODO: (C) <公司名>。保留所有权利。"
+            VALUE "OriginalFilename", "MVIDCodeReaderDemo.exe"
+            VALUE "ProductName", "TODO: <产品名>"
+            VALUE "ProductVersion", "1.0.0.1"
+        END
+    END
+    BLOCK "VarFileInfo"
+    BEGIN
+        VALUE "Translation", 0x804, 936
+    END
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// DESIGNINFO
+//
+
+#ifdef APSTUDIO_INVOKED
+GUIDELINES DESIGNINFO 
+BEGIN
+    IDD_ABOUTBOX, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 163
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 55
+    END
+
+    IDD_MVIDCODEREADERDEMO_DIALOG, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 571
+        VERTGUIDE, 16
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 366
+        HORZGUIDE, 36
+        HORZGUIDE, 56
+        HORZGUIDE, 102
+        HORZGUIDE, 121
+    END
+
+    IDD_MVIDCODEREADERDEMO_RAWDIALOG, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 215
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 119
+    END
+END
+#endif    // APSTUDIO_INVOKED
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// String Table
+//
+
+STRINGTABLE 
+BEGIN
+    IDS_ABOUTBOX            "关于 MVIDCodeReaderDemo(&A)..."
+END
+
+#endif    // Chinese (P.R.C.) resources
+/////////////////////////////////////////////////////////////////////////////
+
+
+/////////////////////////////////////////////////////////////////////////////
+// English (Neutral) resources
+
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_ENU)
+#ifdef _WIN32
+LANGUAGE LANG_ENGLISH, SUBLANG_NEUTRAL
+#pragma code_page(1252)
+#endif //_WIN32
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Dialog
+//
+
+IDD_ABOUTBOX DIALOGEX 0, 0, 170, 62
+STYLE DS_SETFONT | DS_MODALFRAME | DS_FIXEDSYS | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "?? MVIDCodeReaderDemo"
+FONT 9, "MS Shell Dlg", 0, 0, 0x1
+BEGIN
+    ICON            IDR_MAINFRAME,IDC_STATIC,14,14,20,20
+    LTEXT           "MVIDCodeReaderDemo,1.0 ?",IDC_STATIC,42,14,114,8,SS_NOPREFIX
+    LTEXT           "Copyright (C) 2018",IDC_STATIC,42,26,114,8
+    DEFPUSHBUTTON   "OK",IDOK,113,41,50,14,WS_GROUP
+END
+
+IDD_MVIDCODEREADERDEMO_DIALOG DIALOGEX 0, 0, 578, 373
+STYLE DS_SETFONT | DS_MODALFRAME | DS_FIXEDSYS | WS_MINIMIZEBOX | WS_MAXIMIZEBOX | WS_POPUP | WS_VISIBLE | WS_CAPTION | WS_SYSMENU
+EXSTYLE WS_EX_APPWINDOW
+CAPTION "MVIDCodeReaderDemo"
+FONT 9, "MS Shell Dlg", 0, 0, 0x1
+BEGIN
+    PUSHBUTTON      "Search Cameras",IDC_BTN_Enum,16,21,52,14
+    COMBOBOX        IDC_COMBO_CamList,73,23,246,30,CBS_DROPDOWN | WS_VSCROLL | WS_TABSTOP
+    PUSHBUTTON      "Start Reading",IDC_BTN_Start,16,42,53,14
+    PUSHBUTTON      "Stop Reading",IDC_BTN_Stop,73,42,50,14
+    LISTBOX         IDC_LIST_Result,16,122,274,158,LBS_NOINTEGRALHEIGHT | WS_VSCROLL | WS_HSCROLL | WS_TABSTOP
+    CONTROL         "",IDC_LIST_Param,"SysListView32",LVS_ALIGNLEFT | WS_BORDER | WS_TABSTOP,340,25,224,107
+    PUSHBUTTON      "Select Picture",IDC_BTN_Load,16,81,50,14
+    EDITTEXT        IDC_EDIT_ImagePath,75,81,243,14,ES_AUTOHSCROLL
+    PUSHBUTTON      "Recognize",IDC_BTN_Proc,74,100,50,14
+    PUSHBUTTON      "Initialize",IDC_BTN_Init,16,100,50,14
+    GROUPBOX        "Connect to Camera",IDC_STATIC,7,7,322,58
+    GROUPBOX        "Local Picture",IDC_STATIC,7,70,320,49
+    PUSHBUTTON      "Clear",IDC_BTN_Clear,295,187,32,35
+    PUSHBUTTON      "Enable Matting",IDC_BTN_CUTOUT,133,100,50,14
+    CONTROL         "",IDC_IMAGE_STATIC,"Static",SS_BLACKFRAME,333,144,238,222
+    PUSHBUTTON      "Get Parameters",IDC_GET_PARAMETER_BUTTON,225,313,73,14
+    PUSHBUTTON      "Set Parameters",IDC_SET_PARAMETER_BUTTON,225,339,73,14
+    GROUPBOX        "Algorithm Settings",IDC_STATIC,332,7,239,131
+    GROUPBOX        "Camera Settings",IDC_STATIC,7,292,295,74
+    LTEXT           "Exposure",IDC_STATIC,32,307,31,8
+    LTEXT           "Gain",IDC_STATIC,37,329,15,8
+    LTEXT           "FrameRate",IDC_STATIC,27,349,37,8
+    EDITTEXT        IDC_EXPOSURE_EDIT,74,305,139,14,ES_AUTOHSCROLL
+    EDITTEXT        IDC_GAIN_EDIT,74,326,139,14,ES_AUTOHSCROLL
+    EDITTEXT        IDC_FRAME_RATE_EDIT,74,347,139,14,ES_AUTOHSCROLL
+END
+
+IDD_MVIDCODEREADERDEMO_RAWDIALOG DIALOGEX 0, 0, 222, 126
+STYLE DS_SETFONT | DS_MODALFRAME | DS_FIXEDSYS | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "Dialog"
+FONT 8, "MS Shell Dlg", 400, 0, 0x1
+BEGIN
+    LTEXT           "Image Width",IDC_STATIC,36,19,55,8
+    LTEXT           "Image Hight",IDC_STATIC,36,44,55,8
+    EDITTEXT        IDC_IMAGE_WIDTH,118,16,69,14,ES_AUTOHSCROLL
+    EDITTEXT        IDC_IMAGE_HEIGHT,118,41,69,14,ES_AUTOHSCROLL
+    PUSHBUTTON      "OK",IDC_BUTTON1,124,95,50,14
+    COMBOBOX        IDC_COMBO_CONVERTTYPE,118,70,69,30,CBS_DROPDOWN | WS_VSCROLL | WS_TABSTOP
+    LTEXT           "Image Format",IDC_STATIC,35,74,55,8
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// DESIGNINFO
+//
+
+#ifdef APSTUDIO_INVOKED
+GUIDELINES DESIGNINFO 
+BEGIN
+    IDD_ABOUTBOX, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 163
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 55
+    END
+
+    IDD_MVIDCODEREADERDEMO_DIALOG, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 571
+        VERTGUIDE, 16
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 366
+        HORZGUIDE, 35
+        HORZGUIDE, 56
+        HORZGUIDE, 102
+        HORZGUIDE, 121
+    END
+
+    IDD_MVIDCODEREADERDEMO_RAWDIALOG, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 215
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 119
+    END
+END
+#endif    // APSTUDIO_INVOKED
+
+#endif    // English (Neutral) resources
+/////////////////////////////////////////////////////////////////////////////
+
+
+
+#ifndef APSTUDIO_INVOKED
+/////////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 3 resource.
+//
+#define _AFX_NO_SPLITTER_RESOURCES
+#define _AFX_NO_OLE_RESOURCES
+#define _AFX_NO_TRACKER_RESOURCES
+#define _AFX_NO_PROPERTY_RESOURCES
+
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_CHS)
+LANGUAGE 4, 2
+#pragma code_page(936)
+#include "res\MVIDCodeReaderDemo.rc2"  // 非 Microsoft Visual C++ 编辑的资源
+#include "l.CHS\afxres.rc"      // 标准组件
+#endif
+
+/////////////////////////////////////////////////////////////////////////////
+#endif    // not APSTUDIO_INVOKED
+

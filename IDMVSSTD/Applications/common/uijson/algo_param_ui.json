@@ -1,0 +1,696 @@
+{
+    "ui_tabs": [
+        {
+            "ui_type": "tab",
+            "ui_param_name": "",
+            "ui_subset": [
+                {
+                    "ui_display_name": "Code_Type",
+                    "ui_display_cn_name": "条码类型",
+                    "ui_display_en_name": "Code Type",
+                    "ui_usage_frequency": "Common",
+                    "ui_type": "category",
+                    "ui_param_name": "",
+                    "ui_param_display_type": "",
+                    "ui_subset": [
+                        {
+                            "ui_display_name": "",
+                            "ui_display_cn_name": "",
+                            "ui_display_en_name": "",
+                            "ui_usage_frequency": "Common",
+                            "ui_type": "config_param",
+                            "ui_param_name": "codeselect_ctrl",
+                            "ui_param_display_type": "codeselect_ctrl",
+                            "ui_subset": null
+                        }
+                    ]
+                },
+                {
+                    "ui_display_name": "Code_Numbers",
+                    "ui_display_cn_name": "条码个数",
+                    "ui_display_en_name": "Code Number",
+                    "ui_usage_frequency": "Common",
+                    "ui_type": "category",
+                    "ui_param_name": "",
+                    "ui_param_display_type": "",
+                    "ui_subset": [
+                        {
+                            "ui_display_name": "code_type",
+                            "ui_display_cn_name": "码制类型",
+                            "ui_display_en_name": "Code Type",
+                            "ui_usage_frequency": "Common",
+                            "ui_type": "config_param",
+                            "ui_param_name": "ArithmeticType",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        },
+                        {
+                            "ui_display_name": "ReadCodeNum",
+                            "ui_display_cn_name": "条码数量",
+                            "ui_display_en_name": "Code Number",
+                            "ui_usage_frequency": "Common",
+                            "ui_type": "config_param",
+                            "ui_param_name": "ReadCodeNum",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        },
+                        {
+                            "ui_display_name": "codeNums_1D",
+                            "ui_display_cn_name": "条码个数",
+                            "ui_display_en_name": "Code Number",
+                            "ui_usage_frequency": "Common",
+                            "ui_type": "config_param",
+                            "ui_param_name": "LocBarNum",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        },
+                        {
+                            "ui_display_name": "codeNums_2D",
+                            "ui_display_cn_name": "二维码个数",
+                            "ui_display_en_name": "Number of 2D Codes",
+                            "ui_usage_frequency": "Common",
+                            "ui_type": "config_param",
+                            "ui_param_name": "IdxLocCodeNum",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        },
+                        {
+                            "ui_display_name": "codeNums_stack",
+                            "ui_display_cn_name": "堆叠码个数",
+                            "ui_display_en_name": "Number of Stacked Codes",
+                            "ui_usage_frequency": "Common",
+                            "ui_type": "config_param",
+                            "ui_param_name": "StackBarNum",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        }
+                    ]
+                },
+                {
+                    "ui_display_name": "CodeAlgorithm_Params",
+                    "ui_display_cn_name": "读码算法设置",
+                    "ui_display_en_name": "Reading Algorithm Settings",
+                    "ui_usage_frequency": "Common",
+                    "ui_type": "category",
+                    "ui_param_name": "",
+                    "ui_param_display_type": "",
+                    "ui_subset": [
+                        {
+                            "ui_display_name": "IDHRead_Mode",
+                            "ui_display_cn_name": "读码模式",
+                            "ui_display_en_name": "Reading Mode",
+                            "ui_usage_frequency": "Common",
+                            "ui_type": "config_param",
+                            "ui_param_name": "CodeReadMode",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        },
+                        {
+                            "ui_display_name": "Read_Mode",
+                            "ui_display_cn_name": "读码模式",
+                            "ui_display_en_name": "Reading Mode",
+                            "ui_usage_frequency": "Common",
+                            "ui_type": "config_param",
+                            "ui_param_name": "ReadMode",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        },
+                        {
+                            "ui_display_name": "Arithmetic_Model",
+                            "ui_display_cn_name": "算法模式",
+                            "ui_display_en_name": "Algorithm Mode",
+                            "ui_usage_frequency": "Advance",
+                            "ui_type": "config_param",
+                            "ui_param_name": "ArithmeticModel",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        },
+                        {
+                            "ui_display_name": "BcrCode_Color",
+                            "ui_display_cn_name": "黑白码参数",
+                            "ui_display_en_name": "Code Color",
+                            "ui_usage_frequency": "Advance",
+                            "ui_type": "config_param",
+                            "ui_param_name": "BcrCodeColor",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        },
+                        {
+                            "ui_display_name": "Code39_Check",
+                            "ui_display_cn_name": "39码校验",
+                            "ui_display_en_name": "Code39 Check",
+                            "ui_usage_frequency": "Advance",
+                            "ui_type": "config_param",
+                            "ui_param_name": "Code39Check",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        },
+                        {
+                            "ui_display_name": "ITF25_Check",
+                            "ui_display_cn_name": "ITF25码校验",
+                            "ui_display_en_name": "ITF25 Check",
+                            "ui_usage_frequency": "Advance",
+                            "ui_type": "config_param",
+                            "ui_param_name": "ITF25Check",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        },
+                        {
+                            "ui_display_name": "IdxDistortion_Flag",
+                            "ui_display_cn_name": "QR畸变校正",
+                            "ui_display_en_name": "Correct QR Distortion",
+                            "ui_usage_frequency": "Advance",
+                            "ui_type": "config_param",
+                            "ui_param_name": "IdxDistortionFlag",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        },
+                        {
+                            "ui_display_name": "DMCode_Type",
+                            "ui_display_cn_name": "DM码类型",
+                            "ui_display_en_name": "DM Code Type",
+                            "ui_usage_frequency": "Advance",
+                            "ui_type": "config_param",
+                            "ui_param_name": "DMCodeType",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        },
+                        {
+                            "ui_display_name": "algo_Waiting_Time",
+                            "ui_display_cn_name": "算法等待时间(ms)",
+                            "ui_display_en_name": "Algorithm Waiting Time(ms)",
+                            "ui_usage_frequency": "Common",
+                            "ui_type": "config_param",
+                            "ui_param_name": "WaitingTime",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        },
+                        {
+                            "ui_display_name": "GS1_Format_Analysis",
+                            "ui_display_cn_name": "GS1格式解析",
+                            "ui_display_en_name": "GS1 Format Analysis",
+                            "ui_usage_frequency": "Common",
+                            "ui_type": "config_param",
+                            "ui_param_name": "GS1Flag",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        },
+                        {
+                            "ui_display_name": "CodeScore_Enable",
+                            "ui_display_cn_name": "图像清晰度",
+                            "ui_display_en_name": "Image Clarity",
+                            "ui_usage_frequency": "Common",
+                            "ui_type": "config_param",
+                            "ui_param_name": "CodeScoreEnable",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        }
+                    ]
+                },
+                {
+                    "ui_display_name": "BillAlgorithmParams",
+                    "ui_display_cn_name": "面单算法参数控制",
+                    "ui_display_en_name": "Bill Algorithm Params",
+                    "ui_usage_frequency": "Common",
+                    "ui_type": "category",
+                    "ui_param_name": "",
+                    "ui_param_display_type": "",
+                    "ui_subset": [
+                        {
+                            "ui_display_name": "BillInfoEnable",
+                            "ui_display_cn_name": "面单信息使能",
+                            "ui_display_en_name": "Bill Info Enable",
+                            "ui_usage_frequency": "Common",
+                            "ui_type": "config_param",
+                            "ui_param_name": "BillInfoEnable",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        },
+                        {
+                            "ui_display_name": "BillLocNum",
+                            "ui_display_cn_name": "面单个数",
+                            "ui_display_en_name": "Bill Number",
+                            "ui_usage_frequency": "Common",
+                            "ui_type": "config_param",
+                            "ui_param_name": "BillLocNum",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        },
+                        {
+                            "ui_display_name": "BillMinScore",
+                            "ui_display_cn_name": "面单最小置信度",
+                            "ui_display_en_name": "Bill Min Score",
+                            "ui_usage_frequency": "Common",
+                            "ui_type": "config_param",
+                            "ui_param_name": "BillMinScore",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        },
+                        {
+                            "ui_display_name": "BillMaxOverlap",
+                            "ui_display_cn_name": "面单最大重叠率",
+                            "ui_display_en_name": "Bill Max Overlap",
+                            "ui_usage_frequency": "Common",
+                            "ui_type": "config_param",
+                            "ui_param_name": "BillMaxOverlap",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        },
+                        {
+                            "ui_display_name": "BillWidthFilterEnable",
+                            "ui_display_cn_name": "面单宽度筛选使能",
+                            "ui_display_en_name": "Bill Width Filter Enable",
+                            "ui_usage_frequency": "Common",
+                            "ui_type": "config_param",
+                            "ui_param_name": "BillWidthFilterEnable",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        },
+                        {
+                            "ui_display_name": "BillMinWidth",
+                            "ui_display_cn_name": "面单最小宽度",
+                            "ui_display_en_name": "Bill Min Width",
+                            "ui_usage_frequency": "Common",
+                            "ui_type": "config_param",
+                            "ui_param_name": "BillMinWidth",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        },
+                        {
+                            "ui_display_name": "BillMaxWidth",
+                            "ui_display_cn_name": "面单最大宽度",
+                            "ui_display_en_name": "Bill Max Width",
+                            "ui_usage_frequency": "Common",
+                            "ui_type": "config_param",
+                            "ui_param_name": "BillMaxWidth",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        },
+                        {
+                            "ui_display_name": "BillHeightFilterEnable",
+                            "ui_display_cn_name": "面单高度筛选使能",
+                            "ui_display_en_name": "Bill Height Filter Enable",
+                            "ui_usage_frequency": "Common",
+                            "ui_type": "config_param",
+                            "ui_param_name": "BillHeightFilterEnable",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        },
+                        {
+                            "ui_display_name": "BillMinHeight",
+                            "ui_display_cn_name": "面单最小高度",
+                            "ui_display_en_name": "Bill Min Height",
+                            "ui_usage_frequency": "Common",
+                            "ui_type": "config_param",
+                            "ui_param_name": "BillMinHeight",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        },
+                        {
+                            "ui_display_name": "BillMaxHeight",
+                            "ui_display_cn_name": "面单最大高度",
+                            "ui_display_en_name": "Bill Max Height",
+                            "ui_usage_frequency": "Common",
+                            "ui_type": "config_param",
+                            "ui_param_name": "BillMaxHeight",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        },
+                        {
+                            "ui_display_name": "BillAngleFilterEnable",
+                            "ui_display_cn_name": "面单角度筛选使能",
+                            "ui_display_en_name": "Bill Angle Filter Enable",
+                            "ui_usage_frequency": "Common",
+                            "ui_type": "config_param",
+                            "ui_param_name": "BillAngleFilterEnable",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        },
+                        {
+                            "ui_display_name": "BillStartAngle",
+                            "ui_display_cn_name": "面单起始角度",
+                            "ui_display_en_name": "Bill Start Angle",
+                            "ui_usage_frequency": "Common",
+                            "ui_type": "config_param",
+                            "ui_param_name": "BillStartAngle",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        },
+                        {
+                            "ui_display_name": "BillEndAngle",
+                            "ui_display_cn_name": "面单终止角度",
+                            "ui_display_en_name": "Bill End Angle",
+                            "ui_usage_frequency": "Common",
+                            "ui_type": "config_param",
+                            "ui_param_name": "BillEndAngle",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        },
+                        {
+                            "ui_display_name": "BillOrderType",
+                            "ui_display_cn_name": "面单排序方式",
+                            "ui_display_en_name": "Bill Order Type",
+                            "ui_usage_frequency": "Common",
+                            "ui_type": "config_param",
+                            "ui_param_name": "BillOrderType",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        }
+                    ]
+                },
+                {
+                    "ui_display_name": "OCRAlgorithmParams",
+                    "ui_display_cn_name": "OCR算法参数控制",
+                    "ui_display_en_name": "OCR Algorithm Params",
+                    "ui_usage_frequency": "Common",
+                    "ui_type": "category",
+                    "ui_param_name": "",
+                    "ui_param_display_type": "",
+                    "ui_subset": [
+                        {
+                            "ui_display_name": "OCRInfoEnable",
+                            "ui_display_cn_name": "字符定位识别",
+                            "ui_display_en_name": "OCR Info Enable",
+                            "ui_usage_frequency": "Common",
+                            "ui_type": "config_param",
+                            "ui_param_name": "OCRInfoEnable",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        },
+                        {
+                            "ui_display_name": "MultiframeHandleMode",
+                            "ui_display_cn_name": "OCR多帧处理策略",
+                            "ui_display_en_name": "MultiframeHandleMode",
+                            "ui_usage_frequency": "Common",
+                            "ui_type": "config_param",
+                            "ui_param_name": "MultiframeHandleMode",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        },
+                        {
+                            "ui_display_name": "MultiFrameIndex",
+                            "ui_display_cn_name": "指定帧ID",
+                            "ui_display_en_name": "MultiFrameIndex",
+                            "ui_usage_frequency": "Common",
+                            "ui_type": "config_param",
+                            "ui_param_name": "MultiFrameIndex",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        },
+                        {
+                            "ui_display_name": "OcrLocMaxNum",
+                            "ui_display_cn_name": "OCR最大目标个数",
+                            "ui_display_en_name": "OCR Det Number",
+                            "ui_usage_frequency": "Common",
+                            "ui_type": "config_param",
+                            "ui_param_name": "OcrLocMaxNum",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        },
+                        {
+                            "ui_display_name": "OcrLocMinScore",
+                            "ui_display_cn_name": "OCR最小分数",
+                            "ui_display_en_name": "OCR Det Min Score",
+                            "ui_usage_frequency": "Common",
+                            "ui_type": "config_param",
+                            "ui_param_name": "OcrLocMinScore",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        },
+                        {
+                            "ui_display_name": "OcrLocMaxOverlap",
+                            "ui_display_cn_name": "OCR最大重叠率",
+                            "ui_display_en_name": "OCR Det Max Overlap",
+                            "ui_usage_frequency": "Common",
+                            "ui_type": "config_param",
+                            "ui_param_name": "OcrLocMaxOverlap",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        },
+                        {
+                            "ui_display_name": "OcrLocMinAverageScore",
+                            "ui_display_cn_name": "OCR最小平均分数",
+                            "ui_display_en_name": "OCR Det Min Average Score",
+                            "ui_usage_frequency": "Common",
+                            "ui_type": "config_param",
+                            "ui_param_name": "OcrLocMinAverageScore",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        },
+                        {
+                            "ui_display_name": "OcrLocAngleFilterEnable",
+                            "ui_display_cn_name": "OCR角度过滤使能",
+                            "ui_display_en_name": "OCR Det Angle Filter Enable",
+                            "ui_usage_frequency": "Common",
+                            "ui_type": "config_param",
+                            "ui_param_name": "OcrLocAngleFilterEnable",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        },
+                        {
+                            "ui_display_name": "OcrStartAngle",
+                            "ui_display_cn_name": "OCR起始角度",
+                            "ui_display_en_name": "OCR Det Start Angle",
+                            "ui_usage_frequency": "Common",
+                            "ui_type": "config_param",
+                            "ui_param_name": "OcrStartAngle",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        },
+                        {
+                            "ui_display_name": "OcrEndAngle",
+                            "ui_display_cn_name": "OCR结束角度",
+                            "ui_display_en_name": "OCR Det End Angle",
+                            "ui_usage_frequency": "Common",
+                            "ui_type": "config_param",
+                            "ui_param_name": "OcrEndAngle",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        },
+                        {
+                            "ui_display_name": "OcrLocWidthFilterEnable",
+                            "ui_display_cn_name": "OCR宽度过滤使能",
+                            "ui_display_en_name": "OCR Det Width Filter Enable",
+                            "ui_usage_frequency": "Common",
+                            "ui_type": "config_param",
+                            "ui_param_name": "OcrLocWidthFilterEnable",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        },
+                        {
+                            "ui_display_name": "OcrLocMinWidth",
+                            "ui_display_cn_name": "OCR最小宽度",
+                            "ui_display_en_name": "OCR Det Min Width",
+                            "ui_usage_frequency": "Common",
+                            "ui_type": "config_param",
+                            "ui_param_name": "OcrLocMinWidth",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        },
+                        {
+                            "ui_display_name": "OcrLocMaxWidth",
+                            "ui_display_cn_name": "OCR最大宽度",
+                            "ui_display_en_name": "OCR Det Max Width",
+                            "ui_usage_frequency": "Common",
+                            "ui_type": "config_param",
+                            "ui_param_name": "OcrLocMaxWidth",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        },
+                        {
+                            "ui_display_name": "OcrLocHeightFilterEnable",
+                            "ui_display_cn_name": "OCR高度过滤使能",
+                            "ui_display_en_name": "OCR Det Height Filter Enable",
+                            "ui_usage_frequency": "Common",
+                            "ui_type": "config_param",
+                            "ui_param_name": "OcrLocHeightFilterEnable",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        },
+                        {
+                            "ui_display_name": "OcrLocMinHeight",
+                            "ui_display_cn_name": "OCR最小高度",
+                            "ui_display_en_name": "OCR Det Min Height",
+                            "ui_usage_frequency": "Common",
+                            "ui_type": "config_param",
+                            "ui_param_name": "OcrLocMinHeight",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        },
+                        {
+                            "ui_display_name": "OcrLocMaxHeight",
+                            "ui_display_cn_name": "OCR最大高度",
+                            "ui_display_en_name": "OCR Det Max Height",
+                            "ui_usage_frequency": "Common",
+                            "ui_type": "config_param",
+                            "ui_param_name": "OcrLocMaxHeight",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        },
+                        {
+                            "ui_display_name": "OcrLocOrderType",
+                            "ui_display_cn_name": "OCR定位排序",
+                            "ui_display_en_name": "OCR Det Order",
+                            "ui_usage_frequency": "Common",
+                            "ui_type": "config_param",
+                            "ui_param_name": "OcrLocOrderType",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        },
+                        {
+                            "ui_display_name": "OcrRecMinScore",
+                            "ui_display_cn_name": "OCR识别最小分数",
+                            "ui_display_en_name": "OCR Rec Min Score",
+                            "ui_usage_frequency": "Common",
+                            "ui_type": "config_param",
+                            "ui_param_name": "OcrRecMinScore",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        }
+                    ]
+                },
+                {
+                    "ui_display_name": "AlgoRegionConfig",
+                    "ui_display_cn_name": "ROI设置",
+                    "ui_display_en_name": "ROI Settings",
+                    "ui_usage_frequency": "Common",
+                    "ui_type": "category",
+                    "ui_param_name": "",
+                    "ui_param_display_type": "",
+                    "ui_subset": [
+                        {
+                            "ui_display_name": "AlgoCameraSelector",
+                            "ui_display_cn_name": "通道选项",
+                            "ui_display_en_name": "Camera Selector",
+                            "ui_usage_frequency": "Common",
+                            "ui_type": "config_param",
+                            "ui_param_name": "AlgoCameraSelector",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        },
+                        {
+                            "ui_display_name": "AlgoRegionIndex",
+                            "ui_display_cn_name": "ROI索引",
+                            "ui_display_en_name": "ROI Index",
+                            "ui_usage_frequency": "Common",
+                            "ui_type": "config_param",
+                            "ui_param_name": "AlgoRegionIndex",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        },
+                        {
+                            "ui_display_name": "RegionSelector",
+                            "ui_display_cn_name": "ROI区域编号",
+                            "ui_display_en_name": "Region Selector",
+                            "ui_usage_frequency": "Common",
+                            "ui_type": "config_param",
+                            "ui_param_name": "RegionSelector",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        },
+                        {
+                            "ui_display_name": "AlgoRegionEnable",
+                            "ui_display_cn_name": "ROI使能",
+                            "ui_display_en_name": "ROI Enable",
+                            "ui_usage_frequency": "Common",
+                            "ui_type": "config_param",
+                            "ui_param_name": "AlgoRegionEnable",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        },
+                        {
+                            "ui_display_name": "ROIEnable",
+                            "ui_display_cn_name": "ROI使能",
+                            "ui_display_en_name": "ROI Enable",
+                            "ui_usage_frequency": "Common",
+                            "ui_type": "config_param",
+                            "ui_param_name": "ROIEnable",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        },
+                        {
+                            "ui_display_name": "AlgoRegionWidth",
+                            "ui_display_cn_name": "ROI宽度",
+                            "ui_display_en_name": "ROI Width",
+                            "ui_usage_frequency": "Common",
+                            "ui_type": "config_param",
+                            "ui_param_name": "AlgoRegionWidth",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        },
+                        {
+                            "ui_display_name": "WidthROI",
+                            "ui_display_cn_name": "ROI宽度",
+                            "ui_display_en_name": "ROI Width",
+                            "ui_usage_frequency": "Common",
+                            "ui_type": "config_param",
+                            "ui_param_name": "WidthROI",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        },
+                        {
+                            "ui_display_name": "AlgoRegionHeight",
+                            "ui_display_cn_name": "ROI高度",
+                            "ui_display_en_name": "ROI Height",
+                            "ui_usage_frequency": "Common",
+                            "ui_type": "config_param",
+                            "ui_param_name": "AlgoRegionHeight",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        },
+                        {
+                            "ui_display_name": "HeightROI",
+                            "ui_display_cn_name": "ROI高度",
+                            "ui_display_en_name": "ROI Height",
+                            "ui_usage_frequency": "Common",
+                            "ui_type": "config_param",
+                            "ui_param_name": "HeightROI",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        },
+                        {
+                            "ui_display_name": "AlgoRegionLeftX",
+                            "ui_display_cn_name": "ROI左上角顶点X坐标",
+                            "ui_display_en_name": "ROI Top-Left X",
+                            "ui_usage_frequency": "Common",
+                            "ui_type": "config_param",
+                            "ui_param_name": "AlgoRegionLeftX",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        },
+                        {
+                            "ui_display_name": "PositionXROI",
+                            "ui_display_cn_name": "ROI左上角顶点X坐标",
+                            "ui_display_en_name": "ROI Top-Left X",
+                            "ui_usage_frequency": "Common",
+                            "ui_type": "config_param",
+                            "ui_param_name": "PositionXROI",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        },
+                        {
+                            "ui_display_name": "AlgoRegionLeftY",
+                            "ui_display_cn_name": "ROI左上角顶点Y坐标",
+                            "ui_display_en_name": "ROI Top-Left Y",
+                            "ui_usage_frequency": "Common",
+                            "ui_type": "config_param",
+                            "ui_param_name": "AlgoRegionLeftY",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        },
+                        {
+                            "ui_display_name": "PositionYROI",
+                            "ui_display_cn_name": "ROI左上角顶点Y坐标",
+                            "ui_display_en_name": "ROI Top-Left Y",
+                            "ui_usage_frequency": "Common",
+                            "ui_type": "config_param",
+                            "ui_param_name": "PositionYROI",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}

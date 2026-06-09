@@ -1,0 +1,183 @@
+
+<!DOCTYPE html
+  PUBLIC "" "about:legacy-compat">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:whc="http://www.daksys.com/webhelp/components" xml:lang="zh-cn" lang="zh-cn">
+	<head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />        
+      <meta name="copyright" content="©  杭州海康威视数字技术股份有限公司。保留一切权利。" /><meta name="DC.Type" content="concept" /><meta name="DC.Title" content="保存参数" /><meta name="abstract" content="读码器完成相关功能设置后，需将参数保存至用户参数组，否则读码器重启后设置会失效。" /><meta name="description" content="读码器完成相关功能设置后，需将参数保存至用户参数组，否则读码器重启后设置会失效。" /><meta name="DC.Relation" scheme="URI" content="GUID-5264E9B3-93FE-419C-B2B2-36AFEF98E781.html" /><meta name="DC.Format" content="XHTML" /><meta name="DC.Identifier" content="GUID-78D88009-8345-4B78-962C-E0753034F648" /><meta name="DC.Language" content="zh-CN" /><title>保存参数</title><!-- Generated with dksgen version 1.0, build number 2023071300.  --><meta viewport="Content-Type" content="width=device-width, initial-scale=1.0" /><meta http-equiv="X-UA-Compatible" content="IE=edge,Chrome=1" /><meta name="wh-path2root" content="index.html" />
+		<!-- commonltr css -->
+		<link rel="stylesheet" type="text/css" href="daksys-webhelp/resources/css/commonltr.css" />
+		<!-- Bootstrap css -->
+		<link rel="stylesheet" type="text/css" href="daksys-webhelp/resources/bootstrap/css/bootstrap.min.css" />
+		<link rel="stylesheet" type="text/css" href="daksys-webhelp/resources/bootstrap/css/bootstrap-theme.min.css" />
+		<link rel="stylesheet" type="text/css" href="daksys-webhelp/resources/js/jquery-ui.min.css" />
+		
+		<!-- Template css  -->
+		<link href="daksys-webhelp/template/resources/css/HIKROBOT_color.css?buildId=2023071300" rel="stylesheet" type="text/css" />
+		<link rel="stylesheet" type="text/css" href="daksys-webhelp/template/resources/css/wt_topic.css?buildId=2023071300" />
+		<link rel="stylesheet" type="text/css" href="daksys-webhelp/template/resources/css/wt_topic_m.css?buildId=2023071300" />
+		<link rel="stylesheet" type="text/css" href="daksys-webhelp/template/resources/css/wt_expand.css?buildId=2023071300" />
+		<link rel="stylesheet" type="text/css" href="daksys-webhelp/template/resources/css/wt_note.css?buildId=2023071300" />
+		<link rel="stylesheet" type="text/css" href="daksys-webhelp/template/resources/css/wt_steps.css?buildId=2023071300" />
+		
+		<!-- jquery js  -->
+		<script type="text/javascript" src="daksys-webhelp/resources/js/jquery-3.6.2.min.js"></script>
+		<script type="text/javascript" src="daksys-webhelp/resources/js/jquery.cookie.js"></script>
+		<script type="text/javascript" src="daksys-webhelp/resources/js/jquery.highlight-3.js"></script>
+		<script type="text/javascript" src="daksys-webhelp/resources/js/jquery-ui.min.js"></script>
+		
+		<!-- common js  -->
+		<script type="text/javascript" src="daksys-webhelp/resources/bootstrap/js/bootstrap.min.js"></script>
+		<script type="text/javascript" src="daksys-webhelp/resources/js/base64.js"></script>
+		<script type="text/javascript" src="daksys-webhelp/resources/js/browserDetect.js"></script>
+		<script type="text/javascript" src="daksys-webhelp/resources/js/localization.js"></script>
+		<script type="text/javascript" src="daksys-webhelp/resources/js/parseuri.js"></script>
+		<script type="text/javascript" src="daksys-webhelp/resources/localization/strings.js"></script>
+		<!-- Template js -->
+		<script type="text/javascript" src="daksys-webhelp/template/resources/js/wt_topic.js?buildId=2023071300"></script>
+		<script type="text/javascript" src="daksys-webhelp/template/resources/js/wt_expand.js?buildId=2023071300"></script>
+	</head>
+	<body class="wt_topic_page frmBody" id="GUID-78D88009-8345-4B78-962C-E0753034F648" onload="topicOnload()">
+		<!-- get_lang -->
+		<div id="lang" style="display:none">zh-CN</div><div id="mapoutputclass" style="display:none"></div>
+		<input hidden="hidden" id="UDCode" value="UD12345B" /><input hidden="hidden" id="Trademark" value="海康机器人" />
+		
+		<div class="content_box">
+			<div class="middle_view content_area col-sm-9" id="content_area">
+				<div class=" wt_breadcrumb "><ol><li><span class="home topicref"><a href="javascript:void(0)" onclick="gotoFirstPage()">首页</a></span></li><li><span class="topicref"><a href="GUID-5264E9B3-93FE-419C-B2B2-36AFEF98E781.html" data-id="GUID-5264E9B3-93FE-419C-B2B2-36AFEF98E781">读码器采图及读码</a></span></li><li class="active"><span class="topicref">保存参数</span></li></ol><div class="wt_breadcrumb_ellipsis" onclick="expandBreadcrumbDiv()"></div><div class="wt_breadcrumb_collapse" style="display: none;"><div class="wt_breadcrumb_collapse_button" onclick="collapseBreadcrumbDiv()"></div></div></div>
+				
+				<div id="container_body" class="container">
+					<div id="contentArea">
+						<div class=" wt_topic_content body ">
+    <h1 class="title topictitle1">保存参数</h1>
+
+
+<div class="body conbody"><p class="shortdesc">读码器完成相关功能设置后，需将参数保存至用户参数组，否则读码器重启后设置会失效。</p>
+
+<p class="p">单击快捷工具栏的<img class="image icon" style="display:none;" id="GUID-78D88009-8345-4B78-962C-E0753034F648__IMAGE_QTG_MVB_52C" src="GUID-06AF613F-A938-485B-A1BA-C3EF279C0D53-high.png" />进入参数保存窗口，选择一套用户参数并单击<span class="ph uicontrol">保存</span>即可。</p>
+
+        <p class="p">完成参数保存后，建议将保存的参数组设置为开机默认参数组，通过左上角的<span class="keyword parmname">开机自加载</span>下拉选择即可。</p>
+
+        <p class="p">该窗口还支持默认参数切换、用户参数管理、参数自加载及参数导入/导出功能。以下为具体介绍。</p>
+
+        <div class="fig fignone" id="GUID-78D88009-8345-4B78-962C-E0753034F648__FIG_ZVG_T1H_4FC">
+            
+            <img class="image" style="display:none;" id="GUID-78D88009-8345-4B78-962C-E0753034F648__IMAGE_AWG_T1H_4FC" src="GUID-C30BB69A-7D16-4FF3-8D15-D44FEE3935FA-high.png" width="1400" />
+        <div class="fig_caption"><span class="figcap">图 1 参数保存界面</span></div></div>
+
+        <div class="section" id="GUID-78D88009-8345-4B78-962C-E0753034F648__GUID-90566684-8AD2-45C2-8CC6-9DDE9826D02D"><h2 class="title sectiontitle">默认参数</h2>
+            
+            <p class="p">仅含一套不可更改的出厂配置，仅限加载使用。</p>
+
+        </div>
+
+        <div class="section" id="GUID-78D88009-8345-4B78-962C-E0753034F648__GUID-C9E7D564-D75C-49FA-86EE-9156BDFE237C"><h2 class="title sectiontitle">用户参数管理</h2>
+            
+            <p class="p"><span class="keyword parmname">用户参数</span>即自定义参数组，可新建、加载、保存和删除。</p>
+
+            <p class="p">读码器出厂默认为3个用户参数组。V3.2.0及以上固件版本的固定式读码器最多支持8套用户参数组。</p>
+
+            <p class="p">关于用户参数组，支持以下功能。</p>
+
+            <ul class="ul" id="GUID-78D88009-8345-4B78-962C-E0753034F648__UL_ATT_ZBD_52C">
+                <li class="li" id="GUID-78D88009-8345-4B78-962C-E0753034F648__GUID-8E232FA6-A915-4AF5-BE54-C6BD62BA00A7">
+                    <p class="p">新建用户参数组：单击<img class="image icon" style="display:none;" id="GUID-78D88009-8345-4B78-962C-E0753034F648__IMAGE_Y1C_YBD_52C" src="GUID-C0B4F108-4BB1-422E-B906-C5FD104823BC-high.png" />并输入<span class="keyword parmname">参数组名称</span>即可。</p>
+
+                    <div class="note note" id="GUID-78D88009-8345-4B78-962C-E0753034F648__GUID-5688FF6D-3902-450E-922B-1A7F4112532B"><span class="notetitle">说明</span> 
+                        <p class="p">双击用户参数组名称，可修改名称。</p>
+
+                    </div>
+
+                </li>
+
+                <li class="li" id="GUID-78D88009-8345-4B78-962C-E0753034F648__GUID-E4F23007-336F-4B2F-812F-D70A85D748D1">
+                    <p class="p">删除用户参数组：单击具体参数组右下角的<img class="image icon" style="display:none;" id="GUID-78D88009-8345-4B78-962C-E0753034F648__IMAGE_SPT_3CD_52C" src="GUID-D7CCF3A5-B148-428D-A39A-153B927023AE-high.png" />并<span class="ph uicontrol">确定</span>即可。</p>
+
+                </li>
+
+                <li class="li" id="GUID-78D88009-8345-4B78-962C-E0753034F648__GUID-708336B0-DE95-4060-B0BD-A51487712BCC">
+                    <p class="p">保存用户参数组：单击具体参数组左下角的<span class="ph uicontrol">保存</span>即可。</p>
+
+                </li>
+
+                <li class="li" id="GUID-78D88009-8345-4B78-962C-E0753034F648__GUID-FDCAEDCB-C9C9-402C-A563-BCBE8D288CB3">
+                    <p class="p">加载用户参数组：单击具体参数组左下角的<span class="ph uicontrol">加载</span>即可。</p>
+
+                </li>
+
+            </ul>
+
+        </div>
+
+        <div class="section" id="GUID-78D88009-8345-4B78-962C-E0753034F648__GUID-2539BE8E-50CE-4F53-9AC7-09126EEB6F52"><h2 class="title sectiontitle">参数自加载</h2>
+            
+            <p class="p">您可通过该窗口左上角的<span class="keyword parmname">开机自加载</span>下拉选择读码器启动时自动加载的参数组。</p>
+
+            <div class="note note" id="GUID-78D88009-8345-4B78-962C-E0753034F648__GUID-EF8C52D1-6291-4082-A289-0A9CC44131A1"><span class="notetitle">说明</span> 
+                <p class="p">当前读码器已有的默认参数和用户参数均可选择。</p>
+
+            </div>
+
+        </div>
+
+        <div class="section" id="GUID-78D88009-8345-4B78-962C-E0753034F648__GUID-8084F1F2-B462-4EF2-B1B0-B9AE7739AB2B"><h2 class="title sectiontitle">参数导入/导出</h2>
+            
+            <div class="p">参数全部导入/导出的本质是通过文件存取功能导入/导出读码器的所有User
+                    Set。<div class="note note" id="GUID-78D88009-8345-4B78-962C-E0753034F648__GUID-0C2434C4-34C6-4FBF-A3F5-6E180FAECD90"><span class="notetitle">说明</span> 
+                    <p class="p">关于文件存取的具体介绍，详情参见<a class="xref" href="GUID-50E51181-457D-445C-8A50-A2386441C07B.html#GUID-50E51181-457D-445C-8A50-A2386441C07B" title="完成设备连接后，可通过右键单击读码器名称等方式配置设备基础功能、设备控制功能、IP固定和防占用功能。">连接后配置</a>章节。</p>
+
+                </div>
+</div>
+
+            <ul class="ul" id="GUID-78D88009-8345-4B78-962C-E0753034F648__UL_GYJ_ZMC_52C">
+                <li class="li" id="GUID-78D88009-8345-4B78-962C-E0753034F648__GUID-C7831643-66A8-44DE-B2E8-40191C86DE04">
+                    
+                    <p class="p">单击<span class="ph uicontrol">全部导入</span>，选择同型号读码器导出的User Set.mfa文件并<span class="ph uicontrol">打开</span>即可导入。</p>
+
+                    <div class="note note" id="GUID-78D88009-8345-4B78-962C-E0753034F648__GUID-2E45B7AE-F092-4899-AC7F-B3001ADF3E6D"><span class="notetitle">说明</span> 
+                        <p class="p">导入后，读码器的所有用户参数组会被重置为导入文件的内容，包括用户参数组的数量、名称及具体的参数值。</p>
+
+                    </div>
+
+                </li>
+
+                <li class="li" id="GUID-78D88009-8345-4B78-962C-E0753034F648__GUID-22F1112C-42B3-4C49-B27D-0B271DED7F63">
+                    <p class="p">单击<span class="ph uicontrol">全部导出</span>后选择存储路径并<span class="ph uicontrol">保存</span>即可将读码器的所有用户参数组导出到一个.mfa文件中。</p>
+
+                    <div class="note note" id="GUID-78D88009-8345-4B78-962C-E0753034F648__GUID-0CF30FDD-24CA-4E5E-9B2D-38A949DC1EEE"><span class="notetitle">说明</span> 
+                        <p class="p">此处.mfa文件默认命名规则为：读码器型号_序列号_User
+                            Set。</p>
+
+                    </div>
+
+                </li>
+
+            </ul>
+
+        </div>
+
+</div>
+
+
+</div>
+						<div class=" wt_topic_wpp_content wt_pc_only "><div class=" wt_topic_wpp_content_flex "><div class="wt_topic_wpp_item like"></div><div class="wt_topic_wpp_item view"></div><div class="wt_topic_wpp_item share">分享</div></div></div>
+						
+						
+						
+					</div>
+				</div><!-- container_body -->
+				
+				<div class=" body_footer "><div onclick="prevTopic()" class=" body_footer_left link_button "><span>上一页</span></div><div onclick="nextTopic()" class=" body_footer_right link_button "><span>下一页</span></div></div>
+				<div class=" body_wpp mobile_only"><div class="wt_body_mobile_like"></div><div class="wt_body_mobile_view"></div></div>
+				<!-- <whc:webhelp_side_toc /> -->
+				
+			</div> <!-- middle_view content_area -->
+			<div class=" right_content wt_pc_only "><div class=" right_fixed_container "><div class="right_guide"><div class="feature_guide"><div>本页导航</div><ul><li onclick="scrollToAnchor($(this))" data-id="GUID-78D88009-8345-4B78-962C-E0753034F648__GUID-90566684-8AD2-45C2-8CC6-9DDE9826D02D" class="feature_guide_h2"><span class="link_button">默认参数</span></li><li onclick="scrollToAnchor($(this))" data-id="GUID-78D88009-8345-4B78-962C-E0753034F648__GUID-C9E7D564-D75C-49FA-86EE-9156BDFE237C" class="feature_guide_h2"><span class="link_button">用户参数管理</span></li><li onclick="scrollToAnchor($(this))" data-id="GUID-78D88009-8345-4B78-962C-E0753034F648__GUID-2539BE8E-50CE-4F53-9AC7-09126EEB6F52" class="feature_guide_h2"><span class="link_button">参数自加载</span></li><li onclick="scrollToAnchor($(this))" data-id="GUID-78D88009-8345-4B78-962C-E0753034F648__GUID-8084F1F2-B462-4EF2-B1B0-B9AE7739AB2B" class="feature_guide_h2"><span class="link_button">参数导入/导出</span></li></ul></div></div></div></div>
+		</div> <!-- content_box -->
+		
+		<!-- 置顶按钮 -->
+		<div class="body_to_top" onclick="scrollTopicTop()"></div> 
+		<!-- 评价反馈 -->
+		<div onclick="manualFeedback()" class=" body_feedback " data-href="https://wj.hikvision.com/#/public-survey?id=64c8b90d80e02e9e88feca2f"></div>
+		
+	</body>
+</html>

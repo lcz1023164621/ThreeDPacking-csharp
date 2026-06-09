@@ -1,0 +1,102 @@
+
+<!DOCTYPE html
+  PUBLIC "" "about:legacy-compat">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:whc="http://www.daksys.com/webhelp/components" xml:lang="zh-cn" lang="zh-cn">
+	<head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /><meta name="description" content="读码器作为TCP 服务器可以连接几个TCP 客户端？ 8个。 读码器跟PLC进行TCP通讯，能否把读出来的信息转换成16进制输出给PLC？ 读码器输出为ASCII码，无法直接转换，需要PLC进行转换实现。 客户端里读到的数据为14，为什么传输到PLC设备显示的是12000？ 因为数据格式不匹配，IDMVS数据默认为ASCII码格式，建议使用PLC转换至ASCII格式。 ..." /><meta name="copyright" content="©  杭州海康威视数字技术股份有限公司。保留一切权利。" /><meta name="DC.Type" content="concept" /><meta name="DC.Title" content="通讯相关" /><meta name="DC.Relation" scheme="URI" content="GUID-18C24CEB-99B7-49D3-A8DD-D9019F4D34CD.html" /><meta name="DC.Format" content="XHTML" /><meta name="DC.Identifier" content="GUID-A4785986-11E1-4B06-A840-98B617E2B20C" /><meta name="DC.Language" content="zh-CN" /><title>通讯相关</title><!-- Generated with dksgen version 1.0, build number 2023071300.  --><meta viewport="Content-Type" content="width=device-width, initial-scale=1.0" /><meta http-equiv="X-UA-Compatible" content="IE=edge,Chrome=1" /><meta name="wh-path2root" content="index.html" />
+		<!-- commonltr css -->
+		<link rel="stylesheet" type="text/css" href="daksys-webhelp/resources/css/commonltr.css" />
+		<!-- Bootstrap css -->
+		<link rel="stylesheet" type="text/css" href="daksys-webhelp/resources/bootstrap/css/bootstrap.min.css" />
+		<link rel="stylesheet" type="text/css" href="daksys-webhelp/resources/bootstrap/css/bootstrap-theme.min.css" />
+		<link rel="stylesheet" type="text/css" href="daksys-webhelp/resources/js/jquery-ui.min.css" />
+		
+		<!-- Template css  -->
+		<link href="daksys-webhelp/template/resources/css/HIKROBOT_color.css?buildId=2023071300" rel="stylesheet" type="text/css" />
+		<link rel="stylesheet" type="text/css" href="daksys-webhelp/template/resources/css/wt_topic.css?buildId=2023071300" />
+		<link rel="stylesheet" type="text/css" href="daksys-webhelp/template/resources/css/wt_topic_m.css?buildId=2023071300" />
+		<link rel="stylesheet" type="text/css" href="daksys-webhelp/template/resources/css/wt_expand.css?buildId=2023071300" />
+		<link rel="stylesheet" type="text/css" href="daksys-webhelp/template/resources/css/wt_note.css?buildId=2023071300" />
+		<link rel="stylesheet" type="text/css" href="daksys-webhelp/template/resources/css/wt_steps.css?buildId=2023071300" />
+		
+		<!-- jquery js  -->
+		<script type="text/javascript" src="daksys-webhelp/resources/js/jquery-3.6.2.min.js"></script>
+		<script type="text/javascript" src="daksys-webhelp/resources/js/jquery.cookie.js"></script>
+		<script type="text/javascript" src="daksys-webhelp/resources/js/jquery.highlight-3.js"></script>
+		<script type="text/javascript" src="daksys-webhelp/resources/js/jquery-ui.min.js"></script>
+		
+		<!-- common js  -->
+		<script type="text/javascript" src="daksys-webhelp/resources/bootstrap/js/bootstrap.min.js"></script>
+		<script type="text/javascript" src="daksys-webhelp/resources/js/base64.js"></script>
+		<script type="text/javascript" src="daksys-webhelp/resources/js/browserDetect.js"></script>
+		<script type="text/javascript" src="daksys-webhelp/resources/js/localization.js"></script>
+		<script type="text/javascript" src="daksys-webhelp/resources/js/parseuri.js"></script>
+		<script type="text/javascript" src="daksys-webhelp/resources/localization/strings.js"></script>
+		<!-- Template js -->
+		<script type="text/javascript" src="daksys-webhelp/template/resources/js/wt_topic.js?buildId=2023071300"></script>
+		<script type="text/javascript" src="daksys-webhelp/template/resources/js/wt_expand.js?buildId=2023071300"></script>
+	</head>
+	<body class="wt_topic_page frmBody" id="GUID-A4785986-11E1-4B06-A840-98B617E2B20C" onload="topicOnload()">
+		<!-- get_lang -->
+		<div id="lang" style="display:none">zh-CN</div><div id="mapoutputclass" style="display:none"></div>
+		<input hidden="hidden" id="UDCode" value="UD12345B" /><input hidden="hidden" id="Trademark" value="海康机器人" />
+		
+		<div class="content_box">
+			<div class="middle_view content_area col-sm-9" id="content_area">
+				<div class=" wt_breadcrumb "><ol><li><span class="home topicref"><a href="javascript:void(0)" onclick="gotoFirstPage()">首页</a></span></li><li><span class="topicref"><a href="GUID-18C24CEB-99B7-49D3-A8DD-D9019F4D34CD.html" data-id="GUID-18C24CEB-99B7-49D3-A8DD-D9019F4D34CD">常见问题</a></span></li><li class="active"><span class="topicref">通讯相关</span></li></ol><div class="wt_breadcrumb_ellipsis" onclick="expandBreadcrumbDiv()"></div><div class="wt_breadcrumb_collapse" style="display: none;"><div class="wt_breadcrumb_collapse_button" onclick="collapseBreadcrumbDiv()"></div></div></div>
+				
+				<div id="container_body" class="container">
+					<div id="contentArea">
+						<div class=" wt_topic_content body ">
+    <h1 class="title topictitle1">通讯相关</h1>
+
+<div class="body conbody">
+        <div class="section" id="GUID-A4785986-11E1-4B06-A840-98B617E2B20C__GUID-153623F3-DA03-4036-BBB6-F03EA3D8AA8B"><h2 class="title sectiontitle">读码器作为TCP 服务器可以连接几个TCP 客户端？</h2>
+            
+            <p class="p">8个。</p>
+
+        </div>
+
+        <div class="section" id="GUID-A4785986-11E1-4B06-A840-98B617E2B20C__GUID-D17D5D06-2B46-4837-B6B3-B376B7DF14DE"><h2 class="title sectiontitle">读码器跟PLC进行TCP通讯，能否把读出来的信息转换成16进制输出给PLC？</h2>
+            
+            <p class="p">读码器输出为ASCII码，无法直接转换，需要PLC进行转换实现。</p>
+
+        </div>
+
+        <div class="section" id="GUID-A4785986-11E1-4B06-A840-98B617E2B20C__GUID-0EF2B0F4-D719-432B-BE14-3048360239E9"><h2 class="title sectiontitle">客户端里读到的数据为14，为什么传输到PLC设备显示的是12000？</h2>
+            
+            <p class="p">因为数据格式不匹配，IDMVS数据默认为ASCII码格式，建议使用PLC转换至ASCII格式。</p>
+
+        </div>
+
+        <div class="section" id="GUID-A4785986-11E1-4B06-A840-98B617E2B20C__GUID-DBAA7994-FBBC-4694-A018-56D56070E6A2"><h2 class="title sectiontitle">通过TCP触发读码器时，能否用16进制格式配置触发文本？</h2>
+            
+            <p class="p">可以使用，在<span class="ph uicontrol">输入</span>页面通过<span class="ph uicontrol">触发文本格式</span>参数选择十六进制格式，详情请参见<a class="xref" href="GUID-F29F09A1-B197-460B-9FAC-18C9A132264B.html#GUID-F29F09A1-B197-460B-9FAC-18C9A132264B" title="当需要根据外部信号或特定条件触发读码器进行图像采集和读码时，需在触发设置部分开启读码器触发模式、选择触发源并配置相关参数。">触发设置</a>。</p>
+
+        </div>
+
+    </div>
+
+
+</div>
+						<div class=" wt_topic_wpp_content wt_pc_only "><div class=" wt_topic_wpp_content_flex "><div class="wt_topic_wpp_item like"></div><div class="wt_topic_wpp_item view"></div><div class="wt_topic_wpp_item share">分享</div></div></div>
+						
+						
+						
+					</div>
+				</div><!-- container_body -->
+				
+				<div class=" body_footer "><div onclick="prevTopic()" class=" body_footer_left link_button "><span>上一页</span></div><div onclick="nextTopic()" class=" body_footer_right link_button "><span>下一页</span></div></div>
+				<div class=" body_wpp mobile_only"><div class="wt_body_mobile_like"></div><div class="wt_body_mobile_view"></div></div>
+				<!-- <whc:webhelp_side_toc /> -->
+				
+			</div> <!-- middle_view content_area -->
+			<div class=" right_content wt_pc_only "><div class=" right_fixed_container "><div class="right_guide"><div class="feature_guide"><div>本页导航</div><ul><li onclick="scrollToAnchor($(this))" data-id="GUID-A4785986-11E1-4B06-A840-98B617E2B20C__GUID-153623F3-DA03-4036-BBB6-F03EA3D8AA8B" class="feature_guide_h2"><span class="link_button">读码器作为TCP 服务器可以连接几个TCP 客户端？</span></li><li onclick="scrollToAnchor($(this))" data-id="GUID-A4785986-11E1-4B06-A840-98B617E2B20C__GUID-D17D5D06-2B46-4837-B6B3-B376B7DF14DE" class="feature_guide_h2"><span class="link_button">读码器跟PLC进行TCP通讯，能否把读出来的信息转换成16进制输出给PLC？</span></li><li onclick="scrollToAnchor($(this))" data-id="GUID-A4785986-11E1-4B06-A840-98B617E2B20C__GUID-0EF2B0F4-D719-432B-BE14-3048360239E9" class="feature_guide_h2"><span class="link_button">客户端里读到的数据为14，为什么传输到PLC设备显示的是12000？</span></li><li onclick="scrollToAnchor($(this))" data-id="GUID-A4785986-11E1-4B06-A840-98B617E2B20C__GUID-DBAA7994-FBBC-4694-A018-56D56070E6A2" class="feature_guide_h2"><span class="link_button">通过TCP触发读码器时，能否用16进制格式配置触发文本？</span></li></ul></div></div></div></div>
+		</div> <!-- content_box -->
+		
+		<!-- 置顶按钮 -->
+		<div class="body_to_top" onclick="scrollTopicTop()"></div> 
+		<!-- 评价反馈 -->
+		<div onclick="manualFeedback()" class=" body_feedback " data-href="https://wj.hikvision.com/#/public-survey?id=64c8b90d80e02e9e88feca2f"></div>
+		
+	</body>
+</html>

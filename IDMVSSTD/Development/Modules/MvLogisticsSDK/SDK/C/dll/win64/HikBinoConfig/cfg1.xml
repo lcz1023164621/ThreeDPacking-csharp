@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ArithConfig>
+    <STEREO_VM>
+        <Input>
+            <Camera img_w="640" cx="327.158" cy="245.117" img_h="480" focal="579.046"/>
+            <MeasureRoi pnt_num="4" y0="40" x0="40" y1="40" x1="600" y2="440" x2="600" y3="440" x3="40"/>
+            <DatumPlaneRoi pnt_num="4" y0="80" x0="80" y1="80" x1="560" y2="400" x2="560" y3="400" x3="80"/>
+            <PhysicalSpaceOffset top_offset="0" bottom_offset="0" right_offset="0" left_offset="0"/>
+        </Input>
+        <PARAM>
+            <Param index="1"  value="25"   min="1"    max="2000"   type="int"  help="包裹最小高度(mm)"/>
+            <Param index="2"  value="1200" min="1"    max="2000"   type="int"  help="包裹最大高度(mm)"/>
+            <Param index="3"  value="100"  min="1"    max="100000" type="int"  help="包裹的最小blob面积"/>
+            <Param index="4"  value="10"   min="1"    max="40"     type="int"  help="异形件边缘剪裁最大比例"/>
+            <Param index="5"  value="2"    min="2"    max="20"     type="int"  help="异形件单次剪裁像素数"/>
+            <Param index="6"  value="10"   min="10"   max="100"    type="int"  help="异形件边缘占空比阈值"/>
+            <Param index="7"  value="15"   min="1"    max="200"    type="int"  help="包裹平面波动度"/>
+            <Param index="8"  value="5"    min="1"    max="50"     type="int"  help="轮廓定位乘子"/>
+            <Param index="9"  value="2"    min="1"    max="100"    type="int"  help="投影栅格大小"/>
+            <Param index="10" value="10"   min="1"    max="99"     type="int"  help="轮廓收缩因子"/>
+            <Param index="11" value="30"   min="10"   max="255"    type="int"  help="轮廓追踪灰度阈值"/>
+            <Param index="12" value="0"    min="-999" max="999"    type="int"  help="高度补偿值"/>
+            <Param index="13" value="2"    min="2"    max="100"    type="int"  help="转系统坐标系栅格点云采样间隔"/>
+            <Param index="14" value="80"   min="1"    max="100"    type="int"  help="矩形度阈值"/>
+            <Param index="15" value="10"   min="10"   max="100"    type="int"  help="规则件边缘占空比阈值"/>
+            <Param index="16" value="1500" min="10"   max="2000"   type="int"  help="相机到平台的最大距离"/>
+            <Param index="17" value="1"    min="0"    max="1"      type="int"  help="基准面补偿使能开关（曲面到平面）"/>
+            <Param index="18" value="50"   min="0"    max="100"    type="int"  help="基准面实时更新阈值"/>
+            <Param index="19" value="0"    min="0"    max="3"      type="int"  help="深度图填洞半径"/>
+            <Param index="20" value="0"    min="0"    max="1"      type="int"  help="相机内参修正使能开关"/>
+        </PARAM>
+    </STEREO_VM>
+</ArithConfig>

@@ -1,0 +1,16 @@
+﻿Build V1.2.0
+1.新增接口： MVID_CR_GetImageFileData()
+2.修改示例程序缺陷
+3.新增免加密设备文件作为加密凭证
+4.运行环境为工业相机SDK V4.0.0及以上版本
+
+Build V1.1.0
+1.更新C特殊接口说明
+2.新增接口： MVID_CR_CAM_EnumDevicesByCfg() 、 MVID_CR_CAM_SetImageNodeNum() 、 MVID_CR_CAM_GetImageBuffer() 、 MVID_CR_CAM_RegisterImageBufferCallBack() 和 MVID_CR_CAM_SetImageOutPutMode() 
+3.新增结构体：MVID_IMAGE_OUTPUT_MODE
+4.更新部分错误码
+5.更新一维码参数 、二维码参数 和 抠图算法参数
+
+Build V1.0.0
+1.支持连接工业相机读取一维码、二维码的功能
+2.支持载入本地BMP图片读取一维码、二维码的功能

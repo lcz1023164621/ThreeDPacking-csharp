@@ -1,0 +1,145 @@
+
+<!DOCTYPE html
+  PUBLIC "" "about:legacy-compat">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:whc="http://www.daksys.com/webhelp/components" xml:lang="zh-cn" lang="zh-cn">
+	<head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />        
+      <meta name="copyright" content="©  杭州海康威视数字技术股份有限公司。保留一切权利。" /><meta name="DC.Type" content="concept" /><meta name="DC.Title" content="历史记录导出" /><meta name="abstract" content="历史记录导出可设置读码器导出历史记录的方式、文件格式、文件个数以及存储路径等。" /><meta name="description" content="历史记录导出可设置读码器导出历史记录的方式、文件格式、文件个数以及存储路径等。" /><meta name="DC.Relation" scheme="URI" content="GUID-A2447B90-DEA6-4A6C-9EDA-5FEE07AD8664.html" /><meta name="DC.Format" content="XHTML" /><meta name="DC.Identifier" content="GUID-D7E2D52E-3606-4973-8A6B-0D5263A25343" /><meta name="DC.Language" content="zh-CN" /><title>历史记录导出</title><!-- Generated with dksgen version 1.0, build number 2023071300.  --><meta viewport="Content-Type" content="width=device-width, initial-scale=1.0" /><meta http-equiv="X-UA-Compatible" content="IE=edge,Chrome=1" /><meta name="wh-path2root" content="index.html" />
+		<!-- commonltr css -->
+		<link rel="stylesheet" type="text/css" href="daksys-webhelp/resources/css/commonltr.css" />
+		<!-- Bootstrap css -->
+		<link rel="stylesheet" type="text/css" href="daksys-webhelp/resources/bootstrap/css/bootstrap.min.css" />
+		<link rel="stylesheet" type="text/css" href="daksys-webhelp/resources/bootstrap/css/bootstrap-theme.min.css" />
+		<link rel="stylesheet" type="text/css" href="daksys-webhelp/resources/js/jquery-ui.min.css" />
+		
+		<!-- Template css  -->
+		<link href="daksys-webhelp/template/resources/css/HIKROBOT_color.css?buildId=2023071300" rel="stylesheet" type="text/css" />
+		<link rel="stylesheet" type="text/css" href="daksys-webhelp/template/resources/css/wt_topic.css?buildId=2023071300" />
+		<link rel="stylesheet" type="text/css" href="daksys-webhelp/template/resources/css/wt_topic_m.css?buildId=2023071300" />
+		<link rel="stylesheet" type="text/css" href="daksys-webhelp/template/resources/css/wt_expand.css?buildId=2023071300" />
+		<link rel="stylesheet" type="text/css" href="daksys-webhelp/template/resources/css/wt_note.css?buildId=2023071300" />
+		<link rel="stylesheet" type="text/css" href="daksys-webhelp/template/resources/css/wt_steps.css?buildId=2023071300" />
+		
+		<!-- jquery js  -->
+		<script type="text/javascript" src="daksys-webhelp/resources/js/jquery-3.6.2.min.js"></script>
+		<script type="text/javascript" src="daksys-webhelp/resources/js/jquery.cookie.js"></script>
+		<script type="text/javascript" src="daksys-webhelp/resources/js/jquery.highlight-3.js"></script>
+		<script type="text/javascript" src="daksys-webhelp/resources/js/jquery-ui.min.js"></script>
+		
+		<!-- common js  -->
+		<script type="text/javascript" src="daksys-webhelp/resources/bootstrap/js/bootstrap.min.js"></script>
+		<script type="text/javascript" src="daksys-webhelp/resources/js/base64.js"></script>
+		<script type="text/javascript" src="daksys-webhelp/resources/js/browserDetect.js"></script>
+		<script type="text/javascript" src="daksys-webhelp/resources/js/localization.js"></script>
+		<script type="text/javascript" src="daksys-webhelp/resources/js/parseuri.js"></script>
+		<script type="text/javascript" src="daksys-webhelp/resources/localization/strings.js"></script>
+		<!-- Template js -->
+		<script type="text/javascript" src="daksys-webhelp/template/resources/js/wt_topic.js?buildId=2023071300"></script>
+		<script type="text/javascript" src="daksys-webhelp/template/resources/js/wt_expand.js?buildId=2023071300"></script>
+	</head>
+	<body class="wt_topic_page frmBody" id="GUID-D7E2D52E-3606-4973-8A6B-0D5263A25343" onload="topicOnload()">
+		<!-- get_lang -->
+		<div id="lang" style="display:none">zh-CN</div><div id="mapoutputclass" style="display:none"></div>
+		<input hidden="hidden" id="UDCode" value="UD12345B" /><input hidden="hidden" id="Trademark" value="海康机器人" />
+		
+		<div class="content_box">
+			<div class="middle_view content_area col-sm-9" id="content_area">
+				<div class=" wt_breadcrumb "><ol><li><span class="home topicref"><a href="javascript:void(0)" onclick="gotoFirstPage()">首页</a></span></li><li><span class="topicref"><a href="GUID-9E538898-40D1-480E-8A36-40BEC4586E63.html" data-id="GUID-9E538898-40D1-480E-8A36-40BEC4586E63">菜单栏相关介绍</a></span></li><li><span class="topicref"><a href="GUID-A2447B90-DEA6-4A6C-9EDA-5FEE07AD8664.html" data-id="GUID-A2447B90-DEA6-4A6C-9EDA-5FEE07AD8664">设置</a></span></li><li class="active"><span class="topicref">历史记录导出</span></li></ol><div class="wt_breadcrumb_ellipsis" onclick="expandBreadcrumbDiv()"></div><div class="wt_breadcrumb_collapse" style="display: none;"><div class="wt_breadcrumb_collapse_button" onclick="collapseBreadcrumbDiv()"></div></div></div>
+				
+				<div id="container_body" class="container">
+					<div id="contentArea">
+						<div class=" wt_topic_content body ">
+    <h1 class="title topictitle1">历史记录导出</h1>
+
+    
+    <div class="body conbody"><p class="shortdesc"><span class="ph uicontrol">历史记录导出</span>可设置读码器导出历史记录的方式、文件格式、文件个数以及存储路径等。</p>
+
+        <p class="p">通过<span class="ph uicontrol">读取设置</span>主界面中历史记录区域的<img class="image icon" style="display:none;" id="GUID-D7E2D52E-3606-4973-8A6B-0D5263A25343__IMAGE_ZKS_NZG_T2C" src="GUID-6BF1AE7B-5BFC-4613-AFC6-E13FF0E82CE3-high.png" />可导出读码器读取结果的历史记录，详情参见<a class="xref" href="GUID-5FAEA566-8DC0-49F7-B0CF-FA3D5355B95D.html#GUID-5FAEA566-8DC0-49F7-B0CF-FA3D5355B95D" title="单击读取设置的开始工作或单次触发后，读码器开始取流并读码，还支持查看历史记录、统计信息等。">查看读码结果</a>章节。</p>
+
+        <p class="p">相关参数介绍如下：</p>
+
+        <dl class="dl parml">
+            
+                <dt class="dt pt dlterm"><a name="GUID-D7E2D52E-3606-4973-8A6B-0D5263A25343__GUID-75E21ACD-9492-463C-B37C-F0054455243A"><!-- --></a>保存路径</dt>
+
+                <dd class="dd pd">
+                    <p class="p">可设置单击<img class="image icon" style="display:none;" id="GUID-D7E2D52E-3606-4973-8A6B-0D5263A25343__IMAGE_THF_ZZG_T2C" src="GUID-6BF1AE7B-5BFC-4613-AFC6-E13FF0E82CE3-high.png" />导出历史记录时的存储路径。</p>
+
+                </dd>
+
+            
+            
+                <dt class="dt pt dlterm"><a name="GUID-D7E2D52E-3606-4973-8A6B-0D5263A25343__GUID-BC2F8DCE-F486-4724-A724-68D74FA44F73"><!-- --></a>文件数保存上限</dt>
+
+                <dd class="dd pd">
+                    <p class="p">控制<span class="keyword parmname">保存路径</span>下存储历史记录文件个数的上限。</p>
+
+                    <div class="note note" id="GUID-D7E2D52E-3606-4973-8A6B-0D5263A25343__GUID-817C412C-BCAC-471A-93A6-7792A31959B7"><span class="notetitle">说明</span> 
+                        <p class="p">文件个数超过上限时，IDMVS将覆盖最老的文件进行存储。</p>
+
+                    </div>
+
+                </dd>
+
+            
+            
+                <dt class="dt pt dlterm"><a name="GUID-D7E2D52E-3606-4973-8A6B-0D5263A25343__GUID-88855D40-D021-4281-B3E7-4461CE44F94F"><!-- --></a>格式</dt>
+
+                <dd class="dd pd">
+                    <p class="p">可设置历史记录导出的文件格式，可选<span class="keyword parmname">CSV</span>或<span class="keyword parmname">XLSX</span>。</p>
+
+                </dd>
+
+            
+            
+                <dt class="dt pt dlterm"><a name="GUID-D7E2D52E-3606-4973-8A6B-0D5263A25343__GUID-56608670-545D-4F32-BA59-3A6778A55F10"><!-- --></a>持续保存</dt>
+
+                <dd class="dd pd">
+                    <ul class="ul" id="GUID-D7E2D52E-3606-4973-8A6B-0D5263A25343__UL_L4R_RBH_T2C">
+                        <li class="li" id="GUID-D7E2D52E-3606-4973-8A6B-0D5263A25343__GUID-CB67F0F3-7560-435D-BF36-AB48FDDB4572">
+                            <p class="p">未开启该功能时，单击<img class="image icon" style="display:none;" id="GUID-D7E2D52E-3606-4973-8A6B-0D5263A25343__IMAGE_Y3F_KBH_T2C" src="GUID-6BF1AE7B-5BFC-4613-AFC6-E13FF0E82CE3-high.png" />即可导出当前已有的历史记录信息。</p>
+
+                        </li>
+
+                        <li class="li" id="GUID-D7E2D52E-3606-4973-8A6B-0D5263A25343__GUID-B12A1A62-0D11-4CED-9D9A-18E07F7AC013">
+                            <p class="p">开启该功能后，单击<img class="image icon" style="display:none;" id="GUID-D7E2D52E-3606-4973-8A6B-0D5263A25343__IMAGE_IF1_TBH_T2C" src="GUID-6BF1AE7B-5BFC-4613-AFC6-E13FF0E82CE3-high.png" />则开始导出，再单击一次<img class="image icon" style="display:none;" id="GUID-D7E2D52E-3606-4973-8A6B-0D5263A25343__IMAGE_PDG_VBH_T2C" src="GUID-6BF1AE7B-5BFC-4613-AFC6-E13FF0E82CE3-high.png" />则结束导出。这期间，所有的新增数据会实时保存在同一个文件中。</p>
+
+                        </li>
+
+                    </ul>
+
+                    <div class="note note" id="GUID-D7E2D52E-3606-4973-8A6B-0D5263A25343__GUID-BC527E8B-8811-4C5F-8870-113F2A9E55A4"><span class="notetitle">说明</span> 
+                        <p class="p">仅<span class="keyword parmname">格式</span>选择<span class="keyword parmname">CSV</span>时，可使用本功能。</p>
+
+                    </div>
+
+                </dd>
+
+            
+        </dl>
+
+    </div>
+
+
+</div>
+						<div class=" wt_topic_wpp_content wt_pc_only "><div class=" wt_topic_wpp_content_flex "><div class="wt_topic_wpp_item like"></div><div class="wt_topic_wpp_item view"></div><div class="wt_topic_wpp_item share">分享</div></div></div>
+						
+						
+						
+					</div>
+				</div><!-- container_body -->
+				
+				<div class=" body_footer "><div onclick="prevTopic()" class=" body_footer_left link_button "><span>上一页</span></div><div onclick="nextTopic()" class=" body_footer_right link_button "><span>下一页</span></div></div>
+				<div class=" body_wpp mobile_only"><div class="wt_body_mobile_like"></div><div class="wt_body_mobile_view"></div></div>
+				<!-- <whc:webhelp_side_toc /> -->
+				
+			</div> <!-- middle_view content_area -->
+			<div class=" right_content wt_pc_only "></div>
+		</div> <!-- content_box -->
+		
+		<!-- 置顶按钮 -->
+		<div class="body_to_top" onclick="scrollTopicTop()"></div> 
+		<!-- 评价反馈 -->
+		<div onclick="manualFeedback()" class=" body_feedback " data-href="https://wj.hikvision.com/#/public-survey?id=64c8b90d80e02e9e88feca2f"></div>
+		
+	</body>
+</html>

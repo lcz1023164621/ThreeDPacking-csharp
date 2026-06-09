@@ -1,0 +1,389 @@
+
+<!DOCTYPE html
+  PUBLIC "" "about:legacy-compat">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:whc="http://www.daksys.com/webhelp/components" xml:lang="zh-cn" lang="zh-cn">
+	<head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />        
+      <meta name="copyright" content="©  杭州海康威视数字技术股份有限公司。保留一切权利。" /><meta name="DC.Type" content="task" /><meta name="DC.Title" content="文件存取工具" /><meta name="abstract" content="文件存取工具可批量导入读码器参数、ROI等属性。文件存取的本质为通过读码器自身导入或导出用户参数、算法ROI参数等。" /><meta name="description" content="文件存取工具可批量导入读码器参数、ROI等属性。文件存取的本质为通过读码器自身导入或导出用户参数、算法ROI参数等。" /><meta name="DC.Relation" scheme="URI" content="GUID-AC630637-4E20-4722-806E-0755E6142EA4.html" /><meta name="DC.Format" content="XHTML" /><meta name="DC.Identifier" content="GUID-E7F4FAC0-6238-49E2-9828-AC66BB1F38AE" /><meta name="DC.Language" content="zh-CN" /><title>文件存取工具</title><!-- Generated with dksgen version 1.0, build number 2023071300.  --><meta viewport="Content-Type" content="width=device-width, initial-scale=1.0" /><meta http-equiv="X-UA-Compatible" content="IE=edge,Chrome=1" /><meta name="wh-path2root" content="index.html" />
+		<!-- commonltr css -->
+		<link rel="stylesheet" type="text/css" href="daksys-webhelp/resources/css/commonltr.css" />
+		<!-- Bootstrap css -->
+		<link rel="stylesheet" type="text/css" href="daksys-webhelp/resources/bootstrap/css/bootstrap.min.css" />
+		<link rel="stylesheet" type="text/css" href="daksys-webhelp/resources/bootstrap/css/bootstrap-theme.min.css" />
+		<link rel="stylesheet" type="text/css" href="daksys-webhelp/resources/js/jquery-ui.min.css" />
+		
+		<!-- Template css  -->
+		<link href="daksys-webhelp/template/resources/css/HIKROBOT_color.css?buildId=2023071300" rel="stylesheet" type="text/css" />
+		<link rel="stylesheet" type="text/css" href="daksys-webhelp/template/resources/css/wt_topic.css?buildId=2023071300" />
+		<link rel="stylesheet" type="text/css" href="daksys-webhelp/template/resources/css/wt_topic_m.css?buildId=2023071300" />
+		<link rel="stylesheet" type="text/css" href="daksys-webhelp/template/resources/css/wt_expand.css?buildId=2023071300" />
+		<link rel="stylesheet" type="text/css" href="daksys-webhelp/template/resources/css/wt_note.css?buildId=2023071300" />
+		<link rel="stylesheet" type="text/css" href="daksys-webhelp/template/resources/css/wt_steps.css?buildId=2023071300" />
+		
+		<!-- jquery js  -->
+		<script type="text/javascript" src="daksys-webhelp/resources/js/jquery-3.6.2.min.js"></script>
+		<script type="text/javascript" src="daksys-webhelp/resources/js/jquery.cookie.js"></script>
+		<script type="text/javascript" src="daksys-webhelp/resources/js/jquery.highlight-3.js"></script>
+		<script type="text/javascript" src="daksys-webhelp/resources/js/jquery-ui.min.js"></script>
+		
+		<!-- common js  -->
+		<script type="text/javascript" src="daksys-webhelp/resources/bootstrap/js/bootstrap.min.js"></script>
+		<script type="text/javascript" src="daksys-webhelp/resources/js/base64.js"></script>
+		<script type="text/javascript" src="daksys-webhelp/resources/js/browserDetect.js"></script>
+		<script type="text/javascript" src="daksys-webhelp/resources/js/localization.js"></script>
+		<script type="text/javascript" src="daksys-webhelp/resources/js/parseuri.js"></script>
+		<script type="text/javascript" src="daksys-webhelp/resources/localization/strings.js"></script>
+		<!-- Template js -->
+		<script type="text/javascript" src="daksys-webhelp/template/resources/js/wt_topic.js?buildId=2023071300"></script>
+		<script type="text/javascript" src="daksys-webhelp/template/resources/js/wt_expand.js?buildId=2023071300"></script>
+	</head>
+	<body class="wt_topic_page frmBody" id="GUID-E7F4FAC0-6238-49E2-9828-AC66BB1F38AE" onload="topicOnload()">
+		<!-- get_lang -->
+		<div id="lang" style="display:none">zh-CN</div><div id="mapoutputclass" style="display:none"></div>
+		<input hidden="hidden" id="UDCode" value="UD12345B" /><input hidden="hidden" id="Trademark" value="海康机器人" />
+		
+		<div class="content_box">
+			<div class="middle_view content_area col-sm-9" id="content_area">
+				<div class=" wt_breadcrumb "><ol><li><span class="home topicref"><a href="javascript:void(0)" onclick="gotoFirstPage()">首页</a></span></li><li><span class="topicref"><a href="GUID-9E538898-40D1-480E-8A36-40BEC4586E63.html" data-id="GUID-9E538898-40D1-480E-8A36-40BEC4586E63">菜单栏相关介绍</a></span></li><li><span class="topicref"><a href="GUID-AC630637-4E20-4722-806E-0755E6142EA4.html" data-id="GUID-AC630637-4E20-4722-806E-0755E6142EA4">工具</a></span></li><li class="active"><span class="topicref">文件存取工具</span></li></ol><div class="wt_breadcrumb_ellipsis" onclick="expandBreadcrumbDiv()"></div><div class="wt_breadcrumb_collapse" style="display: none;"><div class="wt_breadcrumb_collapse_button" onclick="collapseBreadcrumbDiv()"></div></div></div>
+				
+				<div id="container_body" class="container">
+					<div id="contentArea">
+						<div class=" wt_topic_content body ">
+    <h1 class="title topictitle1">文件存取工具</h1>
+
+    
+<div class="body taskbody"><p class="shortdesc"><span class="ph uicontrol">文件存取工具</span>可批量导入读码器参数、ROI等属性。文件存取的本质为通过读码器自身导入或导出用户参数、算法ROI参数等。</p>
+
+        <div class="section prereq p" id="GUID-E7F4FAC0-6238-49E2-9828-AC66BB1F38AE__GUID-0A24E89D-8F07-409E-AE2B-B7174002FD56">
+            <p class="p">读码器与PC网络通讯正常，且为<span class="keyword parmname">可用</span>状态。</p>
+
+        </div>
+
+<div class="section context" id="GUID-E7F4FAC0-6238-49E2-9828-AC66BB1F38AE__GUID-5904BFD4-8368-4498-83D9-91C99B84E760">
+            <p class="p">通过该工具可导入以下文件。本章节仅介绍如何导入<span class="keyword parmname">User Set</span>和<span class="keyword parmname">Multi
+                    ROI</span>。</p>
+
+            <dl class="dl parml">
+                
+                    <dt class="dt pt dlterm"><a name="GUID-E7F4FAC0-6238-49E2-9828-AC66BB1F38AE__GUID-F3118ADE-AE4D-44A4-850E-ECA7F4E3155B"><!-- --></a>User Set</dt>
+
+                    <dd class="dd pd">
+                        <p class="p">用户参数。可导入读码器的所有参数（包含算法ROI相关参数）。</p>
+
+                    </dd>
+
+                
+                
+                    <dt class="dt pt dlterm"><a name="GUID-E7F4FAC0-6238-49E2-9828-AC66BB1F38AE__GUID-17D32503-C33F-4B1E-BFCC-A5346061EE47"><!-- --></a>Multi ROI</dt>
+
+                    <dd class="dd pd">
+                        <p class="p">算法ROI。仅导入读码器中关于算法ROI相关的参数。一般在仅需批量修改算法ROI参数时使用，可加快导入效率。</p>
+
+                    </dd>
+
+                
+                
+                    <dt class="dt pt dlterm"><a name="GUID-E7F4FAC0-6238-49E2-9828-AC66BB1F38AE__GUID-11AAFDB8-0FC4-4618-A253-6F2D50C8E829"><!-- --></a>SECBIN</dt>
+
+                    <dd class="dd pd">
+                        <p class="p">读码器加密文件。您一般无需使用。</p>
+
+                    </dd>
+
+                
+                
+                    <dt class="dt pt dlterm"><a name="GUID-E7F4FAC0-6238-49E2-9828-AC66BB1F38AE__GUID-26ED9266-DAF9-4814-8B13-D717999D3CA7"><!-- --></a>Bill Detect Model</dt>
+
+                    <dd class="dd pd">
+                        <p class="p">面单定位模型，此为物流读码门HVS型号读码器特有功能，主要用于将采集的图像根据面单定位后的坐标进行纹理拼接。具体如何使用，请咨询本公司技术同事。</p>
+
+                    </dd>
+
+                
+            </dl>
+
+            <div class="note note" id="GUID-E7F4FAC0-6238-49E2-9828-AC66BB1F38AE__GUID-DEC844D2-FCD0-44AA-BB50-686CFAE0D205"><span class="notetitle">说明</span> 
+                <ul class="ul" id="GUID-E7F4FAC0-6238-49E2-9828-AC66BB1F38AE__UL_VBF_4CW_V2C">
+                    <li class="li" id="GUID-E7F4FAC0-6238-49E2-9828-AC66BB1F38AE__GUID-F5253FC4-7020-41E2-A1E6-0DDA209567E6">
+                        <p class="p">使用该工具导入文件时，需确保不同读码器的型号完全一致，否则可能导致部分读码器导入失败。</p>
+
+                    </li>
+
+                    <li class="li" id="GUID-E7F4FAC0-6238-49E2-9828-AC66BB1F38AE__GUID-46EDECF4-7C5A-49DA-9FA1-3A6EF1F66485">
+                        <p class="p">对于如何对单个读码器进行文件存取的<span class="ph uicontrol">导入</span>或<span class="ph uicontrol">导出</span>，详情参见<a class="xref" href="GUID-50E51181-457D-445C-8A50-A2386441C07B.html#GUID-50E51181-457D-445C-8A50-A2386441C07B" title="完成设备连接后，可通过右键单击读码器名称等方式配置设备基础功能、设备控制功能、IP固定和防占用功能。">连接后配置</a>章节。</p>
+
+                    </li>
+
+                </ul>
+
+            </div>
+
+        </div>
+
+        <ol class="ol steps" id="GUID-E7F4FAC0-6238-49E2-9828-AC66BB1F38AE__GUID-8E8FCEFE-3FAA-45DC-97B5-3951A219CC8B"><li class="li step stepexpand" id="GUID-E7F4FAC0-6238-49E2-9828-AC66BB1F38AE__GUID-FF209BC4-C6BE-4CBC-B7F4-81A604025DA4">
+                <span class="ph cmd">单击菜单栏的<span class="ph menucascade"><span class="ph uicontrol">工具</span> &gt; <span class="ph uicontrol">文件存取工具</span></span>进入该工具。</span>
+            </li>
+<li class="li step stepexpand" id="GUID-E7F4FAC0-6238-49E2-9828-AC66BB1F38AE__GUID-078710C0-D4C8-4AB8-AED1-FCA594BB9D77"><strong>可选操作： </strong>
+                
+                <span class="ph cmd">根据需求在工具左侧选择网络接口，此时仅显示该网口连接的读码器。</span>
+                <div class="itemgroup info">
+                    <div class="note note" id="GUID-E7F4FAC0-6238-49E2-9828-AC66BB1F38AE__d1858e30"><span class="notetitle">说明</span> 
+                        <p class="p">单击<span class="ph uicontrol">GigE</span>可显示所有网络接口下的读码器。该工具默认以GigE方式显示读码器。</p>
+
+                    </div>
+
+                </div>
+            </li>
+<li class="li step stepexpand" id="GUID-E7F4FAC0-6238-49E2-9828-AC66BB1F38AE__GUID-B18BCF48-A9ED-43AC-8D4F-15C4173C868A"><strong>可选操作： </strong>
+                <span class="ph cmd">单击工具右上角的<img class="image icon" style="display:none;" id="GUID-E7F4FAC0-6238-49E2-9828-AC66BB1F38AE__IMAGE_KWS_SJF_S2C" src="GUID-B25640A6-5C0C-4E6E-90B2-E27808CB4952-high.png" />，可勾选需显示的读码器信息类型。</span>
+                <div class="itemgroup info">
+                    <div class="note note" id="GUID-E7F4FAC0-6238-49E2-9828-AC66BB1F38AE__GUID-A455A416-7F1C-4AD3-B9B9-1485A9B9AF41"><span class="notetitle">说明</span> 
+                        <p class="p">工具默认显示读码器的<span class="keyword parmname">型号名称</span>、<span class="keyword parmname">设备用户ID</span>、<span class="keyword parmname">序列号</span>、<span class="keyword parmname">状态</span>、<span class="keyword parmname">固件版本</span>、<span class="keyword parmname">导入状态</span>。</p>
+
+                    </div>
+
+                    <p class="p">关于各类信息的介绍具体如下：</p>
+
+                    <dl class="dl parml">
+                        
+                            <dt class="dt pt dlterm"><a name="GUID-E7F4FAC0-6238-49E2-9828-AC66BB1F38AE__GUID-CC849D43-972C-4C5E-A89A-AA5A3B166B55"><!-- --></a>型号名称</dt>
+
+                            <dd class="dd pd">
+                                <p class="p">读码器具体型号</p>
+
+                            </dd>
+
+                        
+                        
+                            <dt class="dt pt dlterm"><a name="GUID-E7F4FAC0-6238-49E2-9828-AC66BB1F38AE__GUID-FD549066-EFE0-4B46-BDE2-627E9F0FF10B"><!-- --></a>设备用户ID</dt>
+
+                            <dd class="dd pd">
+                                <p class="p">读码器的<span class="keyword parmname">User ID</span>参数内容</p>
+
+                                <div class="note note" id="GUID-E7F4FAC0-6238-49E2-9828-AC66BB1F38AE__d1858e95"><span class="notetitle">说明</span> 
+                                    <p class="p">若该参数无内容，则此处不显示。</p>
+
+                                </div>
+
+                            </dd>
+
+                        
+                        
+                            <dt class="dt pt dlterm"><a name="GUID-E7F4FAC0-6238-49E2-9828-AC66BB1F38AE__GUID-958B1B0A-3933-4B1D-AC13-3483B1914FA5"><!-- --></a>序列号</dt>
+
+                            <dd class="dd pd">
+                                <p class="p">读码器序列号</p>
+
+                            </dd>
+
+                        
+                        
+                            <dt class="dt pt dlterm"><a name="GUID-E7F4FAC0-6238-49E2-9828-AC66BB1F38AE__GUID-3D490132-E218-4A03-A157-721DB5EBF6F8"><!-- --></a>状态</dt>
+
+                            <dd class="dd pd">
+                                <p class="p">读码器状态，分为<span class="keyword parmname">可用</span>、<span class="keyword parmname">占用</span>和<span class="keyword parmname">不可达</span>3种。</p>
+
+                                <ul class="ul" id="GUID-E7F4FAC0-6238-49E2-9828-AC66BB1F38AE__d1858e152">
+                                    <li class="li" id="GUID-E7F4FAC0-6238-49E2-9828-AC66BB1F38AE__d1858e154">
+                                        <p class="p"><span class="keyword parmname">可用</span>：读码器与PC在同一网段，且未被任何应用（包括IDMVS)连接。</p>
+
+                                    </li>
+
+                                    <li class="li" id="GUID-E7F4FAC0-6238-49E2-9828-AC66BB1F38AE__d1858e168">
+                                        <p class="p"><span class="keyword parmname">占用</span>：读码器与PC在同一网段，但被其他应用（例如IDMVS）连接。</p>
+
+                                    </li>
+
+                                    <li class="li" id="GUID-E7F4FAC0-6238-49E2-9828-AC66BB1F38AE__d1858e182">
+                                        <p class="p"><span class="keyword parmname">不可达</span>：读码器与PC不在同一网段。</p>
+
+                                    </li>
+
+                                </ul>
+
+                            </dd>
+
+                        
+                        
+                            <dt class="dt pt dlterm"><a name="GUID-E7F4FAC0-6238-49E2-9828-AC66BB1F38AE__GUID-FD2718C7-0355-42C1-A342-5C9D8E1E1A9D"><!-- --></a>IP配置</dt>
+
+                            <dd class="dd pd">
+                                <p class="p">读码器的IP配置类型，分为静态IP、自动获取（DHCP）、自动获取（LLA）3种类型。</p>
+
+                                <dl class="dl parml">
+                                    
+                                        <dt class="dt pt dlterm"><a name="GUID-E7F4FAC0-6238-49E2-9828-AC66BB1F38AE__d1858e211"><!-- --></a>静态IP</dt>
+
+                                        <dd class="dd pd">
+                                            <p class="p">手动分配固定IP地址，读码器设置后，IP地址不变。推荐使用该类型固定读码器的IP地址。</p>
+
+                                        </dd>
+
+                                    
+                                    
+                                        <dt class="dt pt dlterm"><a name="GUID-E7F4FAC0-6238-49E2-9828-AC66BB1F38AE__d1858e229"><!-- --></a>自动获取IP（DHCP）</dt>
+
+                                        <dd class="dd pd">
+                                            <p class="p">通过DHCP服务器给读码器动态分配IP地址。此为读码器出厂默认设置。</p>
+
+                                        </dd>
+
+                                    
+                                    
+                                        <dt class="dt pt dlterm"><a name="GUID-E7F4FAC0-6238-49E2-9828-AC66BB1F38AE__d1858e247"><!-- --></a>自动获取IP（LLA）</dt>
+
+                                        <dd class="dd pd">
+                                            <p class="p">读码器自动从链路本地地址范围（169.254.x.x）选择IP地址。</p>
+
+                                        </dd>
+
+                                    
+                                </dl>
+
+                            </dd>
+
+                        
+                        
+                            <dt class="dt pt dlterm"><a name="GUID-E7F4FAC0-6238-49E2-9828-AC66BB1F38AE__GUID-19AC068F-EFF6-439D-9C95-EB26B7A89AE7"><!-- --></a>IP地址</dt>
+
+                            <dd class="dd pd">
+                                <p class="p">读码器当前的IP地址</p>
+
+                            </dd>
+
+                        
+                        
+                            <dt class="dt pt dlterm"><a name="GUID-E7F4FAC0-6238-49E2-9828-AC66BB1F38AE__GUID-D3A94EF5-5E56-422C-BAF5-37001CAB7162"><!-- --></a>子网掩码</dt>
+
+                            <dd class="dd pd">
+                                <p class="p">读码器的子网掩码</p>
+
+                            </dd>
+
+                        
+                        
+                            <dt class="dt pt dlterm"><a name="GUID-E7F4FAC0-6238-49E2-9828-AC66BB1F38AE__GUID-F824FA50-D61A-4C75-AB53-4709747CF6DD"><!-- --></a>默认网关</dt>
+
+                            <dd class="dd pd">
+                                <p class="p">读码器的默认网关</p>
+
+                            </dd>
+
+                        
+                        
+                            <dt class="dt pt dlterm"><a name="GUID-E7F4FAC0-6238-49E2-9828-AC66BB1F38AE__GUID-8903C9B0-33B7-44ED-A6AE-2A3EA615587A"><!-- --></a>固件版本</dt>
+
+                            <dd class="dd pd">
+                                <p class="p">读码器当前固件程序的版本号</p>
+
+                            </dd>
+
+                        
+                        
+                            <dt class="dt pt dlterm"><a name="GUID-E7F4FAC0-6238-49E2-9828-AC66BB1F38AE__GUID-E7FD77DD-1C78-4335-AC67-FA8A9F14C4C4"><!-- --></a>导入状态</dt>
+
+                            <dd class="dd pd">
+                                <p class="p">显示文件导入实时情况。</p>
+
+                                <ul class="ul" id="GUID-E7F4FAC0-6238-49E2-9828-AC66BB1F38AE__UL_S5T_GSS_S2C">
+                                    <li class="li" id="GUID-E7F4FAC0-6238-49E2-9828-AC66BB1F38AE__GUID-E4D07D8D-8899-489C-85C0-8AFEE8B7B77D">
+                                        <p class="p">导入过程中：显示导入进度。</p>
+
+                                    </li>
+
+                                    <li class="li" id="GUID-E7F4FAC0-6238-49E2-9828-AC66BB1F38AE__GUID-1F73201C-E4A7-40AF-8E9F-EA42147537F2">
+                                        <p class="p">导入结束后：显示导入结果。</p>
+
+                                        <ul class="ul" id="GUID-E7F4FAC0-6238-49E2-9828-AC66BB1F38AE__UL_WVG_VRS_S2C">
+                                            <li class="li" id="GUID-E7F4FAC0-6238-49E2-9828-AC66BB1F38AE__GUID-8BB0B092-0F6D-4E42-8E64-D53EB42F5C38">
+                                                <p class="p">导入成功：显示“导入成功”。</p>
+
+                                            </li>
+
+                                            <li class="li" id="GUID-E7F4FAC0-6238-49E2-9828-AC66BB1F38AE__GUID-2A84D047-3CF1-4800-AE7C-4145800FBD41">
+                                                <p class="p">导入失败：显示错误信息及错误代码，将鼠标放到错误信息上，可以显示完整错误信息</p>
+
+                                            </li>
+
+                                        </ul>
+
+                                    </li>
+
+                                </ul>
+
+                            </dd>
+
+                        
+                    </dl>
+
+                </div>
+            </li>
+<li class="li step stepexpand" id="GUID-E7F4FAC0-6238-49E2-9828-AC66BB1F38AE__GUID-0BCDE93B-1D4F-40FC-8EA2-D7C1CF9B5B3D">
+                <span class="ph cmd">勾选需导入文件的读码器，至少勾选1个。</span>
+                <div class="itemgroup info">
+                    <div class="note note" id="GUID-E7F4FAC0-6238-49E2-9828-AC66BB1F38AE__GUID-3271EFA7-BD9A-4542-B729-396CBA67DE6B"><span class="notetitle">说明</span> 
+                        
+                        <p class="p">需确保勾选的读码器型号和导入文件对应的读码器型号是一样的。</p>
+
+                    </div>
+
+                </div>
+            </li>
+<li class="li step stepexpand" id="GUID-E7F4FAC0-6238-49E2-9828-AC66BB1F38AE__GUID-C6BA23DD-62E6-4D5F-9D5C-30393D4631E1">
+                <span class="ph cmd">单击<span class="keyword parmname">导入文件</span>右侧的<img class="image icon" style="display:none;" id="GUID-E7F4FAC0-6238-49E2-9828-AC66BB1F38AE__IMAGE_W1J_YSS_S2C" src="GUID-81C2118E-146C-4BE3-B8A3-7F8693566CBE-high.png" />选择需导入的mfa文件。</span>
+            </li>
+<li class="li step stepexpand" id="GUID-E7F4FAC0-6238-49E2-9828-AC66BB1F38AE__GUID-6F28E1F8-7249-4C87-8C4F-FB542D3895E5">
+                <span class="ph cmd">单击<span class="ph uicontrol">导入</span>。</span>
+            </li>
+<li class="li step stepexpand" id="GUID-E7F4FAC0-6238-49E2-9828-AC66BB1F38AE__GUID-08545569-694B-430C-9185-E2D761FCF8D9">
+                <span class="ph cmd">根据选择的mfa文件类型，选择对应的<span class="keyword parmname">设备属性</span>，并单击<span class="ph uicontrol">确定</span>。</span>
+                <div class="itemgroup info"></div>
+                <div class="itemgroup stepresult">
+                    <p class="p">此时工具开始导入mfa文件，上方显示总体情况，具体读码器的<span class="keyword parmname">导入状态</span>显示具体情况，如下图所示。</p>
+
+                    <div class="fig fignone" id="GUID-E7F4FAC0-6238-49E2-9828-AC66BB1F38AE__FIG_DTT_TL1_T2C">
+                        
+                        <img class="image" style="display:none;" id="GUID-E7F4FAC0-6238-49E2-9828-AC66BB1F38AE__IMAGE_ETT_TL1_T2C" src="GUID-D90EF592-BA88-4EF7-8270-33D2662E6604-high.png" width="1400" />
+                    <div class="fig_caption"><span class="figcap">图 1 文件存取工具</span></div></div>
+
+                </div>
+            </li>
+<li class="li step stepexpand" id="GUID-E7F4FAC0-6238-49E2-9828-AC66BB1F38AE__GUID-D57DA544-F2A9-4832-8D9B-7131B6FE604E"><strong>可选操作： </strong>
+                
+                <span class="ph cmd">单击<span class="ph uicontrol">返回</span>，可返回工具的初始界面。</span>
+            </li>
+</ol>
+
+<div class="section postreq" id="GUID-E7F4FAC0-6238-49E2-9828-AC66BB1F38AE__GUID-559787D9-7760-421B-AABA-91C18C48CE2A">
+            
+            <p class="p">通过该工具导入<span class="keyword parmname">User Set</span>或<span class="keyword parmname">Multi ROI</span>的mfa文件后还需重启读码器。</p>
+
+            <p class="p">重启后，读码器内的用户参数组数量和具体参数设置和导入的mfa文件完全一致，根据需求加载对应的用户参数组使用即可。</p>
+
+        </div>
+
+</div>
+
+
+</div>
+						<div class=" wt_topic_wpp_content wt_pc_only "><div class=" wt_topic_wpp_content_flex "><div class="wt_topic_wpp_item like"></div><div class="wt_topic_wpp_item view"></div><div class="wt_topic_wpp_item share">分享</div></div></div>
+						
+						
+						
+					</div>
+				</div><!-- container_body -->
+				
+				<div class=" body_footer "><div onclick="prevTopic()" class=" body_footer_left link_button "><span>上一页</span></div><div onclick="nextTopic()" class=" body_footer_right link_button "><span>下一页</span></div></div>
+				<div class=" body_wpp mobile_only"><div class="wt_body_mobile_like"></div><div class="wt_body_mobile_view"></div></div>
+				<!-- <whc:webhelp_side_toc /> -->
+				
+			</div> <!-- middle_view content_area -->
+			<div class=" right_content wt_pc_only "></div>
+		</div> <!-- content_box -->
+		
+		<!-- 置顶按钮 -->
+		<div class="body_to_top" onclick="scrollTopicTop()"></div> 
+		<!-- 评价反馈 -->
+		<div onclick="manualFeedback()" class=" body_feedback " data-href="https://wj.hikvision.com/#/public-survey?id=64c8b90d80e02e9e88feca2f"></div>
+		
+	</body>
+</html>

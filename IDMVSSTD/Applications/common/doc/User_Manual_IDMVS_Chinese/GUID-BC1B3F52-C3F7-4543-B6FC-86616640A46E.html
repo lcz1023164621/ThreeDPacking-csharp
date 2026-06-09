@@ -1,0 +1,261 @@
+
+<!DOCTYPE html
+  PUBLIC "" "about:legacy-compat">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:whc="http://www.daksys.com/webhelp/components" xml:lang="zh-cn" lang="zh-cn">
+	<head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />        
+      <meta name="copyright" content="©  杭州海康威视数字技术股份有限公司。保留一切权利。" /><meta name="DC.Type" content="concept" /><meta name="DC.Title" content="条码裁剪" /><meta name="abstract" content="条码裁剪功能支持对读取的条码数据进行裁剪和处理，满足对条码数据进行特殊处理的需求，例如提取条码中特定数据、指定条码内容等。" /><meta name="description" content="条码裁剪功能支持对读取的条码数据进行裁剪和处理，满足对条码数据进行特殊处理的需求，例如提取条码中特定数据、指定条码内容等。" /><meta name="DC.Relation" scheme="URI" content="GUID-18029E9E-3083-437A-B970-24EE067E6132.html" /><meta name="DC.Format" content="XHTML" /><meta name="DC.Identifier" content="GUID-BC1B3F52-C3F7-4543-B6FC-86616640A46E" /><meta name="DC.Language" content="zh-CN" /><title>条码裁剪</title><!-- Generated with dksgen version 1.0, build number 2023071300.  --><meta viewport="Content-Type" content="width=device-width, initial-scale=1.0" /><meta http-equiv="X-UA-Compatible" content="IE=edge,Chrome=1" /><meta name="wh-path2root" content="index.html" />
+		<!-- commonltr css -->
+		<link rel="stylesheet" type="text/css" href="daksys-webhelp/resources/css/commonltr.css" />
+		<!-- Bootstrap css -->
+		<link rel="stylesheet" type="text/css" href="daksys-webhelp/resources/bootstrap/css/bootstrap.min.css" />
+		<link rel="stylesheet" type="text/css" href="daksys-webhelp/resources/bootstrap/css/bootstrap-theme.min.css" />
+		<link rel="stylesheet" type="text/css" href="daksys-webhelp/resources/js/jquery-ui.min.css" />
+		
+		<!-- Template css  -->
+		<link href="daksys-webhelp/template/resources/css/HIKROBOT_color.css?buildId=2023071300" rel="stylesheet" type="text/css" />
+		<link rel="stylesheet" type="text/css" href="daksys-webhelp/template/resources/css/wt_topic.css?buildId=2023071300" />
+		<link rel="stylesheet" type="text/css" href="daksys-webhelp/template/resources/css/wt_topic_m.css?buildId=2023071300" />
+		<link rel="stylesheet" type="text/css" href="daksys-webhelp/template/resources/css/wt_expand.css?buildId=2023071300" />
+		<link rel="stylesheet" type="text/css" href="daksys-webhelp/template/resources/css/wt_note.css?buildId=2023071300" />
+		<link rel="stylesheet" type="text/css" href="daksys-webhelp/template/resources/css/wt_steps.css?buildId=2023071300" />
+		
+		<!-- jquery js  -->
+		<script type="text/javascript" src="daksys-webhelp/resources/js/jquery-3.6.2.min.js"></script>
+		<script type="text/javascript" src="daksys-webhelp/resources/js/jquery.cookie.js"></script>
+		<script type="text/javascript" src="daksys-webhelp/resources/js/jquery.highlight-3.js"></script>
+		<script type="text/javascript" src="daksys-webhelp/resources/js/jquery-ui.min.js"></script>
+		
+		<!-- common js  -->
+		<script type="text/javascript" src="daksys-webhelp/resources/bootstrap/js/bootstrap.min.js"></script>
+		<script type="text/javascript" src="daksys-webhelp/resources/js/base64.js"></script>
+		<script type="text/javascript" src="daksys-webhelp/resources/js/browserDetect.js"></script>
+		<script type="text/javascript" src="daksys-webhelp/resources/js/localization.js"></script>
+		<script type="text/javascript" src="daksys-webhelp/resources/js/parseuri.js"></script>
+		<script type="text/javascript" src="daksys-webhelp/resources/localization/strings.js"></script>
+		<!-- Template js -->
+		<script type="text/javascript" src="daksys-webhelp/template/resources/js/wt_topic.js?buildId=2023071300"></script>
+		<script type="text/javascript" src="daksys-webhelp/template/resources/js/wt_expand.js?buildId=2023071300"></script>
+	</head>
+	<body class="wt_topic_page frmBody" id="GUID-BC1B3F52-C3F7-4543-B6FC-86616640A46E" onload="topicOnload()">
+		<!-- get_lang -->
+		<div id="lang" style="display:none">zh-CN</div><div id="mapoutputclass" style="display:none"></div>
+		<input hidden="hidden" id="UDCode" value="UD12345B" /><input hidden="hidden" id="Trademark" value="海康机器人" />
+		
+		<div class="content_box">
+			<div class="middle_view content_area col-sm-9" id="content_area">
+				<div class=" wt_breadcrumb "><ol><li><span class="home topicref"><a href="javascript:void(0)" onclick="gotoFirstPage()">首页</a></span></li><li><span class="topicref"><a href="GUID-D8488278-18E0-41D0-91B9-35636662C53F.html" data-id="GUID-D8488278-18E0-41D0-91B9-35636662C53F">读码器常用配置</a></span></li><li><span class="topicref"><a href="GUID-18029E9E-3083-437A-B970-24EE067E6132.html" data-id="GUID-18029E9E-3083-437A-B970-24EE067E6132">处理输出数据</a></span></li><li class="active"><span class="topicref">条码裁剪</span></li></ol><div class="wt_breadcrumb_ellipsis" onclick="expandBreadcrumbDiv()"></div><div class="wt_breadcrumb_collapse" style="display: none;"><div class="wt_breadcrumb_collapse_button" onclick="collapseBreadcrumbDiv()"></div></div></div>
+				
+				<div id="container_body" class="container">
+					<div id="contentArea">
+						<div class=" wt_topic_content body ">
+    <h1 class="title topictitle1">条码裁剪</h1>
+
+
+<div class="body conbody"><p class="shortdesc">条码裁剪功能支持对读取的条码数据进行裁剪和处理，满足对条码数据进行特殊处理的需求，例如提取条码中特定数据、指定条码内容等。</p>
+
+        <p class="p">在IDMVS主界面功能导航栏，选择<span class="ph menucascade"><span class="ph uicontrol">操作配置</span> &gt; <span class="ph uicontrol">数据处理</span> &gt; <span class="ph uicontrol">条码裁剪</span></span>，进入<strong class="ph b">条码裁剪</strong>页签。配置<span class="ph uicontrol">条码裁剪模式</span>参数以实现不同需求的条码处理，可选择模式和对应参数说明如下。</p>
+
+        <div class="fig fignone" id="GUID-BC1B3F52-C3F7-4543-B6FC-86616640A46E__FIG_H5N_N3P_W2C">
+            
+            <img class="image" style="display:none;" id="GUID-BC1B3F52-C3F7-4543-B6FC-86616640A46E__IMAGE_I5N_N3P_W2C" src="GUID-2EAAAA60-BFBE-4CF3-9456-FDDA08BC6E0D-high.gif" width="1400" />
+        <div class="fig_caption"><span class="figcap">图 1 条码裁剪</span></div></div>
+
+        <div class="section" id="GUID-BC1B3F52-C3F7-4543-B6FC-86616640A46E__GUID-AAC41685-DFB9-4DDD-8DE5-9F03E1BA1450"><h2 class="title sectiontitle">条码位数偏移量模式</h2>
+            
+            
+            <p class="p">设置条码的起始和结束偏移量来裁剪条码数据，适用于需要从较长的条码中提取特定位置条码信息的场景。</p>
+
+            <dl class="dl parml">
+                
+                    <dt class="dt pt dlterm"><a name="GUID-BC1B3F52-C3F7-4543-B6FC-86616640A46E__GUID-09A848B1-143D-4339-AF62-9475345A34C6"><!-- --></a>条码最大输出长度</dt>
+
+                    <dd class="dd pd">
+                        <p class="p">设置裁剪后条码数据的最大长度，确保输出的条码信息不超过指定的长度。</p>
+
+                    </dd>
+
+                
+                
+                    <dt class="dt pt dlterm"><a name="GUID-BC1B3F52-C3F7-4543-B6FC-86616640A46E__GUID-43DBE086-EA8F-4E2C-A8D8-F0AD9DF8E5D8"><!-- --></a>条码位数开始偏移量</dt>
+
+                    <dd class="dd pd">
+                        <p class="p">设置从条码左侧开始裁剪到的数据位置序号，从1开始计数，设置为“0”表示条码左侧不进行裁剪。例如设置2，将裁剪条码左侧开始的第1、2位数据。</p>
+
+                    </dd>
+
+                
+                
+                    <dt class="dt pt dlterm"><a name="GUID-BC1B3F52-C3F7-4543-B6FC-86616640A46E__GUID-88A3169E-597D-46C1-80CB-96DB885A075D"><!-- --></a>条码位数结束偏移量</dt>
+
+                    <dd class="dd pd">
+                        <p class="p">设置从条码右侧开始裁剪到的数据位置序号，从1开始计数，设置为“0”表示条码右侧不进行裁剪。例如设置2，将裁剪条码左侧开始的倒数第1、2位数据。</p>
+
+                    </dd>
+
+                
+            </dl>
+
+        </div>
+
+        <div class="section" id="GUID-BC1B3F52-C3F7-4543-B6FC-86616640A46E__GUID-639D5E66-E757-4455-804F-B057B48DF3F3"><h2 class="title sectiontitle">字符表达式模式</h2>
+            
+            <p class="p">设置输入字符表达式进行条码裁剪，此模式相比条码位数偏移量模式更灵活，支持分段提取。字符表达式规则如下。</p>
+
+            <ul class="ul" id="GUID-BC1B3F52-C3F7-4543-B6FC-86616640A46E__UL_QTP_RMH_T2C">
+                <li class="li" id="GUID-BC1B3F52-C3F7-4543-B6FC-86616640A46E__GUID-C19A0E19-C9C9-4311-9EE4-5041E114EB5A">
+                    <p class="p">单个字符提取：使用“(n)”提取条码中第n个字符，例如条码内容为123456789，裁剪表达式为(5)，将输出5。</p>
+
+                </li>
+
+                <li class="li" id="GUID-BC1B3F52-C3F7-4543-B6FC-86616640A46E__GUID-76D2BA74-C33B-4C67-9809-E4BDB22F94DF">
+                    <p class="p">连续范围提取：使用“(m-n)”提取从第m个字符到第n个字符之间的连续部分，例如条码内容为123456789，裁剪表达式为(1-4)，将输出1234。</p>
+
+                </li>
+
+                <li class="li" id="GUID-BC1B3F52-C3F7-4543-B6FC-86616640A46E__GUID-26F8FDB0-7FD6-4A4A-82C6-AFE59EE08D7D">
+                    <p class="p">多个范围提取：使用“(m-n,p-q)”提取多个不连续的部分，例如条码内容为123456789，裁剪表达式为(1-4,6-9)，将输出12346789。</p>
+
+                </li>
+
+                <li class="li" id="GUID-BC1B3F52-C3F7-4543-B6FC-86616640A46E__GUID-1FC938C4-A90B-4D11-8828-648EB785BA2B">
+                    <p class="p">开放范围提取：使用“(n-)”从第n个字符开始提取到条码结束；使用“(-m)”从条码结束开始提取到倒数第m个字符。例如条码内容为123456789，裁剪表达式为(1-)，将输出123456789；裁剪表达式为(-1)，将输出9。</p>
+
+                </li>
+
+            </ul>
+
+        </div>
+
+        <div class="section" id="GUID-BC1B3F52-C3F7-4543-B6FC-86616640A46E__GUID-767E2948-28A8-41C1-ABAC-983A79B3F4D6"><h2 class="title sectiontitle">模板切割模式</h2>
+            
+            <p class="p">根据预定义的<span class="keyword parmname">模板切割字符表达式</span>来裁剪条码数据，此模式支持对条码内容进行替换。模板规则说明如下。</p>
+
+            <ul class="ul" id="GUID-BC1B3F52-C3F7-4543-B6FC-86616640A46E__UL_GVG_2PH_T2C">
+                <li class="li" id="GUID-BC1B3F52-C3F7-4543-B6FC-86616640A46E__GUID-F68EEF1F-9538-4CE8-9ACE-9E6AD7EEC29F">
+                    <p class="p">([])：不对条码内容做任何处理。</p>
+
+                    <p class="p">例：条码内容为CodeA，裁剪模板为([])，则输出码内容为CodeA。</p>
+
+                </li>
+
+                <li class="li" id="GUID-BC1B3F52-C3F7-4543-B6FC-86616640A46E__GUID-0A9F73CB-AF36-448C-ABD0-3AB98233DF59">
+                    <p class="p">([String])：字符表达式模式：使用字符串String对条码做整个替换。</p>
+
+                    <p class="p">例：条码内容为CodeA，裁剪模板为([OK])，则输出码内容为OK。</p>
+
+                </li>
+
+                <li class="li" id="GUID-BC1B3F52-C3F7-4543-B6FC-86616640A46E__GUID-EFF9CBEC-B413-4961-AF5E-9045A6C89C49">
+                    <p class="p">([Left],[Right])：截取(Left,Right)之间的条码。</p>
+
+                    <p class="p">例：条码内容为CodeA，裁剪模板为([Co],[A])，则输出条码内容为de。</p>
+
+                    <p class="p">如果没有找到Left对应的字符串，则从条码头部开始切割；如果没有找到Right对应的字符串，则从条码尾部开始切割。</p>
+
+                    <ul class="ul" id="GUID-BC1B3F52-C3F7-4543-B6FC-86616640A46E__UL_HVG_2PH_T2C">
+                        <li class="li" id="GUID-BC1B3F52-C3F7-4543-B6FC-86616640A46E__GUID-CDAA2E8E-A3CB-4B75-BA8C-D834D3CF6946">
+                            <p class="p">若码内容为A|Hello,world|A，裁剪模板为([|],[|])，则输出条码内容为Hello,world；</p>
+
+                        </li>
+
+                        <li class="li" id="GUID-BC1B3F52-C3F7-4543-B6FC-86616640A46E__GUID-09DFD6D6-ACF5-4079-9503-5E45C8ADAEC7">
+                            <p class="p">若码内容为A|Hello,world，裁剪模板为([|],[])，则输出条码内容为Hello,world；</p>
+
+                        </li>
+
+                        <li class="li" id="GUID-BC1B3F52-C3F7-4543-B6FC-86616640A46E__GUID-E3F669B0-4B84-4716-9ED5-18EF49364813">
+                            <p class="p">若码内容为Hello,world|A，裁剪模板为([],[|])，则输出条码内容为Hello,world。</p>
+
+                        </li>
+
+                    </ul>
+
+                </li>
+
+                <li class="li" id="GUID-BC1B3F52-C3F7-4543-B6FC-86616640A46E__GUID-72D701BD-01CA-40C1-9450-07F0A958D6BF">
+                    <p class="p">([Left],[Right],[Replace])：截取(Left,Right)之间的条码，并使用Replace替换(Left,Right)之间的字符串。</p>
+
+                    <p class="p">例：条码内容为CodeA，裁剪模板为([Co],[A],[OK])，则输出条码内容为CoOKA。</p>
+
+                </li>
+
+            </ul>
+
+        </div>
+
+        <div class="section" id="GUID-BC1B3F52-C3F7-4543-B6FC-86616640A46E__GUID-95475521-614E-49A4-BC80-2A7414259A7C"><h2 class="title sectiontitle">通用切割模式</h2>
+            
+            <p class="p">根据自定义的逻辑和规则对条码数据进行裁剪。</p>
+
+            <dl class="dl parml">
+                
+                    <dt class="dt pt dlterm"><a name="GUID-BC1B3F52-C3F7-4543-B6FC-86616640A46E__GUID-7809ABAB-78F3-4EA8-B178-020FFB877D47"><!-- --></a>期望条码长度</dt>
+
+                    <dd class="dd pd">
+                        <p class="p">设置裁剪后条码数据的最大长度，确保输出的条码信息不超过指定的长度。</p>
+
+                    </dd>
+
+                
+                
+                    <dt class="dt pt dlterm"><a name="GUID-BC1B3F52-C3F7-4543-B6FC-86616640A46E__GUID-6B486B66-8E31-4175-B7DF-6882A5005DFE"><!-- --></a>条码长度切割模式</dt>
+
+                    <dd class="dd pd">
+                        <p class="p">可选择如下模式：</p>
+
+                        <ul class="ul" id="GUID-BC1B3F52-C3F7-4543-B6FC-86616640A46E__UL_P5W_VQH_T2C">
+                            <li class="li" id="GUID-BC1B3F52-C3F7-4543-B6FC-86616640A46E__GUID-B9D59CCD-4222-4AB5-B3FC-876E77D18F66">
+                                <p class="p"><span class="keyword parmname">左对齐切割</span>：从条码的最左端开始，按照指定的期望条码长度进行裁剪。</p>
+
+                            </li>
+
+                            <li class="li" id="GUID-BC1B3F52-C3F7-4543-B6FC-86616640A46E__GUID-B21BE53F-E1A7-40CD-9B51-7FEF8D04E2B0">
+                                <p class="p"><span class="keyword parmname">右对齐切割</span>：从条码的最右端开始，按照指定的期望条码长度进行裁剪。</p>
+
+                            </li>
+
+                            <li class="li" id="GUID-BC1B3F52-C3F7-4543-B6FC-86616640A46E__GUID-EBB8F536-F8E7-4D6C-BC7E-044623E18D31">
+                                <p class="p"><span class="keyword parmname">用户自定义规则切割</span>：当条码内容长度不等于期望长度时，将输出自定义字符串；当条码内容长度等于期望长度时，将输出原条码内容。选择此模式需通过<span class="keyword parmname">自定义字符串</span>参数指定替换的内容。</p>
+
+                                <div class="note note" id="GUID-BC1B3F52-C3F7-4543-B6FC-86616640A46E__GUID-77D760D6-16A6-4325-B079-BEB0A70D9CB2"><span class="notetitle">说明</span> 
+                                    <p class="p">不配置<span class="keyword parmname">自定义字符串</span>参数将输出原条码内容。</p>
+
+                                </div>
+
+                            </li>
+
+                        </ul>
+
+                    </dd>
+
+                
+            </dl>
+
+        </div>
+
+</div>
+
+
+</div>
+						<div class=" wt_topic_wpp_content wt_pc_only "><div class=" wt_topic_wpp_content_flex "><div class="wt_topic_wpp_item like"></div><div class="wt_topic_wpp_item view"></div><div class="wt_topic_wpp_item share">分享</div></div></div>
+						
+						
+						
+					</div>
+				</div><!-- container_body -->
+				
+				<div class=" body_footer "><div onclick="prevTopic()" class=" body_footer_left link_button "><span>上一页</span></div><div onclick="nextTopic()" class=" body_footer_right link_button "><span>下一页</span></div></div>
+				<div class=" body_wpp mobile_only"><div class="wt_body_mobile_like"></div><div class="wt_body_mobile_view"></div></div>
+				<!-- <whc:webhelp_side_toc /> -->
+				
+			</div> <!-- middle_view content_area -->
+			<div class=" right_content wt_pc_only "><div class=" right_fixed_container "><div class="right_guide"><div class="feature_guide"><div>本页导航</div><ul><li onclick="scrollToAnchor($(this))" data-id="GUID-BC1B3F52-C3F7-4543-B6FC-86616640A46E__GUID-AAC41685-DFB9-4DDD-8DE5-9F03E1BA1450" class="feature_guide_h2"><span class="link_button">条码位数偏移量模式</span></li><li onclick="scrollToAnchor($(this))" data-id="GUID-BC1B3F52-C3F7-4543-B6FC-86616640A46E__GUID-639D5E66-E757-4455-804F-B057B48DF3F3" class="feature_guide_h2"><span class="link_button">字符表达式模式</span></li><li onclick="scrollToAnchor($(this))" data-id="GUID-BC1B3F52-C3F7-4543-B6FC-86616640A46E__GUID-767E2948-28A8-41C1-ABAC-983A79B3F4D6" class="feature_guide_h2"><span class="link_button">模板切割模式</span></li><li onclick="scrollToAnchor($(this))" data-id="GUID-BC1B3F52-C3F7-4543-B6FC-86616640A46E__GUID-95475521-614E-49A4-BC80-2A7414259A7C" class="feature_guide_h2"><span class="link_button">通用切割模式</span></li></ul></div></div></div></div>
+		</div> <!-- content_box -->
+		
+		<!-- 置顶按钮 -->
+		<div class="body_to_top" onclick="scrollTopicTop()"></div> 
+		<!-- 评价反馈 -->
+		<div onclick="manualFeedback()" class=" body_feedback " data-href="https://wj.hikvision.com/#/public-survey?id=64c8b90d80e02e9e88feca2f"></div>
+		
+	</body>
+</html>

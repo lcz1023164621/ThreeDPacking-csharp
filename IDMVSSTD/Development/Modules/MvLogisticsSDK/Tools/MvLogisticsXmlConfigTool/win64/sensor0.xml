@@ -1,0 +1,65 @@
+<ArithConfig>
+    <Chessboard>
+        <PatternWidth hide="0" value="13" type="3" valuelist="1" name="棋盘格宽" help="棋盘格宽"/>
+        <PatternHeight hide="0" value="8" type="3" valuelist="1" name="棋盘格高" help="棋盘格高"/>
+        <SquareSize hide="0" value="40" type="3" valuelist="4" name="棋盘格边长" help="棋盘格边长"/>
+    </Chessboard>
+    <Camera>
+        <SerialNumber hide="1" value="00D16848565" type="3" valuelist="1" name="相机序列号" help="相机序列号"/>
+        <ImageWidth hide="0" value="1920" type="3" valuelist="1" name="图像宽度" help="图像宽度"/>
+        <ImageHeight hide="0" value="1200" type="3" valuelist="1" name="图像高度" help="图像高度"/>
+        <Fx hide="0" value="1268.792" type="3" valuelist="4" name="相机参数FX" help="相机参数FX"/>
+        <Fy hide="0" value="1267.2275" type="3" valuelist="4" name="相机参数FY" help="相机参数FY"/>
+        <Cx hide="0" value="954.07623" type="3" valuelist="4" name="相机参数CX" help="相机参数CX"/>
+        <Cy hide="0" value="653.48975" type="3" valuelist="4" name="相机参数CY" help="相机参数CY"/>
+    </Camera>
+    <Laser>
+        <A hide="1" type="3" valuelist="4" name="A" help="A" value="0.003521177"/>
+        <B hide="1" type="3" valuelist="4" name="B" help="B" value="-0.92307395"/>
+        <C hide="1" type="3" valuelist="4" name="C" help="C" value="0.38448289"/>
+        <D hide="1" type="3" valuelist="4" name="D" help="D" value="-397.98264"/>
+    </Laser>
+    <System>
+        <T00 hide="1" type="3" valuelist="4" name="T00" help="T00" value="-0.99992371"/>
+        <T01 hide="1" type="3" valuelist="4" name="T01" help="T01" value="0.0028033182"/>
+        <T02 hide="1" type="3" valuelist="4" name="T02" help="T02" value="0.012046978"/>
+        <T03 hide="1" type="3" valuelist="4" name="T03" help="T03" value="250.87791"/>
+        <T10 hide="1" type="3" valuelist="4" name="T10" help="T10" value="-0.0018511551"/>
+        <T11 hide="1" type="3" valuelist="4" name="T11" help="T11" value="0.92909056"/>
+        <T12 hide="1" type="3" valuelist="4" name="T12" help="T12" value="-0.36984748"/>
+        <T13 hide="1" type="3" valuelist="4" name="T13" help="T13" value="406.11542"/>
+        <T20 hide="1" type="3" valuelist="4" name="T20" help="T20" value="-0.012197072"/>
+        <T21 hide="1" type="3" valuelist="4" name="T21" help="T21" value="-0.36981177"/>
+        <T22 hide="1" type="3" valuelist="4" name="T22" help="T22" value="-0.92880905"/>
+        <T23 hide="1" type="3" valuelist="4" name="T23" help="T23" value="1695.5157"/>
+        <Vx hide="1" type="3" valuelist="4" name="Vx" help="Vx" value="-0.00076540408"/>
+        <Vy hide="1" type="3" valuelist="4" name="Vy" help="Vy" value="0.99999708"/>
+        <Vz hide="1" type="3" valuelist="4" name="Vz" help="Vz" value="-0.0022969383"/>
+    </System>
+    <MVBLSL>
+        <Input>
+            <MaxCalibImagePairNum hide="0" value="5" type="3" valuelist="1" name="线激光标定图像对数" help="线激光标定图像对数"/>
+            <ROIX hide="0" value="448" type="3" valuelist="1" name="ROI左上点X坐标" help="ROI左上点X坐标"/>
+            <ROIY hide="0" value="586" type="3" valuelist="1" name="ROI左上点Y坐标" help="ROI左上点Y坐标"/>
+            <ROIWidth hide="0" value="1024" type="3" valuelist="1" name="ROI宽度" help="ROI宽度"/>
+            <ROIHeight hide="0" value="326" type="3" valuelist="1" name="ROI高度" help="ROI高度"/>
+            <LaserEdgePnts x0="596" y0="817" x1="1351" y1="811"/>
+        </Input>
+        <PARAM>
+            <Param hide="0" key="1" value="180" type="3" min="0" max="255" valuelist="1" name="带激光线图像与不带图像差值的二值化阈值" help="带激光线图像与不带图像差值的二值化阈值"/>
+            <Param hide="0" key="2" value="40" type="3" min="0" max="255" valuelist="1" name="提取激光点时的二值化阈值" help="提取激光点时的二值化阈值"/>
+            <Param hide="0" key="3" value="1" type="3" min="1" max="5" valuelist="1" name="最小线宽" help="最小线宽"/>
+            <Param hide="0" key="4" value="30" type="3" min="5" max="100" valuelist="1" name="最大线宽" help="最大线宽"/>
+            <Param hide="1" key="5" value="4" type="3" min="1" max="250" valuelist="1" name="x方向的最大距离" help="x方向的最大距离"/>
+            <Param hide="1" key="6" value="4" type="3" min="1" max="250" valuelist="1" name="y方向的最大距离" help="y方向的最大距离"/>
+            <Param hide="0" key="7" value="30" type="3" min="1" max="200" valuelist="1" name="聚类的最小点数" help="聚类的最小点数"/>
+            <Param hide="1" key="8" value="180" type="3" min="0" max="255" valuelist="1" name="重构模块提取激光点时的二值化像素值高阈值" help="重构模块提取激光点时的二值化像素值高阈值"/>
+            <Param hide="1" key="9" value="130" type="3" min="0" max="1000" valuelist="1" name="亮度对比度比率阈值(千分比)" help="亮度对比度比率阈值(千分比)"/>
+            <Param hide="1" key="10" value="130" type="3" min="0" max="1000" valuelist="1" name="颜色对比度比率阈值(千分比)" help="颜色对比度比率阈值(千分比)"/>
+			<Param hide="1" key="11" value="4" type="3" min="1" max="3" valuelist="1" name="提取模式" help="提取模式"/>
+			<Param hide="1" key="12" value="3" type="3" min="1" max="3" valuelist="1" name="过滤模式" help="过滤模式"/>
+			<Param hide="1" key="13" value="10" type="3" min="1" max="255" valuelist="1" name="最小峰值高度" help="最小峰值高度"/>
+			<Param hide="1" key="14" value="5" type="3" min="1" max="99" valuelist="1" name="波峰检测跨度" help="波峰检测跨度"/>
+        </PARAM>
+    </MVBLSL>
+</ArithConfig>

@@ -1,0 +1,10 @@
+驱动安装程序使用说明
+一. 驱动安装方法
+1、安装程序自动安装
+   双击鼠标左键执行InstWiz3.exe来安装驱动。
+2、命令行方式安装驱动
+ 隐式安装驱动命令行：InstWiz3.exe /install /nogui
+ 隐式卸载驱动命令行：InstWiz3.exe /uninstall /nogui
+二. 注意事项
+1、在安装驱动程序之前请从USB接口上取下所有的设备，如果在连接设备的情况下安装，需要重新插拔后系统才可以正确识别设备。
+2、InstWiz3.exe不能单独执行，InstWiz3.exe同目录下必须包含mkSetup.dll、language.dll、win98目录、winlh64目录、winlh86目录、 winxp64目录和winxp86目录等全部内容，并保持原有的目录结构。

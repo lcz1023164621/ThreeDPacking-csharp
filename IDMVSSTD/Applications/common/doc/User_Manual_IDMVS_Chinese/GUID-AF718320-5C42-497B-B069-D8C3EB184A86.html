@@ -1,0 +1,257 @@
+
+<!DOCTYPE html
+  PUBLIC "" "about:legacy-compat">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:whc="http://www.daksys.com/webhelp/components" xml:lang="zh-cn" lang="zh-cn">
+	<head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />        
+      <meta name="copyright" content="©  杭州海康威视数字技术股份有限公司。保留一切权利。" /><meta name="DC.Type" content="concept" /><meta name="DC.Title" content="概述" /><meta name="abstract" content="Lua脚本是一种嵌入式脚本语言，具有简洁的语法、高效的执行速度和易于嵌入的特点。IDMVS支持通过Lua脚本自定义配置读码器格式化输出、数据过滤等，实现功能的扩展。" /><meta name="description" content="Lua脚本是一种嵌入式脚本语言，具有简洁的语法、高效的执行速度和易于嵌入的特点。IDMVS支持通过Lua脚本自定义配置读码器格式化输出、数据过滤等，实现功能的扩展。" /><meta name="DC.Relation" scheme="URI" content="GUID-1FD49EC0-F215-424C-9EE7-76B06BFD2B20.html" /><meta name="DC.Format" content="XHTML" /><meta name="DC.Identifier" content="GUID-AF718320-5C42-497B-B069-D8C3EB184A86" /><meta name="DC.Language" content="zh-CN" /><title>概述</title><!-- Generated with dksgen version 1.0, build number 2023071300.  --><meta viewport="Content-Type" content="width=device-width, initial-scale=1.0" /><meta http-equiv="X-UA-Compatible" content="IE=edge,Chrome=1" /><meta name="wh-path2root" content="index.html" />
+		<!-- commonltr css -->
+		<link rel="stylesheet" type="text/css" href="daksys-webhelp/resources/css/commonltr.css" />
+		<!-- Bootstrap css -->
+		<link rel="stylesheet" type="text/css" href="daksys-webhelp/resources/bootstrap/css/bootstrap.min.css" />
+		<link rel="stylesheet" type="text/css" href="daksys-webhelp/resources/bootstrap/css/bootstrap-theme.min.css" />
+		<link rel="stylesheet" type="text/css" href="daksys-webhelp/resources/js/jquery-ui.min.css" />
+		
+		<!-- Template css  -->
+		<link href="daksys-webhelp/template/resources/css/HIKROBOT_color.css?buildId=2023071300" rel="stylesheet" type="text/css" />
+		<link rel="stylesheet" type="text/css" href="daksys-webhelp/template/resources/css/wt_topic.css?buildId=2023071300" />
+		<link rel="stylesheet" type="text/css" href="daksys-webhelp/template/resources/css/wt_topic_m.css?buildId=2023071300" />
+		<link rel="stylesheet" type="text/css" href="daksys-webhelp/template/resources/css/wt_expand.css?buildId=2023071300" />
+		<link rel="stylesheet" type="text/css" href="daksys-webhelp/template/resources/css/wt_note.css?buildId=2023071300" />
+		<link rel="stylesheet" type="text/css" href="daksys-webhelp/template/resources/css/wt_steps.css?buildId=2023071300" />
+		
+		<!-- jquery js  -->
+		<script type="text/javascript" src="daksys-webhelp/resources/js/jquery-3.6.2.min.js"></script>
+		<script type="text/javascript" src="daksys-webhelp/resources/js/jquery.cookie.js"></script>
+		<script type="text/javascript" src="daksys-webhelp/resources/js/jquery.highlight-3.js"></script>
+		<script type="text/javascript" src="daksys-webhelp/resources/js/jquery-ui.min.js"></script>
+		
+		<!-- common js  -->
+		<script type="text/javascript" src="daksys-webhelp/resources/bootstrap/js/bootstrap.min.js"></script>
+		<script type="text/javascript" src="daksys-webhelp/resources/js/base64.js"></script>
+		<script type="text/javascript" src="daksys-webhelp/resources/js/browserDetect.js"></script>
+		<script type="text/javascript" src="daksys-webhelp/resources/js/localization.js"></script>
+		<script type="text/javascript" src="daksys-webhelp/resources/js/parseuri.js"></script>
+		<script type="text/javascript" src="daksys-webhelp/resources/localization/strings.js"></script>
+		<!-- Template js -->
+		<script type="text/javascript" src="daksys-webhelp/template/resources/js/wt_topic.js?buildId=2023071300"></script>
+		<script type="text/javascript" src="daksys-webhelp/template/resources/js/wt_expand.js?buildId=2023071300"></script>
+	</head>
+	<body class="wt_topic_page frmBody" id="GUID-AF718320-5C42-497B-B069-D8C3EB184A86" onload="topicOnload()">
+		<!-- get_lang -->
+		<div id="lang" style="display:none">zh-CN</div><div id="mapoutputclass" style="display:none"></div>
+		<input hidden="hidden" id="UDCode" value="UD12345B" /><input hidden="hidden" id="Trademark" value="海康机器人" />
+		
+		<div class="content_box">
+			<div class="middle_view content_area col-sm-9" id="content_area">
+				<div class=" wt_breadcrumb "><ol><li><span class="home topicref"><a href="javascript:void(0)" onclick="gotoFirstPage()">首页</a></span></li><li><span class="topicref"><a href="GUID-3F138232-3CF2-4E3F-A3C0-3D677CF174B5.html" data-id="GUID-3F138232-3CF2-4E3F-A3C0-3D677CF174B5">读码器高级配置</a></span></li><li><span class="topicref"><a href="GUID-1FD49EC0-F215-424C-9EE7-76B06BFD2B20.html" data-id="GUID-1FD49EC0-F215-424C-9EE7-76B06BFD2B20">Lua脚本</a></span></li><li class="active"><span class="topicref">概述</span></li></ol><div class="wt_breadcrumb_ellipsis" onclick="expandBreadcrumbDiv()"></div><div class="wt_breadcrumb_collapse" style="display: none;"><div class="wt_breadcrumb_collapse_button" onclick="collapseBreadcrumbDiv()"></div></div></div>
+				
+				<div id="container_body" class="container">
+					<div id="contentArea">
+						<div class=" wt_topic_content body ">
+    <h1 class="title topictitle1">概述</h1>
+
+
+<div class="body conbody"><p class="shortdesc">Lua脚本是一种嵌入式脚本语言，具有简洁的语法、高效的执行速度和易于嵌入的特点。IDMVS支持通过Lua脚本自定义配置读码器格式化输出、数据过滤等，实现功能的扩展。</p>
+
+        <div class="section" id="GUID-AF718320-5C42-497B-B069-D8C3EB184A86__GUID-ED6C10BB-1BF3-489A-ACA7-A37917A29C4D"><h2 class="title sectiontitle">使用说明</h2>
+            
+            <p class="p">V4.0.0及以上版本固件，所有型号的全功能型智能读码器、全功能型(Mini)智能读码器、紧凑型智能读码器和紧凑型(Mini)智能读码器均支持Lua脚本。</p>
+
+        </div>
+
+        <div class="section" id="GUID-AF718320-5C42-497B-B069-D8C3EB184A86__GUID-FD6014A7-6873-470C-8A54-99C4D5268449"><h2 class="title sectiontitle">界面概览</h2>
+            
+            <p class="p">在主界面功能导航栏，选择<span class="ph menucascade"><span class="ph uicontrol">操作配置</span> &gt; <span class="ph uicontrol">数据处理</span> &gt; <span class="ph uicontrol">Lua脚本</span></span>，进入Lua脚本页面，如下图所示。</p>
+
+            
+            <div class="fig fignone" id="GUID-AF718320-5C42-497B-B069-D8C3EB184A86__FIG_WGV_ZQD_XFC">
+                
+                <img class="image" style="display:none;" id="GUID-AF718320-5C42-497B-B069-D8C3EB184A86__IMAGE_XGV_ZQD_XFC" src="GUID-877145B7-7BF1-4995-8E02-7A6DF2138C32-high.png" width="2100" />
+            <div class="fig_caption"><span class="figcap">图 1 Lua脚本</span></div></div>
+
+            <p class="p">Lua脚本页面各模块功能说明如下表所示。</p>
+
+            
+<div class="div_table"><table cellpadding="4" cellspacing="0" summary="" style="display:none;" id="tbl_rowfixed" class="table wt_table_rowfixed" frame="border" border="1" rules="all"></table><table cellpadding="4" cellspacing="0" summary="" id="GUID-AF718320-5C42-497B-B069-D8C3EB184A86__TABLE_NBN_VRJ_GCC" class="table" frame="border" border="1" rules="all"><caption><span class="tablecap">表 1 Lua脚本模块说明</span></caption>
+                    
+                    
+                    
+                    <thead class="thead" align="left">
+                        <tr>
+                            <th class="entry" valign="top" width="12.87001287001287%" id="d66605e91">
+                                <p class="p">序号</p>
+
+                            </th>
+
+                            <th class="entry" valign="top" width="19.81981981981982%" id="d66605e97">
+                                <p class="p">模块名称</p>
+
+                            </th>
+
+                            <th class="entry" valign="top" width="67.31016731016732%" id="d66605e103">
+                                <p class="p">功能说明</p>
+
+                            </th>
+
+                        </tr>
+
+                    </thead>
+
+                    <tbody class="tbody">
+                        <tr>
+                            <td class="entry" valign="top" width="12.87001287001287%" headers="d66605e91 ">
+                                <p class="p">1</p>
+
+                            </td>
+
+                            <td class="entry" valign="top" width="19.81981981981982%" headers="d66605e97 ">
+                                <p class="p">脚本编辑区域</p>
+
+                            </td>
+
+                            <td class="entry" valign="top" width="67.31016731016732%" headers="d66605e103 ">
+                                <p class="p">用于编辑Lua脚本代码。</p>
+
+                                <div class="note_noline" id="GUID-AF718320-5C42-497B-B069-D8C3EB184A86__GUID-78831926-04E0-4C83-8981-1EF2F7545F18"><span class="notetitle">说明</span> 
+                                    <p class="p">Lua脚本编辑区域的代码支持实时语法提示功能。</p>
+
+                                </div>
+
+                                <p class="p">脚本编辑区域上下方的按钮功能说明如下。</p>
+
+                                <ul class="ul" id="GUID-AF718320-5C42-497B-B069-D8C3EB184A86__UL_NPR_SCT_HCC">
+                                    <li class="li" id="GUID-AF718320-5C42-497B-B069-D8C3EB184A86__GUID-FE7E11C2-016E-4D15-89AF-B31E41B98175">
+                                        
+                                        <p class="p"><span class="ph uicontrol">脚本输出使能</span>：选择是否启用Lua脚本的格式化输出功能，开启后<a class="xref" href="GUID-C3AE063C-E14B-4882-A14C-1A6B2F872C1E.html#GUID-C3AE063C-E14B-4882-A14C-1A6B2F872C1E" title="格式化配置功能支持通过通讯协议输出的数据按照特定的结构、样式或规则进行组织，包括添加或删除输出内容或字符、设置输出内容开始和结束部分等。">格式化配置</a>功能不可配置。</p>
+
+                                        <div class="note note" id="GUID-AF718320-5C42-497B-B069-D8C3EB184A86__GUID-C63D0F04-1194-43D3-9F2A-2C3909B52608"><span class="notetitle">说明</span> 
+                                            <p class="p">当脚本中含有格式化相关接口函数时，自动开启该开关。</p>
+
+                                        </div>
+
+                                    </li>
+
+                                    <li class="li" id="GUID-AF718320-5C42-497B-B069-D8C3EB184A86__GUID-858F7DCC-3B18-41A4-A6A8-A30313FA4319">
+                                        <p class="p"><span class="ph uicontrol">打开</span>：可选择并打开本地的脚本文件至脚本编辑区域。</p>
+
+                                    </li>
+
+                                    <li class="li" id="GUID-AF718320-5C42-497B-B069-D8C3EB184A86__GUID-1DA5E59D-9E9A-494C-860F-84F5C124B237">
+                                        <p class="p"><span class="ph uicontrol">从相机加载</span>：可选择加载读码器中的脚本文件至脚本编辑区域。</p>
+
+                                    </li>
+
+                                    <li class="li" id="GUID-AF718320-5C42-497B-B069-D8C3EB184A86__GUID-C4B7EDD3-7F0B-47CF-AEFA-472A377030C5">
+                                        <p class="p"><span class="ph uicontrol">从相机导出</span>：可将读码器中的Lua脚本导出至选择目录中。</p>
+
+                                    </li>
+
+                                    <li class="li" id="GUID-AF718320-5C42-497B-B069-D8C3EB184A86__GUID-FD170A34-4683-415B-8F27-103F6122A52E">
+                                        <p class="p"><span class="ph uicontrol">测试</span>：可运行编辑区域脚本，脚本运行结果可通过脚本输出区域查看。</p>
+
+                                    </li>
+
+                                    <li class="li" id="GUID-AF718320-5C42-497B-B069-D8C3EB184A86__GUID-F8357510-9414-478D-9296-751CD0A05779">
+                                        <p class="p"><span class="ph uicontrol">导入至相机</span>：可将编辑区域脚本保存至当前连接的读码器中。</p>
+
+                                    </li>
+
+                                    <li class="li" id="GUID-AF718320-5C42-497B-B069-D8C3EB184A86__GUID-E32BEEE8-F7E6-4850-A3E6-DDCF7AE77B41">
+                                        <p class="p"><span class="ph uicontrol">保存至本地</span>：可将编辑区域内容以Lua文件格式保存至本地。</p>
+
+                                    </li>
+
+                                </ul>
+
+                            </td>
+
+                        </tr>
+
+                        <tr>
+                            <td class="entry" valign="top" width="12.87001287001287%" headers="d66605e91 ">
+                                <p class="p">2</p>
+
+                            </td>
+
+                            <td class="entry" valign="top" width="19.81981981981982%" headers="d66605e97 ">
+                                <p class="p">脚本输出区域</p>
+
+                            </td>
+
+                            <td class="entry" valign="top" width="67.31016731016732%" headers="d66605e103 ">
+                                <p class="p">通过输出区域可查看脚本运行结果。</p>
+
+                                <ul class="ul" id="GUID-AF718320-5C42-497B-B069-D8C3EB184A86__UL_FPL_HTJ_GCC">
+                                    <li class="li" id="GUID-AF718320-5C42-497B-B069-D8C3EB184A86__GUID-8ADF3DAC-4155-4283-A991-22B0CA2985C9">
+                                        <p class="p">
+                                                若编译成功，则在输出区域显示<samp class="ph systemoutput">脚本验证成功</samp>，并同时显示测试运行结果。</p>
+
+                                    </li>
+
+                                    <li class="li" id="GUID-AF718320-5C42-497B-B069-D8C3EB184A86__GUID-45315066-6CB9-4A0C-8C14-A816238E1C58">
+                                        <p class="p"> 若编译失败，则在输出区域显示编译失败原因及错误行号。</p>
+
+                                    </li>
+
+                                </ul>
+
+                            </td>
+
+                        </tr>
+
+                        <tr>
+                            <td class="entry" valign="top" width="12.87001287001287%" headers="d66605e91 ">
+                                <p class="p">3</p>
+
+                            </td>
+
+                            <td class="entry" valign="top" width="19.81981981981982%" headers="d66605e97 ">
+                                <p class="p">接口列表</p>
+
+                            </td>
+
+                            <td class="entry" valign="top" width="67.31016731016732%" headers="d66605e103 ">
+                                <p class="p">可查看Lua脚本支持的接口及相关说明。</p>
+
+                                <div class="note_noline" id="GUID-AF718320-5C42-497B-B069-D8C3EB184A86__GUID-DE2AA9C4-D146-4529-8459-9F528600ADB8"><span class="notetitle">说明</span> 
+                                    <p class="p">部分接口支持示例代码，可单击<span class="ph uicontrol">详情展开</span>进行查看，同时支持单击<img class="image icon" style="display:none;" id="GUID-AF718320-5C42-497B-B069-D8C3EB184A86__IMAGE_LSB_H5M_Q2C" src="GUID-DD898D8A-01A8-446D-A943-EFE8837BFDE7-high.png" />一键复制示例代码。</p>
+
+                                </div>
+
+                            </td>
+
+                        </tr>
+
+                    </tbody>
+
+                </table>
+</div>
+
+        </div>
+
+</div>
+
+
+</div>
+						<div class=" wt_topic_wpp_content wt_pc_only "><div class=" wt_topic_wpp_content_flex "><div class="wt_topic_wpp_item like"></div><div class="wt_topic_wpp_item view"></div><div class="wt_topic_wpp_item share">分享</div></div></div>
+						
+						
+						
+					</div>
+				</div><!-- container_body -->
+				
+				<div class=" body_footer "><div onclick="prevTopic()" class=" body_footer_left link_button "><span>上一页</span></div><div onclick="nextTopic()" class=" body_footer_right link_button "><span>下一页</span></div></div>
+				<div class=" body_wpp mobile_only"><div class="wt_body_mobile_like"></div><div class="wt_body_mobile_view"></div></div>
+				<!-- <whc:webhelp_side_toc /> -->
+				
+			</div> <!-- middle_view content_area -->
+			<div class=" right_content wt_pc_only "><div class=" right_fixed_container "><div class="right_guide"><div class="feature_guide"><div>本页导航</div><ul><li onclick="scrollToAnchor($(this))" data-id="GUID-AF718320-5C42-497B-B069-D8C3EB184A86__GUID-ED6C10BB-1BF3-489A-ACA7-A37917A29C4D" class="feature_guide_h2"><span class="link_button">使用说明</span></li><li onclick="scrollToAnchor($(this))" data-id="GUID-AF718320-5C42-497B-B069-D8C3EB184A86__GUID-FD6014A7-6873-470C-8A54-99C4D5268449" class="feature_guide_h2"><span class="link_button">界面概览</span></li></ul></div></div></div></div>
+		</div> <!-- content_box -->
+		
+		<!-- 置顶按钮 -->
+		<div class="body_to_top" onclick="scrollTopicTop()"></div> 
+		<!-- 评价反馈 -->
+		<div onclick="manualFeedback()" class=" body_feedback " data-href="https://wj.hikvision.com/#/public-survey?id=64c8b90d80e02e9e88feca2f"></div>
+		
+	</body>
+</html>

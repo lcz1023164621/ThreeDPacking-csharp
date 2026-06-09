@@ -1,0 +1,91 @@
+{
+    "ui_tabs": [
+        {
+            "ui_type": "tab",
+            "ui_param_name": "",
+            "ui_subset": [
+                {
+                    "ui_display_name": "Protocol_TcpServer",
+                    "ui_display_cn_name": "TCP服务器协议",
+                    "ui_display_en_name": "TCP Server",
+                    "ui_usage_frequency": "Common",
+                    "ui_type": "category",
+                    "ui_param_name": "",
+                    "ui_param_display_type": "",
+                    "ui_subset": [
+                        {
+                            "ui_display_name": "TcpServerReturnFromIoCtrl",
+                            "ui_display_cn_name": "TCP服务器返回数据到触发端口",
+                            "ui_display_en_name": "TCP Server Return Data to Trigger Port",
+                            "ui_usage_frequency": "Common",
+                            "ui_type": "config_param",
+                            "ui_param_name": "TcpServerReturnFromIoCtrl",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        },
+                        {
+                            "ui_display_name": "TcpServerPort",
+                            "ui_display_cn_name": "TCP服务器端口号",
+                            "ui_display_en_name": "TCP Server Port",
+                            "ui_usage_frequency": "Common",
+                            "ui_type": "config_param",
+                            "ui_param_name": "TcpServerPort",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        },
+                        {
+                            "ui_display_name": "TcpserverFlexibleConnectEnable",
+                            "ui_display_cn_name": "TCP服务端自动重连",
+                            "ui_display_en_name": "TCP Server Auto Reconnect",
+                            "ui_usage_frequency": "Common",
+                            "ui_type": "config_param",
+                            "ui_param_name": "TcpserverFlexibleConnectEnable",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        },
+                        {
+                            "ui_display_name": "TcpServerHeartbeatEnable",
+                            "ui_display_cn_name": "心跳保护",
+                            "ui_display_en_name": "Heartbeat Protection",
+                            "ui_usage_frequency": "Common",
+                            "ui_type": "config_param",
+                            "ui_param_name": "TcpServerHeartbeatEnable",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        },
+                        {
+                            "ui_display_name": "TcpServerBarcodeAsHeartbeat",
+                            "ui_display_cn_name": "条码数据作为心跳包",
+                            "ui_display_en_name": "Barcode as Heartbeat",
+                            "ui_usage_frequency": "Common",
+                            "ui_type": "config_param",
+                            "ui_param_name": "TcpServerBarcodeAsHeartbeat",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        },
+                        {
+                            "ui_display_name": "TcpServerHeartbeatText",
+                            "ui_display_cn_name": "心跳字符串",
+                            "ui_display_en_name": "Heartbeat Text",
+                            "ui_usage_frequency": "Common",
+                            "ui_type": "config_param",
+                            "ui_param_name": "TcpServerHeartbeatText",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        },
+                        {
+                            "ui_display_name": "TcpServerHeartbeatTime",
+                            "ui_display_cn_name": "心跳包发送周期(s)",
+                            "ui_display_en_name": "Heartbeat Packet Sending Interval(s)",
+                            "ui_usage_frequency": "Common",
+                            "ui_type": "config_param",
+                            "ui_param_name": "TcpServerHeartbeatTime",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}

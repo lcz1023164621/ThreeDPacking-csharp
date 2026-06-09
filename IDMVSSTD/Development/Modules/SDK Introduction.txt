@@ -1,0 +1,46 @@
+﻿本文档主要说明Development文件夹下Modules路径下的SDK：
+
+MvCodeReaderSDK:（读码器SDK）为IDMVS开发配套的SDK
+1.概述：读码器SDK主要用于对智能读码器以及其他读码相关产品进行二次开发。
+2.版本：V2.0.0
+3.目录结构：
+	Demo:      该目录为读码器SDK提供了VC、C#、Java、Linux64(Qt)的四种示例程序
+	Doc:       该目录是读码器SDK对外提供的开发文档
+	DotNet:    该目录为读码器SDK提供c#接口封装的库
+	Include:   该目录为读码器SDK提供二次开发头文件
+	Libraries: 该目录为读码器SDK提供二次开发lib库
+	Runtime:   该目录为读码器SDK提供windows下安装包
+	SDK:       该目录为读码器SDK提供二次开发动态库,包括win32、win64、linux64、linux32、aarch64、arm32
+
+
+MVIDCodeReader：（读码SDK/一体化SDK）
+1.概述：读码SDK主要利用一维码、二维码、抠图算法对工业相机产品进行二次开发。
+2.版本：V1.2.0
+
+
+MvLogisticsSDK:（物流SDK）
+1.概述：物流SDK可配合工业相机、智能读码器、全景相机、立体相机、称重及融合模块使用，通过不同的参数配置使用于不同物流场景。
+2.版本：V1.4.0
+
+This document introduces the SDKs under the directory of ..\Development\Modules.
+
+MvCodeReaderSDK: (for IDMVS development)
+1.Overview: MvCodeReaderSDK enables the secondary development of smart code readers and other code reading devices.
+2.Version: V2.0.0
+3. Directory structure:
+	Demo: This directory provides four sample programs of VC, C#, Java, Linux64(Qt) for the MvCodeReaderSDK
+	Doc: This directory is the development documentation provided by the MvCodeReaderSDK.
+	DotNet: This directory provides a library of c# interface encapsulation for MvCodeReaderSDK
+	Include: This directory provides secondary development header files for the MvCodeReaderSDK
+	Libraries: This directory provides the secondary development lib library for the MvCodeReaderSDK
+	Runtime: This directory provides the installation package under Windows for the MvCodeReaderSDK
+	SDK: This directory provides secondary development dynamic library for the MvCodeReaderSDK, including win32, win64, linux64、linux32、aarch64、arm32
+
+MVIDCodeReader:
+Overview: MVIDCodeReader enables the secondary development of area/line scan cameras with 1D/2D barcode and image matting algorithm.
+Version: V1.2.0
+
+MvLogisticsSDK:
+Overview: MvLogisticsSDK works with area/line scan cameras, smart camera, panorama camera, 3D camera, and weighing and mixture modules. 
+	You can configure the camera parameters according to the actual logistic application. 
+Version: V1.4.0

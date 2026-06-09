@@ -1,0 +1,252 @@
+{
+    "ui_tabs": [
+        {
+            "ui_type": "tab",
+            "ui_param_name": "",
+            "ui_subset": [
+                {
+                    "ui_display_name": "Local_Save_Picture_condition",
+                    "ui_display_cn_name": "启用相机存图条件",
+                    "ui_display_en_name": "Enable Image Storage Condition",
+                    "ui_usage_frequency": "Common",
+                    "ui_type": "category",
+                    "ui_param_name": "",
+                    "ui_param_display_type": "",
+                    "ui_subset": [
+                        {
+                            "ui_display_name": "RunningMode",
+                            "ui_display_cn_name": "运行模式",
+                            "ui_display_en_name": "Running Mode",
+                            "ui_usage_frequency": "Common",
+                            "ui_type": "config_param",
+                            "ui_param_name": "RunningMode",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        },
+                        {
+                            "ui_display_name": "TriggerMode",
+                            "ui_display_cn_name": "触发模式",
+                            "ui_display_en_name": "Trigger Mode",
+                            "ui_usage_frequency": "Common",
+                            "ui_type": "config_param",
+                            "ui_param_name": "TriggerMode",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        }
+                    ]
+                },
+                {
+                    "ui_display_name": "Local_Save_Picture_Mode",
+                    "ui_display_cn_name": "相机存图模式",
+                    "ui_display_en_name": "Image Storage Mode",
+                    "ui_usage_frequency": "Common",
+                    "ui_type": "category",
+                    "ui_param_name": "",
+                    "ui_param_display_type": "",
+                    "ui_subset": [
+                        {
+                            "ui_display_name": "WithCodeButNoRead_Save",
+                            "ui_display_cn_name": "有码无读存图使能",
+                            "ui_display_en_name": "With Code But NoRead Save Enable",
+                            "ui_usage_frequency": "Common",
+                            "ui_type": "config_param",
+                            "ui_param_name": "WithCodeButNoRead_Save",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        },
+                        {
+                            "ui_display_name": "ResSetEmmcISMODE",
+                            "ui_display_cn_name": "相机存图",
+                            "ui_display_en_name": "Save Images in Camera",
+                            "ui_usage_frequency": "Common",
+                            "ui_type": "config_param",
+                            "ui_param_name": "ResSetEmmcISMODE",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        },
+                        {
+                            "ui_display_name": "ResSet_Emmc_IS_Type",
+                            "ui_display_cn_name": "无读存图格式",
+                            "ui_display_en_name": "Noread Image Format",
+                            "ui_usage_frequency": "Common",
+                            "ui_type": "config_param",
+                            "ui_param_name": "ResSet_Emmc_IS_Type",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        },
+                        {
+                            "ui_display_name": "ResSet_Emmc_IS_Count",
+                            "ui_display_cn_name": "触发存图最大数量",
+                            "ui_display_en_name": "Max Count of Trigger Save Image",
+                            "ui_usage_frequency": "Common",
+                            "ui_type": "config_param",
+                            "ui_param_name": "ResSet_Emmc_IS_Count",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        },
+                        {
+                            "ui_display_name": "ResSet_Emmc_IS_OW",
+                            "ui_display_cn_name": "相机存图覆盖策略",
+                            "ui_display_en_name": "Storage Overwrite Strategy",
+                            "ui_usage_frequency": "Common",
+                            "ui_type": "config_param",
+                            "ui_param_name": "ResSet_Emmc_IS_OW",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        },
+                        {
+                            "ui_display_name": "ResSet_Emmc_IS_OW_MaxCount",
+                            "ui_display_cn_name": "相机存图覆盖阈值",
+                            "ui_display_en_name": "Storage Overwrite Threshold",
+                            "ui_usage_frequency": "Common",
+                            "ui_type": "config_param",
+                            "ui_param_name": "ResSet_Emmc_IS_OW_MaxCount",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        },
+                        {
+                            "ui_display_name": "ResSet_Emmc_IS_OW_MaxCount_BMP",
+                            "ui_display_cn_name": "相机存图覆盖阈值",
+                            "ui_display_en_name": "Storage Overwrite Threshold",
+                            "ui_usage_frequency": "Common",
+                            "ui_type": "config_param",
+                            "ui_param_name": "ResSet_Emmc_IS_OW_MaxCount_BMP",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        },
+                        {
+                            "ui_display_name": "ResSet_Emmc_IS_OW_Space",
+                            "ui_display_cn_name": "相机存图保留空间(MB)",
+                            "ui_display_en_name": "Storage Reserved Space(MB)",
+                            "ui_usage_frequency": "Common",
+                            "ui_type": "config_param",
+                            "ui_param_name": "ResSet_Emmc_IS_OW_Space",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        },
+                        {
+                            "ui_display_name": "ResSet_Emmc_Picture_Name",
+                            "ui_display_cn_name": "相机存图图片名称",
+                            "ui_display_en_name": "Storage Image Name",
+                            "ui_usage_frequency": "Common",
+                            "ui_type": "config_param",
+                            "ui_param_name": "ResSet_Emmc_Picture_Name",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        },
+                        {
+                            "ui_display_name": "ResSet_Emmc_Time_Format",
+                            "ui_display_cn_name": "相机存图时间格式",
+                            "ui_display_en_name": "Storage Time Format",
+                            "ui_usage_frequency": "Common",
+                            "ui_type": "config_param",
+                            "ui_param_name": "ResSet_Emmc_Time_Format",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        },
+                        {
+                            "ui_display_name": "ResSet_Emmc_IS_Stra",
+                            "ui_display_cn_name": "相机存图策略",
+                            "ui_display_en_name": "Image Storage Strategy",
+                            "ui_usage_frequency": "Common",
+                            "ui_type": "config_param",
+                            "ui_param_name": "ResSet_Emmc_IS_Stra",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        },
+                        {
+                            "ui_display_name": "ResSet_Emmc_IS_Range_Start_Index",
+                            "ui_display_cn_name": "帧起始索引",
+                            "ui_display_en_name": "Frame Start Index",
+                            "ui_usage_frequency": "Common",
+                            "ui_type": "config_param",
+                            "ui_param_name": "ResSet_Emmc_IS_Range_Start_Index",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        },
+                        {
+                            "ui_display_name": "ResSet_Emmc_IS_Range_End_Index",
+                            "ui_display_cn_name": "帧终止索引",
+                            "ui_display_en_name": "Frame End Index",
+                            "ui_usage_frequency": "Common",
+                            "ui_type": "config_param",
+                            "ui_param_name": "ResSet_Emmc_IS_Range_End_Index",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        },
+                        {
+                            "ui_display_name": "ResSet_Emmc_IS_Index",
+                            "ui_display_cn_name": "帧索引",
+                            "ui_display_en_name": "Frame Index",
+                            "ui_usage_frequency": "Common",
+                            "ui_type": "config_param",
+                            "ui_param_name": "ResSet_Emmc_IS_Index",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        },
+                        {
+                            "ui_display_name": "ResSet_Emmc_Space_Query",
+                            "ui_display_cn_name": "查询相机存储空间",
+                            "ui_display_en_name": "Query Storage Space",
+                            "ui_usage_frequency": "Common",
+                            "ui_type": "config_param",
+                            "ui_param_name": "ResSet_Emmc_Space_Query",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        },
+                        {
+                            "ui_display_name": "ResSet_Emmc_Space_Total",
+                            "ui_display_cn_name": "相机总存储空间(MB)",
+                            "ui_display_en_name": "Total Storage Space(MB)",
+                            "ui_usage_frequency": "Common",
+                            "ui_type": "config_param",
+                            "ui_param_name": "ResSet_Emmc_Space_Total",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        },
+                        {
+                            "ui_display_name": "ResSet_Emmc_Space_Avaliable",
+                            "ui_display_cn_name": "相机可用存储空间(MB)",
+                            "ui_display_en_name": "Available Storage Space(MB)",
+                            "ui_usage_frequency": "Common",
+                            "ui_type": "config_param",
+                            "ui_param_name": "ResSet_Emmc_Space_Avaliable",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        },
+                        {
+                            "ui_display_name": "ResSet_Emmc_Query",
+                            "ui_display_cn_name": "查询已存图片数量",
+                            "ui_display_en_name": "Query Stored Image Count",
+                            "ui_usage_frequency": "Common",
+                            "ui_type": "config_param",
+                            "ui_param_name": "ResSet_Emmc_Query",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        },
+                        {
+                            "ui_display_name": "ResSet_Emmc_Query_Count",
+                            "ui_display_cn_name": "已存图片数量",
+                            "ui_display_en_name": "Stored Image Count",
+                            "ui_usage_frequency": "Common",
+                            "ui_type": "config_param",
+                            "ui_param_name": "ResSet_Emmc_Query_Count",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        },
+                        {
+                            "ui_display_name": "ResSet_Emmc_Clear",
+                            "ui_display_cn_name": "清空已存图片",
+                            "ui_display_en_name": "Clear Stored Images",
+                            "ui_usage_frequency": "Common",
+                            "ui_type": "config_param",
+                            "ui_param_name": "ResSet_Emmc_Clear",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}

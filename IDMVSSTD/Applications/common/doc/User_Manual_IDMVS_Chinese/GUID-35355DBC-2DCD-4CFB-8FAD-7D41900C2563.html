@@ -1,0 +1,118 @@
+
+<!DOCTYPE html
+  PUBLIC "" "about:legacy-compat">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:whc="http://www.daksys.com/webhelp/components" xml:lang="zh-cn" lang="zh-cn">
+	<head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />        
+      <meta name="copyright" content="©  杭州海康威视数字技术股份有限公司。保留一切权利。" /><meta name="DC.Type" content="concept" /><meta name="DC.Title" content="动态场景下读码率低" /><meta name="abstract" content="当动态场景下读码器读码率低时，可从帧率、算法耗时、整体方案设计尝试解决。" /><meta name="description" content="当动态场景下读码器读码率低时，可从帧率、算法耗时、整体方案设计尝试解决。" /><meta name="DC.Relation" scheme="URI" content="GUID-4CFF5E7B-A983-41D0-8F97-690E1ED31AC8.html" /><meta name="DC.Format" content="XHTML" /><meta name="DC.Identifier" content="GUID-35355DBC-2DCD-4CFB-8FAD-7D41900C2563" /><meta name="DC.Language" content="zh-CN" /><title>动态场景下读码率低</title><!-- Generated with dksgen version 1.0, build number 2023071300.  --><meta viewport="Content-Type" content="width=device-width, initial-scale=1.0" /><meta http-equiv="X-UA-Compatible" content="IE=edge,Chrome=1" /><meta name="wh-path2root" content="index.html" />
+		<!-- commonltr css -->
+		<link rel="stylesheet" type="text/css" href="daksys-webhelp/resources/css/commonltr.css" />
+		<!-- Bootstrap css -->
+		<link rel="stylesheet" type="text/css" href="daksys-webhelp/resources/bootstrap/css/bootstrap.min.css" />
+		<link rel="stylesheet" type="text/css" href="daksys-webhelp/resources/bootstrap/css/bootstrap-theme.min.css" />
+		<link rel="stylesheet" type="text/css" href="daksys-webhelp/resources/js/jquery-ui.min.css" />
+		
+		<!-- Template css  -->
+		<link href="daksys-webhelp/template/resources/css/HIKROBOT_color.css?buildId=2023071300" rel="stylesheet" type="text/css" />
+		<link rel="stylesheet" type="text/css" href="daksys-webhelp/template/resources/css/wt_topic.css?buildId=2023071300" />
+		<link rel="stylesheet" type="text/css" href="daksys-webhelp/template/resources/css/wt_topic_m.css?buildId=2023071300" />
+		<link rel="stylesheet" type="text/css" href="daksys-webhelp/template/resources/css/wt_expand.css?buildId=2023071300" />
+		<link rel="stylesheet" type="text/css" href="daksys-webhelp/template/resources/css/wt_note.css?buildId=2023071300" />
+		<link rel="stylesheet" type="text/css" href="daksys-webhelp/template/resources/css/wt_steps.css?buildId=2023071300" />
+		
+		<!-- jquery js  -->
+		<script type="text/javascript" src="daksys-webhelp/resources/js/jquery-3.6.2.min.js"></script>
+		<script type="text/javascript" src="daksys-webhelp/resources/js/jquery.cookie.js"></script>
+		<script type="text/javascript" src="daksys-webhelp/resources/js/jquery.highlight-3.js"></script>
+		<script type="text/javascript" src="daksys-webhelp/resources/js/jquery-ui.min.js"></script>
+		
+		<!-- common js  -->
+		<script type="text/javascript" src="daksys-webhelp/resources/bootstrap/js/bootstrap.min.js"></script>
+		<script type="text/javascript" src="daksys-webhelp/resources/js/base64.js"></script>
+		<script type="text/javascript" src="daksys-webhelp/resources/js/browserDetect.js"></script>
+		<script type="text/javascript" src="daksys-webhelp/resources/js/localization.js"></script>
+		<script type="text/javascript" src="daksys-webhelp/resources/js/parseuri.js"></script>
+		<script type="text/javascript" src="daksys-webhelp/resources/localization/strings.js"></script>
+		<!-- Template js -->
+		<script type="text/javascript" src="daksys-webhelp/template/resources/js/wt_topic.js?buildId=2023071300"></script>
+		<script type="text/javascript" src="daksys-webhelp/template/resources/js/wt_expand.js?buildId=2023071300"></script>
+	</head>
+	<body class="wt_topic_page frmBody" id="GUID-35355DBC-2DCD-4CFB-8FAD-7D41900C2563" onload="topicOnload()">
+		<!-- get_lang -->
+		<div id="lang" style="display:none">zh-CN</div><div id="mapoutputclass" style="display:none"></div>
+		<input hidden="hidden" id="UDCode" value="UD12345B" /><input hidden="hidden" id="Trademark" value="海康机器人" />
+		
+		<div class="content_box">
+			<div class="middle_view content_area col-sm-9" id="content_area">
+				<div class=" wt_breadcrumb "><ol><li><span class="home topicref"><a href="javascript:void(0)" onclick="gotoFirstPage()">首页</a></span></li><li><span class="topicref"><a href="GUID-EE9D5317-D3A9-4595-8068-C96B2ABBD11B.html" data-id="GUID-EE9D5317-D3A9-4595-8068-C96B2ABBD11B">问题排查</a></span></li><li><span class="topicref"><a href="GUID-4CFF5E7B-A983-41D0-8F97-690E1ED31AC8.html" data-id="GUID-4CFF5E7B-A983-41D0-8F97-690E1ED31AC8">条码识别与输出问题排查</a></span></li><li class="active"><span class="topicref">动态场景下读码率低</span></li></ol><div class="wt_breadcrumb_ellipsis" onclick="expandBreadcrumbDiv()"></div><div class="wt_breadcrumb_collapse" style="display: none;"><div class="wt_breadcrumb_collapse_button" onclick="collapseBreadcrumbDiv()"></div></div></div>
+				
+				<div id="container_body" class="container">
+					<div id="contentArea">
+						<div class=" wt_topic_content body ">
+    <h1 class="title topictitle1">动态场景下读码率低</h1>
+
+
+<div class="body conbody"><p class="shortdesc">当动态场景下读码器读码率低时，可从帧率、算法耗时、整体方案设计尝试解决。</p>
+
+        <div class="section" id="GUID-35355DBC-2DCD-4CFB-8FAD-7D41900C2563__GUID-A1D291EA-48FC-4EE4-8646-05EDA0D689A1"><h2 class="title sectiontitle">现象</h2>
+            
+            <p class="p">静态场景下，读码器读码无问题。但切换为动态场景后，读码率过低。</p>
+
+        </div>
+
+        <div class="section" id="GUID-35355DBC-2DCD-4CFB-8FAD-7D41900C2563__GUID-1D85ECFF-FA9F-437F-A54A-EFDBEF59002D"><h2 class="title sectiontitle">原因</h2>
+            
+            <p class="p">可能读码器帧率设置过高，导致读码过程中丢帧。</p>
+
+        </div>
+
+        <div class="section" id="GUID-35355DBC-2DCD-4CFB-8FAD-7D41900C2563__GUID-636D9880-7E3C-45FC-B7A5-FEC564B1369A"><h2 class="title sectiontitle">解决方法</h2>
+            
+            
+            <p class="p">您可按照以下步骤尝试进行调整。</p>
+
+            <ol class="ol" id="GUID-35355DBC-2DCD-4CFB-8FAD-7D41900C2563__OL_PYK_TNM_1FC">
+                <li class="li" id="GUID-35355DBC-2DCD-4CFB-8FAD-7D41900C2563__GUID-BB13B533-09FF-47D9-A6B9-A57AFBF94FBF">
+                    <p class="p">通过<span class="ph uicontrol">成像配置</span>调低<span class="keyword parmname">采集帧率</span>参数数值。</p>
+
+                </li>
+
+                <li class="li" id="GUID-35355DBC-2DCD-4CFB-8FAD-7D41900C2563__GUID-69DF22F0-4D4E-4472-9563-E93490AE6817">
+                    <p class="p">通过绘制算法ROI等方式，提高读码器的处理效率。如何绘制ROI，参见<a class="xref" href="GUID-42AF9F7D-DB4E-4E3E-80F3-272D764FE5D8.html#GUID-42AF9F7D-DB4E-4E3E-80F3-272D764FE5D8" title="客户端支持通过图像预览区查看读码器采集的实时图像。">算法ROI工具</a>章节。</p>
+
+                </li>
+
+                <li class="li" id="GUID-35355DBC-2DCD-4CFB-8FAD-7D41900C2563__GUID-D87D49DC-94F4-4970-ACD0-AAB6F4A9E836">
+                    <p class="p">若以上方法均不可行，可联系本公司技术同事确认整体方案是否可行。若不行，可尝试更换读码器型号或降低运动速度等方式。</p>
+
+                </li>
+
+            </ol>
+
+        </div>
+
+    </div>
+
+
+</div>
+						<div class=" wt_topic_wpp_content wt_pc_only "><div class=" wt_topic_wpp_content_flex "><div class="wt_topic_wpp_item like"></div><div class="wt_topic_wpp_item view"></div><div class="wt_topic_wpp_item share">分享</div></div></div>
+						
+						
+						
+					</div>
+				</div><!-- container_body -->
+				
+				<div class=" body_footer "><div onclick="prevTopic()" class=" body_footer_left link_button "><span>上一页</span></div><div onclick="nextTopic()" class=" body_footer_right link_button "><span>下一页</span></div></div>
+				<div class=" body_wpp mobile_only"><div class="wt_body_mobile_like"></div><div class="wt_body_mobile_view"></div></div>
+				<!-- <whc:webhelp_side_toc /> -->
+				
+			</div> <!-- middle_view content_area -->
+			<div class=" right_content wt_pc_only "><div class=" right_fixed_container "><div class="right_guide"><div class="feature_guide"><div>本页导航</div><ul><li onclick="scrollToAnchor($(this))" data-id="GUID-35355DBC-2DCD-4CFB-8FAD-7D41900C2563__GUID-A1D291EA-48FC-4EE4-8646-05EDA0D689A1" class="feature_guide_h2"><span class="link_button">现象</span></li><li onclick="scrollToAnchor($(this))" data-id="GUID-35355DBC-2DCD-4CFB-8FAD-7D41900C2563__GUID-1D85ECFF-FA9F-437F-A54A-EFDBEF59002D" class="feature_guide_h2"><span class="link_button">原因</span></li><li onclick="scrollToAnchor($(this))" data-id="GUID-35355DBC-2DCD-4CFB-8FAD-7D41900C2563__GUID-636D9880-7E3C-45FC-B7A5-FEC564B1369A" class="feature_guide_h2"><span class="link_button">解决方法</span></li></ul></div></div></div></div>
+		</div> <!-- content_box -->
+		
+		<!-- 置顶按钮 -->
+		<div class="body_to_top" onclick="scrollTopicTop()"></div> 
+		<!-- 评价反馈 -->
+		<div onclick="manualFeedback()" class=" body_feedback " data-href="https://wj.hikvision.com/#/public-survey?id=64c8b90d80e02e9e88feca2f"></div>
+		
+	</body>
+</html>

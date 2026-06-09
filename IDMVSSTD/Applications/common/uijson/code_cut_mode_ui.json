@@ -1,0 +1,111 @@
+{
+    "ui_tabs": [
+        {
+            "ui_type": "tab",
+            "ui_param_name": "",
+            "ui_subset": [
+                {
+                    "ui_display_name": "BarcodeCut",
+                    "ui_display_cn_name": "条码裁剪",
+                    "ui_display_en_name": "Barcode Cut",
+                    "ui_usage_frequency": "Common",
+                    "ui_type": "category",
+                    "ui_param_name": "",
+                    "ui_param_display_type": "",
+                    "ui_subset": [
+                        {
+                            "ui_display_name": "BarcodeCutMode",
+                            "ui_display_cn_name": "条码裁剪模式",
+                            "ui_display_en_name": "Barcode Cut Mode",
+                            "ui_usage_frequency": "Common",
+                            "ui_type": "config_param",
+                            "ui_param_name": "BarcodeCutMode",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        },
+                        {
+                            "ui_display_name": "CodeLenMax",
+                            "ui_display_cn_name": "条码最大输出长度",
+                            "ui_display_en_name": "Max. Code Output Length",
+                            "ui_usage_frequency": "Common",
+                            "ui_type": "config_param",
+                            "ui_param_name": "CodeLenMax",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        },
+                        {
+                            "ui_display_name": "CodeStartOffset",
+                            "ui_display_cn_name": "条码位数开始偏移量",
+                            "ui_display_en_name": "Code Start Offset",
+                            "ui_usage_frequency": "Common",
+                            "ui_type": "config_param",
+                            "ui_param_name": "CodeStartOffset",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        },
+                        {
+                            "ui_display_name": "CodeEndOffset",
+                            "ui_display_cn_name": "条码位数结束偏移量",
+                            "ui_display_en_name": "Code End Offset",
+                            "ui_usage_frequency": "Common",
+                            "ui_type": "config_param",
+                            "ui_param_name": "CodeEndOffset",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        },
+                        {
+                            "ui_display_name": "BarcodeSpecifiedRangeText",
+                            "ui_display_cn_name": "字符表达式",
+                            "ui_display_en_name": "Character Expression",
+                            "ui_usage_frequency": "Common",
+                            "ui_type": "config_param",
+                            "ui_param_name": "BarcodeSpecifiedRangeText",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        },
+                        {
+                            "ui_display_name": "PatternCutText",
+                            "ui_display_cn_name": "模板切割字符表达式",
+                            "ui_display_en_name": "Pattern Cut Text",
+                            "ui_usage_frequency": "Common",
+                            "ui_type": "config_param",
+                            "ui_param_name": "PatternCutText",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        },
+                        {
+                            "ui_display_name": "Expectedlength",
+                            "ui_display_cn_name": "期望条码长度",
+                            "ui_display_en_name": "Expected Code Length",
+                            "ui_usage_frequency": "Common",
+                            "ui_type": "config_param",
+                            "ui_param_name": "Expectedlength",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        },
+                        {
+                            "ui_display_name": "UniversalCutStringModeSelector",
+                            "ui_display_cn_name": "条码长度切割模式",
+                            "ui_display_en_name": "Barcode Length Cut Mode",
+                            "ui_usage_frequency": "Common",
+                            "ui_type": "config_param",
+                            "ui_param_name": "UniversalCutStringModeSelector",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        },
+                        {
+                            "ui_display_name": "SpecificStringText",
+                            "ui_display_cn_name": "自定义字符串",
+                            "ui_display_en_name": "Specific String Text",
+                            "ui_usage_frequency": "Common",
+                            "ui_type": "config_param",
+                            "ui_param_name": "SpecificStringText",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}

@@ -1,0 +1,244 @@
+
+<!DOCTYPE html
+  PUBLIC "" "about:legacy-compat">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:whc="http://www.daksys.com/webhelp/components" xml:lang="zh-cn" lang="zh-cn">
+	<head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />        
+      <meta name="copyright" content="©  杭州海康威视数字技术股份有限公司。保留一切权利。" /><meta name="DC.Type" content="task" /><meta name="DC.Title" content="权限" /><meta name="abstract" content="通过权限可设置管理员和操作员，同时还可对IDMVS进行锁定。" /><meta name="description" content="通过权限可设置管理员和操作员，同时还可对IDMVS进行锁定。" /><meta name="DC.Relation" scheme="URI" content="GUID-A2447B90-DEA6-4A6C-9EDA-5FEE07AD8664.html" /><meta name="DC.Format" content="XHTML" /><meta name="DC.Identifier" content="GUID-ED033F61-8FA1-4DB9-8418-8263DFEEA37F" /><meta name="DC.Language" content="zh-CN" /><title>权限</title><!-- Generated with dksgen version 1.0, build number 2023071300.  --><meta viewport="Content-Type" content="width=device-width, initial-scale=1.0" /><meta http-equiv="X-UA-Compatible" content="IE=edge,Chrome=1" /><meta name="wh-path2root" content="index.html" />
+		<!-- commonltr css -->
+		<link rel="stylesheet" type="text/css" href="daksys-webhelp/resources/css/commonltr.css" />
+		<!-- Bootstrap css -->
+		<link rel="stylesheet" type="text/css" href="daksys-webhelp/resources/bootstrap/css/bootstrap.min.css" />
+		<link rel="stylesheet" type="text/css" href="daksys-webhelp/resources/bootstrap/css/bootstrap-theme.min.css" />
+		<link rel="stylesheet" type="text/css" href="daksys-webhelp/resources/js/jquery-ui.min.css" />
+		
+		<!-- Template css  -->
+		<link href="daksys-webhelp/template/resources/css/HIKROBOT_color.css?buildId=2023071300" rel="stylesheet" type="text/css" />
+		<link rel="stylesheet" type="text/css" href="daksys-webhelp/template/resources/css/wt_topic.css?buildId=2023071300" />
+		<link rel="stylesheet" type="text/css" href="daksys-webhelp/template/resources/css/wt_topic_m.css?buildId=2023071300" />
+		<link rel="stylesheet" type="text/css" href="daksys-webhelp/template/resources/css/wt_expand.css?buildId=2023071300" />
+		<link rel="stylesheet" type="text/css" href="daksys-webhelp/template/resources/css/wt_note.css?buildId=2023071300" />
+		<link rel="stylesheet" type="text/css" href="daksys-webhelp/template/resources/css/wt_steps.css?buildId=2023071300" />
+		
+		<!-- jquery js  -->
+		<script type="text/javascript" src="daksys-webhelp/resources/js/jquery-3.6.2.min.js"></script>
+		<script type="text/javascript" src="daksys-webhelp/resources/js/jquery.cookie.js"></script>
+		<script type="text/javascript" src="daksys-webhelp/resources/js/jquery.highlight-3.js"></script>
+		<script type="text/javascript" src="daksys-webhelp/resources/js/jquery-ui.min.js"></script>
+		
+		<!-- common js  -->
+		<script type="text/javascript" src="daksys-webhelp/resources/bootstrap/js/bootstrap.min.js"></script>
+		<script type="text/javascript" src="daksys-webhelp/resources/js/base64.js"></script>
+		<script type="text/javascript" src="daksys-webhelp/resources/js/browserDetect.js"></script>
+		<script type="text/javascript" src="daksys-webhelp/resources/js/localization.js"></script>
+		<script type="text/javascript" src="daksys-webhelp/resources/js/parseuri.js"></script>
+		<script type="text/javascript" src="daksys-webhelp/resources/localization/strings.js"></script>
+		<!-- Template js -->
+		<script type="text/javascript" src="daksys-webhelp/template/resources/js/wt_topic.js?buildId=2023071300"></script>
+		<script type="text/javascript" src="daksys-webhelp/template/resources/js/wt_expand.js?buildId=2023071300"></script>
+	</head>
+	<body class="wt_topic_page frmBody" id="GUID-ED033F61-8FA1-4DB9-8418-8263DFEEA37F" onload="topicOnload()">
+		<!-- get_lang -->
+		<div id="lang" style="display:none">zh-CN</div><div id="mapoutputclass" style="display:none"></div>
+		<input hidden="hidden" id="UDCode" value="UD12345B" /><input hidden="hidden" id="Trademark" value="海康机器人" />
+		
+		<div class="content_box">
+			<div class="middle_view content_area col-sm-9" id="content_area">
+				<div class=" wt_breadcrumb "><ol><li><span class="home topicref"><a href="javascript:void(0)" onclick="gotoFirstPage()">首页</a></span></li><li><span class="topicref"><a href="GUID-9E538898-40D1-480E-8A36-40BEC4586E63.html" data-id="GUID-9E538898-40D1-480E-8A36-40BEC4586E63">菜单栏相关介绍</a></span></li><li><span class="topicref"><a href="GUID-A2447B90-DEA6-4A6C-9EDA-5FEE07AD8664.html" data-id="GUID-A2447B90-DEA6-4A6C-9EDA-5FEE07AD8664">设置</a></span></li><li class="active"><span class="topicref">权限</span></li></ol><div class="wt_breadcrumb_ellipsis" onclick="expandBreadcrumbDiv()"></div><div class="wt_breadcrumb_collapse" style="display: none;"><div class="wt_breadcrumb_collapse_button" onclick="collapseBreadcrumbDiv()"></div></div></div>
+				
+				<div id="container_body" class="container">
+					<div id="contentArea">
+						<div class=" wt_topic_content body ">
+    <h1 class="title topictitle1">权限</h1>
+
+    
+<div class="body taskbody"><p class="shortdesc">通过<span class="ph uicontrol">权限</span>可设置管理员和操作员，同时还可对IDMVS进行锁定。</p>
+
+<div class="section context" id="GUID-ED033F61-8FA1-4DB9-8418-8263DFEEA37F__GUID-8C9D6EC0-2171-4291-BC77-C292AB3E97EA">
+            <p class="p">开启该功能后，打开IDMVS时需输入对应角色的密码。角色分为管理员和操作员，管理员拥有所有权限，操作员的权限由管理员进行控制。同时还可定时或自定义锁定IDMVS。</p>
+
+            <p class="p">IDMVS默认未开启该功能。若需控制IDMVS相关功能的权限，可根据本章节的介绍，完成权限相关设置；若无需求，建议不开启。</p>
+
+        </div>
+
+        <ol class="ol steps" id="GUID-ED033F61-8FA1-4DB9-8418-8263DFEEA37F__GUID-F27071AD-152A-443C-9985-21D6476AB1CD"><li class="li step stepexpand" id="GUID-ED033F61-8FA1-4DB9-8418-8263DFEEA37F__GUID-C714BBB1-04F7-434B-978E-9B286316E9D2">
+                <span class="ph cmd">单击菜单栏的<span class="ph menucascade"><span class="ph uicontrol">设置</span> &gt; <span class="ph uicontrol">权限</span></span>进入权限设置窗口。</span>
+            </li>
+<li class="li step stepexpand" id="GUID-ED033F61-8FA1-4DB9-8418-8263DFEEA37F__GUID-0931C3AC-1489-4BA0-82D3-23951641A16C">
+                <span class="ph cmd">开启管理员权限并设置对应密码。</span>
+                <ol type="a" class="ol substeps" id="GUID-ED033F61-8FA1-4DB9-8418-8263DFEEA37F__SUBSTEPS_IY2_DFB_T2C">
+                    <li class="li substep substepexpand" id="GUID-ED033F61-8FA1-4DB9-8418-8263DFEEA37F__GUID-37164A05-FCE1-41A3-A0E2-1FBB703D7537">
+                        <span class="ph cmd">打开<span class="ph uicontrol">启用密码</span>。</span>
+                    </li>
+
+                    <li class="li substep substepexpand" id="GUID-ED033F61-8FA1-4DB9-8418-8263DFEEA37F__GUID-57048E87-9AAB-45D9-9DFD-C2230C9677E4">
+                        <span class="ph cmd">在<span class="keyword parmname">设置密码</span>及<span class="keyword parmname">确认密码</span>处输入同样的密码。</span>
+                        <div class="itemgroup info">
+                            <p class="p">密码设置规则为：</p>
+
+                            <ul class="ul" id="GUID-ED033F61-8FA1-4DB9-8418-8263DFEEA37F__UL_RCM_WYD_VXB">
+                                <li class="li" id="GUID-ED033F61-8FA1-4DB9-8418-8263DFEEA37F__GUID-B3EA2A74-6D78-4F67-9067-A2F2EFEEDCA4">
+                                    <p class="p">密码长度：1 ~ 8个字符；</p>
+
+                                </li>
+
+                                <li class="li" id="GUID-ED033F61-8FA1-4DB9-8418-8263DFEEA37F__GUID-ABBC067E-0A00-4055-93B6-E4764C44DCAC">
+                                    <p class="p">支持数字、字母及特殊字符（<span class="ph uicontrol">!</span>、<span class="ph uicontrol">@</span>、<span class="ph uicontrol">#</span>、<span class="ph uicontrol">$</span>、<span class="ph uicontrol">_</span>）组合，但不支持中文。</p>
+
+                                </li>
+
+                            </ul>
+
+                        </div>
+                    </li>
+
+                    <li class="li substep substepexpand" id="GUID-ED033F61-8FA1-4DB9-8418-8263DFEEA37F__GUID-98337FCE-057D-420B-9918-371CA8E8EF57">
+                        <span class="ph cmd">单击<span class="ph uicontrol">确定</span>。</span>
+                    </li>
+
+                </ol>
+
+            </li>
+<li class="li step stepexpand" id="GUID-ED033F61-8FA1-4DB9-8418-8263DFEEA37F__GUID-F1F992BF-8FAE-4CF0-87A3-EA7C00FC7E3A"><strong>可选操作： </strong>
+                <span class="ph cmd">设置操作员权限及密码。</span>
+                <div class="itemgroup info">
+                    <div class="note note" id="GUID-ED033F61-8FA1-4DB9-8418-8263DFEEA37F__GUID-0577EDAD-64EA-40CD-99BF-5006BFC212E2"><span class="notetitle">说明</span> 
+                        <p class="p">若无需求，可不设置操作员权限及密码。仅使用管理员权限即可。</p>
+
+                    </div>
+
+                </div>
+                <ol type="a" class="ol substeps" id="GUID-ED033F61-8FA1-4DB9-8418-8263DFEEA37F__SUBSTEPS_XJT_144_B1C">
+                    <li class="li substep substepexpand" id="GUID-ED033F61-8FA1-4DB9-8418-8263DFEEA37F__GUID-0381AE82-2735-4DF0-9490-00FCB92106C5">
+                        <span class="ph cmd">单击<span class="keyword parmname">角色</span>处的<span class="ph uicontrol">角色分配</span>进入操作员的角色管理窗口。</span>
+                    </li>
+
+                    <li class="li substep substepexpand" id="GUID-ED033F61-8FA1-4DB9-8418-8263DFEEA37F__GUID-0F47D87C-311E-4B8C-81A2-AD0785C5F063">
+                        <span class="ph cmd">开启<span class="ph uicontrol">操作员</span>权限。</span>
+                        <div class="itemgroup info">
+                            <div class="fig fignone" id="GUID-ED033F61-8FA1-4DB9-8418-8263DFEEA37F__FIG_UC2_1LB_T2C">
+                                
+                                <img class="image" style="display:none;" id="GUID-ED033F61-8FA1-4DB9-8418-8263DFEEA37F__IMAGE_VC2_1LB_T2C" src="GUID-C4BDC1AF-A678-4A7D-A407-C5995D10FDDC-high.png" width="700" />
+                            <div class="fig_caption"><span class="figcap">图 1 操作员的角色管理</span></div></div>
+
+                        </div>
+                    </li>
+
+                    <li class="li substep substepexpand" id="GUID-ED033F61-8FA1-4DB9-8418-8263DFEEA37F__GUID-956354BC-5752-424E-8EE3-4C6BC3024841">
+                        <span class="ph cmd">单击<span class="ph uicontrol">权限设置</span>，根据实际需求勾选操作员需使用的权限。</span>
+                        <div class="itemgroup info">
+                            <p class="p">具体支持的权限如下图所示。如均需支持，勾选右上角的<span class="keyword parmname">全选</span>即可。</p>
+
+                            <div class="fig fignone" id="GUID-ED033F61-8FA1-4DB9-8418-8263DFEEA37F__FIG_FD5_RGB_T2C">
+                                
+                                <img class="image" style="display:none;" id="GUID-ED033F61-8FA1-4DB9-8418-8263DFEEA37F__IMAGE_GD5_RGB_T2C" src="GUID-6A0F5B6D-1D7C-4944-B4E1-0336D5024113-high.png" width="1400" />
+                            <div class="fig_caption"><span class="figcap">图 2 设置操作员的权限</span></div></div>
+
+                        </div>
+                    </li>
+
+                    <li class="li substep substepexpand" id="GUID-ED033F61-8FA1-4DB9-8418-8263DFEEA37F__GUID-FBD556F8-58BE-4EFF-97A0-5404B9DEE11C">
+                        <span class="ph cmd">单击<span class="ph uicontrol">确定</span>完成操作员的权限配置。</span>
+                    </li>
+
+                    <li class="li substep substepexpand" id="GUID-ED033F61-8FA1-4DB9-8418-8263DFEEA37F__GUID-EF60F1FA-EAE6-47EC-B1AB-3B704106257F">
+                        <span class="ph cmd">在<span class="keyword parmname">设置密码</span>处输入操作员的密码。</span>
+                    </li>
+
+                    <li class="li substep substepexpand" id="GUID-ED033F61-8FA1-4DB9-8418-8263DFEEA37F__GUID-F2CDF138-62B6-4963-9AB7-412433778AE0">
+                        <span class="ph cmd">单击<span class="ph uicontrol">确定</span>完成。</span>
+                    </li>
+
+                </ol>
+
+            </li>
+<li class="li step stepexpand" id="GUID-ED033F61-8FA1-4DB9-8418-8263DFEEA37F__GUID-D8E77948-AE9F-4D3A-AFAE-91955C44A4DE"><strong>可选操作： </strong>
+                <span class="ph cmd">如需对IDMVS进行定时锁定，打开<span class="keyword parmname">定时锁定</span>并选择<span class="keyword parmname">登录失效时间</span>即可。可选<span class="ph uicontrol">15分钟</span>、<span class="ph uicontrol">30分钟</span>、<span class="ph uicontrol">60分钟</span>。</span>
+                
+                <div class="itemgroup stepresult">
+                    <p class="p">超过设置的<span class="keyword parmname">登录失效时间</span>未操作IDMVS，IDMVS将自动锁定，需输入管理员或操作员密码后方可解锁。</p>
+
+                    <div class="note_noline" id="GUID-ED033F61-8FA1-4DB9-8418-8263DFEEA37F__GUID-D45EF457-F678-4C72-B242-2BC3A45851CB"><span class="notetitle">说明</span> 
+                        <p class="p">此时可通过主界面右上角的<img class="image icon" style="display:none;" id="GUID-ED033F61-8FA1-4DB9-8418-8263DFEEA37F__IMAGE_R3Q_JHB_T2C" src="GUID-0DCE3047-9EFC-4C98-8AA0-FDFEB740E736-high.png" />进行解锁，详情参见<a class="xref" href="GUID-7F5AB3AB-E9D8-4D3A-A41A-E51F55A06944.html#GUID-7F5AB3AB-E9D8-4D3A-A41A-E51F55A06944" title="本章节介绍IDMVS的主界面。">主界面</a>章节的权限/退出部分。</p>
+
+                    </div>
+
+                </div>
+            </li>
+<li class="li step stepexpand" id="GUID-ED033F61-8FA1-4DB9-8418-8263DFEEA37F__GUID-8D6F09D5-C615-4519-B060-EEA8121B24CB">
+                <span class="ph cmd">单击<span class="ph uicontrol">确定</span>完成权限设置。</span>
+                <div class="itemgroup info">
+                    <div class="fig fignone" id="GUID-ED033F61-8FA1-4DB9-8418-8263DFEEA37F__FIG_SZP_2LB_T2C">
+                        
+                        <img class="image" style="display:none;" id="GUID-ED033F61-8FA1-4DB9-8418-8263DFEEA37F__IMAGE_TZP_2LB_T2C" src="GUID-06598EE5-8223-4078-8A9A-39E1083D7908-high.png" width="1400" />
+                    <div class="fig_caption"><span class="figcap">图 3 权限设置</span></div></div>
+
+                </div>
+            </li>
+<li class="li step stepexpand" id="GUID-ED033F61-8FA1-4DB9-8418-8263DFEEA37F__GUID-1D016178-6D20-4DF5-A9F2-4B06680B4E75"><strong>可选操作： </strong>
+                <span class="ph cmd">如需修改管理员密码，重新进入权限配置界面，单击<span class="keyword parmname">修改密码</span>处的<span class="ph uicontrol">修改</span>，输入旧密码及新密码并<span class="ph uicontrol">确定</span>即可。</span>
+                <div class="itemgroup info">
+                    <div class="note note" id="GUID-ED033F61-8FA1-4DB9-8418-8263DFEEA37F__GUID-87E6B282-5635-4815-8B09-C5A1FC386A63"><span class="notetitle">说明</span> 
+                        <p class="p">首次开启管理员权限时，不支持修改密码。需退出权限配置界面并重新进入，方可修改。</p>
+
+                    </div>
+
+                </div>
+            </li>
+</ol>
+
+        <div class="section result" id="GUID-ED033F61-8FA1-4DB9-8418-8263DFEEA37F__GUID-8CC2BD29-BC25-4E9E-86C9-3887A88FDC2A">
+            <p class="p">完成权限设置后，主界面右上角出现<img class="image icon" style="display:none;" id="GUID-ED033F61-8FA1-4DB9-8418-8263DFEEA37F__IMAGE_C24_V55_T2C" src="GUID-0DCE3047-9EFC-4C98-8AA0-FDFEB740E736-high.png" />，可设置是否锁定IDMVS。</p>
+
+            <p class="p">重启IDMVS时，会弹出输入密码的小窗口，如下图所示。在<span class="keyword parmname">角色</span>处选择对应的角色，并在<span class="keyword parmname">密码</span>处输入对应的密码，单击<span class="ph uicontrol">验证</span>，方可打开IDMVS。</p>
+
+            <div class="note note" id="GUID-ED033F61-8FA1-4DB9-8418-8263DFEEA37F__GUID-5C660514-5AA0-4273-9B06-94E710487679"><span class="notetitle">说明</span> 
+                <p class="p">若未设置操作员权限，无需选择角色，直接在<span class="keyword parmname">密码</span>处输入管理员密码即可打开IDMVS。</p>
+
+            </div>
+
+            <div class="fig fignone" id="GUID-ED033F61-8FA1-4DB9-8418-8263DFEEA37F__FIG_R4C_GLB_T2C">
+                
+                <img class="image" style="display:none;" id="GUID-ED033F61-8FA1-4DB9-8418-8263DFEEA37F__IMAGE_S4C_GLB_T2C" src="GUID-FD98F8EA-BCA8-4558-BBFD-2F1AD2F9F8EA-high.png" width="700" />
+            <div class="fig_caption"><span class="figcap">图 4 输入密码</span></div></div>
+
+            <ul class="ul" id="GUID-ED033F61-8FA1-4DB9-8418-8263DFEEA37F__UL_A5W_YJB_T2C">
+                <li class="li" id="GUID-ED033F61-8FA1-4DB9-8418-8263DFEEA37F__GUID-36BA5233-88DC-420D-8FD4-96536556CC03">
+                    <p class="p">以管理员身份打开IDMVS时，可操作IDMVS的所有功能。</p>
+
+                </li>
+
+                <li class="li" id="GUID-ED033F61-8FA1-4DB9-8418-8263DFEEA37F__GUID-6D1AB607-70F6-413B-824B-8269CA5E0AB8">
+                    <p class="p">以操作员身份打开IDMVS时，只能操作勾选的功能，其他功能板块置灰，无法操作。</p>
+
+                </li>
+
+            </ul>
+
+        </div>
+
+</div>
+
+
+</div>
+						<div class=" wt_topic_wpp_content wt_pc_only "><div class=" wt_topic_wpp_content_flex "><div class="wt_topic_wpp_item like"></div><div class="wt_topic_wpp_item view"></div><div class="wt_topic_wpp_item share">分享</div></div></div>
+						
+						
+						
+					</div>
+				</div><!-- container_body -->
+				
+				<div class=" body_footer "><div onclick="prevTopic()" class=" body_footer_left link_button "><span>上一页</span></div><div onclick="nextTopic()" class=" body_footer_right link_button "><span>下一页</span></div></div>
+				<div class=" body_wpp mobile_only"><div class="wt_body_mobile_like"></div><div class="wt_body_mobile_view"></div></div>
+				<!-- <whc:webhelp_side_toc /> -->
+				
+			</div> <!-- middle_view content_area -->
+			<div class=" right_content wt_pc_only "></div>
+		</div> <!-- content_box -->
+		
+		<!-- 置顶按钮 -->
+		<div class="body_to_top" onclick="scrollTopicTop()"></div> 
+		<!-- 评价反馈 -->
+		<div onclick="manualFeedback()" class=" body_feedback " data-href="https://wj.hikvision.com/#/public-survey?id=64c8b90d80e02e9e88feca2f"></div>
+		
+	</body>
+</html>

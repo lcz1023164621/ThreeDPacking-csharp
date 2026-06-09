@@ -1,0 +1,190 @@
+
+<!DOCTYPE html
+  PUBLIC "" "about:legacy-compat">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:whc="http://www.daksys.com/webhelp/components" xml:lang="zh-cn" lang="zh-cn">
+	<head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />        
+      <meta name="copyright" content="©  杭州海康威视数字技术股份有限公司。保留一切权利。" /><meta name="DC.Type" content="concept" /><meta name="DC.Title" content="排序" /><meta name="abstract" content="排序方式模块支持设置规则对条码数据进行排序，适用于需要对读取条码数据进行有序处理场景。" /><meta name="description" content="排序方式模块支持设置规则对条码数据进行排序，适用于需要对读取条码数据进行有序处理场景。" /><meta name="DC.Relation" scheme="URI" content="GUID-95AB18A5-4B46-4D79-8DE4-F398D813DEF6.html" /><meta name="DC.Format" content="XHTML" /><meta name="DC.Identifier" content="GUID-F3AB809B-5364-45D7-A6E6-172F562F6A1B" /><meta name="DC.Language" content="zh-CN" /><title>排序</title><!-- Generated with dksgen version 1.0, build number 2023071300.  --><meta viewport="Content-Type" content="width=device-width, initial-scale=1.0" /><meta http-equiv="X-UA-Compatible" content="IE=edge,Chrome=1" /><meta name="wh-path2root" content="index.html" />
+		<!-- commonltr css -->
+		<link rel="stylesheet" type="text/css" href="daksys-webhelp/resources/css/commonltr.css" />
+		<!-- Bootstrap css -->
+		<link rel="stylesheet" type="text/css" href="daksys-webhelp/resources/bootstrap/css/bootstrap.min.css" />
+		<link rel="stylesheet" type="text/css" href="daksys-webhelp/resources/bootstrap/css/bootstrap-theme.min.css" />
+		<link rel="stylesheet" type="text/css" href="daksys-webhelp/resources/js/jquery-ui.min.css" />
+		
+		<!-- Template css  -->
+		<link href="daksys-webhelp/template/resources/css/HIKROBOT_color.css?buildId=2023071300" rel="stylesheet" type="text/css" />
+		<link rel="stylesheet" type="text/css" href="daksys-webhelp/template/resources/css/wt_topic.css?buildId=2023071300" />
+		<link rel="stylesheet" type="text/css" href="daksys-webhelp/template/resources/css/wt_topic_m.css?buildId=2023071300" />
+		<link rel="stylesheet" type="text/css" href="daksys-webhelp/template/resources/css/wt_expand.css?buildId=2023071300" />
+		<link rel="stylesheet" type="text/css" href="daksys-webhelp/template/resources/css/wt_note.css?buildId=2023071300" />
+		<link rel="stylesheet" type="text/css" href="daksys-webhelp/template/resources/css/wt_steps.css?buildId=2023071300" />
+		
+		<!-- jquery js  -->
+		<script type="text/javascript" src="daksys-webhelp/resources/js/jquery-3.6.2.min.js"></script>
+		<script type="text/javascript" src="daksys-webhelp/resources/js/jquery.cookie.js"></script>
+		<script type="text/javascript" src="daksys-webhelp/resources/js/jquery.highlight-3.js"></script>
+		<script type="text/javascript" src="daksys-webhelp/resources/js/jquery-ui.min.js"></script>
+		
+		<!-- common js  -->
+		<script type="text/javascript" src="daksys-webhelp/resources/bootstrap/js/bootstrap.min.js"></script>
+		<script type="text/javascript" src="daksys-webhelp/resources/js/base64.js"></script>
+		<script type="text/javascript" src="daksys-webhelp/resources/js/browserDetect.js"></script>
+		<script type="text/javascript" src="daksys-webhelp/resources/js/localization.js"></script>
+		<script type="text/javascript" src="daksys-webhelp/resources/js/parseuri.js"></script>
+		<script type="text/javascript" src="daksys-webhelp/resources/localization/strings.js"></script>
+		<!-- Template js -->
+		<script type="text/javascript" src="daksys-webhelp/template/resources/js/wt_topic.js?buildId=2023071300"></script>
+		<script type="text/javascript" src="daksys-webhelp/template/resources/js/wt_expand.js?buildId=2023071300"></script>
+	</head>
+	<body class="wt_topic_page frmBody" id="GUID-F3AB809B-5364-45D7-A6E6-172F562F6A1B" onload="topicOnload()">
+		<!-- get_lang -->
+		<div id="lang" style="display:none">zh-CN</div><div id="mapoutputclass" style="display:none"></div>
+		<input hidden="hidden" id="UDCode" value="UD12345B" /><input hidden="hidden" id="Trademark" value="海康机器人" />
+		
+		<div class="content_box">
+			<div class="middle_view content_area col-sm-9" id="content_area">
+				<div class=" wt_breadcrumb "><ol><li><span class="home topicref"><a href="javascript:void(0)" onclick="gotoFirstPage()">首页</a></span></li><li><span class="topicref"><a href="GUID-D8488278-18E0-41D0-91B9-35636662C53F.html" data-id="GUID-D8488278-18E0-41D0-91B9-35636662C53F">读码器常用配置</a></span></li><li><span class="topicref"><a href="GUID-18029E9E-3083-437A-B970-24EE067E6132.html" data-id="GUID-18029E9E-3083-437A-B970-24EE067E6132">处理输出数据</a></span></li><li><span class="topicref"><a href="GUID-95AB18A5-4B46-4D79-8DE4-F398D813DEF6.html" data-id="GUID-95AB18A5-4B46-4D79-8DE4-F398D813DEF6">过滤排序</a></span></li><li class="active"><span class="topicref">排序</span></li></ol><div class="wt_breadcrumb_ellipsis" onclick="expandBreadcrumbDiv()"></div><div class="wt_breadcrumb_collapse" style="display: none;"><div class="wt_breadcrumb_collapse_button" onclick="collapseBreadcrumbDiv()"></div></div></div>
+				
+				<div id="container_body" class="container">
+					<div id="contentArea">
+						<div class=" wt_topic_content body ">
+    <h1 class="title topictitle1">排序</h1>
+
+
+<div class="body conbody"><p class="shortdesc">排序方式模块支持设置规则对条码数据进行排序，适用于需要对读取条码数据进行有序处理场景。</p>
+
+<p class="p">在IDMVS功能导航栏，选择<span class="ph menucascade"><span class="ph uicontrol">操作配置</span> &gt; <span class="ph uicontrol">数据处理</span> &gt; <span class="ph uicontrol">过滤排序</span></span>，在<span class="ph uicontrol">排序方式</span>区域配置排序规则，参数说明如下。</p>
+
+        <dl class="dl parml">
+            
+                <dt class="dt pt dlterm"><a name="GUID-F3AB809B-5364-45D7-A6E6-172F562F6A1B__GUID-2E45150B-2FD5-4CBC-8921-2753BD47BB12"><!-- --></a>排序规则</dt>
+
+                <dd class="dd pd">
+                    <p class="p">根据实际需求选择输出结果的排序规则，可选择如下排序规则：</p>
+
+                    <ul class="ul" id="GUID-F3AB809B-5364-45D7-A6E6-172F562F6A1B__UL_KPZ_1JV_T2C">
+                        <li class="li" id="GUID-F3AB809B-5364-45D7-A6E6-172F562F6A1B__GUID-87D90F96-BF9C-4CD3-B378-F7186FDD192C">
+                            <p class="p">ROI升/降序：根据条码对应的ROI升或降序输出读码结果。</p>
+
+                        </li>
+
+                        <li class="li" id="GUID-F3AB809B-5364-45D7-A6E6-172F562F6A1B__GUID-B963C671-4714-4F43-8692-ED6D9E9D5C32">
+                            <p class="p">中心坐标X升/降序：根据条码位置中心点坐标的X数值升或降序输出读码结果。</p>
+
+                        </li>
+
+                        <li class="li" id="GUID-F3AB809B-5364-45D7-A6E6-172F562F6A1B__GUID-0F6773C7-ABA1-4930-835D-7774BAB551A9">
+                            <p class="p">中心坐标Y升/降序：根据条码位置中心点坐标的Y数值升或降序输出读码结果。</p>
+
+                        </li>
+
+                        <li class="li" id="GUID-F3AB809B-5364-45D7-A6E6-172F562F6A1B__GUID-5B4B6367-0589-42CC-A6C1-337F5E87A597">
+                            <p class="p">扫描次序升/降序：根据条码对应的扫描顺序升或降序输出读码结果。</p>
+
+                        </li>
+
+                        <li class="li" id="GUID-F3AB809B-5364-45D7-A6E6-172F562F6A1B__GUID-813D4FC3-1100-47A1-8D3A-8055C306D363">
+                            <p class="p">条码类型升/降序：根据条码对应的码制类型排序升或降序输出读码结果。</p>
+
+                        </li>
+
+                        <li class="li" id="GUID-F3AB809B-5364-45D7-A6E6-172F562F6A1B__GUID-1B4A731F-8C44-4D69-908F-11F3D2986DD5">
+                            <p class="p">条码长度升/降序：根据条码对应的内容长度升或降序输出读码结果。</p>
+
+                        </li>
+
+                        <li class="li" id="GUID-F3AB809B-5364-45D7-A6E6-172F562F6A1B__GUID-DB1C441B-2AB3-4F0C-9E55-D41E4A87D5EF">
+                            <p class="p">顶点位置排序，第一优先级为左/右/高/低，第二优先级为高/低/左/右：根据条码在图像中的顶点位置进行排序。通过选择第一优先级、第二优先级，确定排序输出的主要和次要依据。</p>
+
+                        </li>
+
+                        <li class="li" id="GUID-F3AB809B-5364-45D7-A6E6-172F562F6A1B__GUID-69772067-52EC-4133-B662-9D3579BF7E1F">
+                            <p class="p">中心位置排序，第一优先级为左/右/高/低，第二优先级为高/低/左/右：根据条码在图像中的中心点位置进行排序。通过设置第一优先级、第二优先级，确定排序输出的主要和次要依据。</p>
+
+                        </li>
+
+                    </ul>
+
+                </dd>
+
+            
+            
+                <dt class="dt pt dlterm"><a name="GUID-F3AB809B-5364-45D7-A6E6-172F562F6A1B__GUID-88216082-338E-4598-9D76-32D379B947F0"><!-- --></a>第一优先级排序误差(px)</dt>
+
+                <dd class="dd pd">
+                    <p class="p">设置在按照第一优先级进行排序时，允许的位置偏差值，单位为像素（px）。</p>
+
+                </dd>
+
+            
+            
+                <dt class="dt pt dlterm"><a name="GUID-F3AB809B-5364-45D7-A6E6-172F562F6A1B__GUID-E66C63C7-6D59-4795-94C6-A65CADF991BE"><!-- --></a>逐条输出使能</dt>
+
+                <dd class="dd pd">
+                    
+                    <p class="p">设置是否按照指定时间间隔依次输出条码信息，每次只输出一个条码信息，每个条码输出后默认回车换行。开启此开关后，可通过配置<span class="ph uicontrol">逐条输出间隔(ms)</span>参数指定每次输出条码信息间的时间间隔。</p>
+
+                </dd>
+
+            
+            
+                
+                <dt class="dt pt dlterm"><a name="GUID-F3AB809B-5364-45D7-A6E6-172F562F6A1B__GUID-A3A8E948-3E49-4FD1-ACC3-A8DAEFC90577"><!-- --></a>码坐标宽度补齐</dt>
+
+                <dd class="dd pd">
+                    <div class="note note" id="GUID-F3AB809B-5364-45D7-A6E6-172F562F6A1B__GUID-C8E8C3E0-2EBE-4AE6-8729-58678DCA8844"><span class="notetitle">说明</span> 
+                        <p class="p">当启用除客户端SDK协议以外的通讯协议时，支持配置此参数。</p>
+
+                    </div>
+
+                    <p class="p">选择是否将条码位置坐标中的坐标值位数补齐至某个数值，开启此开关后可通过<span class="ph uicontrol">码坐标宽度</span>参数设置补齐的位数。</p>
+
+                    <p class="p">如果条码位置坐标（x,y）中x、y的位数小于<span class="ph uicontrol">码坐标宽度</span>，在x、y数值前添加“0”使位数达到<span class="ph uicontrol">码坐标宽度</span>；如果x、y的位数不小于<span class="ph uicontrol">码坐标宽度</span>，则不进行处理。</p>
+
+                </dd>
+
+            
+            
+                
+                <dt class="dt pt dlterm"><a name="GUID-F3AB809B-5364-45D7-A6E6-172F562F6A1B__GUID-0934DE19-4F97-4F19-94C4-FBA2864C66F4"><!-- --></a>ROI无读补齐</dt>
+
+                <dd class="dd pd">
+                    <div class="note note" id="GUID-F3AB809B-5364-45D7-A6E6-172F562F6A1B__GUID-DB96955F-7C05-48D2-A219-8AD156D6D344"><span class="notetitle">说明</span> 
+                        <p class="p">当启用除客户端SDK协议以外的通讯协议时，支持配置此参数。</p>
+
+                    </div>
+
+                    <p class="p">当启用 ROI 无读补齐功能时，读码器根据设置的 ROI 数量进行检查。如果某个 ROI
+                        未成功读取到条码，输出可自定义配置的无读补齐文本（默认NoRead），以确保输出的条码结果总数与设置的 ROI 数量一致。</p>
+
+                </dd>
+
+            
+        </dl>
+
+</div>
+
+
+</div>
+						<div class=" wt_topic_wpp_content wt_pc_only "><div class=" wt_topic_wpp_content_flex "><div class="wt_topic_wpp_item like"></div><div class="wt_topic_wpp_item view"></div><div class="wt_topic_wpp_item share">分享</div></div></div>
+						
+						
+						
+					</div>
+				</div><!-- container_body -->
+				
+				<div class=" body_footer "><div onclick="prevTopic()" class=" body_footer_left link_button "><span>上一页</span></div><div onclick="nextTopic()" class=" body_footer_right link_button "><span>下一页</span></div></div>
+				<div class=" body_wpp mobile_only"><div class="wt_body_mobile_like"></div><div class="wt_body_mobile_view"></div></div>
+				<!-- <whc:webhelp_side_toc /> -->
+				
+			</div> <!-- middle_view content_area -->
+			<div class=" right_content wt_pc_only "></div>
+		</div> <!-- content_box -->
+		
+		<!-- 置顶按钮 -->
+		<div class="body_to_top" onclick="scrollTopicTop()"></div> 
+		<!-- 评价反馈 -->
+		<div onclick="manualFeedback()" class=" body_feedback " data-href="https://wj.hikvision.com/#/public-survey?id=64c8b90d80e02e9e88feca2f"></div>
+		
+	</body>
+</html>

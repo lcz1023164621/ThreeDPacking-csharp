@@ -1,0 +1,310 @@
+
+<!DOCTYPE html
+  PUBLIC "" "about:legacy-compat">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:whc="http://www.daksys.com/webhelp/components" xml:lang="zh-cn" lang="zh-cn">
+	<head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />        
+      <meta name="copyright" content="©  杭州海康威视数字技术股份有限公司。保留一切权利。" /><meta name="DC.Type" content="task" /><meta name="DC.Title" content="一维码打码评级" /><meta name="abstract" content="打码评级功能支持对采集到的一维码图像进行质量评估和等级评分。一维码打码评级遵循 ISO/IEC 15416 标准， 分别从 6 个方面对条码进行判断， 选取所有参数中最低的等级作为条码的等级判断结果。" /><meta name="description" content="打码评级功能支持对采集到的一维码图像进行质量评估和等级评分。一维码打码评级遵循 ISO/IEC 15416 标准， 分别从 6 个方面对条码进行判断， 选取所有参数中最低的等级作为条码的等级判断结果。" /><meta name="DC.Relation" scheme="URI" content="GUID-02BC73C2-5CA2-4D34-8B18-52CDA1103144.html" /><meta name="DC.Format" content="XHTML" /><meta name="DC.Identifier" content="GUID-B58203FB-9ABB-42C6-A4A2-A9858372C789" /><meta name="DC.Language" content="zh-CN" /><title>一维码打码评级</title><!-- Generated with dksgen version 1.0, build number 2023071300.  --><meta viewport="Content-Type" content="width=device-width, initial-scale=1.0" /><meta http-equiv="X-UA-Compatible" content="IE=edge,Chrome=1" /><meta name="wh-path2root" content="index.html" />
+		<!-- commonltr css -->
+		<link rel="stylesheet" type="text/css" href="daksys-webhelp/resources/css/commonltr.css" />
+		<!-- Bootstrap css -->
+		<link rel="stylesheet" type="text/css" href="daksys-webhelp/resources/bootstrap/css/bootstrap.min.css" />
+		<link rel="stylesheet" type="text/css" href="daksys-webhelp/resources/bootstrap/css/bootstrap-theme.min.css" />
+		<link rel="stylesheet" type="text/css" href="daksys-webhelp/resources/js/jquery-ui.min.css" />
+		
+		<!-- Template css  -->
+		<link href="daksys-webhelp/template/resources/css/HIKROBOT_color.css?buildId=2023071300" rel="stylesheet" type="text/css" />
+		<link rel="stylesheet" type="text/css" href="daksys-webhelp/template/resources/css/wt_topic.css?buildId=2023071300" />
+		<link rel="stylesheet" type="text/css" href="daksys-webhelp/template/resources/css/wt_topic_m.css?buildId=2023071300" />
+		<link rel="stylesheet" type="text/css" href="daksys-webhelp/template/resources/css/wt_expand.css?buildId=2023071300" />
+		<link rel="stylesheet" type="text/css" href="daksys-webhelp/template/resources/css/wt_note.css?buildId=2023071300" />
+		<link rel="stylesheet" type="text/css" href="daksys-webhelp/template/resources/css/wt_steps.css?buildId=2023071300" />
+		
+		<!-- jquery js  -->
+		<script type="text/javascript" src="daksys-webhelp/resources/js/jquery-3.6.2.min.js"></script>
+		<script type="text/javascript" src="daksys-webhelp/resources/js/jquery.cookie.js"></script>
+		<script type="text/javascript" src="daksys-webhelp/resources/js/jquery.highlight-3.js"></script>
+		<script type="text/javascript" src="daksys-webhelp/resources/js/jquery-ui.min.js"></script>
+		
+		<!-- common js  -->
+		<script type="text/javascript" src="daksys-webhelp/resources/bootstrap/js/bootstrap.min.js"></script>
+		<script type="text/javascript" src="daksys-webhelp/resources/js/base64.js"></script>
+		<script type="text/javascript" src="daksys-webhelp/resources/js/browserDetect.js"></script>
+		<script type="text/javascript" src="daksys-webhelp/resources/js/localization.js"></script>
+		<script type="text/javascript" src="daksys-webhelp/resources/js/parseuri.js"></script>
+		<script type="text/javascript" src="daksys-webhelp/resources/localization/strings.js"></script>
+		<!-- Template js -->
+		<script type="text/javascript" src="daksys-webhelp/template/resources/js/wt_topic.js?buildId=2023071300"></script>
+		<script type="text/javascript" src="daksys-webhelp/template/resources/js/wt_expand.js?buildId=2023071300"></script>
+	</head>
+	<body class="wt_topic_page frmBody" id="GUID-B58203FB-9ABB-42C6-A4A2-A9858372C789" onload="topicOnload()">
+		<!-- get_lang -->
+		<div id="lang" style="display:none">zh-CN</div><div id="mapoutputclass" style="display:none"></div>
+		<input hidden="hidden" id="UDCode" value="UD12345B" /><input hidden="hidden" id="Trademark" value="海康机器人" />
+		
+		<div class="content_box">
+			<div class="middle_view content_area col-sm-9" id="content_area">
+				<div class=" wt_breadcrumb "><ol><li><span class="home topicref"><a href="javascript:void(0)" onclick="gotoFirstPage()">首页</a></span></li><li><span class="topicref"><a href="GUID-3F138232-3CF2-4E3F-A3C0-3D677CF174B5.html" data-id="GUID-3F138232-3CF2-4E3F-A3C0-3D677CF174B5">读码器高级配置</a></span></li><li><span class="topicref"><a href="GUID-02BC73C2-5CA2-4D34-8B18-52CDA1103144.html" data-id="GUID-02BC73C2-5CA2-4D34-8B18-52CDA1103144">评估码质量</a></span></li><li class="active"><span class="topicref">一维码打码评级</span></li></ol><div class="wt_breadcrumb_ellipsis" onclick="expandBreadcrumbDiv()"></div><div class="wt_breadcrumb_collapse" style="display: none;"><div class="wt_breadcrumb_collapse_button" onclick="collapseBreadcrumbDiv()"></div></div></div>
+				
+				<div id="container_body" class="container">
+					<div id="contentArea">
+						<div class=" wt_topic_content body ">
+    <h1 class="title topictitle1">一维码打码评级</h1>
+
+    
+
+<div class="body taskbody"><p class="shortdesc">打码评级功能支持对采集到的一维码图像进行质量评估和等级评分。一维码打码评级遵循 ISO/IEC 15416 标准， 分别从 6 个方面对条码进行判断，
+        选取所有参数中最低的等级作为条码的等级判断结果。</p>
+
+<div class="section prereq p" id="GUID-B58203FB-9ABB-42C6-A4A2-A9858372C789__GUID-D2BC8564-119A-4046-81BD-9EE1A5704E8E">
+            
+            <p class="p">在<span class="keyword parmname">条码类型</span>参数中已启用Code39、Code128、ITF14、ITF25、EAN8、EAN13、UPCA码制中的至少一种，详情请参见<a class="xref" href="GUID-CD0A67A0-A5F1-42E4-BCC6-C4DA9B21C28D.html#GUID-CD0A67A0-A5F1-42E4-BCC6-C4DA9B21C28D" title="IDMVS码制选择模块支持配置读码器可读取的条码类型、条码个数、读码算法和ROI，适配不同读码场景，方便按需优化读码效果。">码制选择</a>。</p>
+
+        </div>
+
+<ol class="ol steps" id="GUID-B58203FB-9ABB-42C6-A4A2-A9858372C789__GUID-0E7094AC-CF87-4E1A-A449-088763BE0038"><li class="li step stepexpand" id="GUID-B58203FB-9ABB-42C6-A4A2-A9858372C789__GUID-87C42BB8-65D8-4B7B-8DEA-84701CD56593">
+                <span class="ph cmd">在IDMVS主界面功能导航栏，选择<span class="ph menucascade"><span class="ph uicontrol">操作配置</span> &gt; <span class="ph uicontrol">打码评级</span></span>。</span>
+            </li>
+<li class="li step stepexpand" id="GUID-B58203FB-9ABB-42C6-A4A2-A9858372C789__GUID-98869AD0-C702-46B2-9D0D-62B04488B340">
+                <span class="ph cmd">在<span class="ph uicontrol">打码评级</span>页签，<span class="ph uicontrol">条码类型</span>选择<span class="keyword parmname">一维码</span>。</span>
+            </li>
+<li class="li step stepexpand" id="GUID-B58203FB-9ABB-42C6-A4A2-A9858372C789__GUID-2CD2C220-68C8-4B36-9D7A-3FFAB091F150">
+                <span class="ph cmd">打开<span class="ph uicontrol">一维码打码评级</span>开关，配置如下参数。</span>
+                <div class="itemgroup info">
+                    <dl class="dl parml">
+                        
+                            <dt class="dt pt dlterm"><a name="GUID-B58203FB-9ABB-42C6-A4A2-A9858372C789__GUID-6B17E16D-9F76-4EA1-A1DF-03E7969958A1"><!-- --></a>一维码评级过滤</dt>
+
+                            <dd class="dd pd">
+                                <p class="p">选择是否根据评级等级进行条码过滤，开启后可通过<span class="ph uicontrol">一维码总评级过滤条件</span>参数设置过滤条件，可选择A、B、C、D、F等级。</p>
+
+                                <ul class="ul" id="GUID-B58203FB-9ABB-42C6-A4A2-A9858372C789__UL_W1Q_2FG_Q2C">
+                                    <li class="li" id="GUID-B58203FB-9ABB-42C6-A4A2-A9858372C789__GUID-E907CCF3-73AF-46D3-ADE9-79CC553DB5FB">
+                                        <p class="p">当条码等级低于所设置等级时，将对该条码内容进行过滤。</p>
+
+                                    </li>
+
+                                    <li class="li" id="GUID-B58203FB-9ABB-42C6-A4A2-A9858372C789__GUID-474A5D4F-A5EF-494C-84F6-757A449FBCC9">
+                                        <p class="p">当条码等级高于或者等于所设置等级时，方可进行条码内容输出。</p>
+
+                                    </li>
+
+                                </ul>
+
+                            </dd>
+
+                        
+                        
+                            <dt class="dt pt dlterm"><a name="GUID-B58203FB-9ABB-42C6-A4A2-A9858372C789__GUID-29337BE6-A7AB-48F3-BC7A-56599449DA85"><!-- --></a>一维码评级最大个数</dt>
+
+                            <dd class="dd pd">
+                                <p class="p">设置单次打码评级最多可以评级的码个数。</p>
+
+                            </dd>
+
+                        
+                        
+                            <dt class="dt pt dlterm"><a name="GUID-B58203FB-9ABB-42C6-A4A2-A9858372C789__GUID-4A0E5102-9A15-41EE-AB7C-B8CFC0D859E8"><!-- --></a>边缘确定度</dt>
+
+                            <dd class="dd pd">
+                                <p class="p">选择是否对条码边缘清晰度和准确性进行检测与评估。</p>
+
+                            </dd>
+
+                        
+                        
+                            <dt class="dt pt dlterm"><a name="GUID-B58203FB-9ABB-42C6-A4A2-A9858372C789__GUID-78A209CF-8A4C-4BE2-86A8-BC9497668796"><!-- --></a>译码正确性</dt>
+
+                            <dd class="dd pd">
+                                <p class="p">选择是否对条码的译码结果进行正确性检测。</p>
+
+                            </dd>
+
+                        
+                    </dl>
+
+                </div>
+            </li>
+<li class="li step stepexpand" id="GUID-B58203FB-9ABB-42C6-A4A2-A9858372C789__GUID-4275E3B9-199A-4B5A-B335-A861EF4B57C7">
+                <span class="ph cmd">在<span class="ph uicontrol">子项参数</span>区域，根据实际需求选择要开启的评断标准，各评判标准及说明见下表。</span>
+                <div class="itemgroup info">
+                    
+<div class="div_table"><table cellpadding="4" cellspacing="0" summary="" style="display:none;" id="tbl_rowfixed" class="table wt_table_rowfixed" frame="border" border="1" rules="all"></table><table cellpadding="4" cellspacing="0" summary="" id="GUID-B58203FB-9ABB-42C6-A4A2-A9858372C789__TABLE_XTQ_GKG_Q2C" class="table" frame="border" border="1" rules="all"><caption><span class="tablecap">表 1 评判标准</span></caption>
+                            
+                            
+                            <thead class="thead" align="left">
+                                <tr>
+                                    <th class="entry" valign="top" width="26.881720430107524%" id="d68196e178">
+                                        <p class="p">评判标准</p>
+
+                                    </th>
+
+                                    <th class="entry" valign="top" width="73.11827956989248%" id="d68196e184">
+                                        <p class="p">说明</p>
+
+                                    </th>
+
+                                </tr>
+
+                            </thead>
+
+                            <tbody class="tbody">
+                                <tr>
+                                    <td class="entry" valign="top" width="26.881720430107524%" headers="d68196e178 ">
+                                        <p class="p">可译码度</p>
+
+                                    </td>
+
+                                    <td class="entry" valign="top" width="73.11827956989248%" headers="d68196e184 ">
+                                        <p class="p">评估条码的条和空宽度接近其标准尺寸的程度。</p>
+
+                                    </td>
+
+                                </tr>
+
+                                <tr>
+                                    <td class="entry" valign="top" width="26.881720430107524%" headers="d68196e178 ">
+                                        <p class="p">缺陷度</p>
+
+                                    </td>
+
+                                    <td class="entry" valign="top" width="73.11827956989248%" headers="d68196e184 ">
+                                        <p class="p">评估条码中单个条或空内存在的缺陷程度，如污点、划痕、变形等。</p>
+
+                                    </td>
+
+                                </tr>
+
+                                <tr>
+                                    <td class="entry" valign="top" width="26.881720430107524%" headers="d68196e178 ">
+                                        <p class="p">最小边缘对比度</p>
+
+                                    </td>
+
+                                    <td class="entry" valign="top" width="73.11827956989248%" headers="d68196e184 ">
+                                        <p class="p">在条码的扫描反射率曲线中，条和空之间的最小对比度值。</p>
+
+                                    </td>
+
+                                </tr>
+
+                                <tr>
+                                    <td class="entry" valign="top" width="26.881720430107524%" headers="d68196e178 ">
+                                        <p class="p">最低反射率</p>
+
+                                    </td>
+
+                                    <td class="entry" valign="top" width="73.11827956989248%" headers="d68196e184 ">
+                                        <p class="p">评估条码上条的暗度。</p>
+
+                                    </td>
+
+                                </tr>
+
+                                <tr>
+                                    <td class="entry" valign="top" width="26.881720430107524%" headers="d68196e178 ">
+                                        <p class="p">调制比</p>
+
+                                    </td>
+
+                                    <td class="entry" valign="top" width="73.11827956989248%" headers="d68196e184 ">
+                                        <p class="p">数值为最小边缘对比度与符号对比度的比值，评估条码中局部对比度的变化情况。</p>
+
+                                    </td>
+
+                                </tr>
+
+                                <tr>
+                                    <td class="entry" valign="top" width="26.881720430107524%" headers="d68196e178 ">
+                                        <p class="p">符号对比度</p>
+
+                                    </td>
+
+                                    <td class="entry" valign="top" width="73.11827956989248%" headers="d68196e184 ">
+                                        <p class="p">评估条码背景和条形之间颜色差异程度。</p>
+
+                                    </td>
+
+                                </tr>
+
+                            </tbody>
+
+                        </table>
+</div>
+
+                </div>
+            </li>
+<li class="li step stepexpand" id="GUID-B58203FB-9ABB-42C6-A4A2-A9858372C789__GUID-414C5C99-9801-4F6D-862F-298F7C64878F">
+                <span class="ph cmd">设置已开启评判标准A、B、C、D、F等级的评判值区间。</span>
+                <div class="itemgroup info">
+                    <p class="p">支持以下两种方式设置各等级的评判值区间。</p>
+
+                    <ul class="ul" id="GUID-B58203FB-9ABB-42C6-A4A2-A9858372C789__UL_DTY_QMG_Q2C">
+                        <li class="li" id="GUID-B58203FB-9ABB-42C6-A4A2-A9858372C789__GUID-4ABF49D8-3567-44F6-89DA-3173C155B822">
+                            <p class="p">拖动数轴上的4个分隔点，分隔出各等级的评判值区间，操作方法如下。</p>
+
+                            <div class="fig fignone" id="GUID-B58203FB-9ABB-42C6-A4A2-A9858372C789__FIG_N3S_1WG_Q2C">
+                                
+                                <img class="image" style="display:none;" id="GUID-B58203FB-9ABB-42C6-A4A2-A9858372C789__IMAGE_O3S_1WG_Q2C" src="GUID-4276EB36-24E9-4948-9D9A-1E069087C00C-high.gif" width="1400" />
+                            <div class="fig_caption"><span class="figcap">图 1 设置评判标准数值</span></div></div>
+
+                        </li>
+
+                        <li class="li" id="GUID-B58203FB-9ABB-42C6-A4A2-A9858372C789__GUID-BD906D6F-57EF-4001-AB08-8E9B8F09FE41">
+                            <p class="p">在对应等级评判值输入框中输入数值，需保证数值区间不重叠。</p>
+
+                        </li>
+
+                    </ul>
+
+                    <div class="note note" id="GUID-B58203FB-9ABB-42C6-A4A2-A9858372C789__GUID-8CD88B89-0CBC-4AD9-8707-4D81C268CC00"><span class="notetitle">说明</span> 
+                        <p class="p">在打码评级中，A等级代表最优，F等级代表最差。最终输出的条码等级将取所有评估标准中出现的最差等级。</p>
+
+                    </div>
+
+                </div>
+            </li>
+</ol>
+
+<div class="section postreq" id="GUID-B58203FB-9ABB-42C6-A4A2-A9858372C789__GUID-7640F252-D024-4D95-8832-A718B077395E">
+            <p class="p">当读码器读码完成后，您可在统计面板的<span class="ph uicontrol">评级信息</span>页签和<span class="ph uicontrol">历史记录</span>页签的<span class="ph uicontrol">总体评估</span>列查看条码评级等级，如下图所示。</p>
+
+            <div class="note note" id="GUID-B58203FB-9ABB-42C6-A4A2-A9858372C789__GUID-0931C1BE-7E16-490E-B6E8-49C997A01BF4"><span class="notetitle">说明</span> 
+                <p class="p">您也可以通过在IDMVS主界面选择<span class="ph menucascade"><span class="ph uicontrol">读码设置</span> &gt; <span class="ph uicontrol">快速配置</span> &gt; <span class="ph uicontrol">开始工作</span></span>，即时查看打码评级结果。</p>
+
+            </div>
+
+            <div class="fig fignone" id="GUID-B58203FB-9ABB-42C6-A4A2-A9858372C789__FIG_OMM_2VG_Q2C">
+                
+                <img class="image" style="display:none;" id="GUID-B58203FB-9ABB-42C6-A4A2-A9858372C789__IMAGE_PMM_2VG_Q2C" src="GUID-B715D26A-4F89-424A-872A-D9AF94557669-high.png" width="2100" />
+            <div class="fig_caption"><span class="figcap">图 2 打码评级等级</span></div></div>
+
+            <p class="p">如果需要对输出的评级等级进行解析，可单击条码对应<span class="ph uicontrol">总体评估</span>列的<span class="ph uicontrol">评级报告</span>，查看各项参数的具体评估报告。同时支持在<span class="ph uicontrol">评级报告</span>窗口中单击<span class="ph uicontrol">保存至本地</span>，以PDF格式保存评级报告文件；单击<span class="ph uicontrol">打印</span>，打印当前评级报告。</p>
+
+        </div>
+
+</div>
+
+
+</div>
+						<div class=" wt_topic_wpp_content wt_pc_only "><div class=" wt_topic_wpp_content_flex "><div class="wt_topic_wpp_item like"></div><div class="wt_topic_wpp_item view"></div><div class="wt_topic_wpp_item share">分享</div></div></div>
+						
+						
+						
+					</div>
+				</div><!-- container_body -->
+				
+				<div class=" body_footer "><div onclick="prevTopic()" class=" body_footer_left link_button "><span>上一页</span></div><div onclick="nextTopic()" class=" body_footer_right link_button "><span>下一页</span></div></div>
+				<div class=" body_wpp mobile_only"><div class="wt_body_mobile_like"></div><div class="wt_body_mobile_view"></div></div>
+				<!-- <whc:webhelp_side_toc /> -->
+				
+			</div> <!-- middle_view content_area -->
+			<div class=" right_content wt_pc_only "></div>
+		</div> <!-- content_box -->
+		
+		<!-- 置顶按钮 -->
+		<div class="body_to_top" onclick="scrollTopicTop()"></div> 
+		<!-- 评价反馈 -->
+		<div onclick="manualFeedback()" class=" body_feedback " data-href="https://wj.hikvision.com/#/public-survey?id=64c8b90d80e02e9e88feca2f"></div>
+		
+	</body>
+</html>

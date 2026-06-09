@@ -17,6 +17,7 @@ using ThreeDPacking.App.Communication;
 using ThreeDPacking.App.Rendering;
 using ThreeDPacking.Core.IO;
 using ThreeDPacking.Core.Packers;
+using WindowsFormsApp1;
 using Container = ThreeDPacking.Core.Models.Container;
 using Placement = ThreeDPacking.Core.Models.Placement;
 
@@ -83,6 +84,11 @@ namespace ThreeDPacking.App.Forms
         private Label lblSentPayload;
         private bool? _packingPointSendSuccess;
 
+        private GroupBox grpScanInfo;
+        private Label lblScanInfoInfo;
+        private ListView lvScanInfo;
+        private readonly List<ScannedItemInfo> _scannedItems = new List<ScannedItemInfo>();
+
         private PaddingPaperFillStrategy _paddingPaperFillStrategy = PaddingPaperFillStrategy.MaxUtilization;
         private int _paddingPaperMinWidth = ThreeDPacking.Core.Models.PaddingPaper.DefaultWidth;
         private int _containerSafetyDistance = 0;
@@ -91,10 +97,12 @@ namespace ThreeDPacking.App.Forms
         private bool _selectionDirty = true;
         private bool _isRestoringState = false;
         private LastRunState _lastRunState;
+        private ScanTestControl _scanTestControl;
 
         public MainForm()
         {
             InitializeComponent();
+            InitScanTestControl();
             InitInstanceButton();
             InitProbabilityButton();
             InitPaddingStrategyCombo();
@@ -105,6 +113,7 @@ namespace ThreeDPacking.App.Forms
             InitPackingPositionsControls();
             InitPackingPointsControls();
             InitSendStatusControls();
+            InitScanInfoControls();
             WireEvents();
             menuStrip.Visible = false;
             AddDefaultContainer();
@@ -113,6 +122,18 @@ namespace ThreeDPacking.App.Forms
                 btnInstanceSelect.Enabled = false;
             if (btnProbabilitySelect != null)
                 btnProbabilitySelect.Enabled = false;
+        }
+
+        private void InitScanTestControl()
+        {
+            _scanTestControl = new ScanTestControl
+            {
+                Dock = DockStyle.Fill
+            };
+            _scanTestControl.ScannedItemAdded += ScanTestControl_ScannedItemAdded;
+            _scanTestControl.ScanItemsCleared += ScanTestControl_ScanItemsCleared;
+            _scanTestControl.BatchCompleted += ScanTestControl_BatchCompleted;
+            panelScanTest.Controls.Add(_scanTestControl);
         }
 
         private void InitInstanceButton()
@@ -389,6 +410,183 @@ namespace ThreeDPacking.App.Forms
             grpPackingPoints.Controls.Add(lblSentPayload);
 
             UpdateSendStatus(null);
+        }
+
+        private void InitScanInfoControls()
+        {
+            grpScanInfo = new GroupBox();
+            grpScanInfo.Text = "扫码信息";
+            grpScanInfo.TabStop = false;
+
+            lblScanInfoInfo = new Label();
+            lblScanInfoInfo.Text = "暂无扫码信息";
+            lblScanInfoInfo.AutoSize = false;
+            lblScanInfoInfo.Height = 18;
+
+            lvScanInfo = new ListView();
+            lvScanInfo.View = View.Details;
+            lvScanInfo.FullRowSelect = true;
+            lvScanInfo.GridLines = true;
+            lvScanInfo.HeaderStyle = ColumnHeaderStyle.Nonclickable;
+            lvScanInfo.Columns.Add("序号", 42, HorizontalAlignment.Center);
+            lvScanInfo.Columns.Add("名称", 72, HorizontalAlignment.Left);
+            lvScanInfo.Columns.Add("尺寸", 90, HorizontalAlignment.Left);
+            lvScanInfo.Columns.Add("条码信息", 120, HorizontalAlignment.Left);
+
+            grpScanInfo.Controls.Add(lblScanInfoInfo);
+            grpScanInfo.Controls.Add(lvScanInfo);
+            panelActualPacking.Controls.Add(grpScanInfo);
+        }
+
+        private void ScanTestControl_ScannedItemAdded(ScannedItemInfo item)
+        {
+            if (item == null)
+                return;
+
+            if (InvokeRequired)
+            {
+                BeginInvoke((Action)(() => ScanTestControl_ScannedItemAdded(item)));
+                return;
+            }
+
+            _scannedItems.Add(item);
+            RefreshScanInfoList();
+        }
+
+        private void ScanTestControl_ScanItemsCleared()
+        {
+            if (InvokeRequired)
+            {
+                BeginInvoke((Action)ScanTestControl_ScanItemsCleared);
+                return;
+            }
+
+            _scannedItems.Clear();
+            RefreshScanInfoList();
+        }
+
+        private void ScanTestControl_BatchCompleted(IReadOnlyList<ScannedItemInfo> items)
+        {
+            if (items == null || items.Count == 0)
+                return;
+
+            if (InvokeRequired)
+            {
+                BeginInvoke((Action)(() => ScanTestControl_BatchCompleted(items)));
+                return;
+            }
+
+            ApplyScannedItemsToPacking(items);
+        }
+
+        private void ApplyScannedItemsToPacking(IReadOnlyList<ScannedItemInfo> items)
+        {
+            var loaded = new List<ItemCandidate>();
+            var skipped = new List<string>();
+
+            for (int i = 0; i < items.Count; i++)
+            {
+                var scanned = items[i];
+                if (scanned == null)
+                    continue;
+
+                if (scanned.Dx <= 0 || scanned.Dy <= 0 || scanned.Dz <= 0)
+                {
+                    skipped.Add(string.IsNullOrWhiteSpace(scanned.Barcode)
+                        ? (scanned.Name ?? $"#{i + 1}")
+                        : scanned.Barcode);
+                    continue;
+                }
+
+                string name = string.IsNullOrWhiteSpace(scanned.Name)
+                    ? (string.IsNullOrWhiteSpace(scanned.Barcode) ? $"Item{i + 1}" : scanned.Barcode)
+                    : scanned.Name.Trim();
+                loaded.Add(new ItemCandidate(name, scanned.Dx, scanned.Dy, scanned.Dz, loaded.Count + 1));
+            }
+
+            if (loaded.Count == 0)
+            {
+                MessageBox.Show("批次扫码结果无法转换为待装物品，请检查产品尺寸信息。", "扫码同步",
+                    MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            _loadedItems = loaded;
+            _allLoadedItems = new List<ItemCandidate>(loaded);
+            _selectionDirty = true;
+            ClearPackingResults();
+
+            RefreshItemsGrid();
+            SetStartPackingEnabled(true);
+            btnRandomSelect.Enabled = loaded.Count > 0;
+            if (btnInstanceSelect != null)
+                btnInstanceSelect.Enabled = loaded.Count > 0;
+            if (btnProbabilitySelect != null)
+                btnProbabilitySelect.Enabled = loaded.Count > 0;
+            lblRandomInfo.Text = $"已同步扫码物品 {loaded.Count} 件";
+
+            statusLabel.Text = $"已同步 {loaded.Count} 件扫码物品到待装列表";
+            AppendLog($"[扫码同步] 批次结束，已将 {loaded.Count} 件扫码物品同步到待装列表。");
+            if (skipped.Count > 0)
+                AppendLog($"[扫码同步] 跳过 {skipped.Count} 件（尺寸无效）：{string.Join(", ", skipped)}");
+
+            if (skipped.Count > 0)
+            {
+                MessageBox.Show(
+                    $"已同步 {loaded.Count} 件物品到待装列表。\n另有 {skipped.Count} 件因尺寸无效被跳过。",
+                    "扫码同步", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+        }
+
+        private void ClearPackingResults()
+        {
+            _packedContainers.Clear();
+            lstResults.Items.Clear();
+            menuExportJson.Enabled = false;
+
+            _renderer.Container = null;
+            _renderer.Containers = new List<Container>();
+            _renderer.SelectedPlacement = null;
+            _renderer.CurrentStep = 0;
+            trackStep.Maximum = 0;
+            trackStep.Value = 0;
+            lblStepInfo.Text = "0 / 0";
+            lblSelectedInfo.Text = "无";
+            statusUtilization.Text = string.Empty;
+            statusTime.Text = string.Empty;
+
+            RefreshPackingPositionsList();
+            glControl.Invalidate();
+        }
+
+        private void RefreshScanInfoList()
+        {
+            if (lvScanInfo == null)
+                return;
+
+            lvScanInfo.BeginUpdate();
+            lvScanInfo.Items.Clear();
+
+            for (int i = 0; i < _scannedItems.Count; i++)
+            {
+                var item = _scannedItems[i];
+                var listItem = new ListViewItem((i + 1).ToString());
+                listItem.SubItems.Add(string.IsNullOrWhiteSpace(item.Name) ? "-" : item.Name);
+                listItem.SubItems.Add(string.IsNullOrWhiteSpace(item.Dimensions) ? "-" : item.Dimensions);
+                listItem.SubItems.Add(string.IsNullOrWhiteSpace(item.Barcode) ? "-" : item.Barcode);
+                lvScanInfo.Items.Add(listItem);
+            }
+
+            lvScanInfo.EndUpdate();
+
+            if (lblScanInfoInfo != null)
+            {
+                lblScanInfoInfo.Text = _scannedItems.Count > 0
+                    ? $"已扫码 {_scannedItems.Count} 件"
+                    : "暂无扫码信息";
+            }
+
+            LayoutActualPackingPanel();
         }
 
         private void PnlSendStatusIndicator_Paint(object sender, PaintEventArgs e)
@@ -681,6 +879,28 @@ namespace ThreeDPacking.App.Forms
 
                 LayoutPackingPointsColumns();
             }
+
+            if (grpScanInfo != null)
+            {
+                int top = grpPackingPoints != null
+                    ? grpPackingPoints.Bottom + 8
+                    : grpPackingPositions != null
+                        ? grpPackingPositions.Bottom + 8
+                        : grpArmConnection.Bottom + 8;
+                int listHeight = GetFixedListViewHeight(lvScanInfo);
+                int groupHeight = 52 + listHeight;
+
+                grpScanInfo.Location = new Point(6, top);
+                grpScanInfo.Size = new Size(Math.Max(200, w), groupHeight);
+
+                lblScanInfoInfo.Location = new Point(12, 22);
+                lblScanInfoInfo.Width = grpScanInfo.ClientSize.Width - 24;
+
+                lvScanInfo.Location = new Point(12, 44);
+                lvScanInfo.Size = new Size(grpScanInfo.ClientSize.Width - 24, listHeight);
+
+                LayoutScanInfoColumns();
+            }
         }
 
         private void LayoutPackingPositionsColumns()
@@ -704,6 +924,18 @@ namespace ThreeDPacking.App.Forms
             lvPackingPoints.Columns[0].Width = 42;
             lvPackingPoints.Columns[1].Width = 72;
             lvPackingPoints.Columns[2].Width = Math.Max(120, listW - 42 - 72);
+        }
+
+        private void LayoutScanInfoColumns()
+        {
+            if (lvScanInfo == null || lvScanInfo.Columns.Count < 4)
+                return;
+
+            int listW = lvScanInfo.ClientSize.Width - 4;
+            lvScanInfo.Columns[0].Width = 42;
+            lvScanInfo.Columns[1].Width = 72;
+            lvScanInfo.Columns[2].Width = 90;
+            lvScanInfo.Columns[3].Width = Math.Max(100, listW - 42 - 72 - 90);
         }
 
         private int GetFixedListViewHeight(ListView listView)
@@ -1597,7 +1829,7 @@ namespace ThreeDPacking.App.Forms
 
             if (_loadedItems.Count == 0)
             {
-                MessageBox.Show("请先加载物品Excel文件。", "提示",
+                MessageBox.Show("请先加载物品 Excel，或完成批次扫码后同步到待装列表。", "提示",
                     MessageBoxButtons.OK, MessageBoxIcon.Information);
                 return;
             }
@@ -1717,7 +1949,16 @@ namespace ThreeDPacking.App.Forms
                 RefreshPackingPositionsList();
 
                 if (lstResults.Items.Count > 0)
+                {
                     lstResults.SelectedIndex = 0;
+                }
+                else
+                {
+                    ClearPackingResults();
+                    MessageBox.Show(
+                        "装箱未生成任何结果。常见原因：待装物品尺寸大于容器，或尺寸数据无效。请检查待装物品与容器尺寸（单位：mm）。",
+                        "装箱结果为空", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                }
             };
             worker.RunWorkerAsync();
         }

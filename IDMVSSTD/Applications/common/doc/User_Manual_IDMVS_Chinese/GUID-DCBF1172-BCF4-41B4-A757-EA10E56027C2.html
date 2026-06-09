@@ -1,0 +1,603 @@
+
+<!DOCTYPE html
+  PUBLIC "" "about:legacy-compat">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:whc="http://www.daksys.com/webhelp/components" xml:lang="zh-cn" lang="zh-cn">
+	<head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />        
+      <meta name="copyright" content="©  杭州海康威视数字技术股份有限公司。保留一切权利。" /><meta name="DC.Type" content="task" /><meta name="DC.Title" content="应用示例" /><meta name="abstract" content="本文通过一个Lua脚本处理读码结果的应用示例，为您介绍如何通过Lua脚本对读取的条码内容进行裁剪和过滤，最终获取有用的部分内容。" /><meta name="description" content="本文通过一个Lua脚本处理读码结果的应用示例，为您介绍如何通过Lua脚本对读取的条码内容进行裁剪和过滤，最终获取有用的部分内容。" /><meta name="DC.Relation" scheme="URI" content="GUID-1FD49EC0-F215-424C-9EE7-76B06BFD2B20.html" /><meta name="DC.Format" content="XHTML" /><meta name="DC.Identifier" content="GUID-DCBF1172-BCF4-41B4-A757-EA10E56027C2" /><meta name="DC.Language" content="zh-CN" /><title>应用示例</title><!-- Generated with dksgen version 1.0, build number 2023071300.  --><meta viewport="Content-Type" content="width=device-width, initial-scale=1.0" /><meta http-equiv="X-UA-Compatible" content="IE=edge,Chrome=1" /><meta name="wh-path2root" content="index.html" />
+		<!-- commonltr css -->
+		<link rel="stylesheet" type="text/css" href="daksys-webhelp/resources/css/commonltr.css" />
+		<!-- Bootstrap css -->
+		<link rel="stylesheet" type="text/css" href="daksys-webhelp/resources/bootstrap/css/bootstrap.min.css" />
+		<link rel="stylesheet" type="text/css" href="daksys-webhelp/resources/bootstrap/css/bootstrap-theme.min.css" />
+		<link rel="stylesheet" type="text/css" href="daksys-webhelp/resources/js/jquery-ui.min.css" />
+		
+		<!-- Template css  -->
+		<link href="daksys-webhelp/template/resources/css/HIKROBOT_color.css?buildId=2023071300" rel="stylesheet" type="text/css" />
+		<link rel="stylesheet" type="text/css" href="daksys-webhelp/template/resources/css/wt_topic.css?buildId=2023071300" />
+		<link rel="stylesheet" type="text/css" href="daksys-webhelp/template/resources/css/wt_topic_m.css?buildId=2023071300" />
+		<link rel="stylesheet" type="text/css" href="daksys-webhelp/template/resources/css/wt_expand.css?buildId=2023071300" />
+		<link rel="stylesheet" type="text/css" href="daksys-webhelp/template/resources/css/wt_note.css?buildId=2023071300" />
+		<link rel="stylesheet" type="text/css" href="daksys-webhelp/template/resources/css/wt_steps.css?buildId=2023071300" />
+		
+		<!-- jquery js  -->
+		<script type="text/javascript" src="daksys-webhelp/resources/js/jquery-3.6.2.min.js"></script>
+		<script type="text/javascript" src="daksys-webhelp/resources/js/jquery.cookie.js"></script>
+		<script type="text/javascript" src="daksys-webhelp/resources/js/jquery.highlight-3.js"></script>
+		<script type="text/javascript" src="daksys-webhelp/resources/js/jquery-ui.min.js"></script>
+		
+		<!-- common js  -->
+		<script type="text/javascript" src="daksys-webhelp/resources/bootstrap/js/bootstrap.min.js"></script>
+		<script type="text/javascript" src="daksys-webhelp/resources/js/base64.js"></script>
+		<script type="text/javascript" src="daksys-webhelp/resources/js/browserDetect.js"></script>
+		<script type="text/javascript" src="daksys-webhelp/resources/js/localization.js"></script>
+		<script type="text/javascript" src="daksys-webhelp/resources/js/parseuri.js"></script>
+		<script type="text/javascript" src="daksys-webhelp/resources/localization/strings.js"></script>
+		<!-- Template js -->
+		<script type="text/javascript" src="daksys-webhelp/template/resources/js/wt_topic.js?buildId=2023071300"></script>
+		<script type="text/javascript" src="daksys-webhelp/template/resources/js/wt_expand.js?buildId=2023071300"></script>
+	</head>
+	<body class="wt_topic_page frmBody" id="GUID-DCBF1172-BCF4-41B4-A757-EA10E56027C2" onload="topicOnload()">
+		<!-- get_lang -->
+		<div id="lang" style="display:none">zh-CN</div><div id="mapoutputclass" style="display:none"></div>
+		<input hidden="hidden" id="UDCode" value="UD12345B" /><input hidden="hidden" id="Trademark" value="海康机器人" />
+		
+		<div class="content_box">
+			<div class="middle_view content_area col-sm-9" id="content_area">
+				<div class=" wt_breadcrumb "><ol><li><span class="home topicref"><a href="javascript:void(0)" onclick="gotoFirstPage()">首页</a></span></li><li><span class="topicref"><a href="GUID-3F138232-3CF2-4E3F-A3C0-3D677CF174B5.html" data-id="GUID-3F138232-3CF2-4E3F-A3C0-3D677CF174B5">读码器高级配置</a></span></li><li><span class="topicref"><a href="GUID-1FD49EC0-F215-424C-9EE7-76B06BFD2B20.html" data-id="GUID-1FD49EC0-F215-424C-9EE7-76B06BFD2B20">Lua脚本</a></span></li><li class="active"><span class="topicref">应用示例</span></li></ol><div class="wt_breadcrumb_ellipsis" onclick="expandBreadcrumbDiv()"></div><div class="wt_breadcrumb_collapse" style="display: none;"><div class="wt_breadcrumb_collapse_button" onclick="collapseBreadcrumbDiv()"></div></div></div>
+				
+				<div id="container_body" class="container">
+					<div id="contentArea">
+						<div class=" wt_topic_content body ">
+    <h1 class="title topictitle1">应用示例</h1>
+
+
+<div class="body taskbody"><p class="shortdesc">本文通过一个Lua脚本处理读码结果的应用示例，为您介绍如何通过Lua脚本对读取的条码内容进行裁剪和过滤，最终获取有用的部分内容。</p>
+
+<div class="section context" id="GUID-DCBF1172-BCF4-41B4-A757-EA10E56027C2__GUID-A80E3865-B521-4C3D-80B2-DDAAABB6FA59">
+            <ul class="ul" id="GUID-DCBF1172-BCF4-41B4-A757-EA10E56027C2__UL_EG3_KXS_52C">
+                <li class="li" id="GUID-DCBF1172-BCF4-41B4-A757-EA10E56027C2__GUID-4DB9AB33-F032-4557-9591-58A75DF9B635">
+                    <p class="p">方案需求</p>
+
+                    <p class="p">假设某业务场景有如下读码结果处理需求：</p>
+
+                    <ul class="ul" id="GUID-DCBF1172-BCF4-41B4-A757-EA10E56027C2__UL_D43_HYS_52C">
+                        <li class="li" id="GUID-DCBF1172-BCF4-41B4-A757-EA10E56027C2__GUID-A8441058-5798-487E-8DAF-07443878673A">
+                            <p class="p">读码结果中的重复内容只需记录一次。</p>
+
+                        </li>
+
+                        <li class="li" id="GUID-DCBF1172-BCF4-41B4-A757-EA10E56027C2__GUID-0F367695-D411-4B92-97E7-7ED8FA84D74E">
+                            <p class="p">读码结果中会掺杂<samp class="ph codeph">RHQ</samp>、<samp class="ph codeph">^@^</samp>或<samp class="ph codeph">|</samp>字符，有用的信息在<samp class="ph codeph">RHQ</samp>、<samp class="ph codeph">^@^</samp>字符中间或<samp class="ph codeph">|</samp>字符前。</p>
+
+                        </li>
+
+                        <li class="li" id="GUID-DCBF1172-BCF4-41B4-A757-EA10E56027C2__GUID-E38309C2-4897-40BB-8E07-F46B7EA7A92C">
+                            <p class="p">关注的条码结果信息为数字字母组合，开头为特定字母且长度固定，条码特点如下。</p>
+
+                            
+<div class="div_table"><table cellpadding="4" cellspacing="0" summary="" style="display:none;" id="tbl_rowfixed" class="table wt_table_rowfixed" frame="border" border="1" rules="all"></table><table cellpadding="4" cellspacing="0" summary="" id="GUID-DCBF1172-BCF4-41B4-A757-EA10E56027C2__TABLE_K3V_5CT_52C" class="table" frame="border" border="1" rules="all"><caption><span class="tablecap">表 1 条码特征</span></caption>
+                                    
+                                    
+                                    <thead class="thead" align="left">
+                                        <tr>
+                                            <th class="entry" valign="top" width="50%" id="d78127e81">
+                                                <p class="p">前缀</p>
+
+                                            </th>
+
+                                            <th class="entry" valign="top" width="50%" id="d78127e87">
+                                                <p class="p">长度</p>
+
+                                            </th>
+
+                                        </tr>
+
+                                    </thead>
+
+                                    <tbody class="tbody">
+                                        <tr>
+                                            <td class="entry" valign="top" width="50%" headers="d78127e81 ">
+                                                <p class="p">C</p>
+
+                                            </td>
+
+                                            <td class="entry" valign="top" width="50%" headers="d78127e87 ">
+                                                <p class="p">19</p>
+
+                                            </td>
+
+                                        </tr>
+
+                                        <tr>
+                                            <td class="entry" valign="top" width="50%" headers="d78127e81 ">
+                                                <p class="p">TA</p>
+
+                                            </td>
+
+                                            <td class="entry" valign="top" width="50%" headers="d78127e87 ">
+                                                <p class="p">18</p>
+
+                                            </td>
+
+                                        </tr>
+
+                                        <tr>
+                                            <td class="entry" valign="top" width="50%" headers="d78127e81 ">
+                                                <p class="p">B</p>
+
+                                            </td>
+
+                                            <td class="entry" valign="top" width="50%" headers="d78127e87 ">
+                                                <p class="p">17</p>
+
+                                            </td>
+
+                                        </tr>
+
+                                        <tr>
+                                            <td class="entry" valign="top" width="50%" headers="d78127e81 ">
+                                                <p class="p">AH</p>
+
+                                            </td>
+
+                                            <td class="entry" valign="top" width="50%" headers="d78127e87 ">
+                                                <p class="p">16</p>
+
+                                            </td>
+
+                                        </tr>
+
+                                    </tbody>
+
+                                </table>
+</div>
+
+                        </li>
+
+                    </ul>
+
+                </li>
+
+                <li class="li" id="GUID-DCBF1172-BCF4-41B4-A757-EA10E56027C2__GUID-42ACFDB4-4976-455E-8E3C-7C5DA367456A">
+                    <p class="p">方案思路</p>
+
+                    <p class="p">基于上述需求，Lua脚本代码实现流程如下。</p>
+
+                    <div class="fig fignone" id="GUID-DCBF1172-BCF4-41B4-A757-EA10E56027C2__FIG_YYN_XKT_52C">
+                        
+                        <img class="image" style="display:none;" id="GUID-DCBF1172-BCF4-41B4-A757-EA10E56027C2__IMAGE_X33_DYN_4FC" src="GUID-880D73F7-A567-4A5F-A730-81ACFEBCCA91-high.png" height="1500" />
+                    <div class="fig_caption"><span class="figcap">图 1 脚本代码实现流程</span></div></div>
+
+                </li>
+
+            </ul>
+
+        </div>
+
+<ol class="ol steps" id="GUID-DCBF1172-BCF4-41B4-A757-EA10E56027C2__GUID-D258E251-58E2-4D1D-BFCE-DC59C4DEEDE2"><li class="li step stepexpand" id="GUID-DCBF1172-BCF4-41B4-A757-EA10E56027C2__GUID-62C973BA-A24E-4E47-B02B-A5CA55EAD06F">
+                <span class="ph cmd">在主界面功能导航栏，选择<span class="ph menucascade"><span class="ph uicontrol">操作配置</span> &gt; <span class="ph uicontrol">数据处理</span> &gt; <span class="ph uicontrol">Lua脚本</span></span> ，进入Lua脚本页面。</span>
+            </li>
+<li class="li step stepexpand" id="GUID-DCBF1172-BCF4-41B4-A757-EA10E56027C2__GUID-3052858B-4667-4403-8A7B-2C07989401DE">
+                <span class="ph cmd">在脚本编辑区域，编辑脚本代码。</span>
+                <div class="itemgroup info">
+                    <p class="p">Lua脚本代码示例如下。</p>
+
+                    <pre class="pre codeblock">--************************************************************************
+--  @fn     readprocessEvent()
+--  @return 条码内容
+--************************************************************************
+function readprocessEvent()
+    historyFilter()               -- 历史过滤（可选）
+    cut()                         -- 字符裁剪（可选）
+    local count = readCount()     -- 获取条码数量
+    local results = {}            -- 最终结果表
+    local seenBarcodes = {}       -- 已出现条码记录表（用于去重）
+    
+    -- 条码验证条件表
+    local conditions = {
+        {prefix = "C", length = 19},
+        {prefix = "TA", length = 18},
+        {prefix = "B", length = 17},
+        {prefix = "AH", length = 16}
+    }
+
+    if count ~= 0 then
+        for i = 1, count do
+            -- 获取原始条码数据
+            local rawStr = readResult(i):readData()
+            
+            -- 预处理：提取有效信息
+            local cleanStr = preprocess_barcode(rawStr)
+            
+            -- 验证条码是否符合指定条件
+            local isValid = validate_barcode(cleanStr, conditions)
+            
+            -- 处理有效条码
+            if isValid then
+                -- 检查是否重复
+                if seenBarcodes[cleanStr] then
+                    results[i] = "ERROR"  -- 重复条码
+                else
+                    results[i] = cleanStr -- 首次出现的有效条码
+                    seenBarcodes[cleanStr] = true
+                end
+            else
+                results[i] = "ERROR"      -- 无效条码
+            end
+        end
+    end
+    
+    return results
+end
+
+-- 条码预处理函数
+function preprocess_barcode(str)
+    -- 提取 RHQ 和 ^@^ 之间的内容
+    local startPos, endPos = str:find("RHQ.-%^@%^")
+    if startPos then
+        str = str:sub(startPos + 3, endPos - 3)
+    end
+    
+    -- 提取 | 之前的内容
+    local pipePos = str:find("|")
+    if pipePos then
+        str = str:sub(1, pipePos - 1)
+    end
+    
+    return str
+end
+
+-- 条码验证函数
+function validate_barcode(barcode, conditions)
+    -- 检查长度和前缀
+    for _, cond in ipairs(conditions) do
+        -- 验证前缀匹配
+        if barcode:sub(1, #cond.prefix) == cond.prefix then
+            -- 验证长度
+            if #barcode == cond.length then
+                -- 验证字符组成（仅允许字母和数字）
+                if barcode:match("^[%w]+$") then  -- %w 匹配字母和数字
+                    return true
+                end
+            end
+        end
+    end
+    return false
+end
+</pre>
+
+                </div>
+            </li>
+<li class="li step stepexpand" id="GUID-DCBF1172-BCF4-41B4-A757-EA10E56027C2__GUID-4FF963EC-B118-4DC7-ABD8-3A4A53AFA55C">
+                <span class="ph cmd">在脚本编辑区域右下方，单击<span class="ph uicontrol">测试</span>验证脚本。</span>
+            </li>
+<li class="li step stepexpand" id="GUID-DCBF1172-BCF4-41B4-A757-EA10E56027C2__GUID-1B0E88A1-4421-441F-97A2-718DD1097863">
+                <span class="ph cmd">单击<span class="ph uicontrol">导入至相机</span>，即可将验证通过的脚本加载至读码器。</span>
+                <div class="itemgroup info">
+                    <p class="p">脚本成功加载至读码器会在脚本输出区域提示“导入脚本成功”。当读码器工作时，脚本自动启用，对读码结果进行处理并输出。</p>
+
+                </div>
+            </li>
+</ol>
+
+        <div class="section result" id="GUID-DCBF1172-BCF4-41B4-A757-EA10E56027C2__GUID-6920A6B9-8262-495D-8CFF-E241B0E6C222">
+            
+            <p class="p">启用Lua脚本后，使用读码器读取测试条码，测试条码的原始条码内容、脚本处理说明、预期输出结果如下表所示。</p>
+
+            
+<div class="div_table"><table cellpadding="4" cellspacing="0" summary="" style="display:none;" id="tbl_rowfixed" class="table wt_table_rowfixed" frame="border" border="1" rules="all"></table><table cellpadding="4" cellspacing="0" summary="" id="GUID-DCBF1172-BCF4-41B4-A757-EA10E56027C2__TABLE_MN1_JTL_SFC" class="table" frame="border" border="1" rules="all"><caption><span class="tablecap">表 2 测试条码处理说明</span></caption>
+                    
+                    
+                    
+                    
+                    <thead class="thead" align="left">
+                        <tr>
+                            <th class="entry" valign="top" width="6.976744186046512%" id="d78127e278">
+                                <p class="p">序号</p>
+
+                            </th>
+
+                            <th class="entry" valign="top" width="23.25581395348837%" id="d78127e284">
+                                <p class="p">原始条码内容</p>
+
+                            </th>
+
+                            <th class="entry" valign="top" width="46.51162790697674%" id="d78127e290">
+                                <p class="p">脚本处理说明</p>
+
+                            </th>
+
+                            <th class="entry" valign="top" width="23.25581395348837%" id="d78127e296">
+                                <p class="p">预期输出结果</p>
+
+                            </th>
+
+                        </tr>
+
+                    </thead>
+
+                    <tbody class="tbody">
+                        <tr>
+                            <td class="entry" valign="top" width="6.976744186046512%" headers="d78127e278 ">
+                                <p class="p">1</p>
+
+                            </td>
+
+                            <td class="entry" valign="top" width="23.25581395348837%" headers="d78127e284 ">
+                                <p class="p">RHQC123456789987654321^@^</p>
+
+                            </td>
+
+                            <td class="entry" valign="top" width="46.51162790697674%" headers="d78127e290 ">
+                                <ol class="ol" id="GUID-DCBF1172-BCF4-41B4-A757-EA10E56027C2__OL_WGD_1VL_SFC">
+                                    <li class="li" id="GUID-DCBF1172-BCF4-41B4-A757-EA10E56027C2__GUID-19CC8AD7-028A-47BB-A6B5-860A54C9C150">
+                                        <p class="p">获取条码原始内容。</p>
+
+                                    </li>
+
+                                    <li class="li" id="GUID-DCBF1172-BCF4-41B4-A757-EA10E56027C2__GUID-42334699-4CFE-496F-8805-A90F31E0E2AD">
+                                        <p class="p">提取<samp class="ph codeph">RHQ</samp>、<samp class="ph codeph">^@^</samp>字符中间的“C123456789987654321”。</p>
+
+                                    </li>
+
+                                    <li class="li" id="GUID-DCBF1172-BCF4-41B4-A757-EA10E56027C2__GUID-D4C3E39F-B992-42DB-B555-1F0F95A54F59">
+                                        <p class="p">检查“C123456789987654321”符合前缀为“C”、长度为19的条码特征。</p>
+
+                                    </li>
+
+                                    <li class="li" id="GUID-DCBF1172-BCF4-41B4-A757-EA10E56027C2__GUID-8BA0B1BA-E4FA-45A5-8E87-DE96E4A75F24">
+                                        <p class="p">检查“C123456789987654321”无重复，输出此结果。</p>
+
+                                    </li>
+
+                                </ol>
+
+                            </td>
+
+                            <td class="entry" valign="top" width="23.25581395348837%" headers="d78127e296 ">
+                                <p class="p">C123456789987654321</p>
+
+                            </td>
+
+                        </tr>
+
+                        <tr>
+                            <td class="entry" valign="top" width="6.976744186046512%" headers="d78127e278 ">
+                                <p class="p">2</p>
+
+                            </td>
+
+                            <td class="entry" valign="top" width="23.25581395348837%" headers="d78127e284 ">
+                                <p class="p">RHQC123456789987654321^@^</p>
+
+                            </td>
+
+                            <td class="entry" valign="top" width="46.51162790697674%" headers="d78127e290 ">
+                                <ol class="ol" id="GUID-DCBF1172-BCF4-41B4-A757-EA10E56027C2__OL_WKT_ZWL_SFC">
+                                    <li class="li" id="GUID-DCBF1172-BCF4-41B4-A757-EA10E56027C2__GUID-7D833B4C-604D-47D5-8958-6C769B71B29A">
+                                        <p class="p">获取条码原始内容。</p>
+
+                                    </li>
+
+                                    <li class="li" id="GUID-DCBF1172-BCF4-41B4-A757-EA10E56027C2__GUID-21AF654E-DFAD-4242-9643-3FE322AC6853">
+                                        <p class="p">提取<samp class="ph codeph">RHQ</samp>、<samp class="ph codeph">^@^</samp>字符中间的“C123456789987654321”。</p>
+
+                                    </li>
+
+                                    <li class="li" id="GUID-DCBF1172-BCF4-41B4-A757-EA10E56027C2__GUID-FB10A43C-3946-4A0E-97A8-FE7A07747CC3">
+                                        <p class="p">检查“C123456789987654321”符合前缀为“C”、长度为19的条码特征。</p>
+
+                                    </li>
+
+                                    <li class="li" id="GUID-DCBF1172-BCF4-41B4-A757-EA10E56027C2__GUID-194FB058-6B8A-4023-BC2F-B6411A9A6CD8">
+                                        <p class="p">检查“C123456789987654321”重复，不输出此结果。</p>
+
+                                    </li>
+
+                                </ol>
+
+                            </td>
+
+                            <td class="entry" valign="top" width="23.25581395348837%" headers="d78127e296 ">
+                                <p class="p">无输出。</p>
+
+                            </td>
+
+                        </tr>
+
+                        <tr>
+                            <td class="entry" valign="top" width="6.976744186046512%" headers="d78127e278 ">
+                                <p class="p">3</p>
+
+                            </td>
+
+                            <td class="entry" valign="top" width="23.25581395348837%" headers="d78127e284 ">
+                                <p class="p">AH12345678901234|</p>
+
+                            </td>
+
+                            <td class="entry" valign="top" width="46.51162790697674%" headers="d78127e290 ">
+                                <ol class="ol" id="GUID-DCBF1172-BCF4-41B4-A757-EA10E56027C2__OL_A2S_DXL_SFC">
+                                    <li class="li" id="GUID-DCBF1172-BCF4-41B4-A757-EA10E56027C2__GUID-86F67370-2544-47FE-BF83-6C7E468B0AC7">
+                                        <p class="p">获取条码原始内容。</p>
+
+                                    </li>
+
+                                    <li class="li" id="GUID-DCBF1172-BCF4-41B4-A757-EA10E56027C2__GUID-C3556A8E-C314-4B6C-8F2B-97DE05AAE80F">
+                                        <p class="p">提取<samp class="ph codeph">|</samp>字符前的“AH12345678901234”。</p>
+
+                                    </li>
+
+                                    <li class="li" id="GUID-DCBF1172-BCF4-41B4-A757-EA10E56027C2__GUID-E0E8CF64-A7BF-46D3-B724-6118355EA8C3">
+                                        <p class="p">检查“AH12345678901234”符合前缀为“AH”、长度为16的条码特征。</p>
+
+                                    </li>
+
+                                    <li class="li" id="GUID-DCBF1172-BCF4-41B4-A757-EA10E56027C2__GUID-3D8A7AD5-AD92-4897-8DC1-602211EEA200">
+                                        <p class="p">检查“AH12345678901234”无重复，输出此结果。</p>
+
+                                    </li>
+
+                                </ol>
+
+                            </td>
+
+                            <td class="entry" valign="top" width="23.25581395348837%" headers="d78127e296 ">
+                                <p class="p">AH12345678901234</p>
+
+                            </td>
+
+                        </tr>
+
+                        <tr>
+                            <td class="entry" valign="top" width="6.976744186046512%" headers="d78127e278 ">
+                                <p class="p">4</p>
+
+                            </td>
+
+                            <td class="entry" valign="top" width="23.25581395348837%" headers="d78127e284 ">
+                                <p class="p">B1234567890123456</p>
+
+                            </td>
+
+                            <td class="entry" valign="top" width="46.51162790697674%" headers="d78127e290 ">
+                                <ol class="ol" id="GUID-DCBF1172-BCF4-41B4-A757-EA10E56027C2__OL_VWZ_JXL_SFC">
+                                    <li class="li" id="GUID-DCBF1172-BCF4-41B4-A757-EA10E56027C2__GUID-A0CBF3A9-7543-45C5-AE19-A25E47D23108">
+                                        <p class="p">获取条码原始内容。</p>
+
+                                    </li>
+
+                                    <li class="li" id="GUID-DCBF1172-BCF4-41B4-A757-EA10E56027C2__GUID-819A3023-A4B3-4A39-8F49-C8F6CF104717">
+                                        <p class="p">检查“B1234567890123456”符合前缀为“B”、长度为17的条码特征。</p>
+
+                                    </li>
+
+                                    <li class="li" id="GUID-DCBF1172-BCF4-41B4-A757-EA10E56027C2__GUID-AA09A20B-CA85-4893-B225-8E3CF5A15D7B">
+                                        <p class="p">检查“B1234567890123456”无重复，输出此结果。</p>
+
+                                    </li>
+
+                                </ol>
+
+                            </td>
+
+                            <td class="entry" valign="top" width="23.25581395348837%" headers="d78127e296 ">
+                                <p class="p">B1234567890123456</p>
+
+                            </td>
+
+                        </tr>
+
+                        <tr>
+                            <td class="entry" valign="top" width="6.976744186046512%" headers="d78127e278 ">
+                                <p class="p">5</p>
+
+                            </td>
+
+                            <td class="entry" valign="top" width="23.25581395348837%" headers="d78127e284 ">
+                                <p class="p">TA1234567890123456</p>
+
+                            </td>
+
+                            <td class="entry" valign="top" width="46.51162790697674%" headers="d78127e290 ">
+                                <ol class="ol" id="GUID-DCBF1172-BCF4-41B4-A757-EA10E56027C2__OL_GTG_QXL_SFC">
+                                    <li class="li" id="GUID-DCBF1172-BCF4-41B4-A757-EA10E56027C2__GUID-CAFC764A-A71C-4541-A9A8-D402381C69FE">
+                                        <p class="p">获取条码原始内容。</p>
+
+                                    </li>
+
+                                    <li class="li" id="GUID-DCBF1172-BCF4-41B4-A757-EA10E56027C2__GUID-6E90612E-6E16-496E-93CC-7E161BCE783E">
+                                        <p class="p">检查“TA1234567890123456”符合前缀为“TA”、长度为18的条码特征。</p>
+
+                                    </li>
+
+                                    <li class="li" id="GUID-DCBF1172-BCF4-41B4-A757-EA10E56027C2__GUID-84091B3F-57E7-4492-B306-87581B033DE0">
+                                        <p class="p">检查“TA1234567890123456”无重复，输出此结果。</p>
+
+                                    </li>
+
+                                </ol>
+
+                            </td>
+
+                            <td class="entry" valign="top" width="23.25581395348837%" headers="d78127e296 ">
+                                <p class="p">TA1234567890123456</p>
+
+                            </td>
+
+                        </tr>
+
+                        <tr>
+                            <td class="entry" valign="top" width="6.976744186046512%" headers="d78127e278 ">
+                                <p class="p">6</p>
+
+                            </td>
+
+                            <td class="entry" valign="top" width="23.25581395348837%" headers="d78127e284 ">
+                                <p class="p">TA12345678901234567</p>
+
+                            </td>
+
+                            <td class="entry" valign="top" width="46.51162790697674%" headers="d78127e290 ">
+                                <ol class="ol" id="GUID-DCBF1172-BCF4-41B4-A757-EA10E56027C2__OL_WKJ_ZXL_SFC">
+                                    <li class="li" id="GUID-DCBF1172-BCF4-41B4-A757-EA10E56027C2__GUID-B3811CF0-1114-4B42-8242-719744429576">
+                                        <p class="p">获取条码原始内容。</p>
+
+                                    </li>
+
+                                    <li class="li" id="GUID-DCBF1172-BCF4-41B4-A757-EA10E56027C2__GUID-12D8CA7F-88F7-413A-8AF7-2BEE49900149">
+                                        <p class="p">检查“TA12345678901234567”不符合前缀为“TA”、长度为18的条码特征，不输出此结果。</p>
+
+                                    </li>
+
+                                </ol>
+
+                            </td>
+
+                            <td class="entry" valign="top" width="23.25581395348837%" headers="d78127e296 ">
+                                <p class="p">无输出。</p>
+
+                            </td>
+
+                        </tr>
+
+                    </tbody>
+
+                </table>
+</div>
+
+            <p class="p">实际读取情况如下图所示，输出结果满足预期。</p>
+
+            <div class="fig fignone" id="GUID-DCBF1172-BCF4-41B4-A757-EA10E56027C2__FIG_QGC_VWN_4FC">
+                
+                <img class="image" style="display:none;" id="GUID-DCBF1172-BCF4-41B4-A757-EA10E56027C2__IMAGE_RGC_VWN_4FC" src="GUID-FC61AAAB-CE8B-4147-981B-43F9D638EBF3-high.png" width="1400" />
+            <div class="fig_caption"><span class="figcap">图 2 Lua脚本示例效果</span></div></div>
+
+        </div>
+
+</div>
+
+
+</div>
+						<div class=" wt_topic_wpp_content wt_pc_only "><div class=" wt_topic_wpp_content_flex "><div class="wt_topic_wpp_item like"></div><div class="wt_topic_wpp_item view"></div><div class="wt_topic_wpp_item share">分享</div></div></div>
+						
+						
+						
+					</div>
+				</div><!-- container_body -->
+				
+				<div class=" body_footer "><div onclick="prevTopic()" class=" body_footer_left link_button "><span>上一页</span></div><div onclick="nextTopic()" class=" body_footer_right link_button "><span>下一页</span></div></div>
+				<div class=" body_wpp mobile_only"><div class="wt_body_mobile_like"></div><div class="wt_body_mobile_view"></div></div>
+				<!-- <whc:webhelp_side_toc /> -->
+				
+			</div> <!-- middle_view content_area -->
+			<div class=" right_content wt_pc_only "></div>
+		</div> <!-- content_box -->
+		
+		<!-- 置顶按钮 -->
+		<div class="body_to_top" onclick="scrollTopicTop()"></div> 
+		<!-- 评价反馈 -->
+		<div onclick="manualFeedback()" class=" body_feedback " data-href="https://wj.hikvision.com/#/public-survey?id=64c8b90d80e02e9e88feca2f"></div>
+		
+	</body>
+</html>

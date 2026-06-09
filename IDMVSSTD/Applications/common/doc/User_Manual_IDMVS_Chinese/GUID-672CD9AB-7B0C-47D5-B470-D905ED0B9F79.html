@@ -1,0 +1,220 @@
+
+<!DOCTYPE html
+  PUBLIC "" "about:legacy-compat">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:whc="http://www.daksys.com/webhelp/components" xml:lang="zh-cn" lang="zh-cn">
+	<head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />        
+      <meta name="copyright" content="©  杭州海康威视数字技术股份有限公司。保留一切权利。" /><meta name="DC.Type" content="concept" /><meta name="DC.Title" content="使用方法" /><meta name="abstract" content="使用Lua脚本需遵循一定的注意事项和使用流程。" /><meta name="description" content="使用Lua脚本需遵循一定的注意事项和使用流程。" /><meta name="DC.Relation" scheme="URI" content="GUID-1FD49EC0-F215-424C-9EE7-76B06BFD2B20.html" /><meta name="DC.Format" content="XHTML" /><meta name="DC.Identifier" content="GUID-672CD9AB-7B0C-47D5-B470-D905ED0B9F79" /><meta name="DC.Language" content="zh-CN" /><title>使用方法</title><!-- Generated with dksgen version 1.0, build number 2023071300.  --><meta viewport="Content-Type" content="width=device-width, initial-scale=1.0" /><meta http-equiv="X-UA-Compatible" content="IE=edge,Chrome=1" /><meta name="wh-path2root" content="index.html" />
+		<!-- commonltr css -->
+		<link rel="stylesheet" type="text/css" href="daksys-webhelp/resources/css/commonltr.css" />
+		<!-- Bootstrap css -->
+		<link rel="stylesheet" type="text/css" href="daksys-webhelp/resources/bootstrap/css/bootstrap.min.css" />
+		<link rel="stylesheet" type="text/css" href="daksys-webhelp/resources/bootstrap/css/bootstrap-theme.min.css" />
+		<link rel="stylesheet" type="text/css" href="daksys-webhelp/resources/js/jquery-ui.min.css" />
+		
+		<!-- Template css  -->
+		<link href="daksys-webhelp/template/resources/css/HIKROBOT_color.css?buildId=2023071300" rel="stylesheet" type="text/css" />
+		<link rel="stylesheet" type="text/css" href="daksys-webhelp/template/resources/css/wt_topic.css?buildId=2023071300" />
+		<link rel="stylesheet" type="text/css" href="daksys-webhelp/template/resources/css/wt_topic_m.css?buildId=2023071300" />
+		<link rel="stylesheet" type="text/css" href="daksys-webhelp/template/resources/css/wt_expand.css?buildId=2023071300" />
+		<link rel="stylesheet" type="text/css" href="daksys-webhelp/template/resources/css/wt_note.css?buildId=2023071300" />
+		<link rel="stylesheet" type="text/css" href="daksys-webhelp/template/resources/css/wt_steps.css?buildId=2023071300" />
+		
+		<!-- jquery js  -->
+		<script type="text/javascript" src="daksys-webhelp/resources/js/jquery-3.6.2.min.js"></script>
+		<script type="text/javascript" src="daksys-webhelp/resources/js/jquery.cookie.js"></script>
+		<script type="text/javascript" src="daksys-webhelp/resources/js/jquery.highlight-3.js"></script>
+		<script type="text/javascript" src="daksys-webhelp/resources/js/jquery-ui.min.js"></script>
+		
+		<!-- common js  -->
+		<script type="text/javascript" src="daksys-webhelp/resources/bootstrap/js/bootstrap.min.js"></script>
+		<script type="text/javascript" src="daksys-webhelp/resources/js/base64.js"></script>
+		<script type="text/javascript" src="daksys-webhelp/resources/js/browserDetect.js"></script>
+		<script type="text/javascript" src="daksys-webhelp/resources/js/localization.js"></script>
+		<script type="text/javascript" src="daksys-webhelp/resources/js/parseuri.js"></script>
+		<script type="text/javascript" src="daksys-webhelp/resources/localization/strings.js"></script>
+		<!-- Template js -->
+		<script type="text/javascript" src="daksys-webhelp/template/resources/js/wt_topic.js?buildId=2023071300"></script>
+		<script type="text/javascript" src="daksys-webhelp/template/resources/js/wt_expand.js?buildId=2023071300"></script>
+	</head>
+	<body class="wt_topic_page frmBody" id="GUID-672CD9AB-7B0C-47D5-B470-D905ED0B9F79" onload="topicOnload()">
+		<!-- get_lang -->
+		<div id="lang" style="display:none">zh-CN</div><div id="mapoutputclass" style="display:none"></div>
+		<input hidden="hidden" id="UDCode" value="UD12345B" /><input hidden="hidden" id="Trademark" value="海康机器人" />
+		
+		<div class="content_box">
+			<div class="middle_view content_area col-sm-9" id="content_area">
+				<div class=" wt_breadcrumb "><ol><li><span class="home topicref"><a href="javascript:void(0)" onclick="gotoFirstPage()">首页</a></span></li><li><span class="topicref"><a href="GUID-3F138232-3CF2-4E3F-A3C0-3D677CF174B5.html" data-id="GUID-3F138232-3CF2-4E3F-A3C0-3D677CF174B5">读码器高级配置</a></span></li><li><span class="topicref"><a href="GUID-1FD49EC0-F215-424C-9EE7-76B06BFD2B20.html" data-id="GUID-1FD49EC0-F215-424C-9EE7-76B06BFD2B20">Lua脚本</a></span></li><li class="active"><span class="topicref">使用方法</span></li></ol><div class="wt_breadcrumb_ellipsis" onclick="expandBreadcrumbDiv()"></div><div class="wt_breadcrumb_collapse" style="display: none;"><div class="wt_breadcrumb_collapse_button" onclick="collapseBreadcrumbDiv()"></div></div></div>
+				
+				<div id="container_body" class="container">
+					<div id="contentArea">
+						<div class=" wt_topic_content body ">
+    <h1 class="title topictitle1">使用方法</h1>
+
+
+<div class="body conbody"><p class="shortdesc">使用Lua脚本需遵循一定的注意事项和使用流程。</p>
+
+        <div class="section" id="GUID-672CD9AB-7B0C-47D5-B470-D905ED0B9F79__GUID-65AE3637-F485-49E7-BAB8-93B63946DD96"><h2 class="title sectiontitle">注意事项</h2>
+            
+            <p class="p">使用Lua脚本时，请启用通讯协议，脚本结果将通过通信协议输出。</p>
+
+        </div>
+
+        <div class="section" id="GUID-672CD9AB-7B0C-47D5-B470-D905ED0B9F79__GUID-3A9A85D3-82F1-4989-88E9-901DFB38A9FB"><h2 class="title sectiontitle">使用流程</h2>
+            
+            <p class="p">在IDMVS中使用Lua脚本整体流程如下图所示。</p>
+
+            <div class="fig fignone" id="GUID-672CD9AB-7B0C-47D5-B470-D905ED0B9F79__FIG_TRP_DGN_1FC">
+                
+                <img class="image" style="display:none;" id="GUID-672CD9AB-7B0C-47D5-B470-D905ED0B9F79__IMAGE_URP_DGN_1FC" src="GUID-691EE555-5056-4AC7-922D-581D2199F18D-high.png" width="1400" />
+            <div class="fig_caption"><span class="figcap">图 1 Lua脚本使用流程</span></div></div>
+
+            <ol class="ol" id="GUID-672CD9AB-7B0C-47D5-B470-D905ED0B9F79__OL_FQ2_PF5_Q2C">
+                <li class="li" id="GUID-672CD9AB-7B0C-47D5-B470-D905ED0B9F79__GUID-77E8A391-8A17-4297-A7EB-C2BE3FB155DC">
+                    <p class="p">编写脚本：</p>
+
+                    <p class="p">使用标准的Lua语法编写脚本，可根据实际需求调用IDMVS提供的接口函数，接口函数说明请参见<a class="xref" href="GUID-3DB7E507-E5C7-4C2A-B240-161451642011.html#GUID-3DB7E507-E5C7-4C2A-B240-161451642011" title="IDMVS提供涵盖码数据、评级数据、统计数据、数据处理等模块的接口函数。通过调用接口函数，可以更加便捷、高效地实现读码器的功能扩展。">脚本接口</a>。</p>
+
+                    <div class="note note" id="GUID-672CD9AB-7B0C-47D5-B470-D905ED0B9F79__GUID-C1C16A2D-B7C7-47A7-9E94-0CC5739CCC94"><span class="notetitle">说明</span> 
+                        <p class="p">您也可以将本地存储的Lua脚本文件导入至脚本编辑区域。</p>
+
+                    </div>
+
+                </li>
+
+                <li class="li" id="GUID-672CD9AB-7B0C-47D5-B470-D905ED0B9F79__GUID-B47079E9-B369-4D75-9F1B-3C3D0614BDD4">
+                    <p class="p">验证脚本：</p>
+
+                    <p class="p">编写脚本完成后，在Lua脚本页面单击<span class="ph uicontrol">测试</span>，验证脚本是否正确和满足需求，</p>
+
+                </li>
+
+                <li class="li" id="GUID-672CD9AB-7B0C-47D5-B470-D905ED0B9F79__GUID-CD3E5A24-1007-470D-8E42-92758136722E">
+                    <p class="p">导入脚本：</p>
+
+                    <p class="p">验证脚本无误后，在Lua脚本页面单击<span class="ph uicontrol">导入至相机</span>，将脚本导入至读码器中。</p>
+
+                </li>
+
+                <li class="li" id="GUID-672CD9AB-7B0C-47D5-B470-D905ED0B9F79__GUID-92A3BD89-D60B-4446-BDF1-CBAA57499115">
+                    <p class="p">运行脚本：</p>
+
+                    <p class="p">脚本导入到读码器中后，脚本自动启用，对读码结果进行处理并输出。</p>
+
+                    <div class="note note" id="GUID-672CD9AB-7B0C-47D5-B470-D905ED0B9F79__GUID-0CB1085E-E772-49F0-9F19-D78569C3E6D0"><span class="notetitle">说明</span> 
+                        <p class="p">当脚本导入读码器成功后，<span class="ph uicontrol">过滤规则</span>页面处的<span class="ph uicontrol">过滤模式</span>参数值自动切换为“脚本”。</p>
+
+                    </div>
+
+                </li>
+
+            </ol>
+
+        </div>
+
+        <div class="section" id="GUID-672CD9AB-7B0C-47D5-B470-D905ED0B9F79__GUID-6CA3333D-A8EC-4B1E-9A1E-5677701041FD"><h2 class="title sectiontitle">操作步骤</h2>
+            
+            <p class="p">本节以在IDMVS中使用Lua脚本获取条码ppm为例，为您介绍使用Lua脚本操作步骤。</p>
+
+            <ol class="ol" id="GUID-672CD9AB-7B0C-47D5-B470-D905ED0B9F79__OL_SX4_ZS5_Q2C">
+                <li class="li" id="GUID-672CD9AB-7B0C-47D5-B470-D905ED0B9F79__GUID-D1341A37-3E53-4F6C-9D97-CA3468F3ACD5">
+                    <p class="p">在主界面功能导航栏，选择<span class="ph menucascade"><span class="ph uicontrol">操作配置</span> &gt; <span class="ph uicontrol">数据处理</span> &gt; <span class="ph uicontrol">Lua脚本</span></span> ，进入Lua脚本页面。</p>
+
+                </li>
+
+                <li class="li" id="GUID-672CD9AB-7B0C-47D5-B470-D905ED0B9F79__GUID-A3E035BD-9CF9-473E-9F56-67A57EF88F57">（可选）在脚本编辑区域右上方，单击<span class="ph uicontrol">打开</span>，导入本地存储的Lua脚本文件。</li>
+
+                <li class="li" id="GUID-672CD9AB-7B0C-47D5-B470-D905ED0B9F79__GUID-CEF1FE71-4248-4E72-A5DB-A62CE67235CA">
+                    <p class="p">在脚本编辑区域，编辑脚本代码。</p>
+
+                    <div class="note note" id="GUID-672CD9AB-7B0C-47D5-B470-D905ED0B9F79__GUID-E3E9C49C-510D-4ABF-9562-B8C2425C3212"><span class="notetitle">说明</span> 
+                        <p class="p">如下代码为<span class="keyword parmname">ppm</span>接口示例代码，您可以在Lua脚本页面的接口列表区域单击ppm接口的<span class="ph uicontrol">详情展开</span>进行查看和复制。</p>
+
+                    </div>
+
+                    <pre class="pre codeblock">
+function readformatEvent()  
+    local count = readCount()          -- 获取条码数量  
+    local str = ""
+    local ppm
+    local deli = "__"                  -- 分隔符  
+    local output = ""                  -- 最终的输出字符串  
+
+       if     count ~= 0 then     
+        for i = 1, count do  
+            str = readResult(i):readData()      -- 获取第i个条码内容并存储到str中  
+            ppm = readResult(i):ppm()        
+            if i ~= count then                  -- 如果不是最后一个元素  
+                output = output..str..";"..ppm..deli      -- 在output后添加当前内容和分隔符  
+            else  
+                output = output..str..";"..ppm          -- 如果是最后一个元素，则只添加内容  
+            end  
+        end
+    else
+        output = "noread"
+    end
+    
+    return output  -- 返回最终的输出字符串  
+end
+</pre>
+
+                </li>
+
+                <li class="li" id="GUID-672CD9AB-7B0C-47D5-B470-D905ED0B9F79__GUID-5E19F2AB-F1B7-4440-B104-04F390296CCC">
+                    <p class="p">在脚本编辑区域右下方，单击<span class="ph uicontrol">测试</span>验证脚本。</p>
+
+                    <p class="p">验证结果可在脚本输出区域查看，验证通过如下图所示。如果验证不通过，脚本输出区域显示错误提示信息，请根据提示信息修改脚本代码。</p>
+
+                    <div class="fig fignone" id="GUID-672CD9AB-7B0C-47D5-B470-D905ED0B9F79__FIG_Z5C_RGV_Q2C">
+                        
+                        <img class="image" style="display:none;" id="GUID-672CD9AB-7B0C-47D5-B470-D905ED0B9F79__IMAGE_AVC_RGV_Q2C" height="500" src="GUID-F1450A07-2A5E-45FF-AD25-B0BF843E1F17-high.png" width="1500" />
+                    <div class="fig_caption"><span class="figcap">图 2 验证脚本</span></div></div>
+
+                </li>
+
+                <li class="li" id="GUID-672CD9AB-7B0C-47D5-B470-D905ED0B9F79__GUID-B5E9419C-5CBA-480F-8344-D241A6800D77">
+                    <p class="p">单击<span class="ph uicontrol">导入至相机</span>，即可将验证通过的脚本加载至读码器。</p>
+
+                    <p class="p">脚本成功加载至读码器会在脚本输出区域提示“导入脚本成功”。</p>
+
+                </li>
+
+                <li class="li" id="GUID-672CD9AB-7B0C-47D5-B470-D905ED0B9F79__GUID-1BCEA63A-3D50-41CF-8746-A8BAF80A9C16">
+                    <p class="p">当读码器工作时，脚本自动启用，对读码结果进行处理并输出。</p>
+
+                </li>
+
+                <li class="li" id="GUID-672CD9AB-7B0C-47D5-B470-D905ED0B9F79__GUID-D3929060-565A-4442-83C5-DCF126AC7FF4">
+                    <p class="p">（可选）在脚本编辑区域右下方，单击<span class="ph uicontrol">保存至本地</span>，将开发完成的脚本代码导出至本地存储。</p>
+
+                </li>
+
+            </ol>
+
+        </div>
+
+</div>
+
+
+</div>
+						<div class=" wt_topic_wpp_content wt_pc_only "><div class=" wt_topic_wpp_content_flex "><div class="wt_topic_wpp_item like"></div><div class="wt_topic_wpp_item view"></div><div class="wt_topic_wpp_item share">分享</div></div></div>
+						
+						
+						
+					</div>
+				</div><!-- container_body -->
+				
+				<div class=" body_footer "><div onclick="prevTopic()" class=" body_footer_left link_button "><span>上一页</span></div><div onclick="nextTopic()" class=" body_footer_right link_button "><span>下一页</span></div></div>
+				<div class=" body_wpp mobile_only"><div class="wt_body_mobile_like"></div><div class="wt_body_mobile_view"></div></div>
+				<!-- <whc:webhelp_side_toc /> -->
+				
+			</div> <!-- middle_view content_area -->
+			<div class=" right_content wt_pc_only "><div class=" right_fixed_container "><div class="right_guide"><div class="feature_guide"><div>本页导航</div><ul><li onclick="scrollToAnchor($(this))" data-id="GUID-672CD9AB-7B0C-47D5-B470-D905ED0B9F79__GUID-65AE3637-F485-49E7-BAB8-93B63946DD96" class="feature_guide_h2"><span class="link_button">注意事项</span></li><li onclick="scrollToAnchor($(this))" data-id="GUID-672CD9AB-7B0C-47D5-B470-D905ED0B9F79__GUID-3A9A85D3-82F1-4989-88E9-901DFB38A9FB" class="feature_guide_h2"><span class="link_button">使用流程</span></li><li onclick="scrollToAnchor($(this))" data-id="GUID-672CD9AB-7B0C-47D5-B470-D905ED0B9F79__GUID-6CA3333D-A8EC-4B1E-9A1E-5677701041FD" class="feature_guide_h2"><span class="link_button">操作步骤</span></li></ul></div></div></div></div>
+		</div> <!-- content_box -->
+		
+		<!-- 置顶按钮 -->
+		<div class="body_to_top" onclick="scrollTopicTop()"></div> 
+		<!-- 评价反馈 -->
+		<div onclick="manualFeedback()" class=" body_feedback " data-href="https://wj.hikvision.com/#/public-survey?id=64c8b90d80e02e9e88feca2f"></div>
+		
+	</body>
+</html>

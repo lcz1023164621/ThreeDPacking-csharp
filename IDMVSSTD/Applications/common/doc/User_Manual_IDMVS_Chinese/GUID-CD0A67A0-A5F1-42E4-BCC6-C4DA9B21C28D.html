@@ -1,0 +1,540 @@
+
+<!DOCTYPE html
+  PUBLIC "" "about:legacy-compat">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:whc="http://www.daksys.com/webhelp/components" xml:lang="zh-cn" lang="zh-cn">
+	<head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />        
+      <meta name="copyright" content="©  杭州海康威视数字技术股份有限公司。保留一切权利。" /><meta name="DC.Type" content="concept" /><meta name="DC.Title" content="码制选择" /><meta name="abstract" content="IDMVS码制选择模块支持配置读码器可读取的条码类型、条码个数、读码算法和ROI，适配不同读码场景，方便按需优化读码效果。" /><meta name="description" content="IDMVS码制选择模块支持配置读码器可读取的条码类型、条码个数、读码算法和ROI，适配不同读码场景，方便按需优化读码效果。" /><meta name="DC.Relation" scheme="URI" content="GUID-9ED8A60A-4358-4489-A0B0-005FA5B048B5.html" /><meta name="DC.Format" content="XHTML" /><meta name="DC.Identifier" content="GUID-CD0A67A0-A5F1-42E4-BCC6-C4DA9B21C28D" /><meta name="DC.Language" content="zh-CN" /><title>码制选择</title><!-- Generated with dksgen version 1.0, build number 2023071300.  --><meta viewport="Content-Type" content="width=device-width, initial-scale=1.0" /><meta http-equiv="X-UA-Compatible" content="IE=edge,Chrome=1" /><meta name="wh-path2root" content="index.html" />
+		<!-- commonltr css -->
+		<link rel="stylesheet" type="text/css" href="daksys-webhelp/resources/css/commonltr.css" />
+		<!-- Bootstrap css -->
+		<link rel="stylesheet" type="text/css" href="daksys-webhelp/resources/bootstrap/css/bootstrap.min.css" />
+		<link rel="stylesheet" type="text/css" href="daksys-webhelp/resources/bootstrap/css/bootstrap-theme.min.css" />
+		<link rel="stylesheet" type="text/css" href="daksys-webhelp/resources/js/jquery-ui.min.css" />
+		
+		<!-- Template css  -->
+		<link href="daksys-webhelp/template/resources/css/HIKROBOT_color.css?buildId=2023071300" rel="stylesheet" type="text/css" />
+		<link rel="stylesheet" type="text/css" href="daksys-webhelp/template/resources/css/wt_topic.css?buildId=2023071300" />
+		<link rel="stylesheet" type="text/css" href="daksys-webhelp/template/resources/css/wt_topic_m.css?buildId=2023071300" />
+		<link rel="stylesheet" type="text/css" href="daksys-webhelp/template/resources/css/wt_expand.css?buildId=2023071300" />
+		<link rel="stylesheet" type="text/css" href="daksys-webhelp/template/resources/css/wt_note.css?buildId=2023071300" />
+		<link rel="stylesheet" type="text/css" href="daksys-webhelp/template/resources/css/wt_steps.css?buildId=2023071300" />
+		
+		<!-- jquery js  -->
+		<script type="text/javascript" src="daksys-webhelp/resources/js/jquery-3.6.2.min.js"></script>
+		<script type="text/javascript" src="daksys-webhelp/resources/js/jquery.cookie.js"></script>
+		<script type="text/javascript" src="daksys-webhelp/resources/js/jquery.highlight-3.js"></script>
+		<script type="text/javascript" src="daksys-webhelp/resources/js/jquery-ui.min.js"></script>
+		
+		<!-- common js  -->
+		<script type="text/javascript" src="daksys-webhelp/resources/bootstrap/js/bootstrap.min.js"></script>
+		<script type="text/javascript" src="daksys-webhelp/resources/js/base64.js"></script>
+		<script type="text/javascript" src="daksys-webhelp/resources/js/browserDetect.js"></script>
+		<script type="text/javascript" src="daksys-webhelp/resources/js/localization.js"></script>
+		<script type="text/javascript" src="daksys-webhelp/resources/js/parseuri.js"></script>
+		<script type="text/javascript" src="daksys-webhelp/resources/localization/strings.js"></script>
+		<!-- Template js -->
+		<script type="text/javascript" src="daksys-webhelp/template/resources/js/wt_topic.js?buildId=2023071300"></script>
+		<script type="text/javascript" src="daksys-webhelp/template/resources/js/wt_expand.js?buildId=2023071300"></script>
+	</head>
+	<body class="wt_topic_page frmBody" id="GUID-CD0A67A0-A5F1-42E4-BCC6-C4DA9B21C28D" onload="topicOnload()">
+		<!-- get_lang -->
+		<div id="lang" style="display:none">zh-CN</div><div id="mapoutputclass" style="display:none"></div>
+		<input hidden="hidden" id="UDCode" value="UD12345B" /><input hidden="hidden" id="Trademark" value="海康机器人" />
+		
+		<div class="content_box">
+			<div class="middle_view content_area col-sm-9" id="content_area">
+				<div class=" wt_breadcrumb "><ol><li><span class="home topicref"><a href="javascript:void(0)" onclick="gotoFirstPage()">首页</a></span></li><li><span class="topicref"><a href="GUID-D8488278-18E0-41D0-91B9-35636662C53F.html" data-id="GUID-D8488278-18E0-41D0-91B9-35636662C53F">读码器常用配置</a></span></li><li><span class="topicref"><a href="GUID-9ED8A60A-4358-4489-A0B0-005FA5B048B5.html" data-id="GUID-9ED8A60A-4358-4489-A0B0-005FA5B048B5">调试图像及码制</a></span></li><li class="active"><span class="topicref">码制选择</span></li></ol><div class="wt_breadcrumb_ellipsis" onclick="expandBreadcrumbDiv()"></div><div class="wt_breadcrumb_collapse" style="display: none;"><div class="wt_breadcrumb_collapse_button" onclick="collapseBreadcrumbDiv()"></div></div></div>
+				
+				<div id="container_body" class="container">
+					<div id="contentArea">
+						<div class=" wt_topic_content body ">
+    <h1 class="title topictitle1">码制选择</h1>
+
+
+<div class="body conbody"><p class="shortdesc">IDMVS码制选择模块支持配置读码器可读取的条码类型、条码个数、读码算法和ROI，适配不同读码场景，方便按需优化读码效果。</p>
+
+<p class="p">在主界面单击<span class="ph menucascade"><span class="ph uicontrol">读取设置</span> &gt; <span class="ph uicontrol">码制选择</span></span>，进入<span class="ph uicontrol">码制选择</span>页签，配置相关参数。</p>
+
+        
+        <div class="note note" id="GUID-CD0A67A0-A5F1-42E4-BCC6-C4DA9B21C28D__GUID-F974A7FC-FB80-4D08-928C-D196ADFC7ABB"><span class="notetitle">说明</span> 
+            <p class="p">不同型号和固件版本的读码器可配置参数可能会有所差异，请以实际显示为准。</p>
+
+        </div>
+
+        <div class="fig fignone" id="GUID-CD0A67A0-A5F1-42E4-BCC6-C4DA9B21C28D__FIG_P4F_KW1_4FC">
+            
+            <img class="image" style="display:none;" id="GUID-CD0A67A0-A5F1-42E4-BCC6-C4DA9B21C28D__IMAGE_Q4F_KW1_4FC" src="GUID-D382D702-1603-4CC6-BD72-8DB96F09B68B-high.png" width="1400" />
+        <div class="fig_caption"><span class="figcap">图 1 码制选择</span></div></div>
+
+        <div class="section" id="GUID-CD0A67A0-A5F1-42E4-BCC6-C4DA9B21C28D__GUID-72606C20-BF89-4E0C-A7CF-2C1720CC3ACF"><h2 class="title sectiontitle">条码类型</h2>
+            
+            <p class="p">选择设备需要读取条码的码制，可选一维码、二维码和堆叠码。</p>
+
+            <div class="note note" id="GUID-CD0A67A0-A5F1-42E4-BCC6-C4DA9B21C28D__GUID-7FB64354-DAA4-4988-8712-7A5A96EBA91C"><span class="notetitle">说明</span> 
+                <ul class="ul" id="GUID-CD0A67A0-A5F1-42E4-BCC6-C4DA9B21C28D__UL_TDD_VKR_QXB">
+                    <li class="li" id="GUID-CD0A67A0-A5F1-42E4-BCC6-C4DA9B21C28D__GUID-169D0541-1200-48EB-81BA-9BA7884ABC5F">
+                        <p class="p">条码周围有橙色框且字符为橙色表示已启用当前条码类型。</p>
+
+                    </li>
+
+                    <li class="li" id="GUID-CD0A67A0-A5F1-42E4-BCC6-C4DA9B21C28D__GUID-3D1B4AD6-92AD-4544-88D6-24ECE4D9BD69">
+                        <p class="p">不同设备类型的码制有所区别，具体请以实际设备为准。</p>
+
+                    </li>
+
+                    <li class="li" id="GUID-CD0A67A0-A5F1-42E4-BCC6-C4DA9B21C28D__GUID-1A860988-258F-4705-A870-DB2BDDA1CA6F">
+                        <p class="p">选择的码制越多，算法处理每张图片的耗时将增加，建议根据实际需求选择对应的码制，以达到最佳效果。</p>
+
+                    </li>
+
+                    <li class="li" id="GUID-CD0A67A0-A5F1-42E4-BCC6-C4DA9B21C28D__GUID-ED566699-485B-4074-92B5-C479517E328F">
+                        <p class="p">一维码中Pharmacode码制（包含Pharmacode One Track和Pharmacode Two
+                            Track）与其他码制不兼容，当开启Pharmacode码制时，不支持开启其他一维码码制；当开启其他一维码码制时，不支持开启Pharmacode码制。同时自适应调谐时，开启Pharmacode码制后不会再自动增加其他一维码码制；开启其他一维码码制后也不会再自动增加Pharmacode码制。</p>
+
+                    </li>
+
+                </ul>
+
+            </div>
+
+        </div>
+
+        <div class="section" id="GUID-CD0A67A0-A5F1-42E4-BCC6-C4DA9B21C28D__GUID-391594B9-E9C9-4CBD-A942-CC73E9230F31"><h2 class="title sectiontitle">条码个数</h2>
+            
+            
+            <p class="p">设置单次读码期望识别的条码最大数量，需根据<span class="keyword parmname">一维码</span>、<span class="keyword parmname">二维码</span>和<span class="keyword parmname">堆叠码</span>三种码制类别分别设置其对应的最大识别数量。</p>
+
+            <div class="note note" id="GUID-CD0A67A0-A5F1-42E4-BCC6-C4DA9B21C28D__GUID-E9AA523F-3132-4C27-B3F6-44A4F43756B1"><span class="notetitle">说明</span> 
+                <ul class="ul" id="GUID-CD0A67A0-A5F1-42E4-BCC6-C4DA9B21C28D__UL_O4G_YZY_FRB">
+                    <li class="li" id="GUID-CD0A67A0-A5F1-42E4-BCC6-C4DA9B21C28D__GUID-A48F8577-1030-422C-AA82-F902392705F4">
+                        <p class="p">条码个数总数量最大值为202。</p>
+
+                    </li>
+
+                    <li class="li" id="GUID-CD0A67A0-A5F1-42E4-BCC6-C4DA9B21C28D__GUID-D560F66F-67A8-4F19-9E3C-B9E24D850FEF">
+                        <p class="p">若实际查找到的个数小于该参数设置值，则输出实际数量的条码。</p>
+
+                    </li>
+
+                    <li class="li" id="GUID-CD0A67A0-A5F1-42E4-BCC6-C4DA9B21C28D__GUID-978E3AC4-4A1D-453E-A9C1-8DC83DC48C9B">
+                        <p class="p">设置的条码个数越多，算法处理每张图的耗时将增加，建议根据实际需求进行设置，以达到最佳效果。</p>
+
+                    </li>
+
+                    <li class="li" id="GUID-CD0A67A0-A5F1-42E4-BCC6-C4DA9B21C28D__GUID-B4E6A73D-2485-4D39-836F-4EBB0994C2B9">
+                        
+                        <p class="p">当进行自适应调谐时，读码器按照实际读取的条码个数自适应调整各码制类型数量。如果调谐成功，您可选择将当前条码个数保存至当前参数或轮询库中；如果调谐失败，恢复调谐前的条码个数。</p>
+
+                    </li>
+
+                </ul>
+
+            </div>
+
+        </div>
+
+        <div class="section" id="GUID-CD0A67A0-A5F1-42E4-BCC6-C4DA9B21C28D__GUID-6712F7E1-411A-40B9-A6E0-09440BA1CCCF"><h2 class="title sectiontitle">读码算法设置</h2>
+            
+            <p class="p">支持设置以下读码算法参数。</p>
+
+            <dl class="dl parml">
+                
+                    <dt class="dt pt dlterm"><a name="GUID-CD0A67A0-A5F1-42E4-BCC6-C4DA9B21C28D__GUID-84BAEBFC-47FB-492E-A5D8-F453A5FB10A6"><!-- --></a>常用参数</dt>
+
+                    <dd class="dd pd">
+                        <dl class="dl parml">
+                            
+                                <dt class="dt pt dlterm"><a name="GUID-CD0A67A0-A5F1-42E4-BCC6-C4DA9B21C28D__GUID-06CC09DA-0E9C-4567-8782-E2360AA14BB4"><!-- --></a>读码模式</dt>
+
+                                <dd class="dd pd">
+                                    <p class="p">包括<span class="ph uicontrol">普通模式</span>和<span class="ph uicontrol">强力模式</span>两种。相比普通模式，强力模式主要针对条码质量较差图片的读取，耗时会增加。 </p>
+
+                                    <div class="note note" id="GUID-CD0A67A0-A5F1-42E4-BCC6-C4DA9B21C28D__GUID-B1B86054-4526-4F95-A866-FD4C902219E1"><span class="notetitle">说明</span> 
+                                        <p class="p">建议使用默认值。</p>
+
+                                    </div>
+
+                                </dd>
+
+                            
+                            
+                                <dt class="dt pt dlterm"><a name="GUID-CD0A67A0-A5F1-42E4-BCC6-C4DA9B21C28D__GUID-E93D7412-FA9F-4535-902F-B2AFFA309C6A"><!-- --></a>码制类型</dt>
+
+                                <dd class="dd pd">
+                                    <p class="p">选择应用当前<span class="ph uicontrol">读码算法设置</span>区域相关设置的码制类型，可选已开启码制对应的码制类型。</p>
+
+                                </dd>
+
+                            
+                            
+                                <dt class="dt pt dlterm"><a name="GUID-CD0A67A0-A5F1-42E4-BCC6-C4DA9B21C28D__GUID-6523489A-875B-41B4-A38C-22B0BCC1F23C"><!-- --></a>算法等待时间(ms)</dt>
+
+                                <dd class="dd pd">
+                                    <p class="p">设置算法运行的超时时间，如果算法运行时间超出该值，则停止图像处理并输出noread。参数设置为0时以实际所需算法耗时为准。</p>
+
+                                </dd>
+
+                            
+                            
+                                <dt class="dt pt dlterm"><a name="GUID-CD0A67A0-A5F1-42E4-BCC6-C4DA9B21C28D__GUID-54AA12B1-081D-4F1E-9AF6-B18BAB85448D"><!-- --></a>图像清晰度</dt>
+
+                                <dd class="dd pd">
+                                    <p class="p">选择是否对采集到的图像进行清晰度评分，可在历史记录中查看条码对应图像评分。</p>
+
+                                </dd>
+
+                            
+                        </dl>
+
+                    </dd>
+
+                
+                
+                    <dt class="dt pt dlterm"><a name="GUID-CD0A67A0-A5F1-42E4-BCC6-C4DA9B21C28D__GUID-C5F8A628-AA73-439B-962B-6E2634477FC5"><!-- --></a>高级参数</dt>
+
+                    <dd class="dd pd">
+                        <p class="p">如果常用参数不能满足您的需求，可以单击<span class="ph uicontrol">高级参数</span>显示并配置如下参数。</p>
+
+                        <dl class="dl parml">
+                            
+                                <dt class="dt pt dlterm"><a name="GUID-CD0A67A0-A5F1-42E4-BCC6-C4DA9B21C28D__GUID-ADAAC23B-77BC-4675-A6B2-4A5B0C559A1F"><!-- --></a>算法模式</dt>
+
+                                <dd class="dd pd">
+                                    <p class="p">包括<span class="ph uicontrol">降采样模式</span>和<span class="ph uicontrol">非降采样模式</span>两种。两者模式区别在于是否通过减少数据点数量来降低数据维度，以提高处理效率。</p>
+
+                                </dd>
+
+                            
+                            
+                                <dt class="dt pt dlterm"><a name="GUID-CD0A67A0-A5F1-42E4-BCC6-C4DA9B21C28D__GUID-751598DB-E5B0-46A9-872A-0E16B3D616ED"><!-- --></a>黑白码参数</dt>
+
+                                <dd class="dd pd">
+                                    <p class="p">选择条码类型，可选<span class="ph uicontrol">白底黑码</span>、<span class="ph uicontrol">黑底白码</span>或<span class="ph uicontrol">自适应</span>。</p>
+
+                                    <div class="note note" id="GUID-CD0A67A0-A5F1-42E4-BCC6-C4DA9B21C28D__GUID-DA49F0DF-0C21-4033-967F-F1E5DA17212C"><span class="notetitle">说明</span> 
+                                        <p class="p"><span class="keyword parmname">条码类型</span>参数选择“一维码”时，可配置此参数。</p>
+
+                                    </div>
+
+                                </dd>
+
+                            
+                            
+                                <dt class="dt pt dlterm"><a name="GUID-CD0A67A0-A5F1-42E4-BCC6-C4DA9B21C28D__GUID-D9D5FACB-DDB4-464D-A7C3-C765ED427998"><!-- --></a>39码校验</dt>
+
+                                <dd class="dd pd">
+                                    <p class="p">开启该参数，对Code39码校验位进行校验，防止错识别。</p>
+
+                                    <div class="note note" id="GUID-CD0A67A0-A5F1-42E4-BCC6-C4DA9B21C28D__GUID-10D26659-915B-44CD-8410-C71B88FDF845"><span class="notetitle">说明</span> 
+                                        <p class="p">当<span class="ph uicontrol">条码类型</span>中已开启“Code39”码制、<span class="keyword parmname">条码类型</span>参数选择“一维码”时，可配置此参数。</p>
+
+                                    </div>
+
+                                </dd>
+
+                            
+                            
+                                <dt class="dt pt dlterm"><a name="GUID-CD0A67A0-A5F1-42E4-BCC6-C4DA9B21C28D__GUID-79A76F05-FA78-4EBB-A84C-68EBA222EAB3"><!-- --></a>39 Ascii码读取</dt>
+
+                                <dd class="dd pd">
+                                    
+                                    <p class="p">选择是否将39码内容中的ASCII编码值转换为对应字符输出，开启后输出ASCII字符。例如39码中含有“%V”，开启<span class="ph uicontrol">39
+                                            Ascii码读取</span>后输出“@”，关闭后输出“%V”。</p>
+
+                                    <div class="note note" id="GUID-CD0A67A0-A5F1-42E4-BCC6-C4DA9B21C28D__GUID-B9E7F2E7-A58E-4880-AE7B-8981506F9857"><span class="notetitle">说明</span> 
+                                        <p class="p">当<span class="ph uicontrol">条码类型</span>中已开启“Code39”码制、<span class="keyword parmname">条码类型</span>参数选择“一维码”时，可配置此参数。</p>
+
+                                    </div>
+
+                                </dd>
+
+                            
+                            
+                                <dt class="dt pt dlterm"><a name="GUID-CD0A67A0-A5F1-42E4-BCC6-C4DA9B21C28D__GUID-D4D2C25C-E38D-4CBF-8D58-412D7A4AC26C"><!-- --></a>ITF25码校验</dt>
+
+                                <dd class="dd pd">
+                                    <p class="p">开启该参数，对ITF25码校验位进行校验，防止错识别。</p>
+
+                                    <div class="note note" id="GUID-CD0A67A0-A5F1-42E4-BCC6-C4DA9B21C28D__GUID-DF197F98-A416-42DF-91D3-F39A48781BDD"><span class="notetitle">说明</span> 
+                                        <p class="p">当<span class="ph uicontrol">条码类型</span>中已开启“ITF25”码制、<span class="keyword parmname">码制类型</span>参数选择“一维码”时，可配置此参数。</p>
+
+                                    </div>
+
+                                </dd>
+
+                            
+                            
+                                <dt class="dt pt dlterm"><a name="GUID-CD0A67A0-A5F1-42E4-BCC6-C4DA9B21C28D__GUID-48DF7621-1832-432B-9292-6F2998115A18"><!-- --></a>Matrix 25码校验</dt>
+
+                                <dd class="dd pd">
+                                    <p class="p">开启该参数，对Matrix 25码校验位进行校验，防止错识别。</p>
+
+                                    <div class="note note" id="GUID-CD0A67A0-A5F1-42E4-BCC6-C4DA9B21C28D__GUID-3DA77D28-37A8-47CF-826C-F54641CFA12F"><span class="notetitle">说明</span> 
+                                        <p class="p">当<span class="ph uicontrol">条码类型</span>中已开启“Matrix
+                                                25”码制、<span class="keyword parmname">码制类型</span>参数选择“一维码”时，可配置此参数。</p>
+
+                                    </div>
+
+                                </dd>
+
+                            
+                            
+                                <dt class="dt pt dlterm"><a name="GUID-CD0A67A0-A5F1-42E4-BCC6-C4DA9B21C28D__GUID-2BE58166-72D0-4FFE-8B85-AA71DBAB3F54"><!-- --></a>Industrial 2of5码校验</dt>
+
+                                <dd class="dd pd">
+                                    <p class="p">开启该参数，对Industrial 2of5码校验位进行校验，防止错识别。</p>
+
+                                    <div class="note note" id="GUID-CD0A67A0-A5F1-42E4-BCC6-C4DA9B21C28D__GUID-EFB8A41F-4326-430E-BFBD-C78D83E37717"><span class="notetitle">说明</span> 
+                                        <p class="p">当<span class="ph uicontrol">条码类型</span>中已开启“Industrial
+                                                2of5”码制、<span class="keyword parmname">码制类型</span>参数选择“一维码”时，可配置此参数。</p>
+
+                                    </div>
+
+                                </dd>
+
+                            
+                            
+                                <dt class="dt pt dlterm"><a name="GUID-CD0A67A0-A5F1-42E4-BCC6-C4DA9B21C28D__GUID-3529FB7F-C2A0-4239-9C76-7096BFD664E0"><!-- --></a>Code 11码校验</dt>
+
+                                <dd class="dd pd">
+                                    <p class="p">选择是否对Code 11码校验位进行校验及校验模式，防止错识别。可选择如下选项。</p>
+
+                                    <ul class="ul" id="GUID-CD0A67A0-A5F1-42E4-BCC6-C4DA9B21C28D__UL_L4Z_YBS_PFC">
+                                        <li class="li" id="GUID-CD0A67A0-A5F1-42E4-BCC6-C4DA9B21C28D__GUID-ED61ED4D-B2B8-4C58-AB5A-8E40C29D9F4E">
+                                            <p class="p"><span class="ph uicontrol">未启用</span>：不对Code 11码校验位进行校验。</p>
+
+                                        </li>
+
+                                        <li class="li" id="GUID-CD0A67A0-A5F1-42E4-BCC6-C4DA9B21C28D__GUID-7C2C9CB1-79F6-494D-A977-6D97A84D5223">
+                                            <p class="p"><span class="ph uicontrol">1位校验模式</span>：对于少于10个字符的数据，选择此模式使用1个校验符进行校验。</p>
+
+                                        </li>
+
+                                        <li class="li" id="GUID-CD0A67A0-A5F1-42E4-BCC6-C4DA9B21C28D__GUID-FCE84A40-F75C-4F0E-AB49-06378B032B2C">
+                                            <p class="p"><span class="ph uicontrol">2位校验模式</span>：对于10个或更多字符的数据，选择此模式使用2个校验符进行校验。</p>
+
+                                        </li>
+
+                                    </ul>
+
+                                    <div class="note note" id="GUID-CD0A67A0-A5F1-42E4-BCC6-C4DA9B21C28D__GUID-55B68293-30C4-4637-9F76-2B8BBAF828A0"><span class="notetitle">说明</span> 
+                                        <p class="p">当<span class="ph uicontrol">条码类型</span>中已开启“Code
+                                                11”码制、<span class="keyword parmname">码制类型</span>参数选择“一维码”时，可配置此参数。</p>
+
+                                    </div>
+
+                                </dd>
+
+                            
+                            
+                                <dt class="dt pt dlterm"><a name="GUID-CD0A67A0-A5F1-42E4-BCC6-C4DA9B21C28D__GUID-061D3176-BA56-4803-8A8A-CFA93EAC0B82"><!-- --></a>ChinaPost码校验</dt>
+
+                                <dd class="dd pd">
+                                    <p class="p">开启该参数，对ChinaPost码校验位进行校验，防止错识别。</p>
+
+                                    <div class="note note" id="GUID-CD0A67A0-A5F1-42E4-BCC6-C4DA9B21C28D__GUID-93B7EFD9-CF23-4F3E-8CE9-2EBF66F21167"><span class="notetitle">说明</span> 
+                                        <p class="p">当<span class="ph uicontrol">条码类型</span>中已开启“ChinaPost”码制、<span class="keyword parmname">码制类型</span>参数选择“一维码”时，可配置此参数。</p>
+
+                                    </div>
+
+                                </dd>
+
+                            
+                            
+                                <dt class="dt pt dlterm"><a name="GUID-CD0A67A0-A5F1-42E4-BCC6-C4DA9B21C28D__GUID-F854B174-4ED3-4FCC-AAA1-2856E2DCE0B9"><!-- --></a>MSI码校验</dt>
+
+                                <dd class="dd pd">
+                                    <p class="p">选择是否对MSI码校验位进行校验及校验模式，防止错识别。可选择如下选项。</p>
+
+                                    <ul class="ul" id="GUID-CD0A67A0-A5F1-42E4-BCC6-C4DA9B21C28D__UL_INL_HDS_PFC">
+                                        <li class="li" id="GUID-CD0A67A0-A5F1-42E4-BCC6-C4DA9B21C28D__GUID-C0DAAABD-9E9B-42A3-93E1-12CCE5C607E2">
+                                            <p class="p"><span class="ph uicontrol">未启用</span>：不对MSI码校验位进行校验。</p>
+
+                                        </li>
+
+                                        <li class="li" id="GUID-CD0A67A0-A5F1-42E4-BCC6-C4DA9B21C28D__GUID-0697DC16-0070-44A0-AE4B-9F147AD5BD85">
+                                            <p class="p"><span class="ph uicontrol">1位校验模式(MOD10)</span>：对采用MOD
+                                                10算法生成1位校验码的MSI码进行校验。</p>
+
+                                        </li>
+
+                                        <li class="li" id="GUID-CD0A67A0-A5F1-42E4-BCC6-C4DA9B21C28D__GUID-7979A59E-44AA-4EE4-BFA3-EA9CC343FDF3">
+                                            <p class="p"><span class="ph uicontrol">2位校验模式(MOD10_10)</span>：对采用双重MOD
+                                                10算法生成2位校验码的MSI码进行校验。</p>
+
+                                        </li>
+
+                                        <li class="li" id="GUID-CD0A67A0-A5F1-42E4-BCC6-C4DA9B21C28D__GUID-80CE774C-9F37-4A8F-8FA2-FBE6ED48BD61">
+                                            <p class="p"><span class="ph uicontrol">2位校验模式(MOD11_10)</span>：对采用MOD
+                                                11+MOD10算法生成2位校验码的MSI码进行校验。</p>
+
+                                        </li>
+
+                                    </ul>
+
+                                    <div class="note note" id="GUID-CD0A67A0-A5F1-42E4-BCC6-C4DA9B21C28D__GUID-BCECE879-D400-42E3-9665-6335B3C78144"><span class="notetitle">说明</span> 
+                                        <p class="p">当<span class="ph uicontrol">条码类型</span>中已开启“MSI”码制、<span class="keyword parmname">码制类型</span>参数选择“一维码”时，可配置此参数。</p>
+
+                                    </div>
+
+                                </dd>
+
+                            
+                            
+                                <dt class="dt pt dlterm"><a name="GUID-CD0A67A0-A5F1-42E4-BCC6-C4DA9B21C28D__GUID-325617ED-FEAD-490F-8580-2F5FB7406B86"><!-- --></a>起止符输出使能</dt>
+
+                                <dd class="dd pd">
+                                    <p class="p">选择输出读码结果时是否输出部分码制的开始和结束标志符号，可选如下选项。</p>
+
+                                    <ul class="ul" id="GUID-CD0A67A0-A5F1-42E4-BCC6-C4DA9B21C28D__UL_QTK_SFS_PFC">
+                                        <li class="li" id="GUID-CD0A67A0-A5F1-42E4-BCC6-C4DA9B21C28D__GUID-56E59719-78AF-4CF5-A852-D26DA96B680B">
+                                            <p class="p"><span class="ph uicontrol">未启用</span>：不输出条码的开始和结束标志符号。</p>
+
+                                        </li>
+
+                                        <li class="li" id="GUID-CD0A67A0-A5F1-42E4-BCC6-C4DA9B21C28D__GUID-DE295DF9-28DA-4693-B30C-3AA0BE08E2EC">
+                                            <p class="p"><span class="ph uicontrol">39码起止符输出</span>：输出Code39码的开始和结束标志符号。例如不开启时读取Code码输出内容为“1234”，开启后输出“*1234*”。</p>
+
+                                        </li>
+
+                                        <li class="li" id="GUID-CD0A67A0-A5F1-42E4-BCC6-C4DA9B21C28D__GUID-B15B18FC-7EDE-47F5-B183-2E0F48B41407">
+                                            <p class="p"><span class="ph uicontrol">Codabar码起止符输出</span>：输出Codabar码的开始和结束标志符号。例如不开启时读取Codabar码输出内容为“1234”，开启后输出“A1234A”。</p>
+
+                                        </li>
+
+                                    </ul>
+
+                                </dd>
+
+                            
+                            
+                                <dt class="dt pt dlterm"><a name="GUID-CD0A67A0-A5F1-42E4-BCC6-C4DA9B21C28D__GUID-06BF40AC-B418-411E-9231-74CE0E649D3D"><!-- --></a>QR畸变校正</dt>
+
+                                <dd class="dd pd">
+                                    <p class="p">当需要识别的QR码存在畸变时，建议开启该参数。</p>
+
+                                    <div class="note note" id="GUID-CD0A67A0-A5F1-42E4-BCC6-C4DA9B21C28D__GUID-1E024AD8-2CA9-4F05-80AF-30CA99E5E3E4"><span class="notetitle">说明</span> 
+                                        <p class="p">当<span class="ph uicontrol">条码类型</span>中已开启“ITF25”码制、<span class="keyword parmname">码制类型</span>参数选择“二维码”时，可配置此参数。</p>
+
+                                    </div>
+
+                                </dd>
+
+                            
+                            
+                                <dt class="dt pt dlterm"><a name="GUID-CD0A67A0-A5F1-42E4-BCC6-C4DA9B21C28D__GUID-DCB963E5-CE32-4A52-BF1A-EE8FC8390AFB"><!-- --></a>DM码类型</dt>
+
+                                <dd class="dd pd">
+                                    <p class="p">选择要识读DataMatrix码制的类型，可选<span class="ph uicontrol">所有DM码</span>、<span class="ph uicontrol">ECC
+                                            140类型DM码</span>或<span class="ph uicontrol">ECC
+                                        200类型DM码</span>。</p>
+
+                                    <div class="note note" id="GUID-CD0A67A0-A5F1-42E4-BCC6-C4DA9B21C28D__GUID-D8E9B18B-3014-40AE-87F0-B343E44C36CC"><span class="notetitle">说明</span> 
+                                        <p class="p">当<span class="ph uicontrol">条码类型</span>中已开启“DataMatrix”码制、<span class="keyword parmname">码制类型</span>参数选择“二维码”时，可配置此参数。</p>
+
+                                    </div>
+
+                                </dd>
+
+                            
+                            
+                                <dt class="dt pt dlterm"><a name="GUID-CD0A67A0-A5F1-42E4-BCC6-C4DA9B21C28D__GUID-58137000-66F1-43EC-B431-5D580581A380"><!-- --></a>有码无读检测</dt>
+
+                                <dd class="dd pd">
+                                    <p class="p">选择是否启用有条码但未成功读出检测功能。开启后，可在<span class="ph uicontrol">格式化配置</span>页面通过<span class="ph uicontrol">*输出有码无读输出文本</span>和<span class="ph uicontrol">*输出无码输出文
+                                            本</span>参数配置对应情况输出的文本，其中“*”为开启的对应通讯协议，不支持客户端SDK协议和FTP协议。</p>
+
+                                    <div class="note note" id="GUID-CD0A67A0-A5F1-42E4-BCC6-C4DA9B21C28D__GUID-391539D2-8E41-4D6B-94EF-891C838FFC79"><span class="notetitle">说明</span> 
+                                        <p class="p">仅开启触发模式后可配置此参数。</p>
+
+                                    </div>
+
+                                </dd>
+
+                            
+                            
+                                <dt class="dt pt dlterm"><a name="GUID-CD0A67A0-A5F1-42E4-BCC6-C4DA9B21C28D__GUID-0E6A0B86-F644-4EC8-99DD-EA8AAE6C38CB"><!-- --></a>GS1格式解析</dt>
+
+                                <dd class="dd pd">
+                                    <p class="p">选择是否解析符合GS1标准的条码。开启后，将条码/二维码中的原始数据串，根据GS1标准规则，解析成有明确含义的结构化数据字段；关闭则原样输出。</p>
+
+                                </dd>
+
+                            
+                            
+                                <dt class="dt pt dlterm"><a name="GUID-CD0A67A0-A5F1-42E4-BCC6-C4DA9B21C28D__GUID-C8DCA157-0017-498D-9E2C-F7626E757F43"><!-- --></a>错识灵敏度等级</dt>
+
+                                <dd class="dd pd">
+                                    <p class="p">设置读码器读码时对读错码的容忍程度，数值越大错识的概率越低。</p>
+
+                                </dd>
+
+                            
+                        </dl>
+
+                    </dd>
+
+                
+            </dl>
+
+        </div>
+
+        <div class="section" id="GUID-CD0A67A0-A5F1-42E4-BCC6-C4DA9B21C28D__GUID-8F8AB6FC-B648-4839-ACED-FFC667B191FD"><h2 class="title sectiontitle">ROI设置</h2>
+            
+            
+            <p class="p">IDMVS支持自定义设定一个感兴趣区域，使读码器只对选定的感兴趣区域进行算法识别，其他区域不做算法处理，以提高读码效率。可配置参数如下。</p>
+
+            <dl class="dl parml">
+                
+                    <dt class="dt pt dlterm"><a name="GUID-CD0A67A0-A5F1-42E4-BCC6-C4DA9B21C28D__GUID-92FD61E4-F9B8-4680-8D93-A96A3B2CD8A1"><!-- --></a>ROI索引</dt>
+
+                    <dd class="dd pd">
+                        <p class="p">选择自定义设定感兴趣区域的编号。</p>
+
+                    </dd>
+
+                
+                
+                    <dt class="dt pt dlterm"><a name="GUID-CD0A67A0-A5F1-42E4-BCC6-C4DA9B21C28D__GUID-5F645017-AAAD-4567-B522-72E431B5A6C3"><!-- --></a>ROI使能</dt>
+
+                    <dd class="dd pd">
+                        <p class="p">选择是否开启自定义设定ROI功能，如果开启，可通过配置<span class="ph uicontrol">ROI宽度</span>、<span class="ph uicontrol">ROI高度</span>、<span class="ph uicontrol">ROI左上角顶点X坐标</span>和<span class="ph uicontrol">ROI左上角顶点Y坐标</span>参数自定义设定感兴趣区域。</p>
+
+                        <div class="note note" id="GUID-CD0A67A0-A5F1-42E4-BCC6-C4DA9B21C28D__GUID-A3D15CAB-390C-4F47-9BA5-E5C5C1B22E9D"><span class="notetitle">说明</span> 
+                            <p class="p">您也可通过算法ROI工具快速绘制ROI，详情请参见<a class="xref" href="GUID-42AF9F7D-DB4E-4E3E-80F3-272D764FE5D8.html#GUID-42AF9F7D-DB4E-4E3E-80F3-272D764FE5D8" title="客户端支持通过图像预览区查看读码器采集的实时图像。">算法ROI工具</a>。</p>
+
+                        </div>
+
+                    </dd>
+
+                
+            </dl>
+
+        </div>
+
+</div>
+
+
+</div>
+						<div class=" wt_topic_wpp_content wt_pc_only "><div class=" wt_topic_wpp_content_flex "><div class="wt_topic_wpp_item like"></div><div class="wt_topic_wpp_item view"></div><div class="wt_topic_wpp_item share">分享</div></div></div>
+						
+						
+						
+					</div>
+				</div><!-- container_body -->
+				
+				<div class=" body_footer "><div onclick="prevTopic()" class=" body_footer_left link_button "><span>上一页</span></div><div onclick="nextTopic()" class=" body_footer_right link_button "><span>下一页</span></div></div>
+				<div class=" body_wpp mobile_only"><div class="wt_body_mobile_like"></div><div class="wt_body_mobile_view"></div></div>
+				<!-- <whc:webhelp_side_toc /> -->
+				
+			</div> <!-- middle_view content_area -->
+			<div class=" right_content wt_pc_only "><div class=" right_fixed_container "><div class="right_guide"><div class="feature_guide"><div>本页导航</div><ul><li onclick="scrollToAnchor($(this))" data-id="GUID-CD0A67A0-A5F1-42E4-BCC6-C4DA9B21C28D__GUID-72606C20-BF89-4E0C-A7CF-2C1720CC3ACF" class="feature_guide_h2"><span class="link_button">条码类型</span></li><li onclick="scrollToAnchor($(this))" data-id="GUID-CD0A67A0-A5F1-42E4-BCC6-C4DA9B21C28D__GUID-391594B9-E9C9-4CBD-A942-CC73E9230F31" class="feature_guide_h2"><span class="link_button">条码个数</span></li><li onclick="scrollToAnchor($(this))" data-id="GUID-CD0A67A0-A5F1-42E4-BCC6-C4DA9B21C28D__GUID-6712F7E1-411A-40B9-A6E0-09440BA1CCCF" class="feature_guide_h2"><span class="link_button">读码算法设置</span></li><li onclick="scrollToAnchor($(this))" data-id="GUID-CD0A67A0-A5F1-42E4-BCC6-C4DA9B21C28D__GUID-8F8AB6FC-B648-4839-ACED-FFC667B191FD" class="feature_guide_h2"><span class="link_button">ROI设置</span></li></ul></div></div></div></div>
+		</div> <!-- content_box -->
+		
+		<!-- 置顶按钮 -->
+		<div class="body_to_top" onclick="scrollTopicTop()"></div> 
+		<!-- 评价反馈 -->
+		<div onclick="manualFeedback()" class=" body_feedback " data-href="https://wj.hikvision.com/#/public-survey?id=64c8b90d80e02e9e88feca2f"></div>
+		
+	</body>
+</html>

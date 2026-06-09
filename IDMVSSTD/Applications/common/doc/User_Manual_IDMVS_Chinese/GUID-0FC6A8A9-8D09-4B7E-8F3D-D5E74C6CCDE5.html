@@ -1,0 +1,601 @@
+
+<!DOCTYPE html
+  PUBLIC "" "about:legacy-compat">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:whc="http://www.daksys.com/webhelp/components" xml:lang="zh-cn" lang="zh-cn">
+	<head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />        
+      <meta name="copyright" content="©  杭州海康威视数字技术股份有限公司。保留一切权利。" /><meta name="DC.Type" content="task" /><meta name="DC.Title" content="主从" /><meta name="abstract" content="多读码器主从组网由一个主读码器和多个从读码器组成，实现多读码器协同工作。本节以两个读码器为例为您介绍如何配置主从组网。" /><meta name="description" content="多读码器主从组网由一个主读码器和多个从读码器组成，实现多读码器协同工作。本节以两个读码器为例为您介绍如何配置主从组网。" /><meta name="DC.Relation" scheme="URI" content="GUID-B9202C17-0068-4879-9520-132F7C4F6BCB.html" /><meta name="DC.Format" content="XHTML" /><meta name="DC.Identifier" content="GUID-0FC6A8A9-8D09-4B7E-8F3D-D5E74C6CCDE5" /><meta name="DC.Language" content="zh-CN" /><title>主从</title><!-- Generated with dksgen version 1.0, build number 2023071300.  --><meta viewport="Content-Type" content="width=device-width, initial-scale=1.0" /><meta http-equiv="X-UA-Compatible" content="IE=edge,Chrome=1" /><meta name="wh-path2root" content="index.html" />
+		<!-- commonltr css -->
+		<link rel="stylesheet" type="text/css" href="daksys-webhelp/resources/css/commonltr.css" />
+		<!-- Bootstrap css -->
+		<link rel="stylesheet" type="text/css" href="daksys-webhelp/resources/bootstrap/css/bootstrap.min.css" />
+		<link rel="stylesheet" type="text/css" href="daksys-webhelp/resources/bootstrap/css/bootstrap-theme.min.css" />
+		<link rel="stylesheet" type="text/css" href="daksys-webhelp/resources/js/jquery-ui.min.css" />
+		
+		<!-- Template css  -->
+		<link href="daksys-webhelp/template/resources/css/HIKROBOT_color.css?buildId=2023071300" rel="stylesheet" type="text/css" />
+		<link rel="stylesheet" type="text/css" href="daksys-webhelp/template/resources/css/wt_topic.css?buildId=2023071300" />
+		<link rel="stylesheet" type="text/css" href="daksys-webhelp/template/resources/css/wt_topic_m.css?buildId=2023071300" />
+		<link rel="stylesheet" type="text/css" href="daksys-webhelp/template/resources/css/wt_expand.css?buildId=2023071300" />
+		<link rel="stylesheet" type="text/css" href="daksys-webhelp/template/resources/css/wt_note.css?buildId=2023071300" />
+		<link rel="stylesheet" type="text/css" href="daksys-webhelp/template/resources/css/wt_steps.css?buildId=2023071300" />
+		
+		<!-- jquery js  -->
+		<script type="text/javascript" src="daksys-webhelp/resources/js/jquery-3.6.2.min.js"></script>
+		<script type="text/javascript" src="daksys-webhelp/resources/js/jquery.cookie.js"></script>
+		<script type="text/javascript" src="daksys-webhelp/resources/js/jquery.highlight-3.js"></script>
+		<script type="text/javascript" src="daksys-webhelp/resources/js/jquery-ui.min.js"></script>
+		
+		<!-- common js  -->
+		<script type="text/javascript" src="daksys-webhelp/resources/bootstrap/js/bootstrap.min.js"></script>
+		<script type="text/javascript" src="daksys-webhelp/resources/js/base64.js"></script>
+		<script type="text/javascript" src="daksys-webhelp/resources/js/browserDetect.js"></script>
+		<script type="text/javascript" src="daksys-webhelp/resources/js/localization.js"></script>
+		<script type="text/javascript" src="daksys-webhelp/resources/js/parseuri.js"></script>
+		<script type="text/javascript" src="daksys-webhelp/resources/localization/strings.js"></script>
+		<!-- Template js -->
+		<script type="text/javascript" src="daksys-webhelp/template/resources/js/wt_topic.js?buildId=2023071300"></script>
+		<script type="text/javascript" src="daksys-webhelp/template/resources/js/wt_expand.js?buildId=2023071300"></script>
+	</head>
+	<body class="wt_topic_page frmBody" id="GUID-0FC6A8A9-8D09-4B7E-8F3D-D5E74C6CCDE5" onload="topicOnload()">
+		<!-- get_lang -->
+		<div id="lang" style="display:none">zh-CN</div><div id="mapoutputclass" style="display:none"></div>
+		<input hidden="hidden" id="UDCode" value="UD12345B" /><input hidden="hidden" id="Trademark" value="海康机器人" />
+		
+		<div class="content_box">
+			<div class="middle_view content_area col-sm-9" id="content_area">
+				<div class=" wt_breadcrumb "><ol><li><span class="home topicref"><a href="javascript:void(0)" onclick="gotoFirstPage()">首页</a></span></li><li><span class="topicref"><a href="GUID-3F138232-3CF2-4E3F-A3C0-3D677CF174B5.html" data-id="GUID-3F138232-3CF2-4E3F-A3C0-3D677CF174B5">读码器高级配置</a></span></li><li><span class="topicref"><a href="GUID-B9202C17-0068-4879-9520-132F7C4F6BCB.html" data-id="GUID-B9202C17-0068-4879-9520-132F7C4F6BCB">配置多读码器同步</a></span></li><li class="active"><span class="topicref">主从</span></li></ol><div class="wt_breadcrumb_ellipsis" onclick="expandBreadcrumbDiv()"></div><div class="wt_breadcrumb_collapse" style="display: none;"><div class="wt_breadcrumb_collapse_button" onclick="collapseBreadcrumbDiv()"></div></div></div>
+				
+				<div id="container_body" class="container">
+					<div id="contentArea">
+						<div class=" wt_topic_content body ">
+    <h1 class="title topictitle1">主从</h1>
+
+
+<div class="body taskbody"><p class="shortdesc">多读码器主从组网由一个主读码器和多个从读码器组成，实现多读码器协同工作。本节以两个读码器为例为您介绍如何配置主从组网。</p>
+
+<div class="section context" id="GUID-0FC6A8A9-8D09-4B7E-8F3D-D5E74C6CCDE5__GUID-01F0D681-F5AD-4257-B5D8-E7B236930796">
+      <p class="p">主从工作的主要原理是将多台读码器中的其中一台设置为主站（主读码器），其余读码器设置为从站（从读码器），从站将读码结果发给主站，主站进行整合或转发，然后将读码结果发给与之相连的上位机或客户端，实现多相机的协同工作。独立模式和协同模式示意图如下。</p>
+
+      <div class="fig fignone" id="GUID-0FC6A8A9-8D09-4B7E-8F3D-D5E74C6CCDE5__FIG_LNH_Y4J_PFC">
+        
+        <img class="image" style="display:none;" id="GUID-0FC6A8A9-8D09-4B7E-8F3D-D5E74C6CCDE5__IMAGE_MNH_Y4J_PFC" src="GUID-8A1D99F8-951D-4BCE-B92C-C2930C5E7AD3-high.png" width="2100" />
+      <div class="fig_caption"><span class="figcap">图 1 工作模式示意图</span></div></div>
+
+      
+<div class="div_table"><table cellpadding="4" cellspacing="0" summary="" style="display:none;" id="tbl_rowfixed" class="table wt_table_rowfixed" frame="border" border="1" rules="all"></table><table cellpadding="4" cellspacing="0" summary="" id="GUID-0FC6A8A9-8D09-4B7E-8F3D-D5E74C6CCDE5__TABLE_J4H_PTV_4FC" class="table" frame="border" border="1" rules="all"><caption><span class="tablecap">表 1 工作模式说明</span></caption>
+          
+          
+          
+          
+          <thead class="thead" align="left">
+            <tr>
+              <th class="entry" valign="top" width="21.50537634408602%" id="d2572e75">
+                <p class="p">工作模式</p>
+
+              </th>
+
+              <th class="entry" valign="top" width="28.602150537634408%" id="d2572e81">
+                <p class="p">特点</p>
+
+              </th>
+
+              <th class="entry" valign="top" width="24.94623655913978%" id="d2572e87">
+                <p class="p">使用场景</p>
+
+              </th>
+
+              <th class="entry" valign="top" width="24.94623655913978%" id="d2572e93">
+                <p class="p">优势</p>
+
+              </th>
+
+            </tr>
+
+          </thead>
+
+          <tbody class="tbody">
+            <tr>
+              <td class="entry" valign="top" width="21.50537634408602%" headers="d2572e75 ">
+                <p class="p">独立模式</p>
+
+              </td>
+
+              <td class="entry" valign="top" width="28.602150537634408%" headers="d2572e81 ">
+                <p class="p">主站不处理也不融合数据，将自身数据和从站数据转发给上位机。</p>
+
+              </td>
+
+              <td class="entry" valign="top" width="24.94623655913978%" headers="d2572e87 ">
+                <p class="p">每个读码器负责不同工位的条码识别任务，最后由一个上位机（PC或PLC）接收数据。</p>
+
+              </td>
+
+              <td class="entry" valign="top" width="24.94623655913978%" headers="d2572e93 ">
+                <p class="p">减少上位机的端口开启数，只需一个端口便可将所有数据上传至上位机中。</p>
+
+              </td>
+
+            </tr>
+
+            <tr>
+              <td class="entry" valign="top" width="21.50537634408602%" headers="d2572e75 ">
+                <p class="p">协同模式</p>
+
+              </td>
+
+              <td class="entry" valign="top" width="28.602150537634408%" headers="d2572e81 ">
+                <p class="p">主站将自身数据和从站数据进行处理和融合，最后将处理后的数据发给上位机。</p>
+
+              </td>
+
+              <td class="entry" valign="top" width="24.94623655913978%" headers="d2572e87 ">
+                <p class="p">当一个产品有多个面或产品过大，一个读码器视野无法覆盖所有区域时，通过多读码器协同模式覆盖所有区域。</p>
+
+              </td>
+
+              <td class="entry" valign="top" width="24.94623655913978%" headers="d2572e93 ">
+                <p class="p">方便过滤一个物体上相同的条码，最后整合输出至上位机，省去了在上位机上进行数据融合和数据处理的过程。</p>
+
+              </td>
+
+            </tr>
+
+          </tbody>
+
+        </table>
+</div>
+
+    </div>
+
+<ol class="ol steps" id="GUID-0FC6A8A9-8D09-4B7E-8F3D-D5E74C6CCDE5__GUID-43E58DC3-F1B5-4AC3-A96B-02B6436BDE38"><li class="li step stepexpand" id="GUID-0FC6A8A9-8D09-4B7E-8F3D-D5E74C6CCDE5__GUID-A05EBAA1-CBF2-4199-892F-BBD858A86F49">
+        <span class="ph cmd">连接两台读码器，连接读码器请参见<a class="xref" href="GUID-7DE9AC36-7FF6-435C-BE42-603EE3E5A4FD.html#GUID-7DE9AC36-7FF6-435C-BE42-603EE3E5A4FD" title="在设备列表发现读码器后，可连接设备以进行后续的调试和读码工作。">连接读码器</a>。</span>
+      </li>
+<li class="li step stepexpand" id="GUID-0FC6A8A9-8D09-4B7E-8F3D-D5E74C6CCDE5__GUID-475BD564-0C5F-44D4-A2F3-5E960A80AC05">
+        <span class="ph cmd">在IDMVS主界面功能导航栏，选择<span class="ph menucascade"><span class="ph uicontrol">操作配置</span> &gt; <span class="ph uicontrol">组网配置</span> &gt; <span class="ph uicontrol">主从配置</span></span> 。</span>
+        <div class="itemgroup info">
+          <div class="fig fignone" id="GUID-0FC6A8A9-8D09-4B7E-8F3D-D5E74C6CCDE5__GUID-49C250CD-88CE-43D7-8374-DE5D7C4DA79F">
+            
+            <img class="image" style="display:none;" src="GUID-4FCB1471-E5FE-4D7F-A1E8-03DC75787ECC-high.png" width="1400" />
+          <div class="fig_caption"><span class="figcap">图 2 主从配置</span></div></div>
+
+        </div>
+      </li>
+<li class="li step stepexpand" id="GUID-0FC6A8A9-8D09-4B7E-8F3D-D5E74C6CCDE5__GUID-F29CD5D9-36CA-425B-8EBE-3DD6CEF09829">
+        <span class="ph cmd">在<span class="ph uicontrol">主从配置</span>页面配置主站参数，参数说明如下。</span>
+        <div class="itemgroup info">
+          <dl class="dl parml">
+            
+              <dt class="dt pt dlterm"><a name="GUID-0FC6A8A9-8D09-4B7E-8F3D-D5E74C6CCDE5__GUID-3904AB99-8BCB-4193-8515-FA46A4B448F0"><!-- --></a>常用参数</dt>
+
+              <dd class="dd pd">
+                <dl class="dl parml">
+                  
+                    <dt class="dt pt dlterm"><a name="GUID-0FC6A8A9-8D09-4B7E-8F3D-D5E74C6CCDE5__GUID-4F5720B8-C134-4425-865A-E149F16576BE"><!-- --></a>主从工作模式</dt>
+
+                    <dd class="dd pd">
+                      <p class="p">选择是否开启或配置当前连接读码器的模式，可选如下模式。</p>
+
+                      <div class="note note" id="GUID-0FC6A8A9-8D09-4B7E-8F3D-D5E74C6CCDE5__GUID-1AB61A63-4B78-47FA-8D90-565FA66114A2"><span class="notetitle">说明</span> 
+                        <p class="p">鼠标悬浮在选择框后的<img class="image icon" style="display:none;" src="GUID-C2880C25-FDF6-4E07-8977-CB3B6FBCCBE5-high.png" />处，可查看不同工作模式下的数据流向。</p>
+
+                      </div>
+
+                      <ul class="ul" id="GUID-0FC6A8A9-8D09-4B7E-8F3D-D5E74C6CCDE5__UL_DRQ_QJ2_52C">
+                        <li class="li" id="GUID-0FC6A8A9-8D09-4B7E-8F3D-D5E74C6CCDE5__GUID-88904573-0DC1-4927-AE02-A28B22663217">
+                          <p class="p"><span class="ph uicontrol">关闭</span>：不启用主从工作。</p>
+
+                        </li>
+
+                        <li class="li" id="GUID-0FC6A8A9-8D09-4B7E-8F3D-D5E74C6CCDE5__GUID-2272D712-3D0A-4808-AB9B-E81C5B99E28F">
+                          <p class="p"><span class="ph uicontrol">独立模式</span>：从站将读码数据发送至主站，主站负责发送自身数据和转发从站数据，不对数据进行融合，条码的数据处理在各自站上完成。适用于多产线工作的应用场景，统一使用主站进行转发数据，可减少通讯端口占用量。</p>
+
+                        </li>
+
+                        <li class="li" id="GUID-0FC6A8A9-8D09-4B7E-8F3D-D5E74C6CCDE5__GUID-7F844499-4686-41AB-AF30-8D1019ECE45D">
+                          <p class="p"><span class="ph uicontrol">协同模式</span>：从站将读码结果发送至主站进行数据处理，主站按照自身的处理逻辑对从站及自身数据进行融合处理，然后统一打包输出。适用于覆盖视野不足、读取多面码一起整合输出的应用场景，一般情况下采用该模式。</p>
+
+                          <div class="note note" id="GUID-0FC6A8A9-8D09-4B7E-8F3D-D5E74C6CCDE5__GUID-ACB97448-4206-4AFF-9ED0-92A914AD97A6"><span class="notetitle">说明</span> 
+                            <p class="p">主站需启用从站要读的条码码制，否则从站读码结果会被主站过滤，造成数据丢失。</p>
+
+                          </div>
+
+                        </li>
+
+                      </ul>
+
+                    </dd>
+
+                  
+                  
+                    <dt class="dt pt dlterm"><a name="GUID-0FC6A8A9-8D09-4B7E-8F3D-D5E74C6CCDE5__GUID-C7EE67D7-1612-486C-A84B-EE4BA1661C02"><!-- --></a>站角色</dt>
+
+                    <dd class="dd pd">
+                      <p class="p">选择当前连接读码器的角色为<span class="ph uicontrol">主站</span>。</p>
+
+                    </dd>
+
+                  
+                  
+                    <dt class="dt pt dlterm"><a name="GUID-0FC6A8A9-8D09-4B7E-8F3D-D5E74C6CCDE5__GUID-60503DD6-C774-492A-B8E2-8BB00EF4CAB5"><!-- --></a>融合时间(ms)</dt>
+
+                    <dd class="dd pd">
+                      <p class="p">设置主站等待从站读码结果的最大等待时间，从触发停止后开始计算。</p>
+
+                      <div class="note note" id="GUID-0FC6A8A9-8D09-4B7E-8F3D-D5E74C6CCDE5__GUID-2C286458-E074-4F08-83E0-B25204148538"><span class="notetitle">说明</span> 
+                        <ul class="ul" id="GUID-0FC6A8A9-8D09-4B7E-8F3D-D5E74C6CCDE5__UL_D5F_3HG_MGC">
+                          <li class="li" id="GUID-0FC6A8A9-8D09-4B7E-8F3D-D5E74C6CCDE5__GUID-AABC3FB4-DAFE-4266-B271-ADCFC78058CF">
+                            <p class="p">当<span class="ph uicontrol">主从工作模式</span>选择“协同模式”时，可配置此参数。</p>
+
+                          </li>
+
+                          <li class="li" id="GUID-0FC6A8A9-8D09-4B7E-8F3D-D5E74C6CCDE5__GUID-73E5FA32-4CCD-413C-A3F0-50196C0559FE">
+                            <p class="p"><span class="keyword parmname">融合时间</span>参数值需大于所有从站中处理速度最慢从站的输出总耗时。</p>
+
+                          </li>
+
+                        </ul>
+
+                      </div>
+
+                    </dd>
+
+                  
+                  
+                    <dt class="dt pt dlterm"><a name="GUID-0FC6A8A9-8D09-4B7E-8F3D-D5E74C6CCDE5__GUID-756F41B3-1579-4CB8-951F-AA26B7201910"><!-- --></a>同步主站触发信号</dt>
+
+                    <dd class="dd pd">
+                      <p class="p">选择主站是否将触发信号同步给从站并触发。开启后，从站触发源可选择“主从触发”。</p>
+
+                      <div class="note note" id="GUID-0FC6A8A9-8D09-4B7E-8F3D-D5E74C6CCDE5__GUID-9E8A7B30-EF56-41E8-97E0-1FF0D1FB6159"><span class="notetitle">说明</span> 
+                        <p class="p">当<span class="ph uicontrol">主从工作模式</span>选择“协同模式”时，可配置此参数。</p>
+
+                      </div>
+
+                    </dd>
+
+                  
+                  
+                    <dt class="dt pt dlterm"><a name="GUID-0FC6A8A9-8D09-4B7E-8F3D-D5E74C6CCDE5__GUID-A1816F69-5A69-461A-ABCA-B28CBB36F3DE"><!-- --></a>主-从组ID</dt>
+
+                    <dd class="dd pd">
+                      <p class="p">设置当前连接读码器的主从网络分组ID，相同分组ID的读码器处于同一个主从网络，不同主从网络分组间无法进行相互访问。</p>
+
+                    </dd>
+
+                  
+                </dl>
+
+              </dd>
+
+            
+            
+              <dt class="dt pt dlterm"><a name="GUID-0FC6A8A9-8D09-4B7E-8F3D-D5E74C6CCDE5__GUID-985B2A66-E6BD-4AD1-A978-F5E56076A89B"><!-- --></a>高级参数</dt>
+
+              <dd class="dd pd">
+                <dl class="dl parml">
+                  
+                    <dt class="dt pt dlterm"><a name="GUID-0FC6A8A9-8D09-4B7E-8F3D-D5E74C6CCDE5__GUID-A1C2B9E9-6322-4C22-BE06-F4487B6129B9"><!-- --></a>站通信端口号</dt>
+
+                    <dd class="dd pd">
+                      <p class="p">设置主站进行数据传输的端口号。</p>
+
+                    </dd>
+
+                  
+                  
+                    <dt class="dt pt dlterm"><a name="GUID-0FC6A8A9-8D09-4B7E-8F3D-D5E74C6CCDE5__GUID-E95AF36D-86C8-4431-BA7C-F4485EA11EBD"><!-- --></a>同步主站ROI区域</dt>
+
+                    <dd class="dd pd">
+                      <p class="p">选择是否和从站同步ROI序号。开启后，从站ROI序号可以继承主站序号继续编号。</p>
+
+                      <div class="note note" id="GUID-0FC6A8A9-8D09-4B7E-8F3D-D5E74C6CCDE5__GUID-D770AA1E-7559-46BE-822F-868D3CC63116"><span class="notetitle">说明</span> 
+                        <p class="p">当<span class="ph uicontrol">站角色</span>选择“主站”时，可配置此参数。</p>
+
+                      </div>
+
+                    </dd>
+
+                  
+                  
+                    <dt class="dt pt dlterm"><a name="GUID-0FC6A8A9-8D09-4B7E-8F3D-D5E74C6CCDE5__GUID-990A95B5-814B-49D8-A3DF-A6133811CDC7"><!-- --></a>显示从站读码数据</dt>
+
+                    <dd class="dd pd">
+                      <p class="p">选择是否在主站显示从站的读码信息。开启后，如果从站读到条码，可以在主站看到条码信息。</p>
+
+                    </dd>
+
+                  
+                  
+                    <dt class="dt pt dlterm"><a name="GUID-0FC6A8A9-8D09-4B7E-8F3D-D5E74C6CCDE5__GUID-BC091CFA-145C-40EB-BC0C-31076C9D848C"><!-- --></a>查询从站号</dt>
+
+                    <dd class="dd pd">
+                      <p class="p">输入从站ID，可查看如下从站信息。</p>
+
+                      <ul class="ul" id="GUID-0FC6A8A9-8D09-4B7E-8F3D-D5E74C6CCDE5__UL_V1S_2P2_52C">
+                        <li class="li" id="GUID-0FC6A8A9-8D09-4B7E-8F3D-D5E74C6CCDE5__GUID-DD5053F9-62AD-41A0-A007-D190CA3A170C">
+                          <p class="p"><span class="ph uicontrol">从站IP地址</span>：从站读码器的IP信息。</p>
+
+                        </li>
+
+                        <li class="li" id="GUID-0FC6A8A9-8D09-4B7E-8F3D-D5E74C6CCDE5__GUID-587AFEE5-A083-4A82-A938-422FBB7292AC">
+                          <p class="p"><span class="ph uicontrol">从站连接状态</span>：值为1时表示数据传输正常，否则表示未连接。</p>
+
+                        </li>
+
+                        <li class="li" id="GUID-0FC6A8A9-8D09-4B7E-8F3D-D5E74C6CCDE5__GUID-B5C017BC-04BF-402A-A2DE-B23386305393">
+                          <p class="p"><span class="ph uicontrol">从站名</span>：从站的用户名称信息。</p>
+
+                        </li>
+
+                        <li class="li" id="GUID-0FC6A8A9-8D09-4B7E-8F3D-D5E74C6CCDE5__GUID-158CA653-A109-4920-A751-B37F90CACB2E">
+                          <p class="p"><span class="ph uicontrol">从站型号名</span>：从站的型号名称。</p>
+
+                        </li>
+
+                        <li class="li" id="GUID-0FC6A8A9-8D09-4B7E-8F3D-D5E74C6CCDE5__GUID-88A68630-1533-401B-AF10-C99790587A71">
+                          <p class="p"><span class="ph uicontrol">从站序列号</span>：从站的站序列号信息。</p>
+
+                        </li>
+
+                      </ul>
+
+                      <div class="note note" id="GUID-0FC6A8A9-8D09-4B7E-8F3D-D5E74C6CCDE5__GUID-0F9ACAD4-597A-4C9A-AEE7-D29115DB4EB7"><span class="notetitle">说明</span> 
+                        <p class="p">当配置从站时，也会通过类似如上参数显示主站信息。</p>
+
+                      </div>
+
+                    </dd>
+
+                  
+                </dl>
+
+              </dd>
+
+            
+          </dl>
+
+        </div>
+      </li>
+<li class="li step stepexpand" id="GUID-0FC6A8A9-8D09-4B7E-8F3D-D5E74C6CCDE5__GUID-3C25C579-0E36-40DF-9873-FE4022BA83F9">
+        <span class="ph cmd">从设备列表将已连接的从读码器拖动到<span class="ph uicontrol">从相机</span>虚线框区域，快速完成主从组网。</span>
+        <div class="itemgroup info">
+          <div class="note note" id="GUID-0FC6A8A9-8D09-4B7E-8F3D-D5E74C6CCDE5__GUID-EFAA09FB-9C52-40BD-9FDE-FACBD9004A95"><span class="notetitle">说明</span> 
+            <ul class="ul" id="GUID-0FC6A8A9-8D09-4B7E-8F3D-D5E74C6CCDE5__GUID-C2CF57B2-91A4-45DD-AB33-20566312971D">
+              <li class="li" id="GUID-0FC6A8A9-8D09-4B7E-8F3D-D5E74C6CCDE5__GUID-318149B0-07E7-4641-AFD3-D7B3127CB646">
+                <p class="p">您如果需要添加多个从读码器，使用此方法依次添加各个读码器。</p>
+
+              </li>
+
+              <li class="li" id="GUID-0FC6A8A9-8D09-4B7E-8F3D-D5E74C6CCDE5__GUID-BAFC2144-3C56-4649-AB27-63D124AFC4CB">
+                <p class="p">如果添加的从读码器未出现在<span class="ph uicontrol">从相机</span>区域，请切换至从读码器修改<span class="keyword parmname">主从工作模式</span>参数值与主读码器一致。</p>
+
+              </li>
+
+              <li class="li" id="GUID-0FC6A8A9-8D09-4B7E-8F3D-D5E74C6CCDE5__GUID-F73E3070-924D-45D3-A2A8-D2ED0F8B5721">
+                <p class="p">推荐使用同系列或同型号读码器组建主从网络。若需混用，建议将分辨率更低的读码器设置为主站。</p>
+
+              </li>
+
+            </ul>
+
+          </div>
+
+          <div class="fig fignone" id="GUID-0FC6A8A9-8D09-4B7E-8F3D-D5E74C6CCDE5__GUID-1BF8FC0F-F4F1-416E-BAAF-C0AC62F07CCF">
+            
+            <img class="image" style="display:none;" src="GUID-16D2F1BE-1FBE-48AA-99B5-D0ACBCC84F54-high.gif" width="2100" />
+          <div class="fig_caption"><span class="figcap">图 3 添加从站示例</span></div></div>
+
+        </div>
+      </li>
+<li class="li step stepexpand" id="GUID-0FC6A8A9-8D09-4B7E-8F3D-D5E74C6CCDE5__GUID-096349D7-F23E-4B90-8310-6FB633C74951">
+        <span class="ph cmd">双击<span class="ph uicontrol">从相机</span>区域处的从站页签，切换至从读码器配置参数，参数说明如下。</span>
+        <div class="itemgroup info">
+          <dl class="dl parml">
+            
+              <dt class="dt pt dlterm"><a name="GUID-0FC6A8A9-8D09-4B7E-8F3D-D5E74C6CCDE5__GUID-A7DA0386-2DA7-4816-8E89-41402248D8D6"><!-- --></a>常用参数</dt>
+
+              <dd class="dd pd">
+                <dl class="dl parml">
+                  
+                    <dt class="dt pt dlterm"><a name="GUID-0FC6A8A9-8D09-4B7E-8F3D-D5E74C6CCDE5__GUID-7EB90FC1-691F-4570-81D7-30A2623EE80F"><!-- --></a>主从工作模式</dt>
+
+                    <dd class="dd pd">
+                      <p class="p">选择与主站一致的工作模式。</p>
+
+                    </dd>
+
+                  
+                  
+                    <dt class="dt pt dlterm"><a name="GUID-0FC6A8A9-8D09-4B7E-8F3D-D5E74C6CCDE5__GUID-F1374AF9-F45F-44C8-9059-AEC5D2228719"><!-- --></a>站角色</dt>
+
+                    <dd class="dd pd">
+                      <p class="p">选择当前连接读码器的角色为<span class="ph uicontrol">从站</span>。</p>
+
+                    </dd>
+
+                  
+                  
+                    <dt class="dt pt dlterm"><a name="GUID-0FC6A8A9-8D09-4B7E-8F3D-D5E74C6CCDE5__GUID-CD29C173-D93A-4F58-8EAA-15EFAF061E02"><!-- --></a>主-从组ID</dt>
+
+                    <dd class="dd pd">
+                      <p class="p">设置当前连接读码器的主从网络分组ID与主站一致。</p>
+
+                    </dd>
+
+                  
+                  
+                    <dt class="dt pt dlterm"><a name="GUID-0FC6A8A9-8D09-4B7E-8F3D-D5E74C6CCDE5__GUID-AAEAA384-A8F0-469D-ADCD-D1AF3AEB32F4"><!-- --></a>站ID</dt>
+
+                    <dd class="dd pd">
+                      <p class="p">当前读码器为从站，连接主站成功后，自动分配ID。</p>
+
+                      <div class="note note" id="GUID-0FC6A8A9-8D09-4B7E-8F3D-D5E74C6CCDE5__GUID-786E7041-D89A-47C6-9D87-58C9C98864EA"><span class="notetitle">说明</span> 
+                        <p class="p">此参数只显示，不支持配置。</p>
+
+                      </div>
+
+                    </dd>
+
+                  
+                  
+                    <dt class="dt pt dlterm"><a name="GUID-0FC6A8A9-8D09-4B7E-8F3D-D5E74C6CCDE5__GUID-DEC6AAA7-D554-4411-B21D-627D4CECB72C"><!-- --></a>主站IP地址</dt>
+
+                    <dd class="dd pd">
+                      <p class="p">当前读码器为从站，连接主站成功后，可自动显示主站IP地址。</p>
+
+                      <div class="note note" id="GUID-0FC6A8A9-8D09-4B7E-8F3D-D5E74C6CCDE5__GUID-2C51B6CF-D06E-4920-B49C-28E4276ABA8D"><span class="notetitle">说明</span> 
+                        <p class="p">此参数只显示，不支持配置。</p>
+
+                      </div>
+
+                    </dd>
+
+                  
+                  
+                    <dt class="dt pt dlterm"><a name="GUID-0FC6A8A9-8D09-4B7E-8F3D-D5E74C6CCDE5__GUID-86172419-FEFF-47F1-B67F-0F593CDDA6A1"><!-- --></a>主站连接状态</dt>
+
+                    <dd class="dd pd">
+                      <p class="p">当前读码器为从站，自动显示与主站的连接状态，其中“0”表示未连接，“1”表示已连接。</p>
+
+                      <div class="note note" id="GUID-0FC6A8A9-8D09-4B7E-8F3D-D5E74C6CCDE5__GUID-56023BCF-982C-45ED-AB74-9912BC29D586"><span class="notetitle">说明</span> 
+                        <p class="p">此参数只显示，不支持配置。</p>
+
+                      </div>
+
+                    </dd>
+
+                  
+                </dl>
+
+              </dd>
+
+            
+            
+              <dt class="dt pt dlterm"><a name="GUID-0FC6A8A9-8D09-4B7E-8F3D-D5E74C6CCDE5__GUID-F3C98532-7623-491C-93C2-CE994F402117"><!-- --></a>高级参数</dt>
+
+              <dd class="dd pd">
+                <p class="p">如下参数只显示，不支持配置。</p>
+
+                <dl class="dl parml">
+                  
+                    <dt class="dt pt dlterm"><a name="GUID-0FC6A8A9-8D09-4B7E-8F3D-D5E74C6CCDE5__GUID-CC104F02-9AC3-46E1-BF24-A02478C55A59"><!-- --></a>主站名</dt>
+
+                    <dd class="dd pd">
+                      <p class="p">主站的用户名称信息。</p>
+
+                    </dd>
+
+                  
+                  
+                    <dt class="dt pt dlterm"><a name="GUID-0FC6A8A9-8D09-4B7E-8F3D-D5E74C6CCDE5__GUID-00110E69-4FD9-45FF-B9DB-B6FCF9529A38"><!-- --></a>主站型号名</dt>
+
+                    <dd class="dd pd">
+                      <p class="p">主站的型号名称。</p>
+
+                    </dd>
+
+                  
+                  
+                    <dt class="dt pt dlterm"><a name="GUID-0FC6A8A9-8D09-4B7E-8F3D-D5E74C6CCDE5__GUID-C59719B1-85BB-4FE8-8C9E-6CC4312E5C93"><!-- --></a>主站序列号</dt>
+
+                    <dd class="dd pd">
+                      <p class="p">主站的序列号信息。</p>
+
+                    </dd>
+
+                  
+                </dl>
+
+              </dd>
+
+            
+          </dl>
+
+        </div>
+      </li>
+<li class="li step stepexpand" id="GUID-0FC6A8A9-8D09-4B7E-8F3D-D5E74C6CCDE5__GUID-7A47A45A-17DB-459B-81AE-8F4C12A47A49">
+        <span class="ph cmd">根据实际使用场景配置主从站触发源，触发源配置操作步骤及说明请参见<a class="xref" href="GUID-F29F09A1-B197-460B-9FAC-18C9A132264B.html#GUID-F29F09A1-B197-460B-9FAC-18C9A132264B" title="当需要根据外部信号或特定条件触发读码器进行图像采集和读码时，需在触发设置部分开启读码器触发模式、选择触发源并配置相关参数。">触发设置</a>。</span>
+        <div class="itemgroup info">
+          <p class="p">使用主从组网时，为保证所有读码器的一致性，可选择使用如下两种方式。</p>
+
+          <ul class="ul" id="GUID-0FC6A8A9-8D09-4B7E-8F3D-D5E74C6CCDE5__UL_PVW_KB4_1FC">
+            <li class="li" id="GUID-0FC6A8A9-8D09-4B7E-8F3D-D5E74C6CCDE5__GUID-33BA99F1-DC28-4534-8C82-A0EC46A81FD1">
+              <p class="p">主、从站触发源配置为同一触发源。例如主、从站连接并配置为同一个外部硬触发源（如管脚0/1/2输入），保证同时触发主、从站。</p>
+
+            </li>
+
+            <li class="li" id="GUID-0FC6A8A9-8D09-4B7E-8F3D-D5E74C6CCDE5__GUID-F0D34301-934B-4449-91B3-BB4194EC7389">
+              <p class="p">主站触发源配置为任一支持的触发源，从站触发源配置为“主从触发”，如此可保证同时触发主、从站。</p>
+
+            </li>
+
+          </ul>
+
+          <div class="note note" id="GUID-0FC6A8A9-8D09-4B7E-8F3D-D5E74C6CCDE5__GUID-E3F98387-DDC2-44D9-9C2D-6630782CCC3F"><span class="notetitle">说明</span> 
+            <p class="p">主从组网时，不建议主、从站触发源配置为自触发，此触发源很难保证主、从站触发时机的一致性。</p>
+
+          </div>
+
+        </div>
+      </li>
+<li class="li step stepexpand" id="GUID-0FC6A8A9-8D09-4B7E-8F3D-D5E74C6CCDE5__GUID-F84F4988-E5D4-4D7F-B5DA-AEA19CDDF54D">
+        <span class="ph cmd">在主站的<span class="ph uicontrol">主从配置</span>页面可对主从站执行如下可选操作。</span>
+        <div class="itemgroup info">
+          <ul class="ul" id="GUID-0FC6A8A9-8D09-4B7E-8F3D-D5E74C6CCDE5__GUID-F6C2CF43-0776-4F72-B8D4-9FA10EFC3FEB">
+            <li class="li" id="GUID-0FC6A8A9-8D09-4B7E-8F3D-D5E74C6CCDE5__GUID-4609E219-E40D-488E-9989-B0B2173C5C0C">
+              <p class="p">开始/停止取流：单击主站或从站区域的开始取流或停止取流。</p>
+
+              <div class="note note" id="GUID-0FC6A8A9-8D09-4B7E-8F3D-D5E74C6CCDE5__GUID-5665EFF4-77FC-4D16-A345-221BAB83E4E7"><span class="notetitle">说明</span> 
+                <p class="p">当从站触发源配置为主从触发时，从站必须为取流状态才能响应主站的触发信号进行采图读码。</p>
+
+              </div>
+
+            </li>
+
+            <li class="li" id="GUID-0FC6A8A9-8D09-4B7E-8F3D-D5E74C6CCDE5__GUID-6A9493F9-714D-4963-A032-9059E4ED1F1B">
+              <p class="p">查看取流结果：在主站或从站区域的<span class="ph uicontrol">取流结果处</span>查看读码情况，此处参数与主界面<span class="ph uicontrol">历史记录</span>参数一致。</p>
+
+            </li>
+
+            <li class="li" id="GUID-0FC6A8A9-8D09-4B7E-8F3D-D5E74C6CCDE5__GUID-2DA8D8A7-A913-43E9-8D2A-C128662E68FB">
+              <p class="p">删除从站：单击从站区域的<img class="image icon" style="display:none;" src="GUID-B6494558-0621-4454-8852-92788683D178-high.png" />。</p>
+
+            </li>
+
+          </ul>
+
+        </div>
+      </li>
+</ol>
+
+<div class="section postreq" id="GUID-0FC6A8A9-8D09-4B7E-8F3D-D5E74C6CCDE5__GUID-EB7D3032-E7C0-4A7F-8104-B2E2A2951F19">
+      <p class="p">主从组网配置成功后，可配置数据处理规则和如何输出数据，详情请参见<a class="xref" href="GUID-18029E9E-3083-437A-B970-24EE067E6132.html#GUID-18029E9E-3083-437A-B970-24EE067E6132" title="当读码器读码成功后，您可以定义读码结果的输出内容和格式、过滤无效码数据，以提升数据的精简性和有效性。">处理输出数据</a>和<a class="xref" href="GUID-77031B4A-B8C8-4FD9-B301-55E8A2C26F81.html#GUID-77031B4A-B8C8-4FD9-B301-55E8A2C26F81" title="当读码器需要与PLC等外部设备或控制系统进行通信时，IDMVS支持通过配置通讯协议自定义读码器的数据传输方式，确保数据能够按照指定的协议和格式发送到目标设备或系统。">配置通讯协议</a>。</p>
+
+    </div>
+
+</div>
+
+
+</div>
+						<div class=" wt_topic_wpp_content wt_pc_only "><div class=" wt_topic_wpp_content_flex "><div class="wt_topic_wpp_item like"></div><div class="wt_topic_wpp_item view"></div><div class="wt_topic_wpp_item share">分享</div></div></div>
+						
+						
+						
+					</div>
+				</div><!-- container_body -->
+				
+				<div class=" body_footer "><div onclick="prevTopic()" class=" body_footer_left link_button "><span>上一页</span></div><div onclick="nextTopic()" class=" body_footer_right link_button "><span>下一页</span></div></div>
+				<div class=" body_wpp mobile_only"><div class="wt_body_mobile_like"></div><div class="wt_body_mobile_view"></div></div>
+				<!-- <whc:webhelp_side_toc /> -->
+				
+			</div> <!-- middle_view content_area -->
+			<div class=" right_content wt_pc_only "></div>
+		</div> <!-- content_box -->
+		
+		<!-- 置顶按钮 -->
+		<div class="body_to_top" onclick="scrollTopicTop()"></div> 
+		<!-- 评价反馈 -->
+		<div onclick="manualFeedback()" class=" body_feedback " data-href="https://wj.hikvision.com/#/public-survey?id=64c8b90d80e02e9e88feca2f"></div>
+		
+	</body>
+</html>

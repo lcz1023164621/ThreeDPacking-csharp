@@ -1,0 +1,466 @@
+
+<!DOCTYPE html
+  PUBLIC "" "about:legacy-compat">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:whc="http://www.daksys.com/webhelp/components" xml:lang="zh-cn" lang="zh-cn">
+	<head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />        
+      <meta name="copyright" content="©  杭州海康威视数字技术股份有限公司。保留一切权利。" /><meta name="DC.Type" content="concept" /><meta name="DC.Title" content="停止触发配置" /><meta name="abstract" content="IDMVS支持通过多种方式控制读码器停止图像采集和读码。" /><meta name="description" content="IDMVS支持通过多种方式控制读码器停止图像采集和读码。" /><meta name="DC.Relation" scheme="URI" content="GUID-1EEE9544-2504-4B35-8C81-8F6D103660EA.html" /><meta name="DC.Format" content="XHTML" /><meta name="DC.Identifier" content="GUID-C5494A18-48A4-4821-9A20-4388A5E936B5" /><meta name="DC.Language" content="zh-CN" /><title>停止触发配置</title><!-- Generated with dksgen version 1.0, build number 2023071300.  --><meta viewport="Content-Type" content="width=device-width, initial-scale=1.0" /><meta http-equiv="X-UA-Compatible" content="IE=edge,Chrome=1" /><meta name="wh-path2root" content="index.html" />
+		<!-- commonltr css -->
+		<link rel="stylesheet" type="text/css" href="daksys-webhelp/resources/css/commonltr.css" />
+		<!-- Bootstrap css -->
+		<link rel="stylesheet" type="text/css" href="daksys-webhelp/resources/bootstrap/css/bootstrap.min.css" />
+		<link rel="stylesheet" type="text/css" href="daksys-webhelp/resources/bootstrap/css/bootstrap-theme.min.css" />
+		<link rel="stylesheet" type="text/css" href="daksys-webhelp/resources/js/jquery-ui.min.css" />
+		
+		<!-- Template css  -->
+		<link href="daksys-webhelp/template/resources/css/HIKROBOT_color.css?buildId=2023071300" rel="stylesheet" type="text/css" />
+		<link rel="stylesheet" type="text/css" href="daksys-webhelp/template/resources/css/wt_topic.css?buildId=2023071300" />
+		<link rel="stylesheet" type="text/css" href="daksys-webhelp/template/resources/css/wt_topic_m.css?buildId=2023071300" />
+		<link rel="stylesheet" type="text/css" href="daksys-webhelp/template/resources/css/wt_expand.css?buildId=2023071300" />
+		<link rel="stylesheet" type="text/css" href="daksys-webhelp/template/resources/css/wt_note.css?buildId=2023071300" />
+		<link rel="stylesheet" type="text/css" href="daksys-webhelp/template/resources/css/wt_steps.css?buildId=2023071300" />
+		
+		<!-- jquery js  -->
+		<script type="text/javascript" src="daksys-webhelp/resources/js/jquery-3.6.2.min.js"></script>
+		<script type="text/javascript" src="daksys-webhelp/resources/js/jquery.cookie.js"></script>
+		<script type="text/javascript" src="daksys-webhelp/resources/js/jquery.highlight-3.js"></script>
+		<script type="text/javascript" src="daksys-webhelp/resources/js/jquery-ui.min.js"></script>
+		
+		<!-- common js  -->
+		<script type="text/javascript" src="daksys-webhelp/resources/bootstrap/js/bootstrap.min.js"></script>
+		<script type="text/javascript" src="daksys-webhelp/resources/js/base64.js"></script>
+		<script type="text/javascript" src="daksys-webhelp/resources/js/browserDetect.js"></script>
+		<script type="text/javascript" src="daksys-webhelp/resources/js/localization.js"></script>
+		<script type="text/javascript" src="daksys-webhelp/resources/js/parseuri.js"></script>
+		<script type="text/javascript" src="daksys-webhelp/resources/localization/strings.js"></script>
+		<!-- Template js -->
+		<script type="text/javascript" src="daksys-webhelp/template/resources/js/wt_topic.js?buildId=2023071300"></script>
+		<script type="text/javascript" src="daksys-webhelp/template/resources/js/wt_expand.js?buildId=2023071300"></script>
+	</head>
+	<body class="wt_topic_page frmBody" id="GUID-C5494A18-48A4-4821-9A20-4388A5E936B5" onload="topicOnload()">
+		<!-- get_lang -->
+		<div id="lang" style="display:none">zh-CN</div><div id="mapoutputclass" style="display:none"></div>
+		<input hidden="hidden" id="UDCode" value="UD12345B" /><input hidden="hidden" id="Trademark" value="海康机器人" />
+		
+		<div class="content_box">
+			<div class="middle_view content_area col-sm-9" id="content_area">
+				<div class=" wt_breadcrumb "><ol><li><span class="home topicref"><a href="javascript:void(0)" onclick="gotoFirstPage()">首页</a></span></li><li><span class="topicref"><a href="GUID-D8488278-18E0-41D0-91B9-35636662C53F.html" data-id="GUID-D8488278-18E0-41D0-91B9-35636662C53F">读码器常用配置</a></span></li><li><span class="topicref"><a href="GUID-E651848B-CCFF-43E5-9A3F-6784124967A8.html" data-id="GUID-E651848B-CCFF-43E5-9A3F-6784124967A8">配置输入/输出</a></span></li><li><span class="topicref"><a href="GUID-1EEE9544-2504-4B35-8C81-8F6D103660EA.html" data-id="GUID-1EEE9544-2504-4B35-8C81-8F6D103660EA">输入</a></span></li><li class="active"><span class="topicref">停止触发配置</span></li></ol><div class="wt_breadcrumb_ellipsis" onclick="expandBreadcrumbDiv()"></div><div class="wt_breadcrumb_collapse" style="display: none;"><div class="wt_breadcrumb_collapse_button" onclick="collapseBreadcrumbDiv()"></div></div></div>
+				
+				<div id="container_body" class="container">
+					<div id="contentArea">
+						<div class=" wt_topic_content body ">
+    <h1 class="title topictitle1">停止触发配置</h1>
+
+
+<div class="body conbody"><p class="shortdesc">IDMVS支持通过多种方式控制读码器停止图像采集和读码。</p>
+
+<p class="p">在<span class="ph uicontrol">输入</span>页签的<span class="ph uicontrol">停止触发配置</span>区域，单击<span class="ph uicontrol">添加停止触发配置</span>，配置停止触发配置。可选择停止触发方式及相关参数说明如下文所示。</p>
+
+        <div class="note note" id="GUID-C5494A18-48A4-4821-9A20-4388A5E936B5__GUID-EDA676DF-A4D8-4102-AA45-5A40A35C2669"><span class="notetitle">说明</span> 
+            <ul class="ul" id="GUID-C5494A18-48A4-4821-9A20-4388A5E936B5__UL_VDY_5QR_S2C">
+                <li class="li" id="GUID-C5494A18-48A4-4821-9A20-4388A5E936B5__GUID-CF6DB0FE-25D6-469B-94AD-92DDFF4E6417">
+                    <p class="p"> 请确保<span class="keyword parmname">触发模式</span>参数为<span class="ph uicontrol">开启</span>。</p>
+
+                </li>
+
+                <li class="li" id="GUID-C5494A18-48A4-4821-9A20-4388A5E936B5__GUID-FA299856-0C85-480F-8920-5593690D010F">
+                    <p class="p">
+                        U口设备支持USB停止触发，网口设备支持USB之外的停止触发，根据设备型号不同，网口设备支持的具体结束触发方式有所差别，具体请以实际参数为准。</p>
+
+                </li>
+
+                <li class="li" id="GUID-C5494A18-48A4-4821-9A20-4388A5E936B5__GUID-81C48B74-E02A-45E4-8DCA-38287D39E9F7">
+                    <p class="p">支持添加多个停止触发配置，达到其中一个配置的停止触发条件即停止触发。同时每个停止触发方式只允许配置一次。</p>
+
+                </li>
+
+                <li class="li" id="GUID-C5494A18-48A4-4821-9A20-4388A5E936B5__GUID-4DDF53EF-0E02-4934-9849-531B013FDA76">
+                    <p class="p">开启轮询组后不支持添加停止触发配置。</p>
+
+                </li>
+
+            </ul>
+
+        </div>
+
+        <div class="section" id="GUID-C5494A18-48A4-4821-9A20-4388A5E936B5__GUID-82966E96-0419-4F3C-857F-F71784B9D727"><h2 class="title sectiontitle">I/O 停止触发</h2>
+            
+            <p class="p">通过外部 I/O 信号或软触发停止按钮停止触发，可配置参数说明如下。</p>
+
+            <dl class="dl parml">
+                
+                    <dt class="dt pt dlterm"><a name="GUID-C5494A18-48A4-4821-9A20-4388A5E936B5__GUID-2E054D41-A576-433F-9885-42D604F93798"><!-- --></a>I/O 停止触发源选择</dt>
+
+                    <dd class="dd pd">
+                        <p class="p">选择停止触发的信号来源。</p>
+
+                    </dd>
+
+                
+                
+                    <dt class="dt pt dlterm"><a name="GUID-C5494A18-48A4-4821-9A20-4388A5E936B5__GUID-ADD88ECF-7765-48FB-ABE6-36335292B46F"><!-- --></a>停止触发极性</dt>
+
+                    <dd class="dd pd">
+                        <p class="p">当<span class="ph uicontrol">I/O
+                                停止触发源选择</span>参数选择“线路0/1/2”时，可通过<span class="ph uicontrol">停止触发极性</span>参数设置停止触发信号的电平类型，可选择<span class="ph uicontrol">上升沿</span>或<span class="ph uicontrol">下降沿</span>。</p>
+
+                        <div class="note_noline" id="GUID-C5494A18-48A4-4821-9A20-4388A5E936B5__GUID-E7B7BEEF-40D7-4359-BB7E-50D1390398A2"><span class="notetitle">说明</span> 
+                            <p class="p">若<span class="ph uicontrol">I/O
+                                    停止触发源选择</span>值与<span class="ph uicontrol">触发源</span>值相同，则不需要选择停止触发极性。</p>
+
+                        </div>
+
+                    </dd>
+
+                
+                
+                    <dt class="dt pt dlterm"><a name="GUID-C5494A18-48A4-4821-9A20-4388A5E936B5__GUID-0BC097F7-C6D8-48C1-B145-C81092EC9A6C"><!-- --></a>软触发停止</dt>
+
+                    <dd class="dd pd">
+                        <p class="p">当<span class="ph uicontrol">I/O
+                                停止触发源选择</span>参数选择“软触发结束”时，可单击<span class="ph uicontrol">软触发停止</span>处的<span class="ph uicontrol">执行</span>，手动停止触发。</p>
+
+                    </dd>
+
+                
+            </dl>
+
+        </div>
+
+        <div class="section" id="GUID-C5494A18-48A4-4821-9A20-4388A5E936B5__GUID-63F573CA-2DD8-4FC0-98EC-DD08294F2442"><h2 class="title sectiontitle">读码个数停止触发</h2>
+            
+            <p class="p">通过设置读码数量，达到预设值后停止触发，可配置<span class="keyword parmname">停止触发最小条码个数</span>、<span class="keyword parmname">停止触发最大条码个数</span>参数，配置说明如下。</p>
+
+            <div class="note note" id="GUID-C5494A18-48A4-4821-9A20-4388A5E936B5__GUID-FC1CC571-53D0-4F36-A2E8-22C72D9EC1B1"><span class="notetitle">说明</span> 
+                <p class="p"><span class="keyword parmname">停止触发最小条码个数</span>参数值需不大于<span class="keyword parmname">停止触发最大条码个数</span>参数值。</p>
+
+            </div>
+
+            <ul class="ul" id="GUID-C5494A18-48A4-4821-9A20-4388A5E936B5__UL_LFL_JNL_FRB">
+                <li class="li" id="GUID-C5494A18-48A4-4821-9A20-4388A5E936B5__GUID-0714B065-FF0A-441E-B659-E8CE16CC361B">
+                    <p class="p"> 当<span class="keyword parmname">停止触发最小条码个数</span>与<span class="keyword parmname">停止触发最大条码个数</span>设置相同时，若设备在当前触发内读取的码个数达到设置的条码个数后，设备停止触发，并输出条码及相关数据。</p>
+
+                </li>
+
+                <li class="li" id="GUID-C5494A18-48A4-4821-9A20-4388A5E936B5__GUID-3A3174F6-78EA-4492-8064-CB759E57A3E9">
+                    
+                    <p class="p">当设备触发结束后，读取的码个数小于设定的<span class="keyword parmname">停止触发最小条码个数</span>时，读码结果将根据<span class="ph uicontrol">格式化配置</span>页面<span class="keyword parmname">**输出无读数量补齐</span>参数的取值对应进行处理，详情请参见<a class="xref" href="GUID-C3AE063C-E14B-4882-A14C-1A6B2F872C1E.html#GUID-C3AE063C-E14B-4882-A14C-1A6B2F872C1E" title="格式化配置功能支持通过通讯协议输出的数据按照特定的结构、样式或规则进行组织，包括添加或删除输出内容或字符、设置输出内容开始和结束部分等。">格式化配置</a>。</p>
+
+                </li>
+
+                <li class="li" id="GUID-C5494A18-48A4-4821-9A20-4388A5E936B5__GUID-2732B43B-6510-4956-A3B1-01DFEA2E6B13">
+                    <p class="p">当设备在当前触发内读取的码个数达到设定的<span class="keyword parmname">停止触发最大条码个数</span>时，设备将停止触发，并输出条码及相关数据。</p>
+
+                </li>
+
+                <li class="li" id="GUID-C5494A18-48A4-4821-9A20-4388A5E936B5__GUID-B4CCD641-D7FE-48EF-BE72-FEF53A090225">
+                    <p class="p">当设备在当前触发内读取的码个数处于<span class="keyword parmname">停止触发最小条码个数</span>和<span class="keyword parmname">停止触发最大条码个数</span>之间时，将根据触发信号进行读码，并输出条码及相关数据。</p>
+
+                </li>
+
+            </ul>
+
+        </div>
+
+        <div class="section" id="GUID-C5494A18-48A4-4821-9A20-4388A5E936B5__GUID-B31DEA05-2A8C-4D77-8D49-6ACC7ADEE964"><h2 class="title sectiontitle">串口停止触发</h2>
+            
+            <p class="p">通过串口通信接收停止指令停止触发，可配置参数说明如下。</p>
+
+            <dl class="dl parml">
+                
+                    <dt class="dt pt dlterm"><a name="GUID-C5494A18-48A4-4821-9A20-4388A5E936B5__GUID-153E9FCD-96B4-45A7-BABE-8FF3A54C61FC"><!-- --></a>串口停止触发命令格式</dt>
+
+                    <dd class="dd pd">
+                        <p class="p">设置串口停止触发字符格式，可选择<span class="ph uicontrol">字符串</span>或<span class="ph uicontrol">十六进制</span>。</p>
+
+                        <div class="note_noline" id="GUID-C5494A18-48A4-4821-9A20-4388A5E936B5__GUID-2BB2006F-4373-46B9-8CA7-E06084781C7D"><span class="notetitle">说明</span> 
+                            <p class="p">仅串口数据位选择为8时，支持16进制格式。</p>
+
+                        </div>
+
+                    </dd>
+
+                
+                
+                    <dt class="dt pt dlterm"><a name="GUID-C5494A18-48A4-4821-9A20-4388A5E936B5__GUID-5C58762F-DE46-4B16-8333-588B9C22A943"><!-- --></a>串口停止触发命令字符串/十六进制命令</dt>
+
+                    <dd class="dd pd">
+                        <p class="p">设置串口触发指令，根据所选<span class="ph uicontrol">串口停止触发命令格式</span>参数值，自定义对应格式的触发指令。当文本格式选择<span class="ph uicontrol">十六进制</span>时，可单击参数右侧<img class="image icon" style="display:none;" id="GUID-C5494A18-48A4-4821-9A20-4388A5E936B5__IMAGE_XV1_1DM_S2C" src="GUID-ECAC2D8F-07A4-480D-9E53-680CDED921C7-high.png" />，将弹出16进制ASCII对照表供选择。</p>
+
+                    </dd>
+
+                
+                
+                    <dt class="dt pt dlterm"><a name="GUID-C5494A18-48A4-4821-9A20-4388A5E936B5__GUID-92B89A6B-F51F-42DF-A8CE-A50A99ADCE17"><!-- --></a>串口波特率</dt>
+
+                    <dd class="dd pd">
+                        <p class="p">选择读码器的串口波特率，代表串口每秒传输的位数（bit/s）。</p>
+
+                        <div class="note note" id="GUID-C5494A18-48A4-4821-9A20-4388A5E936B5__d988e172"><span class="notetitle">说明</span> 
+                            <p class="p">请确保读码器和目标设备的串口波特率一致，以避免数据丢失或错误。</p>
+
+                        </div>
+
+                    </dd>
+
+                
+                
+                    <dt class="dt pt dlterm"><a name="GUID-C5494A18-48A4-4821-9A20-4388A5E936B5__GUID-CAC510CE-BDC5-4FCA-8B41-F4EAA8F99694"><!-- --></a>串口数据位</dt>
+
+                    <dd class="dd pd">
+                        <p class="p">选择数据传输过程中每个字符的位数。可选择<span class="ph uicontrol">7</span>或<span class="ph uicontrol">8</span>，通常设置为
+                            8 位。</p>
+
+                        <div class="note_noline" id="GUID-C5494A18-48A4-4821-9A20-4388A5E936B5__d988e199"><span class="notetitle">说明</span> 
+                            <p class="p">仅串口数据位选择为8时，支持16进制触发方式。</p>
+
+                        </div>
+
+                    </dd>
+
+                
+                
+                    <dt class="dt pt dlterm"><a name="GUID-C5494A18-48A4-4821-9A20-4388A5E936B5__GUID-B668EBB2-7D75-4C6F-AD9B-860F3595E071"><!-- --></a>串口奇偶校验</dt>
+
+                    <dd class="dd pd">
+                        <p class="p">设置用于检测传输错误的位，可选择如下三种方式：</p>
+
+                        <ul class="ul" id="GUID-C5494A18-48A4-4821-9A20-4388A5E936B5__UL_ODK_HBC_P2C">
+                            <li class="li" id="GUID-C5494A18-48A4-4821-9A20-4388A5E936B5__GUID-B21201D0-F594-428E-8040-AB720546FE79">
+                                <p class="p"><span class="ph uicontrol">不校验</span>：不使用校验位。</p>
+
+                            </li>
+
+                            <li class="li" id="GUID-C5494A18-48A4-4821-9A20-4388A5E936B5__GUID-4A661892-2FDC-487E-B399-7A9BFAADB431">
+                                <p class="p"><span class="ph uicontrol">奇校验</span>：在数据的最后添加一个校验位，使得数据中1的个数为奇数。接收方收到数据后，检查数据中1的个数是否为奇数，如果不符，则认为数据传输有误。</p>
+
+                            </li>
+
+                            <li class="li" id="GUID-C5494A18-48A4-4821-9A20-4388A5E936B5__GUID-75D5F547-9739-4A50-A9A6-AD1B0D5B1DF5">
+                                <p class="p"><span class="ph uicontrol">偶校验</span>：在数据的最后添加一个校验位，使得数据中1的个数为偶数。接收方收到数据后，检查数据中1的个数是否为偶数，如果不符，则认为数据传输有误。</p>
+
+                            </li>
+
+                        </ul>
+
+                    </dd>
+
+                
+                
+                    <dt class="dt pt dlterm"><a name="GUID-C5494A18-48A4-4821-9A20-4388A5E936B5__GUID-14A9B2EA-10FF-400A-9F7E-25D4A698C3F8"><!-- --></a>串口停止位</dt>
+
+                    <dd class="dd pd">
+                        <p class="p">设置在字符传输后用于标识字符结束的位数，可选择<span class="ph uicontrol">1</span>或<span class="ph uicontrol">2</span>。</p>
+
+                    </dd>
+
+                
+            </dl>
+
+        </div>
+
+        <div class="section" id="GUID-C5494A18-48A4-4821-9A20-4388A5E936B5__GUID-A388C771-D2B1-4547-845F-BA3215C5C85B"><h2 class="title sectiontitle">TCP客户端停止触发</h2>
+            
+            <p class="p">读码器作为TCP客户端，通过 TCP 协议接收停止指令停止触发，可配置参数说明如下。</p>
+
+            <dl class="dl parml">
+                
+                    <dt class="dt pt dlterm"><a name="GUID-C5494A18-48A4-4821-9A20-4388A5E936B5__GUID-E1AE53BA-81A1-43BA-A767-6B862A4AF625"><!-- --></a>TCP客户端停止触发的IP地址</dt>
+
+                    <dd class="dd pd">
+                        <p class="p">设置发出停止触发指令的TCP服务器IP。</p>
+
+                    </dd>
+
+                
+                
+                    <dt class="dt pt dlterm"><a name="GUID-C5494A18-48A4-4821-9A20-4388A5E936B5__GUID-95C6B9C2-678B-47D6-8542-16EF123C9B3D"><!-- --></a>TCP客户端停止触发端口号</dt>
+
+                    <dd class="dd pd">
+                        <p class="p">设置发出停止触发指令的TCP服务器端口号。</p>
+
+                    </dd>
+
+                
+                
+                    <dt class="dt pt dlterm"><a name="GUID-C5494A18-48A4-4821-9A20-4388A5E936B5__GUID-0043E8CC-B1D6-427C-B8D3-93A948FC1E89"><!-- --></a>TCP客户端停止触发命令格式</dt>
+
+                    <dd class="dd pd">
+                        <p class="p">设置TCP停止触发字符格式，可选择<span class="ph uicontrol">字符串</span>或<span class="ph uicontrol">十六进制</span>。</p>
+
+                    </dd>
+
+                
+                
+                    <dt class="dt pt dlterm"><a name="GUID-C5494A18-48A4-4821-9A20-4388A5E936B5__GUID-8EB94340-537A-492E-8185-2CABF18382CA"><!-- --></a>TCP客户端停止触发命令字符串/十六进制命令</dt>
+
+                    <dd class="dd pd">
+                        <p class="p">设置TCP停止触发指令，根据所选<span class="ph uicontrol">TCP客户端停止触发文本格式</span>参数值，自定义对应格式的触发指令。当文本格式选择<span class="ph uicontrol">十六进制</span>时，可单击参数右侧<img class="image icon" style="display:none;" id="GUID-C5494A18-48A4-4821-9A20-4388A5E936B5__IMAGE_X5T_RGM_S2C" src="GUID-ECAC2D8F-07A4-480D-9E53-680CDED921C7-high.png" />，将弹出16进制ASCII对照表供选择。</p>
+
+                    </dd>
+
+                
+            </dl>
+
+        </div>
+
+        <div class="section" id="GUID-C5494A18-48A4-4821-9A20-4388A5E936B5__GUID-3450FBD6-D504-43C2-A33E-D08A55080BD1"><h2 class="title sectiontitle">TCP服务端停止触发</h2>
+            
+            <p class="p">读码器作为TCP服务端，通过 TCP 协议接收停止指令停止触发，可配置参数说明如下。</p>
+
+            <dl class="dl parml">
+                
+                    <dt class="dt pt dlterm"><a name="GUID-C5494A18-48A4-4821-9A20-4388A5E936B5__GUID-F7929689-F2E0-412C-892B-A11ABA54D1B5"><!-- --></a>TCP服务端停止触发端口号</dt>
+
+                    <dd class="dd pd">
+                        <p class="p">设置接收停止触发指令的TCP服务器端口号。</p>
+
+                    </dd>
+
+                
+                
+                    <dt class="dt pt dlterm"><a name="GUID-C5494A18-48A4-4821-9A20-4388A5E936B5__GUID-D6D6D5D7-A60E-4D9F-A181-F70B48F4F7B0"><!-- --></a>TCP服务端停止触发命令格式</dt>
+
+                    <dd class="dd pd">
+                        <p class="p">设置TCP停止触发字符格式，可选择<span class="ph uicontrol">字符串</span>或<span class="ph uicontrol">十六进制</span>。</p>
+
+                    </dd>
+
+                
+                
+                    <dt class="dt pt dlterm"><a name="GUID-C5494A18-48A4-4821-9A20-4388A5E936B5__GUID-1B94BE30-B0B4-486D-94B7-26CD0FCF6D26"><!-- --></a>TCP服务端停止触发命令字符串/十六进制命令</dt>
+
+                    <dd class="dd pd">
+                        <p class="p">设置TCP停止触发指令，根据所选<span class="ph uicontrol">TCP服务端停止触发文本格式</span>参数值，自定义对应格式的触发指令。当文本格式选择<span class="ph uicontrol">十六进制</span>时，可单击参数右侧<img class="image icon" style="display:none;" id="GUID-C5494A18-48A4-4821-9A20-4388A5E936B5__IMAGE_VJQ_VPS_S2C" src="GUID-ECAC2D8F-07A4-480D-9E53-680CDED921C7-high.png" />，将弹出16进制ASCII对照表供选择。</p>
+
+                    </dd>
+
+                
+            </dl>
+
+        </div>
+
+        <div class="section" id="GUID-C5494A18-48A4-4821-9A20-4388A5E936B5__GUID-96A3B6E7-79EF-4DA5-B6DC-018454E45484"><h2 class="title sectiontitle">超时停止触发</h2>
+            
+            <p class="p">通过设置<span class="ph uicontrol">最大输出时间(ms)</span>参数，读码器达到设定的时间后自动停止触发。</p>
+
+        </div>
+
+        <div class="section" id="GUID-C5494A18-48A4-4821-9A20-4388A5E936B5__GUID-764349B7-DB32-4B53-B745-215CD177D9CA"><h2 class="title sectiontitle">UDP停止触发</h2>
+            
+            <p class="p">通过UDP协议接收停止指令停止触发，可配置参数说明如下。</p>
+
+            <dl class="dl parml">
+                
+                    <dt class="dt pt dlterm"><a name="GUID-C5494A18-48A4-4821-9A20-4388A5E936B5__GUID-CFC17891-E92F-4666-A1CB-B1AF7397066A"><!-- --></a>UDP停止触发端口号</dt>
+
+                    <dd class="dd pd">
+                        <p class="p">设置UDP停止触发的端口号。</p>
+
+                    </dd>
+
+                
+                
+                    <dt class="dt pt dlterm"><a name="GUID-C5494A18-48A4-4821-9A20-4388A5E936B5__GUID-96E48520-5D0B-4B45-9858-A2F3ED4051C6"><!-- --></a>UDP停止触发命令格式</dt>
+
+                    <dd class="dd pd">
+                        <p class="p">设置UDP触发字符格式，可选择<span class="ph uicontrol">字符串</span>或<span class="ph uicontrol">十六进制</span>。</p>
+
+                    </dd>
+
+                
+                
+                    <dt class="dt pt dlterm"><a name="GUID-C5494A18-48A4-4821-9A20-4388A5E936B5__GUID-48CF3BAD-FCD2-4ABE-8310-D4C8F441F4CF"><!-- --></a>UDP停止触发文本/十六进制命令</dt>
+
+                    <dd class="dd pd">
+                        <p class="p">设置UDP触发指令，根据所选<span class="ph uicontrol">UDP停止触发命令格式</span>参数值，自定义对应格式的触发指令。当文本格式选择<span class="ph uicontrol">十六进制</span>时，可单击参数右侧<img class="image icon" style="display:none;" id="GUID-C5494A18-48A4-4821-9A20-4388A5E936B5__IMAGE_OHW_1LM_S2C" src="GUID-ECAC2D8F-07A4-480D-9E53-680CDED921C7-high.png" />，将弹出16进制ASCII对照表供选择。</p>
+
+                    </dd>
+
+                
+            </dl>
+
+        </div>
+
+        <div class="section" id="GUID-C5494A18-48A4-4821-9A20-4388A5E936B5__GUID-365E56F0-3C84-4D97-AEDE-ABE2345E43BA"><h2 class="title sectiontitle">轮询读码个数停止触发</h2>
+            
+            
+            <p class="p">当开启多组参数轮询功能后，在<span class="ph uicontrol">停止触发配置</span>区域显示轮询读码个数停止触发相关参数，配置轮询停止条件。</p>
+
+            <div class="note note" id="GUID-C5494A18-48A4-4821-9A20-4388A5E936B5__GUID-16A9E5F8-E9EB-44D0-872A-058144398003"><span class="notetitle">说明</span> 
+                <p class="p">此处可配置参数与<span class="ph uicontrol">参数轮询</span>页面下方参数一致。</p>
+
+            </div>
+
+            <dl class="dl parml">
+                
+                    <dt class="dt pt dlterm"><a name="GUID-C5494A18-48A4-4821-9A20-4388A5E936B5__GUID-95CADEBD-BEC6-4E96-B106-9EEEB4D34351"><!-- --></a>轮询停止条件</dt>
+
+                    <dd class="dd pd">
+                        <p class="p">可选如下条件。</p>
+
+                        <dl class="dl parml">
+                            
+                                <dt class="dt pt dlterm"><a name="GUID-C5494A18-48A4-4821-9A20-4388A5E936B5__GUID-10A47EBA-BECB-4242-BCCD-96E12C74238B"><!-- --></a>单帧内指定个数</dt>
+
+                                <dd class="dd pd">
+                                    <p class="p">根据一帧图像内读取到的条码个数停止当前参数轮询。</p>
+
+                                </dd>
+
+                            
+                        </dl>
+
+                        <dl class="dl parml">
+                            
+                                <dt class="dt pt dlterm"><a name="GUID-C5494A18-48A4-4821-9A20-4388A5E936B5__GUID-26B20817-A98E-4D2E-9C56-E76F582D7A05"><!-- --></a>整个轮询周期内指定个数</dt>
+
+                                <dd class="dd pd">
+                                    <p class="p">根据轮询周期内读取到的读码个数停止当前参数轮询。</p>
+
+                                </dd>
+
+                            
+                        </dl>
+
+                    </dd>
+
+                
+                
+                    <dt class="dt pt dlterm"><a name="GUID-C5494A18-48A4-4821-9A20-4388A5E936B5__GUID-8B357234-B6B7-480B-B704-ED950D9A9E76"><!-- --></a>轮询指定个数</dt>
+
+                    <dd class="dd pd">
+                        <p class="p">指定触发轮询停止的读码个数。</p>
+
+                    </dd>
+
+                
+            </dl>
+
+        </div>
+
+</div>
+
+
+</div>
+						<div class=" wt_topic_wpp_content wt_pc_only "><div class=" wt_topic_wpp_content_flex "><div class="wt_topic_wpp_item like"></div><div class="wt_topic_wpp_item view"></div><div class="wt_topic_wpp_item share">分享</div></div></div>
+						
+						
+						
+					</div>
+				</div><!-- container_body -->
+				
+				<div class=" body_footer "><div onclick="prevTopic()" class=" body_footer_left link_button "><span>上一页</span></div><div onclick="nextTopic()" class=" body_footer_right link_button "><span>下一页</span></div></div>
+				<div class=" body_wpp mobile_only"><div class="wt_body_mobile_like"></div><div class="wt_body_mobile_view"></div></div>
+				<!-- <whc:webhelp_side_toc /> -->
+				
+			</div> <!-- middle_view content_area -->
+			<div class=" right_content wt_pc_only "><div class=" right_fixed_container "><div class="right_guide"><div class="feature_guide"><div>本页导航</div><ul><li onclick="scrollToAnchor($(this))" data-id="GUID-C5494A18-48A4-4821-9A20-4388A5E936B5__GUID-82966E96-0419-4F3C-857F-F71784B9D727" class="feature_guide_h2"><span class="link_button">I/O 停止触发</span></li><li onclick="scrollToAnchor($(this))" data-id="GUID-C5494A18-48A4-4821-9A20-4388A5E936B5__GUID-63F573CA-2DD8-4FC0-98EC-DD08294F2442" class="feature_guide_h2"><span class="link_button">读码个数停止触发</span></li><li onclick="scrollToAnchor($(this))" data-id="GUID-C5494A18-48A4-4821-9A20-4388A5E936B5__GUID-B31DEA05-2A8C-4D77-8D49-6ACC7ADEE964" class="feature_guide_h2"><span class="link_button">串口停止触发</span></li><li onclick="scrollToAnchor($(this))" data-id="GUID-C5494A18-48A4-4821-9A20-4388A5E936B5__GUID-A388C771-D2B1-4547-845F-BA3215C5C85B" class="feature_guide_h2"><span class="link_button">TCP客户端停止触发</span></li><li onclick="scrollToAnchor($(this))" data-id="GUID-C5494A18-48A4-4821-9A20-4388A5E936B5__GUID-3450FBD6-D504-43C2-A33E-D08A55080BD1" class="feature_guide_h2"><span class="link_button">TCP服务端停止触发</span></li><li onclick="scrollToAnchor($(this))" data-id="GUID-C5494A18-48A4-4821-9A20-4388A5E936B5__GUID-96A3B6E7-79EF-4DA5-B6DC-018454E45484" class="feature_guide_h2"><span class="link_button">超时停止触发</span></li><li onclick="scrollToAnchor($(this))" data-id="GUID-C5494A18-48A4-4821-9A20-4388A5E936B5__GUID-764349B7-DB32-4B53-B745-215CD177D9CA" class="feature_guide_h2"><span class="link_button">UDP停止触发</span></li><li onclick="scrollToAnchor($(this))" data-id="GUID-C5494A18-48A4-4821-9A20-4388A5E936B5__GUID-365E56F0-3C84-4D97-AEDE-ABE2345E43BA" class="feature_guide_h2"><span class="link_button">轮询读码个数停止触发</span></li></ul></div></div></div></div>
+		</div> <!-- content_box -->
+		
+		<!-- 置顶按钮 -->
+		<div class="body_to_top" onclick="scrollTopicTop()"></div> 
+		<!-- 评价反馈 -->
+		<div onclick="manualFeedback()" class=" body_feedback " data-href="https://wj.hikvision.com/#/public-survey?id=64c8b90d80e02e9e88feca2f"></div>
+		
+	</body>
+</html>

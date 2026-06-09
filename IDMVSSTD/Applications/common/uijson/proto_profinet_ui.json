@@ -1,0 +1,51 @@
+{
+    "ui_tabs": [
+        {
+            "ui_type": "tab",
+            "ui_param_name": "",
+            "ui_subset": [
+                {
+                    "ui_display_name": "Protocol_Profinet",
+                    "ui_display_cn_name": "Profinet协议",
+                    "ui_display_en_name": "Profinet",
+                    "ui_usage_frequency": "Common",
+                    "ui_type": "category",
+                    "ui_param_name": "",
+                    "ui_param_display_type": "",
+                    "ui_subset": [
+                        {
+                            "ui_display_name": "ProfinetDeviceName",
+                            "ui_display_cn_name": "Profinet设备名称",
+                            "ui_display_en_name": "Profinet Device Name",
+                            "ui_usage_frequency": "Common",
+                            "ui_type": "config_param",
+                            "ui_param_name": "ProfinetDeviceName",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        },
+                        {
+                            "ui_display_name": "ProfinetResultModuleSize",
+                            "ui_display_cn_name": "结果区域大小",
+                            "ui_display_en_name": "Result Region Size",
+                            "ui_usage_frequency": "Common",
+                            "ui_type": "config_param",
+                            "ui_param_name": "ProfinetResultModuleSize",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        },
+                        {
+                            "ui_display_name": "ProfinetResultTimeout",
+                            "ui_display_cn_name": "响应等待时间(s)",
+                            "ui_display_en_name": "Response Wait Time(s)",
+                            "ui_usage_frequency": "Common",
+                            "ui_type": "config_param",
+                            "ui_param_name": "ProfinetResultTimeout",
+                            "ui_param_display_type": "",
+                            "ui_subset": null
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}
