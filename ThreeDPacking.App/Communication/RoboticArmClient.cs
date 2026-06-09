@@ -73,7 +73,7 @@ namespace ThreeDPacking.App.Communication
         }
 
         /// <summary>
-        /// 发送单条坐标消息（自动追加换行分隔符）。
+        /// 发送坐标消息，支持多个点位拼接（自动追加换行分隔符）。
         /// </summary>
         public async Task SendCoordinateAsync(string message, CancellationToken cancellationToken = default)
         {

@@ -315,12 +315,12 @@ namespace WindowsFormsApp1
             this.grpCurrentOrder.Controls.Add(this.lblOrderBoxInput);
             this.grpCurrentOrder.Controls.Add(this.rdoInputByBoxCode);
             this.grpCurrentOrder.Controls.Add(this.rdoInputByOrderNo);
-            this.grpCurrentOrder.Dock = System.Windows.Forms.DockStyle.Left;
+            this.grpCurrentOrder.Dock = System.Windows.Forms.DockStyle.Top;
             this.grpCurrentOrder.Location = new System.Drawing.Point(8, 8);
             this.grpCurrentOrder.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.grpCurrentOrder.Name = "grpCurrentOrder";
             this.grpCurrentOrder.Padding = new System.Windows.Forms.Padding(2, 2, 2, 2);
-            this.grpCurrentOrder.Size = new System.Drawing.Size(345, 104);
+            this.grpCurrentOrder.Size = new System.Drawing.Size(345, 206);
             this.grpCurrentOrder.TabIndex = 0;
             this.grpCurrentOrder.TabStop = false;
             this.grpCurrentOrder.Text = "当前订单与箱码匹配";

@@ -382,7 +382,8 @@ namespace ThreeDPacking.App.Forms
             lvPackingPoints.HeaderStyle = ColumnHeaderStyle.Nonclickable;
             lvPackingPoints.Columns.Add("序号", 42, HorizontalAlignment.Center);
             lvPackingPoints.Columns.Add("物品", 72, HorizontalAlignment.Left);
-            lvPackingPoints.Columns.Add("点位", 160, HorizontalAlignment.Left);
+            lvPackingPoints.Columns.Add("点位", 120, HorizontalAlignment.Left);
+            lvPackingPoints.Columns.Add("下放点位", 120, HorizontalAlignment.Left);
 
             grpPackingPoints.Controls.Add(lblPackingPointsInfo);
             grpPackingPoints.Controls.Add(lvPackingPoints);
@@ -640,6 +641,9 @@ namespace ThreeDPacking.App.Forms
             LayoutActualPackingPanel();
         }
 
+        /// <summary>
+        /// 按装箱顺序拼接所有下放点位，格式如 [x,y,z,0,0,0],[x,y,z,0,0,0]。
+        /// </summary>
         private string FormatAllArmCoordinatesPayload()
         {
             return string.Join(",", _packingPointStrings);
@@ -740,7 +744,7 @@ namespace ThreeDPacking.App.Forms
             if (!connected)
                 UpdateSendStatus(null);
             else if (_packingPointStrings.Count > 0)
-                AppendLog("[机械臂] 已连接，点击「发送坐标」向机械臂发送单条点位。");
+                AppendLog("[机械臂] 已连接，点击「发送坐标」按顺序发送全部下放点位。");
         }
 
         private async void BtnArmConnect_Click(object sender, EventArgs e)
@@ -917,13 +921,15 @@ namespace ThreeDPacking.App.Forms
 
         private void LayoutPackingPointsColumns()
         {
-            if (lvPackingPoints == null || lvPackingPoints.Columns.Count < 3)
+            if (lvPackingPoints == null || lvPackingPoints.Columns.Count < 4)
                 return;
 
             int listW = lvPackingPoints.ClientSize.Width - 4;
+            int pointWidth = Math.Max(90, (listW - 42 - 72) / 2);
             lvPackingPoints.Columns[0].Width = 42;
             lvPackingPoints.Columns[1].Width = 72;
-            lvPackingPoints.Columns[2].Width = Math.Max(120, listW - 42 - 72);
+            lvPackingPoints.Columns[2].Width = pointWidth;
+            lvPackingPoints.Columns[3].Width = Math.Max(90, listW - 42 - 72 - pointWidth);
         }
 
         private void LayoutScanInfoColumns()
@@ -1390,14 +1396,30 @@ namespace ThreeDPacking.App.Forms
         }
 
         private const double ArmCoordinateMmToMeters = 0.001;
+        private const int ArmDropOffsetMm = 475;
+
+        private static string FormatArmCoordinateArray(int topCenterX, int topCenterY, int zMm)
+        {
+            string x = (topCenterX * ArmCoordinateMmToMeters).ToString("0.###", System.Globalization.CultureInfo.InvariantCulture);
+            string y = (topCenterY * ArmCoordinateMmToMeters).ToString("0.###", System.Globalization.CultureInfo.InvariantCulture);
+            string z = (zMm * ArmCoordinateMmToMeters).ToString("0.###", System.Globalization.CultureInfo.InvariantCulture);
+            return $"[{x},{y},{z},0,0,0]";
+        }
 
         private static string FormatArmCoordinate(Placement placement)
         {
             int topCenterX = placement.X + placement.StackValue.Dx / 2;
             int topCenterY = placement.Y + placement.StackValue.Dy / 2;
-            string x = (topCenterX * ArmCoordinateMmToMeters).ToString("0.###", System.Globalization.CultureInfo.InvariantCulture);
-            string y = (topCenterY * ArmCoordinateMmToMeters).ToString("0.###", System.Globalization.CultureInfo.InvariantCulture);
-            return $"[{x},{y},0,0,0,0]";
+            int topCenterZ = placement.Z + placement.StackValue.Dz;
+            return FormatArmCoordinateArray(topCenterX, topCenterY, topCenterZ);
+        }
+
+        private static string FormatArmDropCoordinate(Placement placement)
+        {
+            int topCenterX = placement.X + placement.StackValue.Dx / 2;
+            int topCenterY = placement.Y + placement.StackValue.Dy / 2;
+            int topCenterZ = placement.Z + placement.StackValue.Dz;
+            return FormatArmCoordinateArray(topCenterX, topCenterY, topCenterZ - ArmDropOffsetMm);
         }
 
         private static List<Placement> GetItemPlacementsInPackingOrder(Container container)
@@ -1458,6 +1480,7 @@ namespace ThreeDPacking.App.Forms
                         sequence++;
                         string itemName = placement.StackValue.Box?.Id ?? "?";
                         string armCoordinate = FormatArmCoordinate(placement);
+                        string armDropCoordinate = FormatArmDropCoordinate(placement);
 
                         var item = new ListViewItem(sequence.ToString());
                         item.SubItems.Add(containerName);
@@ -1465,12 +1488,13 @@ namespace ThreeDPacking.App.Forms
                         item.SubItems.Add(FormatTopCenterPoint(placement));
                         lvPackingPositions.Items.Add(item);
 
-                        _packingPointStrings.Add(armCoordinate);
+                        _packingPointStrings.Add(armDropCoordinate);
                         if (lvPackingPoints != null)
                         {
                             var pointItem = new ListViewItem(sequence.ToString());
                             pointItem.SubItems.Add(itemName);
                             pointItem.SubItems.Add(armCoordinate);
+                            pointItem.SubItems.Add(armDropCoordinate);
                             lvPackingPoints.Items.Add(pointItem);
                         }
                     }
@@ -1491,14 +1515,14 @@ namespace ThreeDPacking.App.Forms
             if (lblPackingPointsInfo != null)
             {
                 lblPackingPointsInfo.Text = sequence > 0
-                    ? $"共 {sequence} 个点位（机械臂格式 [X,Y,0,0,0,0]，单位：米）"
+                    ? $"共 {sequence} 个点位（发送格式 [X,Y,Z,0,0,0],[X,Y,Z,0,0,0]，单位：米）"
                     : "暂无装箱点位";
             }
 
             LayoutActualPackingPanel();
             UpdateArmSendButtonState();
             if (_armClient != null && _armClient.IsConnected && sequence > 0)
-                AppendLog("[机械臂] 装箱点位已更新，点击「发送坐标」发送单条点位。");
+                AppendLog("[机械臂] 装箱点位已更新，点击「发送坐标」按顺序发送全部下放点位。");
         }
 
         private void AddDefaultContainer()

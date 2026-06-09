@@ -85,6 +85,26 @@ namespace WindowsFormsApp1
             return _byBarcode.TryGetValue(normalized, out record) ? record : null;
         }
 
+        public ProductRecord FindBySku(string sku)
+        {
+            if (string.IsNullOrWhiteSpace(sku))
+            {
+                return null;
+            }
+
+            string key = sku.Trim();
+            foreach (ProductRecord record in _byBarcode.Values)
+            {
+                string candidate = record.GetValue("SKU", "Sku", "sku", "货号", "产品货号");
+                if (string.Equals(candidate, key, StringComparison.OrdinalIgnoreCase))
+                {
+                    return record;
+                }
+            }
+
+            return null;
+        }
+
         public static string NormalizeBarcode(string barcode)
         {
             if (barcode == null)
@@ -145,6 +165,7 @@ namespace WindowsFormsApp1
 
                     var rows = new List<string[]>();
                     var formatter = new DataFormatter();
+                    int barcodeColumnIndex = -1;
                     for (int rowIndex = sheet.FirstRowNum; rowIndex <= sheet.LastRowNum; rowIndex++)
                     {
                         IRow row = sheet.GetRow(rowIndex);
@@ -164,13 +185,18 @@ namespace WindowsFormsApp1
                         for (int cellIndex = 0; cellIndex < lastCell; cellIndex++)
                         {
                             ICell cell = row.GetCell(cellIndex);
-                            string value = cell == null ? string.Empty : formatter.FormatCellValue(cell).Trim();
+                            bool barcodeColumn = cellIndex == barcodeColumnIndex;
+                            string value = SpreadsheetCellReader.ReadCell(cell, formatter, barcodeColumn);
                             values[cellIndex] = value;
                             hasValue = hasValue || value.Length > 0;
                         }
 
                         if (hasValue)
                         {
+                            if (barcodeColumnIndex < 0)
+                            {
+                                barcodeColumnIndex = FindBarcodeColumn(values);
+                            }
                             rows.Add(values);
                         }
                     }
