@@ -59,10 +59,12 @@ namespace ThreeDPacking.App.Forms
         private NumericUpDown numArmPort;
         private Button btnArmConnect;
         private Button btnArmDisconnect;
+        private Button btnArmSendCoordinate;
         private Panel pnlConnectionIndicator;
         private Label lblConnectionStatus;
         private RoboticArmClient _armClient;
         private bool _armConnecting;
+        private bool _armSendingCoordinate;
         private CancellationTokenSource _armConnectCts;
 
         private GroupBox grpPackingPositions;
@@ -78,8 +80,8 @@ namespace ThreeDPacking.App.Forms
 
         private Panel pnlSendStatusIndicator;
         private Label lblSendStatus;
+        private Label lblSentPayload;
         private bool? _packingPointSendSuccess;
-        private bool _isSendingFirstPackingPoint;
 
         private PaddingPaperFillStrategy _paddingPaperFillStrategy = PaddingPaperFillStrategy.MaxUtilization;
         private int _paddingPaperMinWidth = ThreeDPacking.Core.Models.PaddingPaper.DefaultWidth;
@@ -256,7 +258,7 @@ namespace ThreeDPacking.App.Forms
             lblArmAddress.AutoSize = true;
 
             txtArmAddress = new TextBox();
-            txtArmAddress.Text = "127.0.0.1";
+            txtArmAddress.Text = "192.168.0.200";
 
             lblArmPort = new Label();
             lblArmPort.Text = "端口：";
@@ -265,7 +267,7 @@ namespace ThreeDPacking.App.Forms
             numArmPort = new NumericUpDown();
             numArmPort.Minimum = 1;
             numArmPort.Maximum = 65535;
-            numArmPort.Value = 8080;
+            numArmPort.Value = 8055;
             numArmPort.TextAlign = HorizontalAlignment.Right;
 
             btnArmConnect = new Button();
@@ -278,6 +280,12 @@ namespace ThreeDPacking.App.Forms
             btnArmDisconnect.UseVisualStyleBackColor = true;
             btnArmDisconnect.Enabled = false;
             btnArmDisconnect.Click += BtnArmDisconnect_Click;
+
+            btnArmSendCoordinate = new Button();
+            btnArmSendCoordinate.Text = "发送坐标";
+            btnArmSendCoordinate.UseVisualStyleBackColor = true;
+            btnArmSendCoordinate.Enabled = false;
+            btnArmSendCoordinate.Click += BtnArmSendCoordinate_Click;
 
             pnlConnectionIndicator = new Panel();
             pnlConnectionIndicator.Size = new Size(16, 16);
@@ -295,6 +303,7 @@ namespace ThreeDPacking.App.Forms
             grpArmConnection.Controls.Add(numArmPort);
             grpArmConnection.Controls.Add(btnArmConnect);
             grpArmConnection.Controls.Add(btnArmDisconnect);
+            grpArmConnection.Controls.Add(btnArmSendCoordinate);
             grpArmConnection.Controls.Add(pnlConnectionIndicator);
             grpArmConnection.Controls.Add(lblConnectionStatus);
 
@@ -370,8 +379,14 @@ namespace ThreeDPacking.App.Forms
             lblSendStatus.AutoSize = true;
             lblSendStatus.Text = "未传送";
 
+            lblSentPayload = new Label();
+            lblSentPayload.AutoSize = true;
+            lblSentPayload.Visible = false;
+            lblSentPayload.ForeColor = Color.FromArgb(64, 64, 64);
+
             grpPackingPoints.Controls.Add(pnlSendStatusIndicator);
             grpPackingPoints.Controls.Add(lblSendStatus);
+            grpPackingPoints.Controls.Add(lblSentPayload);
 
             UpdateSendStatus(null);
         }
@@ -389,11 +404,11 @@ namespace ThreeDPacking.App.Forms
             }
         }
 
-        private void UpdateSendStatus(bool? success)
+        private void UpdateSendStatus(bool? success, string sentPayload = null)
         {
             if (InvokeRequired)
             {
-                BeginInvoke((Action)(() => UpdateSendStatus(success)));
+                BeginInvoke((Action)(() => UpdateSendStatus(success, sentPayload)));
                 return;
             }
 
@@ -402,53 +417,87 @@ namespace ThreeDPacking.App.Forms
             {
                 lblSendStatus.Text = "传送成功";
                 lblSendStatus.ForeColor = Color.FromArgb(46, 160, 67);
+                if (!string.IsNullOrEmpty(sentPayload))
+                {
+                    lblSentPayload.Text = sentPayload;
+                    lblSentPayload.Visible = true;
+                }
             }
             else if (success == false)
             {
                 lblSendStatus.Text = "传送失败";
                 lblSendStatus.ForeColor = Color.FromArgb(180, 60, 60);
+                lblSentPayload.Text = string.Empty;
+                lblSentPayload.Visible = false;
             }
             else
             {
                 lblSendStatus.Text = "未传送";
                 lblSendStatus.ForeColor = Color.FromArgb(180, 60, 60);
+                lblSentPayload.Text = string.Empty;
+                lblSentPayload.Visible = false;
             }
 
             pnlSendStatusIndicator?.Invalidate();
+            LayoutActualPackingPanel();
         }
 
-        private void TrySendFirstPackingPoint()
+        private string FormatAllArmCoordinatesPayload()
         {
-            _ = TrySendFirstPackingPointAsync();
+            return string.Join(",", _packingPointStrings);
         }
 
-        private async Task TrySendFirstPackingPointAsync()
+        private void UpdateArmSendButtonState()
+        {
+            if (btnArmSendCoordinate == null)
+                return;
+
+            btnArmSendCoordinate.Enabled = _armClient != null
+                && _armClient.IsConnected
+                && _packingPointStrings.Count > 0
+                && !_armSendingCoordinate
+                && !_armConnecting;
+        }
+
+        private async void BtnArmSendCoordinate_Click(object sender, EventArgs e)
         {
             if (_armClient == null || !_armClient.IsConnected)
+            {
+                MessageBox.Show("请先连接机械臂。", "提示",
+                    MessageBoxButtons.OK, MessageBoxIcon.Information);
                 return;
+            }
+
             if (_packingPointStrings.Count == 0)
+            {
+                MessageBox.Show("请先运行装箱生成点位。", "提示",
+                    MessageBoxButtons.OK, MessageBoxIcon.Information);
                 return;
-            if (_isSendingFirstPackingPoint)
-                return;
+            }
 
-            _isSendingFirstPackingPoint = true;
-            string payload = _packingPointStrings[0];
+            string payload = FormatAllArmCoordinatesPayload();
 
+            _armSendingCoordinate = true;
+            UpdateArmSendButtonState();
             try
             {
-                await _armClient.SendAsync(payload).ConfigureAwait(true);
-                UpdateSendStatus(true);
-                statusLabel.Text = $"已自动传送首个装箱点位: {payload}";
-                AppendLog($"[机械臂] 已传送首个点位: {payload}");
+                await _armClient.SendCoordinateAsync(payload).ConfigureAwait(true);
+                UpdateSendStatus(true, payload);
+
+                statusLabel.Text = $"已发送 {_packingPointStrings.Count} 个装箱点位";
+                AppendLog($"[机械臂] 已发送 {_packingPointStrings.Count} 个点位: {payload}（请在机械臂端立即点击接收）");
             }
             catch (Exception ex)
             {
                 UpdateSendStatus(false);
-                AppendLog($"[机械臂] 传送失败: {ex.Message}");
+                AppendLog($"[机械臂] 发送失败: {ex.Message}");
+                MessageBox.Show("发送失败:\n" + ex.Message, "错误",
+                    MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
             finally
             {
-                _isSendingFirstPackingPoint = false;
+                _armSendingCoordinate = false;
+                UpdateArmSendButtonState();
             }
         }
 
@@ -484,15 +533,16 @@ namespace ThreeDPacking.App.Forms
             numArmPort.Enabled = !connected && !busy;
             btnArmConnect.Enabled = !connected && !busy;
             btnArmDisconnect.Enabled = connected && !busy;
+            UpdateArmSendButtonState();
         }
 
         private void ArmClient_ConnectionChanged(object sender, bool connected)
         {
             UpdateConnectionStatus(connected);
-            if (connected)
-                TrySendFirstPackingPoint();
-            else
+            if (!connected)
                 UpdateSendStatus(null);
+            else if (_packingPointStrings.Count > 0)
+                AppendLog("[机械臂] 已连接，点击「发送坐标」向机械臂发送单条点位。");
         }
 
         private async void BtnArmConnect_Click(object sender, EventArgs e)
@@ -554,7 +604,7 @@ namespace ThreeDPacking.App.Forms
 
             int w = panelActualPacking.ClientSize.Width - 12;
             grpArmConnection.Location = new Point(6, 6);
-            grpArmConnection.Size = new Size(Math.Max(200, w), 110);
+            grpArmConnection.Size = new Size(Math.Max(200, w), 138);
 
             lblArmAddress.Location = new Point(12, 26);
             txtArmAddress.Location = new Point(52, 23);
@@ -569,8 +619,11 @@ namespace ThreeDPacking.App.Forms
             btnArmDisconnect.Location = new Point(211, 52);
             btnArmDisconnect.Size = new Size(60, 23);
 
-            pnlConnectionIndicator.Location = new Point(12, 84);
-            lblConnectionStatus.Location = new Point(34, 84);
+            btnArmSendCoordinate.Location = new Point(12, 82);
+            btnArmSendCoordinate.Size = new Size(90, 23);
+
+            pnlConnectionIndicator.Location = new Point(110, 86);
+            lblConnectionStatus.Location = new Point(132, 86);
 
             if (grpPackingPositions != null)
             {
@@ -596,8 +649,17 @@ namespace ThreeDPacking.App.Forms
                     ? grpPackingPositions.Bottom + 8
                     : grpArmConnection.Bottom + 8;
                 int listHeight = GetFixedListViewHeight(lvPackingPoints);
-                const int sendStatusRowHeight = 28;
-                int groupHeight = 52 + listHeight + sendStatusRowHeight;
+                const int sendStatusBaseHeight = 22;
+                int payloadLeft = 100;
+                int payloadWidth = Math.Max(120, grpPackingPoints.ClientSize.Width - payloadLeft - 12);
+                int sentPayloadHeight = 0;
+                if (lblSentPayload != null && lblSentPayload.Visible)
+                {
+                    lblSentPayload.MaximumSize = new Size(payloadWidth, 0);
+                    sentPayloadHeight = Math.Max(0, lblSentPayload.Height - sendStatusBaseHeight + 4);
+                }
+
+                int groupHeight = 52 + listHeight + sendStatusBaseHeight + sentPayloadHeight + 8;
 
                 grpPackingPoints.Location = new Point(6, top);
                 grpPackingPoints.Size = new Size(Math.Max(200, w), groupHeight);
@@ -609,8 +671,13 @@ namespace ThreeDPacking.App.Forms
                 lvPackingPoints.Size = new Size(grpPackingPoints.ClientSize.Width - 24, listHeight);
 
                 int statusTop = 44 + listHeight + 6;
-                pnlSendStatusIndicator.Location = new Point(12, statusTop);
+                pnlSendStatusIndicator.Location = new Point(12, statusTop + 2);
                 lblSendStatus.Location = new Point(34, statusTop);
+
+                if (lblSentPayload != null)
+                {
+                    lblSentPayload.Location = new Point(payloadLeft, statusTop);
+                }
 
                 LayoutPackingPointsColumns();
             }
@@ -1090,11 +1157,15 @@ namespace ThreeDPacking.App.Forms
             return $"({topCenterX},{topCenterY},{topCenterZ})";
         }
 
+        private const double ArmCoordinateMmToMeters = 0.001;
+
         private static string FormatArmCoordinate(Placement placement)
         {
             int topCenterX = placement.X + placement.StackValue.Dx / 2;
             int topCenterY = placement.Y + placement.StackValue.Dy / 2;
-            return $"[{topCenterX},{topCenterY},0,0,0,0]";
+            string x = (topCenterX * ArmCoordinateMmToMeters).ToString("0.###", System.Globalization.CultureInfo.InvariantCulture);
+            string y = (topCenterY * ArmCoordinateMmToMeters).ToString("0.###", System.Globalization.CultureInfo.InvariantCulture);
+            return $"[{x},{y},0,0,0,0]";
         }
 
         private static List<Placement> GetItemPlacementsInPackingOrder(Container container)
@@ -1188,12 +1259,14 @@ namespace ThreeDPacking.App.Forms
             if (lblPackingPointsInfo != null)
             {
                 lblPackingPointsInfo.Text = sequence > 0
-                    ? $"共 {sequence} 个点位（机械臂格式 [X,Y,0,0,0,0]）"
+                    ? $"共 {sequence} 个点位（机械臂格式 [X,Y,0,0,0,0]，单位：米）"
                     : "暂无装箱点位";
             }
 
             LayoutActualPackingPanel();
-            TrySendFirstPackingPoint();
+            UpdateArmSendButtonState();
+            if (_armClient != null && _armClient.IsConnected && sequence > 0)
+                AppendLog("[机械臂] 装箱点位已更新，点击「发送坐标」发送单条点位。");
         }
 
         private void AddDefaultContainer()

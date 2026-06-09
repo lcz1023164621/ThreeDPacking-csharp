@@ -13,6 +13,8 @@ namespace ThreeDPacking.App.Communication
     {
         private TcpClient _client;
         private NetworkStream _stream;
+        private readonly SemaphoreSlim _sendLock = new SemaphoreSlim(1, 1);
+        private const string MessageTerminator = "\n";
 
         public bool IsConnected => _client != null && _client.Connected;
 
@@ -22,7 +24,7 @@ namespace ThreeDPacking.App.Communication
         {
             Disconnect();
 
-            var client = new TcpClient();
+            var client = new TcpClient { NoDelay = true };
             try
             {
                 var connectTask = client.ConnectAsync(host, port);
@@ -70,21 +72,34 @@ namespace ThreeDPacking.App.Communication
                 ConnectionChanged?.Invoke(this, false);
         }
 
-        public async Task SendAsync(string message, CancellationToken cancellationToken = default)
+        /// <summary>
+        /// 发送单条坐标消息（自动追加换行分隔符）。
+        /// </summary>
+        public async Task SendCoordinateAsync(string message, CancellationToken cancellationToken = default)
         {
-            if (!IsConnected || _stream == null)
-                throw new InvalidOperationException("未连接到机械臂");
+            await _sendLock.WaitAsync(cancellationToken).ConfigureAwait(false);
+            try
+            {
+                if (!IsConnected || _stream == null)
+                    throw new InvalidOperationException("未连接到机械臂");
 
-            if (message == null)
-                throw new ArgumentNullException(nameof(message));
+                if (message == null)
+                    throw new ArgumentNullException(nameof(message));
 
-            byte[] data = Encoding.UTF8.GetBytes(message);
-            await _stream.WriteAsync(data, 0, data.Length, cancellationToken).ConfigureAwait(false);
-            _stream.Flush();
+                string framedMessage = message + MessageTerminator;
+                byte[] data = Encoding.UTF8.GetBytes(framedMessage);
+                await _stream.WriteAsync(data, 0, data.Length, cancellationToken).ConfigureAwait(false);
+                await _stream.FlushAsync(cancellationToken).ConfigureAwait(false);
+            }
+            finally
+            {
+                _sendLock.Release();
+            }
         }
 
         public void Dispose()
         {
+            _sendLock.Dispose();
             Disconnect();
         }
     }
