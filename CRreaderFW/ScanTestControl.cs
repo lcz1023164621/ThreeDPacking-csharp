@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.Drawing.Drawing2D;
 using System.Drawing.Imaging;
 using System.Globalization;
 using System.IO;
@@ -15,9 +16,11 @@ namespace WindowsFormsApp1
         private readonly List<ScanRecord> _currentProductionRecords = new List<ScanRecord>();
         private readonly List<ScanRecord> _testRecords = new List<ScanRecord>();
         private readonly List<OrderMatchItem> _orderMatchItems = new List<OrderMatchItem>();
+        private readonly List<OrderIndexEntry> _orderIndex = new List<OrderIndexEntry>();
         private readonly HistoryStore _historyStore;
         private readonly BatchStatisticsWriter _statisticsWriter;
         private IBarcodeCamera _camera;
+        private ProductionSignalClient _productionSignalClient;
         private ScannerSettingsData _scannerSettings;
         private ProductCatalog _productCatalog;
         private OrderCatalog _orderCatalog = OrderCatalog.Empty();
@@ -31,6 +34,9 @@ namespace WindowsFormsApp1
         private Button _btnBatchStart;
         private Button _btnBatchEnd;
         private Button _btnImportOrder;
+        private Button _btnDeleteOrderIndex;
+        private Button _btnClearOrderList;
+        private DataGridView _dgvOrderIndex;
         private ContextMenuStrip _importOrderMenu;
         private CheckBox _chkNoOrderTestMode;
         private CheckBox _chkOrderDirectReadMode;
@@ -39,10 +45,26 @@ namespace WindowsFormsApp1
         private int _nextSequence = 1;
         private int _testSequence = 1;
         private SplitContainer _splitMain;
+        private Panel _pnlReaderStateIndicator;
+        private Panel _pnlScanStateIndicator;
+        private Panel _pnlRobotStateIndicator;
+        private Panel _pnlCamera3DStateIndicator;
+        private Button _btnRefreshWorkState;
+        private Button _btnScanReset;
+        private TabPage _tabSignalLog;
+        private TextBox _txtSignalLog;
+        private bool _productionAwaitingCapture;
+        private bool _productionFailureNotified;
+        private bool _productionScanFailedWaitingRetry;
+        private bool _robotPackingInProgress;
+        private bool _productionBatchEnded;
 
         public event Action<ScannedItemInfo> ScannedItemAdded;
         public event Action ScanItemsCleared;
         public event Action<IReadOnlyList<ScannedItemInfo>> BatchCompleted;
+        public event Action<IReadOnlyList<ScannedItemInfo>> OrderMatchedForPacking;
+        public event Action OrderMatchCleared;
+        public event Action<IReadOnlyList<ScannedItemInfo>> OrderConfirmedForPacking;
 
         public ScanTestControl()
         {
@@ -50,8 +72,12 @@ namespace WindowsFormsApp1
             ApplyCompactLayout();
             InitBatchButtons();
             InitOrderImportButton();
+            InitOrderIndexGrid();
             InitNoOrderTestModeControl();
             InitOrderDirectReadModeControl();
+            InitWorkStateRefreshButton();
+            InitScanResetButton();
+            InitSignalLogTab();
             ApplyVisualStyle();
             ArrangeOrderActionButtons();
 
@@ -247,6 +273,10 @@ namespace WindowsFormsApp1
             StyleActionButton(btnStartTestScan, Color.FromArgb(32, 95, 178), Color.White);
             StyleActionButton(btnStopCurrentScan, Color.FromArgb(178, 52, 52), Color.White);
             StyleActionButton(btnWaitRobotSignal, Color.FromArgb(32, 95, 178), Color.White);
+            if (_btnScanReset != null)
+            {
+                StyleActionButton(_btnScanReset, Color.FromArgb(180, 60, 60), Color.White);
+            }
             StyleActionButton(btnOpenOrderMatch, Color.FromArgb(32, 95, 178), Color.White);
             StyleActionButton(btnConfirmOrderBox, Color.FromArgb(39, 103, 73), Color.White);
             if (_btnImportOrder != null)
@@ -258,10 +288,7 @@ namespace WindowsFormsApp1
                 StyleActionButton(_btnDirectReadForPacking, Color.FromArgb(39, 103, 73), Color.White);
             }
 
-            StyleStatusBadge(lblReaderStateValue);
-            StyleStatusBadge(lblScanStateValue);
-            StyleStatusBadge(lblRobotStateValue);
-            StyleStatusBadge(lblCamera3DStateValue);
+            InitWorkStateIndicators();
             StyleStatusBadge(lblResultOrderNoValue);
             StyleStatusBadge(lblResultBatchBoxValue);
             StyleStatusBadge(lblResultBarcodeValue);
@@ -306,6 +333,467 @@ namespace WindowsFormsApp1
             label.Padding = new Padding(2, 0, 2, 0);
         }
 
+        private enum WorkStateVisual
+        {
+            Neutral,
+            Active,
+            Success,
+            Warning,
+            Error
+        }
+
+        private void InitWorkStateIndicators()
+        {
+            _pnlReaderStateIndicator = CreateWorkStateIndicatorPanel();
+            _pnlScanStateIndicator = CreateWorkStateIndicatorPanel();
+            _pnlRobotStateIndicator = CreateWorkStateIndicatorPanel();
+            _pnlCamera3DStateIndicator = CreateWorkStateIndicatorPanel();
+
+            grpWorkState.Controls.Add(_pnlReaderStateIndicator);
+            grpWorkState.Controls.Add(_pnlScanStateIndicator);
+            grpWorkState.Controls.Add(_pnlRobotStateIndicator);
+            grpWorkState.Controls.Add(_pnlCamera3DStateIndicator);
+
+            PrepareWorkStateTextLabel(lblReaderStateValue);
+            PrepareWorkStateTextLabel(lblScanStateValue);
+            PrepareWorkStateTextLabel(lblRobotStateValue);
+            PrepareWorkStateTextLabel(lblCamera3DStateValue);
+
+            lblCamera3DStateTitle.Visible = false;
+            lblCamera3DStateValue.Visible = false;
+            _pnlCamera3DStateIndicator.Visible = false;
+
+            grpWorkState.Resize += (s, e) => LayoutWorkStateIndicators();
+            LayoutWorkStateIndicators();
+        }
+
+        private static void PrepareWorkStateTextLabel(Label label)
+        {
+            if (label == null)
+            {
+                return;
+            }
+
+            label.AutoSize = true;
+            label.BackColor = Color.Transparent;
+            label.BorderStyle = BorderStyle.None;
+            label.Padding = new Padding(0);
+        }
+
+        private Panel CreateWorkStateIndicatorPanel()
+        {
+            var panel = new Panel
+            {
+                Size = new Size(16, 16),
+                BackColor = Color.Transparent,
+                Tag = WorkStateVisual.Neutral
+            };
+            panel.Paint += WorkStateIndicator_Paint;
+            return panel;
+        }
+
+        private void LayoutWorkStateIndicators()
+        {
+            if (_pnlReaderStateIndicator == null)
+            {
+                return;
+            }
+
+            const int dotX = 58;
+            const int textX = 78;
+            LayoutWorkStateRow(lblReaderStateTitle, _pnlReaderStateIndicator, lblReaderStateValue, 19, dotX, textX);
+            LayoutWorkStateRow(lblScanStateTitle, _pnlScanStateIndicator, lblScanStateValue, 40, dotX, textX);
+            LayoutWorkStateRow(lblRobotStateTitle, _pnlRobotStateIndicator, lblRobotStateValue, 61, dotX, textX);
+            if (_btnRefreshWorkState != null)
+            {
+                _btnRefreshWorkState.Location = new Point(10, 82);
+                _btnRefreshWorkState.Size = new Size(Math.Max(grpWorkState.ClientSize.Width - 20, 120), 24);
+            }
+        }
+
+        private void InitWorkStateRefreshButton()
+        {
+            _btnRefreshWorkState = new Button
+            {
+                Name = "btnRefreshWorkState",
+                Text = "刷新状态",
+                UseVisualStyleBackColor = true
+            };
+            _btnRefreshWorkState.Click += btnRefreshWorkState_Click;
+            StyleActionButton(_btnRefreshWorkState, Color.FromArgb(70, 85, 105), Color.White);
+            grpWorkState.Controls.Add(_btnRefreshWorkState);
+            grpWorkState.Resize += (s, e) => LayoutWorkStateIndicators();
+            LayoutWorkStateIndicators();
+        }
+
+        private void InitScanResetButton()
+        {
+            _btnScanReset = new Button
+            {
+                Name = "btnScanReset",
+                Text = "扫码归位",
+                UseVisualStyleBackColor = true,
+                Visible = false,
+                Enabled = false
+            };
+            _btnScanReset.Click += btnScanReset_Click;
+            grpDeviceActions.Controls.Add(_btnScanReset);
+        }
+
+        private void InitSignalLogTab()
+        {
+            _tabSignalLog = new TabPage
+            {
+                Name = "tabSignalLog",
+                Text = "数据传输日志",
+                Padding = new Padding(6)
+            };
+            _txtSignalLog = new TextBox
+            {
+                Dock = DockStyle.Fill,
+                Multiline = true,
+                ReadOnly = true,
+                ScrollBars = ScrollBars.Vertical,
+                WordWrap = false,
+                Font = new Font("Consolas", 9F)
+            };
+            _tabSignalLog.Controls.Add(_txtSignalLog);
+        }
+
+        private void btnRefreshWorkState_Click(object sender, EventArgs e)
+        {
+            RefreshWorkState();
+        }
+
+        private void RefreshWorkState()
+        {
+            if (IsProductionMode)
+            {
+                SyncProductionWorkStateDisplay();
+            }
+            else
+            {
+                string reader = _readerConnected ? "已连接" : "未连接";
+                string scan = _scanActive ? "正在采码" : "未开始";
+                string robot = "未到位";
+                UpdateStatusLabels(reader, scan, robot);
+            }
+
+            string readerText = lblReaderStateValue.Text;
+            string scanText = lblScanStateValue.Text;
+            string robotText = lblRobotStateValue.Text;
+            AppendLog("已刷新工作状态：扫码器=" + readerText + "，采码=" + scanText + "，机械臂=" + robotText + "。");
+        }
+
+        private void SetScanWorkStatus(string status)
+        {
+            UpdateStatusLabels(null, status, null);
+        }
+
+        private void SetRobotArmWorkStatus(string status)
+        {
+            UpdateStatusLabels(null, null, status);
+        }
+
+        private void SyncProductionWorkStateDisplay()
+        {
+            if (!IsProductionMode)
+            {
+                return;
+            }
+
+            string reader = _readerConnected ? "已连接" : "未连接";
+            if (_productionSignalClient != null)
+            {
+                reader += _productionSignalClient.IsConnected ? " · 信号已连" : " · 信号断开";
+            }
+
+            string scan;
+            if (_productionBatchEnded)
+            {
+                scan = "批次已结束";
+            }
+            else if (_scanActive)
+            {
+                scan = "正在采码";
+            }
+            else if (_batchActive && _productionScanFailedWaitingRetry)
+            {
+                scan = "待重扫(等0)";
+            }
+            else if (_batchActive)
+            {
+                scan = "等待采码";
+            }
+            else
+            {
+                scan = "未开始";
+            }
+
+            string robot;
+            if (_productionBatchEnded)
+            {
+                robot = "空闲";
+            }
+            else if (_scanActive)
+            {
+                robot = "已到位";
+            }
+            else if (_robotPackingInProgress)
+            {
+                robot = "装箱中";
+            }
+            else if (_batchActive && _productionScanFailedWaitingRetry)
+            {
+                robot = "换姿中";
+            }
+            else if (_batchActive)
+            {
+                robot = "待到位";
+            }
+            else
+            {
+                robot = "未到位";
+            }
+
+            UpdateStatusLabels(reader, scan, robot);
+            UpdateOrderActionState();
+        }
+
+        private void EnterProductionRobotReadyState()
+        {
+            _productionBatchEnded = false;
+            _robotPackingInProgress = false;
+            _productionScanFailedWaitingRetry = false;
+            SyncProductionWorkStateDisplay();
+        }
+
+        private void EnterProductionPackingState()
+        {
+            _robotPackingInProgress = true;
+            SyncProductionWorkStateDisplay();
+        }
+
+        private void EnterProductionBatchEndedState()
+        {
+            _productionBatchEnded = true;
+            _robotPackingInProgress = false;
+            _productionScanFailedWaitingRetry = false;
+            _scanTimer.Stop();
+            _scanActive = false;
+            SyncProductionWorkStateDisplay();
+        }
+
+        private void EnterProductionWaitingScanState()
+        {
+            _robotPackingInProgress = false;
+            _productionScanFailedWaitingRetry = true;
+            SyncProductionWorkStateDisplay();
+        }
+
+        private void EnterProductionNotInPositionState()
+        {
+            _robotPackingInProgress = false;
+            _productionScanFailedWaitingRetry = false;
+            SyncProductionWorkStateDisplay();
+        }
+
+        private void AppendSignalLog(string message)
+        {
+            if (_txtSignalLog == null)
+            {
+                return;
+            }
+
+            _txtSignalLog.AppendText(DateTime.Now.ToString("HH:mm:ss.fff") + "  " + message + Environment.NewLine);
+        }
+
+        private static void LayoutWorkStateRow(Label title, Panel dot, Label value, int top, int dotX, int textX)
+        {
+            if (title == null || dot == null || value == null)
+            {
+                return;
+            }
+
+            dot.Location = new Point(dotX, top + 1);
+            value.Location = new Point(textX, top);
+        }
+
+        private void WorkStateIndicator_Paint(object sender, PaintEventArgs e)
+        {
+            var panel = (Panel)sender;
+            WorkStateVisual visual = panel.Tag is WorkStateVisual
+                ? (WorkStateVisual)panel.Tag
+                : WorkStateVisual.Neutral;
+            e.Graphics.SmoothingMode = SmoothingMode.AntiAlias;
+            using (var brush = new SolidBrush(GetWorkStateDotColor(visual)))
+            {
+                e.Graphics.FillEllipse(brush, 1, 1, panel.Width - 2, panel.Height - 2);
+            }
+        }
+
+        private static Color GetWorkStateDotColor(WorkStateVisual visual)
+        {
+            switch (visual)
+            {
+                case WorkStateVisual.Success:
+                    return Color.FromArgb(46, 160, 67);
+                case WorkStateVisual.Active:
+                    return Color.FromArgb(32, 95, 178);
+                case WorkStateVisual.Warning:
+                    return Color.FromArgb(220, 140, 40);
+                case WorkStateVisual.Error:
+                    return Color.FromArgb(220, 60, 60);
+                default:
+                    return Color.FromArgb(150, 150, 150);
+            }
+        }
+
+        private static Color GetWorkStateTextColor(WorkStateVisual visual)
+        {
+            switch (visual)
+            {
+                case WorkStateVisual.Success:
+                    return Color.FromArgb(46, 160, 67);
+                case WorkStateVisual.Active:
+                    return Color.FromArgb(32, 95, 178);
+                case WorkStateVisual.Warning:
+                    return Color.FromArgb(180, 110, 30);
+                case WorkStateVisual.Error:
+                    return Color.FromArgb(180, 60, 60);
+                default:
+                    return Color.FromArgb(110, 110, 110);
+            }
+        }
+
+        private static WorkStateVisual InferReaderStateVisual(string text)
+        {
+            if (string.IsNullOrWhiteSpace(text))
+            {
+                return WorkStateVisual.Neutral;
+            }
+
+            if (text.IndexOf("已连接", StringComparison.OrdinalIgnoreCase) >= 0)
+            {
+                if (text.IndexOf("信号断开", StringComparison.OrdinalIgnoreCase) >= 0)
+                {
+                    return WorkStateVisual.Warning;
+                }
+
+                return WorkStateVisual.Success;
+            }
+
+            if (text.IndexOf("失败", StringComparison.OrdinalIgnoreCase) >= 0 ||
+                text.IndexOf("未连接", StringComparison.OrdinalIgnoreCase) >= 0)
+            {
+                return WorkStateVisual.Error;
+            }
+
+            return WorkStateVisual.Neutral;
+        }
+
+        private static WorkStateVisual InferScanStateVisual(string text)
+        {
+            if (string.IsNullOrWhiteSpace(text))
+            {
+                return WorkStateVisual.Neutral;
+            }
+
+            if (text.IndexOf("正在采码", StringComparison.OrdinalIgnoreCase) >= 0 ||
+                text.IndexOf("采码中", StringComparison.OrdinalIgnoreCase) >= 0)
+            {
+                return WorkStateVisual.Success;
+            }
+
+            if (text.IndexOf("等待采码", StringComparison.OrdinalIgnoreCase) >= 0 ||
+                text.IndexOf("等待信号0", StringComparison.OrdinalIgnoreCase) >= 0 ||
+                text.IndexOf("待重扫", StringComparison.OrdinalIgnoreCase) >= 0 ||
+                text.IndexOf("批次进行中", StringComparison.OrdinalIgnoreCase) >= 0)
+            {
+                return WorkStateVisual.Active;
+            }
+
+            if (text.IndexOf("批次已结束", StringComparison.OrdinalIgnoreCase) >= 0 ||
+                text.IndexOf("已载入", StringComparison.OrdinalIgnoreCase) >= 0 ||
+                text.IndexOf("直读完成", StringComparison.OrdinalIgnoreCase) >= 0)
+            {
+                return WorkStateVisual.Success;
+            }
+
+            if (text.IndexOf("未开始", StringComparison.OrdinalIgnoreCase) >= 0)
+            {
+                return WorkStateVisual.Neutral;
+            }
+
+            return WorkStateVisual.Warning;
+        }
+
+        private static WorkStateVisual InferRobotStateVisual(string text)
+        {
+            if (string.IsNullOrWhiteSpace(text))
+            {
+                return WorkStateVisual.Neutral;
+            }
+
+            if (text.IndexOf("已到位", StringComparison.OrdinalIgnoreCase) >= 0)
+            {
+                return WorkStateVisual.Success;
+            }
+
+            if (text.IndexOf("装箱中", StringComparison.OrdinalIgnoreCase) >= 0)
+            {
+                return WorkStateVisual.Active;
+            }
+
+            if (text.IndexOf("换姿中", StringComparison.OrdinalIgnoreCase) >= 0)
+            {
+                return WorkStateVisual.Warning;
+            }
+
+            if (text.IndexOf("待到位", StringComparison.OrdinalIgnoreCase) >= 0 ||
+                text.IndexOf("未到位", StringComparison.OrdinalIgnoreCase) >= 0)
+            {
+                return WorkStateVisual.Warning;
+            }
+
+            if (text.IndexOf("空闲", StringComparison.OrdinalIgnoreCase) >= 0 ||
+                text.IndexOf("批次已结束", StringComparison.OrdinalIgnoreCase) >= 0)
+            {
+                return WorkStateVisual.Neutral;
+            }
+
+            return WorkStateVisual.Neutral;
+        }
+
+        private static WorkStateVisual InferCamera3DStateVisual(string text)
+        {
+            if (string.IsNullOrWhiteSpace(text))
+            {
+                return WorkStateVisual.Neutral;
+            }
+
+            if (text.IndexOf("有物体", StringComparison.OrdinalIgnoreCase) >= 0 ||
+                text.IndexOf("已检测", StringComparison.OrdinalIgnoreCase) >= 0)
+            {
+                return WorkStateVisual.Success;
+            }
+
+            return WorkStateVisual.Neutral;
+        }
+
+        private void ApplyWorkState(Label label, Panel indicator, string text, WorkStateVisual visual)
+        {
+            if (label == null || indicator == null)
+            {
+                return;
+            }
+
+            label.Text = text;
+            label.ForeColor = GetWorkStateTextColor(visual);
+            indicator.Tag = visual;
+            indicator.Invalidate();
+        }
+
         private void InitOrderImportButton()
         {
             _importOrderMenu = new ContextMenuStrip();
@@ -324,6 +812,139 @@ namespace WindowsFormsApp1
             };
             _btnImportOrder.Click += btnImportOrder_Click;
             grpCurrentOrder.Controls.Add(_btnImportOrder);
+        }
+
+        private void InitOrderIndexGrid()
+        {
+            lblMatchedOrderNoTitle.Visible = false;
+            lblMatchedOrderNoValue.Visible = false;
+            lblMatchedBoxCodeTitle.Visible = false;
+            lblMatchedBoxCodeValue.Visible = false;
+
+            _dgvOrderIndex = new DataGridView
+            {
+                Name = "dgvOrderIndex",
+                AllowUserToAddRows = false,
+                AllowUserToDeleteRows = false,
+                ReadOnly = true,
+                MultiSelect = false,
+                SelectionMode = DataGridViewSelectionMode.FullRowSelect,
+                RowHeadersVisible = false,
+                BackgroundColor = Color.White,
+                BorderStyle = BorderStyle.FixedSingle,
+                AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill,
+                Height = 72
+            };
+            _dgvOrderIndex.Columns.Add(new DataGridViewTextBoxColumn
+            {
+                Name = "colOrderIndexOrderNo",
+                HeaderText = "订单编号",
+                FillWeight = 40
+            });
+            _dgvOrderIndex.Columns.Add(new DataGridViewTextBoxColumn
+            {
+                Name = "colOrderIndexBoxCode",
+                HeaderText = "箱码编号",
+                FillWeight = 35
+            });
+            _dgvOrderIndex.Columns.Add(new DataGridViewTextBoxColumn
+            {
+                Name = "colOrderIndexUpdatedAt",
+                HeaderText = "更新时间",
+                FillWeight = 45
+            });
+            _dgvOrderIndex.CellDoubleClick += dgvOrderIndex_CellDoubleClick;
+
+            _btnDeleteOrderIndex = new Button
+            {
+                Name = "btnDeleteOrderIndex",
+                Text = "删除选中",
+                UseVisualStyleBackColor = true
+            };
+            _btnDeleteOrderIndex.Click += btnDeleteOrderIndex_Click;
+
+            _btnClearOrderList = new Button
+            {
+                Name = "btnClearOrderList",
+                Text = "清空列表",
+                UseVisualStyleBackColor = true
+            };
+            _btnClearOrderList.Click += btnClearOrderList_Click;
+
+            grpCurrentOrder.Controls.Add(_dgvOrderIndex);
+            grpCurrentOrder.Controls.Add(_btnDeleteOrderIndex);
+            grpCurrentOrder.Controls.Add(_btnClearOrderList);
+        }
+
+        private void dgvOrderIndex_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
+        {
+            if (e.RowIndex < 0 || e.RowIndex >= _orderIndex.Count)
+            {
+                return;
+            }
+
+            OrderIndexEntry entry = _orderIndex[e.RowIndex];
+            txtOrderBoxInput.Text = entry.OrderNo;
+            rdoInputByOrderNo.Checked = true;
+            ApplyOrderLookup(LookupOrderInfo(entry.OrderNo, true));
+        }
+
+        private void btnDeleteOrderIndex_Click(object sender, EventArgs e)
+        {
+            if (_dgvOrderIndex == null || _dgvOrderIndex.SelectedRows.Count == 0)
+            {
+                MessageBox.Show(DialogOwner, "请先在订单列表中选择要删除的项。", "删除选中", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                return;
+            }
+
+            int rowIndex = _dgvOrderIndex.SelectedRows[0].Index;
+            if (rowIndex < 0 || rowIndex >= _orderIndex.Count)
+            {
+                return;
+            }
+
+            OrderIndexEntry entry = _orderIndex[rowIndex];
+            if (MessageBox.Show(
+                DialogOwner,
+                "确定删除订单 " + entry.OrderNo + " / 箱码 " + entry.BoxCode + " 吗？",
+                "删除选中",
+                MessageBoxButtons.YesNo,
+                MessageBoxIcon.Question) != DialogResult.Yes)
+            {
+                return;
+            }
+
+            RemoveOrderBinding(entry.OrderNo, entry.BoxCode);
+            AppendLog("已从列表删除订单 " + entry.OrderNo + "，箱码 " + entry.BoxCode + "。");
+        }
+
+        private void btnClearOrderList_Click(object sender, EventArgs e)
+        {
+            if (_orderIndex.Count == 0)
+            {
+                return;
+            }
+
+            if (MessageBox.Show(
+                DialogOwner,
+                "确定清空全部订单列表吗？此操作将删除本地保存的订单数据。",
+                "清空列表",
+                MessageBoxButtons.YesNo,
+                MessageBoxIcon.Warning) != DialogResult.Yes)
+            {
+                return;
+            }
+
+            foreach (OrderIndexEntry entry in _orderIndex.ToList())
+            {
+                OrderJsonStore.Delete(entry.OrderNo, entry.BoxCode);
+            }
+
+            _orderCatalog = OrderCatalog.Empty();
+            _orderIndex.Clear();
+            ResetMatchedOrderState();
+            RefreshOrderIndexGrid();
+            AppendLog("已清空订单列表。");
         }
 
         private void btnImportOrder_Click(object sender, EventArgs e)
@@ -427,43 +1048,73 @@ namespace WindowsFormsApp1
             lblOrderBoxInput.SetBounds(left, 45, labelW, 18);
             txtOrderBoxInput.SetBounds(fieldX, 42, fieldW, 21);
             btnOpenOrderMatch.SetBounds(btnX, 40, btnW, 26);
+            btnConfirmOrderBox.SetBounds(btnX, 66, btnW, 26);
 
-            lblMatchedOrderNoTitle.SetBounds(left, 69, labelW, 18);
-            lblMatchedOrderNoValue.SetBounds(fieldX, 66, fieldW, 18);
-            btnConfirmOrderBox.SetBounds(btnX, 64, btnW, 26);
-
-            lblMatchedBoxCodeTitle.SetBounds(left, 93, labelW, 18);
-            lblMatchedBoxCodeValue.SetBounds(fieldX, 90, fieldW, 18);
+            const int actionRowY = 92;
+            const int actionBtnW = 72;
+            int actionGap = 6;
+            int actionCount = 3;
+            int actionTotalW = actionBtnW * actionCount + actionGap * (actionCount - 1);
+            int actionStartX = Math.Max(left, clientW - actionTotalW - 10);
 
             if (_btnImportOrder != null)
             {
-                _btnImportOrder.SetBounds(left, 116, btnW + 12, 26);
+                _btnImportOrder.SetBounds(actionStartX, actionRowY, actionBtnW, 26);
             }
 
+            if (_btnDeleteOrderIndex != null)
+            {
+                _btnDeleteOrderIndex.SetBounds(actionStartX + actionBtnW + actionGap, actionRowY, actionBtnW, 26);
+            }
+
+            if (_btnClearOrderList != null)
+            {
+                _btnClearOrderList.SetBounds(actionStartX + (actionBtnW + actionGap) * 2, actionRowY, actionBtnW, 26);
+            }
+
+            if (_dgvOrderIndex != null)
+            {
+                _dgvOrderIndex.SetBounds(left, 124, clientW - left - 10, 72);
+            }
+
+            int checkboxY = 206;
             if (_btnDirectReadForPacking != null)
             {
-                _btnDirectReadForPacking.SetBounds(btnX, 112, btnW, 26);
+                _btnDirectReadForPacking.SetBounds(btnX, actionRowY, btnW, 26);
                 _btnDirectReadForPacking.Visible = IsOrderDirectReadMode;
             }
 
             if (_chkNoOrderTestMode != null)
             {
                 _chkNoOrderTestMode.AutoSize = true;
-                _chkNoOrderTestMode.Location = new Point(left, 148);
+                _chkNoOrderTestMode.Location = new Point(left, checkboxY);
                 _chkNoOrderTestMode.MaximumSize = new Size(clientW - left * 2, 0);
+                checkboxY += 26;
             }
 
             if (_chkOrderDirectReadMode != null)
             {
                 _chkOrderDirectReadMode.AutoSize = true;
-                _chkOrderDirectReadMode.Location = new Point(left, 174);
+                _chkOrderDirectReadMode.Location = new Point(left, checkboxY);
                 _chkOrderDirectReadMode.MaximumSize = new Size(clientW - left * 2, 0);
             }
 
             btnOpenOrderMatch.Visible = !IsOrderDirectReadMode;
             btnConfirmOrderBox.Visible = !IsOrderDirectReadMode;
+            if (_btnDeleteOrderIndex != null)
+            {
+                _btnDeleteOrderIndex.Visible = !IsOrderDirectReadMode;
+            }
+            if (_btnClearOrderList != null)
+            {
+                _btnClearOrderList.Visible = !IsOrderDirectReadMode;
+            }
+            if (_dgvOrderIndex != null)
+            {
+                _dgvOrderIndex.Visible = !IsOrderDirectReadMode;
+            }
 
-            const int requiredHeight = 206;
+            const int requiredHeight = 262;
             grpCurrentOrder.MinimumSize = new Size(280, requiredHeight);
             if (grpCurrentOrder.Height < requiredHeight)
             {
@@ -487,7 +1138,11 @@ namespace WindowsFormsApp1
 
             if (IsProductionMode)
             {
-                btnWaitRobotSignal.SetBounds(left, top + rowHeight * row, width, 29);
+                btnWaitRobotSignal.SetBounds(left, top + rowHeight * row, colWidth, 29);
+                if (_btnScanReset != null)
+                {
+                    _btnScanReset.SetBounds(left + colWidth + gap, top + rowHeight * row, colWidth, 29);
+                }
                 row++;
             }
             else
@@ -543,6 +1198,7 @@ namespace WindowsFormsApp1
                     _camera.Dispose();
                     _camera = null;
                 }
+                StopProductionSignalClient();
                 if (components != null)
                 {
                     components.Dispose();
@@ -576,7 +1232,7 @@ namespace WindowsFormsApp1
         {
             ConfigureGridStyles();
             UpdateModeState();
-            UpdateStatusLabels("未连接", "未开始", "未等待", "未检测");
+            UpdateStatusLabels("未连接", "未开始", "未到位");
             RefreshCurrentTables();
             RefreshTestTables();
             RefreshSummaryPanels();
@@ -588,21 +1244,144 @@ namespace WindowsFormsApp1
         {
             try
             {
-                string orderInfoPath = ResolveOrderInfoPath();
-                _orderCatalog = orderInfoPath != null
-                    ? OrderCatalog.Load(orderInfoPath)
-                    : OrderCatalog.Empty();
-
-                if (_orderCatalog.Count > 0)
+                string ordersDir = OrderJsonStore.GetOrdersDirectory();
+                Directory.CreateDirectory(ordersDir);
+                _orderCatalog = OrderCatalog.LoadOrdersDirectory(ordersDir);
+                RebuildOrderIndexFromStorage();
+                if (_orderIndex.Count > 0)
                 {
-                    AppendLog("已读取订单信息：" + orderInfoPath + "，共 " + _orderCatalog.Count + " 条。");
+                    AppendLog("已加载订单列表：" + _orderIndex.Count + " 条。");
                 }
             }
             catch (Exception ex)
             {
                 _orderCatalog = OrderCatalog.Empty();
-                AppendLog("加载订单信息失败：" + ex.Message);
+                _orderIndex.Clear();
+                AppendLog("加载订单列表失败：" + ex.Message);
             }
+        }
+
+        private void RebuildOrderIndexFromStorage()
+        {
+            _orderIndex.Clear();
+            if (_orderCatalog == null || _orderCatalog.Count == 0)
+            {
+                RefreshOrderIndexGrid();
+                return;
+            }
+
+            foreach (OrderBoxPair pair in _orderCatalog.GetDistinctBindings())
+            {
+                DateTime updatedAt = OrderJsonStore.ReadUpdatedAt(pair.OrderNo, pair.BoxCode);
+                _orderIndex.Add(new OrderIndexEntry
+                {
+                    OrderNo = pair.OrderNo,
+                    BoxCode = pair.BoxCode,
+                    UpdatedAt = updatedAt == DateTime.MinValue ? DateTime.Now : updatedAt
+                });
+            }
+
+            _orderIndex.Sort((a, b) => b.UpdatedAt.CompareTo(a.UpdatedAt));
+            RefreshOrderIndexGrid();
+        }
+
+        private void RefreshOrderIndexGrid()
+        {
+            if (_dgvOrderIndex == null)
+            {
+                return;
+            }
+
+            _dgvOrderIndex.Rows.Clear();
+            foreach (OrderIndexEntry entry in _orderIndex)
+            {
+                _dgvOrderIndex.Rows.Add(
+                    entry.OrderNo,
+                    entry.BoxCode,
+                    entry.UpdatedAt.ToString("yyyy-MM-dd HH:mm:ss"));
+            }
+        }
+
+        private void UpsertOrderIndexEntry(string orderNo, string boxCode, DateTime updatedAt)
+        {
+            _orderIndex.RemoveAll(e =>
+                string.Equals(e.OrderNo, orderNo, StringComparison.OrdinalIgnoreCase) ||
+                string.Equals(e.BoxCode, boxCode, StringComparison.OrdinalIgnoreCase));
+            _orderIndex.Add(new OrderIndexEntry
+            {
+                OrderNo = orderNo,
+                BoxCode = boxCode,
+                UpdatedAt = updatedAt
+            });
+            _orderIndex.Sort((a, b) => b.UpdatedAt.CompareTo(a.UpdatedAt));
+            RefreshOrderIndexGrid();
+        }
+
+        private void PersistOrderBinding(OrderLookupResult lookup)
+        {
+            if (lookup == null)
+            {
+                return;
+            }
+
+            OrderJsonDocument document = OrderJsonStore.FromLookupResult(lookup);
+            document.UpdatedAt = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
+            OrderJsonStore.Save(document);
+            UpsertOrderIndexEntry(lookup.OrderNo, lookup.BoxCode, DateTime.Now);
+        }
+
+        private void RemoveOrderBinding(string orderNo, string boxCode)
+        {
+            OrderJsonStore.Delete(orderNo, boxCode);
+            _orderCatalog = _orderCatalog.RemoveBinding(orderNo, boxCode);
+            _orderIndex.RemoveAll(e =>
+                string.Equals(e.OrderNo, orderNo, StringComparison.OrdinalIgnoreCase) ||
+                string.Equals(e.BoxCode, boxCode, StringComparison.OrdinalIgnoreCase));
+            if (_orderInfoMatched &&
+                (string.Equals(ReadMatchedLabel(lblMatchedOrderNoValue), orderNo, StringComparison.OrdinalIgnoreCase) ||
+                 string.Equals(ReadMatchedLabel(lblMatchedBoxCodeValue), boxCode, StringComparison.OrdinalIgnoreCase)))
+            {
+                ResetMatchedOrderState();
+            }
+            RefreshOrderIndexGrid();
+        }
+
+        private bool ConfirmOverwriteOrderBinding(string orderNo, string boxCode, string sourceDescription)
+        {
+            OrderIndexEntry byOrder = _orderIndex.FirstOrDefault(e =>
+                string.Equals(e.OrderNo, orderNo, StringComparison.OrdinalIgnoreCase));
+            OrderIndexEntry byBox = _orderIndex.FirstOrDefault(e =>
+                string.Equals(e.BoxCode, boxCode, StringComparison.OrdinalIgnoreCase));
+
+            if (byOrder == null && byBox == null)
+            {
+                return true;
+            }
+
+            var lines = new List<string>();
+            if (byOrder != null)
+            {
+                lines.Add("订单号 " + byOrder.OrderNo + " 已绑定箱码 " + byOrder.BoxCode);
+            }
+            if (byBox != null && (byOrder == null || !string.Equals(byBox.OrderNo, byOrder.OrderNo, StringComparison.OrdinalIgnoreCase)))
+            {
+                lines.Add("箱码 " + byBox.BoxCode + " 已绑定订单 " + byBox.OrderNo);
+            }
+
+            string message = "检测到与现有订单列表冲突：" +
+                Environment.NewLine + Environment.NewLine +
+                string.Join(Environment.NewLine, lines) +
+                Environment.NewLine + Environment.NewLine +
+                "新记录：订单 " + orderNo + " / 箱码 " + boxCode +
+                Environment.NewLine + "来源：" + sourceDescription +
+                Environment.NewLine + Environment.NewLine +
+                "是否覆盖已有订单信息？";
+            return MessageBox.Show(
+                DialogOwner,
+                message,
+                "覆盖订单",
+                MessageBoxButtons.YesNo,
+                MessageBoxIcon.Warning) == DialogResult.Yes;
         }
 
         private void LoadDeferredOrderSources()
@@ -658,35 +1437,36 @@ namespace WindowsFormsApp1
                 return;
             }
 
-            IReadOnlyList<OrderCatalogConflict> conflicts = OrderCatalog.FindConflicts(_orderCatalog, incoming);
-            bool overwrite = false;
-            if (conflicts.Count > 0)
+            int imported = 0;
+            int skipped = 0;
+            foreach (OrderBoxPair pair in incoming.GetDistinctBindings())
             {
-                string message = "检测到订单与箱码冲突（一个订单只能对应一个箱码）：" +
-                    Environment.NewLine + Environment.NewLine +
-                    string.Join(Environment.NewLine, conflicts.Select(c => "· " + c.Describe())) +
-                    Environment.NewLine + Environment.NewLine +
-                    "来源：" + sourceDescription + Environment.NewLine + Environment.NewLine +
-                    "是否覆盖已有记录？选择「否」将跳过本次冲突的新记录。";
-                overwrite = MessageBox.Show(
-                    DialogOwner,
-                    message,
-                    "订单冲突",
-                    MessageBoxButtons.YesNo,
-                    MessageBoxIcon.Warning) == DialogResult.Yes;
+                OrderLookupResult lookup = incoming.Lookup(pair.OrderNo, true);
+                if (lookup == null)
+                {
+                    continue;
+                }
+
+                if (!ConfirmOverwriteOrderBinding(lookup.OrderNo, lookup.BoxCode, sourceDescription))
+                {
+                    skipped++;
+                    continue;
+                }
+
+                RemoveOrderBinding(lookup.OrderNo, lookup.BoxCode);
+                OrderCatalog bindingCatalog = OrderCatalog.FromLookupResult(lookup);
+                _orderCatalog = OrderCatalog.Merge(_orderCatalog, bindingCatalog, true);
+                PersistOrderBinding(lookup);
+                imported++;
             }
 
-            int beforeCount = _orderCatalog.Count;
-            _orderCatalog = OrderCatalog.Merge(_orderCatalog, incoming, overwrite);
-            int added = _orderCatalog.Count - beforeCount;
-            if (conflicts.Count == 0)
+            if (imported > 0)
             {
-                AppendLog("已读取订单：" + sourceDescription + "，新增 " + added + " 条（源文件未修改）。");
+                AppendLog("已读取订单：" + sourceDescription + "，导入 " + imported + " 条绑定。");
             }
-            else
+            if (skipped > 0)
             {
-                AppendLog("已处理订单：" + sourceDescription + "，冲突 " + conflicts.Count + " 项，" +
-                    (overwrite ? "已覆盖" : "已跳过冲突项") + "，当前共 " + _orderCatalog.Count + " 条。");
+                AppendLog("已跳过 " + skipped + " 条冲突或未确认的订单绑定。");
             }
         }
 
@@ -747,6 +1527,7 @@ namespace WindowsFormsApp1
             lblMatchedOrderNoValue.Text = "-";
             lblMatchedBoxCodeValue.Text = "-";
             _orderMatchItems.Clear();
+            OrderMatchCleared?.Invoke();
             RefreshActiveScanTables();
             RefreshSummaryPanels();
             UpdateOrderActionState();
@@ -757,6 +1538,14 @@ namespace WindowsFormsApp1
             bool orderControlsEnabled = !IsNoOrderTestMode && !IsOrderDirectReadMode;
             bool directReadControlsEnabled = IsOrderDirectReadMode;
             btnOpenOrderMatch.Enabled = orderControlsEnabled;
+            if (_btnDeleteOrderIndex != null)
+            {
+                _btnDeleteOrderIndex.Enabled = orderControlsEnabled;
+            }
+            if (_btnClearOrderList != null)
+            {
+                _btnClearOrderList.Enabled = orderControlsEnabled;
+            }
             if (_btnImportOrder != null)
             {
                 _btnImportOrder.Enabled = !IsNoOrderTestMode;
@@ -780,6 +1569,15 @@ namespace WindowsFormsApp1
             }
             btnOpenOrderMatch.Visible = !IsOrderDirectReadMode;
             btnConfirmOrderBox.Visible = !IsOrderDirectReadMode;
+
+            if (IsProductionMode)
+            {
+                btnWaitRobotSignal.Enabled = _currentOrderConfirmed;
+                if (_btnScanReset != null)
+                {
+                    _btnScanReset.Enabled = CanResetProductionScanWorkflow();
+                }
+            }
         }
 
         private void chkOrderDirectReadMode_CheckedChanged(object sender, EventArgs e)
@@ -806,12 +1604,12 @@ namespace WindowsFormsApp1
                 _testRecords.Clear();
                 _testSequence = 1;
                 rdoInputByBoxCode.Checked = true;
-                UpdateStatusLabels(null, "订单直读", "等待输入箱码", "等待检测");
+                UpdateStatusLabels(null, "未开始", "未到位");
                 AppendLog("已切换为订单直读：输入箱码后点击「直读取装箱」，订单明细将直接作为装箱输入。");
             }
             else
             {
-                UpdateStatusLabels(null, "未开始", null, null);
+                UpdateStatusLabels(null, "未开始", null);
                 AppendLog("已退出订单直读模式。");
             }
 
@@ -897,7 +1695,7 @@ namespace WindowsFormsApp1
 
             RefreshActiveScanTables();
             RefreshSummaryPanels();
-            UpdateStatusLabels(null, "已载入装箱", "直读完成", null);
+            UpdateStatusLabels(null, "未开始", "未到位");
             AppendLog("订单直读：箱码 " + lookup.BoxCode + "，订单 " + lookup.OrderNo + "，已载入 " + items.Count + " 件到装箱算法。");
             if (skippedLines > 0)
             {
@@ -985,13 +1783,13 @@ namespace WindowsFormsApp1
                 _currentOrderConfirmed = false;
                 _testRecords.Clear();
                 _testSequence = 1;
-                UpdateStatusLabels(null, "无订单测试", "等待开始批次", "等待检测");
+                UpdateStatusLabels(null, "未开始", "未到位");
                 AppendLog("已切换为无订单测试：无需匹配订单，开始批次后即可扫码，批次结束将导出统计。");
             }
             else
             {
                 _currentOrderConfirmed = false;
-                UpdateStatusLabels(null, "未开始", null, null);
+                UpdateStatusLabels(null, "未开始", null);
                 AppendLog("已退出无订单测试，请匹配并确认订单后再开始批次。");
             }
 
@@ -1052,6 +1850,10 @@ namespace WindowsFormsApp1
         {
             ConfigureReadOnlyGrid(dgvProductScanList);
             ConfigureReadOnlyGrid(dgvScanMatchResult);
+            if (_dgvOrderIndex != null)
+            {
+                ConfigureReadOnlyGrid(_dgvOrderIndex);
+            }
             ConfigureReadOnlyGrid(dgvHistoryScanList);
             ConfigureReadOnlyGrid(dgvHistoryMatchResult);
             ConfigureReadOnlyGrid(dgvTestRecords);
@@ -1114,20 +1916,51 @@ namespace WindowsFormsApp1
             {
                 _currentProductionRecords.Clear();
                 _nextSequence = 1;
-                UpdateStatusLabels(null, "订单已确认", "等待机械臂", "等待检测");
+                _productionBatchEnded = false;
+                EnterProductionNotInPositionState();
                 TryStartProductionBatch();
             }
             else
             {
                 _testRecords.Clear();
                 _testSequence = 1;
-                UpdateStatusLabels(null, "订单已确认", "等待开始批次", "等待检测");
+                UpdateStatusLabels(null, "未开始", "未到位");
             }
 
             RefreshActiveScanTables();
             RefreshSummaryPanels();
             UpdateOrderActionState();
             AppendLog("确认订单编号 " + orderNo + "，箱码编号 " + boxCode + "。");
+            RaiseOrderConfirmedForPacking();
+        }
+
+        private void RaiseOrderConfirmedForPacking()
+        {
+            if (!_orderInfoMatched || _orderMatchItems.Count == 0)
+            {
+                return;
+            }
+
+            List<ScannedItemInfo> items = BuildScannedItemsFromOrder(_orderMatchItems, out int skippedLines);
+            if (items.Count == 0)
+            {
+                AppendLog("匹配结果无法转换为装箱物品，请检查订单明细尺寸或 ProductInfo。");
+                return;
+            }
+
+            OrderConfirmedForPacking?.Invoke(items);
+            if (IsProductionMode)
+            {
+                AppendLog("已确认订单，批次已开始，等待机械臂发送信号0。");
+            }
+            else
+            {
+                AppendLog("已确认订单，可开始采码。");
+            }
+            if (skippedLines > 0)
+            {
+                AppendLog("同步装箱时跳过 " + skippedLines + " 条缺少有效尺寸的明细。");
+            }
         }
 
         private void btnOpenOrderMatch_Click(object sender, EventArgs e)
@@ -1170,6 +2003,29 @@ namespace WindowsFormsApp1
             }
 
             AppendLog("匹配订单编号 " + lookup.OrderNo + "，箱码编号 " + lookup.BoxCode + "，明细 " + _orderMatchItems.Count + " 条。");
+            RaiseOrderMatchedForPacking();
+        }
+
+        private void RaiseOrderMatchedForPacking()
+        {
+            if (!_orderInfoMatched || _orderMatchItems.Count == 0)
+            {
+                return;
+            }
+
+            List<ScannedItemInfo> items = BuildScannedItemsFromOrder(_orderMatchItems, out int skippedLines);
+            if (items.Count == 0)
+            {
+                AppendLog("匹配结果无法转换为装箱物品，请检查订单明细尺寸或 ProductInfo。");
+                return;
+            }
+
+            OrderMatchedForPacking?.Invoke(items);
+            AppendLog("已将匹配订单 " + items.Count + " 件物品同步到装箱算法。");
+            if (skippedLines > 0)
+            {
+                AppendLog("同步装箱时跳过 " + skippedLines + " 条缺少有效尺寸的明细。");
+            }
         }
 
         private void ImportOrdersFromPath(string path)
@@ -1221,7 +2077,7 @@ namespace WindowsFormsApp1
                 _testRecords.Clear();
                 _testSequence = 1;
                 _batchFolderName = "test-no-order-" + DateTime.Now.ToString("yyyyMMdd_HHmmss");
-                UpdateStatusLabels(null, "批次进行中", null, null);
+                UpdateStatusLabels(null, "正在采码", null);
                 return ActivateBatch();
             }
 
@@ -1270,7 +2126,16 @@ namespace WindowsFormsApp1
             _batchRecords.Clear();
             ScanItemsCleared?.Invoke();
             UpdateTestBatchButtonState();
-            AppendLog("批次开始：" + _batchFolderName + "，图片目录：" + _batchImageDirectory);
+            if (IsProductionMode)
+            {
+                _productionBatchEnded = false;
+                SyncProductionWorkStateDisplay();
+                AppendLog("批次开始：" + _batchFolderName + "，等待机械臂信号0开始扫码。");
+            }
+            else
+            {
+                AppendLog("批次开始：" + _batchFolderName + "，图片目录：" + _batchImageDirectory);
+            }
             return true;
         }
 
@@ -1298,9 +2163,10 @@ namespace WindowsFormsApp1
             string finishedBatchName = _batchFolderName;
             WarnIfBatchHasIssues(finishedBatchName);
             WriteBatchStatistics();
+            RefreshActiveScanTables();
             RaiseBatchCompleted();
             _batchRecords.Clear();
-            AppendLog("批次结束：" + finishedBatchName + "。");
+            AppendLog("批次结束：" + finishedBatchName + "，已生成统计文件并更新匹配结果。");
             _batchFolderName = string.Empty;
             _batchImageDirectory = string.Empty;
             return true;
@@ -1342,8 +2208,17 @@ namespace WindowsFormsApp1
                 return;
             }
 
-            TryEndProductionBatch("收到批次结束信号");
-            UpdateStatusLabels(null, "批次已完成", "等待机械臂", "等待检测");
+            if (_scanActive)
+            {
+                StopScanCycle("批次结束信号");
+            }
+
+            TryEndProductionBatch("收到批次结束信号3");
+            _currentOrderConfirmed = false;
+            EnterProductionBatchEndedState();
+            UpdateOrderActionState();
+            RefreshActiveScanTables();
+            RefreshSummaryPanels();
         }
 
         private void HandleProductionRobotSignal()
@@ -1353,13 +2228,26 @@ namespace WindowsFormsApp1
                 return;
             }
 
+            if (_scanActive)
+            {
+                AppendLog("工作模式：收到信号0，但当前已在采码中，忽略重复请求。");
+                return;
+            }
+
             if (!_batchActive)
             {
                 TryStartProductionBatch();
             }
 
-            UpdateStatusLabels(null, "采码中", "机械臂已到位", "3D相机有物体");
+            if (_productionSignalClient != null)
+            {
+                _productionSignalClient.ResetSendState();
+            }
+
+            EnterProductionRobotReadyState();
             StartScanCycle("工作模式");
+            AppendLog("工作模式：机械臂已到位，开始扫码。");
+            RefreshSummaryPanels();
         }
 
         private bool IsOrderComplete(List<ScanRecord> records)
@@ -1486,13 +2374,21 @@ namespace WindowsFormsApp1
                 _camera.BarcodeCaptured += Camera_BarcodeCaptured;
                 _camera.Start();
                 _readerConnected = true;
-                UpdateStatusLabels("已连接真实扫码器", null, null, null);
+                if (IsProductionMode)
+                {
+                    SyncProductionWorkStateDisplay();
+                    StartProductionSignalClient();
+                }
+                else
+                {
+                    UpdateStatusLabels("已连接", null, null);
+                }
                 AppendLog("扫码器 SDK 连接成功，已进入软件触发采码模式。");
             }
             catch (Exception ex)
             {
                 _readerConnected = false;
-                UpdateStatusLabels("连接失败", null, null, null);
+                UpdateStatusLabels("未连接", null, null);
                 AppendLog("扫码器连接失败：" + ex.Message);
                 MessageBox.Show(DialogOwner, "扫码器连接失败：" + ex.Message, "扫码器", MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
@@ -1511,13 +2407,104 @@ namespace WindowsFormsApp1
                 _scannerSettings.Normalize();
                 ScannerSettingsStore.Save(_scannerSettings);
                 _scanTimer.Interval = _scannerSettings.ScanIntervalMs;
-                AppendLog("扫码器设置已保存：IP=" + _scannerSettings.ReaderIp + "，间隔=" + _scannerSettings.ScanIntervalMs + "ms，曝光=" + _scannerSettings.ExposureTimeUs + "us，自动对焦=" + (_scannerSettings.AutoFocus ? "是" : "否") + "。");
+                if (IsProductionMode)
+                {
+                    StartProductionSignalClient();
+                }
+                AppendLog("扫码器设置已保存：IP=" + _scannerSettings.ReaderIp
+                    + "，采码频率=" + _scannerSettings.ScanIntervalMs + "ms"
+                    + "，曝光=" + (_scannerSettings.ExposureAuto ? "自适应" : _scannerSettings.ExposureTimeUs + "us")
+                    + "，增益=" + (_scannerSettings.GainAuto ? "自适应" : _scannerSettings.GainDb + "dB")
+                    + "，自动对焦=" + (_scannerSettings.AutoFocus ? _scannerSettings.AutoFocusCommand : "关") + "。");
             }
         }
 
         private void btnWaitRobotSignal_Click(object sender, EventArgs e)
         {
             HandleProductionRobotSignal();
+        }
+
+        private void btnScanReset_Click(object sender, EventArgs e)
+        {
+            if (!IsProductionMode)
+            {
+                return;
+            }
+
+            if (!CanResetProductionScanWorkflow())
+            {
+                MessageBox.Show(DialogOwner, "当前没有进行中的工作批次或采码流程，无需归位。", "扫码归位",
+                    MessageBoxButtons.OK, MessageBoxIcon.Information);
+                return;
+            }
+
+            DialogResult confirm = MessageBox.Show(DialogOwner,
+                "确定要扫码归位吗？\n\n将停止当前采码、作废本批次（不生成统计），并重置工作流程。\n需重新确认订单后再开始新批次。",
+                "扫码归位", MessageBoxButtons.YesNo, MessageBoxIcon.Warning, MessageBoxDefaultButton.Button2);
+            if (confirm != DialogResult.Yes)
+            {
+                return;
+            }
+
+            ResetProductionScanWorkflow("人工扫码归位");
+        }
+
+        private bool CanResetProductionScanWorkflow()
+        {
+            return _batchActive || _scanActive || _currentOrderConfirmed || _robotPackingInProgress || _productionBatchEnded;
+        }
+
+        private void ResetProductionScanWorkflow(string reason)
+        {
+            if (_scanActive)
+            {
+                StopScanCycle("扫码归位");
+            }
+
+            _productionAwaitingCapture = false;
+            _productionFailureNotified = false;
+            _productionScanFailedWaitingRetry = false;
+            _robotPackingInProgress = false;
+            _productionBatchEnded = false;
+
+            if (_productionSignalClient != null)
+            {
+                _productionSignalClient.ResetSendState();
+            }
+
+            string abortedBatchName = _batchFolderName;
+            if (_batchActive)
+            {
+                try
+                {
+                    _statisticsWriter.DeleteBatchIfExists(abortedBatchName);
+                }
+                catch (Exception ex)
+                {
+                    AppendLog("删除中断批次统计文件失败：" + ex.Message);
+                }
+
+                _batchActive = false;
+                _batchFolderName = string.Empty;
+                _batchImageDirectory = string.Empty;
+                _batchRecords.Clear();
+            }
+
+            _currentProductionRecords.Clear();
+            _nextSequence = 1;
+            _currentOrderConfirmed = false;
+
+            ScanItemsCleared?.Invoke();
+            ClearScanResultDisplay();
+            EnterProductionNotInPositionState();
+            UpdateOrderActionState();
+            RefreshActiveScanTables();
+            RefreshSummaryPanels();
+
+            string batchNote = string.IsNullOrWhiteSpace(abortedBatchName)
+                ? string.Empty
+                : "，已作废批次 " + abortedBatchName;
+            AppendLog("扫码归位：" + reason + batchNote + "，工作流程已重置（不生成统计）。");
         }
 
         private void btnStartTestScan_Click(object sender, EventArgs e)
@@ -1621,6 +2608,15 @@ namespace WindowsFormsApp1
                 EndBatchInternal(false);
             }
 
+            if (IsProductionMode)
+            {
+                StartProductionSignalClient();
+            }
+            else
+            {
+                StopProductionSignalClient();
+            }
+
             UpdateModeState();
         }
 
@@ -1636,6 +2632,21 @@ namespace WindowsFormsApp1
                 if (_camera != null)
                 {
                     _camera.TriggerOnce();
+                }
+
+                if (IsProductionMode)
+                {
+                    if (_productionAwaitingCapture && !_productionFailureNotified)
+                    {
+                        SendProductionSignal(ProductionSignalClient.SignalScanFailed);
+                        _productionFailureNotified = true;
+                        StopScanCycle("未扫到有效条码");
+                        EnterProductionWaitingScanState();
+                        AppendLog("工作模式：未扫到有效条码，已发送信号2，等待机械臂换姿后重新发送信号0。");
+                        return;
+                    }
+
+                    _productionAwaitingCapture = true;
                 }
             }
             catch (Exception ex)
@@ -1707,30 +2718,39 @@ namespace WindowsFormsApp1
             }
 
             _scanActive = true;
+            _productionAwaitingCapture = false;
+            _productionFailureNotified = false;
+            if (IsProductionMode && _productionSignalClient != null)
+            {
+                _productionSignalClient.ResetSendState();
+            }
             _scanTimer.Interval = _scannerSettings.ScanIntervalMs;
             _scanTimer.Start();
             if (!IsProductionMode)
             {
                 btnStopCurrentScan.Enabled = true;
             }
-            UpdateStatusLabels(null, "采码中", null, null);
+            if (IsProductionMode)
+            {
+                SyncProductionWorkStateDisplay();
+            }
+            else
+            {
+                UpdateStatusLabels(null, "正在采码", null);
+            }
             AppendLog(mode + "：开始扫码。");
         }
 
         private void StopScanCycle(string reason)
         {
-            if (!_scanActive)
-            {
-                return;
-            }
-
+            bool wasActive = _scanActive;
             _scanTimer.Stop();
             _scanActive = false;
             if (!IsProductionMode)
             {
                 btnStopCurrentScan.Enabled = false;
             }
-            if (_camera != null)
+            if (_camera != null && wasActive)
             {
                 try
                 {
@@ -1741,8 +2761,23 @@ namespace WindowsFormsApp1
                     AppendLog("停止采图失败：" + ex.Message);
                 }
             }
-            UpdateStatusLabels(null, "已停止", null, null);
-            AppendLog("停止当前扫码：" + reason + "。");
+
+            if (wasActive)
+            {
+                AppendLog("停止当前扫码：" + reason + "。");
+            }
+
+            if (wasActive)
+            {
+                if (IsProductionMode)
+                {
+                    SyncProductionWorkStateDisplay();
+                }
+                else
+                {
+                    SetScanWorkStatus("未开始");
+                }
+            }
         }
 
         private void Camera_BarcodeCaptured(BarcodeCapture capture)
@@ -1768,6 +2803,13 @@ namespace WindowsFormsApp1
 
         private void HandleEffectiveCapture(BarcodeCapture capture)
         {
+            if (IsProductionMode)
+            {
+                _scanTimer.Stop();
+                _productionAwaitingCapture = false;
+                _productionFailureNotified = false;
+            }
+
             string barcode = ProductCatalog.NormalizeBarcode(capture.Barcode);
             if (string.IsNullOrWhiteSpace(barcode))
             {
@@ -1790,6 +2832,18 @@ namespace WindowsFormsApp1
             string imagePath = SaveCaptureImage(capture, barcode, readTime);
 
             StopScanCycle("有效结果");
+            if (IsProductionMode)
+            {
+                if (_productionSignalClient != null)
+                {
+                    _productionSignalClient.ResetSendState();
+                }
+
+                SendProductionSignal(ProductionSignalClient.SignalScanSuccess);
+                EnterProductionPackingState();
+                AppendLog("工作模式：已关闭扫码器并发送信号1，机械臂开始移到装箱位置。");
+                RefreshSummaryPanels();
+            }
 
             ScanRecord record;
             if (IsProductionMode)
@@ -1817,12 +2871,7 @@ namespace WindowsFormsApp1
                 RefreshActiveScanTables();
                 if (IsProductionOrderComplete())
                 {
-                    TryEndProductionBatch("订单数量已满足");
-                    UpdateStatusLabels(null, "批次已完成", "等待机械臂", "等待检测");
-                }
-                else
-                {
-                    UpdateStatusLabels(null, "待下一信号", "等待机械臂", null);
+                    AppendLog("工作模式：订单采码数量已满足，等待机械臂发送信号3结束批次。");
                 }
             }
             else
@@ -1874,11 +2923,11 @@ namespace WindowsFormsApp1
                 if (!IsNoOrderTestMode && IsOrderComplete(_testRecords))
                 {
                     EndBatchInternal(false);
-                    UpdateStatusLabels(null, "批次已完成", "等待开始批次", "等待检测");
+                    UpdateStatusLabels(null, "未开始", "未到位");
                 }
                 else
                 {
-                    UpdateStatusLabels(null, "待下一次扫码", null, null);
+                    UpdateStatusLabels(null, "未开始", null);
                 }
             }
 
@@ -2246,12 +3295,46 @@ namespace WindowsFormsApp1
             lblActualTotalValue.Text = actualTotal.ToString();
             lblAbnormalTotalValue.Text = abnormal.ToString();
             lblTestTotalValue.Text = _testRecords.Count.ToString();
-            lblCurrentStateValue.Text = _scanActive ? "采码中" : (IsProductionMode ? "工作模式" : "测试模式");
+            if (_productionBatchEnded)
+            {
+                lblCurrentStateValue.Text = "批次已结束";
+                lblCurrentStateValue.ForeColor = Color.FromArgb(46, 160, 67);
+            }
+            else if (_scanActive)
+            {
+                lblCurrentStateValue.Text = "正在采码";
+                lblCurrentStateValue.ForeColor = Color.FromArgb(32, 95, 178);
+            }
+            else if (_robotPackingInProgress)
+            {
+                lblCurrentStateValue.Text = "装箱中";
+                lblCurrentStateValue.ForeColor = Color.FromArgb(220, 140, 40);
+            }
+            else if (_batchActive && IsProductionMode && _productionScanFailedWaitingRetry)
+            {
+                lblCurrentStateValue.Text = "待重扫";
+                lblCurrentStateValue.ForeColor = Color.FromArgb(220, 140, 40);
+            }
+            else if (_batchActive && IsProductionMode)
+            {
+                lblCurrentStateValue.Text = "批次进行中";
+                lblCurrentStateValue.ForeColor = Color.FromArgb(32, 95, 178);
+            }
+            else
+            {
+                lblCurrentStateValue.Text = IsProductionMode ? "工作模式" : "测试模式";
+                lblCurrentStateValue.ForeColor = Color.DarkOrange;
+            }
+            string batchHint = _batchActive && IsProductionMode ? " · 批次进行中" : string.Empty;
+            if (_productionScanFailedWaitingRetry && IsProductionMode)
+            {
+                batchHint += " · 待重扫";
+            }
             lblFooterStatus.Text = "订单编号: " + ValueOrDash(CurrentOrderNo) +
                 " | 箱码编号: " + ValueOrDash(CurrentBoxCode) +
                 " | 实扫: " + actualTotal +
                 " | 异常: " + abnormal +
-                " | 当前: " + (IsProductionMode ? "工作模式" : "测试模式");
+                " | 当前: " + (IsProductionMode ? "工作模式" : "测试模式") + batchHint;
         }
 
         private static string ValueOrDash(string value)
@@ -2339,12 +3422,12 @@ namespace WindowsFormsApp1
                 List<ScanRecord> actual;
                 actualGroups.TryGetValue(expected.Barcode, out actual);
                 int actualCount = actual == null ? 0 : actual.Count;
-                string status = "正常";
+                string status = actualCount == 0 ? "待扫码" : "正常";
                 if (actual != null && actual.Any(r => string.Equals(r.Status, "未查询到该产品", StringComparison.OrdinalIgnoreCase)))
                 {
                     status = "未查询到该产品";
                 }
-                else if (actualCount < expected.OrderQuantity)
+                else if (actualCount > 0 && actualCount < expected.OrderQuantity)
                 {
                     status = "数量不足";
                 }
@@ -2430,6 +3513,27 @@ namespace WindowsFormsApp1
             LoadImage(record.ImagePath);
         }
 
+        private void ClearScanResultDisplay()
+        {
+            lblResultOrderNoValue.Text = "-";
+            lblResultBatchBoxValue.Text = "-";
+            lblResultSequenceValue.Text = "-";
+            lblResultBarcodeValue.Text = "-";
+            lblResultSkuValue.Text = "-";
+            lblResultStatusValue.Text = "-";
+            lblResultScanCountValue.Text = "-";
+            lblResultScanTimeValue.Text = "-";
+            lblPhotoBarcodeValue.Text = "-";
+            lblPhotoSkuValue.Text = "-";
+            lblPhotoSourceValue.Text = "-";
+            LoadImage(string.Empty);
+
+            if (dgvProductScanList != null)
+            {
+                dgvProductScanList.ClearSelection();
+            }
+        }
+
         private void LoadImage(string path)
         {
             Image old = picScanImage.Image;
@@ -2511,14 +3615,17 @@ namespace WindowsFormsApp1
             }
 
             btnWaitRobotSignal.Visible = production;
-            btnWaitRobotSignal.Enabled = production && _currentOrderConfirmed;
+            if (_btnScanReset != null)
+            {
+                _btnScanReset.Visible = production;
+            }
 
             grpDeviceActions.Text = production ? "扫码器与信号" : "扫码器与测试";
             grpCurrentOrder.Visible = true;
             grpWorkState.Visible = production;
             SetModeTabs(production);
             lblModeHint.Text = production
-                ? "工作模式：匹配并确认订单/箱码后，由机械臂与3D相机信号驱动批次与采码。"
+                ? "工作模式：确认订单后开始批次；信号0开始扫码；扫到发1并关闭扫码；未扫到发2并等待下次信号0；信号3批次结束并生成统计；异常可点「扫码归位」。"
                 : "测试模式：可匹配订单扫码、无订单测试，或勾选订单直读后输入箱码直接载入装箱。";
             lblTestTotalTitle.Visible = test;
             lblTestTotalValue.Visible = test;
@@ -2537,26 +3644,26 @@ namespace WindowsFormsApp1
             tabMain.TabPages.Add(tabCurrentOrder);
             tabMain.TabPages.Add(tabHistory);
             tabMain.TabPages.Add(tabLog);
+            if (production && _tabSignalLog != null)
+            {
+                tabMain.TabPages.Add(_tabSignalLog);
+            }
             tabMain.ResumeLayout();
         }
 
-        private void UpdateStatusLabels(string reader, string scan, string robot, string camera3d)
+        private void UpdateStatusLabels(string reader, string scan, string robot)
         {
             if (reader != null)
             {
-                lblReaderStateValue.Text = reader;
+                ApplyWorkState(lblReaderStateValue, _pnlReaderStateIndicator, reader, InferReaderStateVisual(reader));
             }
             if (scan != null)
             {
-                lblScanStateValue.Text = scan;
+                ApplyWorkState(lblScanStateValue, _pnlScanStateIndicator, scan, InferScanStateVisual(scan));
             }
             if (robot != null)
             {
-                lblRobotStateValue.Text = robot;
-            }
-            if (camera3d != null)
-            {
-                lblCamera3DStateValue.Text = camera3d;
+                ApplyWorkState(lblRobotStateValue, _pnlRobotStateIndicator, robot, InferRobotStateVisual(robot));
             }
         }
 
@@ -2659,6 +3766,8 @@ namespace WindowsFormsApp1
                 DeviceIndex = settings.DeviceIndex,
                 ScanIntervalMs = settings.ScanIntervalMs,
                 AutoFocus = settings.AutoFocus,
+                ExposureAuto = settings.ExposureAuto,
+                GainAuto = settings.GainAuto,
                 AutoReconnect = settings.AutoReconnect,
                 SaveRawImage = settings.SaveRawImage,
                 ImageSavePath = settings.ImageSavePath,
@@ -2669,8 +3778,130 @@ namespace WindowsFormsApp1
                 GevSCPSPacketSize = settings.GevSCPSPacketSize,
                 GevHeartbeatTimeoutMs = settings.GevHeartbeatTimeoutMs,
                 JpegQuality = settings.JpegQuality,
-                AutoFocusCommand = settings.AutoFocusCommand
+                AutoFocusCommand = settings.AutoFocusCommand,
+                SignalServerIp = settings.SignalServerIp,
+                SignalServerPort = settings.SignalServerPort
             };
+        }
+
+        private void StartProductionSignalClient()
+        {
+            if (!IsProductionMode)
+            {
+                return;
+            }
+
+            if (_productionSignalClient == null)
+            {
+                _productionSignalClient = new ProductionSignalClient();
+                _productionSignalClient.SignalReceived += ProductionSignalClient_SignalReceived;
+                _productionSignalClient.ConnectionChanged += ProductionSignalClient_ConnectionChanged;
+                _productionSignalClient.DataTransmitted += ProductionSignalClient_DataTransmitted;
+            }
+
+            AppendLog("正在连接生产信号服务器 " + _scannerSettings.SignalServerIp + ":" + _scannerSettings.SignalServerPort + "。");
+            AppendSignalLog("连接信号服务器 " + _scannerSettings.SignalServerIp + ":" + _scannerSettings.SignalServerPort + " ...");
+            _productionSignalClient.Start(
+                _scannerSettings.SignalServerIp,
+                _scannerSettings.SignalServerPort,
+                _scannerSettings.AutoReconnect);
+        }
+
+        private void StopProductionSignalClient()
+        {
+            if (_productionSignalClient == null)
+            {
+                return;
+            }
+
+            _productionSignalClient.Stop();
+            EnterProductionNotInPositionState();
+        }
+
+        private void ProductionSignalClient_SignalReceived(int signal)
+        {
+            if (InvokeRequired)
+            {
+                BeginInvoke(new Action<int>(ProductionSignalClient_SignalReceived), signal);
+                return;
+            }
+
+            AppendLog("收到生产信号：" + signal + "。");
+            switch (signal)
+            {
+                case ProductionSignalClient.SignalRobotReady:
+                    AppendLog("机械臂已到位，开始扫码。");
+                    HandleProductionRobotSignal();
+                    break;
+                case ProductionSignalClient.SignalBatchComplete:
+                    AppendLog("机械臂抓取结束，批次结束。");
+                    OnProductionBatchEndSignal();
+                    break;
+                default:
+                    AppendLog("忽略未知生产信号：" + signal + "。");
+                    break;
+            }
+        }
+
+        private void ProductionSignalClient_DataTransmitted(bool sent, int value, string detail)
+        {
+            if (InvokeRequired)
+            {
+                BeginInvoke(new Action<bool, int, string>(ProductionSignalClient_DataTransmitted), sent, value, detail);
+                return;
+            }
+
+            string direction = sent ? "发送 →" : "接收 ←";
+            string signalText = value >= 0 ? value.ToString() : "未知";
+            AppendSignalLog(direction + " 信号 " + signalText + "  (" + detail + ")");
+        }
+
+        private void ProductionSignalClient_ConnectionChanged(bool connected)
+        {
+            if (InvokeRequired)
+            {
+                BeginInvoke(new Action<bool>(ProductionSignalClient_ConnectionChanged), connected);
+                return;
+            }
+
+            if (connected)
+            {
+                AppendLog("生产信号服务器已连接 " + _scannerSettings.SignalServerIp + ":" + _scannerSettings.SignalServerPort + "。");
+                AppendSignalLog("信号连接已建立：" + _scannerSettings.SignalServerIp + ":" + _scannerSettings.SignalServerPort);
+                SyncProductionWorkStateDisplay();
+            }
+            else
+            {
+                AppendLog("生产信号连接断开。");
+                AppendSignalLog("信号连接已断开。");
+                if (_scanActive)
+                {
+                    StopScanCycle("信号连接断开");
+                }
+
+                EnterProductionNotInPositionState();
+            }
+        }
+
+        private bool SendProductionSignal(int signal)
+        {
+            if (_productionSignalClient == null || !_productionSignalClient.IsConnected)
+            {
+                AppendLog("发送信号 " + signal + " 失败：信号服务器未连接。");
+                AppendSignalLog("发送失败：信号 " + signal + "，原因=未连接");
+                return false;
+            }
+
+            bool sent = _productionSignalClient.Send(signal);
+            if (sent)
+            {
+                AppendLog("已向机械臂发送信号 " + signal + "。");
+            }
+            else
+            {
+                AppendLog("向机械臂发送信号 " + signal + " 失败。");
+            }
+            return sent;
         }
 
         private sealed class OrderBoxIdentity

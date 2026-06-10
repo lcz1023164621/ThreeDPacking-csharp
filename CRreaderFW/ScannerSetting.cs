@@ -14,7 +14,12 @@ namespace WindowsFormsApp1
         private NumericUpDown numGainDb;
         private NumericUpDown numHeartbeatTimeoutMs;
         private NumericUpDown numJpegQuality;
+        private NumericUpDown numGevPacketSize;
         private CheckBox chkAutoPacketSize;
+        private CheckBox chkExposureAuto;
+        private CheckBox chkGainAuto;
+        private ComboBox cmbAutoFocusCommand;
+        private Label lblScanFrequencyHint;
 
         public ScannerSetting()
             : this(ScannerSettingsData.CreateDefault())
@@ -24,7 +29,8 @@ namespace WindowsFormsApp1
         public ScannerSetting(ScannerSettingsData settings)
         {
             InitializeComponent();
-            InitSdkParameterControls();
+            BuildScanParametersTab();
+            BuildAdvancedParametersTab();
             _settings = settings ?? ScannerSettingsData.CreateDefault();
             _settings.Normalize();
             LoadSettingsToControls();
@@ -35,14 +41,11 @@ namespace WindowsFormsApp1
             get { return _settings; }
         }
 
-        private void InitSdkParameterControls()
+        private void BuildScanParametersTab()
         {
-            var panelSdk = new Panel
-            {
-                Dock = DockStyle.Top,
-                AutoSize = true,
-                Padding = new Padding(0, 8, 0, 0)
-            };
+            tabScanParams.Controls.Clear();
+            tabScanParams.AutoScroll = true;
+            tabScanParams.Padding = new Padding(12);
 
             var table = new TableLayoutPanel
             {
@@ -53,33 +56,101 @@ namespace WindowsFormsApp1
             };
             table.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 160F));
             table.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100F));
-            table.RowCount = 6;
-            for (int i = 0; i < 6; i++)
-            {
-                table.RowStyles.Add(new RowStyle(SizeType.Absolute, 38F));
-            }
 
-            numDeviceIndex = CreateNumeric(0, 16, 0);
+            lblScanInterval.Text = "采码频率 (ms)";
+            lblScanFrequencyHint = new Label
+            {
+                AutoSize = true,
+                ForeColor = Color.FromArgb(96, 96, 96),
+                Margin = new Padding(8, 10, 0, 0)
+            };
+            numScanIntervalMs.ValueChanged += (s, e) => UpdateScanFrequencyHint();
+
+            var scanIntervalPanel = new FlowLayoutPanel
+            {
+                AutoSize = true,
+                FlowDirection = FlowDirection.LeftToRight,
+                WrapContents = false,
+                Dock = DockStyle.Fill
+            };
+            scanIntervalPanel.Controls.Add(numScanIntervalMs);
+            scanIntervalPanel.Controls.Add(lblScanFrequencyHint);
+
+            chkAutoFocus.Text = "启用自动对焦（采码前执行对焦）";
+
+            cmbAutoFocusCommand = new ComboBox
+            {
+                DropDownStyle = ComboBoxStyle.DropDownList,
+                Width = 180
+            };
+            cmbAutoFocusCommand.Items.AddRange(new object[] { "FocusOnce", "FocusContinuous" });
+            chkAutoFocus.CheckedChanged += (s, e) => cmbAutoFocusCommand.Enabled = chkAutoFocus.Checked;
+
+            chkExposureAuto = new CheckBox
+            {
+                AutoSize = true,
+                Text = "曝光自适应（连续自动曝光）"
+            };
+            chkExposureAuto.CheckedChanged += (s, e) => UpdateAdaptiveEditorsState();
+
             numExposureTimeUs = CreateNumeric(1000, 200000, 1000);
+            chkGainAuto = new CheckBox
+            {
+                AutoSize = true,
+                Text = "增益自适应（连续自动增益）"
+            };
+            chkGainAuto.CheckedChanged += (s, e) => UpdateAdaptiveEditorsState();
+
             numGainDb = CreateNumeric(0, 24, 0.5m, 1);
+            chkAutoReconnect.Text = "断线自动重连";
+
+            AddTableRow(table, "采码频率", scanIntervalPanel);
+            AddTableRow(table, "自动对焦", chkAutoFocus);
+            AddTableRow(table, "对焦命令", cmbAutoFocusCommand);
+            AddTableRow(table, "曝光自适应", chkExposureAuto);
+            AddTableRow(table, "曝光时间 (us)", numExposureTimeUs);
+            AddTableRow(table, "增益自适应", chkGainAuto);
+            AddTableRow(table, "增益 (dB)", numGainDb);
+            AddTableRow(table, "连接", chkAutoReconnect);
+            AddTableRow(table, "光源模式", grpLightMode);
+
+            tabScanParams.Controls.Add(table);
+        }
+
+        private void BuildAdvancedParametersTab()
+        {
+            numDeviceIndex = CreateNumeric(0, 16, 1);
             numHeartbeatTimeoutMs = CreateNumeric(500, 60000, 500);
             numJpegQuality = CreateNumeric(50, 100, 1);
+            numGevPacketSize = CreateNumeric(576, 9000, 64);
             chkAutoPacketSize = new CheckBox
             {
                 AutoSize = true,
-                Text = "自动协商 GigE 包大小",
-                Dock = DockStyle.Fill
+                Text = "自动协商 GigE 包大小"
+            };
+            chkAutoPacketSize.CheckedChanged += (s, e) =>
+            {
+                if (numGevPacketSize != null)
+                    numGevPacketSize.Enabled = !chkAutoPacketSize.Checked;
             };
 
-            AddRow(table, 0, "设备索引", numDeviceIndex);
-            AddRow(table, 1, "曝光时间(us)", numExposureTimeUs);
-            AddRow(table, 2, "增益(dB)", numGainDb);
-            AddRow(table, 3, "心跳超时(ms)", numHeartbeatTimeoutMs);
-            AddRow(table, 4, "JPEG质量", numJpegQuality);
-            AddRow(table, 5, "网络优化", chkAutoPacketSize);
+            var sdkTable = new TableLayoutPanel
+            {
+                Dock = DockStyle.Top,
+                AutoSize = true,
+                ColumnCount = 2,
+                Padding = new Padding(0, 8, 0, 0)
+            };
+            sdkTable.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 160F));
+            sdkTable.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100F));
 
-            panelSdk.Controls.Add(table);
-            tabScanParams.Controls.Add(panelSdk);
+            AddTableRow(sdkTable, "设备索引", numDeviceIndex);
+            AddTableRow(sdkTable, "心跳超时 (ms)", numHeartbeatTimeoutMs);
+            AddTableRow(sdkTable, "JPEG 质量", numJpegQuality);
+            AddTableRow(sdkTable, "网络优化", chkAutoPacketSize);
+            AddTableRow(sdkTable, "GigE 包大小", numGevPacketSize);
+
+            tabAdvanced.Controls.Add(sdkTable);
         }
 
         private static NumericUpDown CreateNumeric(decimal min, decimal max, decimal increment, int decimals = 0)
@@ -94,17 +165,58 @@ namespace WindowsFormsApp1
             };
         }
 
-        private static void AddRow(TableLayoutPanel table, int row, string labelText, Control editor)
+        private static void AddTableRow(TableLayoutPanel table, string labelText, Control editor)
         {
+            int row = table.RowCount;
+            table.RowCount = row + 1;
+            table.RowStyles.Add(new RowStyle(SizeType.Absolute, editor is GroupBox ? 86F : 38F));
+
             var label = new Label
             {
                 Text = labelText,
                 Dock = DockStyle.Fill,
                 TextAlign = ContentAlignment.MiddleLeft
             };
-            editor.Dock = DockStyle.Left;
+
+            if (editor is GroupBox)
+            {
+                editor.Dock = DockStyle.Fill;
+            }
+            else if (editor is FlowLayoutPanel)
+            {
+                editor.Dock = DockStyle.Fill;
+            }
+            else
+            {
+                editor.Dock = DockStyle.Left;
+            }
+
             table.Controls.Add(label, 0, row);
             table.Controls.Add(editor, 1, row);
+        }
+
+        private void UpdateScanFrequencyHint()
+        {
+            if (lblScanFrequencyHint == null)
+                return;
+
+            int interval = (int)numScanIntervalMs.Value;
+            if (interval <= 0)
+            {
+                lblScanFrequencyHint.Text = string.Empty;
+                return;
+            }
+
+            double hz = 1000.0 / interval;
+            lblScanFrequencyHint.Text = string.Format("约 {0:F1} 次/秒", hz);
+        }
+
+        private void UpdateAdaptiveEditorsState()
+        {
+            if (numExposureTimeUs != null)
+                numExposureTimeUs.Enabled = !chkExposureAuto.Checked;
+            if (numGainDb != null)
+                numGainDb.Enabled = !chkGainAuto.Checked;
         }
 
         private void LoadSettingsToControls()
@@ -119,14 +231,35 @@ namespace WindowsFormsApp1
             rdoLightAlways.Checked = string.Equals(_settings.LightMode, "常亮模式", StringComparison.OrdinalIgnoreCase);
             rdoLightStrobe.Checked = !rdoLightAlways.Checked;
 
+            if (chkExposureAuto != null)
+            {
+                chkExposureAuto.Checked = _settings.ExposureAuto;
+                chkGainAuto.Checked = _settings.GainAuto;
+                numExposureTimeUs.Value = Clamp((decimal)_settings.ExposureTimeUs, numExposureTimeUs.Minimum, numExposureTimeUs.Maximum);
+                numGainDb.Value = Clamp((decimal)_settings.GainDb, numGainDb.Minimum, numGainDb.Maximum);
+
+                string focusCommand = string.IsNullOrWhiteSpace(_settings.AutoFocusCommand)
+                    ? "FocusOnce"
+                    : _settings.AutoFocusCommand.Trim();
+                if (cmbAutoFocusCommand.Items.Contains(focusCommand))
+                    cmbAutoFocusCommand.SelectedItem = focusCommand;
+                else
+                    cmbAutoFocusCommand.SelectedIndex = 0;
+
+                cmbAutoFocusCommand.Enabled = chkAutoFocus.Checked;
+                UpdateAdaptiveEditorsState();
+                UpdateScanFrequencyHint();
+            }
+
             if (numDeviceIndex != null)
             {
                 numDeviceIndex.Value = Clamp(_settings.DeviceIndex, (int)numDeviceIndex.Minimum, (int)numDeviceIndex.Maximum);
-                numExposureTimeUs.Value = Clamp((decimal)_settings.ExposureTimeUs, numExposureTimeUs.Minimum, numExposureTimeUs.Maximum);
-                numGainDb.Value = Clamp((decimal)_settings.GainDb, numGainDb.Minimum, numGainDb.Maximum);
                 numHeartbeatTimeoutMs.Value = Clamp(_settings.GevHeartbeatTimeoutMs, (int)numHeartbeatTimeoutMs.Minimum, (int)numHeartbeatTimeoutMs.Maximum);
                 numJpegQuality.Value = Clamp(_settings.JpegQuality, (int)numJpegQuality.Minimum, (int)numJpegQuality.Maximum);
                 chkAutoPacketSize.Checked = _settings.UseAutoPacketSize;
+                int packetSize = _settings.GevSCPSPacketSize > 0 ? _settings.GevSCPSPacketSize : 1500;
+                numGevPacketSize.Value = Clamp(packetSize, (int)numGevPacketSize.Minimum, (int)numGevPacketSize.Maximum);
+                numGevPacketSize.Enabled = !chkAutoPacketSize.Checked;
             }
         }
 
@@ -168,14 +301,23 @@ namespace WindowsFormsApp1
             _settings.SaveRawImage = chkSaveRawImage.Checked;
             _settings.ImageSavePath = imagePath;
             _settings.LightMode = rdoLightAlways.Checked ? "常亮模式" : "频闪模式";
+
+            if (chkExposureAuto != null)
+            {
+                _settings.ExposureAuto = chkExposureAuto.Checked;
+                _settings.GainAuto = chkGainAuto.Checked;
+                _settings.ExposureTimeUs = (float)numExposureTimeUs.Value;
+                _settings.GainDb = (float)numGainDb.Value;
+                _settings.AutoFocusCommand = cmbAutoFocusCommand.SelectedItem?.ToString() ?? "FocusOnce";
+            }
+
             if (numDeviceIndex != null)
             {
                 _settings.DeviceIndex = (int)numDeviceIndex.Value;
-                _settings.ExposureTimeUs = (float)numExposureTimeUs.Value;
-                _settings.GainDb = (float)numGainDb.Value;
                 _settings.GevHeartbeatTimeoutMs = (int)numHeartbeatTimeoutMs.Value;
                 _settings.JpegQuality = (int)numJpegQuality.Value;
                 _settings.UseAutoPacketSize = chkAutoPacketSize.Checked;
+                _settings.GevSCPSPacketSize = (int)numGevPacketSize.Value;
             }
 
             _settings.Normalize();

@@ -73,6 +73,20 @@ namespace WindowsFormsApp1
             return path;
         }
 
+        public void DeleteBatchIfExists(string fileStem)
+        {
+            if (string.IsNullOrWhiteSpace(fileStem))
+            {
+                return;
+            }
+
+            string path = Path.Combine(_outputDirectory, SanitizeFileName(fileStem) + ".csv");
+            if (File.Exists(path))
+            {
+                File.Delete(path);
+            }
+        }
+
         private static string GetProductSku(ProductRecord product)
         {
             return product == null ? string.Empty : product.GetValue("SKU", "Sku", "sku", "货号");

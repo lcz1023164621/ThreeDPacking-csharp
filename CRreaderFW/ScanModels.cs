@@ -2,6 +2,13 @@ using System;
 
 namespace WindowsFormsApp1
 {
+    internal sealed class OrderIndexEntry
+    {
+        public string OrderNo { get; set; }
+        public string BoxCode { get; set; }
+        public DateTime UpdatedAt { get; set; }
+    }
+
     public sealed class ScannedItemInfo
     {
         public string Name { get; set; }
@@ -19,6 +26,8 @@ namespace WindowsFormsApp1
         public int DeviceIndex { get; set; }
         public int ScanIntervalMs { get; set; }
         public bool AutoFocus { get; set; }
+        public bool ExposureAuto { get; set; }
+        public bool GainAuto { get; set; }
         public bool AutoReconnect { get; set; }
         public bool SaveRawImage { get; set; }
         public string ImageSavePath { get; set; }
@@ -30,6 +39,8 @@ namespace WindowsFormsApp1
         public int GevHeartbeatTimeoutMs { get; set; }
         public int JpegQuality { get; set; }
         public string AutoFocusCommand { get; set; }
+        public string SignalServerIp { get; set; }
+        public int SignalServerPort { get; set; }
 
         public static ScannerSettingsData CreateDefault()
         {
@@ -40,6 +51,8 @@ namespace WindowsFormsApp1
                 DeviceIndex = 0,
                 ScanIntervalMs = 500,
                 AutoFocus = true,
+                ExposureAuto = false,
+                GainAuto = false,
                 AutoReconnect = true,
                 SaveRawImage = true,
                 ImageSavePath = System.IO.Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "scan_images"),
@@ -50,7 +63,9 @@ namespace WindowsFormsApp1
                 GevSCPSPacketSize = 0,
                 GevHeartbeatTimeoutMs = 3000,
                 JpegQuality = 90,
-                AutoFocusCommand = "FocusOnce"
+                AutoFocusCommand = "FocusOnce",
+                SignalServerIp = "192.168.0.200",
+                SignalServerPort = 10000
             };
         }
 
@@ -99,6 +114,14 @@ namespace WindowsFormsApp1
             if (string.IsNullOrWhiteSpace(AutoFocusCommand))
             {
                 AutoFocusCommand = "FocusOnce";
+            }
+            if (string.IsNullOrWhiteSpace(SignalServerIp))
+            {
+                SignalServerIp = "192.168.0.200";
+            }
+            if (SignalServerPort <= 0)
+            {
+                SignalServerPort = 10000;
             }
         }
     }

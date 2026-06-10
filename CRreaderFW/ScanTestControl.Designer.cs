@@ -1008,7 +1008,7 @@ namespace WindowsFormsApp1
             this.grpScanMatchResult.Size = new System.Drawing.Size(414, 230);
             this.grpScanMatchResult.TabIndex = 0;
             this.grpScanMatchResult.TabStop = false;
-            this.grpScanMatchResult.Text = "扫码匹配结果";
+            this.grpScanMatchResult.Text = "匹配结果";
             // 
             // dgvScanMatchResult
             // 

@@ -65,7 +65,7 @@ namespace WindowsFormsApp1
             this.tabReaderSettings.Location = new System.Drawing.Point(0, 0);
             this.tabReaderSettings.Name = "tabReaderSettings";
             this.tabReaderSettings.SelectedIndex = 0;
-            this.tabReaderSettings.Size = new System.Drawing.Size(640, 338);
+            this.tabReaderSettings.Size = new System.Drawing.Size(640, 400);
             this.tabReaderSettings.TabIndex = 0;
             // 
             // tabNetwork
@@ -372,7 +372,7 @@ namespace WindowsFormsApp1
             this.panelButtons.Controls.Add(this.btnSaveSettings);
             this.panelButtons.Controls.Add(this.btnApplySettings);
             this.panelButtons.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.panelButtons.Location = new System.Drawing.Point(0, 338);
+            this.panelButtons.Location = new System.Drawing.Point(0, 400);
             this.panelButtons.Name = "panelButtons";
             this.panelButtons.Padding = new System.Windows.Forms.Padding(10);
             this.panelButtons.Size = new System.Drawing.Size(640, 60);
@@ -425,7 +425,7 @@ namespace WindowsFormsApp1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(640, 398);
+            this.ClientSize = new System.Drawing.Size(640, 460);
             this.Controls.Add(this.tabReaderSettings);
             this.Controls.Add(this.panelButtons);
             this.MinimumSize = new System.Drawing.Size(620, 390);

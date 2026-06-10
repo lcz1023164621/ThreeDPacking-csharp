@@ -133,6 +133,9 @@ namespace ThreeDPacking.App.Forms
             _scanTestControl.ScannedItemAdded += ScanTestControl_ScannedItemAdded;
             _scanTestControl.ScanItemsCleared += ScanTestControl_ScanItemsCleared;
             _scanTestControl.BatchCompleted += ScanTestControl_BatchCompleted;
+            _scanTestControl.OrderMatchedForPacking += ScanTestControl_OrderMatchedForPacking;
+            _scanTestControl.OrderMatchCleared += ScanTestControl_OrderMatchCleared;
+            _scanTestControl.OrderConfirmedForPacking += ScanTestControl_OrderConfirmedForPacking;
             panelScanTest.Controls.Add(_scanTestControl);
         }
 
@@ -477,37 +480,131 @@ namespace ThreeDPacking.App.Forms
                 return;
             }
 
-            ApplyScannedItemsToPacking(items);
+            AppendLog($"[批次结束] 本批次共采码 {items.Count} 件，待装列表保持订单匹配结果。");
         }
 
-        private void ApplyScannedItemsToPacking(IReadOnlyList<ScannedItemInfo> items)
+        private void ScanTestControl_OrderMatchedForPacking(IReadOnlyList<ScannedItemInfo> items)
+        {
+            if (items == null || items.Count == 0)
+                return;
+
+            if (InvokeRequired)
+            {
+                BeginInvoke((Action)(() => ScanTestControl_OrderMatchedForPacking(items)));
+                return;
+            }
+
+            ApplyScannedItemsToPacking(items, "订单匹配");
+        }
+
+        private void ScanTestControl_OrderMatchCleared()
+        {
+            if (InvokeRequired)
+            {
+                BeginInvoke((Action)ScanTestControl_OrderMatchCleared);
+                return;
+            }
+
+            _loadedItems.Clear();
+            _allLoadedItems.Clear();
+            _selectionDirty = true;
+            ClearPackingResults();
+            RefreshItemsGrid();
+            SetStartPackingEnabled(false);
+            btnRandomSelect.Enabled = false;
+            if (btnInstanceSelect != null)
+                btnInstanceSelect.Enabled = false;
+            if (btnProbabilitySelect != null)
+                btnProbabilitySelect.Enabled = false;
+            lblRandomInfo.Text = "匹配订单后自动同步到待装列表";
+        }
+
+        private void ScanTestControl_OrderConfirmedForPacking(IReadOnlyList<ScannedItemInfo> items)
+        {
+            if (InvokeRequired)
+            {
+                BeginInvoke((Action)(() => ScanTestControl_OrderConfirmedForPacking(items)));
+                return;
+            }
+
+            AppendLog("[订单确认] 已确认订单，可开始采码。");
+        }
+
+        private static bool TryConvertScannedItem(
+            ScannedItemInfo scanned,
+            IReadOnlyList<ItemCandidate> existing,
+            out ItemCandidate candidate)
+        {
+            candidate = null;
+            if (scanned == null || scanned.Dx <= 0 || scanned.Dy <= 0 || scanned.Dz <= 0)
+                return false;
+
+            int index = existing == null ? 0 : existing.Count;
+            string name = ResolveDistinctPackingItemName(scanned, existing, index);
+            candidate = new ItemCandidate(name, scanned.Dx, scanned.Dy, scanned.Dz, index + 1);
+            return true;
+        }
+
+        private static string ResolveDistinctPackingItemName(
+            ScannedItemInfo scanned,
+            IReadOnlyList<ItemCandidate> existing,
+            int index)
+        {
+            string baseName = ResolvePackingItemName(scanned, index);
+            if (existing == null || existing.Count == 0)
+                return baseName;
+
+            int sameNameCount = 0;
+            for (int i = 0; i < existing.Count; i++)
+            {
+                string existingName = existing[i].Name ?? string.Empty;
+                if (string.Equals(existingName, baseName, StringComparison.OrdinalIgnoreCase) ||
+                    existingName.StartsWith(baseName + "#", StringComparison.OrdinalIgnoreCase))
+                {
+                    sameNameCount++;
+                }
+            }
+
+            return sameNameCount > 0 ? baseName + "#" + (sameNameCount + 1) : baseName;
+        }
+
+        private static string ResolvePackingItemName(ScannedItemInfo scanned, int index)
+        {
+            if (!string.IsNullOrWhiteSpace(scanned.Name))
+                return scanned.Name.Trim();
+
+            if (!string.IsNullOrWhiteSpace(scanned.Barcode))
+                return scanned.Barcode.Trim();
+
+            return "Item" + (index + 1);
+        }
+
+        private void ApplyScannedItemsToPacking(IReadOnlyList<ScannedItemInfo> items, string source)
         {
             var loaded = new List<ItemCandidate>();
             var skipped = new List<string>();
 
             for (int i = 0; i < items.Count; i++)
             {
+                ItemCandidate candidate;
                 var scanned = items[i];
-                if (scanned == null)
-                    continue;
-
-                if (scanned.Dx <= 0 || scanned.Dy <= 0 || scanned.Dz <= 0)
+                if (!TryConvertScannedItem(scanned, loaded, out candidate))
                 {
-                    skipped.Add(string.IsNullOrWhiteSpace(scanned.Barcode)
-                        ? (scanned.Name ?? $"#{i + 1}")
-                        : scanned.Barcode);
+                    if (scanned != null)
+                    {
+                        skipped.Add(string.IsNullOrWhiteSpace(scanned.Barcode)
+                            ? (scanned.Name ?? $"#{i + 1}")
+                            : scanned.Barcode);
+                    }
                     continue;
                 }
 
-                string name = string.IsNullOrWhiteSpace(scanned.Name)
-                    ? (string.IsNullOrWhiteSpace(scanned.Barcode) ? $"Item{i + 1}" : scanned.Barcode)
-                    : scanned.Name.Trim();
-                loaded.Add(new ItemCandidate(name, scanned.Dx, scanned.Dy, scanned.Dz, loaded.Count + 1));
+                loaded.Add(candidate);
             }
 
             if (loaded.Count == 0)
             {
-                MessageBox.Show("批次扫码结果无法转换为待装物品，请检查产品尺寸信息。", "扫码同步",
+                MessageBox.Show("订单物品无法转换为待装物品，请检查订单明细或 ProductInfo 中的尺寸信息。", "订单同步",
                     MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
@@ -524,18 +621,18 @@ namespace ThreeDPacking.App.Forms
                 btnInstanceSelect.Enabled = loaded.Count > 0;
             if (btnProbabilitySelect != null)
                 btnProbabilitySelect.Enabled = loaded.Count > 0;
-            lblRandomInfo.Text = $"已同步扫码物品 {loaded.Count} 件";
+            lblRandomInfo.Text = $"已同步订单物品 {loaded.Count} 件";
 
-            statusLabel.Text = $"已同步 {loaded.Count} 件扫码物品到待装列表";
-            AppendLog($"[扫码同步] 批次结束，已将 {loaded.Count} 件扫码物品同步到待装列表。");
+            statusLabel.Text = $"已同步 {loaded.Count} 件订单物品到待装列表";
+            AppendLog($"[订单同步] {source}，已将 {loaded.Count} 件物品同步到待装列表。");
             if (skipped.Count > 0)
-                AppendLog($"[扫码同步] 跳过 {skipped.Count} 件（尺寸无效）：{string.Join(", ", skipped)}");
+                AppendLog($"[订单同步] 跳过 {skipped.Count} 件（尺寸无效）：{string.Join(", ", skipped)}");
 
             if (skipped.Count > 0)
             {
                 MessageBox.Show(
                     $"已同步 {loaded.Count} 件物品到待装列表。\n另有 {skipped.Count} 件因尺寸无效被跳过。",
-                    "扫码同步", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    "订单同步", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
         }
 
@@ -1845,6 +1942,30 @@ namespace ThreeDPacking.App.Forms
                 list[i] = list[j];
                 list[j] = temp;
             }
+        }
+
+        private void TryStartPackingAutomatically(string source)
+        {
+            if (_loadedItems.Count == 0)
+            {
+                AppendLog($"[{source}] 待装列表为空，跳过自动装箱。");
+                return;
+            }
+
+            if (ReadContainerCandidates().Count == 0)
+            {
+                AppendLog($"[{source}] 未配置容器候选，跳过自动装箱。");
+                return;
+            }
+
+            if (!menuStartPacking.Enabled && !btnStartPacking.Enabled)
+            {
+                AppendLog($"[{source}] 装箱正在进行中，跳过重复触发。");
+                return;
+            }
+
+            AppendLog($"[{source}] 开始自动运行装箱算法。");
+            MenuStartPacking_Click(this, EventArgs.Empty);
         }
 
         private void MenuStartPacking_Click(object sender, EventArgs e)

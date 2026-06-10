@@ -66,6 +66,8 @@ namespace WindowsFormsApp1
             builder.AppendLine("DeviceIndex=" + settings.DeviceIndex.ToString(CultureInfo.InvariantCulture));
             builder.AppendLine("ScanIntervalMs=" + settings.ScanIntervalMs.ToString(CultureInfo.InvariantCulture));
             builder.AppendLine("AutoFocus=" + settings.AutoFocus);
+            builder.AppendLine("ExposureAuto=" + settings.ExposureAuto);
+            builder.AppendLine("GainAuto=" + settings.GainAuto);
             builder.AppendLine("AutoReconnect=" + settings.AutoReconnect);
             builder.AppendLine("SaveRawImage=" + settings.SaveRawImage);
             builder.AppendLine("ImageSavePath=" + settings.ImageSavePath);
@@ -77,6 +79,8 @@ namespace WindowsFormsApp1
             builder.AppendLine("GevHeartbeatTimeoutMs=" + settings.GevHeartbeatTimeoutMs.ToString(CultureInfo.InvariantCulture));
             builder.AppendLine("JpegQuality=" + settings.JpegQuality.ToString(CultureInfo.InvariantCulture));
             builder.AppendLine("AutoFocusCommand=" + settings.AutoFocusCommand);
+            builder.AppendLine("SignalServerIp=" + settings.SignalServerIp);
+            builder.AppendLine("SignalServerPort=" + settings.SignalServerPort.ToString(CultureInfo.InvariantCulture));
             File.WriteAllText(SettingsPath, builder.ToString(), new UTF8Encoding(true));
         }
 
@@ -110,6 +114,12 @@ namespace WindowsFormsApp1
                     break;
                 case "AutoFocus":
                     settings.AutoFocus = ParseBool(value);
+                    break;
+                case "ExposureAuto":
+                    settings.ExposureAuto = ParseBool(value);
+                    break;
+                case "GainAuto":
+                    settings.GainAuto = ParseBool(value);
                     break;
                 case "AutoReconnect":
                     settings.AutoReconnect = ParseBool(value);
@@ -163,6 +173,16 @@ namespace WindowsFormsApp1
                     break;
                 case "AutoFocusCommand":
                     settings.AutoFocusCommand = value;
+                    break;
+                case "SignalServerIp":
+                    settings.SignalServerIp = value;
+                    break;
+                case "SignalServerPort":
+                    int signalServerPort;
+                    if (int.TryParse(value, out signalServerPort))
+                    {
+                        settings.SignalServerPort = signalServerPort;
+                    }
                     break;
             }
         }

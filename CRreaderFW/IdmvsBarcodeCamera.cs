@@ -186,9 +186,25 @@ namespace WindowsFormsApp1
 
         private void ApplyCaptureSettings()
         {
-            TrySetFloatValue("ExposureTime", _settings.ExposureTimeUs);
-            TrySetEnumValue("GainAuto", 0U);
-            TrySetFloatValue("Gain", _settings.GainDb);
+            if (_settings.ExposureAuto)
+            {
+                TrySetEnumValue("ExposureAuto", 2U);
+            }
+            else
+            {
+                TrySetEnumValue("ExposureAuto", 0U);
+                TrySetFloatValue("ExposureTime", _settings.ExposureTimeUs);
+            }
+
+            if (_settings.GainAuto)
+            {
+                TrySetEnumValue("GainAuto", 2U);
+            }
+            else
+            {
+                TrySetEnumValue("GainAuto", 0U);
+                TrySetFloatValue("Gain", _settings.GainDb);
+            }
         }
 
         private void OnImageCallback(IntPtr data, IntPtr frameInfoPtr, IntPtr user)

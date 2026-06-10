@@ -18,6 +18,9 @@ namespace WindowsFormsApp1
 
         [DataMember(Name = "items")]
         public List<OrderJsonItem> Items { get; set; }
+
+        [DataMember(Name = "updatedAt")]
+        public string UpdatedAt { get; set; }
     }
 
     [DataContract]
@@ -127,6 +130,11 @@ namespace WindowsFormsApp1
                 throw new ArgumentNullException(nameof(document));
             }
 
+            if (string.IsNullOrWhiteSpace(document.UpdatedAt))
+            {
+                document.UpdatedAt = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
+            }
+
             string path = BuildJsonPath(document.OrderNo, document.BoxCode);
             Directory.CreateDirectory(Path.GetDirectoryName(path) ?? GetOrdersDirectory());
 
@@ -137,6 +145,35 @@ namespace WindowsFormsApp1
                 string json = Encoding.UTF8.GetString(stream.ToArray());
                 File.WriteAllText(path, FormatJson(json), Encoding.UTF8);
             }
+        }
+
+        public static void Delete(string orderNo, string boxCode)
+        {
+            string path = BuildJsonPath(orderNo, boxCode);
+            if (File.Exists(path))
+            {
+                File.Delete(path);
+            }
+        }
+
+        public static DateTime ReadUpdatedAt(string orderNo, string boxCode)
+        {
+            string path = BuildJsonPath(orderNo, boxCode);
+            if (!File.Exists(path))
+            {
+                return DateTime.MinValue;
+            }
+
+            OrderJsonDocument document = Load(path);
+            if (document != null && !string.IsNullOrWhiteSpace(document.UpdatedAt))
+            {
+                if (DateTime.TryParse(document.UpdatedAt, out DateTime parsed))
+                {
+                    return parsed;
+                }
+            }
+
+            return File.GetLastWriteTime(path);
         }
 
         public static OrderJsonDocument Load(string path)

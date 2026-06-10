@@ -81,6 +81,58 @@ namespace WindowsFormsApp1
             return new OrderCatalog(rows);
         }
 
+        public static OrderCatalog FromLookupResult(OrderLookupResult lookup)
+        {
+            if (lookup == null ||
+                string.IsNullOrWhiteSpace(lookup.OrderNo) ||
+                string.IsNullOrWhiteSpace(lookup.BoxCode))
+            {
+                return Empty();
+            }
+
+            var rows = new List<OrderCatalogRow>();
+            if (lookup.Items != null)
+            {
+                foreach (OrderMatchItem item in lookup.Items)
+                {
+                    if (item == null)
+                    {
+                        continue;
+                    }
+
+                    rows.Add(new OrderCatalogRow(
+                        lookup.OrderNo,
+                        lookup.BoxCode,
+                        item.Barcode ?? string.Empty,
+                        item.Sku ?? string.Empty,
+                        item.OrderQuantity,
+                        item.Length ?? string.Empty,
+                        item.Width ?? string.Empty,
+                        item.Height ?? string.Empty));
+                }
+            }
+
+            if (rows.Count == 0)
+            {
+                rows.Add(new OrderCatalogRow(
+                    lookup.OrderNo,
+                    lookup.BoxCode,
+                    string.Empty,
+                    string.Empty,
+                    0,
+                    string.Empty,
+                    string.Empty,
+                    string.Empty));
+            }
+
+            return new OrderCatalog(rows);
+        }
+
+        public OrderCatalog RemoveBinding(string orderNo, string boxCode)
+        {
+            return WithoutOrderOrBox(orderNo, boxCode);
+        }
+
         public static OrderCatalog Combine(params OrderCatalog[] catalogs)
         {
             var rows = new List<OrderCatalogRow>();
