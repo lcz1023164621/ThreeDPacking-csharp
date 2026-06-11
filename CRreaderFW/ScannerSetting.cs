@@ -113,14 +113,15 @@ namespace WindowsFormsApp1
             chkSignalScanSuccessUntilStopped = new CheckBox
             {
                 AutoSize = true,
-                Text = "信号1持续发送到下一次0/3（仅示教器已取最后有效信号后启用）"
+                Text = "信号1持续到3，信号2持续到5（固定协议）",
+                Enabled = false
             };
             lblSignalSendRetryHint = new Label
             {
                 AutoSize = true,
                 ForeColor = Color.FromArgb(96, 96, 96),
                 Margin = new Padding(8, 10, 0, 0),
-                Text = "0=信号2持续重发；建议间隔>=500ms"
+                Text = "新协议：信号1等3确认入账，信号2等5停止；建议间隔>=500ms"
             };
             var signalRetryPanel = new FlowLayoutPanel
             {
@@ -142,7 +143,7 @@ namespace WindowsFormsApp1
             AddTableRow(table, "连接", chkAutoReconnect);
             AddTableRow(table, "信号发送重发间隔(ms)", numSignalSendRetryIntervalMs);
             AddTableRow(table, "信号发送最大次数", signalRetryPanel);
-            AddTableRow(table, "信号1兜底", chkSignalScanSuccessUntilStopped);
+            AddTableRow(table, "信号确认协议", chkSignalScanSuccessUntilStopped);
             AddTableRow(table, "光源模式", grpLightMode);
 
             tabScanParams.Controls.Add(table);
@@ -297,7 +298,7 @@ namespace WindowsFormsApp1
             {
                 numSignalSendRetryIntervalMs.Value = Clamp(_settings.SignalSendRetryIntervalMs, (int)numSignalSendRetryIntervalMs.Minimum, (int)numSignalSendRetryIntervalMs.Maximum);
                 numSignalSendRetryMaxCount.Value = Clamp(_settings.SignalSendRetryMaxCount, (int)numSignalSendRetryMaxCount.Minimum, (int)numSignalSendRetryMaxCount.Maximum);
-                chkSignalScanSuccessUntilStopped.Checked = _settings.SignalScanSuccessUntilStopped;
+                chkSignalScanSuccessUntilStopped.Checked = true;
             }
         }
 
@@ -362,7 +363,7 @@ namespace WindowsFormsApp1
             {
                 _settings.SignalSendRetryIntervalMs = (int)numSignalSendRetryIntervalMs.Value;
                 _settings.SignalSendRetryMaxCount = (int)numSignalSendRetryMaxCount.Value;
-                _settings.SignalScanSuccessUntilStopped = chkSignalScanSuccessUntilStopped.Checked;
+                _settings.SignalScanSuccessUntilStopped = true;
             }
 
             _settings.Normalize();

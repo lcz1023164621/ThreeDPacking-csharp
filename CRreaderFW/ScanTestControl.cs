@@ -62,6 +62,7 @@ namespace WindowsFormsApp1
         private bool _productionScanFailedWaitingRetry;
         private bool _robotPackingInProgress;
         private bool _productionBatchEnded;
+        private ScanRecord _pendingProductionRecord;
 
         public event Action<ScannedItemInfo> ScannedItemAdded;
         public event Action ScanItemsCleared;
@@ -2350,12 +2351,68 @@ namespace WindowsFormsApp1
                 StopScanCycle("批次结束信号");
             }
 
-            TryEndProductionBatch("收到批次结束信号3");
+            if (_pendingProductionRecord != null)
+            {
+                AppendLog("工作模式：批次结束时存在未收到信号3确认的扫码记录，未计入数量：" + _pendingProductionRecord.Barcode + "。");
+                _pendingProductionRecord = null;
+            }
+
+            TryEndProductionBatch("收到批次结束信号4");
             _currentOrderConfirmed = false;
             EnterProductionBatchEndedState();
             UpdateOrderActionState();
             RefreshActiveScanTables();
             RefreshSummaryPanels();
+        }
+
+        /// <summary>
+        /// 供外部信号调用：机械臂已收到扫码成功信号，停止重发 1 并提交本件记录。
+        /// </summary>
+        public void OnProductionRobotAcknowledgedSignal()
+        {
+            if (InvokeRequired)
+            {
+                BeginInvoke(new Action(OnProductionRobotAcknowledgedSignal));
+                return;
+            }
+
+            if (_signalSendRetryValue == ProductionSignalClient.SignalScanSuccess)
+            {
+                StopSignalSendRetry();
+                AppendLog("工作模式：机械臂已确认收到信号1，停止重发并提交本件扫码记录。");
+                CommitPendingProductionRecord();
+            }
+            else if (_pendingProductionRecord != null)
+            {
+                AppendLog("工作模式：收到信号3，提交本件待确认扫码记录。");
+                CommitPendingProductionRecord();
+            }
+            else
+            {
+                AppendLog("工作模式：收到信号3确认，但当前没有待确认的信号1。");
+            }
+        }
+
+        /// <summary>
+        /// 供外部信号调用：机械臂已收到未扫到信号，停止重发 2，继续本轮扫码。
+        /// </summary>
+        public void OnProductionScanFailedAcknowledgedSignal()
+        {
+            if (InvokeRequired)
+            {
+                BeginInvoke(new Action(OnProductionScanFailedAcknowledgedSignal));
+                return;
+            }
+
+            if (_signalSendRetryValue == ProductionSignalClient.SignalScanFailed)
+            {
+                StopSignalSendRetry();
+                AppendLog("工作模式：机械臂已确认收到信号2，停止重发，继续等待有效条码。");
+            }
+            else
+            {
+                AppendLog("工作模式：收到信号5确认，但当前没有待停止的信号2重发。");
+            }
         }
 
         private void HandleProductionRobotSignal()
@@ -2366,11 +2423,6 @@ namespace WindowsFormsApp1
                 return;
             }
 
-            if (_signalSendRetryValue == ProductionSignalClient.SignalScanSuccess)
-            {
-                StopSignalSendRetry();
-            }
-
             if (!EnsureReadyForProductionScan())
             {
                 return;
@@ -2379,6 +2431,12 @@ namespace WindowsFormsApp1
             if (_scanActive)
             {
                 AppendLog("工作模式：收到信号0，但当前已在采码中，忽略重复请求。");
+                return;
+            }
+
+            if (_pendingProductionRecord != null)
+            {
+                AppendLog("工作模式：上一件扫码结果仍等待信号3确认，忽略新的信号0。");
                 return;
             }
 
@@ -2602,7 +2660,7 @@ namespace WindowsFormsApp1
 
         private bool CanResetProductionScanWorkflow()
         {
-            return _batchActive || _scanActive || _currentOrderConfirmed || _robotPackingInProgress || _productionBatchEnded;
+            return _batchActive || _scanActive || _currentOrderConfirmed || _robotPackingInProgress || _productionBatchEnded || _pendingProductionRecord != null;
         }
 
         private void ResetProductionScanWorkflow(string reason)
@@ -2617,6 +2675,7 @@ namespace WindowsFormsApp1
             _productionScanFailedWaitingRetry = false;
             _robotPackingInProgress = false;
             _productionBatchEnded = false;
+            _pendingProductionRecord = null;
             StopSignalSendRetry();
 
             if (_productionSignalClient != null)
@@ -2998,7 +3057,7 @@ namespace WindowsFormsApp1
 
                 BeginSignalSendRetry(
                     ProductionSignalClient.SignalScanSuccess,
-                    _scannerSettings.SignalScanSuccessUntilStopped);
+                    true);
                 EnterProductionPackingState();
                 AppendLog("工作模式：已关闭扫码器并发送信号1，机械臂开始移到装箱位置。" + FormatSignalSendRetryHint(false));
                 RefreshSummaryPanels();
@@ -3007,12 +3066,12 @@ namespace WindowsFormsApp1
             ScanRecord record;
             if (IsProductionMode)
             {
-                record = new ScanRecord
+                _pendingProductionRecord = new ScanRecord
                 {
                     Mode = "工作模式",
                     OrderNo = CurrentOrderNo,
                     BatchBoxCode = CurrentBoxCode,
-                    Sequence = _nextSequence++,
+                    Sequence = _nextSequence,
                     Barcode = barcode,
                     Sku = sku,
                     Length = length,
@@ -3023,15 +3082,10 @@ namespace WindowsFormsApp1
                     ScanTime = readTime,
                     ImagePath = imagePath
                 };
-                _currentProductionRecords.Add(record);
-                _historyStore.Append(record);
-                AddRecordToActiveBatch(record);
-                WriteCurrentStatistics();
-                RefreshActiveScanTables();
-                if (IsProductionOrderComplete())
-                {
-                    AppendLog("工作模式：订单采码数量已满足，等待机械臂发送信号3结束批次。");
-                }
+                ShowRecord(_pendingProductionRecord, "待确认采码");
+                RefreshSummaryPanels();
+                AppendLog("有效采码：" + barcode + "，已保存照片并停止扫码，等待机械臂返回信号3后更新数量和订单信息。");
+                return;
             }
             else
             {
@@ -3094,6 +3148,36 @@ namespace WindowsFormsApp1
             RefreshSummaryPanels();
             ScannedItemAdded?.Invoke(BuildScannedItemInfo(product, sku, length, width, height, barcode));
             AppendLog("有效采码：" + barcode + "，已保存照片并停止扫码，数量+1。");
+        }
+
+        private void CommitPendingProductionRecord()
+        {
+            if (_pendingProductionRecord == null)
+            {
+                AppendLog("工作模式：没有待确认的扫码记录可提交。");
+                return;
+            }
+
+            ScanRecord record = _pendingProductionRecord;
+            _pendingProductionRecord = null;
+            record.Sequence = _nextSequence++;
+            record.Status = ResolveProductionStatus(record.Barcode, record.Sku);
+            record.ScanCount = CountRecords(_currentProductionRecords, record.Barcode) + 1;
+
+            _currentProductionRecords.Add(record);
+            _historyStore.Append(record);
+            AddRecordToActiveBatch(record);
+            WriteCurrentStatistics();
+            RefreshActiveScanTables();
+            ShowRecord(record, "当前采码");
+            RefreshSummaryPanels();
+            ScannedItemAdded?.Invoke(BuildScannedItemInfoFromRecord(record));
+
+            AppendLog("工作模式：扫码记录已确认入账：" + record.Barcode + "，数量+1。");
+            if (IsProductionOrderComplete())
+            {
+                AppendLog("工作模式：订单采码数量已满足，等待机械臂发送信号4结束批次。");
+            }
         }
 
         private OrderBoxIdentity ResolveOrderBoxIdentity(string input, bool inputIsOrderNo)
@@ -3851,7 +3935,7 @@ namespace WindowsFormsApp1
             grpWorkState.Visible = production;
             SetModeTabs(production);
             lblModeHint.Text = production
-                ? "工作模式：确认订单后开始批次；信号0开启持续采码；扫到发1/未扫到发2均按设置间隔重发；信号3批次结束并生成统计；异常可点「扫码归位」。"
+                ? "工作模式：确认订单后开始批次；信号0开启持续采码；扫到发1并等信号3确认后入账；未扫到发2并等信号5停止重发；信号4批次结束并生成统计；异常可点「扫码归位」。"
                 : "测试模式：可匹配订单扫码、无订单测试，或勾选订单直读后输入箱码直接载入装箱。";
             lblTestTotalTitle.Visible = test;
             lblTestTotalValue.Visible = test;
@@ -4015,13 +4099,7 @@ namespace WindowsFormsApp1
 
         private string FormatSignalSendRetryDescription()
         {
-            string countText = _scannerSettings.SignalSendRetryMaxCount <= 0
-                ? "信号2持续直至扫到条码，其他信号默认300次"
-                : "最多" + _scannerSettings.SignalSendRetryMaxCount + "次";
-            string successText = _scannerSettings.SignalScanSuccessUntilStopped
-                ? "，信号1持续到下一次0/3"
-                : string.Empty;
-            return "间隔" + _scannerSettings.SignalSendRetryIntervalMs + "ms，" + countText + successText;
+            return "间隔" + _scannerSettings.SignalSendRetryIntervalMs + "ms，信号1持续到3，信号2持续到5";
         }
 
         private string FormatSignalSendRetryHint(bool untilStopped)
@@ -4031,10 +4109,10 @@ namespace WindowsFormsApp1
             {
                 if (_signalSendRetryValue == ProductionSignalClient.SignalScanSuccess)
                 {
-                    return " 将按间隔持续重发直至下一次信号0或3。";
+                    return " 将按间隔持续重发直至收到信号3确认。";
                 }
 
-                return " 将按间隔持续重发直至扫到有效条码。";
+                return " 将按间隔持续重发直至收到信号5确认，期间继续采码。";
             }
 
             if (limit <= 1)
@@ -4047,7 +4125,8 @@ namespace WindowsFormsApp1
 
         private int GetSignalSendRetryLimit(int signal, bool untilStopped)
         {
-            if (signal == ProductionSignalClient.SignalScanSuccess && _scannerSettings.SignalScanSuccessUntilStopped)
+            if (signal == ProductionSignalClient.SignalScanSuccess ||
+                signal == ProductionSignalClient.SignalScanFailed)
             {
                 return int.MaxValue;
             }
@@ -4195,9 +4274,17 @@ namespace WindowsFormsApp1
                     AppendLog("机械臂已到位，开始扫码。");
                     HandleProductionRobotSignal();
                     break;
+                case ProductionSignalClient.SignalRobotAcknowledged:
+                    AppendLog("机械臂确认已收到扫码成功信号，停止信号1重发并提交本件记录。");
+                    OnProductionRobotAcknowledgedSignal();
+                    break;
                 case ProductionSignalClient.SignalBatchComplete:
-                    AppendLog("机械臂抓取结束，批次结束。");
+                    AppendLog("机械臂通知本批次货物采集完毕，批次结束。");
                     OnProductionBatchEndSignal();
+                    break;
+                case ProductionSignalClient.SignalScanFailedAcknowledged:
+                    AppendLog("机械臂确认已收到未扫到信号，停止信号2重发并继续扫码。");
+                    OnProductionScanFailedAcknowledgedSignal();
                     break;
                 default:
                     AppendLog("忽略未知生产信号：" + signal + "。");

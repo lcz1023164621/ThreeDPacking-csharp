@@ -73,7 +73,7 @@ namespace WindowsFormsApp1
                 SignalServerPort = 10000,
                 SignalSendRetryIntervalMs = 500,
                 SignalSendRetryMaxCount = 5,
-                SignalScanSuccessUntilStopped = false
+                SignalScanSuccessUntilStopped = true
             };
         }
 
@@ -139,6 +139,7 @@ namespace WindowsFormsApp1
             {
                 SignalSendRetryMaxCount = 0;
             }
+            SignalScanSuccessUntilStopped = true;
         }
     }
 

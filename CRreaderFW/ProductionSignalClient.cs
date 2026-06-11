@@ -13,7 +13,9 @@ namespace WindowsFormsApp1
         public const int SignalRobotReady = 0;
         public const int SignalScanSuccess = 1;
         public const int SignalScanFailed = 2;
-        public const int SignalBatchComplete = 3;
+        public const int SignalRobotAcknowledged = 3;
+        public const int SignalBatchComplete = 4;
+        public const int SignalScanFailedAcknowledged = 5;
 
         private TcpClient _client;
         private NetworkStream _stream;
@@ -85,7 +87,7 @@ namespace WindowsFormsApp1
                 return false;
             }
 
-            if (!allowRepeat && _lastSentValue == value && value != SignalScanSuccess)
+            if (!allowRepeat && _lastSentValue == value && value != SignalScanSuccess && value != SignalScanFailed)
             {
                 return true;
             }
@@ -299,7 +301,7 @@ namespace WindowsFormsApp1
 
         private static bool IsValidSignal(int value)
         {
-            return value >= SignalRobotReady && value <= SignalBatchComplete;
+            return value >= SignalRobotReady && value <= SignalScanFailedAcknowledged;
         }
 
         private void DispatchSignal(int value)
