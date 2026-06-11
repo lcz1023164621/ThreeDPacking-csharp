@@ -20,6 +20,10 @@ namespace WindowsFormsApp1
         private CheckBox chkGainAuto;
         private ComboBox cmbAutoFocusCommand;
         private Label lblScanFrequencyHint;
+        private NumericUpDown numSignalSendRetryIntervalMs;
+        private NumericUpDown numSignalSendRetryMaxCount;
+        private Label lblSignalSendRetryHint;
+        private CheckBox chkSignalScanSuccessUntilStopped;
 
         public ScannerSetting()
             : this(ScannerSettingsData.CreateDefault())
@@ -104,6 +108,30 @@ namespace WindowsFormsApp1
             numGainDb = CreateNumeric(0, 24, 0.5m, 1);
             chkAutoReconnect.Text = "断线自动重连";
 
+            numSignalSendRetryIntervalMs = CreateNumeric(100, 10000, 100);
+            numSignalSendRetryMaxCount = CreateNumeric(0, 100, 1);
+            chkSignalScanSuccessUntilStopped = new CheckBox
+            {
+                AutoSize = true,
+                Text = "信号1持续发送到下一次0/3（仅示教器已取最后有效信号后启用）"
+            };
+            lblSignalSendRetryHint = new Label
+            {
+                AutoSize = true,
+                ForeColor = Color.FromArgb(96, 96, 96),
+                Margin = new Padding(8, 10, 0, 0),
+                Text = "0=信号2持续重发；建议间隔>=500ms"
+            };
+            var signalRetryPanel = new FlowLayoutPanel
+            {
+                AutoSize = true,
+                FlowDirection = FlowDirection.LeftToRight,
+                WrapContents = false,
+                Dock = DockStyle.Fill
+            };
+            signalRetryPanel.Controls.Add(numSignalSendRetryMaxCount);
+            signalRetryPanel.Controls.Add(lblSignalSendRetryHint);
+
             AddTableRow(table, "采码频率", scanIntervalPanel);
             AddTableRow(table, "自动对焦", chkAutoFocus);
             AddTableRow(table, "对焦命令", cmbAutoFocusCommand);
@@ -112,6 +140,9 @@ namespace WindowsFormsApp1
             AddTableRow(table, "增益自适应", chkGainAuto);
             AddTableRow(table, "增益 (dB)", numGainDb);
             AddTableRow(table, "连接", chkAutoReconnect);
+            AddTableRow(table, "信号发送重发间隔(ms)", numSignalSendRetryIntervalMs);
+            AddTableRow(table, "信号发送最大次数", signalRetryPanel);
+            AddTableRow(table, "信号1兜底", chkSignalScanSuccessUntilStopped);
             AddTableRow(table, "光源模式", grpLightMode);
 
             tabScanParams.Controls.Add(table);
@@ -261,6 +292,13 @@ namespace WindowsFormsApp1
                 numGevPacketSize.Value = Clamp(packetSize, (int)numGevPacketSize.Minimum, (int)numGevPacketSize.Maximum);
                 numGevPacketSize.Enabled = !chkAutoPacketSize.Checked;
             }
+
+            if (numSignalSendRetryIntervalMs != null)
+            {
+                numSignalSendRetryIntervalMs.Value = Clamp(_settings.SignalSendRetryIntervalMs, (int)numSignalSendRetryIntervalMs.Minimum, (int)numSignalSendRetryIntervalMs.Maximum);
+                numSignalSendRetryMaxCount.Value = Clamp(_settings.SignalSendRetryMaxCount, (int)numSignalSendRetryMaxCount.Minimum, (int)numSignalSendRetryMaxCount.Maximum);
+                chkSignalScanSuccessUntilStopped.Checked = _settings.SignalScanSuccessUntilStopped;
+            }
         }
 
         private bool SaveControlsToSettings()
@@ -318,6 +356,13 @@ namespace WindowsFormsApp1
                 _settings.JpegQuality = (int)numJpegQuality.Value;
                 _settings.UseAutoPacketSize = chkAutoPacketSize.Checked;
                 _settings.GevSCPSPacketSize = (int)numGevPacketSize.Value;
+            }
+
+            if (numSignalSendRetryIntervalMs != null)
+            {
+                _settings.SignalSendRetryIntervalMs = (int)numSignalSendRetryIntervalMs.Value;
+                _settings.SignalSendRetryMaxCount = (int)numSignalSendRetryMaxCount.Value;
+                _settings.SignalScanSuccessUntilStopped = chkSignalScanSuccessUntilStopped.Checked;
             }
 
             _settings.Normalize();

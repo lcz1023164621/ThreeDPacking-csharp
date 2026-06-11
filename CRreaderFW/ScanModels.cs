@@ -41,6 +41,9 @@ namespace WindowsFormsApp1
         public string AutoFocusCommand { get; set; }
         public string SignalServerIp { get; set; }
         public int SignalServerPort { get; set; }
+        public int SignalSendRetryIntervalMs { get; set; }
+        public int SignalSendRetryMaxCount { get; set; }
+        public bool SignalScanSuccessUntilStopped { get; set; }
 
         public static ScannerSettingsData CreateDefault()
         {
@@ -65,7 +68,10 @@ namespace WindowsFormsApp1
                 JpegQuality = 90,
                 AutoFocusCommand = "FocusOnce",
                 SignalServerIp = "192.168.0.200",
-                SignalServerPort = 10000
+                SignalServerPort = 10000,
+                SignalSendRetryIntervalMs = 500,
+                SignalSendRetryMaxCount = 5,
+                SignalScanSuccessUntilStopped = false
             };
         }
 
@@ -122,6 +128,14 @@ namespace WindowsFormsApp1
             if (SignalServerPort <= 0)
             {
                 SignalServerPort = 10000;
+            }
+            if (SignalSendRetryIntervalMs < 100)
+            {
+                SignalSendRetryIntervalMs = 500;
+            }
+            if (SignalSendRetryMaxCount < 0)
+            {
+                SignalSendRetryMaxCount = 0;
             }
         }
     }

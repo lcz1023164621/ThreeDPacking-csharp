@@ -81,6 +81,9 @@ namespace WindowsFormsApp1
             builder.AppendLine("AutoFocusCommand=" + settings.AutoFocusCommand);
             builder.AppendLine("SignalServerIp=" + settings.SignalServerIp);
             builder.AppendLine("SignalServerPort=" + settings.SignalServerPort.ToString(CultureInfo.InvariantCulture));
+            builder.AppendLine("SignalSendRetryIntervalMs=" + settings.SignalSendRetryIntervalMs.ToString(CultureInfo.InvariantCulture));
+            builder.AppendLine("SignalSendRetryMaxCount=" + settings.SignalSendRetryMaxCount.ToString(CultureInfo.InvariantCulture));
+            builder.AppendLine("SignalScanSuccessUntilStopped=" + settings.SignalScanSuccessUntilStopped);
             File.WriteAllText(SettingsPath, builder.ToString(), new UTF8Encoding(true));
         }
 
@@ -183,6 +186,25 @@ namespace WindowsFormsApp1
                     {
                         settings.SignalServerPort = signalServerPort;
                     }
+                    break;
+                case "SignalSendRetryIntervalMs":
+                case "SignalFailRetryIntervalMs":
+                    int signalSendRetryIntervalMs;
+                    if (int.TryParse(value, out signalSendRetryIntervalMs))
+                    {
+                        settings.SignalSendRetryIntervalMs = signalSendRetryIntervalMs;
+                    }
+                    break;
+                case "SignalSendRetryMaxCount":
+                case "SignalFailRetryMaxCount":
+                    int signalSendRetryMaxCount;
+                    if (int.TryParse(value, out signalSendRetryMaxCount))
+                    {
+                        settings.SignalSendRetryMaxCount = signalSendRetryMaxCount;
+                    }
+                    break;
+                case "SignalScanSuccessUntilStopped":
+                    settings.SignalScanSuccessUntilStopped = ParseBool(value);
                     break;
             }
         }

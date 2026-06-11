@@ -13,6 +13,10 @@ namespace WindowsFormsApp1
     public partial class ScanTestControl : UserControl
     {
         private readonly Timer _scanTimer = new Timer();
+        private readonly Timer _signalSendRetryTimer = new Timer();
+        private int _signalSendRetryValue = -1;
+        private int _signalSendRetrySentCount;
+        private bool _signalSendRetryUntilStopped;
         private readonly List<ScanRecord> _currentProductionRecords = new List<ScanRecord>();
         private readonly List<ScanRecord> _testRecords = new List<ScanRecord>();
         private readonly List<OrderMatchItem> _orderMatchItems = new List<OrderMatchItem>();
@@ -91,6 +95,8 @@ namespace WindowsFormsApp1
 
             _scanTimer.Tick += scanTimer_Tick;
             _scanTimer.Interval = _scannerSettings.ScanIntervalMs;
+            _signalSendRetryTimer.Tick += signalSendRetryTimer_Tick;
+            _signalSendRetryTimer.Interval = _scannerSettings.SignalSendRetryIntervalMs;
 
             InitializeRuntimeState();
         }
@@ -515,11 +521,11 @@ namespace WindowsFormsApp1
             }
             else if (_scanActive)
             {
-                scan = "正在采码";
+                scan = _productionScanFailedWaitingRetry ? "持续采码" : "正在采码";
             }
             else if (_batchActive && _productionScanFailedWaitingRetry)
             {
-                scan = "待重扫(等0)";
+                scan = "持续采码";
             }
             else if (_batchActive)
             {
@@ -537,7 +543,7 @@ namespace WindowsFormsApp1
             }
             else if (_scanActive)
             {
-                robot = "已到位";
+                robot = _productionScanFailedWaitingRetry ? "换姿中" : "已到位";
             }
             else if (_robotPackingInProgress)
             {
@@ -571,6 +577,7 @@ namespace WindowsFormsApp1
         private void EnterProductionPackingState()
         {
             _robotPackingInProgress = true;
+            _productionScanFailedWaitingRetry = false;
             SyncProductionWorkStateDisplay();
         }
 
@@ -700,6 +707,7 @@ namespace WindowsFormsApp1
             }
 
             if (text.IndexOf("正在采码", StringComparison.OrdinalIgnoreCase) >= 0 ||
+                text.IndexOf("持续采码", StringComparison.OrdinalIgnoreCase) >= 0 ||
                 text.IndexOf("采码中", StringComparison.OrdinalIgnoreCase) >= 0)
             {
                 return WorkStateVisual.Success;
@@ -1193,6 +1201,8 @@ namespace WindowsFormsApp1
             {
                 _scanTimer.Stop();
                 _scanTimer.Dispose();
+                StopSignalSendRetry();
+                _signalSendRetryTimer.Dispose();
                 if (_camera != null)
                 {
                     _camera.Dispose();
@@ -2214,6 +2224,7 @@ namespace WindowsFormsApp1
             }
 
             TryEndProductionBatch("收到批次结束信号3");
+            StopSignalSendRetry();
             _currentOrderConfirmed = false;
             EnterProductionBatchEndedState();
             UpdateOrderActionState();
@@ -2223,6 +2234,11 @@ namespace WindowsFormsApp1
 
         private void HandleProductionRobotSignal()
         {
+            if (_signalSendRetryValue == ProductionSignalClient.SignalScanSuccess)
+            {
+                StopSignalSendRetry();
+            }
+
             if (!EnsureReadyForProductionScan())
             {
                 return;
@@ -2244,6 +2260,7 @@ namespace WindowsFormsApp1
                 _productionSignalClient.ResetSendState();
             }
 
+            StopSignalSendRetry();
             EnterProductionRobotReadyState();
             StartScanCycle("工作模式");
             AppendLog("工作模式：机械臂已到位，开始扫码。");
@@ -2411,8 +2428,10 @@ namespace WindowsFormsApp1
                 {
                     StartProductionSignalClient();
                 }
+                _signalSendRetryTimer.Interval = _scannerSettings.SignalSendRetryIntervalMs;
                 AppendLog("扫码器设置已保存：IP=" + _scannerSettings.ReaderIp
                     + "，采码频率=" + _scannerSettings.ScanIntervalMs + "ms"
+                    + "，信号重发=" + FormatSignalSendRetryDescription()
                     + "，曝光=" + (_scannerSettings.ExposureAuto ? "自适应" : _scannerSettings.ExposureTimeUs + "us")
                     + "，增益=" + (_scannerSettings.GainAuto ? "自适应" : _scannerSettings.GainDb + "dB")
                     + "，自动对焦=" + (_scannerSettings.AutoFocus ? _scannerSettings.AutoFocusCommand : "关") + "。");
@@ -2466,6 +2485,7 @@ namespace WindowsFormsApp1
             _productionScanFailedWaitingRetry = false;
             _robotPackingInProgress = false;
             _productionBatchEnded = false;
+            StopSignalSendRetry();
 
             if (_productionSignalClient != null)
             {
@@ -2638,12 +2658,7 @@ namespace WindowsFormsApp1
                 {
                     if (_productionAwaitingCapture && !_productionFailureNotified)
                     {
-                        SendProductionSignal(ProductionSignalClient.SignalScanFailed);
-                        _productionFailureNotified = true;
-                        StopScanCycle("未扫到有效条码");
-                        EnterProductionWaitingScanState();
-                        AppendLog("工作模式：未扫到有效条码，已发送信号2，等待机械臂换姿后重新发送信号0。");
-                        return;
+                        BeginProductionScanFailureNotification();
                     }
 
                     _productionAwaitingCapture = true;
@@ -2720,6 +2735,7 @@ namespace WindowsFormsApp1
             _scanActive = true;
             _productionAwaitingCapture = false;
             _productionFailureNotified = false;
+            StopSignalSendRetry();
             if (IsProductionMode && _productionSignalClient != null)
             {
                 _productionSignalClient.ResetSendState();
@@ -2745,6 +2761,7 @@ namespace WindowsFormsApp1
         {
             bool wasActive = _scanActive;
             _scanTimer.Stop();
+            StopSignalSendRetry();
             _scanActive = false;
             if (!IsProductionMode)
             {
@@ -2806,8 +2823,10 @@ namespace WindowsFormsApp1
             if (IsProductionMode)
             {
                 _scanTimer.Stop();
+                StopSignalSendRetry();
                 _productionAwaitingCapture = false;
                 _productionFailureNotified = false;
+                _productionScanFailedWaitingRetry = false;
             }
 
             string barcode = ProductCatalog.NormalizeBarcode(capture.Barcode);
@@ -2839,9 +2858,11 @@ namespace WindowsFormsApp1
                     _productionSignalClient.ResetSendState();
                 }
 
-                SendProductionSignal(ProductionSignalClient.SignalScanSuccess);
+                BeginSignalSendRetry(
+                    ProductionSignalClient.SignalScanSuccess,
+                    _scannerSettings.SignalScanSuccessUntilStopped);
                 EnterProductionPackingState();
-                AppendLog("工作模式：已关闭扫码器并发送信号1，机械臂开始移到装箱位置。");
+                AppendLog("工作模式：已关闭扫码器并发送信号1，机械臂开始移到装箱位置。" + FormatSignalSendRetryHint(false));
                 RefreshSummaryPanels();
             }
 
@@ -3302,7 +3323,7 @@ namespace WindowsFormsApp1
             }
             else if (_scanActive)
             {
-                lblCurrentStateValue.Text = "正在采码";
+                lblCurrentStateValue.Text = _productionScanFailedWaitingRetry ? "持续采码" : "正在采码";
                 lblCurrentStateValue.ForeColor = Color.FromArgb(32, 95, 178);
             }
             else if (_robotPackingInProgress)
@@ -3312,8 +3333,8 @@ namespace WindowsFormsApp1
             }
             else if (_batchActive && IsProductionMode && _productionScanFailedWaitingRetry)
             {
-                lblCurrentStateValue.Text = "待重扫";
-                lblCurrentStateValue.ForeColor = Color.FromArgb(220, 140, 40);
+                lblCurrentStateValue.Text = "持续采码";
+                lblCurrentStateValue.ForeColor = Color.FromArgb(32, 95, 178);
             }
             else if (_batchActive && IsProductionMode)
             {
@@ -3328,7 +3349,7 @@ namespace WindowsFormsApp1
             string batchHint = _batchActive && IsProductionMode ? " · 批次进行中" : string.Empty;
             if (_productionScanFailedWaitingRetry && IsProductionMode)
             {
-                batchHint += " · 待重扫";
+                batchHint += " · 换姿重扫";
             }
             lblFooterStatus.Text = "订单编号: " + ValueOrDash(CurrentOrderNo) +
                 " | 箱码编号: " + ValueOrDash(CurrentBoxCode) +
@@ -3625,7 +3646,7 @@ namespace WindowsFormsApp1
             grpWorkState.Visible = production;
             SetModeTabs(production);
             lblModeHint.Text = production
-                ? "工作模式：确认订单后开始批次；信号0开始扫码；扫到发1并关闭扫码；未扫到发2并等待下次信号0；信号3批次结束并生成统计；异常可点「扫码归位」。"
+                ? "工作模式：确认订单后开始批次；信号0开启持续采码；扫到发1/未扫到发2均按设置间隔重发；信号3批次结束并生成统计；异常可点「扫码归位」。"
                 : "测试模式：可匹配订单扫码、无订单测试，或勾选订单直读后输入箱码直接载入装箱。";
             lblTestTotalTitle.Visible = test;
             lblTestTotalValue.Visible = test;
@@ -3780,8 +3801,132 @@ namespace WindowsFormsApp1
                 JpegQuality = settings.JpegQuality,
                 AutoFocusCommand = settings.AutoFocusCommand,
                 SignalServerIp = settings.SignalServerIp,
-                SignalServerPort = settings.SignalServerPort
+                SignalServerPort = settings.SignalServerPort,
+                SignalSendRetryIntervalMs = settings.SignalSendRetryIntervalMs,
+                SignalSendRetryMaxCount = settings.SignalSendRetryMaxCount,
+                SignalScanSuccessUntilStopped = settings.SignalScanSuccessUntilStopped
             };
+        }
+
+        private string FormatSignalSendRetryDescription()
+        {
+            string countText = _scannerSettings.SignalSendRetryMaxCount <= 0
+                ? "信号2持续直至扫到条码，其他信号默认300次"
+                : "最多" + _scannerSettings.SignalSendRetryMaxCount + "次";
+            string successText = _scannerSettings.SignalScanSuccessUntilStopped
+                ? "，信号1持续到下一次0/3"
+                : string.Empty;
+            return "间隔" + _scannerSettings.SignalSendRetryIntervalMs + "ms，" + countText + successText;
+        }
+
+        private string FormatSignalSendRetryHint(bool untilStopped)
+        {
+            int limit = GetSignalSendRetryLimit(_signalSendRetryValue, untilStopped);
+            if (limit == int.MaxValue)
+            {
+                if (_signalSendRetryValue == ProductionSignalClient.SignalScanSuccess)
+                {
+                    return " 将按间隔持续重发直至下一次信号0或3。";
+                }
+
+                return " 将按间隔持续重发直至扫到有效条码。";
+            }
+
+            if (limit <= 1)
+            {
+                return string.Empty;
+            }
+
+            return " 将按间隔重发，最多 " + limit + " 次。";
+        }
+
+        private int GetSignalSendRetryLimit(int signal, bool untilStopped)
+        {
+            if (signal == ProductionSignalClient.SignalScanSuccess && _scannerSettings.SignalScanSuccessUntilStopped)
+            {
+                return int.MaxValue;
+            }
+
+            if (_scannerSettings.SignalSendRetryMaxCount > 0)
+            {
+                return _scannerSettings.SignalSendRetryMaxCount;
+            }
+
+            return untilStopped ? int.MaxValue : 300;
+        }
+
+        private bool ShouldContinueSignalSendRetry()
+        {
+            return _signalSendRetrySentCount < GetSignalSendRetryLimit(_signalSendRetryValue, _signalSendRetryUntilStopped);
+        }
+
+        private void BeginProductionScanFailureNotification()
+        {
+            _productionFailureNotified = true;
+            EnterProductionWaitingScanState();
+            BeginSignalSendRetry(ProductionSignalClient.SignalScanFailed, true);
+            AppendLog("工作模式：未扫到有效条码，已发送信号2，机械臂换姿中，持续采码等待有效条码。" + FormatSignalSendRetryHint(true));
+        }
+
+        private void BeginSignalSendRetry(int signal, bool untilStopped)
+        {
+            StopSignalSendRetry();
+            _signalSendRetryValue = signal;
+            _signalSendRetryUntilStopped = untilStopped;
+            _signalSendRetrySentCount = 0;
+
+            SendProductionSignalDirect(signal);
+            _signalSendRetrySentCount = 1;
+
+            if (ShouldContinueSignalSendRetry())
+            {
+                _signalSendRetryTimer.Interval = _scannerSettings.SignalSendRetryIntervalMs;
+                _signalSendRetryTimer.Start();
+            }
+        }
+
+        private void StopSignalSendRetry()
+        {
+            _signalSendRetryTimer.Stop();
+            _signalSendRetryValue = -1;
+            _signalSendRetrySentCount = 0;
+            _signalSendRetryUntilStopped = false;
+        }
+
+        private void signalSendRetryTimer_Tick(object sender, EventArgs e)
+        {
+            if (_signalSendRetryValue < 0)
+            {
+                StopSignalSendRetry();
+                return;
+            }
+
+            if (_signalSendRetryUntilStopped &&
+                _signalSendRetryValue == ProductionSignalClient.SignalScanFailed &&
+                (!_scanActive || !_productionFailureNotified))
+            {
+                StopSignalSendRetry();
+                return;
+            }
+
+            if (!ShouldContinueSignalSendRetry())
+            {
+                int limit = GetSignalSendRetryLimit(_signalSendRetryValue, _signalSendRetryUntilStopped);
+                int signalValue = _signalSendRetryValue;
+                StopSignalSendRetry();
+                if (signalValue == ProductionSignalClient.SignalScanFailed)
+                {
+                    AppendLog("工作模式：信号2已达最大重发次数 " + limit + "，停止重发，持续采码等待有效条码。");
+                }
+                else
+                {
+                    AppendLog("工作模式：信号" + signalValue + "已达最大重发次数 " + limit + "。");
+                }
+                return;
+            }
+
+            SendProductionSignalDirect(_signalSendRetryValue);
+            _signalSendRetrySentCount++;
         }
 
         private void StartProductionSignalClient()
@@ -3883,7 +4028,7 @@ namespace WindowsFormsApp1
             }
         }
 
-        private bool SendProductionSignal(int signal)
+        private bool SendProductionSignalDirect(int signal)
         {
             if (_productionSignalClient == null || !_productionSignalClient.IsConnected)
             {
@@ -3892,7 +4037,7 @@ namespace WindowsFormsApp1
                 return false;
             }
 
-            bool sent = _productionSignalClient.Send(signal);
+            bool sent = _productionSignalClient.Send(signal, true);
             if (sent)
             {
                 AppendLog("已向机械臂发送信号 " + signal + "。");

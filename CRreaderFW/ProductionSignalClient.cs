@@ -27,6 +27,7 @@ namespace WindowsFormsApp1
         private int? _lastSentValue;
 
         public const int SignalFrameSize = 4;
+        public const byte SignalFrameDelimiter = (byte)'\n';
 
         public event Action<int> SignalReceived;
         public event Action<bool> ConnectionChanged;
@@ -69,6 +70,11 @@ namespace WindowsFormsApp1
 
         public bool Send(int value)
         {
+            return Send(value, false);
+        }
+
+        public bool Send(int value, bool allowRepeat)
+        {
             if (!IsConnected || _stream == null)
             {
                 return false;
@@ -79,7 +85,7 @@ namespace WindowsFormsApp1
                 return false;
             }
 
-            if (_lastSentValue == value && value != SignalScanSuccess)
+            if (!allowRepeat && _lastSentValue == value && value != SignalScanSuccess)
             {
                 return true;
             }
@@ -120,13 +126,15 @@ namespace WindowsFormsApp1
 
         public static byte[] BuildSignalFrame(int value)
         {
-            return new byte[] { (byte)('0' + value) };
+            // 每条信号以换行结尾，避免 TCP 粘包把多个数字拼成 222... 导致对端整型溢出。
+            return new byte[] { (byte)('0' + value), SignalFrameDelimiter };
         }
 
         private static string BuildSignalDetail(int value)
         {
             char ascii = (char)('0' + value);
-            return "Int=" + value + " (ASCII=\"" + ascii + "\" Hex=" + ((byte)ascii).ToString("X2") + ")";
+            return "Int=" + value + " (ASCII=\"" + ascii + "\" Hex=" + ((byte)ascii).ToString("X2")
+                + " Frame=\"" + ascii + "\\n\")";
         }
 
         private async Task RunLoopAsync(CancellationToken token)
@@ -209,7 +217,7 @@ namespace WindowsFormsApp1
                     int value;
                     if (int.TryParse(frame, out value))
                     {
-                        DispatchSignal(value);
+                        DispatchSignal(value, "Raw=\"" + EscapeControlChars(frame) + "\" Parsed=" + value);
                         continue;
                     }
                 }
@@ -229,10 +237,23 @@ namespace WindowsFormsApp1
                 {
                     bool hasMoreData = digitLength < _receiveBuffer.Count;
                     bool nextIsDelimiter = hasMoreData && IsDelimiterByte(_receiveBuffer[digitLength]);
+
+                    if (digitLength > 1 && !nextIsDelimiter)
+                    {
+                        if (TryConsumeAsciiMessage(0, 1))
+                        {
+                            continue;
+                        }
+                    }
+
                     if (!hasMoreData || nextIsDelimiter)
                     {
                         if (TryConsumeAsciiMessage(0, digitLength))
                         {
+                            if (nextIsDelimiter)
+                            {
+                                _receiveBuffer.RemoveAt(0);
+                            }
                             continue;
                         }
                     }
@@ -240,9 +261,10 @@ namespace WindowsFormsApp1
 
                 if (_receiveBuffer.Count >= 4 && digitLength == 0)
                 {
+                    byte[] rawBytes = _receiveBuffer.GetRange(0, 4).ToArray();
                     int value = BitConverter.ToInt32(_receiveBuffer.ToArray(), 0);
                     _receiveBuffer.RemoveRange(0, 4);
-                    DispatchSignal(value);
+                    DispatchSignal(value, "RawHex=" + FormatBytes(rawBytes) + " Parsed=" + value);
                     continue;
                 }
 
@@ -257,7 +279,8 @@ namespace WindowsFormsApp1
                 return false;
             }
 
-            string text = Encoding.ASCII.GetString(_receiveBuffer.ToArray(), start, length).Trim();
+            string rawText = Encoding.ASCII.GetString(_receiveBuffer.ToArray(), start, length);
+            string text = rawText.Trim();
             _receiveBuffer.RemoveRange(start, length);
 
             int value;
@@ -270,7 +293,7 @@ namespace WindowsFormsApp1
                 return text.Length > 0;
             }
 
-            DispatchSignal(value);
+            DispatchSignal(value, "Raw=\"" + EscapeControlChars(rawText) + "\" Parsed=" + value);
             return true;
         }
 
@@ -281,13 +304,18 @@ namespace WindowsFormsApp1
 
         private void DispatchSignal(int value)
         {
+            DispatchSignal(value, BuildSignalDetail(value));
+        }
+
+        private void DispatchSignal(int value, string detail)
+        {
             if (!IsValidSignal(value))
             {
-                NotifyTransmitted(false, value, "忽略无效整型信号 " + value);
+                NotifyTransmitted(false, value, "忽略无效整型信号 " + value + " (" + detail + ")");
                 return;
             }
 
-            NotifyTransmitted(false, value, BuildSignalDetail(value));
+            NotifyTransmitted(false, value, detail);
             SignalReceived?.Invoke(value);
         }
 
@@ -370,6 +398,20 @@ namespace WindowsFormsApp1
                 builder.Append(bytes[i].ToString("X2"));
             }
             return builder.ToString();
+        }
+
+        private static string EscapeControlChars(string value)
+        {
+            if (string.IsNullOrEmpty(value))
+            {
+                return string.Empty;
+            }
+
+            return value
+                .Replace("\\", "\\\\")
+                .Replace("\r", "\\r")
+                .Replace("\n", "\\n")
+                .Replace("\t", "\\t");
         }
 
         private void CloseConnection()

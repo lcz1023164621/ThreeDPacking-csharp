@@ -1,0 +1,6 @@
+<Project>
+  <PropertyGroup>
+    <!-- 无法访问 nuget.org 时跳过漏洞审计，避免 NU1900 警告 -->
+    <NuGetAudit>false</NuGetAudit>
+  </PropertyGroup>
+</Project>
