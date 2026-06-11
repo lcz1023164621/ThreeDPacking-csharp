@@ -2407,7 +2407,9 @@ namespace WindowsFormsApp1
             if (_signalSendRetryValue == ProductionSignalClient.SignalScanFailed)
             {
                 StopSignalSendRetry();
-                AppendLog("工作模式：机械臂已确认收到信号2，停止重发，继续等待有效条码。");
+                _productionAwaitingCapture = false;
+                _productionFailureNotified = false;
+                AppendLog("工作模式：机械臂已确认收到信号2，停止本轮信号2重发，继续扫码；若仍未扫到码将再次发送信号2。");
             }
             else
             {
@@ -4084,10 +4086,12 @@ namespace WindowsFormsApp1
                 LightMode = settings.LightMode,
                 ExposureTimeUs = settings.ExposureTimeUs,
                 GainDb = settings.GainDb,
+                AcquisitionFrameRate = settings.AcquisitionFrameRate,
                 UseAutoPacketSize = settings.UseAutoPacketSize,
                 GevSCPSPacketSize = settings.GevSCPSPacketSize,
                 GevHeartbeatTimeoutMs = settings.GevHeartbeatTimeoutMs,
                 JpegQuality = settings.JpegQuality,
+                ImageSaveFormat = settings.ImageSaveFormat,
                 AutoFocusCommand = settings.AutoFocusCommand,
                 SignalServerIp = settings.SignalServerIp,
                 SignalServerPort = settings.SignalServerPort,

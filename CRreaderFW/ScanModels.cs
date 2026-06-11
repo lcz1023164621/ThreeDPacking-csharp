@@ -36,10 +36,12 @@ namespace WindowsFormsApp1
         public string LightMode { get; set; }
         public float ExposureTimeUs { get; set; }
         public float GainDb { get; set; }
+        public float AcquisitionFrameRate { get; set; }
         public bool UseAutoPacketSize { get; set; }
         public int GevSCPSPacketSize { get; set; }
         public int GevHeartbeatTimeoutMs { get; set; }
         public int JpegQuality { get; set; }
+        public string ImageSaveFormat { get; set; }
         public string AutoFocusCommand { get; set; }
         public string SignalServerIp { get; set; }
         public int SignalServerPort { get; set; }
@@ -64,10 +66,12 @@ namespace WindowsFormsApp1
                 LightMode = "频闪模式",
                 ExposureTimeUs = 15000F,
                 GainDb = 0F,
+                AcquisitionFrameRate = 10F,
                 UseAutoPacketSize = true,
                 GevSCPSPacketSize = 0,
                 GevHeartbeatTimeoutMs = 3000,
                 JpegQuality = 90,
+                ImageSaveFormat = "JPG",
                 AutoFocusCommand = "FocusOnce",
                 SignalServerIp = "192.168.0.200",
                 SignalServerPort = 10000,
@@ -111,6 +115,10 @@ namespace WindowsFormsApp1
             {
                 GainDb = 0F;
             }
+            if (AcquisitionFrameRate <= 0F)
+            {
+                AcquisitionFrameRate = 10F;
+            }
             if (GevHeartbeatTimeoutMs <= 0)
             {
                 GevHeartbeatTimeoutMs = 3000;
@@ -118,6 +126,10 @@ namespace WindowsFormsApp1
             if (JpegQuality <= 0 || JpegQuality > 100)
             {
                 JpegQuality = 90;
+            }
+            if (!string.Equals(ImageSaveFormat, "BMP", StringComparison.OrdinalIgnoreCase))
+            {
+                ImageSaveFormat = "JPG";
             }
             if (string.IsNullOrWhiteSpace(AutoFocusCommand))
             {

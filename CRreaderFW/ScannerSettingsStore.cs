@@ -74,10 +74,12 @@ namespace WindowsFormsApp1
             builder.AppendLine("LightMode=" + settings.LightMode);
             builder.AppendLine("ExposureTimeUs=" + settings.ExposureTimeUs.ToString(CultureInfo.InvariantCulture));
             builder.AppendLine("GainDb=" + settings.GainDb.ToString(CultureInfo.InvariantCulture));
+            builder.AppendLine("AcquisitionFrameRate=" + settings.AcquisitionFrameRate.ToString(CultureInfo.InvariantCulture));
             builder.AppendLine("UseAutoPacketSize=" + settings.UseAutoPacketSize);
             builder.AppendLine("GevSCPSPacketSize=" + settings.GevSCPSPacketSize.ToString(CultureInfo.InvariantCulture));
             builder.AppendLine("GevHeartbeatTimeoutMs=" + settings.GevHeartbeatTimeoutMs.ToString(CultureInfo.InvariantCulture));
             builder.AppendLine("JpegQuality=" + settings.JpegQuality.ToString(CultureInfo.InvariantCulture));
+            builder.AppendLine("ImageSaveFormat=" + settings.ImageSaveFormat);
             builder.AppendLine("AutoFocusCommand=" + settings.AutoFocusCommand);
             builder.AppendLine("SignalServerIp=" + settings.SignalServerIp);
             builder.AppendLine("SignalServerPort=" + settings.SignalServerPort.ToString(CultureInfo.InvariantCulture));
@@ -150,6 +152,13 @@ namespace WindowsFormsApp1
                         settings.GainDb = gainDb;
                     }
                     break;
+                case "AcquisitionFrameRate":
+                    float acquisitionFrameRate;
+                    if (float.TryParse(value, NumberStyles.Float, CultureInfo.InvariantCulture, out acquisitionFrameRate))
+                    {
+                        settings.AcquisitionFrameRate = acquisitionFrameRate;
+                    }
+                    break;
                 case "UseAutoPacketSize":
                     settings.UseAutoPacketSize = ParseBool(value);
                     break;
@@ -173,6 +182,9 @@ namespace WindowsFormsApp1
                     {
                         settings.JpegQuality = jpegQuality;
                     }
+                    break;
+                case "ImageSaveFormat":
+                    settings.ImageSaveFormat = value;
                     break;
                 case "AutoFocusCommand":
                     settings.AutoFocusCommand = value;

@@ -205,6 +205,11 @@ namespace WindowsFormsApp1
                 TrySetEnumValue("GainAuto", 0U);
                 TrySetFloatValue("Gain", _settings.GainDb);
             }
+
+            if (_settings.AcquisitionFrameRate > 0F)
+            {
+                TrySetFloatValue("AcquisitionFrameRate", _settings.AcquisitionFrameRate);
+            }
         }
 
         private void OnImageCallback(IntPtr data, IntPtr frameInfoPtr, IntPtr user)
@@ -236,7 +241,7 @@ namespace WindowsFormsApp1
                     Action<BarcodeCapture> handler = BarcodeCaptured;
                     if (handler != null)
                     {
-                        handler(new BarcodeCapture(code, imageBytes, ".jpg"));
+                        handler(new BarcodeCapture(code, imageBytes, GetImageExtension()));
                     }
                     return;
                 }
@@ -264,7 +269,7 @@ namespace WindowsFormsApp1
                     nHeight = frameInfo.nHeight,
                     pImageBuffer = imageBuffer,
                     nBufferSize = bufferSize,
-                    enImageType = MvCodeReader.MV_CODEREADER_IAMGE_TYPE.MV_CODEREADER_Image_Jpeg,
+                    enImageType = GetSdkImageType(),
                     nJpgQuality = (uint)Math.Max(1, Math.Min(100, _settings.JpegQuality)),
                     iMethodValue = 0
                 };
@@ -367,6 +372,20 @@ namespace WindowsFormsApp1
             {
                 _autoFocusAvailable = false;
             }
+        }
+
+        private MvCodeReader.MV_CODEREADER_IAMGE_TYPE GetSdkImageType()
+        {
+            return string.Equals(_settings.ImageSaveFormat, "BMP", StringComparison.OrdinalIgnoreCase)
+                ? MvCodeReader.MV_CODEREADER_IAMGE_TYPE.MV_CODEREADER_Image_Bmp
+                : MvCodeReader.MV_CODEREADER_IAMGE_TYPE.MV_CODEREADER_Image_Jpeg;
+        }
+
+        private string GetImageExtension()
+        {
+            return string.Equals(_settings.ImageSaveFormat, "BMP", StringComparison.OrdinalIgnoreCase)
+                ? ".bmp"
+                : ".jpg";
         }
 
         private void TrySetIntValue(string key, int value)

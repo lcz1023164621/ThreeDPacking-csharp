@@ -12,10 +12,12 @@ namespace WindowsFormsApp1
         private NumericUpDown numDeviceIndex;
         private NumericUpDown numExposureTimeUs;
         private NumericUpDown numGainDb;
+        private NumericUpDown numAcquisitionFrameRate;
         private NumericUpDown numHeartbeatTimeoutMs;
         private NumericUpDown numJpegQuality;
         private NumericUpDown numGevPacketSize;
         private CheckBox chkAutoPacketSize;
+        private ComboBox cmbImageSaveFormat;
         private CheckBox chkExposureAuto;
         private CheckBox chkGainAuto;
         private ComboBox cmbAutoFocusCommand;
@@ -152,8 +154,15 @@ namespace WindowsFormsApp1
         private void BuildAdvancedParametersTab()
         {
             numDeviceIndex = CreateNumeric(0, 16, 1);
+            numAcquisitionFrameRate = CreateNumeric(1, 120, 1, 1);
             numHeartbeatTimeoutMs = CreateNumeric(500, 60000, 500);
             numJpegQuality = CreateNumeric(50, 100, 1);
+            cmbImageSaveFormat = new ComboBox
+            {
+                DropDownStyle = ComboBoxStyle.DropDownList,
+                Width = 130
+            };
+            cmbImageSaveFormat.Items.AddRange(new object[] { "JPG", "BMP" });
             numGevPacketSize = CreateNumeric(576, 9000, 64);
             chkAutoPacketSize = new CheckBox
             {
@@ -177,7 +186,9 @@ namespace WindowsFormsApp1
             sdkTable.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100F));
 
             AddTableRow(sdkTable, "设备索引", numDeviceIndex);
+            AddTableRow(sdkTable, "采集帧率(fps)", numAcquisitionFrameRate);
             AddTableRow(sdkTable, "心跳超时 (ms)", numHeartbeatTimeoutMs);
+            AddTableRow(sdkTable, "图片格式", cmbImageSaveFormat);
             AddTableRow(sdkTable, "JPEG 质量", numJpegQuality);
             AddTableRow(sdkTable, "网络优化", chkAutoPacketSize);
             AddTableRow(sdkTable, "GigE 包大小", numGevPacketSize);
@@ -286,8 +297,11 @@ namespace WindowsFormsApp1
             if (numDeviceIndex != null)
             {
                 numDeviceIndex.Value = Clamp(_settings.DeviceIndex, (int)numDeviceIndex.Minimum, (int)numDeviceIndex.Maximum);
+                numAcquisitionFrameRate.Value = Clamp((decimal)_settings.AcquisitionFrameRate, numAcquisitionFrameRate.Minimum, numAcquisitionFrameRate.Maximum);
                 numHeartbeatTimeoutMs.Value = Clamp(_settings.GevHeartbeatTimeoutMs, (int)numHeartbeatTimeoutMs.Minimum, (int)numHeartbeatTimeoutMs.Maximum);
                 numJpegQuality.Value = Clamp(_settings.JpegQuality, (int)numJpegQuality.Minimum, (int)numJpegQuality.Maximum);
+                string imageSaveFormat = string.Equals(_settings.ImageSaveFormat, "BMP", StringComparison.OrdinalIgnoreCase) ? "BMP" : "JPG";
+                cmbImageSaveFormat.SelectedItem = imageSaveFormat;
                 chkAutoPacketSize.Checked = _settings.UseAutoPacketSize;
                 int packetSize = _settings.GevSCPSPacketSize > 0 ? _settings.GevSCPSPacketSize : 1500;
                 numGevPacketSize.Value = Clamp(packetSize, (int)numGevPacketSize.Minimum, (int)numGevPacketSize.Maximum);
@@ -353,8 +367,10 @@ namespace WindowsFormsApp1
             if (numDeviceIndex != null)
             {
                 _settings.DeviceIndex = (int)numDeviceIndex.Value;
+                _settings.AcquisitionFrameRate = (float)numAcquisitionFrameRate.Value;
                 _settings.GevHeartbeatTimeoutMs = (int)numHeartbeatTimeoutMs.Value;
                 _settings.JpegQuality = (int)numJpegQuality.Value;
+                _settings.ImageSaveFormat = cmbImageSaveFormat.SelectedItem?.ToString() ?? "JPG";
                 _settings.UseAutoPacketSize = chkAutoPacketSize.Checked;
                 _settings.GevSCPSPacketSize = (int)numGevPacketSize.Value;
             }
