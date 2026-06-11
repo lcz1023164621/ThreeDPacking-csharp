@@ -19,6 +19,15 @@ namespace WindowsFormsApp1
         [DataMember(Name = "items")]
         public List<OrderJsonItem> Items { get; set; }
 
+        [DataMember(Name = "status")]
+        public string Status { get; set; }
+
+        [DataMember(Name = "statusDetail")]
+        public string StatusDetail { get; set; }
+
+        [DataMember(Name = "completedAt")]
+        public string CompletedAt { get; set; }
+
         [DataMember(Name = "updatedAt")]
         public string UpdatedAt { get; set; }
     }
@@ -176,6 +185,11 @@ namespace WindowsFormsApp1
             return File.GetLastWriteTime(path);
         }
 
+        public static OrderJsonDocument LoadByBinding(string orderNo, string boxCode)
+        {
+            return Load(BuildJsonPath(orderNo, boxCode));
+        }
+
         public static OrderJsonDocument Load(string path)
         {
             if (!File.Exists(path))
@@ -183,11 +197,117 @@ namespace WindowsFormsApp1
                 return null;
             }
 
-            using (var stream = File.OpenRead(path))
+            string json = NormalizeJsonText(File.ReadAllBytes(path));
+            if (string.IsNullOrWhiteSpace(json))
+            {
+                return null;
+            }
+
+            using (var stream = new MemoryStream(Encoding.UTF8.GetBytes(json)))
             {
                 var serializer = new DataContractJsonSerializer(typeof(OrderJsonDocument));
                 return serializer.ReadObject(stream) as OrderJsonDocument;
             }
+        }
+
+        private static string NormalizeJsonText(byte[] bytes)
+        {
+            if (bytes == null || bytes.Length == 0)
+            {
+                return string.Empty;
+            }
+
+            string json = DecodeJsonBytes(bytes);
+            if (string.IsNullOrEmpty(json))
+            {
+                return string.Empty;
+            }
+
+            json = json.Replace("\0", string.Empty).Trim();
+            if (json.Length > 0 && json[0] == '\uFEFF')
+            {
+                json = json.Substring(1).TrimStart();
+            }
+
+            return json;
+        }
+
+        private static string DecodeJsonBytes(byte[] bytes)
+        {
+            if (bytes.Length >= 2)
+            {
+                if (bytes[0] == 0xFF && bytes[1] == 0xFE)
+                {
+                    return Encoding.Unicode.GetString(bytes);
+                }
+
+                if (bytes[0] == 0xFE && bytes[1] == 0xFF)
+                {
+                    return Encoding.BigEndianUnicode.GetString(bytes);
+                }
+            }
+
+            if (bytes.Length >= 3 &&
+                bytes[0] == 0xEF &&
+                bytes[1] == 0xBB &&
+                bytes[2] == 0xBF)
+            {
+                return Encoding.UTF8.GetString(bytes);
+            }
+
+            if (LooksLikeUtf16LittleEndian(bytes))
+            {
+                return Encoding.Unicode.GetString(bytes);
+            }
+
+            if (LooksLikeUtf16BigEndian(bytes))
+            {
+                return Encoding.BigEndianUnicode.GetString(bytes);
+            }
+
+            return Encoding.UTF8.GetString(bytes);
+        }
+
+        private static bool LooksLikeUtf16LittleEndian(byte[] bytes)
+        {
+            int sampleLength = Math.Min(bytes.Length, 64);
+            int zeroOddBytes = 0;
+            int checkedPairs = sampleLength / 2;
+            if (checkedPairs < 2)
+            {
+                return false;
+            }
+
+            for (int i = 1; i < sampleLength; i += 2)
+            {
+                if (bytes[i] == 0)
+                {
+                    zeroOddBytes++;
+                }
+            }
+
+            return checkedPairs > 0 && zeroOddBytes >= checkedPairs / 2;
+        }
+
+        private static bool LooksLikeUtf16BigEndian(byte[] bytes)
+        {
+            int sampleLength = Math.Min(bytes.Length, 64);
+            int zeroEvenBytes = 0;
+            int checkedPairs = sampleLength / 2;
+            if (checkedPairs < 2)
+            {
+                return false;
+            }
+
+            for (int i = 0; i < sampleLength; i += 2)
+            {
+                if (bytes[i] == 0)
+                {
+                    zeroEvenBytes++;
+                }
+            }
+
+            return checkedPairs > 0 && zeroEvenBytes >= checkedPairs / 2;
         }
 
         private static string FormatJson(string json)

@@ -583,6 +583,7 @@ namespace WindowsFormsApp1
 
         private void EnterProductionBatchEndedState()
         {
+            StopSignalSendRetry();
             _productionBatchEnded = true;
             _robotPackingInProgress = false;
             _productionScanFailedWaitingRetry = false;
@@ -854,6 +855,18 @@ namespace WindowsFormsApp1
                 Name = "colOrderIndexBoxCode",
                 HeaderText = "箱码编号",
                 FillWeight = 35
+            });
+            _dgvOrderIndex.Columns.Add(new DataGridViewTextBoxColumn
+            {
+                Name = "colOrderIndexStatus",
+                HeaderText = "订单状态",
+                FillWeight = 32
+            });
+            _dgvOrderIndex.Columns.Add(new DataGridViewTextBoxColumn
+            {
+                Name = "colOrderIndexStatusDetail",
+                HeaderText = "异常/明细",
+                FillWeight = 60
             });
             _dgvOrderIndex.Columns.Add(new DataGridViewTextBoxColumn
             {
@@ -1283,11 +1296,14 @@ namespace WindowsFormsApp1
             foreach (OrderBoxPair pair in _orderCatalog.GetDistinctBindings())
             {
                 DateTime updatedAt = OrderJsonStore.ReadUpdatedAt(pair.OrderNo, pair.BoxCode);
+                OrderJsonDocument document = OrderJsonStore.LoadByBinding(pair.OrderNo, pair.BoxCode);
                 _orderIndex.Add(new OrderIndexEntry
                 {
                     OrderNo = pair.OrderNo,
                     BoxCode = pair.BoxCode,
-                    UpdatedAt = updatedAt == DateTime.MinValue ? DateTime.Now : updatedAt
+                    UpdatedAt = updatedAt == DateTime.MinValue ? DateTime.Now : updatedAt,
+                    Status = document == null ? string.Empty : document.Status,
+                    StatusDetail = document == null ? string.Empty : document.StatusDetail
                 });
             }
 
@@ -1308,11 +1324,24 @@ namespace WindowsFormsApp1
                 _dgvOrderIndex.Rows.Add(
                     entry.OrderNo,
                     entry.BoxCode,
+                    string.IsNullOrWhiteSpace(entry.Status) ? "未完成" : entry.Status,
+                    entry.StatusDetail ?? string.Empty,
                     entry.UpdatedAt.ToString("yyyy-MM-dd HH:mm:ss"));
             }
         }
 
         private void UpsertOrderIndexEntry(string orderNo, string boxCode, DateTime updatedAt)
+        {
+            OrderJsonDocument document = OrderJsonStore.LoadByBinding(orderNo, boxCode);
+            UpsertOrderIndexEntry(
+                orderNo,
+                boxCode,
+                updatedAt,
+                document == null ? string.Empty : document.Status,
+                document == null ? string.Empty : document.StatusDetail);
+        }
+
+        private void UpsertOrderIndexEntry(string orderNo, string boxCode, DateTime updatedAt, string status, string statusDetail)
         {
             _orderIndex.RemoveAll(e =>
                 string.Equals(e.OrderNo, orderNo, StringComparison.OrdinalIgnoreCase) ||
@@ -1321,7 +1350,9 @@ namespace WindowsFormsApp1
             {
                 OrderNo = orderNo,
                 BoxCode = boxCode,
-                UpdatedAt = updatedAt
+                UpdatedAt = updatedAt,
+                Status = status ?? string.Empty,
+                StatusDetail = statusDetail ?? string.Empty
             });
             _orderIndex.Sort((a, b) => b.UpdatedAt.CompareTo(a.UpdatedAt));
             RefreshOrderIndexGrid();
@@ -1334,7 +1365,14 @@ namespace WindowsFormsApp1
                 return;
             }
 
+            OrderJsonDocument existing = OrderJsonStore.LoadByBinding(lookup.OrderNo, lookup.BoxCode);
             OrderJsonDocument document = OrderJsonStore.FromLookupResult(lookup);
+            if (existing != null)
+            {
+                document.Status = existing.Status;
+                document.StatusDetail = existing.StatusDetail;
+                document.CompletedAt = existing.CompletedAt;
+            }
             document.UpdatedAt = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
             OrderJsonStore.Save(document);
             UpsertOrderIndexEntry(lookup.OrderNo, lookup.BoxCode, DateTime.Now);
@@ -1976,13 +2014,58 @@ namespace WindowsFormsApp1
         private void btnOpenOrderMatch_Click(object sender, EventArgs e)
         {
             string input = txtOrderBoxInput.Text.Trim();
-            if (input.Length == 0)
+            if (input.Length == 0 && !_orderInfoMatched)
             {
                 MessageBox.Show(DialogOwner, "请输入订单编号或箱码编号后再匹配。", "匹配信息", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 return;
             }
 
-            ApplyOrderLookup(LookupOrderInfo(input, rdoInputByOrderNo.Checked));
+            if (input.Length > 0)
+            {
+                ApplyOrderLookup(LookupOrderInfo(input, rdoInputByOrderNo.Checked));
+            }
+
+            if (_orderInfoMatched)
+            {
+                OpenOrderMatchEditDialog();
+            }
+        }
+
+        private void OpenOrderMatchEditDialog()
+        {
+            using (var dialog = new OrderMatchDialog(_productCatalog))
+            {
+                dialog.Items = _orderMatchItems
+                    .Select(i => new OrderMatchItem
+                    {
+                        Barcode = i.Barcode,
+                        Sku = i.Sku,
+                        OrderQuantity = i.OrderQuantity,
+                        Length = i.Length,
+                        Width = i.Width,
+                        Height = i.Height
+                    })
+                    .ToList();
+
+                if (dialog.ShowDialog(DialogOwner) != DialogResult.OK)
+                {
+                    return;
+                }
+
+                List<OrderMatchItem> editedItems = dialog.Items;
+                EnrichMatchItemsFromProductCatalog(editedItems);
+                _orderMatchItems.Clear();
+                _orderMatchItems.AddRange(editedItems);
+
+                string orderNo = CurrentOrderNo;
+                string boxCode = CurrentBoxCode;
+                var lookup = new OrderLookupResult(orderNo, boxCode, _orderMatchItems.ToList());
+                RemoveOrderBinding(orderNo, boxCode);
+                _orderCatalog = OrderCatalog.Merge(_orderCatalog, OrderCatalog.FromLookupResult(lookup), true);
+                PersistOrderBinding(lookup);
+                ApplyOrderLookup(lookup);
+                AppendLog("已保存订单明细修改并覆盖订单文件：订单 " + orderNo + " / 箱码 " + boxCode + "。");
+            }
         }
 
         private void ApplyOrderLookup(OrderLookupResult lookup)
@@ -2153,6 +2236,11 @@ namespace WindowsFormsApp1
         {
             if (!_batchActive || !IsProductionMode)
             {
+                AppendLog("收到批次结束请求但未生成结果：批次激活=" + _batchActive +
+                    "，工作模式=" + IsProductionMode +
+                    "，订单=" + ValueOrDash(CurrentOrderNo) +
+                    "，箱码=" + ValueOrDash(CurrentBoxCode) +
+                    "，记录数=" + _batchRecords.Count + "。");
                 return;
             }
 
@@ -2173,6 +2261,7 @@ namespace WindowsFormsApp1
             string finishedBatchName = _batchFolderName;
             WarnIfBatchHasIssues(finishedBatchName);
             WriteBatchStatistics();
+            PersistOrderStatusFromBatch(finishedBatchName);
             RefreshActiveScanTables();
             RaiseBatchCompleted();
             _batchRecords.Clear();
@@ -2180,6 +2269,41 @@ namespace WindowsFormsApp1
             _batchFolderName = string.Empty;
             _batchImageDirectory = string.Empty;
             return true;
+        }
+
+        private void PersistOrderStatusFromBatch(string batchName)
+        {
+            if (!IsProductionMode || !_orderInfoMatched)
+            {
+                return;
+            }
+
+            string orderNo = CurrentOrderNo;
+            string boxCode = CurrentBoxCode;
+            if (string.IsNullOrWhiteSpace(orderNo) || string.IsNullOrWhiteSpace(boxCode))
+            {
+                return;
+            }
+
+            string status;
+            string detail;
+            EvaluateOrderBatchStatus(_batchRecords, _orderMatchItems, out status, out detail);
+
+            OrderJsonDocument document = OrderJsonStore.LoadByBinding(orderNo, boxCode);
+            if (document == null)
+            {
+                document = OrderJsonStore.FromLookupResult(new OrderLookupResult(orderNo, boxCode, _orderMatchItems.ToList()));
+            }
+
+            document.Status = status;
+            document.StatusDetail = detail;
+            document.CompletedAt = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
+            document.UpdatedAt = document.CompletedAt;
+            OrderJsonStore.Save(document);
+            UpsertOrderIndexEntry(orderNo, boxCode, DateTime.Now, status, detail);
+            AppendLog("订单状态已更新：" + orderNo + " / " + boxCode + " = " + status +
+                (string.IsNullOrWhiteSpace(detail) ? string.Empty : "（" + detail + "）") +
+                "，批次=" + batchName + "。");
         }
 
         private void UpdateTestBatchButtonState()
@@ -2218,13 +2342,15 @@ namespace WindowsFormsApp1
                 return;
             }
 
+            StopSignalSendRetry();
+            _productionBatchEnded = true;
+
             if (_scanActive)
             {
                 StopScanCycle("批次结束信号");
             }
 
             TryEndProductionBatch("收到批次结束信号3");
-            StopSignalSendRetry();
             _currentOrderConfirmed = false;
             EnterProductionBatchEndedState();
             UpdateOrderActionState();
@@ -2234,6 +2360,12 @@ namespace WindowsFormsApp1
 
         private void HandleProductionRobotSignal()
         {
+            if (_productionBatchEnded)
+            {
+                AppendLog("工作模式：批次已结束，忽略信号0，请重新确认订单后开始下一批次。");
+                return;
+            }
+
             if (_signalSendRetryValue == ProductionSignalClient.SignalScanSuccess)
             {
                 StopSignalSendRetry();
@@ -2853,6 +2985,12 @@ namespace WindowsFormsApp1
             StopScanCycle("有效结果");
             if (IsProductionMode)
             {
+                if (_productionBatchEnded)
+                {
+                    AppendLog("工作模式：批次已结束，忽略本次扫码结果的信号1发送。");
+                    return;
+                }
+
                 if (_productionSignalClient != null)
                 {
                     _productionSignalClient.ResetSendState();
@@ -3488,6 +3626,73 @@ namespace WindowsFormsApp1
             return result.OrderBy(r => r.Barcode, StringComparer.OrdinalIgnoreCase).ToList();
         }
 
+        private static void EvaluateOrderBatchStatus(List<ScanRecord> records, List<OrderMatchItem> expectedItems, out string status, out string detail)
+        {
+            List<MatchSummaryRow> summary = BuildMatchSummary(records ?? new List<ScanRecord>(), expectedItems ?? new List<OrderMatchItem>(), false);
+            var missing = new List<string>();
+            var over = new List<string>();
+            var extra = new List<string>();
+            var unknown = new List<string>();
+
+            foreach (MatchSummaryRow row in summary)
+            {
+                string barcode = string.IsNullOrWhiteSpace(row.Barcode) ? "(空条码)" : row.Barcode;
+                if (row.Status == "正常")
+                {
+                    continue;
+                }
+
+                if (row.Status == "待扫码" || row.Status == "数量不足")
+                {
+                    int expected = row.OrderQuantity.HasValue ? row.OrderQuantity.Value : 0;
+                    int lack = Math.Max(0, expected - row.ActualQuantity);
+                    missing.Add(barcode + " 缺少" + lack + "件");
+                }
+                else if (row.Status == "数量超出")
+                {
+                    int expected = row.OrderQuantity.HasValue ? row.OrderQuantity.Value : 0;
+                    int more = Math.Max(0, row.ActualQuantity - expected);
+                    over.Add(barcode + " 超出" + more + "件");
+                }
+                else if (row.Status == "未查询到该产品")
+                {
+                    unknown.Add(barcode + " 未查询到产品");
+                }
+                else
+                {
+                    extra.Add(barcode + " 数量" + row.ActualQuantity);
+                }
+            }
+
+            var parts = new List<string>();
+            if (missing.Count > 0)
+            {
+                parts.Add("缺少：" + string.Join("，", missing));
+            }
+            if (over.Count > 0)
+            {
+                parts.Add("数量超出：" + string.Join("，", over));
+            }
+            if (extra.Count > 0)
+            {
+                parts.Add("额外物体：" + string.Join("，", extra));
+            }
+            if (unknown.Count > 0)
+            {
+                parts.Add("未查询产品：" + string.Join("，", unknown));
+            }
+
+            if (summary.Count == 0)
+            {
+                status = "未完成";
+                detail = "没有订单明细或采码记录";
+                return;
+            }
+
+            status = parts.Count == 0 ? "已完成" : "异常";
+            detail = string.Join("；", parts);
+        }
+
         private string SaveCaptureImage(BarcodeCapture capture, string barcode, DateTime readTime)
         {
             if (capture.ImageBytes == null || capture.ImageBytes.Length == 0)
@@ -3871,6 +4076,12 @@ namespace WindowsFormsApp1
         private void BeginSignalSendRetry(int signal, bool untilStopped)
         {
             StopSignalSendRetry();
+            if (IsProductionMode && _productionBatchEnded)
+            {
+                AppendLog("工作模式：批次已结束，取消发送信号 " + signal + "。");
+                return;
+            }
+
             _signalSendRetryValue = signal;
             _signalSendRetryUntilStopped = untilStopped;
             _signalSendRetrySentCount = 0;
@@ -3895,6 +4106,12 @@ namespace WindowsFormsApp1
 
         private void signalSendRetryTimer_Tick(object sender, EventArgs e)
         {
+            if (IsProductionMode && _productionBatchEnded)
+            {
+                StopSignalSendRetry();
+                return;
+            }
+
             if (_signalSendRetryValue < 0)
             {
                 StopSignalSendRetry();
@@ -4030,6 +4247,13 @@ namespace WindowsFormsApp1
 
         private bool SendProductionSignalDirect(int signal)
         {
+            if (IsProductionMode && _productionBatchEnded)
+            {
+                AppendLog("发送信号 " + signal + " 已取消：批次已结束。");
+                AppendSignalLog("发送取消：信号 " + signal + "，原因=批次已结束");
+                return false;
+            }
+
             if (_productionSignalClient == null || !_productionSignalClient.IsConnected)
             {
                 AppendLog("发送信号 " + signal + " 失败：信号服务器未连接。");

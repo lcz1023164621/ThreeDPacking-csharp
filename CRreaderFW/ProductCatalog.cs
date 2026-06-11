@@ -12,6 +12,7 @@ namespace WindowsFormsApp1
 
         public IReadOnlyList<string> Headers { get; private set; }
         public int Count { get { return _byBarcode.Count; } }
+        public IReadOnlyCollection<ProductRecord> Records { get { return _byBarcode.Values.ToList(); } }
 
         private ProductCatalog(IReadOnlyList<string> headers, Dictionary<string, ProductRecord> byBarcode)
         {

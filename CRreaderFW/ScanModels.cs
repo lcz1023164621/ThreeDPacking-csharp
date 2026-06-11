@@ -7,6 +7,8 @@ namespace WindowsFormsApp1
         public string OrderNo { get; set; }
         public string BoxCode { get; set; }
         public DateTime UpdatedAt { get; set; }
+        public string Status { get; set; }
+        public string StatusDetail { get; set; }
     }
 
     public sealed class ScannedItemInfo

@@ -8,8 +8,16 @@ namespace WindowsFormsApp1
 {
     internal partial class OrderMatchDialog : Form
     {
+        private readonly ProductCatalog _productCatalog;
+
         public OrderMatchDialog()
+            : this(null)
         {
+        }
+
+        public OrderMatchDialog(ProductCatalog productCatalog)
+        {
+            _productCatalog = productCatalog;
             InitializeComponent();
         }
 
@@ -38,11 +46,20 @@ namespace WindowsFormsApp1
                         throw new InvalidOperationException("订单匹配信息需要填写条码号，并且订单数量必须是非负整数。");
                     }
 
+                    ProductRecord product = _productCatalog == null ? null : _productCatalog.Find(barcode);
+                    if (_productCatalog != null && product == null)
+                    {
+                        throw new InvalidOperationException("条码 " + barcode + " 不在 ProductInfo 中，不能保存到订单。");
+                    }
+
                     items.Add(new OrderMatchItem
                     {
-                        Barcode = barcode,
-                        Sku = sku,
-                        OrderQuantity = quantity
+                        Barcode = product == null ? barcode : product.Barcode,
+                        Sku = product == null ? sku : FirstNonEmpty(product.GetValue("SKU", "Sku", "sku", "货号", "产品货号"), sku),
+                        OrderQuantity = quantity,
+                        Length = product == null ? string.Empty : product.GetValue("Length", "L", "长", "长度"),
+                        Width = product == null ? string.Empty : product.GetValue("Width", "W", "宽", "宽度"),
+                        Height = product == null ? string.Empty : product.GetValue("Height", "H", "高", "高度")
                     });
                 }
                 return items;
@@ -95,6 +112,22 @@ namespace WindowsFormsApp1
             }
         }
 
+        private void btnDeleteSelected_Click(object sender, EventArgs e)
+        {
+            if (dgvOrderItems.SelectedRows.Count == 0)
+            {
+                return;
+            }
+
+            foreach (DataGridViewRow row in dgvOrderItems.SelectedRows)
+            {
+                if (!row.IsNewRow)
+                {
+                    dgvOrderItems.Rows.Remove(row);
+                }
+            }
+        }
+
         private void btnOk_Click(object sender, EventArgs e)
         {
             try
@@ -113,6 +146,11 @@ namespace WindowsFormsApp1
         {
             DialogResult = DialogResult.Cancel;
             Close();
+        }
+
+        private static string FirstNonEmpty(string primary, string fallback)
+        {
+            return string.IsNullOrWhiteSpace(primary) ? (fallback ?? string.Empty) : primary;
         }
     }
 }

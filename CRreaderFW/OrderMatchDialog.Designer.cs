@@ -23,6 +23,7 @@ namespace WindowsFormsApp1
             this.btnCancel = new System.Windows.Forms.Button();
             this.btnOk = new System.Windows.Forms.Button();
             this.btnImportCsv = new System.Windows.Forms.Button();
+            this.btnDeleteSelected = new System.Windows.Forms.Button();
             this.lblHint = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.dgvOrderItems)).BeginInit();
             this.panelButtons.SuspendLayout();
@@ -30,7 +31,7 @@ namespace WindowsFormsApp1
             // 
             // dgvOrderItems
             // 
-            this.dgvOrderItems.AllowUserToDeleteRows = false;
+            this.dgvOrderItems.AllowUserToDeleteRows = true;
             this.dgvOrderItems.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.dgvOrderItems.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgvOrderItems.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
@@ -70,6 +71,7 @@ namespace WindowsFormsApp1
             this.panelButtons.Controls.Add(this.btnCancel);
             this.panelButtons.Controls.Add(this.btnOk);
             this.panelButtons.Controls.Add(this.btnImportCsv);
+            this.panelButtons.Controls.Add(this.btnDeleteSelected);
             this.panelButtons.Dock = System.Windows.Forms.DockStyle.Bottom;
             this.panelButtons.Location = new System.Drawing.Point(0, 410);
             this.panelButtons.Name = "panelButtons";
@@ -109,6 +111,16 @@ namespace WindowsFormsApp1
             this.btnImportCsv.UseVisualStyleBackColor = true;
             this.btnImportCsv.Click += new System.EventHandler(this.btnImportCsv_Click);
             // 
+            // btnDeleteSelected
+            // 
+            this.btnDeleteSelected.Location = new System.Drawing.Point(150, 12);
+            this.btnDeleteSelected.Name = "btnDeleteSelected";
+            this.btnDeleteSelected.Size = new System.Drawing.Size(132, 36);
+            this.btnDeleteSelected.TabIndex = 3;
+            this.btnDeleteSelected.Text = "删除选中";
+            this.btnDeleteSelected.UseVisualStyleBackColor = true;
+            this.btnDeleteSelected.Click += new System.EventHandler(this.btnDeleteSelected_Click);
+            // 
             // lblHint
             // 
             this.lblHint.Dock = System.Windows.Forms.DockStyle.Top;
@@ -117,7 +129,7 @@ namespace WindowsFormsApp1
             this.lblHint.Padding = new System.Windows.Forms.Padding(12, 8, 12, 0);
             this.lblHint.Size = new System.Drawing.Size(720, 44);
             this.lblHint.TabIndex = 2;
-            this.lblHint.Text = "填写订单应有数量。CSV格式：条码号,货号,订单数量";
+            this.lblHint.Text = "可修改数量、添加或删除明细。条码必须来自 ProductInfo；保存后会覆盖当前订单文件。CSV格式：条码号,货号,订单数量";
             // 
             // OrderMatchDialog
             // 
@@ -145,6 +157,7 @@ namespace WindowsFormsApp1
         private System.Windows.Forms.Button btnCancel;
         private System.Windows.Forms.Button btnOk;
         private System.Windows.Forms.Button btnImportCsv;
+        private System.Windows.Forms.Button btnDeleteSelected;
         private System.Windows.Forms.Label lblHint;
     }
 }
