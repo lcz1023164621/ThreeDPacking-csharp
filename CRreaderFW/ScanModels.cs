@@ -16,6 +16,11 @@ namespace WindowsFormsApp1
         public string Name { get; set; }
         public string Dimensions { get; set; }
         public string Barcode { get; set; }
+        public string Sku { get; set; }
+        public int ScanSequence { get; set; }
+        public int PackingSequence { get; set; }
+        public string PackingBoxId { get; set; }
+        public bool IsPackingLongShortSwapped { get; set; }
         public int Dx { get; set; }
         public int Dy { get; set; }
         public int Dz { get; set; }
@@ -45,6 +50,8 @@ namespace WindowsFormsApp1
         public string AutoFocusCommand { get; set; }
         public string SignalServerIp { get; set; }
         public int SignalServerPort { get; set; }
+        public string SignalReceiveServerIp { get; set; }
+        public int SignalReceiveServerPort { get; set; }
         public int SignalSendRetryIntervalMs { get; set; }
         public int SignalSendRetryMaxCount { get; set; }
         public bool SignalScanSuccessUntilStopped { get; set; }
@@ -75,6 +82,8 @@ namespace WindowsFormsApp1
                 AutoFocusCommand = "FocusOnce",
                 SignalServerIp = "192.168.0.200",
                 SignalServerPort = 10000,
+                SignalReceiveServerIp = "192.168.0.200",
+                SignalReceiveServerPort = 15000,
                 SignalSendRetryIntervalMs = 500,
                 SignalSendRetryMaxCount = 5,
                 SignalScanSuccessUntilStopped = true
@@ -143,6 +152,14 @@ namespace WindowsFormsApp1
             {
                 SignalServerPort = 10000;
             }
+            if (string.IsNullOrWhiteSpace(SignalReceiveServerIp))
+            {
+                SignalReceiveServerIp = SignalServerIp;
+            }
+            if (SignalReceiveServerPort <= 0)
+            {
+                SignalReceiveServerPort = 15000;
+            }
             if (SignalSendRetryIntervalMs < 100)
             {
                 SignalSendRetryIntervalMs = 500;
@@ -163,6 +180,7 @@ namespace WindowsFormsApp1
         public string Length { get; set; }
         public string Width { get; set; }
         public string Height { get; set; }
+        public string PackingSequences { get; set; }
     }
 
     internal sealed class ScanRecord
@@ -178,6 +196,9 @@ namespace WindowsFormsApp1
         public string Height { get; set; }
         public string Status { get; set; }
         public int ScanCount { get; set; }
+        public int PackingSequence { get; set; }
+        public string PackingBoxId { get; set; }
+        public bool IsPackingLongShortSwapped { get; set; }
         public DateTime ScanTime { get; set; }
         public string ImagePath { get; set; }
     }
@@ -189,5 +210,6 @@ namespace WindowsFormsApp1
         public int? OrderQuantity { get; set; }
         public int ActualQuantity { get; set; }
         public string Status { get; set; }
+        public string PackingSequences { get; set; }
     }
 }

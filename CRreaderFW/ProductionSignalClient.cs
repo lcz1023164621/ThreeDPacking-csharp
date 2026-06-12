@@ -16,45 +16,81 @@ namespace WindowsFormsApp1
         public const int SignalRobotAcknowledged = 3;
         public const int SignalBatchComplete = 4;
         public const int SignalScanFailedAcknowledged = 5;
+        public const int SignalStraightPlacement = 6;
+        public const int SignalLongShortSwapped = 7;
 
-        private TcpClient _client;
-        private NetworkStream _stream;
+        private TcpClient _sendClient;
+        private NetworkStream _sendStream;
+        private TcpClient _receiveClient;
+        private NetworkStream _receiveStream;
         private CancellationTokenSource _cts;
-        private Task _workerTask;
+        private Task _sendWorkerTask;
+        private Task _receiveWorkerTask;
         private readonly object _sendLock = new object();
         private readonly List<byte> _receiveBuffer = new List<byte>();
-        private string _host;
-        private int _port;
+        private string _sendHost;
+        private int _sendPort;
+        private string _receiveHost;
+        private int _receivePort;
         private bool _autoReconnect;
         private int? _lastSentValue;
 
         public const int SignalFrameSize = 4;
         public const byte SignalFrameDelimiter = (byte)'\n';
+        private const int ConnectTimeoutMs = 5000;
 
         public event Action<int> SignalReceived;
-        public event Action<bool> ConnectionChanged;
+        public event Action<bool, bool> ConnectionChanged;
         public event Action<bool, int, string> DataTransmitted;
 
         public bool IsConnected
         {
-            get { return _client != null && _client.Connected; }
+            get { return IsSendConnected && IsReceiveConnected; }
+        }
+
+        public bool IsSendConnected
+        {
+            get { return _sendClient != null && _sendClient.Connected; }
+        }
+
+        public bool IsReceiveConnected
+        {
+            get { return _receiveClient != null && _receiveClient.Connected; }
         }
 
         public string EndpointDescription
         {
-            get { return _host + ":" + _port; }
+            get { return "发送 " + SendEndpointDescription + "，接收 " + ReceiveEndpointDescription; }
+        }
+
+        public string SendEndpointDescription
+        {
+            get { return _sendHost + ":" + _sendPort; }
+        }
+
+        public string ReceiveEndpointDescription
+        {
+            get { return _receiveHost + ":" + _receivePort; }
         }
 
         public void Start(string host, int port, bool autoReconnect)
         {
+            Start(host, port, host, 15000, autoReconnect);
+        }
+
+        public void Start(string sendHost, int sendPort, string receiveHost, int receivePort, bool autoReconnect)
+        {
             Stop();
-            _host = host ?? string.Empty;
-            _port = port;
+            _sendHost = sendHost ?? string.Empty;
+            _sendPort = sendPort;
+            _receiveHost = string.IsNullOrWhiteSpace(receiveHost) ? _sendHost : receiveHost;
+            _receivePort = receivePort;
             _autoReconnect = autoReconnect;
             _receiveBuffer.Clear();
             _lastSentValue = null;
             _cts = new CancellationTokenSource();
-            _workerTask = Task.Run(() => RunLoopAsync(_cts.Token));
+            _sendWorkerTask = Task.Run(() => RunSendLoopAsync(_cts.Token));
+            _receiveWorkerTask = Task.Run(() => RunReceiveLoopAsync(_cts.Token));
         }
 
         public void Stop()
@@ -67,7 +103,8 @@ namespace WindowsFormsApp1
             }
 
             _receiveBuffer.Clear();
-            CloseConnection();
+            CloseSendConnection();
+            CloseReceiveConnection();
         }
 
         public bool Send(int value)
@@ -77,7 +114,7 @@ namespace WindowsFormsApp1
 
         public bool Send(int value, bool allowRepeat)
         {
-            if (!IsConnected || _stream == null)
+            if (!IsSendConnected || _sendStream == null)
             {
                 return false;
             }
@@ -97,20 +134,51 @@ namespace WindowsFormsApp1
             {
                 try
                 {
-                    _stream.Write(payload, 0, payload.Length);
-                    _stream.Flush();
+                    _sendStream.Write(payload, 0, payload.Length);
+                    _sendStream.Flush();
                     _lastSentValue = value;
                     NotifyTransmitted(true, value, BuildSignalDetail(value));
                     return true;
                 }
                 catch (IOException)
                 {
-                    CloseConnection();
+                    CloseSendConnection();
                     return false;
                 }
                 catch (SocketException)
                 {
-                    CloseConnection();
+                    CloseSendConnection();
+                    return false;
+                }
+            }
+        }
+
+        public bool SendString(string text)
+        {
+            if (!IsSendConnected || _sendStream == null || string.IsNullOrWhiteSpace(text))
+            {
+                return false;
+            }
+
+            string value = text.Trim();
+            byte[] payload = Encoding.ASCII.GetBytes(value + "\n");
+            lock (_sendLock)
+            {
+                try
+                {
+                    _sendStream.Write(payload, 0, payload.Length);
+                    _sendStream.Flush();
+                    NotifyTransmitted(true, -1, "String=\"" + EscapeControlChars(value) + "\" Frame=\"" + EscapeControlChars(value + "\n") + "\"");
+                    return true;
+                }
+                catch (IOException)
+                {
+                    CloseSendConnection();
+                    return false;
+                }
+                catch (SocketException)
+                {
+                    CloseSendConnection();
                     return false;
                 }
             }
@@ -139,18 +207,21 @@ namespace WindowsFormsApp1
                 + " Frame=\"" + ascii + "\\n\")";
         }
 
-        private async Task RunLoopAsync(CancellationToken token)
+        private async Task RunSendLoopAsync(CancellationToken token)
         {
             while (!token.IsCancellationRequested)
             {
                 try
                 {
-                    if (!IsConnected)
+                    if (!IsSendConnected)
                     {
-                        await ConnectOnceAsync(token).ConfigureAwait(false);
+                        await ConnectSendOnceAsync(token).ConfigureAwait(false);
                     }
 
-                    await ReadSignalsAsync(token).ConfigureAwait(false);
+                    while (!token.IsCancellationRequested && IsSendConnected)
+                    {
+                        await Task.Delay(1000, token).ConfigureAwait(false);
+                    }
                 }
                 catch (OperationCanceledException)
                 {
@@ -158,7 +229,7 @@ namespace WindowsFormsApp1
                 }
                 catch (Exception)
                 {
-                    CloseConnection();
+                    CloseSendConnection();
                     if (!token.IsCancellationRequested && _autoReconnect)
                     {
                         await Task.Delay(1000, token).ConfigureAwait(false);
@@ -171,30 +242,78 @@ namespace WindowsFormsApp1
             }
         }
 
-        private async Task ConnectOnceAsync(CancellationToken token)
+        private async Task RunReceiveLoopAsync(CancellationToken token)
         {
-            if (string.IsNullOrWhiteSpace(_host) || _port <= 0)
+            while (!token.IsCancellationRequested)
             {
-                throw new InvalidOperationException("信号服务器地址或端口无效。");
+                try
+                {
+                    if (!IsReceiveConnected)
+                    {
+                        await ConnectReceiveOnceAsync(token).ConfigureAwait(false);
+                    }
+
+                    await ReadSignalsAsync(token).ConfigureAwait(false);
+                }
+                catch (OperationCanceledException)
+                {
+                    break;
+                }
+                catch (Exception)
+                {
+                    CloseReceiveConnection();
+                    if (!token.IsCancellationRequested && _autoReconnect)
+                    {
+                        await Task.Delay(1000, token).ConfigureAwait(false);
+                    }
+                    else if (!_autoReconnect)
+                    {
+                        break;
+                    }
+                }
+            }
+        }
+
+        private async Task ConnectSendOnceAsync(CancellationToken token)
+        {
+            if (string.IsNullOrWhiteSpace(_sendHost) || _sendPort <= 0)
+            {
+                throw new InvalidOperationException("信号发送服务器地址或端口无效。");
             }
 
+            token.ThrowIfCancellationRequested();
             var client = new TcpClient { NoDelay = true };
-            await client.ConnectAsync(_host, _port).ConfigureAwait(false);
-            _client = client;
-            _stream = client.GetStream();
+            await ConnectWithTimeoutAsync(client, _sendHost, _sendPort, token).ConfigureAwait(false);
+            _sendClient = client;
+            _sendStream = client.GetStream();
+            ConnectionChanged?.Invoke(IsSendConnected, IsReceiveConnected);
+        }
+
+        private async Task ConnectReceiveOnceAsync(CancellationToken token)
+        {
+            if (string.IsNullOrWhiteSpace(_receiveHost) || _receivePort <= 0)
+            {
+                throw new InvalidOperationException("信号接收服务器地址或端口无效。");
+            }
+
+            token.ThrowIfCancellationRequested();
+            var client = new TcpClient { NoDelay = true };
+            await ConnectWithTimeoutAsync(client, _receiveHost, _receivePort, token).ConfigureAwait(false);
+            _receiveClient = client;
+            _receiveStream = client.GetStream();
             _receiveBuffer.Clear();
-            ConnectionChanged?.Invoke(true);
+            ConnectionChanged?.Invoke(IsSendConnected, IsReceiveConnected);
         }
 
         private async Task ReadSignalsAsync(CancellationToken token)
         {
             byte[] buffer = new byte[256];
-            while (!token.IsCancellationRequested && IsConnected)
+            while (!token.IsCancellationRequested && IsReceiveConnected)
             {
-                int read = await _stream.ReadAsync(buffer, 0, buffer.Length, token).ConfigureAwait(false);
+                int read = await _receiveStream.ReadAsync(buffer, 0, buffer.Length, token).ConfigureAwait(false);
                 if (read <= 0)
                 {
-                    throw new IOException("信号连接已断开。");
+                    throw new IOException("信号接收连接已断开。");
                 }
 
                 for (int i = 0; i < read; i++)
@@ -290,7 +409,7 @@ namespace WindowsFormsApp1
             {
                 if (text.Length > 0)
                 {
-                    NotifyTransmitted(false, -1, "无法解析文本=\"" + text + "\"");
+                    NotifyTransmitted(false, -1, "无法解析字符串=\"" + text + "\"");
                 }
                 return text.Length > 0;
             }
@@ -301,7 +420,7 @@ namespace WindowsFormsApp1
 
         private static bool IsValidSignal(int value)
         {
-            return value >= SignalRobotReady && value <= SignalScanFailedAcknowledged;
+            return value >= SignalRobotReady && value <= SignalLongShortSwapped;
         }
 
         private void DispatchSignal(int value)
@@ -402,6 +521,27 @@ namespace WindowsFormsApp1
             return builder.ToString();
         }
 
+        private static async Task ConnectWithTimeoutAsync(TcpClient client, string host, int port, CancellationToken token)
+        {
+            Task connectTask = client.ConnectAsync(host, port);
+            Task delayTask = Task.Delay(ConnectTimeoutMs, token);
+            Task completed = await Task.WhenAny(connectTask, delayTask).ConfigureAwait(false);
+            if (completed != connectTask)
+            {
+                try
+                {
+                    client.Close();
+                }
+                catch
+                {
+                }
+
+                throw new TimeoutException("连接 " + host + ":" + port + " 超时。");
+            }
+
+            await connectTask.ConfigureAwait(false);
+        }
+
         private static string EscapeControlChars(string value)
         {
             if (string.IsNullOrEmpty(value))
@@ -416,28 +556,51 @@ namespace WindowsFormsApp1
                 .Replace("\t", "\\t");
         }
 
-        private void CloseConnection()
+        private void CloseSendConnection()
         {
-            bool wasConnected = IsConnected;
+            bool wasConnected = IsSendConnected;
 
-            if (_stream != null)
+            if (_sendStream != null)
             {
-                _stream.Dispose();
-                _stream = null;
+                _sendStream.Dispose();
+                _sendStream = null;
             }
 
-            if (_client != null)
+            if (_sendClient != null)
             {
-                _client.Close();
-                _client.Dispose();
-                _client = null;
+                _sendClient.Close();
+                _sendClient.Dispose();
+                _sendClient = null;
+            }
+
+            if (wasConnected)
+            {
+                ConnectionChanged?.Invoke(IsSendConnected, IsReceiveConnected);
+            }
+        }
+
+        private void CloseReceiveConnection()
+        {
+            bool wasConnected = IsReceiveConnected;
+
+            if (_receiveStream != null)
+            {
+                _receiveStream.Dispose();
+                _receiveStream = null;
+            }
+
+            if (_receiveClient != null)
+            {
+                _receiveClient.Close();
+                _receiveClient.Dispose();
+                _receiveClient = null;
             }
 
             _receiveBuffer.Clear();
 
             if (wasConnected)
             {
-                ConnectionChanged?.Invoke(false);
+                ConnectionChanged?.Invoke(IsSendConnected, IsReceiveConnected);
             }
         }
     }

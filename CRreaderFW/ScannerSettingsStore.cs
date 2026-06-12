@@ -83,6 +83,8 @@ namespace WindowsFormsApp1
             builder.AppendLine("AutoFocusCommand=" + settings.AutoFocusCommand);
             builder.AppendLine("SignalServerIp=" + settings.SignalServerIp);
             builder.AppendLine("SignalServerPort=" + settings.SignalServerPort.ToString(CultureInfo.InvariantCulture));
+            builder.AppendLine("SignalReceiveServerIp=" + settings.SignalReceiveServerIp);
+            builder.AppendLine("SignalReceiveServerPort=" + settings.SignalReceiveServerPort.ToString(CultureInfo.InvariantCulture));
             builder.AppendLine("SignalSendRetryIntervalMs=" + settings.SignalSendRetryIntervalMs.ToString(CultureInfo.InvariantCulture));
             builder.AppendLine("SignalSendRetryMaxCount=" + settings.SignalSendRetryMaxCount.ToString(CultureInfo.InvariantCulture));
             builder.AppendLine("SignalScanSuccessUntilStopped=" + settings.SignalScanSuccessUntilStopped);
@@ -197,6 +199,16 @@ namespace WindowsFormsApp1
                     if (int.TryParse(value, out signalServerPort))
                     {
                         settings.SignalServerPort = signalServerPort;
+                    }
+                    break;
+                case "SignalReceiveServerIp":
+                    settings.SignalReceiveServerIp = value;
+                    break;
+                case "SignalReceiveServerPort":
+                    int signalReceiveServerPort;
+                    if (int.TryParse(value, out signalReceiveServerPort))
+                    {
+                        settings.SignalReceiveServerPort = signalReceiveServerPort;
                     }
                     break;
                 case "SignalSendRetryIntervalMs":

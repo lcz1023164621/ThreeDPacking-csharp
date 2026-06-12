@@ -20,6 +20,12 @@ namespace WindowsFormsApp1
         private readonly List<ScanRecord> _currentProductionRecords = new List<ScanRecord>();
         private readonly List<ScanRecord> _testRecords = new List<ScanRecord>();
         private readonly List<OrderMatchItem> _orderMatchItems = new List<OrderMatchItem>();
+        private readonly Dictionary<string, Queue<ScannedItemInfo>> _packingInfoBySku =
+            new Dictionary<string, Queue<ScannedItemInfo>>(StringComparer.OrdinalIgnoreCase);
+        private readonly Dictionary<string, Queue<ScannedItemInfo>> _packingInfoByBarcode =
+            new Dictionary<string, Queue<ScannedItemInfo>>(StringComparer.OrdinalIgnoreCase);
+        private readonly HashSet<string> _consumedPackingBoxIds =
+            new HashSet<string>(StringComparer.OrdinalIgnoreCase);
         private readonly List<OrderIndexEntry> _orderIndex = new List<OrderIndexEntry>();
         private readonly HistoryStore _historyStore;
         private readonly BatchStatisticsWriter _statisticsWriter;
@@ -512,7 +518,8 @@ namespace WindowsFormsApp1
             string reader = _readerConnected ? "已连接" : "未连接";
             if (_productionSignalClient != null)
             {
-                reader += _productionSignalClient.IsConnected ? " · 信号已连" : " · 信号断开";
+                reader += " · 发" + (_productionSignalClient.IsSendConnected ? "已连" : "断开")
+                    + "/收" + (_productionSignalClient.IsReceiveConnected ? "已连" : "断开");
             }
 
             string scan;
@@ -548,7 +555,7 @@ namespace WindowsFormsApp1
             }
             else if (_robotPackingInProgress)
             {
-                robot = "装箱中";
+                robot = "待下轮0";
             }
             else if (_batchActive && _productionScanFailedWaitingRetry)
             {
@@ -575,7 +582,7 @@ namespace WindowsFormsApp1
             SyncProductionWorkStateDisplay();
         }
 
-        private void EnterProductionPackingState()
+        private void EnterProductionWaitingNextCycleState()
         {
             _robotPackingInProgress = true;
             _productionScanFailedWaitingRetry = false;
@@ -684,7 +691,9 @@ namespace WindowsFormsApp1
 
             if (text.IndexOf("已连接", StringComparison.OrdinalIgnoreCase) >= 0)
             {
-                if (text.IndexOf("信号断开", StringComparison.OrdinalIgnoreCase) >= 0)
+                if (text.IndexOf("信号断开", StringComparison.OrdinalIgnoreCase) >= 0 ||
+                    text.IndexOf("发断开", StringComparison.OrdinalIgnoreCase) >= 0 ||
+                    text.IndexOf("收断开", StringComparison.OrdinalIgnoreCase) >= 0)
                 {
                     return WorkStateVisual.Warning;
                 }
@@ -750,7 +759,7 @@ namespace WindowsFormsApp1
                 return WorkStateVisual.Success;
             }
 
-            if (text.IndexOf("装箱中", StringComparison.OrdinalIgnoreCase) >= 0)
+            if (text.IndexOf("待下轮0", StringComparison.OrdinalIgnoreCase) >= 0)
             {
                 return WorkStateVisual.Active;
             }
@@ -1800,6 +1809,7 @@ namespace WindowsFormsApp1
                         Name = qty > 1 ? baseName + "#" + (i + 1) : baseName,
                         Dimensions = template.Dimensions,
                         Barcode = template.Barcode,
+                        Sku = sku ?? string.Empty,
                         Dx = template.Dx,
                         Dy = template.Dy,
                         Dz = template.Dz
@@ -2122,6 +2132,76 @@ namespace WindowsFormsApp1
             }
         }
 
+        public void UpdateOrderPackingResults(IReadOnlyList<ScannedItemInfo> packingItems)
+        {
+            if (InvokeRequired)
+            {
+                BeginInvoke(new Action<IReadOnlyList<ScannedItemInfo>>(UpdateOrderPackingResults), packingItems);
+                return;
+            }
+
+            _packingInfoBySku.Clear();
+            _packingInfoByBarcode.Clear();
+            _consumedPackingBoxIds.Clear();
+
+            foreach (OrderMatchItem item in _orderMatchItems)
+            {
+                item.PackingSequences = string.Empty;
+            }
+
+            if (packingItems == null || packingItems.Count == 0)
+            {
+                RefreshVisibleMatchGrid();
+                return;
+            }
+
+            foreach (ScannedItemInfo item in packingItems.OrderBy(i => i.PackingSequence))
+            {
+                if (item == null || item.PackingSequence <= 0)
+                {
+                    continue;
+                }
+
+                EnqueuePackingInfo(_packingInfoBySku, item.Sku, item);
+                EnqueuePackingInfo(_packingInfoByBarcode, item.Barcode, item);
+            }
+
+            foreach (OrderMatchItem orderItem in _orderMatchItems)
+            {
+                var sequences = packingItems
+                    .Where(i => i != null && i.PackingSequence > 0 &&
+                        (string.Equals(i.Barcode, orderItem.Barcode, StringComparison.OrdinalIgnoreCase) ||
+                         string.Equals(i.Sku, orderItem.Sku, StringComparison.OrdinalIgnoreCase)))
+                    .Select(i => i.PackingSequence)
+                    .Distinct()
+                    .OrderBy(i => i)
+                    .Select(i => i.ToString())
+                    .ToList();
+                orderItem.PackingSequences = string.Join(",", sequences);
+            }
+
+            RefreshVisibleMatchGrid();
+            AppendLog("装箱结果已回写订单匹配信息，更新装箱次序。");
+        }
+
+        private static void EnqueuePackingInfo(Dictionary<string, Queue<ScannedItemInfo>> map, string key, ScannedItemInfo item)
+        {
+            if (map == null || item == null || string.IsNullOrWhiteSpace(key))
+            {
+                return;
+            }
+
+            key = key.Trim();
+            Queue<ScannedItemInfo> queue;
+            if (!map.TryGetValue(key, out queue))
+            {
+                queue = new Queue<ScannedItemInfo>();
+                map[key] = queue;
+            }
+
+            queue.Enqueue(item);
+        }
+
         private void ImportOrdersFromPath(string path)
         {
             try
@@ -2432,6 +2512,23 @@ namespace WindowsFormsApp1
 
             if (_scanActive)
             {
+                if (_productionFailureNotified)
+                {
+                    if (_signalSendRetryValue == ProductionSignalClient.SignalScanFailed)
+                    {
+                        AppendLog("工作模式：收到信号0，当前仍在等待发送信号2，尝试恢复发送。");
+                        ResumePendingSignalSend();
+                        return;
+                    }
+
+                    if (_productionSignalClient != null && _productionSignalClient.IsSendConnected)
+                    {
+                        AppendLog("工作模式：收到信号0，恢复未发送成功的信号2。");
+                        BeginSignalSendRetry(ProductionSignalClient.SignalScanFailed, true);
+                        return;
+                    }
+                }
+
                 AppendLog("工作模式：收到信号0，但当前已在采码中，忽略重复请求。");
                 return;
             }
@@ -2623,6 +2720,8 @@ namespace WindowsFormsApp1
                 _signalSendRetryTimer.Interval = _scannerSettings.SignalSendRetryIntervalMs;
                 AppendLog("扫码器设置已保存：IP=" + _scannerSettings.ReaderIp
                     + "，采码频率=" + _scannerSettings.ScanIntervalMs + "ms"
+                    + "，信号发送=" + _scannerSettings.SignalServerIp + ":" + _scannerSettings.SignalServerPort
+                    + "，信号接收=" + _scannerSettings.SignalReceiveServerIp + ":" + _scannerSettings.SignalReceiveServerPort
                     + "，信号重发=" + FormatSignalSendRetryDescription()
                     + "，曝光=" + (_scannerSettings.ExposureAuto ? "自适应" : _scannerSettings.ExposureTimeUs + "us")
                     + "，增益=" + (_scannerSettings.GainAuto ? "自适应" : _scannerSettings.GainDb + "dB")
@@ -2783,13 +2882,46 @@ namespace WindowsFormsApp1
                 .Where(r => string.Equals(r.Mode, "工作模式", StringComparison.OrdinalIgnoreCase) ||
                     string.Equals(r.Mode, "生产模式", StringComparison.OrdinalIgnoreCase) ||
                     string.Equals(r.Mode, "测试模式", StringComparison.OrdinalIgnoreCase))
+                .OrderBy(r => r.ScanTime)
+                .ThenBy(r => r.Sequence)
+                .ToList();
+            records = SelectLatestHistoryVersion(records);
+            records = records
                 .OrderBy(r => r.Sequence)
+                .ThenBy(r => r.ScanTime)
                 .ToList();
 
             BindScanRecordGrid(dgvHistoryScanList, records);
             BindMatchGrid(dgvHistoryMatchResult, BuildMatchSummary(records, _orderMatchItems, false));
             lblHistoryResult.Text = records.Count == 0 ? "未找到该订单编号/箱码编号的采码历史。" : "查询到 " + records.Count + " 条采码记录。";
             AppendLog("历史查询：订单编号=" + orderNo + "，箱码编号=" + boxCode + "，结果=" + records.Count + " 条。");
+        }
+
+        private static List<ScanRecord> SelectLatestHistoryVersion(List<ScanRecord> records)
+        {
+            if (records == null || records.Count == 0)
+            {
+                return new List<ScanRecord>();
+            }
+
+            var latest = new List<ScanRecord>();
+            int previousSequence = 0;
+            foreach (ScanRecord record in records)
+            {
+                int sequence = record == null ? 0 : record.Sequence;
+                if (latest.Count == 0 || sequence <= 1 || (previousSequence > 0 && sequence <= previousSequence))
+                {
+                    latest.Clear();
+                }
+
+                if (record != null)
+                {
+                    latest.Add(record);
+                    previousSequence = sequence;
+                }
+            }
+
+            return latest;
         }
 
         private void rdoProductionMode_CheckedChanged(object sender, EventArgs e)
@@ -3060,8 +3192,8 @@ namespace WindowsFormsApp1
                 BeginSignalSendRetry(
                     ProductionSignalClient.SignalScanSuccess,
                     true);
-                EnterProductionPackingState();
-                AppendLog("工作模式：已关闭扫码器并发送信号1，机械臂开始移到装箱位置。" + FormatSignalSendRetryHint(false));
+                EnterProductionWaitingNextCycleState();
+                AppendLog("工作模式：本轮采码成功，已关闭扫码器并发送信号1；等待信号3确认和下一轮信号0。" + FormatSignalSendRetryHint(false));
                 RefreshSummaryPanels();
             }
 
@@ -3148,7 +3280,7 @@ namespace WindowsFormsApp1
 
             ShowRecord(record, IsProductionMode ? "当前采码" : "测试记录");
             RefreshSummaryPanels();
-            ScannedItemAdded?.Invoke(BuildScannedItemInfo(product, sku, length, width, height, barcode));
+            ScannedItemAdded?.Invoke(BuildScannedItemInfoFromRecord(record));
             AppendLog("有效采码：" + barcode + "，已保存照片并停止扫码，数量+1。");
         }
 
@@ -3165,6 +3297,7 @@ namespace WindowsFormsApp1
             record.Sequence = _nextSequence++;
             record.Status = ResolveProductionStatus(record.Barcode, record.Sku);
             record.ScanCount = CountRecords(_currentProductionRecords, record.Barcode) + 1;
+            ApplyPackingInfoToRecord(record);
 
             _currentProductionRecords.Add(record);
             _historyStore.Append(record);
@@ -3176,10 +3309,84 @@ namespace WindowsFormsApp1
             ScannedItemAdded?.Invoke(BuildScannedItemInfoFromRecord(record));
 
             AppendLog("工作模式：扫码记录已确认入账：" + record.Barcode + "，数量+1。");
+            SendStraightPlacementCommandIfNeeded(record);
             if (IsProductionOrderComplete())
             {
                 AppendLog("工作模式：订单采码数量已满足，等待机械臂发送信号4结束批次。");
             }
+        }
+
+        private void ApplyPackingInfoToRecord(ScanRecord record)
+        {
+            if (record == null)
+            {
+                return;
+            }
+
+            ScannedItemInfo packingInfo;
+            if (!TryDequeuePackingInfo(_packingInfoBySku, record.Sku, out packingInfo) &&
+                !TryDequeuePackingInfo(_packingInfoByBarcode, record.Barcode, out packingInfo))
+            {
+                return;
+            }
+
+            record.PackingSequence = packingInfo.PackingSequence;
+            record.PackingBoxId = packingInfo.PackingBoxId ?? string.Empty;
+            record.IsPackingLongShortSwapped = packingInfo.IsPackingLongShortSwapped;
+            if (!string.IsNullOrWhiteSpace(record.PackingBoxId))
+            {
+                _consumedPackingBoxIds.Add(record.PackingBoxId);
+            }
+        }
+
+        private bool TryDequeuePackingInfo(
+            Dictionary<string, Queue<ScannedItemInfo>> map,
+            string key,
+            out ScannedItemInfo packingInfo)
+        {
+            packingInfo = null;
+            if (map == null || string.IsNullOrWhiteSpace(key))
+            {
+                return false;
+            }
+
+            Queue<ScannedItemInfo> queue;
+            if (!map.TryGetValue(key.Trim(), out queue) || queue.Count == 0)
+            {
+                return false;
+            }
+
+            while (queue.Count > 0)
+            {
+                ScannedItemInfo candidate = queue.Dequeue();
+                string boxId = candidate == null ? string.Empty : candidate.PackingBoxId;
+                if (string.IsNullOrWhiteSpace(boxId) || !_consumedPackingBoxIds.Contains(boxId))
+                {
+                    packingInfo = candidate;
+                    return packingInfo != null;
+                }
+            }
+
+            return false;
+        }
+
+        private void SendStraightPlacementCommandIfNeeded(ScanRecord record)
+        {
+            if (record == null || record.PackingSequence <= 0)
+            {
+                AppendLog("工作模式：未找到本件装箱位姿信息，跳过信号6/7。");
+                return;
+            }
+
+            if (record.IsPackingLongShortSwapped)
+            {
+                AppendLog("工作模式：本件装箱需长短边转换，向机械臂发送信号7（位姿变换）。");
+                SendProductionSignalDirect(ProductionSignalClient.SignalLongShortSwapped);
+                return;
+            }
+
+            AppendLog("工作模式：本件装箱无需换边，向机械臂发送信号6（位姿变换）。");
+            SendProductionSignalDirect(ProductionSignalClient.SignalStraightPlacement);
         }
 
         private OrderBoxIdentity ResolveOrderBoxIdentity(string input, bool inputIsOrderNo)
@@ -3360,7 +3567,8 @@ namespace WindowsFormsApp1
             {
                 Name = ResolveProductName(product, sku),
                 Dimensions = FormatDimensions(length, width, height),
-                Barcode = barcode ?? string.Empty
+                Barcode = barcode ?? string.Empty,
+                Sku = sku ?? string.Empty
             };
             AssignPackedDimensions(item, length, width, height);
             return item;
@@ -3375,7 +3583,15 @@ namespace WindowsFormsApp1
             string length = FirstNonEmpty(record.Length, GetProductLength(product));
             string width = FirstNonEmpty(record.Width, GetProductWidth(product));
             string height = FirstNonEmpty(record.Height, GetProductHeight(product));
-            return BuildScannedItemInfo(product, record.Sku, length, width, height, record.Barcode);
+            ScannedItemInfo item = BuildScannedItemInfo(product, record.Sku, length, width, height, record.Barcode);
+            if (item != null)
+            {
+                item.ScanSequence = record.Sequence;
+                item.PackingSequence = record.PackingSequence;
+                item.PackingBoxId = record.PackingBoxId ?? string.Empty;
+                item.IsPackingLongShortSwapped = record.IsPackingLongShortSwapped;
+            }
+            return item;
         }
 
         private void RaiseBatchCompleted()
@@ -3552,7 +3768,7 @@ namespace WindowsFormsApp1
             }
             else if (_robotPackingInProgress)
             {
-                lblCurrentStateValue.Text = "装箱中";
+                lblCurrentStateValue.Text = "等待下轮0";
                 lblCurrentStateValue.ForeColor = Color.FromArgb(220, 140, 40);
             }
             else if (_batchActive && IsProductionMode && _productionScanFailedWaitingRetry)
@@ -3600,12 +3816,33 @@ namespace WindowsFormsApp1
 
         private void BindMatchGrid(DataGridView grid, List<MatchSummaryRow> rows)
         {
+            EnsurePackingSequenceColumn(grid);
             grid.Rows.Clear();
             foreach (MatchSummaryRow row in rows)
             {
-                int index = grid.Rows.Add(row.Barcode, row.Sku, row.OrderQuantity.HasValue ? row.OrderQuantity.Value.ToString() : string.Empty, row.ActualQuantity, row.Status);
+                int index = grid.Rows.Add(
+                    row.Barcode,
+                    row.Sku,
+                    row.OrderQuantity.HasValue ? row.OrderQuantity.Value.ToString() : string.Empty,
+                    row.ActualQuantity,
+                    row.Status,
+                    string.IsNullOrWhiteSpace(row.PackingSequences) ? "-" : row.PackingSequences);
                 ApplyStatusColor(grid.Rows[index], row.Status);
             }
+        }
+
+        private static void EnsurePackingSequenceColumn(DataGridView grid)
+        {
+            if (grid == null || grid.Columns.Contains("colMatchPackingSequence"))
+            {
+                return;
+            }
+
+            grid.Columns.Add(new DataGridViewTextBoxColumn
+            {
+                Name = "colMatchPackingSequence",
+                HeaderText = "装箱次序"
+            });
         }
 
         private static void ApplyStatusColor(DataGridViewRow row, string status)
@@ -3656,7 +3893,8 @@ namespace WindowsFormsApp1
                         Sku = first.Sku,
                         OrderQuantity = null,
                         ActualQuantity = pair.Value.Count,
-                        Status = ResolveGroupStatus(pair.Value, "测试模式")
+                        Status = ResolveGroupStatus(pair.Value, "测试模式"),
+                        PackingSequences = string.Empty
                     });
                 }
                 return result;
@@ -3687,7 +3925,8 @@ namespace WindowsFormsApp1
                     Sku = expected.Sku,
                     OrderQuantity = expected.OrderQuantity,
                     ActualQuantity = actualCount,
-                    Status = status
+                    Status = status,
+                    PackingSequences = expected.PackingSequences
                 });
             }
 
@@ -3705,7 +3944,8 @@ namespace WindowsFormsApp1
                     Sku = first.Sku,
                     OrderQuantity = null,
                     ActualQuantity = pair.Value.Count,
-                    Status = expectedItems.Count == 0 ? "未设置订单数量" : "未匹配"
+                    Status = expectedItems.Count == 0 ? "未设置订单数量" : "未匹配",
+                    PackingSequences = string.Empty
                 });
             }
 
@@ -4095,6 +4335,8 @@ namespace WindowsFormsApp1
                 AutoFocusCommand = settings.AutoFocusCommand,
                 SignalServerIp = settings.SignalServerIp,
                 SignalServerPort = settings.SignalServerPort,
+                SignalReceiveServerIp = settings.SignalReceiveServerIp,
+                SignalReceiveServerPort = settings.SignalReceiveServerPort,
                 SignalSendRetryIntervalMs = settings.SignalSendRetryIntervalMs,
                 SignalSendRetryMaxCount = settings.SignalSendRetryMaxCount,
                 SignalScanSuccessUntilStopped = settings.SignalScanSuccessUntilStopped
@@ -4103,7 +4345,9 @@ namespace WindowsFormsApp1
 
         private string FormatSignalSendRetryDescription()
         {
-            return "间隔" + _scannerSettings.SignalSendRetryIntervalMs + "ms，信号1持续到3，信号2持续到5";
+            return "间隔" + _scannerSettings.SignalSendRetryIntervalMs + "ms，信号1最多"
+                + GetSignalSendRetryLimit(ProductionSignalClient.SignalScanSuccess, true)
+                + "次并等3确认，信号2持续到5";
         }
 
         private string FormatSignalSendRetryHint(bool untilStopped)
@@ -4111,11 +4355,6 @@ namespace WindowsFormsApp1
             int limit = GetSignalSendRetryLimit(_signalSendRetryValue, untilStopped);
             if (limit == int.MaxValue)
             {
-                if (_signalSendRetryValue == ProductionSignalClient.SignalScanSuccess)
-                {
-                    return " 将按间隔持续重发直至收到信号3确认。";
-                }
-
                 return " 将按间隔持续重发直至收到信号5确认，期间继续采码。";
             }
 
@@ -4129,8 +4368,7 @@ namespace WindowsFormsApp1
 
         private int GetSignalSendRetryLimit(int signal, bool untilStopped)
         {
-            if (signal == ProductionSignalClient.SignalScanSuccess ||
-                signal == ProductionSignalClient.SignalScanFailed)
+            if (signal == ProductionSignalClient.SignalScanFailed)
             {
                 return int.MaxValue;
             }
@@ -4169,14 +4407,14 @@ namespace WindowsFormsApp1
             _signalSendRetryUntilStopped = untilStopped;
             _signalSendRetrySentCount = 0;
 
-            SendProductionSignalDirect(signal);
-            _signalSendRetrySentCount = 1;
-
-            if (ShouldContinueSignalSendRetry())
+            if (!SendProductionSignalDirect(signal))
             {
-                _signalSendRetryTimer.Interval = _scannerSettings.SignalSendRetryIntervalMs;
-                _signalSendRetryTimer.Start();
+                AppendLog("工作模式：信号 " + signal + " 暂未能发送，等待发送通道恢复后自动重试。");
+                return;
             }
+
+            _signalSendRetrySentCount = 1;
+            StartSignalSendRetryTimerIfNeeded();
         }
 
         private void StopSignalSendRetry()
@@ -4185,6 +4423,57 @@ namespace WindowsFormsApp1
             _signalSendRetryValue = -1;
             _signalSendRetrySentCount = 0;
             _signalSendRetryUntilStopped = false;
+        }
+
+        private void PauseSignalSendRetry()
+        {
+            _signalSendRetryTimer.Stop();
+        }
+
+        private void StartSignalSendRetryTimerIfNeeded()
+        {
+            if (!ShouldContinueSignalSendRetry())
+            {
+                return;
+            }
+
+            _signalSendRetryTimer.Interval = _scannerSettings.SignalSendRetryIntervalMs;
+            _signalSendRetryTimer.Start();
+        }
+
+        private void ResumePendingSignalSend()
+        {
+            if (!IsProductionMode || _productionBatchEnded)
+            {
+                return;
+            }
+
+            if (_productionSignalClient == null || !_productionSignalClient.IsSendConnected)
+            {
+                return;
+            }
+
+            if (_signalSendRetryValue < 0)
+            {
+                if (_scanActive && _productionFailureNotified)
+                {
+                    BeginSignalSendRetry(ProductionSignalClient.SignalScanFailed, true);
+                }
+
+                return;
+            }
+
+            if (_signalSendRetrySentCount == 0)
+            {
+                if (!SendProductionSignalDirect(_signalSendRetryValue))
+                {
+                    return;
+                }
+
+                _signalSendRetrySentCount = 1;
+            }
+
+            StartSignalSendRetryTimerIfNeeded();
         }
 
         private void signalSendRetryTimer_Tick(object sender, EventArgs e)
@@ -4225,7 +4514,12 @@ namespace WindowsFormsApp1
                 return;
             }
 
-            SendProductionSignalDirect(_signalSendRetryValue);
+            if (!SendProductionSignalDirect(_signalSendRetryValue))
+            {
+                PauseSignalSendRetry();
+                return;
+            }
+
             _signalSendRetrySentCount++;
         }
 
@@ -4244,11 +4538,15 @@ namespace WindowsFormsApp1
                 _productionSignalClient.DataTransmitted += ProductionSignalClient_DataTransmitted;
             }
 
-            AppendLog("正在连接生产信号服务器 " + _scannerSettings.SignalServerIp + ":" + _scannerSettings.SignalServerPort + "。");
-            AppendSignalLog("连接信号服务器 " + _scannerSettings.SignalServerIp + ":" + _scannerSettings.SignalServerPort + " ...");
+            AppendLog("正在连接生产信号服务器：发送通道 " + _scannerSettings.SignalServerIp + ":" + _scannerSettings.SignalServerPort
+                + "，接收通道 " + _scannerSettings.SignalReceiveServerIp + ":" + _scannerSettings.SignalReceiveServerPort + "。");
+            AppendSignalLog("连接发送通道 " + _scannerSettings.SignalServerIp + ":" + _scannerSettings.SignalServerPort + " ...");
+            AppendSignalLog("连接接收通道 " + _scannerSettings.SignalReceiveServerIp + ":" + _scannerSettings.SignalReceiveServerPort + " ...");
             _productionSignalClient.Start(
                 _scannerSettings.SignalServerIp,
                 _scannerSettings.SignalServerPort,
+                _scannerSettings.SignalReceiveServerIp,
+                _scannerSettings.SignalReceiveServerPort,
                 _scannerSettings.AutoReconnect);
         }
 
@@ -4305,34 +4603,55 @@ namespace WindowsFormsApp1
             }
 
             string direction = sent ? "发送 →" : "接收 ←";
-            string signalText = value >= 0 ? value.ToString() : "未知";
-            AppendSignalLog(direction + " 信号 " + signalText + "  (" + detail + ")");
+            string dataText = value >= 0 ? "信号 " + value : "字符串数据";
+            AppendSignalLog(direction + " " + dataText + "  (" + detail + ")");
         }
 
-        private void ProductionSignalClient_ConnectionChanged(bool connected)
+        private void ProductionSignalClient_ConnectionChanged(bool sendConnected, bool receiveConnected)
         {
             if (InvokeRequired)
             {
-                BeginInvoke(new Action<bool>(ProductionSignalClient_ConnectionChanged), connected);
+                BeginInvoke(new Action<bool, bool>(ProductionSignalClient_ConnectionChanged), sendConnected, receiveConnected);
                 return;
             }
 
-            if (connected)
+            if (sendConnected && receiveConnected)
             {
-                AppendLog("生产信号服务器已连接 " + _scannerSettings.SignalServerIp + ":" + _scannerSettings.SignalServerPort + "。");
-                AppendSignalLog("信号连接已建立：" + _scannerSettings.SignalServerIp + ":" + _scannerSettings.SignalServerPort);
+                AppendLog("生产信号双通道已连接：发送 " + _scannerSettings.SignalServerIp + ":" + _scannerSettings.SignalServerPort
+                    + "，接收 " + _scannerSettings.SignalReceiveServerIp + ":" + _scannerSettings.SignalReceiveServerPort + "。");
+                AppendSignalLog("信号双通道已建立：发送 " + _scannerSettings.SignalServerIp + ":" + _scannerSettings.SignalServerPort
+                    + "，接收 " + _scannerSettings.SignalReceiveServerIp + ":" + _scannerSettings.SignalReceiveServerPort);
+                ResumePendingSignalSend();
                 SyncProductionWorkStateDisplay();
             }
             else
             {
-                AppendLog("生产信号连接断开。");
-                AppendSignalLog("信号连接已断开。");
-                if (_scanActive)
+                AppendSignalLog("信号通道状态：发送=" + (sendConnected ? "已连接" : "断开")
+                    + "，接收=" + (receiveConnected ? "已连接" : "断开"));
+                if (!sendConnected)
                 {
-                    StopScanCycle("信号连接断开");
+                    PauseSignalSendRetry();
+                    AppendLog("生产信号发送通道未连接，已暂停信号重发。");
+                }
+                else
+                {
+                    ResumePendingSignalSend();
                 }
 
-                EnterProductionNotInPositionState();
+                if (!receiveConnected)
+                {
+                    AppendLog("生产信号接收通道断开。");
+                    if (_scanActive)
+                    {
+                        StopScanCycle("信号接收通道断开");
+                    }
+
+                    EnterProductionNotInPositionState();
+                }
+                else
+                {
+                    SyncProductionWorkStateDisplay();
+                }
             }
         }
 
@@ -4345,10 +4664,10 @@ namespace WindowsFormsApp1
                 return false;
             }
 
-            if (_productionSignalClient == null || !_productionSignalClient.IsConnected)
+            if (_productionSignalClient == null || !_productionSignalClient.IsSendConnected)
             {
-                AppendLog("发送信号 " + signal + " 失败：信号服务器未连接。");
-                AppendSignalLog("发送失败：信号 " + signal + "，原因=未连接");
+                AppendLog("发送信号 " + signal + " 失败：信号发送通道未连接。");
+                AppendSignalLog("发送失败：信号 " + signal + "，原因=发送通道未连接");
                 return false;
             }
 
@@ -4360,6 +4679,34 @@ namespace WindowsFormsApp1
             else
             {
                 AppendLog("向机械臂发送信号 " + signal + " 失败。");
+            }
+            return sent;
+        }
+
+        private bool SendProductionStringDirect(string text)
+        {
+            if (IsProductionMode && _productionBatchEnded)
+            {
+                AppendLog("发送字符串 " + text + " 已取消：批次已结束。");
+                AppendSignalLog("发送取消：字符串 " + text + "，原因=批次已结束");
+                return false;
+            }
+
+            if (_productionSignalClient == null || !_productionSignalClient.IsSendConnected)
+            {
+                AppendLog("发送字符串 " + text + " 失败：信号发送通道未连接。");
+                AppendSignalLog("发送失败：字符串 " + text + "，原因=发送通道未连接");
+                return false;
+            }
+
+            bool sent = _productionSignalClient.SendString(text);
+            if (sent)
+            {
+                AppendLog("已向机械臂发送字符串 " + text + "。");
+            }
+            else
+            {
+                AppendLog("向机械臂发送字符串 " + text + " 失败。");
             }
             return sent;
         }

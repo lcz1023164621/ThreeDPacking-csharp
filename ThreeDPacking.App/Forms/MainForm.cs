@@ -88,6 +88,14 @@ namespace ThreeDPacking.App.Forms
         private Label lblScanInfoInfo;
         private ListView lvScanInfo;
         private readonly List<ScannedItemInfo> _scannedItems = new List<ScannedItemInfo>();
+        private readonly Dictionary<string, PackingSourceInfo> _packingSourceByBoxId =
+            new Dictionary<string, PackingSourceInfo>(StringComparer.OrdinalIgnoreCase);
+        private readonly Dictionary<string, Queue<PackingOrderEntry>> _packingOrderBySku =
+            new Dictionary<string, Queue<PackingOrderEntry>>(StringComparer.OrdinalIgnoreCase);
+        private readonly Dictionary<string, Queue<PackingOrderEntry>> _packingOrderByBarcode =
+            new Dictionary<string, Queue<PackingOrderEntry>>(StringComparer.OrdinalIgnoreCase);
+        private readonly HashSet<string> _assignedPackingBoxIds =
+            new HashSet<string>(StringComparer.OrdinalIgnoreCase);
 
         private PaddingPaperFillStrategy _paddingPaperFillStrategy = PaddingPaperFillStrategy.MaxUtilization;
         private int _paddingPaperMinWidth = ThreeDPacking.Core.Models.PaddingPaper.DefaultWidth;
@@ -98,6 +106,22 @@ namespace ThreeDPacking.App.Forms
         private bool _isRestoringState = false;
         private LastRunState _lastRunState;
         private ScanTestControl _scanTestControl;
+
+        private sealed class PackingSourceInfo
+        {
+            public string Sku { get; set; }
+            public string Barcode { get; set; }
+            public int Dx { get; set; }
+            public int Dy { get; set; }
+        }
+
+        private sealed class PackingOrderEntry
+        {
+            public int Sequence { get; set; }
+            public string BoxId { get; set; }
+            public string ContainerName { get; set; }
+            public bool IsLongShortSwapped { get; set; }
+        }
 
         public MainForm()
         {
@@ -433,9 +457,11 @@ namespace ThreeDPacking.App.Forms
             lvScanInfo.GridLines = true;
             lvScanInfo.HeaderStyle = ColumnHeaderStyle.Nonclickable;
             lvScanInfo.Columns.Add("序号", 42, HorizontalAlignment.Center);
-            lvScanInfo.Columns.Add("名称", 72, HorizontalAlignment.Left);
+            lvScanInfo.Columns.Add("名称", 64, HorizontalAlignment.Left);
+            lvScanInfo.Columns.Add("货号", 72, HorizontalAlignment.Left);
             lvScanInfo.Columns.Add("尺寸", 90, HorizontalAlignment.Left);
             lvScanInfo.Columns.Add("条码信息", 120, HorizontalAlignment.Left);
+            lvScanInfo.Columns.Add("装箱顺序", 70, HorizontalAlignment.Center);
 
             grpScanInfo.Controls.Add(lblScanInfoInfo);
             grpScanInfo.Controls.Add(lvScanInfo);
@@ -453,6 +479,7 @@ namespace ThreeDPacking.App.Forms
                 return;
             }
 
+            AssignPackingSequenceToScannedItem(item);
             _scannedItems.Add(item);
             RefreshScanInfoList();
         }
@@ -466,7 +493,7 @@ namespace ThreeDPacking.App.Forms
             }
 
             _scannedItems.Clear();
-            RefreshScanInfoList();
+            RefreshPackingPositionsList();
         }
 
         private void ScanTestControl_BatchCompleted(IReadOnlyList<ScannedItemInfo> items)
@@ -507,6 +534,7 @@ namespace ThreeDPacking.App.Forms
 
             _loadedItems.Clear();
             _allLoadedItems.Clear();
+            _packingSourceByBoxId.Clear();
             _selectionDirty = true;
             ClearPackingResults();
             RefreshItemsGrid();
@@ -583,6 +611,7 @@ namespace ThreeDPacking.App.Forms
         {
             var loaded = new List<ItemCandidate>();
             var skipped = new List<string>();
+            var sourceMap = new Dictionary<string, PackingSourceInfo>(StringComparer.OrdinalIgnoreCase);
 
             for (int i = 0; i < items.Count; i++)
             {
@@ -600,6 +629,13 @@ namespace ThreeDPacking.App.Forms
                 }
 
                 loaded.Add(candidate);
+                sourceMap[BuildPackingBoxId(candidate)] = new PackingSourceInfo
+                {
+                    Sku = scanned.Sku ?? string.Empty,
+                    Barcode = scanned.Barcode ?? string.Empty,
+                    Dx = candidate.Dx,
+                    Dy = candidate.Dy
+                };
             }
 
             if (loaded.Count == 0)
@@ -611,6 +647,9 @@ namespace ThreeDPacking.App.Forms
 
             _loadedItems = loaded;
             _allLoadedItems = new List<ItemCandidate>(loaded);
+            _packingSourceByBoxId.Clear();
+            foreach (var pair in sourceMap)
+                _packingSourceByBoxId[pair.Key] = pair.Value;
             _selectionDirty = true;
             ClearPackingResults();
 
@@ -670,8 +709,10 @@ namespace ThreeDPacking.App.Forms
                 var item = _scannedItems[i];
                 var listItem = new ListViewItem((i + 1).ToString());
                 listItem.SubItems.Add(string.IsNullOrWhiteSpace(item.Name) ? "-" : item.Name);
+                listItem.SubItems.Add(string.IsNullOrWhiteSpace(item.Sku) ? "-" : item.Sku);
                 listItem.SubItems.Add(string.IsNullOrWhiteSpace(item.Dimensions) ? "-" : item.Dimensions);
                 listItem.SubItems.Add(string.IsNullOrWhiteSpace(item.Barcode) ? "-" : item.Barcode);
+                listItem.SubItems.Add(item.PackingSequence > 0 ? item.PackingSequence.ToString() : "-");
                 lvScanInfo.Items.Add(listItem);
             }
 
@@ -679,8 +720,9 @@ namespace ThreeDPacking.App.Forms
 
             if (lblScanInfoInfo != null)
             {
+                int matchedPackingCount = _scannedItems.Count(i => i.PackingSequence > 0);
                 lblScanInfoInfo.Text = _scannedItems.Count > 0
-                    ? $"已扫码 {_scannedItems.Count} 件"
+                    ? $"已扫码 {_scannedItems.Count} 件，已匹配装箱顺序 {matchedPackingCount} 件"
                     : "暂无扫码信息";
             }
 
@@ -1031,14 +1073,16 @@ namespace ThreeDPacking.App.Forms
 
         private void LayoutScanInfoColumns()
         {
-            if (lvScanInfo == null || lvScanInfo.Columns.Count < 4)
+            if (lvScanInfo == null || lvScanInfo.Columns.Count < 6)
                 return;
 
             int listW = lvScanInfo.ClientSize.Width - 4;
             lvScanInfo.Columns[0].Width = 42;
-            lvScanInfo.Columns[1].Width = 72;
-            lvScanInfo.Columns[2].Width = 90;
-            lvScanInfo.Columns[3].Width = Math.Max(100, listW - 42 - 72 - 90);
+            lvScanInfo.Columns[1].Width = 64;
+            lvScanInfo.Columns[2].Width = 72;
+            lvScanInfo.Columns[3].Width = 90;
+            lvScanInfo.Columns[5].Width = 70;
+            lvScanInfo.Columns[4].Width = Math.Max(100, listW - 42 - 64 - 72 - 90 - 70);
         }
 
         private int GetFixedListViewHeight(ListView listView)
@@ -1493,7 +1537,7 @@ namespace ThreeDPacking.App.Forms
         }
 
         private const double ArmCoordinateMmToMeters = 0.001;
-        private const int ArmDropOffsetMm = 475;
+        private const int ArmDropOffsetMm = 460;
 
         private static string FormatArmCoordinateArray(int topCenterX, int topCenterY, int zMm)
         {
@@ -1517,6 +1561,119 @@ namespace ThreeDPacking.App.Forms
             int topCenterY = placement.Y + placement.StackValue.Dy / 2;
             int topCenterZ = placement.Z + placement.StackValue.Dz;
             return FormatArmCoordinateArray(topCenterX, topCenterY, topCenterZ - ArmDropOffsetMm);
+        }
+
+        private static string BuildPackingBoxId(ItemCandidate candidate)
+        {
+            if (candidate == null)
+                return string.Empty;
+
+            return candidate.Name + "#" + candidate.InstanceId;
+        }
+
+        private static string NormalizePackingMatchKey(string value)
+        {
+            return string.IsNullOrWhiteSpace(value) ? string.Empty : value.Trim();
+        }
+
+        private static void EnqueuePackingOrder(
+            Dictionary<string, Queue<PackingOrderEntry>> orders,
+            string key,
+            PackingOrderEntry entry)
+        {
+            key = NormalizePackingMatchKey(key);
+            if (orders == null || string.IsNullOrWhiteSpace(key) || entry == null)
+                return;
+
+            Queue<PackingOrderEntry> queue;
+            if (!orders.TryGetValue(key, out queue))
+            {
+                queue = new Queue<PackingOrderEntry>();
+                orders[key] = queue;
+            }
+
+            queue.Enqueue(entry);
+        }
+
+        private static bool IsLongShortSwapped(PackingSourceInfo source, Placement placement)
+        {
+            if (source == null || placement?.StackValue == null || source.Dx <= 0 || source.Dy <= 0)
+                return false;
+
+            return source.Dx != source.Dy &&
+                placement.StackValue.Dx == source.Dy &&
+                placement.StackValue.Dy == source.Dx;
+        }
+
+        private static bool TryDequeuePackingOrder(
+            Dictionary<string, Queue<PackingOrderEntry>> orders,
+            string key,
+            HashSet<string> assignedBoxIds,
+            out PackingOrderEntry entry)
+        {
+            entry = null;
+            key = NormalizePackingMatchKey(key);
+            if (orders == null || string.IsNullOrWhiteSpace(key))
+                return false;
+
+            Queue<PackingOrderEntry> queue;
+            if (!orders.TryGetValue(key, out queue) || queue.Count == 0)
+                return false;
+
+            while (queue.Count > 0)
+            {
+                entry = queue.Dequeue();
+                string boxId = entry == null ? string.Empty : entry.BoxId;
+                if (assignedBoxIds == null || string.IsNullOrWhiteSpace(boxId) || !assignedBoxIds.Contains(boxId))
+                    return entry != null;
+            }
+
+            entry = null;
+            return false;
+        }
+
+        private void AssignPackingSequenceToScannedItem(ScannedItemInfo item)
+        {
+            if (item == null)
+                return;
+
+            item.PackingSequence = 0;
+            item.PackingBoxId = string.Empty;
+
+            PackingOrderEntry entry;
+            if (!TryDequeuePackingOrder(_packingOrderBySku, item.Sku, _assignedPackingBoxIds, out entry) &&
+                !TryDequeuePackingOrder(_packingOrderByBarcode, item.Barcode, _assignedPackingBoxIds, out entry))
+            {
+                return;
+            }
+
+            item.PackingSequence = entry.Sequence;
+            item.PackingBoxId = entry.BoxId ?? string.Empty;
+            item.IsPackingLongShortSwapped = entry.IsLongShortSwapped;
+            if (!string.IsNullOrWhiteSpace(item.PackingBoxId))
+                _assignedPackingBoxIds.Add(item.PackingBoxId);
+        }
+
+        private void ReassignPackingSequencesToScannedItems()
+        {
+            for (int i = 0; i < _scannedItems.Count; i++)
+                AssignPackingSequenceToScannedItem(_scannedItems[i]);
+        }
+
+        private void ClearPackingOrderAssignments()
+        {
+            _packingOrderBySku.Clear();
+            _packingOrderByBarcode.Clear();
+            _assignedPackingBoxIds.Clear();
+
+            for (int i = 0; i < _scannedItems.Count; i++)
+            {
+                _scannedItems[i].PackingSequence = 0;
+                _scannedItems[i].PackingBoxId = string.Empty;
+                _scannedItems[i].IsPackingLongShortSwapped = false;
+            }
+
+            RefreshScanInfoList();
         }
 
         private static List<Placement> GetItemPlacementsInPackingOrder(Container container)
@@ -1561,7 +1718,11 @@ namespace ThreeDPacking.App.Forms
                 lvPackingPoints.Items.Clear();
             }
             _packingPointStrings.Clear();
+            _packingOrderBySku.Clear();
+            _packingOrderByBarcode.Clear();
+            _assignedPackingBoxIds.Clear();
             UpdateSendStatus(null);
+            var packingResultsForScanner = new List<ScannedItemInfo>();
 
             int sequence = 0;
             if (_packedContainers != null)
@@ -1576,6 +1737,27 @@ namespace ThreeDPacking.App.Forms
                     {
                         sequence++;
                         string itemName = placement.StackValue.Box?.Id ?? "?";
+                        PackingSourceInfo source;
+                        if (_packingSourceByBoxId.TryGetValue(itemName, out source))
+                        {
+                            var entry = new PackingOrderEntry
+                            {
+                                Sequence = sequence,
+                                BoxId = itemName,
+                                ContainerName = containerName,
+                                IsLongShortSwapped = IsLongShortSwapped(source, placement)
+                            };
+                            EnqueuePackingOrder(_packingOrderBySku, source.Sku, entry);
+                            EnqueuePackingOrder(_packingOrderByBarcode, source.Barcode, entry);
+                            packingResultsForScanner.Add(new ScannedItemInfo
+                            {
+                                Sku = source.Sku ?? string.Empty,
+                                Barcode = source.Barcode ?? string.Empty,
+                                PackingSequence = sequence,
+                                PackingBoxId = itemName,
+                                IsPackingLongShortSwapped = entry.IsLongShortSwapped
+                            });
+                        }
                         string armCoordinate = FormatArmCoordinate(placement);
                         string armDropCoordinate = FormatArmDropCoordinate(placement);
 
@@ -1616,6 +1798,9 @@ namespace ThreeDPacking.App.Forms
                     : "暂无装箱点位";
             }
 
+            ReassignPackingSequencesToScannedItems();
+            RefreshScanInfoList();
+            _scanTestControl?.UpdateOrderPackingResults(packingResultsForScanner);
             LayoutActualPackingPanel();
             UpdateArmSendButtonState();
             if (_armClient != null && _armClient.IsConnected && sequence > 0)
@@ -1680,6 +1865,8 @@ namespace ThreeDPacking.App.Forms
 
                     // 默认加载所有物品
                     _loadedItems = new List<ItemCandidate>(_allLoadedItems);
+                    _packingSourceByBoxId.Clear();
+                    ClearPackingOrderAssignments();
 
                     RefreshItemsGrid();
                     SetStartPackingEnabled(_loadedItems.Count > 0);
@@ -1772,6 +1959,8 @@ namespace ThreeDPacking.App.Forms
                     old.Name, old.Dx, old.Dy, old.Dz, i + 1, old.Probability, old.IsHighlighted);
             }
 
+            _packingSourceByBoxId.Clear();
+            ClearPackingOrderAssignments();
             RefreshItemsGrid();
             SetStartPackingEnabled(_loadedItems.Count > 0);
             statusLabel.Text = $"已随机选择 {_loadedItems.Count} 个物品 (范围: {minCount}-{maxCount})";
@@ -1832,6 +2021,8 @@ namespace ThreeDPacking.App.Forms
                     old.Name, old.Dx, old.Dy, old.Dz, i + 1, old.Probability, old.IsHighlighted);
             }
 
+            _packingSourceByBoxId.Clear();
+            ClearPackingOrderAssignments();
             RefreshItemsGrid();
             SetStartPackingEnabled(_loadedItems.Count > 0);
             statusLabel.Text = $"已实例选择 {_loadedItems.Count} 个物品 (先黄线1个, 范围: {minCount}-{maxCount})";
@@ -1875,6 +2066,8 @@ namespace ThreeDPacking.App.Forms
                     old.Name, old.Dx, old.Dy, old.Dz, i + 1, old.Probability, old.IsHighlighted);
             }
 
+            _packingSourceByBoxId.Clear();
+            ClearPackingOrderAssignments();
             RefreshItemsGrid();
             SetStartPackingEnabled(_loadedItems.Count > 0);
             statusLabel.Text = $"已按概率选择 {_loadedItems.Count} 个物品 (范围: {minCount}-{maxCount})";

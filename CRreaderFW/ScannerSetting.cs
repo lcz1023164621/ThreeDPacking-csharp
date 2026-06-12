@@ -22,6 +22,10 @@ namespace WindowsFormsApp1
         private CheckBox chkGainAuto;
         private ComboBox cmbAutoFocusCommand;
         private Label lblScanFrequencyHint;
+        private TextBox txtSignalServerIp;
+        private NumericUpDown numSignalServerPort;
+        private TextBox txtSignalReceiveServerIp;
+        private NumericUpDown numSignalReceiveServerPort;
         private NumericUpDown numSignalSendRetryIntervalMs;
         private NumericUpDown numSignalSendRetryMaxCount;
         private Label lblSignalSendRetryHint;
@@ -110,12 +114,16 @@ namespace WindowsFormsApp1
             numGainDb = CreateNumeric(0, 24, 0.5m, 1);
             chkAutoReconnect.Text = "断线自动重连";
 
+            txtSignalServerIp = new TextBox { Width = 150 };
+            numSignalServerPort = CreateNumeric(1, 65535, 1);
+            txtSignalReceiveServerIp = new TextBox { Width = 150 };
+            numSignalReceiveServerPort = CreateNumeric(1, 65535, 1);
             numSignalSendRetryIntervalMs = CreateNumeric(100, 10000, 100);
             numSignalSendRetryMaxCount = CreateNumeric(0, 100, 1);
             chkSignalScanSuccessUntilStopped = new CheckBox
             {
                 AutoSize = true,
-                Text = "信号1持续到3，信号2持续到5（固定协议）",
+                Text = "信号1按最大次数重发并等3确认，信号2持续到5",
                 Enabled = false
             };
             lblSignalSendRetryHint = new Label
@@ -123,7 +131,7 @@ namespace WindowsFormsApp1
                 AutoSize = true,
                 ForeColor = Color.FromArgb(96, 96, 96),
                 Margin = new Padding(8, 10, 0, 0),
-                Text = "新协议：信号1等3确认入账，信号2等5停止；建议间隔>=500ms"
+                Text = "新协议：信号1最多按上限重发并等3确认入账，信号2等5停止；建议间隔>=500ms"
             };
             var signalRetryPanel = new FlowLayoutPanel
             {
@@ -143,6 +151,10 @@ namespace WindowsFormsApp1
             AddTableRow(table, "增益自适应", chkGainAuto);
             AddTableRow(table, "增益 (dB)", numGainDb);
             AddTableRow(table, "连接", chkAutoReconnect);
+            AddTableRow(table, "信号发送IP", txtSignalServerIp);
+            AddTableRow(table, "信号发送端口", numSignalServerPort);
+            AddTableRow(table, "信号接收IP", txtSignalReceiveServerIp);
+            AddTableRow(table, "信号接收端口", numSignalReceiveServerPort);
             AddTableRow(table, "信号发送重发间隔(ms)", numSignalSendRetryIntervalMs);
             AddTableRow(table, "信号发送最大次数", signalRetryPanel);
             AddTableRow(table, "信号确认协议", chkSignalScanSuccessUntilStopped);
@@ -310,6 +322,10 @@ namespace WindowsFormsApp1
 
             if (numSignalSendRetryIntervalMs != null)
             {
+                txtSignalServerIp.Text = _settings.SignalServerIp;
+                numSignalServerPort.Value = Clamp(_settings.SignalServerPort, (int)numSignalServerPort.Minimum, (int)numSignalServerPort.Maximum);
+                txtSignalReceiveServerIp.Text = _settings.SignalReceiveServerIp;
+                numSignalReceiveServerPort.Value = Clamp(_settings.SignalReceiveServerPort, (int)numSignalReceiveServerPort.Minimum, (int)numSignalReceiveServerPort.Maximum);
                 numSignalSendRetryIntervalMs.Value = Clamp(_settings.SignalSendRetryIntervalMs, (int)numSignalSendRetryIntervalMs.Minimum, (int)numSignalSendRetryIntervalMs.Maximum);
                 numSignalSendRetryMaxCount.Value = Clamp(_settings.SignalSendRetryMaxCount, (int)numSignalSendRetryMaxCount.Minimum, (int)numSignalSendRetryMaxCount.Maximum);
                 chkSignalScanSuccessUntilStopped.Checked = true;
@@ -377,6 +393,25 @@ namespace WindowsFormsApp1
 
             if (numSignalSendRetryIntervalMs != null)
             {
+                if (!IPAddress.TryParse(txtSignalServerIp.Text.Trim(), out unused))
+                {
+                    MessageBox.Show(this, "请输入合法的信号发送通道 IPv4 地址。", "设置错误", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    tabReaderSettings.SelectedTab = tabScanParams;
+                    txtSignalServerIp.Focus();
+                    return false;
+                }
+                if (!IPAddress.TryParse(txtSignalReceiveServerIp.Text.Trim(), out unused))
+                {
+                    MessageBox.Show(this, "请输入合法的信号接收通道 IPv4 地址。", "设置错误", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    tabReaderSettings.SelectedTab = tabScanParams;
+                    txtSignalReceiveServerIp.Focus();
+                    return false;
+                }
+
+                _settings.SignalServerIp = txtSignalServerIp.Text.Trim();
+                _settings.SignalServerPort = (int)numSignalServerPort.Value;
+                _settings.SignalReceiveServerIp = txtSignalReceiveServerIp.Text.Trim();
+                _settings.SignalReceiveServerPort = (int)numSignalReceiveServerPort.Value;
                 _settings.SignalSendRetryIntervalMs = (int)numSignalSendRetryIntervalMs.Value;
                 _settings.SignalSendRetryMaxCount = (int)numSignalSendRetryMaxCount.Value;
                 _settings.SignalScanSuccessUntilStopped = true;
