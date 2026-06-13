@@ -14,6 +14,7 @@ using System.Windows.Forms;
 using OpenTK;
 using OpenTK.Graphics.OpenGL;
 using ThreeDPacking.App.Communication;
+using ThreeDPacking.App.Packing;
 using ThreeDPacking.App.Rendering;
 using ThreeDPacking.Core.IO;
 using ThreeDPacking.Core.Packers;
@@ -64,9 +65,28 @@ namespace ThreeDPacking.App.Forms
         private Panel pnlConnectionIndicator;
         private Label lblConnectionStatus;
         private RoboticArmClient _armClient;
+        private RoboticArmBufferClient _armBufferClient;
         private bool _armConnecting;
+        private bool _armBufferConnecting;
         private bool _armSendingCoordinate;
         private CancellationTokenSource _armConnectCts;
+        private CancellationTokenSource _armBufferConnectCts;
+        private Label lblBufferPort;
+        private NumericUpDown numBufferPort;
+        private Button btnBufferConnect;
+        private Button btnBufferDisconnect;
+        private Panel pnlBufferConnectionIndicator;
+        private Label lblBufferConnectionStatus;
+        private GroupBox grpBufferPoints;
+        private Label lblBufferPointsInfo;
+        private ListView lvBufferPoints;
+        private Label lblBufferDropOffset;
+        private NumericUpDown numBufferDropOffset;
+        private List<BufferFlatLayoutCalculator.LayoutItem> _lastBufferLayoutItems =
+            new List<BufferFlatLayoutCalculator.LayoutItem>();
+        private readonly Dictionary<int, BufferCoordinateEntry> _bufferCoordsBySequence =
+            new Dictionary<int, BufferCoordinateEntry>();
+        private readonly PackingFlowCoordinator _packingFlowCoordinator = new PackingFlowCoordinator();
 
         private GroupBox grpPackingPositions;
         private Label lblPackingPositionsInfo;
@@ -123,6 +143,13 @@ namespace ThreeDPacking.App.Forms
             public bool IsLongShortSwapped { get; set; }
         }
 
+        private sealed class BufferCoordinateEntry
+        {
+            public string PickCoordinate { get; set; }
+            public string DropCoordinate { get; set; }
+            public string CoordinateLine { get; set; }
+        }
+
         public MainForm()
         {
             InitializeComponent();
@@ -136,6 +163,7 @@ namespace ThreeDPacking.App.Forms
             InitArmConnectionControls();
             InitPackingPositionsControls();
             InitPackingPointsControls();
+            InitBufferPointsControls();
             InitSendStatusControls();
             InitScanInfoControls();
             WireEvents();
@@ -160,6 +188,7 @@ namespace ThreeDPacking.App.Forms
             _scanTestControl.OrderMatchedForPacking += ScanTestControl_OrderMatchedForPacking;
             _scanTestControl.OrderMatchCleared += ScanTestControl_OrderMatchCleared;
             _scanTestControl.OrderConfirmedForPacking += ScanTestControl_OrderConfirmedForPacking;
+            _scanTestControl.ProductionRecordCommitted += ScanTestControl_ProductionRecordCommitted;
             panelScanTest.Controls.Add(_scanTestControl);
         }
 
@@ -355,12 +384,71 @@ namespace ThreeDPacking.App.Forms
             grpArmConnection.Controls.Add(pnlConnectionIndicator);
             grpArmConnection.Controls.Add(lblConnectionStatus);
 
+            lblBufferPort = new Label();
+            lblBufferPort.Text = "暂存端口：";
+            lblBufferPort.AutoSize = true;
+
+            numBufferPort = new NumericUpDown();
+            numBufferPort.Minimum = 1;
+            numBufferPort.Maximum = 65535;
+            numBufferPort.Value = 8056;
+            numBufferPort.TextAlign = HorizontalAlignment.Right;
+
+            btnBufferConnect = new Button();
+            btnBufferConnect.Text = "暂存连接";
+            btnBufferConnect.UseVisualStyleBackColor = true;
+            btnBufferConnect.Click += BtnBufferConnect_Click;
+
+            btnBufferDisconnect = new Button();
+            btnBufferDisconnect.Text = "暂存断开";
+            btnBufferDisconnect.UseVisualStyleBackColor = true;
+            btnBufferDisconnect.Enabled = false;
+            btnBufferDisconnect.Click += BtnBufferDisconnect_Click;
+
+            pnlBufferConnectionIndicator = new Panel();
+            pnlBufferConnectionIndicator.Size = new Size(16, 16);
+            pnlBufferConnectionIndicator.BackColor = Color.Transparent;
+            pnlBufferConnectionIndicator.Paint += PnlBufferConnectionIndicator_Paint;
+
+            lblBufferConnectionStatus = new Label();
+            lblBufferConnectionStatus.Text = "暂存未连接";
+            lblBufferConnectionStatus.AutoSize = true;
+            lblBufferConnectionStatus.ForeColor = Color.FromArgb(180, 60, 60);
+
+            numBufferPort.Value = Math.Max(1, Math.Min(65535, ScannerSettingsStore.Load().BufferServerPort));
+
+            grpArmConnection.Controls.Add(lblBufferPort);
+            grpArmConnection.Controls.Add(numBufferPort);
+            grpArmConnection.Controls.Add(btnBufferConnect);
+            grpArmConnection.Controls.Add(btnBufferDisconnect);
+            grpArmConnection.Controls.Add(pnlBufferConnectionIndicator);
+            grpArmConnection.Controls.Add(lblBufferConnectionStatus);
+
             panelActualPacking.Controls.Add(grpArmConnection);
 
             _armClient = new RoboticArmClient();
             _armClient.ConnectionChanged += ArmClient_ConnectionChanged;
+            _armBufferClient = new RoboticArmBufferClient();
+            _armBufferClient.ConnectionChanged += ArmBufferClient_ConnectionChanged;
 
             UpdateConnectionStatus(false);
+            UpdateBufferConnectionStatus(false);
+        }
+
+        private static NumericUpDown CreateBufferGridNumeric(int minimum, int maximum, int value)
+        {
+            var control = new NumericUpDown();
+            control.Minimum = minimum;
+            control.Maximum = maximum;
+            control.Value = Math.Max(minimum, Math.Min(maximum, value));
+            control.Width = 58;
+            control.TextAlign = HorizontalAlignment.Right;
+            return control;
+        }
+
+        private static decimal ClampNumeric(NumericUpDown control, int value)
+        {
+            return Math.Max(control.Minimum, Math.Min(control.Maximum, value));
         }
 
         private void InitPackingPositionsControls()
@@ -417,6 +505,40 @@ namespace ThreeDPacking.App.Forms
             panelActualPacking.Controls.Add(grpPackingPoints);
         }
 
+        private void InitBufferPointsControls()
+        {
+            grpBufferPoints = new GroupBox();
+            grpBufferPoints.Text = "暂存点位";
+            grpBufferPoints.TabStop = false;
+
+            lblBufferPointsInfo = new Label();
+            lblBufferPointsInfo.Text = "500×500mm 平面平铺（按物体尺寸，不叠放），格式同装箱点位";
+            lblBufferPointsInfo.AutoSize = false;
+            lblBufferPointsInfo.Height = 18;
+
+            lblBufferDropOffset = new Label { Text = "下放Z偏移(mm)", AutoSize = true };
+            numBufferDropOffset = CreateBufferGridNumeric(1, 2000, ArmDropOffsetMm);
+
+            var bufferSettings = ScannerSettingsStore.Load();
+            numBufferDropOffset.Value = ClampNumeric(numBufferDropOffset, bufferSettings.BufferDropOffsetMm);
+            numBufferDropOffset.ValueChanged += BufferGridParameter_ValueChanged;
+
+            lvBufferPoints = new ListView();
+            lvBufferPoints.View = View.Details;
+            lvBufferPoints.FullRowSelect = true;
+            lvBufferPoints.GridLines = true;
+            lvBufferPoints.HeaderStyle = ColumnHeaderStyle.Nonclickable;
+            lvBufferPoints.Columns.Add("序号", 42, HorizontalAlignment.Center);
+            lvBufferPoints.Columns.Add("装箱顺序", 72, HorizontalAlignment.Center);
+            lvBufferPoints.Columns.Add("下放点位", 160, HorizontalAlignment.Left);
+
+            grpBufferPoints.Controls.Add(lblBufferPointsInfo);
+            grpBufferPoints.Controls.Add(lblBufferDropOffset);
+            grpBufferPoints.Controls.Add(numBufferDropOffset);
+            grpBufferPoints.Controls.Add(lvBufferPoints);
+            panelActualPacking.Controls.Add(grpBufferPoints);
+        }
+
         private void InitSendStatusControls()
         {
             pnlSendStatusIndicator = new Panel();
@@ -458,10 +580,11 @@ namespace ThreeDPacking.App.Forms
             lvScanInfo.HeaderStyle = ColumnHeaderStyle.Nonclickable;
             lvScanInfo.Columns.Add("序号", 42, HorizontalAlignment.Center);
             lvScanInfo.Columns.Add("名称", 64, HorizontalAlignment.Left);
-            lvScanInfo.Columns.Add("货号", 72, HorizontalAlignment.Left);
-            lvScanInfo.Columns.Add("尺寸", 90, HorizontalAlignment.Left);
-            lvScanInfo.Columns.Add("条码信息", 120, HorizontalAlignment.Left);
-            lvScanInfo.Columns.Add("装箱顺序", 70, HorizontalAlignment.Center);
+            lvScanInfo.Columns.Add("尺寸", 80, HorizontalAlignment.Left);
+            lvScanInfo.Columns.Add("条码信息", 100, HorizontalAlignment.Left);
+            lvScanInfo.Columns.Add("装箱顺序", 60, HorizontalAlignment.Center);
+            lvScanInfo.Columns.Add("暂存位点", 110, HorizontalAlignment.Left);
+            lvScanInfo.Columns.Add("下放暂存位点", 110, HorizontalAlignment.Left);
 
             grpScanInfo.Controls.Add(lblScanInfoInfo);
             grpScanInfo.Controls.Add(lvScanInfo);
@@ -493,6 +616,7 @@ namespace ThreeDPacking.App.Forms
             }
 
             _scannedItems.Clear();
+            ResetPackingFlowCoordinator();
             RefreshPackingPositionsList();
         }
 
@@ -536,6 +660,7 @@ namespace ThreeDPacking.App.Forms
             _allLoadedItems.Clear();
             _packingSourceByBoxId.Clear();
             _selectionDirty = true;
+            ResetPackingFlowCoordinator();
             ClearPackingResults();
             RefreshItemsGrid();
             SetStartPackingEnabled(false);
@@ -555,7 +680,22 @@ namespace ThreeDPacking.App.Forms
                 return;
             }
 
+            ResetPackingFlowCoordinator();
             AppendLog("[订单确认] 已确认订单，可开始采码。");
+        }
+
+        private void ScanTestControl_ProductionRecordCommitted(CommittedProductionRecord record)
+        {
+            if (record == null)
+                return;
+
+            if (InvokeRequired)
+            {
+                BeginInvoke((Action)(() => ScanTestControl_ProductionRecordCommitted(record)));
+                return;
+            }
+
+            ProcessProductionPlacement(record);
         }
 
         private static bool TryConvertScannedItem(
@@ -707,12 +847,19 @@ namespace ThreeDPacking.App.Forms
             for (int i = 0; i < _scannedItems.Count; i++)
             {
                 var item = _scannedItems[i];
+                BufferCoordinateEntry bufferEntry;
+                _bufferCoordsBySequence.TryGetValue(item.PackingSequence, out bufferEntry);
                 var listItem = new ListViewItem((i + 1).ToString());
                 listItem.SubItems.Add(string.IsNullOrWhiteSpace(item.Name) ? "-" : item.Name);
-                listItem.SubItems.Add(string.IsNullOrWhiteSpace(item.Sku) ? "-" : item.Sku);
                 listItem.SubItems.Add(string.IsNullOrWhiteSpace(item.Dimensions) ? "-" : item.Dimensions);
                 listItem.SubItems.Add(string.IsNullOrWhiteSpace(item.Barcode) ? "-" : item.Barcode);
                 listItem.SubItems.Add(item.PackingSequence > 0 ? item.PackingSequence.ToString() : "-");
+                listItem.SubItems.Add(bufferEntry == null || string.IsNullOrWhiteSpace(bufferEntry.PickCoordinate)
+                    ? "-"
+                    : bufferEntry.PickCoordinate);
+                listItem.SubItems.Add(bufferEntry == null || string.IsNullOrWhiteSpace(bufferEntry.DropCoordinate)
+                    ? "-"
+                    : bufferEntry.DropCoordinate);
                 lvScanInfo.Items.Add(listItem);
             }
 
@@ -722,7 +869,7 @@ namespace ThreeDPacking.App.Forms
             {
                 int matchedPackingCount = _scannedItems.Count(i => i.PackingSequence > 0);
                 lblScanInfoInfo.Text = _scannedItems.Count > 0
-                    ? $"已扫码 {_scannedItems.Count} 件，已匹配装箱顺序 {matchedPackingCount} 件"
+                    ? $"已扫码 {_scannedItems.Count} 件，当前应装顺序 {_packingFlowCoordinator.NextExpectedPackingSequence}，暂存台占用 {_packingFlowCoordinator.BufferedItemCount} 件"
                     : "暂无扫码信息";
             }
 
@@ -938,6 +1085,298 @@ namespace ThreeDPacking.App.Forms
             UpdateSendStatus(null);
         }
 
+        private void PnlBufferConnectionIndicator_Paint(object sender, PaintEventArgs e)
+        {
+            var panel = (Panel)sender;
+            e.Graphics.SmoothingMode = SmoothingMode.AntiAlias;
+            var color = _armBufferClient != null && _armBufferClient.IsConnected
+                ? Color.FromArgb(46, 160, 67)
+                : Color.FromArgb(220, 60, 60);
+            using (var brush = new SolidBrush(color))
+            {
+                e.Graphics.FillEllipse(brush, 1, 1, panel.Width - 2, panel.Height - 2);
+            }
+        }
+
+        private void UpdateBufferConnectionStatus(bool connected)
+        {
+            if (InvokeRequired)
+            {
+                BeginInvoke((Action)(() => UpdateBufferConnectionStatus(connected)));
+                return;
+            }
+
+            lblBufferConnectionStatus.Text = connected ? "暂存已连接" : "暂存未连接";
+            lblBufferConnectionStatus.ForeColor = connected
+                ? Color.FromArgb(46, 160, 67)
+                : Color.FromArgb(180, 60, 60);
+            pnlBufferConnectionIndicator.Invalidate();
+
+            bool busy = _armBufferConnecting;
+            numBufferPort.Enabled = !connected && !busy;
+            btnBufferConnect.Enabled = !connected && !busy;
+            btnBufferDisconnect.Enabled = connected && !busy;
+        }
+
+        private void ArmBufferClient_ConnectionChanged(object sender, bool connected)
+        {
+            UpdateBufferConnectionStatus(connected);
+            if (connected)
+                AppendLog("[机械臂] 暂存坐标通道已连接，入账后将按决策链发送 8056 坐标。");
+        }
+
+        private async void BtnBufferConnect_Click(object sender, EventArgs e)
+        {
+            string host = txtArmAddress.Text.Trim();
+            if (string.IsNullOrEmpty(host))
+            {
+                MessageBox.Show("请输入机械臂地址。", "提示",
+                    MessageBoxButtons.OK, MessageBoxIcon.Information);
+                return;
+            }
+
+            int port = (int)numBufferPort.Value;
+            _armBufferConnecting = true;
+            UpdateBufferConnectionStatus(false);
+            btnBufferConnect.Text = "连接中...";
+            btnBufferConnect.Enabled = false;
+
+            _armBufferConnectCts?.Cancel();
+            _armBufferConnectCts?.Dispose();
+            _armBufferConnectCts = new CancellationTokenSource();
+
+            try
+            {
+                await _armBufferClient.ConnectAsync(host, port, _armBufferConnectCts.Token);
+                statusLabel.Text = $"暂存坐标通道已连接: {host}:{port}";
+            }
+            catch (OperationCanceledException)
+            {
+                UpdateBufferConnectionStatus(_armBufferClient.IsConnected);
+            }
+            catch (Exception ex)
+            {
+                UpdateBufferConnectionStatus(false);
+                MessageBox.Show("暂存通道连接失败:\n" + ex.Message, "错误",
+                    MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            finally
+            {
+                _armBufferConnecting = false;
+                btnBufferConnect.Text = "暂存连接";
+                UpdateBufferConnectionStatus(_armBufferClient.IsConnected);
+            }
+        }
+
+        private void BtnBufferDisconnect_Click(object sender, EventArgs e)
+        {
+            _armBufferConnectCts?.Cancel();
+            _armBufferClient.Disconnect();
+            statusLabel.Text = "暂存坐标通道已断开";
+            UpdateBufferConnectionStatus(false);
+        }
+
+        private void BufferGridParameter_ValueChanged(object sender, EventArgs e)
+        {
+            SaveBufferGridSettings();
+            RebuildBufferCoordinates(_lastBufferLayoutItems);
+            RefreshScanInfoList();
+        }
+
+        private void SaveBufferGridSettings()
+        {
+            var settings = ScannerSettingsStore.Load();
+            settings.BufferServerPort = (int)numBufferPort.Value;
+            settings.BufferDropOffsetMm = (int)numBufferDropOffset.Value;
+            ScannerSettingsStore.Save(settings);
+        }
+
+        private void ResetPackingFlowCoordinator()
+        {
+            _packingFlowCoordinator.Reset();
+        }
+
+        private void RebuildBufferCoordinates(IReadOnlyList<BufferFlatLayoutCalculator.LayoutItem> layoutItems)
+        {
+            _bufferCoordsBySequence.Clear();
+            if (layoutItems == null || layoutItems.Count == 0)
+            {
+                RefreshBufferPointsList();
+                return;
+            }
+
+            int dropOffset = (int)numBufferDropOffset.Value;
+            List<BufferFlatLayoutCalculator.LayoutSlot> slots =
+                BufferFlatLayoutCalculator.Layout(layoutItems);
+
+            foreach (BufferFlatLayoutCalculator.LayoutSlot slot in slots)
+            {
+                if (!slot.FitsOnPlatform)
+                {
+                    AppendLog("[暂存] 顺序 " + slot.Sequence + " 平铺尺寸 "
+                        + slot.PlacedDx + "x" + slot.PlacedDy
+                        + "mm 超出 500x500 台面，仍生成坐标请人工确认。");
+                }
+
+                string pick = FormatArmOffsetCoordinate(slot.TopCenterX, slot.TopCenterY, slot.TopCenterZ);
+                string drop = FormatArmOffsetCoordinate(slot.TopCenterX, slot.TopCenterY, slot.TopCenterZ - dropOffset);
+                _bufferCoordsBySequence[slot.Sequence] = new BufferCoordinateEntry
+                {
+                    PickCoordinate = pick,
+                    DropCoordinate = drop,
+                    CoordinateLine = slot.Sequence + "," + drop
+                };
+            }
+
+            RefreshBufferPointsList();
+        }
+
+        private void RefreshBufferPointsList()
+        {
+            if (lvBufferPoints == null)
+                return;
+
+            lvBufferPoints.BeginUpdate();
+            lvBufferPoints.Items.Clear();
+
+            foreach (var pair in _bufferCoordsBySequence.OrderBy(p => p.Key))
+            {
+                BufferCoordinateEntry entry = pair.Value;
+                var item = new ListViewItem(pair.Key.ToString());
+                item.SubItems.Add(pair.Key.ToString());
+                item.SubItems.Add(entry.DropCoordinate ?? "-");
+                lvBufferPoints.Items.Add(item);
+            }
+
+            lvBufferPoints.EndUpdate();
+
+            if (lblBufferPointsInfo != null)
+            {
+                lblBufferPointsInfo.Text = _bufferCoordsBySequence.Count > 0
+                    ? $"共 {_bufferCoordsBySequence.Count} 个平铺位（500×500mm，8056 逐条发送 seq,下放点位）"
+                    : "暂无暂存点位（运行装箱后按物体尺寸平铺生成）";
+            }
+
+            LayoutActualPackingPanel();
+        }
+
+        private bool TryGetBufferCoordinateLine(int sequence, out string coordinateLine)
+        {
+            BufferCoordinateEntry entry;
+            if (_bufferCoordsBySequence.TryGetValue(sequence, out entry) &&
+                !string.IsNullOrWhiteSpace(entry.CoordinateLine))
+            {
+                coordinateLine = entry.CoordinateLine;
+                return true;
+            }
+
+            coordinateLine = null;
+            return false;
+        }
+
+        private async void ProcessProductionPlacement(CommittedProductionRecord record)
+        {
+            PackingFlowDecision decision = _packingFlowCoordinator.Decide(record);
+            if (decision.HasError)
+            {
+                AppendLog("[装箱协调] " + decision.Message);
+                return;
+            }
+
+            if (!string.IsNullOrWhiteSpace(decision.PlacementMode))
+            {
+                record.PlacementMode = decision.PlacementMode;
+                UpdateScannedItemPlacementMode(record);
+            }
+
+            foreach (PackingPlacementAction action in decision.Actions)
+            {
+                switch (action.Type)
+                {
+                    case PackingPlacementActionType.StoreToBuffer:
+                    case PackingPlacementActionType.PackFromBuffer:
+                        if (!await SendBufferCoordinateAsync(action.PackingSequence).ConfigureAwait(true))
+                            return;
+                        _scanTestControl.SendProductionSignal(action.Type == PackingPlacementActionType.StoreToBuffer
+                            ? ProductionSignalClient.SignalStoreToBuffer
+                            : ProductionSignalClient.SignalPackFromBuffer);
+                        if (action.Type == PackingPlacementActionType.PackFromBuffer)
+                        {
+                            SendPlacementPoseSignal(action.IsLongShortSwapped);
+                        }
+                        break;
+                    case PackingPlacementActionType.DirectPack:
+                        SendPlacementPoseSignal(action.IsLongShortSwapped);
+                        break;
+                    case PackingPlacementActionType.ContinuePick:
+                        _scanTestControl.SendProductionSignal(ProductionSignalClient.SignalContinuePick);
+                        break;
+                }
+            }
+
+            RefreshScanInfoList();
+            AppendLog("[装箱协调] 顺序 " + record.PackingSequence + " 动作链已下发，下一应装顺序 "
+                + _packingFlowCoordinator.NextExpectedPackingSequence + "，暂存占用 "
+                + _packingFlowCoordinator.BufferedItemCount + " 件。");
+        }
+
+        private void SendPlacementPoseSignal(bool isLongShortSwapped)
+        {
+            _scanTestControl.SendProductionSignal(isLongShortSwapped
+                ? ProductionSignalClient.SignalLongShortSwapped
+                : ProductionSignalClient.SignalStraightPlacement);
+        }
+
+        private async Task<bool> SendBufferCoordinateAsync(int sequence)
+        {
+            string coordinateLine;
+            if (!TryGetBufferCoordinateLine(sequence, out coordinateLine))
+            {
+                AppendLog("[机械臂] 未找到顺序 " + sequence + " 的暂存坐标，跳过 8056 发送。");
+                return false;
+            }
+
+            if (_armBufferClient == null || !_armBufferClient.IsConnected)
+            {
+                AppendLog("[机械臂] 暂存坐标通道未连接，无法发送顺序 " + sequence + " 坐标。");
+                return false;
+            }
+
+            try
+            {
+                await _armBufferClient.SendCoordinateAsync(coordinateLine).ConfigureAwait(true);
+                AppendLog("[机械臂] 已发送暂存坐标（8056）顺序 " + sequence + ": " + coordinateLine);
+                return true;
+            }
+            catch (Exception ex)
+            {
+                AppendLog("[机械臂] 暂存坐标发送失败: " + ex.Message);
+                return false;
+            }
+        }
+
+        private void UpdateScannedItemPlacementMode(CommittedProductionRecord record)
+        {
+            if (record == null || string.IsNullOrWhiteSpace(record.PlacementMode))
+                return;
+
+            for (int i = _scannedItems.Count - 1; i >= 0; i--)
+            {
+                ScannedItemInfo item = _scannedItems[i];
+                if (item == null)
+                    continue;
+
+                bool matched = item.PackingSequence == record.PackingSequence &&
+                    (string.Equals(item.Barcode, record.Barcode, StringComparison.OrdinalIgnoreCase) ||
+                     string.Equals(item.PackingBoxId, record.PackingBoxId, StringComparison.OrdinalIgnoreCase));
+                if (matched)
+                {
+                    item.PlacementMode = record.PlacementMode;
+                    break;
+                }
+            }
+        }
+
         private void LayoutActualPackingPanel()
         {
             if (grpArmConnection == null)
@@ -945,7 +1384,7 @@ namespace ThreeDPacking.App.Forms
 
             int w = panelActualPacking.ClientSize.Width - 12;
             grpArmConnection.Location = new Point(6, 6);
-            grpArmConnection.Size = new Size(Math.Max(200, w), 138);
+            grpArmConnection.Size = new Size(Math.Max(200, w), 168);
 
             lblArmAddress.Location = new Point(12, 26);
             txtArmAddress.Location = new Point(52, 23);
@@ -965,6 +1404,16 @@ namespace ThreeDPacking.App.Forms
 
             pnlConnectionIndicator.Location = new Point(110, 86);
             lblConnectionStatus.Location = new Point(132, 86);
+
+            lblBufferPort.Location = new Point(12, 112);
+            numBufferPort.Location = new Point(72, 109);
+            numBufferPort.Size = new Size(60, 21);
+            btnBufferConnect.Location = new Point(145, 108);
+            btnBufferConnect.Size = new Size(72, 23);
+            btnBufferDisconnect.Location = new Point(223, 108);
+            btnBufferDisconnect.Size = new Size(72, 23);
+            pnlBufferConnectionIndicator.Location = new Point(110, 140);
+            lblBufferConnectionStatus.Location = new Point(132, 138);
 
             if (grpPackingPositions != null)
             {
@@ -1023,13 +1472,39 @@ namespace ThreeDPacking.App.Forms
                 LayoutPackingPointsColumns();
             }
 
-            if (grpScanInfo != null)
+            if (grpBufferPoints != null)
             {
                 int top = grpPackingPoints != null
                     ? grpPackingPoints.Bottom + 8
                     : grpPackingPositions != null
                         ? grpPackingPositions.Bottom + 8
                         : grpArmConnection.Bottom + 8;
+                int listHeight = GetFixedListViewHeight(lvBufferPoints);
+                int groupHeight = 78 + listHeight;
+
+                grpBufferPoints.Location = new Point(6, top);
+                grpBufferPoints.Size = new Size(Math.Max(200, w), groupHeight);
+
+                lblBufferPointsInfo.Location = new Point(12, 22);
+                lblBufferPointsInfo.Width = grpBufferPoints.ClientSize.Width - 24;
+                lblBufferDropOffset.Location = new Point(12, 46);
+                numBufferDropOffset.Location = new Point(105, 43);
+
+                lvBufferPoints.Location = new Point(12, 68);
+                lvBufferPoints.Size = new Size(grpBufferPoints.ClientSize.Width - 24, listHeight);
+
+                LayoutBufferPointsColumns();
+            }
+
+            if (grpScanInfo != null)
+            {
+                int top = grpBufferPoints != null
+                    ? grpBufferPoints.Bottom + 8
+                    : grpPackingPoints != null
+                        ? grpPackingPoints.Bottom + 8
+                        : grpPackingPositions != null
+                            ? grpPackingPositions.Bottom + 8
+                            : grpArmConnection.Bottom + 8;
                 int listHeight = GetFixedListViewHeight(lvScanInfo);
                 int groupHeight = 52 + listHeight;
 
@@ -1071,18 +1546,31 @@ namespace ThreeDPacking.App.Forms
             lvPackingPoints.Columns[3].Width = Math.Max(90, listW - 42 - 72 - pointWidth);
         }
 
+        private void LayoutBufferPointsColumns()
+        {
+            if (lvBufferPoints == null || lvBufferPoints.Columns.Count < 3)
+                return;
+
+            int listW = lvBufferPoints.ClientSize.Width - 4;
+            lvBufferPoints.Columns[0].Width = 42;
+            lvBufferPoints.Columns[1].Width = 72;
+            lvBufferPoints.Columns[2].Width = Math.Max(120, listW - 42 - 72);
+        }
+
         private void LayoutScanInfoColumns()
         {
-            if (lvScanInfo == null || lvScanInfo.Columns.Count < 6)
+            if (lvScanInfo == null || lvScanInfo.Columns.Count < 7)
                 return;
 
             int listW = lvScanInfo.ClientSize.Width - 4;
+            int bufferWidth = Math.Max(90, (listW - 42 - 64 - 80 - 60) / 3);
             lvScanInfo.Columns[0].Width = 42;
             lvScanInfo.Columns[1].Width = 64;
-            lvScanInfo.Columns[2].Width = 72;
-            lvScanInfo.Columns[3].Width = 90;
-            lvScanInfo.Columns[5].Width = 70;
-            lvScanInfo.Columns[4].Width = Math.Max(100, listW - 42 - 64 - 72 - 90 - 70);
+            lvScanInfo.Columns[2].Width = 80;
+            lvScanInfo.Columns[4].Width = 60;
+            lvScanInfo.Columns[5].Width = bufferWidth;
+            lvScanInfo.Columns[6].Width = bufferWidth;
+            lvScanInfo.Columns[3].Width = Math.Max(80, listW - 42 - 64 - 80 - 60 - bufferWidth - bufferWidth);
         }
 
         private int GetFixedListViewHeight(ListView listView)
@@ -1199,7 +1687,9 @@ namespace ThreeDPacking.App.Forms
         private void MainForm_FormClosing(object sender, FormClosingEventArgs e)
         {
             _armConnectCts?.Cancel();
+            _armBufferConnectCts?.Cancel();
             _armClient?.Dispose();
+            _armBufferClient?.Dispose();
         }
 
         private void MainForm_Load(object sender, EventArgs e)
@@ -1539,12 +2029,21 @@ namespace ThreeDPacking.App.Forms
         private const double ArmCoordinateMmToMeters = 0.001;
         private const int ArmDropOffsetMm = 460;
 
+        /// <summary>
+        /// 将相对坐标系原点的毫米偏移格式化为机械臂点位字符串（米）。
+        /// 示教器侧先到达 pickorigin，再叠加此 XY/Z 偏移。
+        /// </summary>
+        private static string FormatArmOffsetCoordinate(int offsetXmm, int offsetYmm, int offsetZmm)
+        {
+            string x = (offsetXmm * ArmCoordinateMmToMeters).ToString("0.###", System.Globalization.CultureInfo.InvariantCulture);
+            string y = (offsetYmm * ArmCoordinateMmToMeters).ToString("0.###", System.Globalization.CultureInfo.InvariantCulture);
+            string z = (offsetZmm * ArmCoordinateMmToMeters).ToString("0.###", System.Globalization.CultureInfo.InvariantCulture);
+            return $"[{x},{y},{z},0,0,0]";
+        }
+
         private static string FormatArmCoordinateArray(int topCenterX, int topCenterY, int zMm)
         {
-            string x = (topCenterX * ArmCoordinateMmToMeters).ToString("0.###", System.Globalization.CultureInfo.InvariantCulture);
-            string y = (topCenterY * ArmCoordinateMmToMeters).ToString("0.###", System.Globalization.CultureInfo.InvariantCulture);
-            string z = (zMm * ArmCoordinateMmToMeters).ToString("0.###", System.Globalization.CultureInfo.InvariantCulture);
-            return $"[{x},{y},{z},0,0,0]";
+            return FormatArmOffsetCoordinate(topCenterX, topCenterY, zMm);
         }
 
         private static string FormatArmCoordinate(Placement placement)
@@ -1650,6 +2149,12 @@ namespace ThreeDPacking.App.Forms
             item.PackingSequence = entry.Sequence;
             item.PackingBoxId = entry.BoxId ?? string.Empty;
             item.IsPackingLongShortSwapped = entry.IsLongShortSwapped;
+            BufferCoordinateEntry bufferEntry;
+            if (_bufferCoordsBySequence.TryGetValue(entry.Sequence, out bufferEntry))
+            {
+                item.BufferPickCoordinate = bufferEntry.PickCoordinate;
+                item.BufferDropCoordinate = bufferEntry.DropCoordinate;
+            }
             if (!string.IsNullOrWhiteSpace(item.PackingBoxId))
                 _assignedPackingBoxIds.Add(item.PackingBoxId);
         }
@@ -1723,6 +2228,7 @@ namespace ThreeDPacking.App.Forms
             _assignedPackingBoxIds.Clear();
             UpdateSendStatus(null);
             var packingResultsForScanner = new List<ScannedItemInfo>();
+            var bufferLayoutItems = new List<BufferFlatLayoutCalculator.LayoutItem>();
 
             int sequence = 0;
             if (_packedContainers != null)
@@ -1761,6 +2267,17 @@ namespace ThreeDPacking.App.Forms
                         string armCoordinate = FormatArmCoordinate(placement);
                         string armDropCoordinate = FormatArmDropCoordinate(placement);
 
+                        if (placement.StackValue != null)
+                        {
+                            bufferLayoutItems.Add(new BufferFlatLayoutCalculator.LayoutItem
+                            {
+                                Sequence = sequence,
+                                Dx = placement.StackValue.Dx,
+                                Dy = placement.StackValue.Dy,
+                                Dz = placement.StackValue.Dz
+                            });
+                        }
+
                         var item = new ListViewItem(sequence.ToString());
                         item.SubItems.Add(containerName);
                         item.SubItems.Add(itemName);
@@ -1794,8 +2311,23 @@ namespace ThreeDPacking.App.Forms
             if (lblPackingPointsInfo != null)
             {
                 lblPackingPointsInfo.Text = sequence > 0
-                    ? $"共 {sequence} 个点位（发送格式 [X,Y,Z,0,0,0],[X,Y,Z,0,0,0]，单位：米）"
+                    ? $"共 {sequence} 个点位（相对装箱坐标系原点的 XY/Z 偏移，格式 [x,y,z,0,0,0]，单位：米）"
                     : "暂无装箱点位";
+            }
+
+            ResetPackingFlowCoordinator();
+            _lastBufferLayoutItems = bufferLayoutItems;
+            RebuildBufferCoordinates(bufferLayoutItems);
+            for (int i = 0; i < packingResultsForScanner.Count; i++)
+            {
+                ScannedItemInfo packingItem = packingResultsForScanner[i];
+                BufferCoordinateEntry bufferEntry;
+                if (packingItem != null &&
+                    _bufferCoordsBySequence.TryGetValue(packingItem.PackingSequence, out bufferEntry))
+                {
+                    packingItem.BufferPickCoordinate = bufferEntry.PickCoordinate;
+                    packingItem.BufferDropCoordinate = bufferEntry.DropCoordinate;
+                }
             }
 
             ReassignPackingSequencesToScannedItems();

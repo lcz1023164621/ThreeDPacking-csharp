@@ -1,0 +1,61 @@
+import ast
+
+
+def _parse_coord(coord_str):
+    coord_str = coord_str.strip().replace('，', ',')
+    data = ast.literal_eval(coord_str)
+    return [float(x) for x in data]
+
+
+def parse_buffer_line(buffer_str):
+    """
+    解析 8056 暂存坐标行（单件）:
+        seq,drop
+
+    示例:
+        2,[0.25,0.04,-0.42,0,0,0]
+
+    返回:
+        seq (int), drop (6元 list)
+        单位与装箱 strtoshuzu.py 一致（米）
+    """
+    buffer_str = buffer_str.strip().replace('，', ',')
+    if not buffer_str:
+        raise ValueError('暂存坐标字符串为空')
+
+    first_comma = buffer_str.find(',')
+    if first_comma < 0:
+        raise ValueError('暂存坐标格式错误，缺少逗号: ' + buffer_str)
+
+    seq = int(buffer_str[:first_comma].strip())
+    drop = _parse_coord(buffer_str[first_comma + 1:].strip())
+    return seq, drop
+
+
+def get_buffer_seq(buffer_str):
+    """
+    返回装箱顺序号 seq（从 1 开始）
+    """
+    seq, _ = parse_buffer_line(buffer_str)
+    return seq
+
+
+def get_drop_position(buffer_str):
+    """
+    返回下放坐标 [x,y,z,0,0,0]
+    """
+    _, drop = parse_buffer_line(buffer_str)
+    return drop
+
+
+def get_var_current_position(buffer_str):
+    """
+    示教器测放/暂存共用变量（与装箱一致）:
+        var_current_position[0] = drop X  （XY 与顶面相同，用于先平移）
+        var_current_position[1] = drop Y
+        var_current_position[2] = drop Z  （下放深度）
+
+    与装箱批次坐标单位一致（米）。
+    """
+    _, drop = parse_buffer_line(buffer_str)
+    return [drop[0], drop[1], drop[2]]

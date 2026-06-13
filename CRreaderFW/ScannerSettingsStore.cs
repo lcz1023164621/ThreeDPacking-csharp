@@ -5,7 +5,7 @@ using System.Text;
 
 namespace WindowsFormsApp1
 {
-    internal static class ScannerSettingsStore
+    public static class ScannerSettingsStore
     {
         private static string SettingsPath
         {
@@ -88,6 +88,12 @@ namespace WindowsFormsApp1
             builder.AppendLine("SignalSendRetryIntervalMs=" + settings.SignalSendRetryIntervalMs.ToString(CultureInfo.InvariantCulture));
             builder.AppendLine("SignalSendRetryMaxCount=" + settings.SignalSendRetryMaxCount.ToString(CultureInfo.InvariantCulture));
             builder.AppendLine("SignalScanSuccessUntilStopped=" + settings.SignalScanSuccessUntilStopped);
+            builder.AppendLine("BufferServerPort=" + settings.BufferServerPort.ToString(CultureInfo.InvariantCulture));
+            builder.AppendLine("BufferOriginX=" + settings.BufferOriginX.ToString(CultureInfo.InvariantCulture));
+            builder.AppendLine("BufferOriginY=" + settings.BufferOriginY.ToString(CultureInfo.InvariantCulture));
+            builder.AppendLine("BufferOriginZ=" + settings.BufferOriginZ.ToString(CultureInfo.InvariantCulture));
+            builder.AppendLine("BufferSpacingX=" + settings.BufferSpacingX.ToString(CultureInfo.InvariantCulture));
+            builder.AppendLine("BufferDropOffsetMm=" + settings.BufferDropOffsetMm.ToString(CultureInfo.InvariantCulture));
             File.WriteAllText(SettingsPath, builder.ToString(), new UTF8Encoding(true));
         }
 
@@ -229,6 +235,48 @@ namespace WindowsFormsApp1
                     break;
                 case "SignalScanSuccessUntilStopped":
                     settings.SignalScanSuccessUntilStopped = ParseBool(value);
+                    break;
+                case "BufferServerPort":
+                    int bufferServerPort;
+                    if (int.TryParse(value, out bufferServerPort))
+                    {
+                        settings.BufferServerPort = bufferServerPort;
+                    }
+                    break;
+                case "BufferOriginX":
+                    int bufferOriginX;
+                    if (int.TryParse(value, out bufferOriginX))
+                    {
+                        settings.BufferOriginX = bufferOriginX;
+                    }
+                    break;
+                case "BufferOriginY":
+                    int bufferOriginY;
+                    if (int.TryParse(value, out bufferOriginY))
+                    {
+                        settings.BufferOriginY = bufferOriginY;
+                    }
+                    break;
+                case "BufferOriginZ":
+                    int bufferOriginZ;
+                    if (int.TryParse(value, out bufferOriginZ))
+                    {
+                        settings.BufferOriginZ = bufferOriginZ;
+                    }
+                    break;
+                case "BufferSpacingX":
+                    int bufferSpacingX;
+                    if (int.TryParse(value, out bufferSpacingX))
+                    {
+                        settings.BufferSpacingX = bufferSpacingX;
+                    }
+                    break;
+                case "BufferDropOffsetMm":
+                    int bufferDropOffsetMm;
+                    if (int.TryParse(value, out bufferDropOffsetMm))
+                    {
+                        settings.BufferDropOffsetMm = bufferDropOffsetMm;
+                    }
                     break;
             }
         }

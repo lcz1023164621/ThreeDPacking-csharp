@@ -1,14 +1,14 @@
 {
   "containers": [
     {
-      "name": "中间容器1",
-      "id": "中间容器1",
-      "dx": 310,
-      "dy": 220,
-      "dz": 160,
-      "loadDx": 310,
-      "loadDy": 220,
-      "loadDz": 160,
+      "name": "最大容器",
+      "id": "最大容器",
+      "dx": 450,
+      "dy": 450,
+      "dz": 210,
+      "loadDx": 450,
+      "loadDy": 450,
+      "loadDz": 210,
       "step": 0,
       "stack": {
         "placements": [
@@ -18,26 +18,26 @@
             "z": 0,
             "step": 1,
             "stackable": {
-              "id": "WS6520#2",
-              "name": "WS6520#2",
-              "dx": 180,
-              "dy": 150,
-              "dz": 70,
+              "id": "WT8000#1",
+              "name": "WT8000#1",
+              "dx": 330,
+              "dy": 330,
+              "dz": 60,
               "step": 1,
               "type": "box"
             }
           },
           {
-            "x": 200,
+            "x": 350,
             "y": 10,
             "z": 0,
             "step": 2,
             "stackable": {
-              "id": "WS9632#3",
-              "name": "WS9632#3",
-              "dx": 95,
-              "dy": 155,
-              "dz": 65,
+              "id": "WS9472#3",
+              "name": "WS9472#3",
+              "dx": 80,
+              "dy": 110,
+              "dz": 30,
               "step": 2,
               "type": "box"
             }
@@ -45,27 +45,102 @@
           {
             "x": 10,
             "y": 10,
-            "z": 70,
+            "z": 60,
             "step": 3,
             "stackable": {
-              "id": "KZW#1",
-              "name": "KZW#1",
-              "dx": 105,
-              "dy": 75,
-              "dz": 55,
+              "id": "WS9632#2",
+              "name": "WS9632#2",
+              "dx": 155,
+              "dy": 95,
+              "dz": 65,
               "step": 3,
               "type": "box"
             }
           },
           {
             "x": 10,
-            "y": 95,
-            "z": 70,
+            "y": 115,
+            "z": 60,
             "step": 5,
             "stackable": {
               "id": "padding_paper",
               "name": "PaddingPaper",
-              "dx": 290,
+              "dx": 430,
+              "dy": 100,
+              "dz": 60,
+              "step": 5,
+              "type": "padding"
+            }
+          },
+          {
+            "x": 10,
+            "y": 115,
+            "z": 120,
+            "step": 5,
+            "stackable": {
+              "id": "padding_paper",
+              "name": "PaddingPaper",
+              "dx": 430,
+              "dy": 100,
+              "dz": 60,
+              "step": 5,
+              "type": "padding"
+            }
+          },
+          {
+            "x": 10,
+            "y": 225,
+            "z": 60,
+            "step": 5,
+            "stackable": {
+              "id": "padding_paper",
+              "name": "PaddingPaper",
+              "dx": 430,
+              "dy": 100,
+              "dz": 60,
+              "step": 5,
+              "type": "padding"
+            }
+          },
+          {
+            "x": 10,
+            "y": 225,
+            "z": 120,
+            "step": 5,
+            "stackable": {
+              "id": "padding_paper",
+              "name": "PaddingPaper",
+              "dx": 430,
+              "dy": 100,
+              "dz": 60,
+              "step": 5,
+              "type": "padding"
+            }
+          },
+          {
+            "x": 10,
+            "y": 335,
+            "z": 60,
+            "step": 5,
+            "stackable": {
+              "id": "padding_paper",
+              "name": "PaddingPaper",
+              "dx": 430,
+              "dy": 100,
+              "dz": 60,
+              "step": 5,
+              "type": "padding"
+            }
+          },
+          {
+            "x": 10,
+            "y": 335,
+            "z": 120,
+            "step": 5,
+            "stackable": {
+              "id": "padding_paper",
+              "name": "PaddingPaper",
+              "dx": 430,
               "dy": 100,
               "dz": 60,
               "step": 5,

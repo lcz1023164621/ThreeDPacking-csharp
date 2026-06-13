@@ -76,6 +76,7 @@ namespace WindowsFormsApp1
         public event Action<IReadOnlyList<ScannedItemInfo>> OrderMatchedForPacking;
         public event Action OrderMatchCleared;
         public event Action<IReadOnlyList<ScannedItemInfo>> OrderConfirmedForPacking;
+        public event Action<CommittedProductionRecord> ProductionRecordCommitted;
 
         public ScanTestControl()
         {
@@ -3309,7 +3310,12 @@ namespace WindowsFormsApp1
             ScannedItemAdded?.Invoke(BuildScannedItemInfoFromRecord(record));
 
             AppendLog("工作模式：扫码记录已确认入账：" + record.Barcode + "，数量+1。");
-            SendStraightPlacementCommandIfNeeded(record);
+            CommittedProductionRecord committed = BuildCommittedProductionRecord(record);
+            ProductionRecordCommitted?.Invoke(committed);
+            if (!string.IsNullOrWhiteSpace(committed.PlacementMode))
+            {
+                record.PlacementMode = committed.PlacementMode;
+            }
             if (IsProductionOrderComplete())
             {
                 AppendLog("工作模式：订单采码数量已满足，等待机械臂发送信号4结束批次。");
@@ -3370,23 +3376,57 @@ namespace WindowsFormsApp1
             return false;
         }
 
-        private void SendStraightPlacementCommandIfNeeded(ScanRecord record)
+        private static CommittedProductionRecord BuildCommittedProductionRecord(ScanRecord record)
         {
-            if (record == null || record.PackingSequence <= 0)
+            if (record == null)
             {
-                AppendLog("工作模式：未找到本件装箱位姿信息，跳过信号6/7。");
-                return;
+                return null;
             }
 
-            if (record.IsPackingLongShortSwapped)
+            return new CommittedProductionRecord
             {
-                AppendLog("工作模式：本件装箱需长短边转换，向机械臂发送信号7（位姿变换）。");
-                SendProductionSignalDirect(ProductionSignalClient.SignalLongShortSwapped);
-                return;
-            }
+                Barcode = record.Barcode ?? string.Empty,
+                Sku = record.Sku ?? string.Empty,
+                PackingSequence = record.PackingSequence,
+                PackingBoxId = record.PackingBoxId ?? string.Empty,
+                IsPackingLongShortSwapped = record.IsPackingLongShortSwapped
+            };
+        }
 
-            AppendLog("工作模式：本件装箱无需换边，向机械臂发送信号6（位姿变换）。");
-            SendProductionSignalDirect(ProductionSignalClient.SignalStraightPlacement);
+        public bool SendProductionSignal(int signal)
+        {
+            return SendProductionSignalDirect(signal);
+        }
+
+        public static string DescribeProductionSignal(int signal)
+        {
+            switch (signal)
+            {
+                case ProductionSignalClient.SignalRobotReady:
+                    return "0 到位扫码";
+                case ProductionSignalClient.SignalScanSuccess:
+                    return "1 扫码成功";
+                case ProductionSignalClient.SignalScanFailed:
+                    return "2 未扫到";
+                case ProductionSignalClient.SignalRobotAcknowledged:
+                    return "3 确认入账";
+                case ProductionSignalClient.SignalBatchComplete:
+                    return "4 批次结束";
+                case ProductionSignalClient.SignalScanFailedAcknowledged:
+                    return "5 未扫到确认";
+                case ProductionSignalClient.SignalStraightPlacement:
+                    return "6 直装位姿";
+                case ProductionSignalClient.SignalLongShortSwapped:
+                    return "7 长短边位姿";
+                case ProductionSignalClient.SignalStoreToBuffer:
+                    return "8 放暂存台";
+                case ProductionSignalClient.SignalPackFromBuffer:
+                    return "9 从暂存取";
+                case ProductionSignalClient.SignalContinuePick:
+                    return "10 继续抓取";
+                default:
+                    return signal.ToString(CultureInfo.InvariantCulture);
+            }
         }
 
         private OrderBoxIdentity ResolveOrderBoxIdentity(string input, bool inputIsOrderNo)
@@ -4603,7 +4643,9 @@ namespace WindowsFormsApp1
             }
 
             string direction = sent ? "发送 →" : "接收 ←";
-            string dataText = value >= 0 ? "信号 " + value : "字符串数据";
+            string dataText = value >= 0
+                ? "信号 " + value + "（" + DescribeProductionSignal(value) + "）"
+                : "字符串数据";
             AppendSignalLog(direction + " " + dataText + "  (" + detail + ")");
         }
 
@@ -4672,13 +4714,14 @@ namespace WindowsFormsApp1
             }
 
             bool sent = _productionSignalClient.Send(signal, true);
+            string signalName = DescribeProductionSignal(signal);
             if (sent)
             {
-                AppendLog("已向机械臂发送信号 " + signal + "。");
+                AppendLog("已向机械臂发送信号 " + signal + "（" + signalName + "）。");
             }
             else
             {
-                AppendLog("向机械臂发送信号 " + signal + " 失败。");
+                AppendLog("向机械臂发送信号 " + signal + "（" + signalName + "）失败。");
             }
             return sent;
         }

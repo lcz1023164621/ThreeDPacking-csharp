@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace WindowsFormsApp1
 {
-    internal sealed class ProductionSignalClient : IDisposable
+    public sealed class ProductionSignalClient : IDisposable
     {
         public const int SignalRobotReady = 0;
         public const int SignalScanSuccess = 1;
@@ -18,6 +18,9 @@ namespace WindowsFormsApp1
         public const int SignalScanFailedAcknowledged = 5;
         public const int SignalStraightPlacement = 6;
         public const int SignalLongShortSwapped = 7;
+        public const int SignalStoreToBuffer = 8;
+        public const int SignalPackFromBuffer = 9;
+        public const int SignalContinuePick = 10;
 
         private TcpClient _sendClient;
         private NetworkStream _sendStream;
@@ -197,14 +200,20 @@ namespace WindowsFormsApp1
         public static byte[] BuildSignalFrame(int value)
         {
             // 每条信号以换行结尾，避免 TCP 粘包把多个数字拼成 222... 导致对端整型溢出。
-            return new byte[] { (byte)('0' + value), SignalFrameDelimiter };
+            string text = value.ToString(System.Globalization.CultureInfo.InvariantCulture);
+            byte[] payload = new byte[text.Length + 1];
+            for (int i = 0; i < text.Length; i++)
+            {
+                payload[i] = (byte)text[i];
+            }
+            payload[payload.Length - 1] = SignalFrameDelimiter;
+            return payload;
         }
 
         private static string BuildSignalDetail(int value)
         {
-            char ascii = (char)('0' + value);
-            return "Int=" + value + " (ASCII=\"" + ascii + "\" Hex=" + ((byte)ascii).ToString("X2")
-                + " Frame=\"" + ascii + "\\n\")";
+            string text = value.ToString(System.Globalization.CultureInfo.InvariantCulture);
+            return "Int=" + value + " Frame=\"" + text + "\\n\"";
         }
 
         private async Task RunSendLoopAsync(CancellationToken token)
@@ -420,7 +429,7 @@ namespace WindowsFormsApp1
 
         private static bool IsValidSignal(int value)
         {
-            return value >= SignalRobotReady && value <= SignalLongShortSwapped;
+            return value >= SignalRobotReady && value <= SignalContinuePick;
         }
 
         private void DispatchSignal(int value)

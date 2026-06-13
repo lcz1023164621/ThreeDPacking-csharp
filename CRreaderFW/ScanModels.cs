@@ -24,6 +24,9 @@ namespace WindowsFormsApp1
         public int Dx { get; set; }
         public int Dy { get; set; }
         public int Dz { get; set; }
+        public string BufferPickCoordinate { get; set; }
+        public string BufferDropCoordinate { get; set; }
+        public string PlacementMode { get; set; }
     }
 
     public sealed class ScannerSettingsData
@@ -55,6 +58,12 @@ namespace WindowsFormsApp1
         public int SignalSendRetryIntervalMs { get; set; }
         public int SignalSendRetryMaxCount { get; set; }
         public bool SignalScanSuccessUntilStopped { get; set; }
+        public int BufferServerPort { get; set; }
+        public int BufferOriginX { get; set; }
+        public int BufferOriginY { get; set; }
+        public int BufferOriginZ { get; set; }
+        public int BufferSpacingX { get; set; }
+        public int BufferDropOffsetMm { get; set; }
 
         public static ScannerSettingsData CreateDefault()
         {
@@ -86,7 +95,13 @@ namespace WindowsFormsApp1
                 SignalReceiveServerPort = 15000,
                 SignalSendRetryIntervalMs = 500,
                 SignalSendRetryMaxCount = 5,
-                SignalScanSuccessUntilStopped = true
+                SignalScanSuccessUntilStopped = true,
+                BufferServerPort = 8056,
+                BufferOriginX = 0,
+                BufferOriginY = 0,
+                BufferOriginZ = 0,
+                BufferSpacingX = 200,
+                BufferDropOffsetMm = 460
             };
         }
 
@@ -169,6 +184,18 @@ namespace WindowsFormsApp1
                 SignalSendRetryMaxCount = 0;
             }
             SignalScanSuccessUntilStopped = true;
+            if (BufferServerPort <= 0)
+            {
+                BufferServerPort = 8056;
+            }
+            if (BufferSpacingX <= 0)
+            {
+                BufferSpacingX = 200;
+            }
+            if (BufferDropOffsetMm <= 0)
+            {
+                BufferDropOffsetMm = 460;
+            }
         }
     }
 
@@ -181,6 +208,16 @@ namespace WindowsFormsApp1
         public string Width { get; set; }
         public string Height { get; set; }
         public string PackingSequences { get; set; }
+    }
+
+    public sealed class CommittedProductionRecord
+    {
+        public string Barcode { get; set; }
+        public string Sku { get; set; }
+        public int PackingSequence { get; set; }
+        public string PackingBoxId { get; set; }
+        public bool IsPackingLongShortSwapped { get; set; }
+        public string PlacementMode { get; set; }
     }
 
     internal sealed class ScanRecord
@@ -199,6 +236,7 @@ namespace WindowsFormsApp1
         public int PackingSequence { get; set; }
         public string PackingBoxId { get; set; }
         public bool IsPackingLongShortSwapped { get; set; }
+        public string PlacementMode { get; set; }
         public DateTime ScanTime { get; set; }
         public string ImagePath { get; set; }
     }
