@@ -192,6 +192,14 @@ namespace WindowsFormsApp1
             _lastSentValue = null;
         }
 
+        /// <summary>
+        /// 丢弃接收缓冲区中尚未处理的字节，避免上一轮的滞后信号（如 3/5）污染新一轮。
+        /// </summary>
+        public void FlushReceiveBuffer()
+        {
+            _receiveBuffer.Clear();
+        }
+
         public void Dispose()
         {
             Stop();

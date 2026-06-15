@@ -69,6 +69,19 @@ namespace WindowsFormsApp1
         private bool _robotPackingInProgress;
         private bool _productionBatchEnded;
         private ScanRecord _pendingProductionRecord;
+        private ProductionSignalPhase _productionSignalPhase = ProductionSignalPhase.Idle;
+        private int _productionScanTickCount;
+        private bool _pendingScanSuccessAfterAck5;
+
+        private const int MinScanTicksBeforeFailure = 2;
+
+        private enum ProductionSignalPhase
+        {
+            Idle,
+            Scanning,
+            AwaitingScanFailedAck,
+            AwaitingScanSuccessAck
+        }
 
         public event Action<ScannedItemInfo> ScannedItemAdded;
         public event Action ScanItemsCleared;
@@ -2457,6 +2470,12 @@ namespace WindowsFormsApp1
                 return;
             }
 
+            if (!CanAcceptScanSuccessAcknowledgement())
+            {
+                AppendLog("工作模式：收到信号3，但当前不在等待信号1确认状态，忽略（可能是滞后信号）。");
+                return;
+            }
+
             if (_signalSendRetryValue == ProductionSignalClient.SignalScanSuccess)
             {
                 StopSignalSendRetry();
@@ -2485,11 +2504,38 @@ namespace WindowsFormsApp1
                 return;
             }
 
+            if (_pendingScanSuccessAfterAck5 && _pendingProductionRecord != null)
+            {
+                StopSignalSendRetry();
+                _productionFailureNotified = false;
+                _productionAwaitingCapture = false;
+                _productionScanFailedWaitingRetry = false;
+                _pendingScanSuccessAfterAck5 = false;
+                if (_productionSignalClient != null)
+                {
+                    _productionSignalClient.ResetSendState();
+                }
+
+                BeginSignalSendRetry(ProductionSignalClient.SignalScanSuccess, true);
+                _productionSignalPhase = ProductionSignalPhase.AwaitingScanSuccessAck;
+                EnterProductionWaitingNextCycleState();
+                AppendLog("工作模式：已收到信号5，先前采码成功，现发送信号1并等待信号3确认。" + FormatSignalSendRetryHint(false));
+                return;
+            }
+
+            if (_productionSignalPhase != ProductionSignalPhase.AwaitingScanFailedAck &&
+                _signalSendRetryValue != ProductionSignalClient.SignalScanFailed)
+            {
+                AppendLog("工作模式：收到信号5，但当前不在等待信号2确认状态，忽略（可能是滞后信号）。");
+                return;
+            }
+
             if (_signalSendRetryValue == ProductionSignalClient.SignalScanFailed)
             {
                 StopSignalSendRetry();
                 _productionAwaitingCapture = false;
                 _productionFailureNotified = false;
+                _productionSignalPhase = ProductionSignalPhase.Scanning;
                 AppendLog("工作模式：机械臂已确认收到信号2，停止本轮信号2重发，继续扫码；若仍未扫到码将再次发送信号2。");
             }
             else
@@ -2545,10 +2591,7 @@ namespace WindowsFormsApp1
                 TryStartProductionBatch();
             }
 
-            if (_productionSignalClient != null)
-            {
-                _productionSignalClient.ResetSendState();
-            }
+            PrepareNewProductionScanCycle();
 
             StopSignalSendRetry();
             EnterProductionRobotReadyState();
@@ -2778,6 +2821,9 @@ namespace WindowsFormsApp1
             _robotPackingInProgress = false;
             _productionBatchEnded = false;
             _pendingProductionRecord = null;
+            _pendingScanSuccessAfterAck5 = false;
+            _productionSignalPhase = ProductionSignalPhase.Idle;
+            _productionScanTickCount = 0;
             StopSignalSendRetry();
 
             if (_productionSignalClient != null)
@@ -2982,7 +3028,10 @@ namespace WindowsFormsApp1
 
                 if (IsProductionMode)
                 {
-                    if (_productionAwaitingCapture && !_productionFailureNotified)
+                    _productionScanTickCount++;
+                    if (_productionAwaitingCapture &&
+                        !_productionFailureNotified &&
+                        _productionScanTickCount >= MinScanTicksBeforeFailure)
                     {
                         BeginProductionScanFailureNotification();
                     }
@@ -3061,6 +3110,12 @@ namespace WindowsFormsApp1
             _scanActive = true;
             _productionAwaitingCapture = false;
             _productionFailureNotified = false;
+            _productionScanTickCount = 0;
+            _pendingScanSuccessAfterAck5 = false;
+            if (IsProductionMode)
+            {
+                _productionSignalPhase = ProductionSignalPhase.Scanning;
+            }
             StopSignalSendRetry();
             if (IsProductionMode && _productionSignalClient != null)
             {
@@ -3149,10 +3204,12 @@ namespace WindowsFormsApp1
             if (IsProductionMode)
             {
                 _scanTimer.Stop();
-                StopSignalSendRetry();
                 _productionAwaitingCapture = false;
-                _productionFailureNotified = false;
                 _productionScanFailedWaitingRetry = false;
+                if (!_productionFailureNotified)
+                {
+                    StopSignalSendRetry();
+                }
             }
 
             string barcode = ProductCatalog.NormalizeBarcode(capture.Barcode);
@@ -3185,22 +3242,6 @@ namespace WindowsFormsApp1
                     return;
                 }
 
-                if (_productionSignalClient != null)
-                {
-                    _productionSignalClient.ResetSendState();
-                }
-
-                BeginSignalSendRetry(
-                    ProductionSignalClient.SignalScanSuccess,
-                    true);
-                EnterProductionWaitingNextCycleState();
-                AppendLog("工作模式：本轮采码成功，已关闭扫码器并发送信号1；等待信号3确认和下一轮信号0。" + FormatSignalSendRetryHint(false));
-                RefreshSummaryPanels();
-            }
-
-            ScanRecord record;
-            if (IsProductionMode)
-            {
                 _pendingProductionRecord = new ScanRecord
                 {
                     Mode = "工作模式",
@@ -3219,64 +3260,84 @@ namespace WindowsFormsApp1
                 };
                 ShowRecord(_pendingProductionRecord, "待确认采码");
                 RefreshSummaryPanels();
-                AppendLog("有效采码：" + barcode + "，已保存照片并停止扫码，等待机械臂返回信号3后更新数量和订单信息。");
+
+                if (_productionFailureNotified)
+                {
+                    _pendingScanSuccessAfterAck5 = true;
+                    StopSignalSendRetry();
+                    _productionSignalPhase = ProductionSignalPhase.AwaitingScanFailedAck;
+                    AppendLog("有效采码：" + barcode + "，已保存照片；因本轮已发送信号2，先等待信号5确认后再发信号1。");
+                }
+                else
+                {
+                    if (_productionSignalClient != null)
+                    {
+                        _productionSignalClient.ResetSendState();
+                    }
+
+                    BeginSignalSendRetry(ProductionSignalClient.SignalScanSuccess, true);
+                    _productionSignalPhase = ProductionSignalPhase.AwaitingScanSuccessAck;
+                    EnterProductionWaitingNextCycleState();
+                    AppendLog("工作模式：本轮采码成功，已关闭扫码器并发送信号1；等待信号3确认和下一轮信号0。" + FormatSignalSendRetryHint(false));
+                    AppendLog("有效采码：" + barcode + "，已保存照片并停止扫码，等待机械臂返回信号3后更新数量和订单信息。");
+                }
+
                 return;
+            }
+
+            ScanRecord record;
+            if (IsNoOrderTestMode)
+            {
+                record = new ScanRecord
+                {
+                    Mode = "测试模式",
+                    OrderNo = string.Empty,
+                    BatchBoxCode = string.Empty,
+                    Sequence = _testSequence++,
+                    Barcode = barcode,
+                    Sku = sku,
+                    Length = length,
+                    Width = width,
+                    Height = height,
+                    Status = FindProduct(barcode) == null ? "未查询到该产品" : "测试记录",
+                    ScanCount = CountRecords(_testRecords, barcode) + 1,
+                    ScanTime = readTime,
+                    ImagePath = imagePath
+                };
             }
             else
             {
-                if (IsNoOrderTestMode)
+                record = new ScanRecord
                 {
-                    record = new ScanRecord
-                    {
-                        Mode = "测试模式",
-                        OrderNo = string.Empty,
-                        BatchBoxCode = string.Empty,
-                        Sequence = _testSequence++,
-                        Barcode = barcode,
-                        Sku = sku,
-                        Length = length,
-                        Width = width,
-                        Height = height,
-                        Status = FindProduct(barcode) == null ? "未查询到该产品" : "测试记录",
-                        ScanCount = CountRecords(_testRecords, barcode) + 1,
-                        ScanTime = readTime,
-                        ImagePath = imagePath
-                    };
-                }
-                else
-                {
-                    record = new ScanRecord
-                    {
-                        Mode = "测试模式",
-                        OrderNo = CurrentOrderNo,
-                        BatchBoxCode = CurrentBoxCode,
-                        Sequence = _testSequence++,
-                        Barcode = barcode,
-                        Sku = sku,
-                        Length = length,
-                        Width = width,
-                        Height = height,
-                        Status = ResolveOrderScanStatus(barcode, sku, _testRecords),
-                        ScanCount = CountRecords(_testRecords, barcode) + 1,
-                        ScanTime = readTime,
-                        ImagePath = imagePath
-                    };
-                }
+                    Mode = "测试模式",
+                    OrderNo = CurrentOrderNo,
+                    BatchBoxCode = CurrentBoxCode,
+                    Sequence = _testSequence++,
+                    Barcode = barcode,
+                    Sku = sku,
+                    Length = length,
+                    Width = width,
+                    Height = height,
+                    Status = ResolveOrderScanStatus(barcode, sku, _testRecords),
+                    ScanCount = CountRecords(_testRecords, barcode) + 1,
+                    ScanTime = readTime,
+                    ImagePath = imagePath
+                };
+            }
 
-                _testRecords.Add(record);
-                _historyStore.Append(record);
-                AddRecordToActiveBatch(record);
-                WriteCurrentStatistics();
-                RefreshActiveScanTables();
-                if (!IsNoOrderTestMode && IsOrderComplete(_testRecords))
-                {
-                    EndBatchInternal(false);
-                    UpdateStatusLabels(null, "未开始", "未到位");
-                }
-                else
-                {
-                    UpdateStatusLabels(null, "未开始", null);
-                }
+            _testRecords.Add(record);
+            _historyStore.Append(record);
+            AddRecordToActiveBatch(record);
+            WriteCurrentStatistics();
+            RefreshActiveScanTables();
+            if (!IsNoOrderTestMode && IsOrderComplete(_testRecords))
+            {
+                EndBatchInternal(false);
+                UpdateStatusLabels(null, "未开始", "未到位");
+            }
+            else
+            {
+                UpdateStatusLabels(null, "未开始", null);
             }
 
             ShowRecord(record, IsProductionMode ? "当前采码" : "测试记录");
@@ -3295,6 +3356,8 @@ namespace WindowsFormsApp1
 
             ScanRecord record = _pendingProductionRecord;
             _pendingProductionRecord = null;
+            _pendingScanSuccessAfterAck5 = false;
+            _productionSignalPhase = ProductionSignalPhase.Idle;
             record.Sequence = _nextSequence++;
             record.Status = ResolveProductionStatus(record.Barcode, record.Sku);
             record.ScanCount = CountRecords(_currentProductionRecords, record.Barcode) + 1;
@@ -4429,9 +4492,39 @@ namespace WindowsFormsApp1
         private void BeginProductionScanFailureNotification()
         {
             _productionFailureNotified = true;
+            _productionSignalPhase = ProductionSignalPhase.AwaitingScanFailedAck;
             EnterProductionWaitingScanState();
             BeginSignalSendRetry(ProductionSignalClient.SignalScanFailed, true);
             AppendLog("工作模式：未扫到有效条码，已发送信号2，机械臂换姿中，持续采码等待有效条码。" + FormatSignalSendRetryHint(true));
+        }
+
+        private void PrepareNewProductionScanCycle()
+        {
+            if (_productionSignalClient != null)
+            {
+                _productionSignalClient.FlushReceiveBuffer();
+                _productionSignalClient.ResetSendState();
+            }
+
+            _productionScanTickCount = 0;
+            _pendingScanSuccessAfterAck5 = false;
+            _productionSignalPhase = ProductionSignalPhase.Scanning;
+        }
+
+        private bool CanAcceptScanSuccessAcknowledgement()
+        {
+            if (_pendingScanSuccessAfterAck5)
+            {
+                return false;
+            }
+
+            if (_productionSignalPhase == ProductionSignalPhase.AwaitingScanSuccessAck)
+            {
+                return true;
+            }
+
+            return _pendingProductionRecord != null &&
+                (_signalSendRetryValue == ProductionSignalClient.SignalScanSuccess || _robotPackingInProgress);
         }
 
         private void BeginSignalSendRetry(int signal, bool untilStopped)
