@@ -25,7 +25,7 @@ def parse_position(position_str):
 
 def get_position_count(position_str):
     """
-    返回坐标点数量
+    返回坐标点数量 
     """
     positions = parse_position(position_str)
     return len(positions)

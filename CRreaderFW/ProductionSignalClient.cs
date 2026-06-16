@@ -21,6 +21,8 @@ namespace WindowsFormsApp1
         public const int SignalStoreToBuffer = 8;
         public const int SignalPackFromBuffer = 9;
         public const int SignalContinuePick = 10;
+        /// <summary>机械臂完成当前放置动作，请求 PC 下发动作链中的下一步（臂→PC，15000）。</summary>
+        public const int SignalPlacementStepReady = 11;
 
         private TcpClient _sendClient;
         private NetworkStream _sendStream;
@@ -378,6 +380,12 @@ namespace WindowsFormsApp1
 
                     if (digitLength > 1 && !nextIsDelimiter)
                     {
+                        // 先尝试多位数合法信号（10/11）；避免把 "11" 拆成两个 "1"。
+                        if (TryConsumeAsciiMessage(0, digitLength))
+                        {
+                            continue;
+                        }
+
                         if (TryConsumeAsciiMessage(0, 1))
                         {
                             continue;
@@ -431,13 +439,19 @@ namespace WindowsFormsApp1
                 return text.Length > 0;
             }
 
+            if (!IsValidSignal(value))
+            {
+                NotifyTransmitted(false, value, "忽略无效整型信号 " + value + " (Raw=\"" + EscapeControlChars(rawText) + "\")");
+                return true;
+            }
+
             DispatchSignal(value, "Raw=\"" + EscapeControlChars(rawText) + "\" Parsed=" + value);
             return true;
         }
 
         private static bool IsValidSignal(int value)
         {
-            return value >= SignalRobotReady && value <= SignalContinuePick;
+            return value >= SignalRobotReady && value <= SignalPlacementStepReady;
         }
 
         private void DispatchSignal(int value)

@@ -87,6 +87,7 @@ namespace ThreeDPacking.App.Forms
         private readonly Dictionary<int, BufferCoordinateEntry> _bufferCoordsBySequence =
             new Dictionary<int, BufferCoordinateEntry>();
         private readonly PackingFlowCoordinator _packingFlowCoordinator = new PackingFlowCoordinator();
+        private readonly Queue<PackingPlacementAction> _pendingPlacementActions = new Queue<PackingPlacementAction>();
 
         private GroupBox grpPackingPositions;
         private Label lblPackingPositionsInfo;
@@ -189,6 +190,7 @@ namespace ThreeDPacking.App.Forms
             _scanTestControl.OrderMatchCleared += ScanTestControl_OrderMatchCleared;
             _scanTestControl.OrderConfirmedForPacking += ScanTestControl_OrderConfirmedForPacking;
             _scanTestControl.ProductionRecordCommitted += ScanTestControl_ProductionRecordCommitted;
+            _scanTestControl.PlacementStepReadyReceived += ScanTestControl_PlacementStepReadyReceived;
             panelScanTest.Controls.Add(_scanTestControl);
         }
 
@@ -1194,6 +1196,18 @@ namespace ThreeDPacking.App.Forms
         private void ResetPackingFlowCoordinator()
         {
             _packingFlowCoordinator.Reset();
+            _pendingPlacementActions.Clear();
+        }
+
+        private void ScanTestControl_PlacementStepReadyReceived()
+        {
+            if (InvokeRequired)
+            {
+                BeginInvoke((Action)ScanTestControl_PlacementStepReadyReceived);
+                return;
+            }
+
+            _ = SendNextPlacementActionAsync();
         }
 
         private void RebuildBufferCoordinates(IReadOnlyList<BufferFlatLayoutCalculator.LayoutItem> layoutItems)
@@ -1289,35 +1303,79 @@ namespace ThreeDPacking.App.Forms
                 UpdateScannedItemPlacementMode(record);
             }
 
+            _pendingPlacementActions.Clear();
             foreach (PackingPlacementAction action in decision.Actions)
             {
-                switch (action.Type)
-                {
-                    case PackingPlacementActionType.StoreToBuffer:
-                    case PackingPlacementActionType.PackFromBuffer:
-                        if (!await SendBufferCoordinateAsync(action.PackingSequence).ConfigureAwait(true))
-                            return;
-                        _scanTestControl.SendProductionSignal(action.Type == PackingPlacementActionType.StoreToBuffer
-                            ? ProductionSignalClient.SignalStoreToBuffer
-                            : ProductionSignalClient.SignalPackFromBuffer);
-                        if (action.Type == PackingPlacementActionType.PackFromBuffer)
-                        {
-                            SendPlacementPoseSignal(action.IsLongShortSwapped);
-                        }
-                        break;
-                    case PackingPlacementActionType.DirectPack:
-                        SendPlacementPoseSignal(action.IsLongShortSwapped);
-                        break;
-                    case PackingPlacementActionType.ContinuePick:
-                        _scanTestControl.SendProductionSignal(ProductionSignalClient.SignalContinuePick);
-                        break;
-                }
+                _pendingPlacementActions.Enqueue(action);
+            }
+
+            if (!await SendNextPlacementActionAsync().ConfigureAwait(true))
+            {
+                return;
             }
 
             RefreshScanInfoList();
-            AppendLog("[装箱协调] 顺序 " + record.PackingSequence + " 动作链已下发，下一应装顺序 "
+            AppendLog("[装箱协调] 顺序 " + record.PackingSequence + " 动作链已启动（分步下发），下一应装顺序 "
                 + _packingFlowCoordinator.NextExpectedPackingSequence + "，暂存占用 "
                 + _packingFlowCoordinator.BufferedItemCount + " 件。");
+        }
+
+        private async Task<bool> SendNextPlacementActionAsync()
+        {
+            if (_pendingPlacementActions.Count == 0)
+            {
+                AppendLog("[装箱协调] 本件动作链已全部下发。");
+                return true;
+            }
+
+            PackingPlacementAction action = _pendingPlacementActions.Dequeue();
+            return await ExecutePlacementActionAsync(action).ConfigureAwait(true);
+        }
+
+        private async Task<bool> ExecutePlacementActionAsync(PackingPlacementAction action)
+        {
+            if (action == null)
+            {
+                return true;
+            }
+
+            switch (action.Type)
+            {
+                case PackingPlacementActionType.StoreToBuffer:
+                    if (!await SendBufferCoordinateAsync(action.PackingSequence).ConfigureAwait(true))
+                    {
+                        return false;
+                    }
+
+                    _scanTestControl.SendProductionSignal(ProductionSignalClient.SignalStoreToBuffer);
+                    AppendLog("[装箱协调] 已下发信号8（放暂存），等待机械臂信号11后继续。");
+                    return true;
+
+                case PackingPlacementActionType.DirectPack:
+                    SendPlacementPoseSignal(action.IsLongShortSwapped);
+                    AppendLog("[装箱协调] 已下发直装位姿信号，等待机械臂信号11后继续。");
+                    return true;
+
+                case PackingPlacementActionType.PackFromBuffer:
+                    // 示教器先读 10000 的 9，再读 8056，最后在回取装箱前读 6/7。
+                    _scanTestControl.SendProductionSignal(ProductionSignalClient.SignalPackFromBuffer);
+                    if (!await SendBufferCoordinateAsync(action.PackingSequence).ConfigureAwait(true))
+                    {
+                        return false;
+                    }
+
+                    SendPlacementPoseSignal(action.IsLongShortSwapped);
+                    AppendLog("[装箱协调] 已下发信号9+8056+位姿，等待机械臂信号11后继续。");
+                    return true;
+
+                case PackingPlacementActionType.ContinuePick:
+                    _scanTestControl.SendProductionSignal(ProductionSignalClient.SignalContinuePick);
+                    AppendLog("[装箱协调] 已下发信号10（继续抓取）。");
+                    return true;
+
+                default:
+                    return true;
+            }
         }
 
         private void SendPlacementPoseSignal(bool isLongShortSwapped)

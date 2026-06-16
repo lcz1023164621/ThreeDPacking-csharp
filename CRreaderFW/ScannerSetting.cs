@@ -123,7 +123,7 @@ namespace WindowsFormsApp1
             chkSignalScanSuccessUntilStopped = new CheckBox
             {
                 AutoSize = true,
-                Text = "信号1按最大次数重发并等3确认，信号2持续到5",
+                Text = "信号1/2均按最大次数重发；信号1等3确认，信号2等5确认后停止",
                 Enabled = false
             };
             lblSignalSendRetryHint = new Label
@@ -131,7 +131,7 @@ namespace WindowsFormsApp1
                 AutoSize = true,
                 ForeColor = Color.FromArgb(96, 96, 96),
                 Margin = new Padding(8, 10, 0, 0),
-                Text = "新协议：信号1最多按上限重发并等3确认入账，信号2等5停止；建议间隔>=500ms"
+                Text = "信号1/2共用发送上限；达上限后停止重发并继续采码，等机械臂确认(3/5)；建议间隔>=500ms"
             };
             var signalRetryPanel = new FlowLayoutPanel
             {

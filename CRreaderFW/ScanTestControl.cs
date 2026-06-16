@@ -72,8 +72,11 @@ namespace WindowsFormsApp1
         private ProductionSignalPhase _productionSignalPhase = ProductionSignalPhase.Idle;
         private int _productionScanTickCount;
         private bool _pendingScanSuccessAfterAck5;
+        private bool _signal2RetryExhausted;
+        private DateTime _productionScanCycleStartedAt = DateTime.MinValue;
 
         private const int MinScanTicksBeforeFailure = 2;
+        private const int StaleProductionAckWindowMs = 600;
 
         private enum ProductionSignalPhase
         {
@@ -90,6 +93,7 @@ namespace WindowsFormsApp1
         public event Action OrderMatchCleared;
         public event Action<IReadOnlyList<ScannedItemInfo>> OrderConfirmedForPacking;
         public event Action<CommittedProductionRecord> ProductionRecordCommitted;
+        public event Action PlacementStepReadyReceived;
 
         public ScanTestControl()
         {
@@ -2470,6 +2474,13 @@ namespace WindowsFormsApp1
                 return;
             }
 
+            if (IsStaleProductionAckAfterCycleStart() &&
+                _productionSignalPhase != ProductionSignalPhase.AwaitingScanSuccessAck)
+            {
+                AppendLog("工作模式：收到信号3，距本轮信号0过近且当前未等待信号1确认，忽略（滞后确认）。");
+                return;
+            }
+
             if (!CanAcceptScanSuccessAcknowledgement())
             {
                 AppendLog("工作模式：收到信号3，但当前不在等待信号1确认状态，忽略（可能是滞后信号）。");
@@ -2523,6 +2534,14 @@ namespace WindowsFormsApp1
                 return;
             }
 
+            if (_productionSignalPhase == ProductionSignalPhase.Scanning &&
+                !_productionFailureNotified &&
+                IsStaleProductionAckAfterCycleStart())
+            {
+                AppendLog("工作模式：收到信号5，距本轮信号0过近且尚未发信号2，忽略（滞后确认）。");
+                return;
+            }
+
             if (_productionSignalPhase != ProductionSignalPhase.AwaitingScanFailedAck &&
                 _signalSendRetryValue != ProductionSignalClient.SignalScanFailed)
             {
@@ -2530,18 +2549,22 @@ namespace WindowsFormsApp1
                 return;
             }
 
-            if (_signalSendRetryValue == ProductionSignalClient.SignalScanFailed)
+            StopSignalSendRetry();
+            _signal2RetryExhausted = false;
+            _productionAwaitingCapture = false;
+            _productionFailureNotified = false;
+            _productionSignalPhase = ProductionSignalPhase.Scanning;
+            AppendLog("工作模式：机械臂已确认收到信号2，停止本轮信号2重发，继续扫码；若仍未扫到码将再次发送信号2。");
+        }
+
+        private bool IsStaleProductionAckAfterCycleStart()
+        {
+            if (_productionScanCycleStartedAt == DateTime.MinValue)
             {
-                StopSignalSendRetry();
-                _productionAwaitingCapture = false;
-                _productionFailureNotified = false;
-                _productionSignalPhase = ProductionSignalPhase.Scanning;
-                AppendLog("工作模式：机械臂已确认收到信号2，停止本轮信号2重发，继续扫码；若仍未扫到码将再次发送信号2。");
+                return false;
             }
-            else
-            {
-                AppendLog("工作模式：收到信号5确认，但当前没有待停止的信号2重发。");
-            }
+
+            return (DateTime.Now - _productionScanCycleStartedAt).TotalMilliseconds < StaleProductionAckWindowMs;
         }
 
         private void HandleProductionRobotSignal()
@@ -2561,6 +2584,14 @@ namespace WindowsFormsApp1
             {
                 if (_productionFailureNotified)
                 {
+                    if (_signal2RetryExhausted)
+                    {
+                        _signal2RetryExhausted = false;
+                        AppendLog("工作模式：收到信号0，上次信号2已达重发上限，按新一轮请求重新发送。");
+                        BeginSignalSendRetry(ProductionSignalClient.SignalScanFailed, true);
+                        return;
+                    }
+
                     if (_signalSendRetryValue == ProductionSignalClient.SignalScanFailed)
                     {
                         AppendLog("工作模式：收到信号0，当前仍在等待发送信号2，尝试恢复发送。");
@@ -3487,6 +3518,8 @@ namespace WindowsFormsApp1
                     return "9 从暂存取";
                 case ProductionSignalClient.SignalContinuePick:
                     return "10 继续抓取";
+                case ProductionSignalClient.SignalPlacementStepReady:
+                    return "11 放置步完成";
                 default:
                     return signal.ToString(CultureInfo.InvariantCulture);
             }
@@ -4280,7 +4313,7 @@ namespace WindowsFormsApp1
             grpWorkState.Visible = production;
             SetModeTabs(production);
             lblModeHint.Text = production
-                ? "工作模式：确认订单后开始批次；信号0开启持续采码；扫到发1并等信号3确认后入账；未扫到发2并等信号5停止重发；信号4批次结束并生成统计；异常可点「扫码归位」。"
+                ? "工作模式：确认订单后开始批次；信号0开启持续采码；扫到发1并等信号3确认后入账；未扫到发2（按最大次数重发）并等信号5确认后停止重发；信号4批次结束并生成统计；异常可点「扫码归位」。"
                 : "测试模式：可匹配订单扫码、无订单测试，或勾选订单直读后输入箱码直接载入装箱。";
             lblTestTotalTitle.Visible = test;
             lblTestTotalValue.Visible = test;
@@ -4448,9 +4481,9 @@ namespace WindowsFormsApp1
 
         private string FormatSignalSendRetryDescription()
         {
-            return "间隔" + _scannerSettings.SignalSendRetryIntervalMs + "ms，信号1最多"
-                + GetSignalSendRetryLimit(ProductionSignalClient.SignalScanSuccess, true)
-                + "次并等3确认，信号2持续到5";
+            int limit = GetSignalSendRetryLimit(ProductionSignalClient.SignalScanSuccess, true);
+            return "间隔" + _scannerSettings.SignalSendRetryIntervalMs + "ms，信号1/2各最多"
+                + limit + "次；信号1等3确认，信号2等5确认后停止重发";
         }
 
         private string FormatSignalSendRetryHint(bool untilStopped)
@@ -4471,11 +4504,6 @@ namespace WindowsFormsApp1
 
         private int GetSignalSendRetryLimit(int signal, bool untilStopped)
         {
-            if (signal == ProductionSignalClient.SignalScanFailed)
-            {
-                return int.MaxValue;
-            }
-
             if (_scannerSettings.SignalSendRetryMaxCount > 0)
             {
                 return _scannerSettings.SignalSendRetryMaxCount;
@@ -4492,6 +4520,7 @@ namespace WindowsFormsApp1
         private void BeginProductionScanFailureNotification()
         {
             _productionFailureNotified = true;
+            _signal2RetryExhausted = false;
             _productionSignalPhase = ProductionSignalPhase.AwaitingScanFailedAck;
             EnterProductionWaitingScanState();
             BeginSignalSendRetry(ProductionSignalClient.SignalScanFailed, true);
@@ -4508,6 +4537,8 @@ namespace WindowsFormsApp1
 
             _productionScanTickCount = 0;
             _pendingScanSuccessAfterAck5 = false;
+            _signal2RetryExhausted = false;
+            _productionScanCycleStartedAt = DateTime.Now;
             _productionSignalPhase = ProductionSignalPhase.Scanning;
         }
 
@@ -4588,7 +4619,7 @@ namespace WindowsFormsApp1
 
             if (_signalSendRetryValue < 0)
             {
-                if (_scanActive && _productionFailureNotified)
+                if (_scanActive && _productionFailureNotified && !_signal2RetryExhausted)
                 {
                     BeginSignalSendRetry(ProductionSignalClient.SignalScanFailed, true);
                 }
@@ -4638,7 +4669,8 @@ namespace WindowsFormsApp1
                 StopSignalSendRetry();
                 if (signalValue == ProductionSignalClient.SignalScanFailed)
                 {
-                    AppendLog("工作模式：信号2已达最大重发次数 " + limit + "，停止重发，持续采码等待有效条码。");
+                    _signal2RetryExhausted = true;
+                    AppendLog("工作模式：信号2已达最大重发次数 " + limit + "，停止重发，持续采码等待机械臂回信号5或有效条码。");
                 }
                 else
                 {
@@ -4720,6 +4752,10 @@ namespace WindowsFormsApp1
                 case ProductionSignalClient.SignalScanFailedAcknowledged:
                     AppendLog("机械臂确认已收到未扫到信号，停止信号2重发并继续扫码。");
                     OnProductionScanFailedAcknowledgedSignal();
+                    break;
+                case ProductionSignalClient.SignalPlacementStepReady:
+                    AppendLog("机械臂完成当前放置步，等待 PC 下发动作链下一步。");
+                    PlacementStepReadyReceived?.Invoke();
                     break;
                 default:
                     AppendLog("忽略未知生产信号：" + signal + "。");

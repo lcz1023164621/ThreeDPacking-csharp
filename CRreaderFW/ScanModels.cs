@@ -101,7 +101,7 @@ namespace WindowsFormsApp1
                 BufferOriginY = 0,
                 BufferOriginZ = 0,
                 BufferSpacingX = 200,
-                BufferDropOffsetMm = 460
+                BufferDropOffsetMm = 0
             };
         }
 
@@ -194,7 +194,7 @@ namespace WindowsFormsApp1
             }
             if (BufferDropOffsetMm <= 0)
             {
-                BufferDropOffsetMm = 460;
+                BufferDropOffsetMm = 0;
             }
         }
     }
