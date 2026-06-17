@@ -24,6 +24,14 @@ namespace WindowsFormsApp1
         /// <summary>机械臂完成当前放置动作，请求 PC 下发动作链中的下一步（臂→PC，15000）。</summary>
         public const int SignalPlacementStepReady = 11;
 
+        public const string CommandVisionOk = "VISION_OK";
+        public const string CommandVisionRetry = "VISION_RETRY";
+        public const string CommandPlaceHeldDirect = "CMD_PLACE_HELD|pose=DIRECT";
+        public const string CommandPlaceHeldSwap = "CMD_PLACE_HELD|pose=SWAP_LONG_SHORT";
+        public const string CommandBufferHeld = "CMD_BUFFER_HELD";
+        public const string CommandTakeBuffer = "CMD_TAKE_BUFFER";
+        public const string CommandPickScan = "CMD_PICK_SCAN";
+
         private TcpClient _sendClient;
         private NetworkStream _sendStream;
         private TcpClient _receiveClient;
@@ -430,7 +438,7 @@ namespace WindowsFormsApp1
             _receiveBuffer.RemoveRange(start, length);
 
             int value;
-            if (!int.TryParse(text, out value))
+            if (!int.TryParse(text, out value) && !TryParseSignalText(text, out value))
             {
                 if (text.Length > 0)
                 {
@@ -452,6 +460,74 @@ namespace WindowsFormsApp1
         private static bool IsValidSignal(int value)
         {
             return value >= SignalRobotReady && value <= SignalPlacementStepReady;
+        }
+
+        public static string ToCommandText(int value)
+        {
+            switch (value)
+            {
+                case SignalScanSuccess:
+                    return CommandVisionOk;
+                case SignalScanFailed:
+                    return CommandVisionRetry;
+                case SignalStraightPlacement:
+                    return CommandPlaceHeldDirect;
+                case SignalLongShortSwapped:
+                    return CommandPlaceHeldSwap;
+                case SignalStoreToBuffer:
+                    return CommandBufferHeld;
+                case SignalPackFromBuffer:
+                    return CommandTakeBuffer;
+                case SignalContinuePick:
+                    return CommandPickScan;
+                default:
+                    return value.ToString(System.Globalization.CultureInfo.InvariantCulture);
+            }
+        }
+
+        public static bool TryParseSignalText(string text, out int value)
+        {
+            value = -1;
+            if (string.IsNullOrWhiteSpace(text))
+            {
+                return false;
+            }
+
+            string normalized = text.Trim().ToUpperInvariant();
+            int separator = normalized.IndexOf('|');
+            string action = separator >= 0 ? normalized.Substring(0, separator) : normalized;
+
+            switch (action)
+            {
+                case "EVT_SCAN_READY":
+                case "EVT_ROBOT_READY":
+                case "ROBOT_READY":
+                    value = SignalRobotReady;
+                    return true;
+                case "EVT_SCAN_SUCCESS_ACK":
+                case "EVT_ROBOT_ACK":
+                case "EVT_ROBOT_ACKNOWLEDGED":
+                case "ACK_SCAN_SUCCESS":
+                    value = SignalRobotAcknowledged;
+                    return true;
+                case "EVT_BATCH_DONE":
+                case "EVT_DONE":
+                    value = SignalBatchComplete;
+                    return true;
+                case "EVT_SCAN_FAILED_ACK":
+                case "EVT_SCAN_FAIL_ACK":
+                case "ACK_SCAN_FAILED":
+                case "ACK_SCAN_FAIL":
+                    value = SignalScanFailedAcknowledged;
+                    return true;
+                case "EVT_ACTION_DONE":
+                case "EVT_PLACEMENT_DONE":
+                case "EVT_PLACEMENT_STEP_READY":
+                    value = SignalPlacementStepReady;
+                    return true;
+                default:
+                    return false;
+            }
         }
 
         private void DispatchSignal(int value)

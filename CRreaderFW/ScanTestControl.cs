@@ -3492,6 +3492,11 @@ namespace WindowsFormsApp1
             return SendProductionSignalDirect(signal);
         }
 
+        public bool SendProductionCommand(string command)
+        {
+            return SendProductionStringDirect(command);
+        }
+
         public static string DescribeProductionSignal(int signal)
         {
             switch (signal)
@@ -4842,15 +4847,16 @@ namespace WindowsFormsApp1
                 return false;
             }
 
-            bool sent = _productionSignalClient.Send(signal, true);
+            string commandText = ProductionSignalClient.ToCommandText(signal);
+            bool sent = _productionSignalClient.SendString(commandText);
             string signalName = DescribeProductionSignal(signal);
             if (sent)
             {
-                AppendLog("已向机械臂发送信号 " + signal + "（" + signalName + "）。");
+                AppendLog("已向机械臂发送字符串 " + commandText + "（原信号 " + signal + "，" + signalName + "）。");
             }
             else
             {
-                AppendLog("向机械臂发送信号 " + signal + "（" + signalName + "）失败。");
+                AppendLog("向机械臂发送字符串 " + commandText + "（原信号 " + signal + "，" + signalName + "）失败。");
             }
             return sent;
         }

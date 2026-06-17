@@ -1347,30 +1347,28 @@ namespace ThreeDPacking.App.Forms
                         return false;
                     }
 
-                    _scanTestControl.SendProductionSignal(ProductionSignalClient.SignalStoreToBuffer);
-                    AppendLog("[装箱协调] 已下发信号8（放暂存），等待机械臂信号11后继续。");
+                    _scanTestControl.SendProductionCommand(PackingCommandProtocol.BuildBufferHeld(action));
+                    AppendLog("[装箱协调] 已下发 CMD_BUFFER_HELD（放暂存），等待机械臂完成事件后继续。");
                     return true;
 
                 case PackingPlacementActionType.DirectPack:
-                    SendPlacementPoseSignal(action.IsLongShortSwapped);
-                    AppendLog("[装箱协调] 已下发直装位姿信号，等待机械臂信号11后继续。");
+                    SendPlacementPoseCommand(action);
+                    AppendLog("[装箱协调] 已下发 CMD_PLACE_HELD（直装+位姿），等待机械臂完成事件后继续。");
                     return true;
 
                 case PackingPlacementActionType.PackFromBuffer:
-                    // 示教器先读 10000 的 9，再读 8056，最后在回取装箱前读 6/7。
-                    _scanTestControl.SendProductionSignal(ProductionSignalClient.SignalPackFromBuffer);
                     if (!await SendBufferCoordinateAsync(action.PackingSequence).ConfigureAwait(true))
                     {
                         return false;
                     }
 
-                    SendPlacementPoseSignal(action.IsLongShortSwapped);
-                    AppendLog("[装箱协调] 已下发信号9+8056+位姿，等待机械臂信号11后继续。");
+                    _scanTestControl.SendProductionCommand(PackingCommandProtocol.BuildTakeBuffer(action));
+                    AppendLog("[装箱协调] 已下发 CMD_TAKE_BUFFER（回取暂存+装箱位姿），等待机械臂完成事件后继续。");
                     return true;
 
                 case PackingPlacementActionType.ContinuePick:
-                    _scanTestControl.SendProductionSignal(ProductionSignalClient.SignalContinuePick);
-                    AppendLog("[装箱协调] 已下发信号10（继续抓取）。");
+                    _scanTestControl.SendProductionCommand(PackingCommandProtocol.BuildPickScan());
+                    AppendLog("[装箱协调] 已下发 CMD_PICK_SCAN（继续抓取/扫码）。");
                     return true;
 
                 default:
@@ -1378,11 +1376,9 @@ namespace ThreeDPacking.App.Forms
             }
         }
 
-        private void SendPlacementPoseSignal(bool isLongShortSwapped)
+        private void SendPlacementPoseCommand(PackingPlacementAction action)
         {
-            _scanTestControl.SendProductionSignal(isLongShortSwapped
-                ? ProductionSignalClient.SignalLongShortSwapped
-                : ProductionSignalClient.SignalStraightPlacement);
+            _scanTestControl.SendProductionCommand(PackingCommandProtocol.BuildPlaceHeld(action));
         }
 
         private async Task<bool> SendBufferCoordinateAsync(int sequence)

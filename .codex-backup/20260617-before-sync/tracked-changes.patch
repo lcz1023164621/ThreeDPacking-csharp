@@ -1,0 +1,778 @@
+﻿diff --git a/ThreeDPacking.App/Communication/RoboticArmClient.cs b/ThreeDPacking.App/Communication/RoboticArmClient.cs
+index e8a800c..374b92e 100644
+--- a/ThreeDPacking.App/Communication/RoboticArmClient.cs
++++ b/ThreeDPacking.App/Communication/RoboticArmClient.cs
+@@ -1,68 +1,140 @@
+ using System;
++using System.IO;
+ using System.Net.Sockets;
++using System.Text;
+ using System.Threading;
+ using System.Threading.Tasks;
+ 
+ namespace ThreeDPacking.App.Communication
+ {
+     /// <summary>
+-    /// 通过 TCP Socket 与机械臂控制器通信的客户端。
++    /// 通过 TCP Socket 与机械臂控制器通信。
++    /// 命令通道用于 PC -> Robot，事件通道用于 Robot -> PC。
+     /// </summary>
+     public class RoboticArmClient : IDisposable
+     {
+-        private TcpClient _client;
+-        private NetworkStream _stream;
++        private readonly object _sync = new object();
++        private readonly SemaphoreSlim _sendLock = new SemaphoreSlim(1, 1);
+ 
+-        public bool IsConnected => _client != null && _client.Connected;
++        private TcpClient _commandClient;
++        private TcpClient _eventClient;
++        private NetworkStream _commandStream;
++        private NetworkStream _eventStream;
++        private CancellationTokenSource _receiveCts;
++        private Task _receiveTask;
++
++        public bool IsConnected => IsTcpConnected(_commandClient) && IsTcpConnected(_eventClient);
+ 
+         public event EventHandler<bool> ConnectionChanged;
++        public event EventHandler<RobotLineEventArgs> LineReceived;
++        public event EventHandler<RobotLineEventArgs> LineSent;
++        public event EventHandler<Exception> CommunicationError;
++
++        public Task ConnectAsync(string host, int port, CancellationToken cancellationToken = default)
++        {
++            return ConnectAsync(host, port, port, cancellationToken);
++        }
+ 
+-        public async Task ConnectAsync(string host, int port, CancellationToken cancellationToken = default)
++        public async Task ConnectAsync(
++            string host,
++            int commandPort,
++            int eventPort,
++            CancellationToken cancellationToken = default)
+         {
+             Disconnect();
+ 
+-            var client = new TcpClient();
++            TcpClient commandClient = null;
++            TcpClient eventClient = null;
++
+             try
+             {
+-                var connectTask = client.ConnectAsync(host, port);
+-                if (cancellationToken.CanBeCanceled)
++                commandClient = await ConnectTcpAsync(host, commandPort, cancellationToken).ConfigureAwait(false);
++                eventClient = commandPort == eventPort
++                    ? commandClient
++                    : await ConnectTcpAsync(host, eventPort, cancellationToken).ConfigureAwait(false);
++
++                lock (_sync)
+                 {
+-                    var completed = await Task.WhenAny(connectTask, Task.Delay(Timeout.Infinite, cancellationToken))
+-                        .ConfigureAwait(false);
+-                    if (completed != connectTask)
+-                    {
+-                        client.Close();
+-                        throw new OperationCanceledException(cancellationToken);
+-                    }
++                    _commandClient = commandClient;
++                    _eventClient = eventClient;
++                    _commandStream = _commandClient.GetStream();
++                    _eventStream = _eventClient.GetStream();
++                    _receiveCts = new CancellationTokenSource();
++                    _receiveTask = Task.Run(() => ReceiveLoopAsync(_receiveCts.Token));
+                 }
+-                await connectTask.ConfigureAwait(false);
+ 
+-                _client = client;
+-                _stream = client.GetStream();
+                 ConnectionChanged?.Invoke(this, true);
+             }
+             catch
+             {
+-                client.Dispose();
++                commandClient?.Close();
++                if (!ReferenceEquals(commandClient, eventClient))
++                    eventClient?.Close();
+                 throw;
+             }
+         }
+ 
+-        public void Disconnect()
++        public async Task SendCommandAsync(string line, CancellationToken cancellationToken = default)
+         {
+-            bool wasConnected = IsConnected;
++            if (line == null)
++                throw new ArgumentNullException(nameof(line));
+ 
+-            if (_stream != null)
++            NetworkStream stream;
++            lock (_sync)
++            {
++                if (_commandStream == null || !IsTcpConnected(_commandClient))
++                    throw new InvalidOperationException("机械臂命令通道未连接。");
++                stream = _commandStream;
++            }
++
++            string normalized = line.TrimEnd('\r', '\n') + "\n";
++            byte[] bytes = Encoding.UTF8.GetBytes(normalized);
++
++            await _sendLock.WaitAsync(cancellationToken).ConfigureAwait(false);
++            try
+             {
+-                _stream.Dispose();
+-                _stream = null;
++                await stream.WriteAsync(bytes, 0, bytes.Length, cancellationToken).ConfigureAwait(false);
++                await stream.FlushAsync(cancellationToken).ConfigureAwait(false);
+             }
++            finally
++            {
++                _sendLock.Release();
++            }
++
++            LineSent?.Invoke(this, new RobotLineEventArgs("command", normalized.TrimEnd('\r', '\n')));
++        }
++
++        public void Disconnect()
++        {
++            bool wasConnected = IsConnected;
+ 
+-            if (_client != null)
++            lock (_sync)
+             {
+-                _client.Close();
+-                _client.Dispose();
+-                _client = null;
++                if (_receiveCts != null)
++                {
++                    _receiveCts.Cancel();
++                    _receiveCts.Dispose();
++                    _receiveCts = null;
++                }
++
++                _commandStream?.Dispose();
++                if (!ReferenceEquals(_commandStream, _eventStream))
++                    _eventStream?.Dispose();
++
++                _commandStream = null;
++                _eventStream = null;
++
++                _commandClient?.Close();
++                if (!ReferenceEquals(_commandClient, _eventClient))
++                    _eventClient?.Close();
++
++                _commandClient?.Dispose();
++                if (!ReferenceEquals(_commandClient, _eventClient))
++                    _eventClient?.Dispose();
++
++                _commandClient = null;
++                _eventClient = null;
++                _receiveTask = null;
+             }
+ 
+             if (wasConnected)
+@@ -72,6 +144,102 @@ namespace ThreeDPacking.App.Communication
+         public void Dispose()
+         {
+             Disconnect();
++            _sendLock.Dispose();
+         }
++
++        private async Task ReceiveLoopAsync(CancellationToken cancellationToken)
++        {
++            try
++            {
++                StreamReader reader;
++                lock (_sync)
++                {
++                    if (_eventStream == null)
++                        return;
++                    reader = new StreamReader(_eventStream, Encoding.UTF8, false, 1024, true);
++                }
++
++                while (!cancellationToken.IsCancellationRequested)
++                {
++                    string line = await reader.ReadLineAsync().ConfigureAwait(false);
++                    if (line == null)
++                        break;
++
++                    line = line.Trim();
++                    if (line.Length == 0)
++                        continue;
++
++                    LineReceived?.Invoke(this, new RobotLineEventArgs("event", line));
++                }
++            }
++            catch (ObjectDisposedException)
++            {
++            }
++            catch (IOException ex)
++            {
++                if (!cancellationToken.IsCancellationRequested)
++                    CommunicationError?.Invoke(this, ex);
++            }
++            catch (Exception ex)
++            {
++                if (!cancellationToken.IsCancellationRequested)
++                    CommunicationError?.Invoke(this, ex);
++            }
++            finally
++            {
++                if (!cancellationToken.IsCancellationRequested)
++                    ConnectionChanged?.Invoke(this, false);
++            }
++        }
++
++        private static async Task<TcpClient> ConnectTcpAsync(
++            string host,
++            int port,
++            CancellationToken cancellationToken)
++        {
++            var client = new TcpClient();
++            try
++            {
++                Task connectTask = client.ConnectAsync(host, port);
++                if (cancellationToken.CanBeCanceled)
++                {
++                    Task completed = await Task.WhenAny(
++                            connectTask,
++                            Task.Delay(Timeout.Infinite, cancellationToken))
++                        .ConfigureAwait(false);
++                    if (completed != connectTask)
++                    {
++                        client.Close();
++                        throw new OperationCanceledException(cancellationToken);
++                    }
++                }
++
++                await connectTask.ConfigureAwait(false);
++                client.NoDelay = true;
++                return client;
++            }
++            catch
++            {
++                client.Dispose();
++                throw;
++            }
++        }
++
++        private static bool IsTcpConnected(TcpClient client)
++        {
++            return client != null && client.Client != null && client.Connected;
++        }
++    }
++
++    public sealed class RobotLineEventArgs : EventArgs
++    {
++        public RobotLineEventArgs(string channel, string line)
++        {
++            Channel = channel;
++            Line = line;
++        }
++
++        public string Channel { get; }
++        public string Line { get; }
+     }
+ }
+diff --git a/ThreeDPacking.App/Forms/MainForm.cs b/ThreeDPacking.App/Forms/MainForm.cs
+index 61e00c1..90444c4 100644
+--- a/ThreeDPacking.App/Forms/MainForm.cs
++++ b/ThreeDPacking.App/Forms/MainForm.cs
+@@ -57,11 +57,27 @@ namespace ThreeDPacking.App.Forms
+         private TextBox txtArmAddress;
+         private Label lblArmPort;
+         private NumericUpDown numArmPort;
++        private Label lblArmEventPort;
++        private NumericUpDown numArmEventPort;
+         private Button btnArmConnect;
+         private Button btnArmDisconnect;
+         private Panel pnlConnectionIndicator;
+         private Label lblConnectionStatus;
++        private GroupBox grpArmPacking;
++        private Label lblArmPoseMode;
++        private ComboBox cmbArmPoseMode;
++        private Button btnArmStartActual;
++        private Button btnArmAbort;
++        private Label lblArmBarcode;
++        private TextBox txtArmBarcode;
++        private Button btnArmSubmitBarcode;
++        private Button btnVisionOk;
++        private Button btnVisionRotate;
++        private Button btnVisionFail;
++        private ListBox lstArmPlan;
++        private Label lblArmPlan;
+         private RoboticArmClient _armClient;
++        private ArmPackingCoordinator _armCoordinator;
+         private bool _armConnecting;
+         private CancellationTokenSource _armConnectCts;
+ 
+@@ -240,15 +256,25 @@ namespace ThreeDPacking.App.Forms
+             txtArmAddress.Text = "127.0.0.1";
+ 
+             lblArmPort = new Label();
+-            lblArmPort.Text = "端口：";
++            lblArmPort.Text = "命令端口：";
+             lblArmPort.AutoSize = true;
+ 
+             numArmPort = new NumericUpDown();
+             numArmPort.Minimum = 1;
+             numArmPort.Maximum = 65535;
+-            numArmPort.Value = 8080;
++            numArmPort.Value = 10000;
+             numArmPort.TextAlign = HorizontalAlignment.Right;
+ 
++            lblArmEventPort = new Label();
++            lblArmEventPort.Text = "事件端口：";
++            lblArmEventPort.AutoSize = true;
++
++            numArmEventPort = new NumericUpDown();
++            numArmEventPort.Minimum = 1;
++            numArmEventPort.Maximum = 65535;
++            numArmEventPort.Value = 10001;
++            numArmEventPort.TextAlign = HorizontalAlignment.Right;
++
+             btnArmConnect = new Button();
+             btnArmConnect.Text = "连接";
+             btnArmConnect.UseVisualStyleBackColor = true;
+@@ -274,6 +300,8 @@ namespace ThreeDPacking.App.Forms
+             grpArmConnection.Controls.Add(txtArmAddress);
+             grpArmConnection.Controls.Add(lblArmPort);
+             grpArmConnection.Controls.Add(numArmPort);
++            grpArmConnection.Controls.Add(lblArmEventPort);
++            grpArmConnection.Controls.Add(numArmEventPort);
+             grpArmConnection.Controls.Add(btnArmConnect);
+             grpArmConnection.Controls.Add(btnArmDisconnect);
+             grpArmConnection.Controls.Add(pnlConnectionIndicator);
+@@ -281,10 +309,91 @@ namespace ThreeDPacking.App.Forms
+ 
+             panelActualPacking.Controls.Add(grpArmConnection);
+ 
++            grpArmPacking = new GroupBox();
++            grpArmPacking.Text = "扫码装箱";
++            grpArmPacking.TabStop = false;
++
++            lblArmPoseMode = new Label();
++            lblArmPoseMode.Text = "放置模式：";
++            lblArmPoseMode.AutoSize = true;
++
++            cmbArmPoseMode = new ComboBox();
++            cmbArmPoseMode.DropDownStyle = ComboBoxStyle.DropDownList;
++            cmbArmPoseMode.Items.Add("BOX_ORIGIN");
++            cmbArmPoseMode.Items.Add("TEST_BOX");
++            cmbArmPoseMode.SelectedIndex = 0;
++
++            btnArmStartActual = new Button();
++            btnArmStartActual.Text = "开始实际装箱";
++            btnArmStartActual.UseVisualStyleBackColor = true;
++            btnArmStartActual.Click += BtnArmStartActual_Click;
++
++            btnArmAbort = new Button();
++            btnArmAbort.Text = "中止";
++            btnArmAbort.UseVisualStyleBackColor = true;
++            btnArmAbort.Enabled = false;
++            btnArmAbort.Click += BtnArmAbort_Click;
++
++            lblArmBarcode = new Label();
++            lblArmBarcode.Text = "扫码：";
++            lblArmBarcode.AutoSize = true;
++
++            txtArmBarcode = new TextBox();
++            txtArmBarcode.Enabled = false;
++            txtArmBarcode.KeyDown += TxtArmBarcode_KeyDown;
++
++            btnArmSubmitBarcode = new Button();
++            btnArmSubmitBarcode.Text = "确认扫码";
++            btnArmSubmitBarcode.UseVisualStyleBackColor = true;
++            btnArmSubmitBarcode.Enabled = false;
++            btnArmSubmitBarcode.Click += BtnArmSubmitBarcode_Click;
++
++            btnVisionOk = new Button();
++            btnVisionOk.Text = "VISION_OK";
++            btnVisionOk.UseVisualStyleBackColor = true;
++            btnVisionOk.Click += async (s, e) => await SendVisionResultAsync(RobotProtocol.VisionOk);
++
++            btnVisionRotate = new Button();
++            btnVisionRotate.Text = "VISION_ROTATE";
++            btnVisionRotate.UseVisualStyleBackColor = true;
++            btnVisionRotate.Click += async (s, e) => await SendVisionResultAsync(RobotProtocol.VisionRotate);
++
++            btnVisionFail = new Button();
++            btnVisionFail.Text = "VISION_FAIL";
++            btnVisionFail.UseVisualStyleBackColor = true;
++            btnVisionFail.Click += async (s, e) => await SendVisionResultAsync(RobotProtocol.VisionFail);
++
++            lblArmPlan = new Label();
++            lblArmPlan.Text = "实际装箱放置顺序：";
++            lblArmPlan.AutoSize = true;
++
++            lstArmPlan = new ListBox();
++            lstArmPlan.IntegralHeight = false;
++
++            grpArmPacking.Controls.Add(lblArmPoseMode);
++            grpArmPacking.Controls.Add(cmbArmPoseMode);
++            grpArmPacking.Controls.Add(btnArmStartActual);
++            grpArmPacking.Controls.Add(btnArmAbort);
++            grpArmPacking.Controls.Add(lblArmBarcode);
++            grpArmPacking.Controls.Add(txtArmBarcode);
++            grpArmPacking.Controls.Add(btnArmSubmitBarcode);
++            grpArmPacking.Controls.Add(btnVisionOk);
++            grpArmPacking.Controls.Add(btnVisionRotate);
++            grpArmPacking.Controls.Add(btnVisionFail);
++            grpArmPacking.Controls.Add(lblArmPlan);
++            grpArmPacking.Controls.Add(lstArmPlan);
++
++            panelActualPacking.Controls.Add(grpArmPacking);
++
+             _armClient = new RoboticArmClient();
+             _armClient.ConnectionChanged += ArmClient_ConnectionChanged;
++            _armClient.LineReceived += ArmClient_LineReceived;
++            _armClient.LineSent += ArmClient_LineSent;
++            _armClient.CommunicationError += ArmClient_CommunicationError;
++            _armCoordinator = new ArmPackingCoordinator(_armClient, AppendLog);
+ 
+             UpdateConnectionStatus(false);
++            UpdateActualPackingControls();
+         }
+ 
+         private void PnlConnectionIndicator_Paint(object sender, PaintEventArgs e)
+@@ -317,8 +426,10 @@ namespace ThreeDPacking.App.Forms
+             bool busy = _armConnecting;
+             txtArmAddress.Enabled = !connected && !busy;
+             numArmPort.Enabled = !connected && !busy;
++            numArmEventPort.Enabled = !connected && !busy;
+             btnArmConnect.Enabled = !connected && !busy;
+             btnArmDisconnect.Enabled = connected && !busy;
++            UpdateActualPackingControls();
+         }
+ 
+         private void ArmClient_ConnectionChanged(object sender, bool connected)
+@@ -326,6 +437,52 @@ namespace ThreeDPacking.App.Forms
+             UpdateConnectionStatus(connected);
+         }
+ 
++        private async void ArmClient_LineReceived(object sender, RobotLineEventArgs e)
++        {
++            if (InvokeRequired)
++            {
++                BeginInvoke((Action)(() => ArmClient_LineReceived(sender, e)));
++                return;
++            }
++
++            AppendLog("[RX] " + e.Line);
++            try
++            {
++                await _armCoordinator.HandleRobotLineAsync(e.Line);
++            }
++            catch (Exception ex)
++            {
++                AppendLog("[协议处理失败] " + ex.Message);
++            }
++            finally
++            {
++                UpdateActualPackingControls();
++            }
++        }
++
++        private void ArmClient_LineSent(object sender, RobotLineEventArgs e)
++        {
++            if (InvokeRequired)
++            {
++                BeginInvoke((Action)(() => ArmClient_LineSent(sender, e)));
++                return;
++            }
++
++            AppendLog("[TX] " + e.Line);
++        }
++
++        private void ArmClient_CommunicationError(object sender, Exception e)
++        {
++            if (InvokeRequired)
++            {
++                BeginInvoke((Action)(() => ArmClient_CommunicationError(sender, e)));
++                return;
++            }
++
++            AppendLog("[通信错误] " + e.Message);
++            UpdateConnectionStatus(false);
++        }
++
+         private async void BtnArmConnect_Click(object sender, EventArgs e)
+         {
+             string host = txtArmAddress.Text.Trim();
+@@ -336,7 +493,8 @@ namespace ThreeDPacking.App.Forms
+                 return;
+             }
+ 
+-            int port = (int)numArmPort.Value;
++            int commandPort = (int)numArmPort.Value;
++            int eventPort = (int)numArmEventPort.Value;
+             _armConnecting = true;
+             UpdateConnectionStatus(false);
+             btnArmConnect.Text = "连接中...";
+@@ -348,8 +506,8 @@ namespace ThreeDPacking.App.Forms
+ 
+             try
+             {
+-                await _armClient.ConnectAsync(host, port, _armConnectCts.Token);
+-                statusLabel.Text = $"机械臂已连接: {host}:{port}";
++                await _armClient.ConnectAsync(host, commandPort, eventPort, _armConnectCts.Token);
++                statusLabel.Text = $"机械臂已连接: {host}, 命令端口 {commandPort}, 事件端口 {eventPort}";
+             }
+             catch (OperationCanceledException)
+             {
+@@ -377,6 +535,141 @@ namespace ThreeDPacking.App.Forms
+             UpdateConnectionStatus(false);
+         }
+ 
++        private async void BtnArmStartActual_Click(object sender, EventArgs e)
++        {
++            if (!_armClient.IsConnected)
++            {
++                MessageBox.Show("请先连接机械臂。", "提示",
++                    MessageBoxButtons.OK, MessageBoxIcon.Information);
++                return;
++            }
++
++            var containers = GetActualPackingContainers();
++            if (containers.Count == 0)
++            {
++                MessageBox.Show("没有可执行的装箱结果。请先运行算法装箱。", "提示",
++                    MessageBoxButtons.OK, MessageBoxIcon.Information);
++                return;
++            }
++
++            try
++            {
++                _armCoordinator.PoseMode = (cmbArmPoseMode.SelectedItem ?? "BOX_ORIGIN").ToString();
++                _armCoordinator.LoadPlan(containers);
++                RefreshArmPlanList();
++
++                await _armCoordinator.StartAsync();
++                statusLabel.Text = "实际装箱已启动，等待机械臂到扫码位";
++                UpdateActualPackingControls();
++            }
++            catch (Exception ex)
++            {
++                MessageBox.Show("启动实际装箱失败:\n" + ex.Message, "错误",
++                    MessageBoxButtons.OK, MessageBoxIcon.Error);
++                UpdateActualPackingControls();
++            }
++        }
++
++        private async void BtnArmAbort_Click(object sender, EventArgs e)
++        {
++            try
++            {
++                await _armCoordinator.AbortAsync();
++                statusLabel.Text = "已发送中止命令";
++            }
++            catch (Exception ex)
++            {
++                MessageBox.Show("发送中止失败:\n" + ex.Message, "错误",
++                    MessageBoxButtons.OK, MessageBoxIcon.Error);
++            }
++            finally
++            {
++                UpdateActualPackingControls();
++            }
++        }
++
++        private async void BtnArmSubmitBarcode_Click(object sender, EventArgs e)
++        {
++            await SubmitArmBarcodeAsync();
++        }
++
++        private async void TxtArmBarcode_KeyDown(object sender, KeyEventArgs e)
++        {
++            if (e.KeyCode != Keys.Enter)
++                return;
++
++            e.SuppressKeyPress = true;
++            await SubmitArmBarcodeAsync();
++        }
++
++        private async Task SubmitArmBarcodeAsync()
++        {
++            string barcode = txtArmBarcode.Text.Trim();
++            if (barcode.Length == 0)
++                return;
++
++            try
++            {
++                await _armCoordinator.SubmitBarcodeAsync(barcode);
++                txtArmBarcode.Clear();
++                statusLabel.Text = "扫码已提交: " + barcode;
++            }
++            catch (Exception ex)
++            {
++                MessageBox.Show("扫码处理失败:\n" + ex.Message, "错误",
++                    MessageBoxButtons.OK, MessageBoxIcon.Error);
++                txtArmBarcode.SelectAll();
++            }
++            finally
++            {
++                UpdateActualPackingControls();
++            }
++        }
++
++        private async Task SendVisionResultAsync(string result)
++        {
++            try
++            {
++                await _armCoordinator.SendVisionResultAsync(result);
++                statusLabel.Text = "已发送视觉结果: " + result;
++            }
++            catch (Exception ex)
++            {
++                MessageBox.Show("发送视觉结果失败:\n" + ex.Message, "错误",
++                    MessageBoxButtons.OK, MessageBoxIcon.Error);
++            }
++        }
++
++        private List<Container> GetActualPackingContainers()
++        {
++            var result = new List<Container>();
++            if (_packedContainers == null || _packedContainers.Count == 0)
++                return result;
++
++            int selectedIndex = lstResults.SelectedIndex;
++            if (selectedIndex >= 0 && selectedIndex < _packedContainers.Count)
++            {
++                result.Add(_packedContainers[selectedIndex]);
++                return result;
++            }
++
++            result.Add(_packedContainers[0]);
++            return result;
++        }
++
++        private void RefreshArmPlanList()
++        {
++            if (lstArmPlan == null)
++                return;
++
++            lstArmPlan.Items.Clear();
++            if (_armCoordinator == null)
++                return;
++
++            foreach (var step in _armCoordinator.Plan)
++                lstArmPlan.Items.Add(step.DisplayText);
++        }
++
+         private void LayoutActualPackingPanel()
+         {
+             if (grpArmConnection == null)
+@@ -384,23 +677,84 @@ namespace ThreeDPacking.App.Forms
+ 
+             int w = panelActualPacking.ClientSize.Width - 12;
+             grpArmConnection.Location = new Point(6, 6);
+-            grpArmConnection.Size = new Size(Math.Max(200, w), 110);
++            grpArmConnection.Size = new Size(Math.Max(260, w), 118);
+ 
+             lblArmAddress.Location = new Point(12, 26);
+             txtArmAddress.Location = new Point(52, 23);
+-            txtArmAddress.Size = new Size(Math.Max(80, w - 200), 21);
++            txtArmAddress.Size = new Size(Math.Max(80, w - 78), 21);
+ 
+             lblArmPort.Location = new Point(12, 56);
+-            numArmPort.Location = new Point(52, 53);
++            numArmPort.Location = new Point(78, 53);
+             numArmPort.Size = new Size(80, 21);
+ 
+-            btnArmConnect.Location = new Point(145, 52);
++            lblArmEventPort.Location = new Point(168, 56);
++            numArmEventPort.Location = new Point(234, 53);
++            numArmEventPort.Size = new Size(80, 21);
++
++            btnArmConnect.Location = new Point(12, 84);
+             btnArmConnect.Size = new Size(60, 23);
+-            btnArmDisconnect.Location = new Point(211, 52);
++            btnArmDisconnect.Location = new Point(78, 84);
+             btnArmDisconnect.Size = new Size(60, 23);
+ 
+-            pnlConnectionIndicator.Location = new Point(12, 84);
+-            lblConnectionStatus.Location = new Point(34, 84);
++            pnlConnectionIndicator.Location = new Point(150, 88);
++            lblConnectionStatus.Location = new Point(172, 88);
++
++            if (grpArmPacking == null)
++                return;
++
++            int y = grpArmConnection.Bottom + 8;
++            grpArmPacking.Location = new Point(6, y);
++            grpArmPacking.Size = new Size(Math.Max(260, w), Math.Max(260, panelActualPacking.ClientSize.Height - y - 8));
++
++            int innerW = grpArmPacking.ClientSize.Width - 24;
++
++            lblArmPoseMode.Location = new Point(12, 26);
++            cmbArmPoseMode.Location = new Point(78, 23);
++            cmbArmPoseMode.Size = new Size(110, 21);
++
++            btnArmStartActual.Location = new Point(198, 22);
++            btnArmStartActual.Size = new Size(96, 23);
++            btnArmAbort.Location = new Point(300, 22);
++            btnArmAbort.Size = new Size(60, 23);
++
++            lblArmBarcode.Location = new Point(12, 58);
++            txtArmBarcode.Location = new Point(52, 55);
++            txtArmBarcode.Size = new Size(Math.Max(120, innerW - 135), 21);
++            btnArmSubmitBarcode.Location = new Point(grpArmPacking.ClientSize.Width - 82, 54);
++            btnArmSubmitBarcode.Size = new Size(70, 23);
++
++            btnVisionOk.Location = new Point(12, 86);
++            btnVisionOk.Size = new Size(92, 23);
++            btnVisionRotate.Location = new Point(110, 86);
++            btnVisionRotate.Size = new Size(112, 23);
++            btnVisionFail.Location = new Point(228, 86);
++            btnVisionFail.Size = new Size(96, 23);
++
++            lblArmPlan.Location = new Point(12, 122);
++            lstArmPlan.Location = new Point(12, 144);
++            lstArmPlan.Size = new Size(innerW, Math.Max(80, grpArmPacking.ClientSize.Height - 156));
++        }
++
++        private void UpdateActualPackingControls()
++        {
++            if (btnArmStartActual == null || _armClient == null || _armCoordinator == null)
++                return;
++
++            bool connected = _armClient.IsConnected;
++            bool running = _armCoordinator.IsRunning;
++            bool waitingScan = _armCoordinator.IsWaitingForScan;
++
++            btnArmStartActual.Enabled = connected && !running;
++            btnArmAbort.Enabled = connected && running;
++            cmbArmPoseMode.Enabled = !running;
++            txtArmBarcode.Enabled = connected && waitingScan;
++            btnArmSubmitBarcode.Enabled = connected && waitingScan;
++            btnVisionOk.Enabled = connected;
++            btnVisionRotate.Enabled = connected;
++            btnVisionFail.Enabled = connected;
++
++            if (waitingScan)
++                txtArmBarcode.Focus();
+         }
+ 
+         private void SetOpenExcelEnabled(bool enabled)
+@@ -1224,6 +1578,8 @@ namespace ThreeDPacking.App.Forms
+ 
+                 _packedContainers = (List<Container>)we.Result;
+                 menuExportJson.Enabled = _packedContainers.Count > 0;
++                _armCoordinator?.LoadPlan(GetActualPackingContainers());
++                RefreshArmPlanList();
+ 
+                 // 只有成功生成结果后，才保存“可复现状态”
+                 if (_packedContainers != null && _packedContainers.Count > 0)
+@@ -1381,6 +1737,12 @@ namespace ThreeDPacking.App.Forms
+         private void LstResults_SelectedIndexChanged(object sender, EventArgs e)
+         {
+             int idx = lstResults.SelectedIndex;
++            if (_armCoordinator != null && !_armCoordinator.IsRunning)
++            {
++                _armCoordinator.LoadPlan(GetActualPackingContainers());
++                RefreshArmPlanList();
++            }
++
+             if (idx < 0 || idx >= _packedContainers.Count)
+             {
+                 _renderer.Container = null;

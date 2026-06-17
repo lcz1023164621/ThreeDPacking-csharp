@@ -42,20 +42,27 @@ def get_buffer_seq(buffer_str):
 
 def get_drop_position(buffer_str):
     """
-    返回下放坐标 [x,y,z,0,0,0]
+    返回暂存下放坐标 [x,y,z,0,0,0]
     """
     _, drop = parse_buffer_line(buffer_str)
     return drop
 
 
+def get_buffer_drop_position(buffer_str):
+    """
+    返回暂存下放动作使用的 [x,y,z]
+    """
+    drop = get_drop_position(buffer_str)
+    return [drop[0], drop[1], drop[2]]
+
+
 def get_var_current_position(buffer_str):
     """
-    示教器测放/暂存共用变量（与装箱一致）:
+    兼容旧示教器变量名，返回暂存下放动作使用的 [x,y,z]:
         var_current_position[0] = drop X  （XY 与顶面相同，用于先平移）
         var_current_position[1] = drop Y
         var_current_position[2] = drop Z  （下放深度）
 
     与装箱批次坐标单位一致（米）。
     """
-    _, drop = parse_buffer_line(buffer_str)
-    return [drop[0], drop[1], drop[2]]
+    return get_buffer_drop_position(buffer_str)
