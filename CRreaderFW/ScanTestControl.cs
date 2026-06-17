@@ -2584,27 +2584,9 @@ namespace WindowsFormsApp1
             {
                 if (_productionFailureNotified)
                 {
-                    if (_signal2RetryExhausted)
-                    {
-                        _signal2RetryExhausted = false;
-                        AppendLog("工作模式：收到信号0，上次信号2已达重发上限，按新一轮请求重新发送。");
-                        BeginSignalSendRetry(ProductionSignalClient.SignalScanFailed, true);
-                        return;
-                    }
-
-                    if (_signalSendRetryValue == ProductionSignalClient.SignalScanFailed)
-                    {
-                        AppendLog("工作模式：收到信号0，当前仍在等待发送信号2，尝试恢复发送。");
-                        ResumePendingSignalSend();
-                        return;
-                    }
-
-                    if (_productionSignalClient != null && _productionSignalClient.IsSendConnected)
-                    {
-                        AppendLog("工作模式：收到信号0，恢复未发送成功的信号2。");
-                        BeginSignalSendRetry(ProductionSignalClient.SignalScanFailed, true);
-                        return;
-                    }
+                    AppendLog("工作模式：收到新的扫码请求，视为机械臂已接收 VISION_RETRY，继续本轮扫码。");
+                    OnProductionScanFailedAcknowledgedSignal();
+                    return;
                 }
 
                 AppendLog("工作模式：收到信号0，但当前已在采码中，忽略重复请求。");
@@ -3302,10 +3284,19 @@ namespace WindowsFormsApp1
 
                 if (_productionFailureNotified)
                 {
-                    _pendingScanSuccessAfterAck5 = true;
                     StopSignalSendRetry();
-                    _productionSignalPhase = ProductionSignalPhase.AwaitingScanFailedAck;
-                    AppendLog("有效采码：" + barcode + "，已保存照片；因本轮已发送信号2，先等待信号5确认后再发信号1。");
+                    _productionFailureNotified = false;
+                    _productionScanFailedWaitingRetry = false;
+                    _pendingScanSuccessAfterAck5 = false;
+                    if (_productionSignalClient != null)
+                    {
+                        _productionSignalClient.ResetSendState();
+                    }
+
+                    BeginSignalSendRetry(ProductionSignalClient.SignalScanSuccess, true);
+                    _productionSignalPhase = ProductionSignalPhase.AwaitingScanSuccessAck;
+                    EnterProductionWaitingNextCycleState();
+                    AppendLog("有效采码：" + barcode + "，已保存照片；此前已发送 VISION_RETRY，现直接发送 VISION_OK 并等待 EVT_ROBOT_ACK。");
                 }
                 else
                 {
