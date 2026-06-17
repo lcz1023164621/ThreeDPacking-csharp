@@ -2613,6 +2613,14 @@ namespace WindowsFormsApp1
 
             if (_pendingProductionRecord != null)
             {
+                if (_productionSignalPhase == ProductionSignalPhase.AwaitingScanSuccessAck ||
+                    _signalSendRetryValue == ProductionSignalClient.SignalScanSuccess)
+                {
+                    AppendLog("工作模式：上一件扫码结果已成功但尚未收到机械臂确认；收到新的扫码请求，重发 VISION_OK。");
+                    BeginSignalSendRetry(ProductionSignalClient.SignalScanSuccess, true);
+                    return;
+                }
+
                 AppendLog("工作模式：上一件扫码结果仍等待信号3确认，忽略新的信号0。");
                 return;
             }
