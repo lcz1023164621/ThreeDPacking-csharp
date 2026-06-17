@@ -1,14 +1,14 @@
 {
   "containers": [
     {
-      "name": "中间容器1",
-      "id": "中间容器1",
-      "dx": 310,
-      "dy": 220,
-      "dz": 160,
-      "loadDx": 310,
-      "loadDy": 220,
-      "loadDz": 160,
+      "name": "小箱子",
+      "id": "小箱子",
+      "dx": 300,
+      "dy": 150,
+      "dz": 150,
+      "loadDx": 300,
+      "loadDy": 150,
+      "loadDz": 150,
       "step": 0,
       "stack": {
         "placements": [
@@ -18,38 +18,38 @@
             "z": 0,
             "step": 1,
             "stackable": {
-              "id": "WS6520#2",
-              "name": "WS6520#2",
-              "dx": 180,
-              "dy": 150,
-              "dz": 70,
+              "id": "WS9632#1",
+              "name": "WS9632#1",
+              "dx": 155,
+              "dy": 95,
+              "dz": 65,
               "step": 1,
               "type": "box"
             }
           },
           {
-            "x": 200,
+            "x": 175,
             "y": 10,
             "z": 0,
             "step": 2,
             "stackable": {
-              "id": "WS9632#3",
-              "name": "WS9632#3",
-              "dx": 95,
-              "dy": 155,
-              "dz": 65,
+              "id": "WS9472#4",
+              "name": "WS9472#4",
+              "dx": 110,
+              "dy": 80,
+              "dz": 30,
               "step": 2,
               "type": "box"
             }
           },
           {
-            "x": 10,
+            "x": 175,
             "y": 10,
-            "z": 70,
+            "z": 30,
             "step": 3,
             "stackable": {
-              "id": "KZW#1",
-              "name": "KZW#1",
+              "id": "KZW#3",
+              "name": "KZW#3",
               "dx": 105,
               "dy": 75,
               "dz": 55,
@@ -59,17 +59,17 @@
           },
           {
             "x": 10,
-            "y": 95,
-            "z": 70,
-            "step": 5,
+            "y": 10,
+            "z": 65,
+            "step": 4,
             "stackable": {
-              "id": "padding_paper",
-              "name": "PaddingPaper",
-              "dx": 290,
-              "dy": 100,
-              "dz": 60,
-              "step": 5,
-              "type": "padding"
+              "id": "WS9218#2",
+              "name": "WS9218#2",
+              "dx": 145,
+              "dy": 90,
+              "dz": 55,
+              "step": 4,
+              "type": "box"
             }
           }
         ]
