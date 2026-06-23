@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Net;
 using System.Runtime.InteropServices;
 using System.Text;
@@ -117,6 +118,7 @@ namespace WindowsFormsApp1
 
             ApplyNetworkSettings(deviceInfo);
             ApplyCaptureSettings();
+            ApplyBarcodeSymbologySettings();
 
             ret = _device.MV_CODEREADER_SetEnumValue_NET("TriggerMode", (uint)MvCodeReader.MV_CODEREADER_TRIGGER_MODE.MV_CODEREADER_TRIGGER_MODE_ON);
             ThrowIfFailed(ret, "Set IDMVS TriggerMode on");
@@ -221,6 +223,20 @@ namespace WindowsFormsApp1
             }
 
             ApplyFocusSettings();
+        }
+
+        private void ApplyBarcodeSymbologySettings()
+        {
+            HashSet<string> enabled = _settings.EnabledBarcodeSymbologies;
+            if (enabled == null || enabled.Count == 0)
+            {
+                enabled = BarcodeSymbologyCatalog.CreateDefaultEnabledSet();
+            }
+
+            foreach (BarcodeSymbologyEntry entry in BarcodeSymbologyCatalog.All)
+            {
+                TrySetBoolValue(entry.SdkKey, enabled.Contains(entry.SdkKey));
+            }
         }
 
         private void ApplyFocusSettings()
@@ -428,6 +444,11 @@ namespace WindowsFormsApp1
         private void TrySetEnumValue(string key, uint value)
         {
             _device.MV_CODEREADER_SetEnumValue_NET(key, value);
+        }
+
+        private void TrySetBoolValue(string key, bool value)
+        {
+            _device.MV_CODEREADER_SetBoolValue_NET(key, value);
         }
 
         private static uint ToDeviceIp(IPAddress address)

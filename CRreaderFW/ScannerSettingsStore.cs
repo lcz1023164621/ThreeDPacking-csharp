@@ -87,6 +87,7 @@ namespace WindowsFormsApp1
             builder.AppendLine("FocusPositionIndex=" + settings.FocusPositionIndex.ToString(CultureInfo.InvariantCulture));
             builder.AppendLine("UseManualFocusPosition=" + settings.UseManualFocusPosition);
             builder.AppendLine("FocusStep=" + settings.FocusStep.ToString(CultureInfo.InvariantCulture));
+            builder.AppendLine("EnabledBarcodeSymbologies=" + BarcodeSymbologyCatalog.FormatEnabledSet(settings.EnabledBarcodeSymbologies));
             builder.AppendLine("SignalServerIp=" + settings.SignalServerIp);
             builder.AppendLine("SignalServerPort=" + settings.SignalServerPort.ToString(CultureInfo.InvariantCulture));
             builder.AppendLine("SignalReceiveServerIp=" + settings.SignalReceiveServerIp);
@@ -240,6 +241,9 @@ namespace WindowsFormsApp1
                     {
                         settings.FocusStep = focusStep;
                     }
+                    break;
+                case "EnabledBarcodeSymbologies":
+                    settings.EnabledBarcodeSymbologies = BarcodeSymbologyCatalog.ParseEnabledSet(value);
                     break;
                 case "SignalServerIp":
                     settings.SignalServerIp = value;

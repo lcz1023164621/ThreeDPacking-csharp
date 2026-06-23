@@ -4479,6 +4479,7 @@ namespace WindowsFormsApp1
                 FocusPositionIndex = settings.FocusPositionIndex,
                 UseManualFocusPosition = settings.UseManualFocusPosition,
                 FocusStep = settings.FocusStep,
+                EnabledBarcodeSymbologies = BarcodeSymbologyCatalog.CloneEnabledSet(settings.EnabledBarcodeSymbologies),
                 SignalServerIp = settings.SignalServerIp,
                 SignalServerPort = settings.SignalServerPort,
                 SignalReceiveServerIp = settings.SignalReceiveServerIp,

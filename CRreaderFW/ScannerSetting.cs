@@ -1,6 +1,8 @@
 using System;
+using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
+using System.Linq;
 using System.Net;
 using System.Windows.Forms;
 
@@ -36,6 +38,9 @@ namespace WindowsFormsApp1
         private NumericUpDown numSignalSendRetryMaxCount;
         private Label lblSignalSendRetryHint;
         private CheckBox chkSignalScanSuccessUntilStopped;
+        private CheckBox chkSelectAllSymbologies;
+        private readonly Dictionary<string, CheckBox> _symbologyCheckBoxes = new Dictionary<string, CheckBox>(StringComparer.OrdinalIgnoreCase);
+        private bool _updatingSelectAllSymbologies;
 
         public ScannerSetting()
             : this(ScannerSettingsData.CreateDefault())
@@ -46,6 +51,7 @@ namespace WindowsFormsApp1
         {
             InitializeComponent();
             BuildScanParametersTab();
+            BuildSymbologyTab();
             BuildAdvancedParametersTab();
             _settings = settings ?? ScannerSettingsData.CreateDefault();
             _settings.Normalize();
@@ -203,6 +209,206 @@ namespace WindowsFormsApp1
             AddTableRow(table, "光源模式", grpLightMode);
 
             tabScanParams.Controls.Add(table);
+        }
+
+        private void BuildSymbologyTab()
+        {
+            tabSymbology.Controls.Clear();
+            tabSymbology.AutoScroll = true;
+            tabSymbology.Padding = new Padding(12);
+
+            var root = new TableLayoutPanel
+            {
+                Dock = DockStyle.Top,
+                AutoSize = true,
+                ColumnCount = 1,
+                Padding = new Padding(0)
+            };
+            root.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100F));
+
+            var headerPanel = new FlowLayoutPanel
+            {
+                AutoSize = true,
+                FlowDirection = FlowDirection.LeftToRight,
+                WrapContents = false,
+                Dock = DockStyle.Fill,
+                Margin = new Padding(0, 0, 0, 8)
+            };
+            var lblTitle = new Label
+            {
+                AutoSize = true,
+                Text = "条码类型",
+                Font = new Font(Font, FontStyle.Bold),
+                Margin = new Padding(0, 6, 16, 0)
+            };
+            chkSelectAllSymbologies = new CheckBox
+            {
+                AutoSize = true,
+                Text = "全选",
+                Checked = true
+            };
+            chkSelectAllSymbologies.CheckedChanged += (s, e) => ApplySelectAllSymbologies();
+            headerPanel.Controls.Add(lblTitle);
+            headerPanel.Controls.Add(chkSelectAllSymbologies);
+            AddRootRow(root, headerPanel, 34F);
+
+            AddRootRow(root, CreateSymbologyGroup("一维码", BarcodeSymbologyCategory.OneDimensional), 150F);
+            AddRootRow(root, CreateSymbologyGroup("二维码", BarcodeSymbologyCategory.TwoDimensional), 78F);
+            AddRootRow(root, CreateSymbologyGroup("堆叠码", BarcodeSymbologyCategory.Stacked), 78F);
+
+            var hint = new Label
+            {
+                AutoSize = true,
+                ForeColor = Color.FromArgb(96, 96, 96),
+                Margin = new Padding(0, 8, 0, 0),
+                Text = "勾选需要识别的条码类型，保存后将在连接扫码器时写入设备。"
+            };
+            AddRootRow(root, hint, 28F);
+
+            tabSymbology.Controls.Add(root);
+        }
+
+        private GroupBox CreateSymbologyGroup(string title, BarcodeSymbologyCategory category)
+        {
+            var group = new GroupBox
+            {
+                Text = title,
+                AutoSize = true,
+                Dock = DockStyle.Fill,
+                Padding = new Padding(10, 18, 10, 10)
+            };
+
+            var grid = new TableLayoutPanel
+            {
+                AutoSize = true,
+                Dock = DockStyle.Top,
+                ColumnCount = 5,
+                Padding = new Padding(0)
+            };
+            for (int i = 0; i < 5; i++)
+            {
+                grid.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 20F));
+            }
+
+            var entries = BarcodeSymbologyCatalog.All.Where(entry => entry.Category == category).ToList();
+            int rowCount = (entries.Count + 4) / 5;
+            for (int i = 0; i < rowCount; i++)
+            {
+                grid.RowStyles.Add(new RowStyle(SizeType.Absolute, 28F));
+            }
+            grid.RowCount = rowCount;
+
+            for (int i = 0; i < entries.Count; i++)
+            {
+                BarcodeSymbologyEntry entry = entries[i];
+                var checkBox = new CheckBox
+                {
+                    AutoSize = true,
+                    Text = entry.DisplayName,
+                    Tag = entry.SdkKey,
+                    Checked = true,
+                    Margin = new Padding(0, 4, 8, 0)
+                };
+                checkBox.CheckedChanged += (s, e) => UpdateSelectAllSymbologiesState();
+                _symbologyCheckBoxes[entry.SdkKey] = checkBox;
+                grid.Controls.Add(checkBox, i % 5, i / 5);
+            }
+
+            group.Controls.Add(grid);
+            return group;
+        }
+
+        private static void AddRootRow(TableLayoutPanel table, Control control, float height)
+        {
+            int row = table.RowCount;
+            table.RowCount = row + 1;
+            table.RowStyles.Add(new RowStyle(SizeType.Absolute, height));
+            control.Dock = DockStyle.Fill;
+            table.Controls.Add(control, 0, row);
+        }
+
+        private void ApplySelectAllSymbologies()
+        {
+            if (_updatingSelectAllSymbologies || chkSelectAllSymbologies == null)
+            {
+                return;
+            }
+
+            bool selectAll = chkSelectAllSymbologies.Checked;
+            _updatingSelectAllSymbologies = true;
+            try
+            {
+                foreach (CheckBox checkBox in _symbologyCheckBoxes.Values)
+                {
+                    checkBox.Checked = selectAll;
+                }
+            }
+            finally
+            {
+                _updatingSelectAllSymbologies = false;
+            }
+        }
+
+        private void UpdateSelectAllSymbologiesState()
+        {
+            if (_updatingSelectAllSymbologies || chkSelectAllSymbologies == null || _symbologyCheckBoxes.Count == 0)
+            {
+                return;
+            }
+
+            bool allChecked = _symbologyCheckBoxes.Values.All(checkBox => checkBox.Checked);
+            _updatingSelectAllSymbologies = true;
+            try
+            {
+                chkSelectAllSymbologies.Checked = allChecked;
+            }
+            finally
+            {
+                _updatingSelectAllSymbologies = false;
+            }
+        }
+
+        private void LoadSymbologySettingsToControls()
+        {
+            if (_symbologyCheckBoxes.Count == 0)
+            {
+                return;
+            }
+
+            HashSet<string> enabled = _settings.EnabledBarcodeSymbologies ?? BarcodeSymbologyCatalog.CreateDefaultEnabledSet();
+            _updatingSelectAllSymbologies = true;
+            try
+            {
+                foreach (KeyValuePair<string, CheckBox> pair in _symbologyCheckBoxes)
+                {
+                    pair.Value.Checked = enabled.Contains(pair.Key);
+                }
+
+                chkSelectAllSymbologies.Checked = _symbologyCheckBoxes.Values.All(checkBox => checkBox.Checked);
+            }
+            finally
+            {
+                _updatingSelectAllSymbologies = false;
+            }
+        }
+
+        private void SaveSymbologyControlsToSettings()
+        {
+            if (_symbologyCheckBoxes.Count == 0)
+            {
+                return;
+            }
+
+            var enabled = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
+            foreach (KeyValuePair<string, CheckBox> pair in _symbologyCheckBoxes)
+            {
+                if (pair.Value.Checked)
+                {
+                    enabled.Add(pair.Key);
+                }
+            }
+
+            _settings.EnabledBarcodeSymbologies = enabled;
         }
 
         private void BuildAdvancedParametersTab()
@@ -399,6 +605,8 @@ namespace WindowsFormsApp1
                 numSignalSendRetryMaxCount.Value = Clamp(_settings.SignalSendRetryMaxCount, (int)numSignalSendRetryMaxCount.Minimum, (int)numSignalSendRetryMaxCount.Maximum);
                 chkSignalScanSuccessUntilStopped.Checked = true;
             }
+
+            LoadSymbologySettingsToControls();
         }
 
         private bool SaveControlsToSettings()
@@ -490,6 +698,14 @@ namespace WindowsFormsApp1
                 _settings.SignalSendRetryIntervalMs = (int)numSignalSendRetryIntervalMs.Value;
                 _settings.SignalSendRetryMaxCount = (int)numSignalSendRetryMaxCount.Value;
                 _settings.SignalScanSuccessUntilStopped = true;
+            }
+
+            SaveSymbologyControlsToSettings();
+            if (_settings.EnabledBarcodeSymbologies == null || _settings.EnabledBarcodeSymbologies.Count == 0)
+            {
+                MessageBox.Show(this, "请至少勾选一个条码类型。", "设置错误", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                tabReaderSettings.SelectedTab = tabSymbology;
+                return false;
             }
 
             _settings.Normalize();

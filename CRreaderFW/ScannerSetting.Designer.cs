@@ -24,6 +24,7 @@ namespace WindowsFormsApp1
             this.numReaderPort = new System.Windows.Forms.NumericUpDown();
             this.btnTestNetwork = new System.Windows.Forms.Button();
             this.tabScanParams = new System.Windows.Forms.TabPage();
+            this.tabSymbology = new System.Windows.Forms.TabPage();
             this.tableScanParams = new System.Windows.Forms.TableLayoutPanel();
             this.lblScanInterval = new System.Windows.Forms.Label();
             this.numScanIntervalMs = new System.Windows.Forms.NumericUpDown();
@@ -60,12 +61,13 @@ namespace WindowsFormsApp1
             // 
             this.tabReaderSettings.Controls.Add(this.tabNetwork);
             this.tabReaderSettings.Controls.Add(this.tabScanParams);
+            this.tabReaderSettings.Controls.Add(this.tabSymbology);
             this.tabReaderSettings.Controls.Add(this.tabAdvanced);
             this.tabReaderSettings.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tabReaderSettings.Location = new System.Drawing.Point(0, 0);
             this.tabReaderSettings.Name = "tabReaderSettings";
             this.tabReaderSettings.SelectedIndex = 0;
-            this.tabReaderSettings.Size = new System.Drawing.Size(640, 400);
+            this.tabReaderSettings.Size = new System.Drawing.Size(680, 460);
             this.tabReaderSettings.TabIndex = 0;
             // 
             // tabNetwork
@@ -175,6 +177,16 @@ namespace WindowsFormsApp1
             this.tabScanParams.TabIndex = 1;
             this.tabScanParams.Text = "采码参数";
             this.tabScanParams.UseVisualStyleBackColor = true;
+            // 
+            // tabSymbology
+            // 
+            this.tabSymbology.Location = new System.Drawing.Point(4, 25);
+            this.tabSymbology.Name = "tabSymbology";
+            this.tabSymbology.Padding = new System.Windows.Forms.Padding(12);
+            this.tabSymbology.Size = new System.Drawing.Size(632, 309);
+            this.tabSymbology.TabIndex = 3;
+            this.tabSymbology.Text = "码制选择";
+            this.tabSymbology.UseVisualStyleBackColor = true;
             // 
             // tableScanParams
             // 
@@ -372,10 +384,10 @@ namespace WindowsFormsApp1
             this.panelButtons.Controls.Add(this.btnSaveSettings);
             this.panelButtons.Controls.Add(this.btnApplySettings);
             this.panelButtons.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.panelButtons.Location = new System.Drawing.Point(0, 400);
+            this.panelButtons.Location = new System.Drawing.Point(0, 460);
             this.panelButtons.Name = "panelButtons";
             this.panelButtons.Padding = new System.Windows.Forms.Padding(10);
-            this.panelButtons.Size = new System.Drawing.Size(640, 60);
+            this.panelButtons.Size = new System.Drawing.Size(680, 60);
             this.panelButtons.TabIndex = 1;
             // 
             // btnCancelSettings
@@ -425,10 +437,10 @@ namespace WindowsFormsApp1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(640, 460);
+            this.ClientSize = new System.Drawing.Size(680, 520);
             this.Controls.Add(this.tabReaderSettings);
             this.Controls.Add(this.panelButtons);
-            this.MinimumSize = new System.Drawing.Size(620, 390);
+            this.MinimumSize = new System.Drawing.Size(660, 480);
             this.Name = "ScannerSetting";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "扫码器设置";
@@ -438,6 +450,7 @@ namespace WindowsFormsApp1
             this.tableNetwork.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numReaderPort)).EndInit();
             this.tabScanParams.ResumeLayout(false);
+            this.tabSymbology.ResumeLayout(false);
             this.tableScanParams.ResumeLayout(false);
             this.tableScanParams.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numScanIntervalMs)).EndInit();
@@ -454,6 +467,7 @@ namespace WindowsFormsApp1
         private System.Windows.Forms.TabControl tabReaderSettings;
         private System.Windows.Forms.TabPage tabNetwork;
         private System.Windows.Forms.TabPage tabScanParams;
+        private System.Windows.Forms.TabPage tabSymbology;
         private System.Windows.Forms.TabPage tabAdvanced;
         private System.Windows.Forms.TableLayoutPanel tableNetwork;
         private System.Windows.Forms.Label lblReaderIp;

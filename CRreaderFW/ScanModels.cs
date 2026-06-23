@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 
 namespace WindowsFormsApp1
 {
@@ -57,6 +58,7 @@ namespace WindowsFormsApp1
         public int FocusPositionIndex { get; set; }
         public bool UseManualFocusPosition { get; set; }
         public int FocusStep { get; set; }
+        public HashSet<string> EnabledBarcodeSymbologies { get; set; }
         public string SignalServerIp { get; set; }
         public int SignalServerPort { get; set; }
         public string SignalReceiveServerIp { get; set; }
@@ -101,6 +103,7 @@ namespace WindowsFormsApp1
                 FocusPositionIndex = 0,
                 UseManualFocusPosition = true,
                 FocusStep = 1,
+                EnabledBarcodeSymbologies = BarcodeSymbologyCatalog.CreateDefaultEnabledSet(),
                 SignalServerIp = "192.168.0.200",
                 SignalServerPort = 10000,
                 SignalReceiveServerIp = "192.168.0.200",
@@ -190,6 +193,10 @@ namespace WindowsFormsApp1
             if (FocusStep <= 0)
             {
                 FocusStep = 1;
+            }
+            if (EnabledBarcodeSymbologies == null || EnabledBarcodeSymbologies.Count == 0)
+            {
+                EnabledBarcodeSymbologies = BarcodeSymbologyCatalog.CreateDefaultEnabledSet();
             }
             if (string.IsNullOrWhiteSpace(SignalServerIp))
             {
