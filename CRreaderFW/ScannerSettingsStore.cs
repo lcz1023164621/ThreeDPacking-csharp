@@ -81,6 +81,12 @@ namespace WindowsFormsApp1
             builder.AppendLine("JpegQuality=" + settings.JpegQuality.ToString(CultureInfo.InvariantCulture));
             builder.AppendLine("ImageSaveFormat=" + settings.ImageSaveFormat);
             builder.AppendLine("AutoFocusCommand=" + settings.AutoFocusCommand);
+            builder.AppendLine("AutoFocusWaitMs=" + settings.AutoFocusWaitMs.ToString(CultureInfo.InvariantCulture));
+            builder.AppendLine("AutoConfig=" + settings.AutoConfig.ToString(CultureInfo.InvariantCulture));
+            builder.AppendLine("FocusModeSelector=" + settings.FocusModeSelector.ToString(CultureInfo.InvariantCulture));
+            builder.AppendLine("FocusPositionIndex=" + settings.FocusPositionIndex.ToString(CultureInfo.InvariantCulture));
+            builder.AppendLine("UseManualFocusPosition=" + settings.UseManualFocusPosition);
+            builder.AppendLine("FocusStep=" + settings.FocusStep.ToString(CultureInfo.InvariantCulture));
             builder.AppendLine("SignalServerIp=" + settings.SignalServerIp);
             builder.AppendLine("SignalServerPort=" + settings.SignalServerPort.ToString(CultureInfo.InvariantCulture));
             builder.AppendLine("SignalReceiveServerIp=" + settings.SignalReceiveServerIp);
@@ -196,6 +202,44 @@ namespace WindowsFormsApp1
                     break;
                 case "AutoFocusCommand":
                     settings.AutoFocusCommand = value;
+                    break;
+                case "AutoFocusWaitMs":
+                    int autoFocusWaitMs;
+                    if (int.TryParse(value, out autoFocusWaitMs))
+                    {
+                        settings.AutoFocusWaitMs = autoFocusWaitMs;
+                    }
+                    break;
+                case "AutoConfig":
+                    int autoConfig;
+                    if (int.TryParse(value, out autoConfig))
+                    {
+                        settings.AutoConfig = autoConfig;
+                    }
+                    break;
+                case "FocusModeSelector":
+                    int focusModeSelector;
+                    if (int.TryParse(value, out focusModeSelector))
+                    {
+                        settings.FocusModeSelector = focusModeSelector;
+                    }
+                    break;
+                case "FocusPositionIndex":
+                    int focusPositionIndex;
+                    if (int.TryParse(value, out focusPositionIndex))
+                    {
+                        settings.FocusPositionIndex = focusPositionIndex;
+                    }
+                    break;
+                case "UseManualFocusPosition":
+                    settings.UseManualFocusPosition = ParseBool(value);
+                    break;
+                case "FocusStep":
+                    int focusStep;
+                    if (int.TryParse(value, out focusStep))
+                    {
+                        settings.FocusStep = focusStep;
+                    }
                     break;
                 case "SignalServerIp":
                     settings.SignalServerIp = value;

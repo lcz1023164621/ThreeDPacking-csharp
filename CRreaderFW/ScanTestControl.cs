@@ -2790,7 +2790,7 @@ namespace WindowsFormsApp1
                     + "，信号重发=" + FormatSignalSendRetryDescription()
                     + "，曝光=" + (_scannerSettings.ExposureAuto ? "自适应" : _scannerSettings.ExposureTimeUs + "us")
                     + "，增益=" + (_scannerSettings.GainAuto ? "自适应" : _scannerSettings.GainDb + "dB")
-                    + "，自动对焦=" + (_scannerSettings.AutoFocus ? _scannerSettings.AutoFocusCommand : "关") + "。");
+                    + "，对焦=" + FormatFocusDescription() + "。");
             }
         }
 
@@ -4473,6 +4473,12 @@ namespace WindowsFormsApp1
                 JpegQuality = settings.JpegQuality,
                 ImageSaveFormat = settings.ImageSaveFormat,
                 AutoFocusCommand = settings.AutoFocusCommand,
+                AutoFocusWaitMs = settings.AutoFocusWaitMs,
+                AutoConfig = settings.AutoConfig,
+                FocusModeSelector = settings.FocusModeSelector,
+                FocusPositionIndex = settings.FocusPositionIndex,
+                UseManualFocusPosition = settings.UseManualFocusPosition,
+                FocusStep = settings.FocusStep,
                 SignalServerIp = settings.SignalServerIp,
                 SignalServerPort = settings.SignalServerPort,
                 SignalReceiveServerIp = settings.SignalReceiveServerIp,
@@ -4481,6 +4487,25 @@ namespace WindowsFormsApp1
                 SignalSendRetryMaxCount = settings.SignalSendRetryMaxCount,
                 SignalScanSuccessUntilStopped = settings.SignalScanSuccessUntilStopped
             };
+        }
+
+        private string FormatFocusDescription()
+        {
+            if (_scannerSettings.AutoFocus)
+            {
+                return _scannerSettings.AutoFocusCommand
+                    + "，等待" + _scannerSettings.AutoFocusWaitMs + "ms，AutoConfig="
+                    + _scannerSettings.AutoConfig + "，区域="
+                    + _scannerSettings.FocusModeSelector;
+            }
+
+            if (_scannerSettings.UseManualFocusPosition)
+            {
+                return "手动预设位" + _scannerSettings.FocusPositionIndex + "，步进="
+                    + _scannerSettings.FocusStep;
+            }
+
+            return "关";
         }
 
         private string FormatSignalSendRetryDescription()

@@ -2,6 +2,7 @@ using System;
 using System.Net;
 using System.Runtime.InteropServices;
 using System.Text;
+using System.Threading;
 using MvCodeReaderSDKNet;
 
 namespace WindowsFormsApp1
@@ -48,6 +49,14 @@ namespace WindowsFormsApp1
             if (_settings.AutoFocus && _autoFocusAvailable)
             {
                 RunAutoFocus();
+                if (_settings.AutoFocusWaitMs > 0)
+                {
+                    Thread.Sleep(_settings.AutoFocusWaitMs);
+                }
+            }
+            else if (_settings.UseManualFocusPosition)
+            {
+                ApplyManualFocusPosition();
             }
 
             int ret = _device.MV_CODEREADER_SetCommandValue_NET("TriggerSoftware");
@@ -210,6 +219,24 @@ namespace WindowsFormsApp1
             {
                 TrySetFloatValue("AcquisitionFrameRate", _settings.AcquisitionFrameRate);
             }
+
+            ApplyFocusSettings();
+        }
+
+        private void ApplyFocusSettings()
+        {
+            TrySetEnumValue("AutoConfig", (uint)_settings.AutoConfig);
+            TrySetEnumValue("FocusModeSelector", (uint)_settings.FocusModeSelector);
+            if (_settings.FocusStep > 0)
+            {
+                TrySetIntValue("FocusStep", _settings.FocusStep);
+            }
+        }
+
+        private void ApplyManualFocusPosition()
+        {
+            TrySetIntValue("FocusPosition", _settings.FocusPositionIndex);
+            _device.MV_CODEREADER_SetCommandValue_NET("FocusPositionLoad");
         }
 
         private void OnImageCallback(IntPtr data, IntPtr frameInfoPtr, IntPtr user)

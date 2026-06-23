@@ -51,6 +51,12 @@ namespace WindowsFormsApp1
         public int JpegQuality { get; set; }
         public string ImageSaveFormat { get; set; }
         public string AutoFocusCommand { get; set; }
+        public int AutoFocusWaitMs { get; set; }
+        public int AutoConfig { get; set; }
+        public int FocusModeSelector { get; set; }
+        public int FocusPositionIndex { get; set; }
+        public bool UseManualFocusPosition { get; set; }
+        public int FocusStep { get; set; }
         public string SignalServerIp { get; set; }
         public int SignalServerPort { get; set; }
         public string SignalReceiveServerIp { get; set; }
@@ -89,6 +95,12 @@ namespace WindowsFormsApp1
                 JpegQuality = 90,
                 ImageSaveFormat = "JPG",
                 AutoFocusCommand = "FocusOnce",
+                AutoFocusWaitMs = 800,
+                AutoConfig = 0,
+                FocusModeSelector = 0,
+                FocusPositionIndex = 0,
+                UseManualFocusPosition = true,
+                FocusStep = 1,
                 SignalServerIp = "192.168.0.200",
                 SignalServerPort = 10000,
                 SignalReceiveServerIp = "192.168.0.200",
@@ -158,6 +170,26 @@ namespace WindowsFormsApp1
             if (string.IsNullOrWhiteSpace(AutoFocusCommand))
             {
                 AutoFocusCommand = "FocusOnce";
+            }
+            if (AutoFocusWaitMs < 0)
+            {
+                AutoFocusWaitMs = 0;
+            }
+            if (AutoConfig < 0 || AutoConfig > 2)
+            {
+                AutoConfig = 0;
+            }
+            if (FocusModeSelector < 0 || FocusModeSelector > 1)
+            {
+                FocusModeSelector = 0;
+            }
+            if (FocusPositionIndex < 0 || FocusPositionIndex > 7)
+            {
+                FocusPositionIndex = 0;
+            }
+            if (FocusStep <= 0)
+            {
+                FocusStep = 1;
             }
             if (string.IsNullOrWhiteSpace(SignalServerIp))
             {

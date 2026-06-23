@@ -21,6 +21,12 @@ namespace WindowsFormsApp1
         private CheckBox chkExposureAuto;
         private CheckBox chkGainAuto;
         private ComboBox cmbAutoFocusCommand;
+        private NumericUpDown numAutoFocusWaitMs;
+        private ComboBox cmbAutoConfig;
+        private ComboBox cmbFocusModeSelector;
+        private NumericUpDown numFocusPositionIndex;
+        private CheckBox chkUseManualFocusPosition;
+        private NumericUpDown numFocusStep;
         private Label lblScanFrequencyHint;
         private TextBox txtSignalServerIp;
         private NumericUpDown numSignalServerPort;
@@ -93,8 +99,38 @@ namespace WindowsFormsApp1
                 DropDownStyle = ComboBoxStyle.DropDownList,
                 Width = 180
             };
-            cmbAutoFocusCommand.Items.AddRange(new object[] { "FocusOnce", "FocusContinuous" });
-            chkAutoFocus.CheckedChanged += (s, e) => cmbAutoFocusCommand.Enabled = chkAutoFocus.Checked;
+            cmbAutoFocusCommand.Items.AddRange(new object[] { "FocusOnce", "FocusContinuous", "FocusMode" });
+            chkAutoFocus.CheckedChanged += (s, e) => UpdateFocusEditorsState();
+
+            numAutoFocusWaitMs = CreateNumeric(0, 10000, 100);
+            cmbAutoConfig = new ComboBox
+            {
+                DropDownStyle = ComboBoxStyle.DropDownList,
+                Width = 220
+            };
+            cmbAutoConfig.Items.AddRange(new object[]
+            {
+                "0 - 全自动对焦",
+                "1 - 仅调整电机",
+                "2 - 自动对焦后恢复参数"
+            });
+            cmbFocusModeSelector = new ComboBox
+            {
+                DropDownStyle = ComboBoxStyle.DropDownList,
+                Width = 180
+            };
+            cmbFocusModeSelector.Items.AddRange(new object[]
+            {
+                "0 - 全画面对焦",
+                "1 - ROI 区域对焦"
+            });
+            numFocusPositionIndex = CreateNumeric(0, 7, 1);
+            chkUseManualFocusPosition = new CheckBox
+            {
+                AutoSize = true,
+                Text = "采码前加载预设对焦位（关闭自动对焦时使用）"
+            };
+            numFocusStep = CreateNumeric(1, 1000, 1);
 
             chkExposureAuto = new CheckBox
             {
@@ -146,6 +182,12 @@ namespace WindowsFormsApp1
             AddTableRow(table, "采码频率", scanIntervalPanel);
             AddTableRow(table, "自动对焦", chkAutoFocus);
             AddTableRow(table, "对焦命令", cmbAutoFocusCommand);
+            AddTableRow(table, "对焦后等待 (ms)", numAutoFocusWaitMs);
+            AddTableRow(table, "自动对焦模式", cmbAutoConfig);
+            AddTableRow(table, "对焦区域", cmbFocusModeSelector);
+            AddTableRow(table, "预设位编号 (0-7)", numFocusPositionIndex);
+            AddTableRow(table, "手动对焦", chkUseManualFocusPosition);
+            AddTableRow(table, "对焦步进单位", numFocusStep);
             AddTableRow(table, "曝光自适应", chkExposureAuto);
             AddTableRow(table, "曝光时间 (us)", numExposureTimeUs);
             AddTableRow(table, "增益自适应", chkGainAuto);
@@ -274,6 +316,26 @@ namespace WindowsFormsApp1
                 numGainDb.Enabled = !chkGainAuto.Checked;
         }
 
+        private void UpdateFocusEditorsState()
+        {
+            bool autoFocus = chkAutoFocus.Checked;
+            if (cmbAutoFocusCommand != null)
+                cmbAutoFocusCommand.Enabled = autoFocus;
+            if (numAutoFocusWaitMs != null)
+                numAutoFocusWaitMs.Enabled = autoFocus;
+            if (cmbAutoConfig != null)
+                cmbAutoConfig.Enabled = autoFocus;
+            if (cmbFocusModeSelector != null)
+                cmbFocusModeSelector.Enabled = autoFocus;
+
+            if (numFocusPositionIndex != null)
+                numFocusPositionIndex.Enabled = !autoFocus;
+            if (chkUseManualFocusPosition != null)
+                chkUseManualFocusPosition.Enabled = !autoFocus;
+            if (numFocusStep != null)
+                numFocusStep.Enabled = !autoFocus;
+        }
+
         private void LoadSettingsToControls()
         {
             txtReaderIp.Text = _settings.ReaderIp;
@@ -301,7 +363,14 @@ namespace WindowsFormsApp1
                 else
                     cmbAutoFocusCommand.SelectedIndex = 0;
 
-                cmbAutoFocusCommand.Enabled = chkAutoFocus.Checked;
+                numAutoFocusWaitMs.Value = Clamp(_settings.AutoFocusWaitMs, (int)numAutoFocusWaitMs.Minimum, (int)numAutoFocusWaitMs.Maximum);
+                cmbAutoConfig.SelectedIndex = Clamp(_settings.AutoConfig, 0, cmbAutoConfig.Items.Count - 1);
+                cmbFocusModeSelector.SelectedIndex = Clamp(_settings.FocusModeSelector, 0, cmbFocusModeSelector.Items.Count - 1);
+                numFocusPositionIndex.Value = Clamp(_settings.FocusPositionIndex, (int)numFocusPositionIndex.Minimum, (int)numFocusPositionIndex.Maximum);
+                chkUseManualFocusPosition.Checked = _settings.UseManualFocusPosition;
+                numFocusStep.Value = Clamp(_settings.FocusStep, (int)numFocusStep.Minimum, (int)numFocusStep.Maximum);
+
+                UpdateFocusEditorsState();
                 UpdateAdaptiveEditorsState();
                 UpdateScanFrequencyHint();
             }
@@ -378,6 +447,12 @@ namespace WindowsFormsApp1
                 _settings.ExposureTimeUs = (float)numExposureTimeUs.Value;
                 _settings.GainDb = (float)numGainDb.Value;
                 _settings.AutoFocusCommand = cmbAutoFocusCommand.SelectedItem?.ToString() ?? "FocusOnce";
+                _settings.AutoFocusWaitMs = (int)numAutoFocusWaitMs.Value;
+                _settings.AutoConfig = cmbAutoConfig.SelectedIndex;
+                _settings.FocusModeSelector = cmbFocusModeSelector.SelectedIndex;
+                _settings.FocusPositionIndex = (int)numFocusPositionIndex.Value;
+                _settings.UseManualFocusPosition = chkUseManualFocusPosition.Checked;
+                _settings.FocusStep = (int)numFocusStep.Value;
             }
 
             if (numDeviceIndex != null)
